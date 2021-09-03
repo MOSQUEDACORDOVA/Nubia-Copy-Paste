@@ -63,19 +63,19 @@
 }
 
 .slider-primary {
-  background-color : rgba(115, 103, 240, 0.12);
+  background-color : rgba(var(--bs-primary-rgb), 0.12);
 }
 
 .slider-primary .noUi-connect {
-  background : #7367F0 !important;
+  background : var(--bs-primary) !important;
 }
 
 .slider-primary.noUi-connect {
-  background : #7367F0 !important;
+  background : var(--bs-primary) !important;
 }
 
 .slider-primary .noUi-handle {
-  border-color : #7367F0 !important;
+  border-color : var(--bs-primary) !important;
 }
 
 .slider-secondary {
