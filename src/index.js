@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const exphbs = require('express-handlebars');
 const path = require('path');
-const db = require('./config/db');
+//const db = require('./config/db');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -10,13 +10,13 @@ const cookieParser = require('cookie-parser');
 const passport = require('./config/passport');
 const fileupload = require('express-fileupload');
 // Conectar con la base de datos
-db.sync()
+/*db.sync()
 	.then(() => {
 		console.log('Base de datos conectada');
 	})
 	.catch(err => {
 		console.log('Error: ', err);
-	});
+	});*/
 
 // Crear el servidor de express
 const app = express();
