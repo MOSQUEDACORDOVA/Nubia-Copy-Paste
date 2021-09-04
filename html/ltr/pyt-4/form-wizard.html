@@ -9,15 +9,15 @@
     <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>Dashboard ecommerce - Vuexy - Bootstrap HTML admin template</title>
+    <title>Form Wizard - Vuexy - Bootstrap HTML admin template</title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/charts/apexcharts.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
     <!-- END: Vendor CSS-->
 
     <!-- BEGIN: Theme CSS-->
@@ -31,36 +31,8 @@
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/dashboard-ecommerce.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/charts/chart-apex.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
-    <!-- END: Page CSS-->
-
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
-    <!-- END: Custom CSS-->
-
-
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/buttons.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/rowGroup.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
-    <!-- END: Vendor CSS-->
-
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
-
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-validation.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -405,7 +377,7 @@
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="dashboard-analytics.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
                         </li>
-                        <li class="active"><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a>
+                        <li><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a>
                         </li>
                     </ul>
                 </li>
@@ -749,7 +721,7 @@
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="form-layout.html"><i data-feather="box"></i><span class="menu-title text-truncate" data-i18n="Form Layout">Form Layout</span></a>
                 </li>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="form-wizard.html"><i data-feather="package"></i><span class="menu-title text-truncate" data-i18n="Form Wizard">Form Wizard</span></a>
+                <li class="active nav-item"><a class="d-flex align-items-center" href="form-wizard.html"><i data-feather="package"></i><span class="menu-title text-truncate" data-i18n="Form Wizard">Form Wizard</span></a>
                 </li>
                 <li class=" nav-item"><a class="d-flex align-items-center" href="form-validation.html"><i data-feather="check-circle"></i><span class="menu-title text-truncate" data-i18n="Form Validation">Form Validation</span></a>
                 </li>
@@ -810,797 +782,874 @@
         <div class="header-navbar-shadow"></div>
         <div class="content-wrapper container-xxl p-0">
             <div class="content-header row">
+                <div class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12">
+                            <h2 class="content-header-title float-start mb-0">Form Wizard</h2>
+                            <div class="breadcrumb-wrapper">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="#">Forms</a>
+                                    </li>
+                                    <li class="breadcrumb-item active">Form Wizard
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
+                    <div class="mb-1 breadcrumb-right">
+                        <div class="dropdown">
+                            <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i data-feather="grid"></i></button>
+                            <div class="dropdown-menu dropdown-menu-end"><a class="dropdown-item" href="app-todo.html"><i class="me-1" data-feather="check-square"></i><span class="align-middle">Todo</span></a><a class="dropdown-item" href="app-chat.html"><i class="me-1" data-feather="message-square"></i><span class="align-middle">Chat</span></a><a class="dropdown-item" href="app-email.html"><i class="me-1" data-feather="mail"></i><span class="align-middle">Email</span></a><a class="dropdown-item" href="app-calendar.html"><i class="me-1" data-feather="calendar"></i><span class="align-middle">Calendar</span></a></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="content-body">
-                <!-- Dashboard Ecommerce Starts -->
-                <section id="dashboard-ecommerce">
-                    <div class="row match-height">
-                        <!-- Medal Card -->
-                        <div class="col-xl-4 col-md-6 col-12">
-                            <div class="card card-congratulation-medal">
-                                <div class="card-body">
-                                    <h5>Congratulations 🎉 John!</h5>
-                                    <p class="card-text font-small-3">You have won gold medal</p>
-                                    <h3 class="mb-75 mt-2 pt-50">
-                                        <a href="#">$48.9k</a>
-                                    </h3>
-                                    <button type="button" class="btn btn-primary">View Sales</button>
-                                    <img src="../../../app-assets/images/illustration/badge.svg" class="congratulation-medal" alt="Medal Pic" />
-                                </div>
+                <!-- Horizontal Wizard -->
+                <section class="horizontal-wizard">
+                    <div class="bs-stepper horizontal-wizard-example">
+                        <div class="bs-stepper-header" role="tablist">
+                            <div class="step" data-target="#account-details" role="tab" id="account-details-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">1</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Account Details</span>
+                                        <span class="bs-stepper-subtitle">Setup Account Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#personal-info" role="tab" id="personal-info-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">2</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Personal Info</span>
+                                        <span class="bs-stepper-subtitle">Add Personal Info</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#address-step" role="tab" id="address-step-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">3</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Address</span>
+                                        <span class="bs-stepper-subtitle">Add Address</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#social-links" role="tab" id="social-links-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">4</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Social Links</span>
+                                        <span class="bs-stepper-subtitle">Add Social Links</span>
+                                    </span>
+                                </button>
                             </div>
                         </div>
-                        <!--/ Medal Card -->
-
-                        <!-- Basic table -->
-                <section id="basic-datatable">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <table class="datatables-basic table">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th>id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Date</th>
-                                            <th>Salary</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal to add new record -->
-                    <div class="modal modal-slide-in fade" id="modals-slide-in">
-                        <div class="modal-dialog sidebar-sm">
-                            <form class="add-new-record modal-content pt-0">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
+                        <div class="bs-stepper-content">
+                            <div id="account-details" class="content" role="tabpanel" aria-labelledby="account-details-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Account Details</h5>
+                                    <small class="text-muted">Enter Your Account Details.</small>
                                 </div>
-                                <div class="modal-body flex-grow-1">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                                        <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-post">Post</label>
-                                        <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer" aria-label="Web Developer" />
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-email">Email</label>
-                                        <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                                        <small class="form-text"> You can use letters, numbers & periods </small>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-                                        <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label" for="basic-icon-default-salary">Salary</label>
-                                        <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000" aria-label="$12000" />
-                                    </div>
-                                    <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-                <!--/ Basic table -->
-
-                        <!-- Statistics Card -->
-                        <div class="col-xl-8 col-md-6 col-12">
-                            <div class="card card-statistics">
-                                <div class="card-header">
-                                    <h4 class="card-title">Statistics</h4>
-                                    <div class="d-flex align-items-center">
-                                        <p class="card-text font-small-2 me-25 mb-0">Updated 1 month ago</p>
-                                    </div>
-                                </div>
-                                <div class="card-body statistics-body">
+                                <form>
                                     <div class="row">
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-primary me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="trending-up" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">230k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Sales</p>
-                                                </div>
-                                            </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="username">Username</label>
+                                            <input type="text" name="username" id="username" class="form-control" placeholder="johndoe" />
                                         </div>
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-info me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="user" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">8.549k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Customers</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-danger me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="box" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">1.423k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Products</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-sm-6 col-12">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-success me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="dollar-sign" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">$9745</h4>
-                                                    <p class="card-text font-small-3 mb-0">Revenue</p>
-                                                </div>
-                                            </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="email">Email</label>
+                                            <input type="email" name="email" id="email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="mb-1 form-password-toggle col-md-6">
+                                            <label class="form-label" for="password">Password</label>
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                        </div>
+                                        <div class="mb-1 form-password-toggle col-md-6">
+                                            <label class="form-label" for="confirm-password">Confirm Password</label>
+                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personal-info" class="content" role="tabpanel" aria-labelledby="personal-info-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Personal Info</h5>
+                                    <small>Enter Your Personal Info.</small>
+                                </div>
+                                <form>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="first-name">First Name</label>
+                                            <input type="text" name="first-name" id="first-name" class="form-control" placeholder="John" />
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="last-name">Last Name</label>
+                                            <input type="text" name="last-name" id="last-name" class="form-control" placeholder="Doe" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="country">Country</label>
+                                            <select class="select2 w-100" name="country" id="country">
+                                                <option label=" "></option>
+                                                <option>UK</option>
+                                                <option>USA</option>
+                                                <option>Spain</option>
+                                                <option>France</option>
+                                                <option>Italy</option>
+                                                <option>Australia</option>
+                                            </select>
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="language">Language</label>
+                                            <select class="select2 w-100" name="language" id="language" multiple>
+                                                <option>English</option>
+                                                <option>French</option>
+                                                <option>Spanish</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step" class="content" role="tabpanel" aria-labelledby="address-step-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Address</h5>
+                                    <small>Enter Your Address.</small>
+                                </div>
+                                <form>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="address">Address</label>
+                                            <input type="text" id="address" name="address" class="form-control" placeholder="98  Borough bridge Road, Birmingham" />
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="landmark">Landmark</label>
+                                            <input type="text" name="landmark" id="landmark" class="form-control" placeholder="Borough bridge" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="pincode1">Pincode</label>
+                                            <input type="text" id="pincode1" class="form-control" placeholder="658921" />
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="city1">City</label>
+                                            <input type="text" id="city1" class="form-control" placeholder="Birmingham" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="social-links" class="content" role="tabpanel" aria-labelledby="social-links-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Social Links</h5>
+                                    <small>Enter Your Social Links.</small>
+                                </div>
+                                <form>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="twitter">Twitter</label>
+                                            <input type="text" id="twitter" name="twitter" class="form-control" placeholder="https://twitter.com/abc" />
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="facebook">Facebook</label>
+                                            <input type="text" id="facebook" name="facebook" class="form-control" placeholder="https://facebook.com/abc" />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="google">Google+</label>
+                                            <input type="text" id="google" name="google" class="form-control" placeholder="https://plus.google.com/abc" />
+                                        </div>
+                                        <div class="mb-1 col-md-6">
+                                            <label class="form-label" for="linkedin">Linkedin</label>
+                                            <input type="text" id="linkedin" name="linkedin" class="form-control" placeholder="https://linkedin.com/abc" />
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
                                 </div>
                             </div>
                         </div>
-                        <!--/ Statistics Card -->
-                    </div>
-
-                    <div class="row match-height">
-                        <div class="col-lg-4 col-12">
-                            <div class="row match-height">
-                                <!-- Bar Chart - Orders -->
-                                <div class="col-lg-6 col-md-3 col-6">
-                                    <div class="card">
-                                        <div class="card-body pb-50">
-                                            <h6>Orders</h6>
-                                            <h2 class="fw-bolder mb-1">2,76k</h2>
-                                            <div id="statistics-order-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ Bar Chart - Orders -->
-
-                                <!-- Line Chart - Profit -->
-                                <div class="col-lg-6 col-md-3 col-6">
-                                    <div class="card card-tiny-line-stats">
-                                        <div class="card-body pb-50">
-                                            <h6>Profit</h6>
-                                            <h2 class="fw-bolder mb-1">6,24k</h2>
-                                            <div id="statistics-profit-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ Line Chart - Profit -->
-
-                                <!-- Earnings Card -->
-                                <div class="col-lg-12 col-md-6 col-12">
-                                    <div class="card earnings-card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <h4 class="card-title mb-1">Earnings</h4>
-                                                    <div class="font-small-2">This Month</div>
-                                                    <h5 class="mb-1">$4055.56</h5>
-                                                    <p class="card-text text-muted font-small-2">
-                                                        <span class="fw-bolder">68.2%</span><span> more earnings than last month.</span>
-                                                    </p>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div id="earnings-chart"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ Earnings Card -->
-                            </div>
-                        </div>
-
-                        <!-- Revenue Report Card -->
-                        <div class="col-lg-8 col-12">
-                            <div class="card card-revenue-budget">
-                                <div class="row mx-0">
-                                    <div class="col-md-8 col-12 revenue-report-wrapper">
-                                        <div class="d-sm-flex justify-content-between align-items-center mb-3">
-                                            <h4 class="card-title mb-50 mb-sm-0">Revenue Report</h4>
-                                            <div class="d-flex align-items-center">
-                                                <div class="d-flex align-items-center me-2">
-                                                    <span class="bullet bullet-primary font-small-3 me-50 cursor-pointer"></span>
-                                                    <span>Earning</span>
-                                                </div>
-                                                <div class="d-flex align-items-center ms-75">
-                                                    <span class="bullet bullet-warning font-small-3 me-50 cursor-pointer"></span>
-                                                    <span>Expense</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="revenue-report-chart"></div>
-                                    </div>
-                                    <div class="col-md-4 col-12 budget-wrapper">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle budget-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                2020
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">2020</a>
-                                                <a class="dropdown-item" href="#">2019</a>
-                                                <a class="dropdown-item" href="#">2018</a>
-                                            </div>
-                                        </div>
-                                        <h2 class="mb-25">$25,852</h2>
-                                        <div class="d-flex justify-content-center">
-                                            <span class="fw-bolder me-25">Budget:</span>
-                                            <span>56,800</span>
-                                        </div>
-                                        <div id="budget-chart"></div>
-                                        <button type="button" class="btn btn-primary">Increase Budget</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Revenue Report Card -->
-                    </div>
-
-                    <div class="row match-height">
-                        <!-- Company Table Card -->
-                        <div class="col-lg-8 col-12">
-                            <div class="card card-company-table">
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Company</th>
-                                                    <th>Category</th>
-                                                    <th>Views</th>
-                                                    <th>Revenue</th>
-                                                    <th>Sales</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/toolbox.svg" alt="Toolbar svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Dixons</div>
-                                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-primary me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="monitor" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Technology</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">23.4k</span>
-                                                            <span class="font-small-2 text-muted">in 24 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$891.2</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">68%</span>
-                                                            <i data-feather="trending-down" class="text-danger font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/parachute.svg" alt="Parachute svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Motels</div>
-                                                                <div class="font-small-2 text-muted">vecav@hodzi.co.uk</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-success me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="coffee" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Grocery</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">78k</span>
-                                                            <span class="font-small-2 text-muted">in 2 days</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$668.51</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">97%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/brush.svg" alt="Brush svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Zipcar</div>
-                                                                <div class="font-small-2 text-muted">davcilse@is.gov</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">162</span>
-                                                            <span class="font-small-2 text-muted">in 5 days</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$522.29</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">62%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/star.svg" alt="Star svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Owning</div>
-                                                                <div class="font-small-2 text-muted">us@cuhil.gov</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-primary me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="monitor" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Technology</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">214</span>
-                                                            <span class="font-small-2 text-muted">in 24 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$291.01</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">88%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/book.svg" alt="Book svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Cafés</div>
-                                                                <div class="font-small-2 text-muted">pudais@jife.com</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-success me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="coffee" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Grocery</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">208</span>
-                                                            <span class="font-small-2 text-muted">in 1 week</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$783.93</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">16%</span>
-                                                            <i data-feather="trending-down" class="text-danger font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/rocket.svg" alt="Rocket svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Kmart</div>
-                                                                <div class="font-small-2 text-muted">bipri@cawiw.com</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">990</span>
-                                                            <span class="font-small-2 text-muted">in 1 month</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$780.05</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">78%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/speaker.svg" alt="Speaker svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Payers</div>
-                                                                <div class="font-small-2 text-muted">luk@izug.io</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">12.9k</span>
-                                                            <span class="font-small-2 text-muted">in 12 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$531.49</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">42%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Company Table Card -->
-
-                        <!-- Developer Meetup Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-developer-meetup">
-                                <div class="meetup-img-wrapper rounded-top text-center">
-                                    <img src="../../../app-assets/images/illustration/email.svg" alt="Meeting Pic" height="170" />
-                                </div>
-                                <div class="card-body">
-                                    <div class="meetup-header d-flex align-items-center">
-                                        <div class="meetup-day">
-                                            <h6 class="mb-0">THU</h6>
-                                            <h3 class="mb-0">24</h3>
-                                        </div>
-                                        <div class="my-auto">
-                                            <h4 class="card-title mb-25">Developer Meetup</h4>
-                                            <p class="card-text mb-0">Meet world popular developers</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-0">
-                                        <div class="avatar float-start bg-light-primary rounded me-1">
-                                            <div class="avatar-content">
-                                                <i data-feather="calendar" class="avatar-icon font-medium-3"></i>
-                                            </div>
-                                        </div>
-                                        <div class="more-info">
-                                            <h6 class="mb-0">Sat, May 25, 2020</h6>
-                                            <small>10:AM to 6:PM</small>
-                                        </div>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="avatar float-start bg-light-primary rounded me-1">
-                                            <div class="avatar-content">
-                                                <i data-feather="map-pin" class="avatar-icon font-medium-3"></i>
-                                            </div>
-                                        </div>
-                                        <div class="more-info">
-                                            <h6 class="mb-0">Central Park</h6>
-                                            <small>Manhattan, New york City</small>
-                                        </div>
-                                    </div>
-                                    <div class="avatar-group">
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Billy Hopkins" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-9.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Amy Carson" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Brandon Miles" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Daisy Weber" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-20.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Jenny Looper" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-20.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <h6 class="align-self-center cursor-pointer ms-50 mb-0">+42</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Developer Meetup Card -->
-
-                        <!-- Browser States Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-browser-states">
-                                <div class="card-header">
-                                    <div>
-                                        <h4 class="card-title">Browser States</h4>
-                                        <p class="card-text font-small-2">Counter August 2020</p>
-                                    </div>
-                                    <div class="dropdown chart-dropdown">
-                                        <i data-feather="more-vertical" class="font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
-                                            <a class="dropdown-item" href="#">Last Year</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/google-chrome.png" class="rounded me-1" height="30" alt="Google Chrome" />
-                                            <h6 class="align-self-center mb-0">Google Chrome</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">54.4%</div>
-                                            <div id="browser-state-chart-primary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/mozila-firefox.png" class="rounded me-1" height="30" alt="Mozila Firefox" />
-                                            <h6 class="align-self-center mb-0">Mozila Firefox</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">6.1%</div>
-                                            <div id="browser-state-chart-warning"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/apple-safari.png" class="rounded me-1" height="30" alt="Apple Safari" />
-                                            <h6 class="align-self-center mb-0">Apple Safari</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">14.6%</div>
-                                            <div id="browser-state-chart-secondary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/internet-explorer.png" class="rounded me-1" height="30" alt="Internet Explorer" />
-                                            <h6 class="align-self-center mb-0">Internet Explorer</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">4.2%</div>
-                                            <div id="browser-state-chart-info"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/opera.png" class="rounded me-1" height="30" alt="Opera Mini" />
-                                            <h6 class="align-self-center mb-0">Opera Mini</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">8.4%</div>
-                                            <div id="browser-state-chart-danger"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Browser States Card -->
-
-                        <!-- Goal Overview Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">Goal Overview</h4>
-                                    <i data-feather="help-circle" class="font-medium-3 text-muted cursor-pointer"></i>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="goal-overview-radial-bar-chart" class="my-2"></div>
-                                    <div class="row border-top text-center mx-0">
-                                        <div class="col-6 border-end py-1">
-                                            <p class="card-text text-muted mb-0">Completed</p>
-                                            <h3 class="fw-bolder mb-0">786,617</h3>
-                                        </div>
-                                        <div class="col-6 py-1">
-                                            <p class="card-text text-muted mb-0">In Progress</p>
-                                            <h3 class="fw-bolder mb-0">13,561</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Goal Overview Card -->
-
-                        <!-- Transaction Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-transaction">
-                                <div class="card-header">
-                                    <h4 class="card-title">Transactions</h4>
-                                    <div class="dropdown chart-dropdown">
-                                        <i data-feather="more-vertical" class="font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
-                                            <a class="dropdown-item" href="#">Last Year</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-primary rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="pocket" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Wallet</h6>
-                                                <small>Starbucks</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-danger">- $74</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-success rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="check" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Bank Transfer</h6>
-                                                <small>Add Money</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $480</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-danger rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="dollar-sign" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Paypal</h6>
-                                                <small>Add Money</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $590</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-warning rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="credit-card" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Mastercard</h6>
-                                                <small>Ordered Food</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-danger">- $23</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-info rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="trending-up" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Transfer</h6>
-                                                <small>Refund</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $98</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Transaction Card -->
                     </div>
                 </section>
-                <!-- Dashboard Ecommerce ends -->
+                <!-- /Horizontal Wizard -->
+
+                <!-- Vertical Wizard -->
+                <section class="vertical-wizard">
+                    <div class="bs-stepper vertical vertical-wizard-example">
+                        <div class="bs-stepper-header">
+                            <div class="step" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">1</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Account Details</span>
+                                        <span class="bs-stepper-subtitle">Setup Account Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">2</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Personal Info</span>
+                                        <span class="bs-stepper-subtitle">Add Personal Info</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">3</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Address</span>
+                                        <span class="bs-stepper-subtitle">Add Address</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#social-links-vertical" role="tab" id="social-links-vertical-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">4</span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Social Links</span>
+                                        <span class="bs-stepper-subtitle">Add Social Links</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bs-stepper-content">
+                            <div id="account-details-vertical" class="content" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Account Details</h5>
+                                    <small class="text-muted">Enter Your Account Details.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-username">Username</label>
+                                        <input type="text" id="vertical-username" class="form-control" placeholder="johndoe" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-email">Email</label>
+                                        <input type="email" id="vertical-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-password">Password</label>
+                                        <input type="password" id="vertical-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-confirm-password">Confirm Password</label>
+                                        <input type="password" id="vertical-confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personal-info-vertical" class="content" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Personal Info</h5>
+                                    <small>Enter Your Personal Info.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-first-name">First Name</label>
+                                        <input type="text" id="vertical-first-name" class="form-control" placeholder="John" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-last-name">Last Name</label>
+                                        <input type="text" id="vertical-last-name" class="form-control" placeholder="Doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-country">Country</label>
+                                        <select class="select2 w-100" id="vertical-country">
+                                            <option label=" "></option>
+                                            <option>UK</option>
+                                            <option>USA</option>
+                                            <option>Spain</option>
+                                            <option>France</option>
+                                            <option>Italy</option>
+                                            <option>Australia</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-language">Language</label>
+                                        <select class="select2 w-100" id="vertical-language" multiple>
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>Spanish</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step-vertical" class="content" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Address</h5>
+                                    <small>Enter Your Address.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-address">Address</label>
+                                        <input type="text" id="vertical-address" class="form-control" placeholder="98  Borough bridge Road, Birmingham" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-landmark">Landmark</label>
+                                        <input type="text" id="vertical-landmark" class="form-control" placeholder="Borough bridge" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="pincode2">Pincode</label>
+                                        <input type="text" id="pincode2" class="form-control" placeholder="658921" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="city2">City</label>
+                                        <input type="text" id="city2" class="form-control" placeholder="Birmingham" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="social-links-vertical" class="content" role="tabpanel" aria-labelledby="social-links-vertical-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Social Links</h5>
+                                    <small>Enter Your Social Links.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-twitter">Twitter</label>
+                                        <input type="text" id="vertical-twitter" class="form-control" placeholder="https://twitter.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-facebook">Facebook</label>
+                                        <input type="text" id="vertical-facebook" class="form-control" placeholder="https://facebook.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-google">Google+</label>
+                                        <input type="text" id="vertical-google" class="form-control" placeholder="https://plus.google.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-linkedin">Linkedin</label>
+                                        <input type="text" id="vertical-linkedin" class="form-control" placeholder="https://linkedin.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Vertical Wizard -->
+
+                <!-- Modern Horizontal Wizard -->
+                <section class="modern-horizontal-wizard">
+                    <div class="bs-stepper wizard-modern modern-wizard-example">
+                        <div class="bs-stepper-header">
+                            <div class="step" data-target="#account-details-modern" role="tab" id="account-details-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="file-text" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Account Details</span>
+                                        <span class="bs-stepper-subtitle">Setup Account Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#personal-info-modern" role="tab" id="personal-info-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="user" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Personal Info</span>
+                                        <span class="bs-stepper-subtitle">Add Personal Info</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#address-step-modern" role="tab" id="address-step-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="map-pin" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Address</span>
+                                        <span class="bs-stepper-subtitle">Add Address</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="line">
+                                <i data-feather="chevron-right" class="font-medium-2"></i>
+                            </div>
+                            <div class="step" data-target="#social-links-modern" role="tab" id="social-links-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="link" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Social Links</span>
+                                        <span class="bs-stepper-subtitle">Add Social Links</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bs-stepper-content">
+                            <div id="account-details-modern" class="content" role="tabpanel" aria-labelledby="account-details-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Account Details</h5>
+                                    <small class="text-muted">Enter Your Account Details.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-username">Username</label>
+                                        <input type="text" id="modern-username" class="form-control" placeholder="johndoe" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-email">Email</label>
+                                        <input type="email" id="modern-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="modern-password">Password</label>
+                                        <input type="password" id="modern-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="modern-confirm-password">Confirm Password</label>
+                                        <input type="password" id="modern-confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personal-info-modern" class="content" role="tabpanel" aria-labelledby="personal-info-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Personal Info</h5>
+                                    <small>Enter Your Personal Info.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-first-name">First Name</label>
+                                        <input type="text" id="modern-first-name" class="form-control" placeholder="John" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-last-name">Last Name</label>
+                                        <input type="text" id="modern-last-name" class="form-control" placeholder="Doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-country">Country</label>
+                                        <select class="select2 w-100" id="modern-country">
+                                            <option label=" "></option>
+                                            <option>UK</option>
+                                            <option>USA</option>
+                                            <option>Spain</option>
+                                            <option>France</option>
+                                            <option>Italy</option>
+                                            <option>Australia</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-language">Language</label>
+                                        <select class="select2 w-100" id="modern-language" multiple>
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>Spanish</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step-modern" class="content" role="tabpanel" aria-labelledby="address-step-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Address</h5>
+                                    <small>Enter Your Address.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-address">Address</label>
+                                        <input type="text" id="modern-address" class="form-control" placeholder="98  Borough bridge Road, Birmingham" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-landmark">Landmark</label>
+                                        <input type="text" id="modern-landmark" class="form-control" placeholder="Borough bridge" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="pincode3">Pincode</label>
+                                        <input type="text" id="pincode3" class="form-control" placeholder="658921" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="city3">City</label>
+                                        <input type="text" id="city3" class="form-control" placeholder="Birmingham" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="social-links-modern" class="content" role="tabpanel" aria-labelledby="social-links-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Social Links</h5>
+                                    <small>Enter Your Social Links.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-twitter">Twitter</label>
+                                        <input type="text" id="modern-twitter" class="form-control" placeholder="https://twitter.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-facebook">Facebook</label>
+                                        <input type="text" id="modern-facebook" class="form-control" placeholder="https://facebook.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-google">Google+</label>
+                                        <input type="text" id="modern-google" class="form-control" placeholder="https://plus.google.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="modern-linkedin">Linkedin</label>
+                                        <input type="text" id="modern-linkedin" class="form-control" placeholder="https://linkedin.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Modern Horizontal Wizard -->
+
+                <!-- Modern Vertical Wizard -->
+                <section class="modern-vertical-wizard">
+                    <div class="bs-stepper vertical wizard-modern modern-vertical-wizard-example">
+                        <div class="bs-stepper-header">
+                            <div class="step" data-target="#account-details-vertical-modern" role="tab" id="account-details-vertical-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="file-text" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Account Details</span>
+                                        <span class="bs-stepper-subtitle">Setup Account Details</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#personal-info-vertical-modern" role="tab" id="personal-info-vertical-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="user" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Personal Info</span>
+                                        <span class="bs-stepper-subtitle">Add Personal Info</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#address-step-vertical-modern" role="tab" id="address-step-vertical-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="map-pin" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Address</span>
+                                        <span class="bs-stepper-subtitle">Add Address</span>
+                                    </span>
+                                </button>
+                            </div>
+                            <div class="step" data-target="#social-links-vertical-modern" role="tab" id="social-links-vertical-modern-trigger">
+                                <button type="button" class="step-trigger">
+                                    <span class="bs-stepper-box">
+                                        <i data-feather="link" class="font-medium-3"></i>
+                                    </span>
+                                    <span class="bs-stepper-label">
+                                        <span class="bs-stepper-title">Social Links</span>
+                                        <span class="bs-stepper-subtitle">Add Social Links</span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="bs-stepper-content">
+                            <div id="account-details-vertical-modern" class="content" role="tabpanel" aria-labelledby="account-details-vertical-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Account Details</h5>
+                                    <small class="text-muted">Enter Your Account Details.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-username">Username</label>
+                                        <input type="text" id="vertical-modern-username" class="form-control" placeholder="johndoe" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-email">Email</label>
+                                        <input type="email" id="vertical-modern-email" class="form-control" placeholder="john.doe@email.com" aria-label="john.doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-modern-password">Password</label>
+                                        <input type="password" id="vertical-modern-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                    <div class="mb-1 form-password-toggle col-md-6">
+                                        <label class="form-label" for="vertical-modern-confirm-password">Confirm Password</label>
+                                        <input type="password" id="vertical-modern-confirm-password" class="form-control" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-outline-secondary btn-prev" disabled>
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personal-info-vertical-modern" class="content" role="tabpanel" aria-labelledby="personal-info-vertical-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Personal Info</h5>
+                                    <small>Enter Your Personal Info.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-first-name">First Name</label>
+                                        <input type="text" id="vertical-modern-first-name" class="form-control" placeholder="John" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-last-name">Last Name</label>
+                                        <input type="text" id="vertical-modern-last-name" class="form-control" placeholder="Doe" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-country">Country</label>
+                                        <select class="select2 w-100" id="vertical-modern-country">
+                                            <option label=" "></option>
+                                            <option>UK</option>
+                                            <option>USA</option>
+                                            <option>Spain</option>
+                                            <option>France</option>
+                                            <option>Italy</option>
+                                            <option>Australia</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-language">Language</label>
+                                        <select class="select2 w-100" id="vertical-modern-language" multiple>
+                                            <option>English</option>
+                                            <option>French</option>
+                                            <option>Spanish</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="address-step-vertical-modern" class="content" role="tabpanel" aria-labelledby="address-step-vertical-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Address</h5>
+                                    <small>Enter Your Address.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-address">Address</label>
+                                        <input type="text" id="vertical-modern-address" class="form-control" placeholder="98  Borough bridge Road, Birmingham" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-landmark">Landmark</label>
+                                        <input type="text" id="vertical-modern-landmark" class="form-control" placeholder="Borough bridge" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="pincode4">Pincode</label>
+                                        <input type="text" id="pincode4" class="form-control" placeholder="658921" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="city4">City</label>
+                                        <input type="text" id="city4" class="form-control" placeholder="Birmingham" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-primary btn-next">
+                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
+                                        <i data-feather="arrow-right" class="align-middle ms-sm-25 ms-0"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="social-links-vertical-modern" class="content" role="tabpanel" aria-labelledby="social-links-vertical-modern-trigger">
+                                <div class="content-header">
+                                    <h5 class="mb-0">Social Links</h5>
+                                    <small>Enter Your Social Links.</small>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-twitter">Twitter</label>
+                                        <input type="text" id="vertical-modern-twitter" class="form-control" placeholder="https://twitter.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-facebook">Facebook</label>
+                                        <input type="text" id="vertical-modern-facebook" class="form-control" placeholder="https://facebook.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-google">Google+</label>
+                                        <input type="text" id="vertical-modern-google" class="form-control" placeholder="https://plus.google.com/abc" />
+                                    </div>
+                                    <div class="mb-1 col-md-6">
+                                        <label class="form-label" for="vertical-modern-linkedin">Linkedin</label>
+                                        <input type="text" id="vertical-modern-linkedin" class="form-control" placeholder="https://linkedin.com/abc" />
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-prev">
+                                        <i data-feather="arrow-left" class="align-middle me-sm-25 me-0"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
+                                    </button>
+                                    <button class="btn btn-success btn-submit">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- /Modern Vertical Wizard -->
 
             </div>
         </div>
@@ -1623,8 +1672,9 @@
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -1633,49 +1683,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>
-    <!-- END: Page JS-->
-
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
-
-    
-
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
-
-    <!-- BEGIN: Theme JS-->
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/tables/table-datatables-basic.js"></script>
+    <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
     <!-- END: Page JS-->
 
     <script>

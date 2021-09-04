@@ -1,6 +1,5 @@
 (function (window, undefined) {
   'use strict';
-
   /*
   NOTE:
   ------

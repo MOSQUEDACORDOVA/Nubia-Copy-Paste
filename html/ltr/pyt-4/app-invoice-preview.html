@@ -9,44 +9,13 @@
     <meta name="description" content="Vuexy admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Vuexy admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>Dashboard ecommerce - Vuexy - Bootstrap HTML admin template</title>
+    <title>Invoice Preview - Vuexy - Bootstrap HTML admin template</title>
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/charts/apexcharts.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
-    <!-- END: Vendor CSS-->
-
-    <!-- BEGIN: Theme CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
-
-    <!-- BEGIN: Page CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/dashboard-ecommerce.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/charts/chart-apex.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
-    <!-- END: Page CSS-->
-
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
-    <!-- END: Custom CSS-->
-
-
-    <!-- BEGIN: Vendor CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/dataTables.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/responsive.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/buttons.bootstrap5.min.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/tables/datatable/rowGroup.bootstrap5.min.css">
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
     <!-- END: Vendor CSS-->
 
@@ -61,6 +30,8 @@
 
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice.css">
     <!-- END: Page CSS-->
 
     <!-- BEGIN: Custom CSS-->
@@ -405,7 +376,7 @@
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="dashboard-analytics.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
                         </li>
-                        <li class="active"><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a>
+                        <li><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a>
                         </li>
                     </ul>
                 </li>
@@ -425,7 +396,7 @@
                     <ul class="menu-content">
                         <li><a class="d-flex align-items-center" href="app-invoice-list.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
                         </li>
-                        <li><a class="d-flex align-items-center" href="app-invoice-preview.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Preview</span></a>
+                        <li class="active"><a class="d-flex align-items-center" href="app-invoice-preview.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Preview</span></a>
                         </li>
                         <li><a class="d-flex align-items-center" href="app-invoice-edit.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
                         </li>
@@ -812,795 +783,324 @@
             <div class="content-header row">
             </div>
             <div class="content-body">
-                <!-- Dashboard Ecommerce Starts -->
-                <section id="dashboard-ecommerce">
-                    <div class="row match-height">
-                        <!-- Medal Card -->
-                        <div class="col-xl-4 col-md-6 col-12">
-                            <div class="card card-congratulation-medal">
-                                <div class="card-body">
-                                    <h5>Congratulations 🎉 John!</h5>
-                                    <p class="card-text font-small-3">You have won gold medal</p>
-                                    <h3 class="mb-75 mt-2 pt-50">
-                                        <a href="#">$48.9k</a>
-                                    </h3>
-                                    <button type="button" class="btn btn-primary">View Sales</button>
-                                    <img src="../../../app-assets/images/illustration/badge.svg" class="congratulation-medal" alt="Medal Pic" />
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Medal Card -->
-
-                        <!-- Basic table -->
-                <section id="basic-datatable">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <table class="datatables-basic table">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th>id</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Date</th>
-                                            <th>Salary</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Modal to add new record -->
-                    <div class="modal modal-slide-in fade" id="modals-slide-in">
-                        <div class="modal-dialog sidebar-sm">
-                            <form class="add-new-record modal-content pt-0">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-                                <div class="modal-header mb-1">
-                                    <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
-                                </div>
-                                <div class="modal-body flex-grow-1">
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                                        <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-post">Post</label>
-                                        <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer" aria-label="Web Developer" />
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-email">Email</label>
-                                        <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                                        <small class="form-text"> You can use letters, numbers & periods </small>
-                                    </div>
-                                    <div class="mb-1">
-                                        <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-                                        <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="form-label" for="basic-icon-default-salary">Salary</label>
-                                        <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000" aria-label="$12000" />
-                                    </div>
-                                    <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
-                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </section>
-                <!--/ Basic table -->
-
-                        <!-- Statistics Card -->
-                        <div class="col-xl-8 col-md-6 col-12">
-                            <div class="card card-statistics">
-                                <div class="card-header">
-                                    <h4 class="card-title">Statistics</h4>
-                                    <div class="d-flex align-items-center">
-                                        <p class="card-text font-small-2 me-25 mb-0">Updated 1 month ago</p>
-                                    </div>
-                                </div>
-                                <div class="card-body statistics-body">
-                                    <div class="row">
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-primary me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="trending-up" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">230k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Sales</p>
-                                                </div>
+                <section class="invoice-preview-wrapper">
+                    <div class="row invoice-preview">
+                        <!-- Invoice -->
+                        <div class="col-xl-9 col-md-8 col-12">
+                            <div class="card invoice-preview-card">
+                                <div class="card-body invoice-padding pb-0">
+                                    <!-- Header starts -->
+                                    <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
+                                        <div>
+                                            <div class="logo-wrapper">
+                                                <svg viewBox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
+                                                    <defs>
+                                                        <linearGradient id="invoice-linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
+                                                            <stop stop-color="#000000" offset="0%"></stop>
+                                                            <stop stop-color="#FFFFFF" offset="100%"></stop>
+                                                        </linearGradient>
+                                                        <linearGradient id="invoice-linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
+                                                            <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
+                                                            <stop stop-color="#FFFFFF" offset="100%"></stop>
+                                                        </linearGradient>
+                                                    </defs>
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <g transform="translate(-400.000000, -178.000000)">
+                                                            <g transform="translate(400.000000, 178.000000)">
+                                                                <path class="text-primary" d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z" style="fill: currentColor"></path>
+                                                                <path d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z" fill="url(#invoice-linearGradient-1)" opacity="0.2"></path>
+                                                                <polygon fill="#000000" opacity="0.049999997" points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"></polygon>
+                                                                <polygon fill="#000000" opacity="0.099999994" points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"></polygon>
+                                                                <polygon fill="url(#invoice-linearGradient-2)" opacity="0.099999994" points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"></polygon>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </svg>
+                                                <h3 class="text-primary invoice-logo">Vuexy</h3>
                                             </div>
+                                            <p class="card-text mb-25">Office 149, 450 South Brand Brooklyn</p>
+                                            <p class="card-text mb-25">San Diego County, CA 91905, USA</p>
+                                            <p class="card-text mb-0">+1 (123) 456 7891, +44 (876) 543 2198</p>
                                         </div>
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-info me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="user" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">8.549k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Customers</p>
-                                                </div>
+                                        <div class="mt-md-0 mt-2">
+                                            <h4 class="invoice-title">
+                                                Invoice
+                                                <span class="invoice-number">#3492</span>
+                                            </h4>
+                                            <div class="invoice-date-wrapper">
+                                                <p class="invoice-date-title">Date Issued:</p>
+                                                <p class="invoice-date">25/08/2020</p>
                                             </div>
-                                        </div>
-                                        <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-danger me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="box" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">1.423k</h4>
-                                                    <p class="card-text font-small-3 mb-0">Products</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-3 col-sm-6 col-12">
-                                            <div class="d-flex flex-row">
-                                                <div class="avatar bg-light-success me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather="dollar-sign" class="avatar-icon"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">$9745</h4>
-                                                    <p class="card-text font-small-3 mb-0">Revenue</p>
-                                                </div>
+                                            <div class="invoice-date-wrapper">
+                                                <p class="invoice-date-title">Due Date:</p>
+                                                <p class="invoice-date">29/08/2020</p>
                                             </div>
                                         </div>
                                     </div>
+                                    <!-- Header ends -->
                                 </div>
-                            </div>
-                        </div>
-                        <!--/ Statistics Card -->
-                    </div>
 
-                    <div class="row match-height">
-                        <div class="col-lg-4 col-12">
-                            <div class="row match-height">
-                                <!-- Bar Chart - Orders -->
-                                <div class="col-lg-6 col-md-3 col-6">
-                                    <div class="card">
-                                        <div class="card-body pb-50">
-                                            <h6>Orders</h6>
-                                            <h2 class="fw-bolder mb-1">2,76k</h2>
-                                            <div id="statistics-order-chart"></div>
+                                <hr class="invoice-spacing" />
+
+                                <!-- Address and Contact starts -->
+                                <div class="card-body invoice-padding pt-0">
+                                    <div class="row invoice-spacing">
+                                        <div class="col-xl-8 p-0">
+                                            <h6 class="mb-2">Invoice To:</h6>
+                                            <h6 class="mb-25">Thomas shelby</h6>
+                                            <p class="card-text mb-25">Shelby Company Limited</p>
+                                            <p class="card-text mb-25">Small Heath, B10 0HF, UK</p>
+                                            <p class="card-text mb-25">718-986-6062</p>
+                                            <p class="card-text mb-0">peakyFBlinders@gmail.com</p>
+                                        </div>
+                                        <div class="col-xl-4 p-0 mt-xl-0 mt-2">
+                                            <h6 class="mb-2">Payment Details:</h6>
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="pe-1">Total Due:</td>
+                                                        <td><span class="fw-bold">$12,110.55</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pe-1">Bank name:</td>
+                                                        <td>American Bank</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pe-1">Country:</td>
+                                                        <td>United States</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pe-1">IBAN:</td>
+                                                        <td>ETD95476213874685</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pe-1">SWIFT code:</td>
+                                                        <td>BR91905</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Bar Chart - Orders -->
+                                <!-- Address and Contact ends -->
 
-                                <!-- Line Chart - Profit -->
-                                <div class="col-lg-6 col-md-3 col-6">
-                                    <div class="card card-tiny-line-stats">
-                                        <div class="card-body pb-50">
-                                            <h6>Profit</h6>
-                                            <h2 class="fw-bolder mb-1">6,24k</h2>
-                                            <div id="statistics-profit-chart"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/ Line Chart - Profit -->
-
-                                <!-- Earnings Card -->
-                                <div class="col-lg-12 col-md-6 col-12">
-                                    <div class="card earnings-card">
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <h4 class="card-title mb-1">Earnings</h4>
-                                                    <div class="font-small-2">This Month</div>
-                                                    <h5 class="mb-1">$4055.56</h5>
-                                                    <p class="card-text text-muted font-small-2">
-                                                        <span class="fw-bolder">68.2%</span><span> more earnings than last month.</span>
+                                <!-- Invoice Description starts -->
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th class="py-1">Task description</th>
+                                                <th class="py-1">Rate</th>
+                                                <th class="py-1">Hours</th>
+                                                <th class="py-1">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="py-1">
+                                                    <p class="card-text fw-bold mb-25">Native App Development</p>
+                                                    <p class="card-text text-nowrap">
+                                                        Developed a full stack native app using React Native, Bootstrap & Python
                                                     </p>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">$60.00</span>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">30</span>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">$1,800.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-bottom">
+                                                <td class="py-1">
+                                                    <p class="card-text fw-bold mb-25">Ui Kit Design</p>
+                                                    <p class="card-text text-nowrap">Designed a UI kit for native app using Sketch, Figma & Adobe XD</p>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">$60.00</span>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">20</span>
+                                                </td>
+                                                <td class="py-1">
+                                                    <span class="fw-bold">$1200.00</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="card-body invoice-padding pb-0">
+                                    <div class="row invoice-sales-total-wrapper">
+                                        <div class="col-md-6 order-md-1 order-2 mt-md-0 mt-3">
+                                            <p class="card-text mb-0">
+                                                <span class="fw-bold">Salesperson:</span> <span class="ms-75">Alfie Solomons</span>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 d-flex justify-content-end order-md-2 order-1">
+                                            <div class="invoice-total-wrapper">
+                                                <div class="invoice-total-item">
+                                                    <p class="invoice-total-title">Subtotal:</p>
+                                                    <p class="invoice-total-amount">$1800</p>
                                                 </div>
-                                                <div class="col-6">
-                                                    <div id="earnings-chart"></div>
+                                                <div class="invoice-total-item">
+                                                    <p class="invoice-total-title">Discount:</p>
+                                                    <p class="invoice-total-amount">$28</p>
+                                                </div>
+                                                <div class="invoice-total-item">
+                                                    <p class="invoice-total-title">Tax:</p>
+                                                    <p class="invoice-total-amount">21%</p>
+                                                </div>
+                                                <hr class="my-50" />
+                                                <div class="invoice-total-item">
+                                                    <p class="invoice-total-title">Total:</p>
+                                                    <p class="invoice-total-amount">$1690</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ Earnings Card -->
+                                <!-- Invoice Description ends -->
+
+                                <hr class="invoice-spacing" />
+
+                                <!-- Invoice Note starts -->
+                                <div class="card-body invoice-padding pt-0">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="fw-bold">Note:</span>
+                                            <span>It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
+                                                projects. Thank You!</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Invoice Note ends -->
                             </div>
                         </div>
+                        <!-- /Invoice -->
 
-                        <!-- Revenue Report Card -->
-                        <div class="col-lg-8 col-12">
-                            <div class="card card-revenue-budget">
-                                <div class="row mx-0">
-                                    <div class="col-md-8 col-12 revenue-report-wrapper">
-                                        <div class="d-sm-flex justify-content-between align-items-center mb-3">
-                                            <h4 class="card-title mb-50 mb-sm-0">Revenue Report</h4>
-                                            <div class="d-flex align-items-center">
-                                                <div class="d-flex align-items-center me-2">
-                                                    <span class="bullet bullet-primary font-small-3 me-50 cursor-pointer"></span>
-                                                    <span>Earning</span>
-                                                </div>
-                                                <div class="d-flex align-items-center ms-75">
-                                                    <span class="bullet bullet-warning font-small-3 me-50 cursor-pointer"></span>
-                                                    <span>Expense</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="revenue-report-chart"></div>
-                                    </div>
-                                    <div class="col-md-4 col-12 budget-wrapper">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-outline-primary btn-sm dropdown-toggle budget-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                2020
-                                            </button>
-                                            <div class="dropdown-menu">
-                                                <a class="dropdown-item" href="#">2020</a>
-                                                <a class="dropdown-item" href="#">2019</a>
-                                                <a class="dropdown-item" href="#">2018</a>
-                                            </div>
-                                        </div>
-                                        <h2 class="mb-25">$25,852</h2>
-                                        <div class="d-flex justify-content-center">
-                                            <span class="fw-bolder me-25">Budget:</span>
-                                            <span>56,800</span>
-                                        </div>
-                                        <div id="budget-chart"></div>
-                                        <button type="button" class="btn btn-primary">Increase Budget</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Revenue Report Card -->
-                    </div>
-
-                    <div class="row match-height">
-                        <!-- Company Table Card -->
-                        <div class="col-lg-8 col-12">
-                            <div class="card card-company-table">
-                                <div class="card-body p-0">
-                                    <div class="table-responsive">
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Company</th>
-                                                    <th>Category</th>
-                                                    <th>Views</th>
-                                                    <th>Revenue</th>
-                                                    <th>Sales</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/toolbox.svg" alt="Toolbar svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Dixons</div>
-                                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-primary me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="monitor" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Technology</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">23.4k</span>
-                                                            <span class="font-small-2 text-muted">in 24 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$891.2</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">68%</span>
-                                                            <i data-feather="trending-down" class="text-danger font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/parachute.svg" alt="Parachute svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Motels</div>
-                                                                <div class="font-small-2 text-muted">vecav@hodzi.co.uk</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-success me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="coffee" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Grocery</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">78k</span>
-                                                            <span class="font-small-2 text-muted">in 2 days</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$668.51</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">97%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/brush.svg" alt="Brush svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Zipcar</div>
-                                                                <div class="font-small-2 text-muted">davcilse@is.gov</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">162</span>
-                                                            <span class="font-small-2 text-muted">in 5 days</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$522.29</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">62%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/star.svg" alt="Star svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Owning</div>
-                                                                <div class="font-small-2 text-muted">us@cuhil.gov</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-primary me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="monitor" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Technology</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">214</span>
-                                                            <span class="font-small-2 text-muted">in 24 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$291.01</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">88%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/book.svg" alt="Book svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Cafés</div>
-                                                                <div class="font-small-2 text-muted">pudais@jife.com</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-success me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="coffee" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Grocery</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">208</span>
-                                                            <span class="font-small-2 text-muted">in 1 week</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$783.93</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">16%</span>
-                                                            <i data-feather="trending-down" class="text-danger font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/rocket.svg" alt="Rocket svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Kmart</div>
-                                                                <div class="font-small-2 text-muted">bipri@cawiw.com</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">990</span>
-                                                            <span class="font-small-2 text-muted">in 1 month</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$780.05</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">78%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar rounded">
-                                                                <div class="avatar-content">
-                                                                    <img src="../../../app-assets/images/icons/speaker.svg" alt="Speaker svg" />
-                                                                </div>
-                                                            </div>
-                                                            <div>
-                                                                <div class="fw-bolder">Payers</div>
-                                                                <div class="font-small-2 text-muted">luk@izug.io</div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div class="avatar bg-light-warning me-1">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather="watch" class="font-medium-3"></i>
-                                                                </div>
-                                                            </div>
-                                                            <span>Fashion</span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="text-nowrap">
-                                                        <div class="d-flex flex-column">
-                                                            <span class="fw-bolder mb-25">12.9k</span>
-                                                            <span class="font-small-2 text-muted">in 12 hours</span>
-                                                        </div>
-                                                    </td>
-                                                    <td>$531.49</td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <span class="fw-bolder me-1">42%</span>
-                                                            <i data-feather="trending-up" class="text-success font-medium-1"></i>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Company Table Card -->
-
-                        <!-- Developer Meetup Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-developer-meetup">
-                                <div class="meetup-img-wrapper rounded-top text-center">
-                                    <img src="../../../app-assets/images/illustration/email.svg" alt="Meeting Pic" height="170" />
-                                </div>
-                                <div class="card-body">
-                                    <div class="meetup-header d-flex align-items-center">
-                                        <div class="meetup-day">
-                                            <h6 class="mb-0">THU</h6>
-                                            <h3 class="mb-0">24</h3>
-                                        </div>
-                                        <div class="my-auto">
-                                            <h4 class="card-title mb-25">Developer Meetup</h4>
-                                            <p class="card-text mb-0">Meet world popular developers</p>
-                                        </div>
-                                    </div>
-                                    <div class="mt-0">
-                                        <div class="avatar float-start bg-light-primary rounded me-1">
-                                            <div class="avatar-content">
-                                                <i data-feather="calendar" class="avatar-icon font-medium-3"></i>
-                                            </div>
-                                        </div>
-                                        <div class="more-info">
-                                            <h6 class="mb-0">Sat, May 25, 2020</h6>
-                                            <small>10:AM to 6:PM</small>
-                                        </div>
-                                    </div>
-                                    <div class="mt-2">
-                                        <div class="avatar float-start bg-light-primary rounded me-1">
-                                            <div class="avatar-content">
-                                                <i data-feather="map-pin" class="avatar-icon font-medium-3"></i>
-                                            </div>
-                                        </div>
-                                        <div class="more-info">
-                                            <h6 class="mb-0">Central Park</h6>
-                                            <small>Manhattan, New york City</small>
-                                        </div>
-                                    </div>
-                                    <div class="avatar-group">
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Billy Hopkins" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-9.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Amy Carson" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Brandon Miles" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Daisy Weber" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-20.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Jenny Looper" class="avatar pull-up">
-                                            <img src="../../../app-assets/images/portrait/small/avatar-s-20.jpg" alt="Avatar" width="33" height="33" />
-                                        </div>
-                                        <h6 class="align-self-center cursor-pointer ms-50 mb-0">+42</h6>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Developer Meetup Card -->
-
-                        <!-- Browser States Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-browser-states">
-                                <div class="card-header">
-                                    <div>
-                                        <h4 class="card-title">Browser States</h4>
-                                        <p class="card-text font-small-2">Counter August 2020</p>
-                                    </div>
-                                    <div class="dropdown chart-dropdown">
-                                        <i data-feather="more-vertical" class="font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
-                                            <a class="dropdown-item" href="#">Last Year</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/google-chrome.png" class="rounded me-1" height="30" alt="Google Chrome" />
-                                            <h6 class="align-self-center mb-0">Google Chrome</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">54.4%</div>
-                                            <div id="browser-state-chart-primary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/mozila-firefox.png" class="rounded me-1" height="30" alt="Mozila Firefox" />
-                                            <h6 class="align-self-center mb-0">Mozila Firefox</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">6.1%</div>
-                                            <div id="browser-state-chart-warning"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/apple-safari.png" class="rounded me-1" height="30" alt="Apple Safari" />
-                                            <h6 class="align-self-center mb-0">Apple Safari</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">14.6%</div>
-                                            <div id="browser-state-chart-secondary"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/internet-explorer.png" class="rounded me-1" height="30" alt="Internet Explorer" />
-                                            <h6 class="align-self-center mb-0">Internet Explorer</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">4.2%</div>
-                                            <div id="browser-state-chart-info"></div>
-                                        </div>
-                                    </div>
-                                    <div class="browser-states">
-                                        <div class="d-flex">
-                                            <img src="../../../app-assets/images/icons/opera.png" class="rounded me-1" height="30" alt="Opera Mini" />
-                                            <h6 class="align-self-center mb-0">Opera Mini</h6>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="fw-bold text-body-heading me-1">8.4%</div>
-                                            <div id="browser-state-chart-danger"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Browser States Card -->
-
-                        <!-- Goal Overview Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
+                        <!-- Invoice Actions -->
+                        <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4 class="card-title">Goal Overview</h4>
-                                    <i data-feather="help-circle" class="font-medium-3 text-muted cursor-pointer"></i>
-                                </div>
-                                <div class="card-body p-0">
-                                    <div id="goal-overview-radial-bar-chart" class="my-2"></div>
-                                    <div class="row border-top text-center mx-0">
-                                        <div class="col-6 border-end py-1">
-                                            <p class="card-text text-muted mb-0">Completed</p>
-                                            <h3 class="fw-bolder mb-0">786,617</h3>
-                                        </div>
-                                        <div class="col-6 py-1">
-                                            <p class="card-text text-muted mb-0">In Progress</p>
-                                            <h3 class="fw-bolder mb-0">13,561</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ Goal Overview Card -->
-
-                        <!-- Transaction Card -->
-                        <div class="col-lg-4 col-md-6 col-12">
-                            <div class="card card-transaction">
-                                <div class="card-header">
-                                    <h4 class="card-title">Transactions</h4>
-                                    <div class="dropdown chart-dropdown">
-                                        <i data-feather="more-vertical" class="font-medium-3 cursor-pointer" data-bs-toggle="dropdown"></i>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Last 28 Days</a>
-                                            <a class="dropdown-item" href="#">Last Month</a>
-                                            <a class="dropdown-item" href="#">Last Year</a>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="card-body">
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-primary rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="pocket" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Wallet</h6>
-                                                <small>Starbucks</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-danger">- $74</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-success rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="check" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Bank Transfer</h6>
-                                                <small>Add Money</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $480</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-danger rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="dollar-sign" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Paypal</h6>
-                                                <small>Add Money</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $590</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-warning rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="credit-card" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Mastercard</h6>
-                                                <small>Ordered Food</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-danger">- $23</div>
-                                    </div>
-                                    <div class="transaction-item">
-                                        <div class="d-flex">
-                                            <div class="avatar bg-light-info rounded float-start">
-                                                <div class="avatar-content">
-                                                    <i data-feather="trending-up" class="avatar-icon font-medium-3"></i>
-                                                </div>
-                                            </div>
-                                            <div class="transaction-percentage">
-                                                <h6 class="transaction-title">Transfer</h6>
-                                                <small>Refund</small>
-                                            </div>
-                                        </div>
-                                        <div class="fw-bolder text-success">+ $98</div>
-                                    </div>
+                                    <button class="btn btn-primary w-100 mb-75" data-bs-toggle="modal" data-bs-target="#send-invoice-sidebar">
+                                        Send Invoice
+                                    </button>
+                                    <button class="btn btn-outline-secondary w-100 btn-download-invoice mb-75">Download</button>
+                                    <a class="btn btn-outline-secondary w-100 mb-75" href="./app-invoice-print.html" target="_blank"> Print </a>
+                                    <a class="btn btn-outline-secondary w-100 mb-75" href="./app-invoice-edit.html"> Edit </a>
+                                    <button class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#add-payment-sidebar">
+                                        Add Payment
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <!--/ Transaction Card -->
+                        <!-- /Invoice Actions -->
                     </div>
                 </section>
-                <!-- Dashboard Ecommerce ends -->
+
+                <!-- Send Invoice Sidebar -->
+                <div class="modal modal-slide-in fade" id="send-invoice-sidebar" aria-hidden="true">
+                    <div class="modal-dialog sidebar-lg">
+                        <div class="modal-content p-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title">
+                                    <span class="align-middle">Send Invoice</span>
+                                </h5>
+                            </div>
+                            <div class="modal-body flex-grow-1">
+                                <form>
+                                    <div class="mb-1">
+                                        <label for="invoice-from" class="form-label">From</label>
+                                        <input type="text" class="form-control" id="invoice-from" value="shelbyComapny@email.com" placeholder="company@email.com" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="invoice-to" class="form-label">To</label>
+                                        <input type="text" class="form-control" id="invoice-to" value="qConsolidated@email.com" placeholder="company@email.com" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="invoice-subject" class="form-label">Subject</label>
+                                        <input type="text" class="form-control" id="invoice-subject" value="Invoice of purchased Admin Templates" placeholder="Invoice regarding goods" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label for="invoice-message" class="form-label">Message</label>
+                                        <textarea class="form-control" name="invoice-message" id="invoice-message" cols="3" rows="11" placeholder="Message...">
+Dear Queen Consolidated,
+
+Thank you for your business, always a pleasure to work with you!
+
+We have generated a new invoice in the amount of $95.59
+
+We would appreciate payment of this invoice by 05/11/2019</textarea>
+                                    </div>
+                                    <div class="mb-1">
+                                        <span class="badge badge-light-primary">
+                                            <i data-feather="link" class="me-25"></i>
+                                            <span class="align-middle">Invoice Attached</span>
+                                        </span>
+                                    </div>
+                                    <div class="mb-1 d-flex flex-wrap mt-2">
+                                        <button type="button" class="btn btn-primary me-1" data-bs-dismiss="modal">Send</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Send Invoice Sidebar -->
+
+                <!-- Add Payment Sidebar -->
+                <div class="modal modal-slide-in fade" id="add-payment-sidebar" aria-hidden="true">
+                    <div class="modal-dialog sidebar-lg">
+                        <div class="modal-content p-0">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                            <div class="modal-header mb-1">
+                                <h5 class="modal-title">
+                                    <span class="align-middle">Add Payment</span>
+                                </h5>
+                            </div>
+                            <div class="modal-body flex-grow-1">
+                                <form>
+                                    <div class="mb-1">
+                                        <input id="balance" class="form-control" type="text" value="Invoice Balance: 5000.00" disabled />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label" for="amount">Payment Amount</label>
+                                        <input id="amount" class="form-control" type="number" placeholder="$1000" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label" for="payment-date">Payment Date</label>
+                                        <input id="payment-date" class="form-control date-picker" type="text" />
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label" for="payment-method">Payment Method</label>
+                                        <select class="form-select" id="payment-method">
+                                            <option value="" selected disabled>Select payment method</option>
+                                            <option value="Cash">Cash</option>
+                                            <option value="Bank Transfer">Bank Transfer</option>
+                                            <option value="Debit">Debit</option>
+                                            <option value="Credit">Credit</option>
+                                            <option value="Paypal">Paypal</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label" for="payment-note">Internal Payment Note</label>
+                                        <textarea class="form-control" id="payment-note" rows="5" placeholder="Internal Payment Note"></textarea>
+                                    </div>
+                                    <div class="d-flex flex-wrap mb-0">
+                                        <button type="button" class="btn btn-primary me-1" data-bs-dismiss="modal">Send</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Add Payment Sidebar -->
 
             </div>
         </div>
@@ -1623,49 +1123,7 @@
     <!-- BEGIN Vendor JS-->
 
     <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-    <!-- END: Page Vendor JS-->
-
-    <!-- BEGIN: Theme JS-->
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>
-    <!-- END: Page JS-->
-
-    <script>
-        $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-        })
-    </script>
-
-    
-
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <!-- END: Page Vendor JS-->
 
@@ -1675,7 +1133,7 @@
     <!-- END: Theme JS-->
 
     <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/tables/table-datatables-basic.js"></script>
+    <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script>
     <!-- END: Page JS-->
 
     <script>
