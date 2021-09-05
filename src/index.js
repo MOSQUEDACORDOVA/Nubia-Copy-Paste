@@ -11,8 +11,6 @@ const passport = require('./config/passport');
 const fileupload = require('express-fileupload');
 var firebase = require("firebase/app");
 
-const functions = require('firebase-functions')
-
 // Add the Firebase products that you want to use
 require("firebase/auth");
 require("firebase/firestore");
@@ -72,21 +70,9 @@ app.use((req, res, next) => {
 
 // Habilitar las rutas
 app.use('/', require('./routes'));
-// Your web app's Firebase configuration
-const firebaseConfig = {
-	apiKey: "AIzaSyBM5p-R-GmoRE_NRnW87x-ZUgO19MRgUuU",
-	authDomain: "desarrollo-b39a0.firebaseapp.com",
-	projectId: "desarrollo-b39a0",
-	storageBucket: "desarrollo-b39a0.appspot.com",
-	messagingSenderId: "247814804816",
-	appId: "1:247814804816:web:c377b3a63df298d5b40855"
-  };
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+
 
 // Iniciar el servidor
 app.listen(app.get('port'), () => {
 	console.log(`Servidor en el puerto ${app.get('port')}`);
 });
-
-exports.app = functions.https.onRequest(app)
