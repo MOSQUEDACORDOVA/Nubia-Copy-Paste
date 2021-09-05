@@ -9,7 +9,6 @@ exports.dashboard = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
     res.render(proyecto+"/home", {
       pageName: "Dashboard",
       dashboardPage: true,
@@ -19,17 +18,32 @@ exports.dashboard = (req, res) => {
     })
 };
 
-exports.pepito = (req, res) => {
+exports.login = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
-    res.render(proyecto+"/pepito", {
+    res.render(proyecto+"/login", {
       pageName: "Pepito",
       dashboardPage: true,
       dashboard: true,
-      py4:true
+      py4:true,
+      login:true,
+    })
+};
+
+exports.register = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+    res.render(proyecto+"/register", {
+      pageName: "Pepito",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      login:true,
     })
 };

@@ -30,8 +30,10 @@ router.get('/home/:id', dashboardController.dashboard);
 
 
 //PYT-4
-router.get('/py4/:id', dashboardControllerPY4.dashboard);
-router.get('/pepito/:id', dashboardControllerPY4.pepito);
+router.get('/py4/:id', dashboardControllerPY4.login);
+router.get('/login/:id', dashboardControllerPY4.login);
+router.get('/register/:id', dashboardControllerPY4.register);
+
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);

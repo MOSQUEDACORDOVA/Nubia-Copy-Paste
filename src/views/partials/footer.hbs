@@ -43,7 +43,56 @@
                     height: 14
                 });
             }
+var dominio=window.location.hostname;
+var dominio_actual="";
+if(dominio=="localhost" || dominio=="projectos-666.web.app"){
+  dominio_actual="desarrollo";
+  console.log(dominio)
+}else{
+  dominio_actual=dominio;
+  switch(dominio){
+    case 'pyt4.mosquedacordova.com' || 'bwater.com': 
+    sessionStorage.setItem('SS_proyecto_actual', 'PYT-4');
+    windows.location.href = '/py4/PYT-4';
+    break
+    case 'pyt21.mosquedacordova.com' || 'cbfcapital.com': 
+    sessionStorage.setItem('SS_proyecto_actual', 'PYT-21');
+    windows.location.href = '/py21/PYT-21';
+    break
+    case 'pyt24.mosquedacordova.com' || 'minner.com': 
+    sessionStorage.setItem('SS_proyecto_actual', 'PYT-24');
+    windows.location.href = '/py24/PYT-24';
+    break
+    case 'pyt27.mosquedacordova.com' || 'dawi11.com': 
+    sessionStorage.setItem('SS_proyecto_actual', 'PYT-27');
+    windows.location.href = '/py27/PYT-27';
+    break
+  }
+}
+//export const DOM_PA=dominio_actual;
+if(sessionStorage.getItem('SS_proyecto_actual')){
+  var identificador=sessionStorage.getItem('SS_proyecto_actual');
+  //obtenemos todos los link del head
+  var cabecera=document.getElementsByTagName("head")[0];
+  
+  var n_estilos = document.getElementsByTagName("link");
 
+  //colocar los archivos CSS del proyecto seleccionado
+  for(var n=n_estilos.length-1; n>0; n--){
+    //obtenemos los link que sean estilos de proyectos (pyt_)
+    var estilo=n_estilos[n].href;
+    //alert("todos: "+n_estilos[n].href);
+    var estilo_De_proyecto = estilo.indexOf('PYT-');
+    var estilo_por_defecto = estilo.indexOf('por_defecto');
+    var estilo_importante = estilo.indexOf('styles.css');
+    var mi_proyecto_actual = estilo.indexOf(identificador);
+    if(mi_proyecto_actual!== -1){n_estilos[n].title=identificador;}
+    if(mi_proyecto_actual=== -1 && estilo_importante=== -1){
+        cabecera.removeChild(n_estilos[n]);
+        //n=n_estilos.length;
+    }
+  }
+}
 			$('#button_modal_init').click()
 			
         })
