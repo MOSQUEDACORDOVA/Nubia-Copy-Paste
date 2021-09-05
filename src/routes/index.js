@@ -31,8 +31,11 @@ router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4
 router.get('/py4/:id', dashboardControllerPY4.login);
-router.get('/login/:id', dashboardControllerPY4.login);
-router.get('/register/:id', dashboardControllerPY4.register);
+router.get('/homepy4/:id', dashboardControllerPY4.dashboard);
+router.get('/loginpy4/:id', dashboardControllerPY4.login);
+router.get('/registerpy4/:id', dashboardControllerPY4.register);
+router.get('/usuarios/:id', dashboardControllerPY4.usuariosTable);
+router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 
 
 //PYT-21
