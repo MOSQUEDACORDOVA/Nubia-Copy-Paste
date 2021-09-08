@@ -52,9 +52,7 @@
     <!-- END: Page CSS-->
     
     
-    <!-- BEGIN: Custom CSS-->
-    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
-    <!-- END: Custom CSS-->
+    
 
     {{#if py21}}
         <!-- BEGIN: PY21 Custom CSS-->
@@ -72,9 +70,21 @@
     {{/if}}
 
 
-    {{#if py27}}
+    {{#if py4}}
+<!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
 
-
+     <!-- BEGIN: Vendor CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+    <!-- END: Vendor CSS-->
+<!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice.css">
+    <!-- END: Page CSS-->
     {{/if}}
 </head>
 <body class="vertical-layout vertical-menu-modern  navbar-floating footer-static {{#if py24}} py24 {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
@@ -479,7 +489,9 @@
 {{/if}}
 
 {{#if py4}}
-<link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+
+
+
 {{>py4_menu/menu}}
 {{/if}}
 
