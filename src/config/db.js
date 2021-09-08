@@ -1,9 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-/* Variables desde variables.env
-require('dotenv').config({path: 'variables.env'});
-
-DB_NAME="klisto";
+DB_NAME="bwater";
 DB_USER="root";
 DB_PASS=null;
 DB_HOST="localhost";
@@ -17,6 +14,6 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PASS,
 		dialect: 'mysql'
 	});
 
-module.exports = db;*/
+module.exports = db;
 
 
