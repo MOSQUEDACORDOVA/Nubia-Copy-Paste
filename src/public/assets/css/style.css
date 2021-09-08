@@ -1,11 +1,146 @@
-/*================================================================================
-	Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
-	Version: 2.0
-	Author: PIXINVENT
-	Author URL: http://www.themeforest.net/user/pixinvent
-================================================================================
+/*--------------------------- PYT-21 ---------------------------*/
+.py21 .btn-primary {
+	border-color: #7367f0 !important;
+    background-color: #7367f0 !important;
+    color: #fff !important;
+}
+.btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #7367f0;
+}
+.py21 .text-primary, .text-primary {
+	color: #6610f2;
+}
+.py21 .input-group-append .input-group-text {
+	padding: 0.800rem 1rem;
+}
+.py21 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #7367f0;
+}
+.py21 .form-control:focus {
+    border-color: #7367f0;
+}
+.py21 .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #7367f0;
+}
+.py21 .form-check-input:focus {
+    border-color: #7367f0;
+    box-shadow: 0 2px 4px 0 rgba(var(--bs-primary-rgb), 0.4);
+}
+.py21 .form-check-input:checked {
+    background-color: #7367f0 !important;
+    border-color: #7367f0 !important;
+}
+.py21 .dropdown-item {
+    transition: .3s ease all;
+}
+.py21 .dropdown-item:hover {
+    background: #7367f0;
+    color: white;
+}
+.py21 .feather-bell {
+    transition: .3s ease all;
+}
+.py21 .feather-bell:hover {
+    color: #7367f0;
+}
+.py21 input:focus {
+    border: 1px solid #7367f0 !important;
+}
+.py21 button.btn-outline-primary {
+    border: 1px solid #7367f0 !important;
+}
+.py21 .form-select:focus {
+    border: 1px solid #7367f0 !important;
+}
 
-NOTE:
-------
-PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
-WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+/*--------------------------- PYT-24 ---------------------------*/
+.py24 .vertical-layout.vertical-menu-modern .main-menu::after {
+    content: ' ';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: rgba(191,139,75,1);
+    background: -moz-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(191,139,75,1)), color-stop(22%, rgba(140,77,22,1)), color-stop(55%, rgba(242,202,128,1)), color-stop(84%, rgba(140,77,22,1)), color-stop(100%, rgba(166,105,51,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
+}
+.dark-layout .main-menu-content .navigation-main .nav-item.open > a {
+    /* background-color: #D9A443 !important;
+    color: white !important; */
+    border-radius: 4px;
+    transition: .3s ease all;
+}
+.py24 .btn-primary {
+	border-color: #D9A443 !important;
+    background-color: #D9A443 !important;
+    color: #fff !important;
+}
+.py24 .bg-light-primary {
+    background-color: rgba(217, 165, 67, 0.198) !important;
+}
+.py24 .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #D9A443;
+}
+.py24 .text-primary {
+	color: #D9A443 !important;
+}
+.py24 .input-group-append .input-group-text {
+	padding: 0.800rem 1rem;
+}
+.py24 .nav-item.active a {
+    background: #d9a5439d !important;
+    box-shadow: 0 8px 25px -8px #D9A443 !important;
+}
+.py24 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #D9A443;
+}
+.py24 .form-control:focus {
+    border-color: #D9A443;
+}
+.py24 .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #D9A443;
+}
+.py24 .form-check-input:focus {
+    border-color: #D9A443;
+    box-shadow: 0 2px 4px 0 rgba(var(--bs-primary-rgb), 0.4);
+}
+.py24 .form-check-input:checked {
+    background-color: #D9A443 !important;
+    border-color: #D9A443 !important;
+}
+.py24 .dropdown-item {
+    transition: .3s ease all;
+}
+.py24 .dropdown-item:hover {
+    background: #D9A443 !important;
+    color: white !important;
+}
+.py24 .feather-bell {
+    transition: .3s ease all;
+}
+.py24 .feather-bell:hover {
+    color: #D9A443;
+}
+.py24 input:focus {
+    border: 1px solid #D9A443 !important;
+}
+.py24 button.btn-outline-primary {
+    border: 1px solid #D9A443 !important;
+    color: #D9A443 !important;
+}
+.py24 .form-select:focus {
+    border: 1px solid #D9A443 !important;
+}
+.py24 .alert-primary {
+    background-color: rgba(217, 165, 67, 0.198) !important;
+}
+.py24 .main-menu svg {
+    stroke: #D9A443 !important;
+}
+/*--------------------------- PY-21 ---------------------------*/

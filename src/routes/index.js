@@ -49,9 +49,39 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);
+router.get('/login/:id', dashboardControllerPY21.login);
+router.get('/register/:id', dashboardControllerPY21.register);
+router.get('/error/:id', dashboardControllerPY21.error);
+router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
+router.get('/board/:id', dashboardControllerPY21.board);
+router.get('/config/:id', dashboardControllerPY21.config);
+router.get('/profile/:id', dashboardControllerPY21.profile);
+router.get('/contracts/:id', dashboardControllerPY21.contracts);
+router.get('/earnings/:id', dashboardControllerPY21.earnings);
+router.get('/retreats/:id', dashboardControllerPY21.retreats);
+router.get('/users/:id', dashboardControllerPY21.users);
+router.get('/seller/:id', dashboardControllerPY21.seller);
+router.get('/paymethods/:id', dashboardControllerPY21.paymethods);
+router.get('/deposits/:id', dashboardControllerPY21.deposits);
+router.get('/duration/:id', dashboardControllerPY21.duration);
 
 //PYT-24
 router.get('/py24/:id', dashboardControllerPY24.dashboard);
+router.get('/login24/:id', dashboardControllerPY24.login);
+router.get('/register24/:id', dashboardControllerPY24.register);
+router.get('/error24/:id', dashboardControllerPY24.error);
+router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
+router.get('/board24/:id', dashboardControllerPY24.board);
+router.get('/config24/:id', dashboardControllerPY24.config);
+router.get('/profile24/:id', dashboardControllerPY24.profile);
+router.get('/contracts24/:id', dashboardControllerPY24.contracts);
+router.get('/earnings24/:id', dashboardControllerPY24.earnings);
+router.get('/retreats24/:id', dashboardControllerPY24.retreats);
+router.get('/users24/:id', dashboardControllerPY24.users);
+router.get('/seller24/:id', dashboardControllerPY24.seller);
+router.get('/paymethods24/:id', dashboardControllerPY24.paymethods);
+router.get('/deposits24/:id', dashboardControllerPY24.deposits);
+router.get('/duration24/:id', dashboardControllerPY24.duration);
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);
