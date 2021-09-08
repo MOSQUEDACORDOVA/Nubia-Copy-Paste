@@ -1,13 +1,15 @@
-   {{#if login}}{{else}}
-   
-   <!-- BEGIN: Header-->
-    <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
-            <div class="navbar-container d-flex content">
-            <div class="bookmark-wrapper d-flex align-items-center">
-                <ul class="nav navbar-nav d-xl-none">
-                    <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon" data-feather="menu"></i></a></li>
-                </ul>
-              <!--  <ul class="nav navbar-nav bookmark-icons">
+{{#if login}}{{else}}
+
+<!-- BEGIN: Header-->
+<nav
+    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
+    <div class="navbar-container d-flex content">
+        <div class="bookmark-wrapper d-flex align-items-center">
+            <ul class="nav navbar-nav d-xl-none">
+                <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon"
+                            data-feather="menu"></i></a></li>
+            </ul>
+            <!--  <ul class="nav navbar-nav bookmark-icons">
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
@@ -22,9 +24,9 @@
                         </div>
                     </li>
                 </ul>-->
-            </div>
-            <ul class="nav navbar-nav align-items-center ms-auto">
-                <!--<li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+        </div>
+        <ul class="nav navbar-nav align-items-center ms-auto">
+            <!--<li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
                 </li>
                 <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
@@ -112,326 +114,366 @@
                         <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Read all notifications</a></li>
                     </ul>
                 </li>-->
-                <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#" data-bs-toggle="modal"
-              data-bs-target="#registro_pedido_modal">    <i data-feather='truck'></i></a>
-                   
-                </li>
-                <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{user.name}}</span><span class="user-status">{{user.tipo}}</span></div><span class="avatar"><img class="round" src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user"><a class="dropdown-item" href="page-profile.html"><i class="me-50" data-feather="user"></i> Profile</a><a class="dropdown-item" href="app-email.html"><i class="me-50" data-feather="mail"></i> Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="me-50" data-feather="check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="me-50" data-feather="message-square"></i> Chats</a>
-                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="page-pricing.html"><i class="me-50" data-feather="credit-card"></i> Pricing</a><a class="dropdown-item" href="page-faq.html"><i class="me-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item" href="/logoutpy4"><i class="me-50" data-feather="power"></i> Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <ul class="main-search-list-defaultlist d-none">
-        <li class="d-flex align-items-center"><a href="#">
-                <h6 class="section-label mt-75 mb-0">Files</h6>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
-                <div class="d-flex">
-                    <div class="me-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing Manager</small>
-                    </div>
-                </div><small class="search-data-size me-50 text-muted">&apos;17kb</small>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
-                <div class="d-flex">
-                    <div class="me-75"><img src="../../../app-assets/images/icons/jpg.png" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd Developer</small>
-                    </div>
-                </div><small class="search-data-size me-50 text-muted">&apos;11kb</small>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
-                <div class="d-flex">
-                    <div class="me-75"><img src="../../../app-assets/images/icons/pdf.png" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital Marketing Manager</small>
-                    </div>
-                </div><small class="search-data-size me-50 text-muted">&apos;150kb</small>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100" href="app-file-manager.html">
-                <div class="d-flex">
-                    <div class="me-75"><img src="../../../app-assets/images/icons/doc.png" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
-                    </div>
-                </div><small class="search-data-size me-50 text-muted">&apos;256kb</small>
-            </a></li>
-        <li class="d-flex align-items-center"><a href="#">
-                <h6 class="section-label mt-75 mb-0">Members</h6>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
-                <div class="d-flex align-items-center">
-                    <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
-                    </div>
+            <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#"
+                    data-bs-toggle="modal" data-bs-target="#registro_pedido_modal"> <i data-feather='truck'></i></a>
+
+            </li>
+            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
+                    id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{user.name}}</span><span
+                            class="user-status">{{user.tipo}}</span></div><span class="avatar"><img class="round"
+                            src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" height="40" width="40"><span
+                            class="avatar-status-online"></span></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                   <!-- <a class="dropdown-item"
+                        href="page-profile.html"><i class="me-50" data-feather="user"></i> Profile</a>
+                        <a  class="dropdown-item" href="app-email.html"><i class="me-50" data-feather="mail"></i>
+                        Inbox</a>
+                        <a class="dropdown-item" href="app-todo.html"><i class="me-50"
+                            data-feather="check-square"></i> Task</a>
+                        <a class="dropdown-item" href="app-chat.html"><i
+                            class="me-50" data-feather="message-square"></i> Chats</a>-->
+                    <div class="dropdown-divider"></div>
+                   <!-- <a class="dropdown-item"    href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i>
+                        Settings</a>
+                        <a class="dropdown-item" href="page-pricing.html"><i class="me-50"
+                            data-feather="credit-card"></i> Pricing</a>-->
+                            <a class="dropdown-item" href="page-faq.html"><i
+                            class="me-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item"
+                        href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar Sesion</a>
                 </div>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
-                <div class="d-flex align-items-center">
-                    <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd Developer</small>
-                    </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<ul class="main-search-list-defaultlist d-none">
+    <li class="d-flex align-items-center"><a href="#">
+            <h6 class="section-label mt-75 mb-0">Files</h6>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
+            href="app-file-manager.html">
+            <div class="d-flex">
+                <div class="me-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing
+                        Manager</small>
                 </div>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
-                <div class="d-flex align-items-center">
-                    <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing Manager</small>
-                    </div>
+            </div><small class="search-data-size me-50 text-muted">&apos;17kb</small>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
+            href="app-file-manager.html">
+            <div class="d-flex">
+                <div class="me-75"><img src="../../../app-assets/images/icons/jpg.png" alt="png" height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd
+                        Developer</small>
                 </div>
-            </a></li>
-        <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100" href="app-user-view-account.html">
-                <div class="d-flex align-items-center">
-                    <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png" height="32"></div>
-                    <div class="search-data">
-                        <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
-                    </div>
+            </div><small class="search-data-size me-50 text-muted">&apos;11kb</small>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
+            href="app-file-manager.html">
+            <div class="d-flex">
+                <div class="me-75"><img src="../../../app-assets/images/icons/pdf.png" alt="png" height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital
+                        Marketing Manager</small>
                 </div>
-            </a></li>
-    </ul>
-    <ul class="main-search-list-defaultlist-other-list d-none">
-        <li class="auto-suggestion justify-content-between"><a class="d-flex align-items-center justify-content-between w-100 py-50">
-                <div class="d-flex justify-content-start"><span class="me-75" data-feather="alert-circle"></span><span>No results found.</span></div>
-            </a></li>
-    </ul>
-    <!-- END: Header-->
+            </div><small class="search-data-size me-50 text-muted">&apos;150kb</small>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
+            href="app-file-manager.html">
+            <div class="d-flex">
+                <div class="me-75"><img src="../../../app-assets/images/icons/doc.png" alt="png" height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
+                </div>
+            </div><small class="search-data-size me-50 text-muted">&apos;256kb</small>
+        </a></li>
+    <li class="d-flex align-items-center"><a href="#">
+            <h6 class="section-label mt-75 mb-0">Members</h6>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
+            href="app-user-view-account.html">
+            <div class="d-flex align-items-center">
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png"
+                        height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
+                </div>
+            </div>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
+            href="app-user-view-account.html">
+            <div class="d-flex align-items-center">
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png"
+                        height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd
+                        Developer</small>
+                </div>
+            </div>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
+            href="app-user-view-account.html">
+            <div class="d-flex align-items-center">
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png"
+                        height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing
+                        Manager</small>
+                </div>
+            </div>
+        </a></li>
+    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
+            href="app-user-view-account.html">
+            <div class="d-flex align-items-center">
+                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png"
+                        height="32"></div>
+                <div class="search-data">
+                    <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
+                </div>
+            </div>
+        </a></li>
+</ul>
+<ul class="main-search-list-defaultlist-other-list d-none">
+    <li class="auto-suggestion justify-content-between"><a
+            class="d-flex align-items-center justify-content-between w-100 py-50">
+            <div class="d-flex justify-content-start"><span class="me-75" data-feather="alert-circle"></span><span>No
+                    results found.</span></div>
+        </a></li>
+</ul>
+<!-- END: Header-->
 <style>
     .main-menu.menu-light .navigation {
-    background: transparent;
-}
-.semi-dark-layout .main-menu-content .navigation-main .active > a {
-    background: linear-gradient(
-118deg
-, #001871, #0093B2) !important;
-    box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
-}
-.main-menu.menu-dark .navigation > li.active > a {
-     background: linear-gradient(
-118deg
-, #001871, #0093B2) !important;
-    box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
-}
+        background: transparent;
+    }
+
+    .semi-dark-layout .main-menu-content .navigation-main .active>a {
+        background: linear-gradient(118deg, #001871, #0093B2) !important;
+        box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
+    }
+
+    .main-menu.menu-dark .navigation>li.active>a {
+        background: linear-gradient(118deg, #001871, #0093B2) !important;
+        box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
+    }
 </style>
 
-    <!-- BEGIN: Main Menu-->
-    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true" style="background: linear-gradient(to bottom, #001867 0%, #010c70 51%, #0092ae 100%);">
-        <div class="navbar-header">
-            <ul class="nav navbar-nav flex-row">
-                <li class="nav-item me-auto"><a class="navbar-brand" href="/homepy4" style="    margin-top: 0;"><span class="brand-logo">
-                        <img alt="" src="../../../dataPY4/images/pyt_4_logo_blanco.png" style="width: 100%; max-width: fit-content;"></span>
-                    </a></li>
-               <!-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>-->
-            </ul>
-        </div>
-        <div class="shadow-bottom"></div>
-        <div class="main-menu-content" style="background: transparent;">
-            <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="tablero">Tableto</span></a></li>
-                <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/usuarios/PYT-4"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Usuarios">Usuarios</span></a></li>
-
-                
-            </ul>
-        </div>
+<!-- BEGIN: Main Menu-->
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true"
+    style="background: linear-gradient(to bottom, #001867 0%, #010c70 51%, #0092ae 100%);">
+    <div class="navbar-header">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item me-auto"><a class="navbar-brand" href="/homepy4" style="    margin-top: 0;"><span
+                        class="brand-logo">
+                        <img alt="" src="../../../dataPY4/images/pyt_4_logo_blanco.png"
+                            style="width: 100%; max-width: fit-content;"></span>
+                </a></li>
+            <!-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>-->
+        </ul>
     </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content" style="background: transparent;">
+        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
+                        data-feather="mail"></i><span class="menu-title text-truncate"
+                        data-i18n="tablero">Tableto</span></a></li>
+            <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/usuarios/PYT-4"><i data-feather="mail"></i><span class="menu-title text-truncate"
+                        data-i18n="Usuarios">Usuarios</span></a></li>
 
-    <!-- Modal -->
-    <div class="modal fade" id="registro_pedido_modal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-      style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
+
+        </ul>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="registro_pedido_modal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form novalidate class="needs-validation invalid was-validated repeater" action="#" method="post">
-              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
-              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
-                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
-                  tabindex="2" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="lastName"
-                 ></div>
-              <div class="divider">
-                <div class="divider-text">Dirección</div>
-              </div>
-              <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
-                 >
-                  <option selected=""> Guadalajara </option>
-                 
-                  <option> Atoyac </option>
-                  <option> Mezcala </option>
-                </select></div>
-              <div class="form-group"><label for="register-fraccionamiento"
-                  class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
-                  placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="fraccionamiento"
-                 ></div>
-              <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
-                  name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"
-                 ></div>
-              <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
-                  name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"
-                 ></div>
-              <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text"
-                  name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"
-                 ></div>
-              <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text"
-                  name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="avenida"
-                 ></div>
-              <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                  type="text" name="referencia" placeholder="Referencia"
-                  aria-describedby="register-referencia" tabindex="9"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"
-                 ></div>
-              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
-                <div class="input-group">
-                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
-                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                    aria-describedby="register-telefono" tabindex="11"
-                    class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="telefono"
-                    ng-reflect-mask-expression="(000) 000 00 00">
-                </div>
-              </div>
-              <div class="divider">
-                <div class="divider-text">Chofer</div>
-              </div>
-               <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
-                 >
-                  <option selected=""> Guadalajara </option>
-                 
-                  <option> Atoyac </option>
-                  <option> Mezcala </option>
-                </select></div>
-              <div class="divider">
-                <div class="divider-text">Productos</div>
-              </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form novalidate class="needs-validation invalid was-validated repeater" action="#" method="post">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                            type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control ng-untouched ng-pristine ng-valid"
+                            ng-reflect-name="lastName"></div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
+                            name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
+                            <option selected=""> Guadalajara </option>
 
-              <div data-repeater-list="category-group">
-                  <div data-repeater-item>
-                      <button type="button" class="btn btn-warning waves-effect waves-float waves-light" data-repeater-delete>-</button>
-                      
+                            <option> Atoyac </option>
+                            <option> Mezcala </option>
+                        </select></div>
+                    <div class="form-group"><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="fraccionamiento">
+                    </div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"></div>
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"></div>
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control ng-untouched ng-pristine ng-valid"
+                            ng-reflect-name="avenida"></div>
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9"
+                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"></div>
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11"
+                                class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="telefono"
+                                ng-reflect-mask-expression="(000) 000 00 00">
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">Chofer</div>
+                    </div>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
+                            name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
+                            <option selected=""> Guadalajara </option>
 
-                      <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
-                  <select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
-                 >
-                  <option selected=""> Garrafón </option>
-                  <option> Tapa </option>
-                  <option> Sello </option>
-                  <option> Liner </option>
-                  <option> Etiqueta </option>
-                </select></div>
+                            <option> Atoyac </option>
+                            <option> Mezcala </option>
+                        </select></div>
+                    <div class="divider">
+                        <div class="divider-text">Productos</div>
+                    </div>
 
-            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
-                  <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
-                  <select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
-                 >
-                  <option selected=""> Efectivo </option>
-                  <option> Tarjeta </option>
-                  <option> Transferencia </option>
-                </select></div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
+                    <div data-repeater-list="category-group">
+                        <div data-repeater-item>
+                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light"
+                                data-repeater-delete>-</button>
 
-                    
 
-                                <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label><select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid">
-                  <option selected=""> Refill </option>
-                  <option> Garrafon nuevo </option>
-                  <option> Canje </option>
-                  <option> Garantía </option>
-                  <option> Obsequio </option>
-                  <option> Maquila para sucursales </option>
-                  <option> Maquila para Independientes </option>
-                </select></div>
-                
-                </div>
-                </div>
-                <button type="button" class="btn btn-success waves-effect waves-float waves-light" data-repeater-create >+</button>
-<div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de
+                                    Pago</label>
+                                <select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid"
+                                    ng-reflect-name="ciudad">
+                                    <option selected=""> Garrafón </option>
+                                    <option> Tapa </option>
+                                    <option> Sello </option>
+                                    <option> Liner </option>
+                                    <option> Etiqueta </option>
+                                </select>
+                            </div>
 
-                 <div class="divider">
-                <div class="divider-text">Venta</div>
-              </div>
+                            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
+                                <input type="text" name="firstName" placeholder="Pedro"
+                                    aria-describedby="register-firstName" tabindex="1" autofocus=""
+                                    class="form-control ng-untouched ng-pristine ng-valid" required>
+                            </div>
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de
+                                    Pago</label>
+                                <select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid"
+                                    ng-reflect-name="ciudad">
+                                    <option selected=""> Efectivo </option>
+                                    <option> Tarjeta </option>
+                                    <option> Transferencia </option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
+                                <input type="text" name="firstName" placeholder="Pedro"
+                                    aria-describedby="register-firstName" tabindex="1" autofocus=""
+                                    class="form-control ng-untouched ng-pristine ng-valid" required>
+                            </div>
 
-                <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label><select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid">
-                  <option selected=""> Por pagar </option>
-                  <option> Por Verificar </option>
-                  <option> Pagado </option>
-                  <option> Obsequio </option>
-                  <option> Garantía </option>
-                  <option>Prestado </option>
-                </select>
-                </div>
-                 <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label><select
-                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid"> 
-                  <option selected=""> En proceso </option>
-                  <option> Entregado </option>
-                  <option> Rezagado </option>
-                  <option> Reasignado </option>
-                  <option> Cancelado </option>
-                  <option>Por facturar </option>
-                  <option>Devuelto </option>
-                </select>
-                </div>
-                <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados (S/R)</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
 
-            <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
-                  required></div>
-          </div>
-          <div class="modal-footer">
-             <button tabindex="26" rippleeffect="" class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrate</button>
-          </div>
-          </form>
+
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de
+                                    venta</label><select name="ciudad" placeholder="Ciudad"
+                                    aria-describedby="register-ciudad" tabindex="3"
+                                    class="form-control ng-touched ng-pristine ng-valid">
+                                    <option selected=""> Refill </option>
+                                    <option> Garrafon nuevo </option>
+                                    <option> Canje </option>
+                                    <option> Garantía </option>
+                                    <option> Obsequio </option>
+                                    <option> Maquila para sucursales </option>
+                                    <option> Maquila para Independientes </option>
+                                </select></div>
+
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success waves-effect waves-float waves-light"
+                        data-repeater-create>+</button>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-text">Venta</div>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del
+                            Pago</label><select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                            tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                            <option selected=""> Por pagar </option>
+                            <option> Por Verificar </option>
+                            <option> Pagado </option>
+                            <option> Obsequio </option>
+                            <option> Garantía </option>
+                            <option>Prestado </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del
+                            Pedido</label><select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                            tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                            <option selected=""> En proceso </option>
+                            <option> Entregado </option>
+                            <option> Rezagado </option>
+                            <option> Reasignado </option>
+                            <option> Cancelado </option>
+                            <option>Por facturar </option>
+                            <option>Devuelto </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados
+                            (S/R)</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                    </div>
+
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrate</button>
+            </div>
+            </form>
         </div>
-      </div>
     </div>
-    <!-- END: Main Menu-->
+</div>
+<!-- END: Main Menu-->
 {{/if}}
-    
