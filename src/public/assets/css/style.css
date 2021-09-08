@@ -97,6 +97,10 @@
     background: #d9a5439d !important;
     box-shadow: 0 8px 25px -8px #D9A443 !important;
 }
+.py24 .has.sub.active {
+    background: #d9a5439d !important;
+    box-shadow: 0 8px 25px -8px #D9A443 !important;
+}
 .py24 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
     border-color: #D9A443;
 }

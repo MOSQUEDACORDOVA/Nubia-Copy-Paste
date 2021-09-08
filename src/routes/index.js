@@ -49,6 +49,22 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);
+router.get('/login/:id', dashboardControllerPY21.login);
+router.get('/register/:id', dashboardControllerPY21.register);
+router.get('/error/:id', dashboardControllerPY21.error);
+router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
+router.get('/board/:id', dashboardControllerPY21.board);
+router.get('/config/:id', dashboardControllerPY21.config);
+router.get('/profile/:id', dashboardControllerPY21.profile);
+router.get('/contracts/:id', dashboardControllerPY21.contracts);
+router.get('/earnings/:id', dashboardControllerPY21.earnings);
+router.get('/retreats/:id', dashboardControllerPY21.retreats);
+router.get('/users/:id', dashboardControllerPY21.users);
+router.get('/seller/:id', dashboardControllerPY21.seller);
+router.get('/paymethods/:id', dashboardControllerPY21.paymethods);
+router.get('/deposits/:id', dashboardControllerPY21.deposits);
+router.get('/duration/:id', dashboardControllerPY21.duration);
+
 
 //PYT-24
 router.get('/py24/:id', dashboardControllerPY24.dashboard);
