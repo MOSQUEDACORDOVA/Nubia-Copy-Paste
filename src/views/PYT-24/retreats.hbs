@@ -1,0 +1,124 @@
+<div class="app-content content py24">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+
+            <div class="row">
+                <div class="col-12">
+                    <!-- payment methods -->
+                    <div class="card">
+                        <div class="card-header border-bottom">
+                            <h4 class="card-title">Métodos de pago</h4>
+                        </div>
+                        <div class="card-body my-1 py-25">
+                            <div class="row gx-4">
+                                <div class="col-lg-6">
+                                    <form id="creditCardForm" class="row gx-2 gy-1 validate-form" onsubmit="return false" novalidate="novalidate">
+                                        <div class="col-12">
+                                            <div class="form-check form-check-inline mb-1">
+                                                <input name="collapsible-payment" class="form-check-input" type="radio" id="collapsible-payment-cc" checked="">
+                                                <label class="form-check-label" for="collapsible-payment-cc">Credito/Debito/ATM Card</label>
+                                            </div>
+                                            <div class="form-check form-check-inline mb-1">
+                                                <input name="collapsible-payment" class="form-check-input" type="radio" value="" id="collapsible-payment-cash">
+                                                <label class="form-check-label" for="collapsible-payment-cash">Cuenta de PayPal</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-0">
+                                            <label class="form-label" for="addCardNumber">Número de tarjeta</label>
+                                            <div class="input-group input-group-merge">
+                                                <input id="addCardNumber" name="addCard" class="form-control add-credit-card-mask" type="text" placeholder="5637 8172 1290 7898" aria-describedby="addCard2" data-msg="Please enter your credit card number">
+                                                <span class="input-group-text cursor-pointer p-25" id="addCard2">
+                                                    <span class="add-card-type"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="">
+                                            <label class="form-label" for="addCardName">Nombre en la tarjeta</label>
+                                            <input type="text" id="addCardName" class="form-control" placeholder="Daniel Paz">
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label class="form-label" for="addCardExpiryDate">Fecha de vencimiento</label>
+                                            <input type="text" id="addCardExpiryDate" class="form-control add-expiry-date-mask" placeholder="MM/YY">
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label class="form-label" for="addCardCvv">CVV</label>
+                                            <input type="text" id="addCardCvv" class="form-control add-cvv-code-mask" maxlength="3" placeholder="cvv">
+                                        </div>
+
+                                        <div class="col-12">
+                                            <div class="d-flex align-items-center">
+                                                <div class="form-check form-switch form-check-primary me-25">
+                                                    <input type="checkbox" class="form-check-input" id="addSaveCard" checked="">
+                                                    <label class="form-check-label" for="addSaveCard">
+                                                        <span class="switch-icon-left"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+                                                        <span class="switch-icon-right"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
+                                                    </label>
+                                                </div>
+                                                <label class="form-check-label fw-bolder" for="addSaveCard"> ¿Guardar tarjeta para facturación futura? </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt-2 pt-1">
+                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar Cambios</button>
+                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
+                                        </div>
+                                        <div></div>
+                                        <input type="hidden">
+                                    </form>
+                                </div>
+                                <div class="col-lg-6 mt-2 mt-lg-0">
+                                    <h6 class="fw-bolder mb-2">Mis Tarjetas</h6>
+                                    <div class="added-cards">
+                                        <div class="cardMaster rounded border p-2 mb-1">
+                                            <div class="d-flex justify-content-between flex-sm-row flex-column">
+                                                <div class="card-information">
+                                                    <img class="mb-1 img-fluid" src="../../../app-assets/images/icons/payments/mastercard.png" alt="Master Card">
+                                                    <div class="d-flex align-items-center mb-50">
+                                                        <h6 class="mb-0">Daniel Paz</h6>
+                                                        <span class="badge badge-light-warning text-warningms-50">Principal</span>
+                                                    </div>
+                                                    <span class="card-number">∗∗∗∗ ∗∗∗∗ 9856</span>
+                                                </div>
+                                                <div class="d-flex flex-column text-start text-lg-end">
+                                                    <div class="d-flex order-sm-0 order-1 mt-1 mt-sm-0">
+                                                        <button class="btn btn-outline-primary text-primary me-75 waves-effect" data-bs-toggle="modal" data-bs-target="#editCard">
+                                                            Editar
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary waves-effect">Borrar</button>
+                                                    </div>
+                                                    <span class="mt-2">La tarjeta vence el 12/24</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="cardMaster border rounded p-2">
+                                            <div class="d-flex justify-content-between flex-sm-row flex-column">
+                                                <div class="card-information">
+                                                    <img class="mb-1 img-fluid" src="../../../app-assets/images/icons/payments/visa.png" alt="Visa Card">
+                                                    <h6>Mosqueda Cordova</h6>
+                                                    <span class="card-number">∗∗∗∗ ∗∗∗∗ 5896</span>
+                                                </div>
+                                                <div class="d-flex flex-column text-start text-lg-end">
+                                                    <div class="d-flex order-sm-0 order-1 mt-1 mt-sm-0">
+                                                        <button class="btn btn-outline-primary text-primary me-75 waves-effect" data-bs-toggle="modal" data-bs-target="#editCard">
+                                                            Editar
+                                                        </button>
+                                                        <button class="btn btn-outline-secondary waves-effect">Borrar</button>
+                                                    </div>
+                                                    <span class="mt-2">La tarjeta vence el 02/24</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- / payment methods -->
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>
+               

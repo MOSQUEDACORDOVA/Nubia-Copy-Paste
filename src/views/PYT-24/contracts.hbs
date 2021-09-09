@@ -1,0 +1,217 @@
+<div class="app-content content py24">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="row justify-content-center justify-content-lg-start">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Nuevo Contrato</h4>
+                        </div>
+                        <div class="card-body">
+                            <form class="form form-vertical">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="first-name-vertical">Nombre Completo</label>
+                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="Nombre Completo">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="email-id-vertical">Inversión</label>
+                                            <input type="text" class="form-control" name="email-id" placeholder="Monto">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="email-id-vertical">Duración</label>
+                                            <input type="text" class="form-control" name="email-id" placeholder="Ej. 3 Meses">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="email-id-vertical">Email</label>
+                                            <input type="email" id="email-id-vertical" class="form-control" name="email-id" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="contact-info-vertical">Teléfono</label>
+                                            <input type="number" id="contact-info-vertical" class="form-control" name="contact" placeholder="Teléfono">
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light">Crear Contrato</button>
+                                        <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Contratos</h6></div></div>
+                            <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label class="d-flex align-items-center">Mostrar 
+                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                <option value="7">7</option>
+                                                <option value="10">10</option><option value="25">25</option>
+                                                <option value="50">50</option><option value="75">75</option>
+                                                <option value="100">100</option>
+                                            </select> entradas
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nro</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Inversión</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
+                                            </div>
+                                        </td>
+                                        <td>001</td>
+
+                                        <td>1</td>
+
+                                        <td>2020/05/03</td>
+
+                                        <td>2020/05/04</td>
+                                        
+                                        <td>
+                                            2020/07/04
+                                        </td>
+
+                                        <td>2 Meses</td>
+
+                                        <td>
+                                            1000$
+                                        </td>
+
+                                        <td>$1437</td>
+                                        
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-success">Activo</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
+                                            </div>
+                                        </td>
+                                        <td>002</td>
+
+                                        <td>2</td>
+
+                                        <td>2020/05/03</td>
+
+                                        <td>2020/05/04</td>
+                                        
+                                        <td>
+                                            2020/07/04
+                                        </td>
+
+                                        <td>2 Meses</td>
+
+                                        <td>
+                                            1000$
+                                        </td>
+
+                                        <td>$1437</td>
+                                        
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-warning">Por terminar</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
+                                            </div>
+                                        </td>
+                                        <td>003</td>
+
+                                        <td>3</td>
+
+                                        <td>2020/05/03</td>
+
+                                        <td>-</td>
+                                        
+                                        <td>-</td>
+
+                                        <td>1 Meses</td>
+
+                                        <td>
+                                            100$
+                                        </td>
+
+                                        <td>$600</td>
+                                        
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-danger">Inactivo</span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-between mx-0 row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--- MODAL --->
+                <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1 class="text-center mb-1" id="addNewCardTitle">Código del Contrato: 001</h1>
+                                <div class="card-body">
+                                    <div style="height:400px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="bar-chart-ex chartjs chartjs-render-monitor" data-height="400" width="1328" height="800" style="display: block; width: 664px; height: 400px;"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- END MODAL --->
+            </div>
+        </div>
+    </div>
+</div>
