@@ -5,8 +5,7 @@ const FacebookStrategy = require('passport-facebook');
 var MixCloudStrategy = require('passport-mixcloud').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
-// Modelo a auntenticar
-//const Usuarios = require('../models/Usuarios');
+
 
 // Loca strategy - Login con credenciales propios
 passport.use(
@@ -17,6 +16,14 @@ passport.use(
 			passReqToCallback : true
 		},
 		async (req,email, password, done) => {
+			console.log(req.body.proyect)
+// Modelo a auntenticar
+var Usuarios = "";
+if (req.body.proyect == "PYT4") {
+	console.log("q")
+Usuarios = require('../models/PYT4/Usuarios');	
+}
+
 			try {
 				const usuario = await Usuarios.findOne({
 					where: {email}
@@ -28,6 +35,7 @@ passport.use(
 				}
 				return done(null, usuario);
 			}catch(err) {
+				console.log(err)
 				return done(null, false, {
 					message: 'Esa cuenta no existe'
 				});

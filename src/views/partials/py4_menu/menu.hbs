@@ -1,3 +1,5 @@
+   {{#if login}}{{else}}
+   
    <!-- BEGIN: Header-->
     <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
             <div class="navbar-container d-flex content">
@@ -5,7 +7,7 @@
                 <ul class="nav navbar-nav d-xl-none">
                     <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon" data-feather="menu"></i></a></li>
                 </ul>
-                <ul class="nav navbar-nav bookmark-icons">
+              <!--  <ul class="nav navbar-nav bookmark-icons">
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
                     <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
@@ -19,10 +21,10 @@
                             <ul class="search-list search-list-bookmark"></ul>
                         </div>
                     </li>
-                </ul>
+                </ul>-->
             </div>
             <ul class="nav navbar-nav align-items-center ms-auto">
-                <li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
+                <!--<li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
                 </li>
                 <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
@@ -43,58 +45,7 @@
                             </div>
                         </li>
                         <li class="scrollable-container media-list">
-                            <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/1.png" alt="donuts" width="62">
-                                <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
-                                    <div class="media-heading">
-                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> Apple watch 5</a></h6><small class="cart-item-by">By Apple</small>
-                                    </div>
-                                    <div class="cart-item-qty">
-                                        <div class="input-group">
-                                            <input class="touchspin-cart" type="number" value="1">
-                                        </div>
-                                    </div>
-                                    <h5 class="cart-item-price">$374.90</h5>
-                                </div>
-                            </div>
-                            <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/7.png" alt="donuts" width="62">
-                                <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
-                                    <div class="media-heading">
-                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> Google Home Mini</a></h6><small class="cart-item-by">By Google</small>
-                                    </div>
-                                    <div class="cart-item-qty">
-                                        <div class="input-group">
-                                            <input class="touchspin-cart" type="number" value="3">
-                                        </div>
-                                    </div>
-                                    <h5 class="cart-item-price">$129.40</h5>
-                                </div>
-                            </div>
-                            <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/2.png" alt="donuts" width="62">
-                                <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
-                                    <div class="media-heading">
-                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> iPhone 11 Pro</a></h6><small class="cart-item-by">By Apple</small>
-                                    </div>
-                                    <div class="cart-item-qty">
-                                        <div class="input-group">
-                                            <input class="touchspin-cart" type="number" value="2">
-                                        </div>
-                                    </div>
-                                    <h5 class="cart-item-price">$699.00</h5>
-                                </div>
-                            </div>
-                            <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/3.png" alt="donuts" width="62">
-                                <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
-                                    <div class="media-heading">
-                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> iMac Pro</a></h6><small class="cart-item-by">By Apple</small>
-                                    </div>
-                                    <div class="cart-item-qty">
-                                        <div class="input-group">
-                                            <input class="touchspin-cart" type="number" value="1">
-                                        </div>
-                                    </div>
-                                    <h5 class="cart-item-price">$4,999.00</h5>
-                                </div>
-                            </div>
+
                             <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/5.png" alt="donuts" width="62">
                                 <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
                                     <div class="media-heading">
@@ -125,25 +76,8 @@
                                 <div class="badge rounded-pill badge-light-primary">6 New</div>
                             </div>
                         </li>
-                        <li class="scrollable-container media-list"><a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-15.jpg" alt="avatar" width="32" height="32"></div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">Congratulation Sam 🎉</span>winner!</p><small class="notification-text"> Won the monthly best seller badge.</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar"><img src="../../../app-assets/images/portrait/small/avatar-s-3.jpg" alt="avatar" width="32" height="32"></div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">New message</span>&nbsp;received</p><small class="notification-text"> You have 10 unread messages</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="#">
+                        <li class="scrollable-container media-list">
+                            <a class="d-flex" href="#">
                                 <div class="list-item d-flex align-items-start">
                                     <div class="me-1">
                                         <div class="avatar bg-light-danger">
@@ -161,29 +95,8 @@
                                     <input class="form-check-input" id="systemNotification" type="checkbox" checked="">
                                     <label class="form-check-label" for="systemNotification"></label>
                                 </div>
-                            </div><a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">Server down</span>&nbsp;registered</p><small class="notification-text"> USA Server is down due to high CPU usage</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar bg-light-success">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="check"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">Sales report</span>&nbsp;generated</p><small class="notification-text"> Last month sales report generated</small>
-                                    </div>
-                                </div>
-                            </a><a class="d-flex" href="#">
+                            </div>
+                      <a class="d-flex" href="#">
                                 <div class="list-item d-flex align-items-start">
                                     <div class="me-1">
                                         <div class="avatar bg-light-warning">
@@ -198,12 +111,16 @@
                         </li>
                         <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Read all notifications</a></li>
                     </ul>
+                </li>-->
+                <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#" data-bs-toggle="modal"
+              data-bs-target="#exampleModalScrollable">    <i data-feather='truck'></i></a>
+                   
                 </li>
                 <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">John Doe</span><span class="user-status">Admin</span></div><span class="avatar"><img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
+                        <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{user.name}}</span><span class="user-status">{{user.tipo}}</span></div><span class="avatar"><img class="round" src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" height="40" width="40"><span class="avatar-status-online"></span></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user"><a class="dropdown-item" href="page-profile.html"><i class="me-50" data-feather="user"></i> Profile</a><a class="dropdown-item" href="app-email.html"><i class="me-50" data-feather="mail"></i> Inbox</a><a class="dropdown-item" href="app-todo.html"><i class="me-50" data-feather="check-square"></i> Task</a><a class="dropdown-item" href="app-chat.html"><i class="me-50" data-feather="message-square"></i> Chats</a>
-                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="page-pricing.html"><i class="me-50" data-feather="credit-card"></i> Pricing</a><a class="dropdown-item" href="page-faq.html"><i class="me-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item" href="auth-login-cover.html"><i class="me-50" data-feather="power"></i> Logout</a>
+                        <div class="dropdown-divider"></div><a class="dropdown-item" href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i> Settings</a><a class="dropdown-item" href="page-pricing.html"><i class="me-50" data-feather="credit-card"></i> Pricing</a><a class="dropdown-item" href="page-faq.html"><i class="me-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item" href="/logoutpy4"><i class="me-50" data-feather="power"></i> Logout</a>
                     </div>
                 </li>
             </ul>
@@ -287,72 +204,234 @@
             </a></li>
     </ul>
     <!-- END: Header-->
-
+<style>
+    .main-menu.menu-light .navigation {
+    background: transparent;
+}
+.semi-dark-layout .main-menu-content .navigation-main .active > a {
+    background: linear-gradient(
+118deg
+, #001871, #0093B2) !important;
+    box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
+}
+.main-menu.menu-dark .navigation > li.active > a {
+     background: linear-gradient(
+118deg
+, #001871, #0093B2) !important;
+    box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
+}
+</style>
 
     <!-- BEGIN: Main Menu-->
-    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true" style="background: linear-gradient(to bottom, #001867 0%, #010c70 51%, #0092ae 100%);">
         <div class="navbar-header">
             <ul class="nav navbar-nav flex-row">
-                <li class="nav-item me-auto"><a class="navbar-brand" href="/py4/PYT-4"><span class="brand-logo">
-                            <svg viewbox="0 0 139 95" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="24">
-                                <defs>
-                                    <lineargradient id="linearGradient-1" x1="100%" y1="10.5120544%" x2="50%" y2="89.4879456%">
-                                        <stop stop-color="#000000" offset="0%"></stop>
-                                        <stop stop-color="#FFFFFF" offset="100%"></stop>
-                                    </lineargradient>
-                                    <lineargradient id="linearGradient-2" x1="64.0437835%" y1="46.3276743%" x2="37.373316%" y2="100%">
-                                        <stop stop-color="#EEEEEE" stop-opacity="0" offset="0%"></stop>
-                                        <stop stop-color="#FFFFFF" offset="100%"></stop>
-                                    </lineargradient>
-                                </defs>
-                                <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <g id="Artboard" transform="translate(-400.000000, -178.000000)">
-                                        <g id="Group" transform="translate(400.000000, 178.000000)">
-                                            <path class="text-primary" id="Path" d="M-5.68434189e-14,2.84217094e-14 L39.1816085,2.84217094e-14 L69.3453773,32.2519224 L101.428699,2.84217094e-14 L138.784583,2.84217094e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L6.71554594,44.4188507 C2.46876683,39.9813776 0.345377275,35.1089553 0.345377275,29.8015838 C0.345377275,24.4942122 0.230251516,14.560351 -5.68434189e-14,2.84217094e-14 Z" style="fill:currentColor"></path>
-                                            <path id="Path1" d="M69.3453773,32.2519224 L101.428699,1.42108547e-14 L138.784583,1.42108547e-14 L138.784199,29.8015838 C137.958931,37.3510206 135.784352,42.5567762 132.260463,45.4188507 C128.736573,48.2809251 112.33867,64.5239941 83.0667527,94.1480575 L56.2750821,94.1480575 L32.8435758,70.5039241 L69.3453773,32.2519224 Z" fill="url(#linearGradient-1)" opacity="0.2"></path>
-                                            <polygon id="Path-2" fill="#000000" opacity="0.049999997" points="69.3922914 32.4202615 32.8435758 70.5039241 54.0490008 16.1851325"></polygon>
-                                            <polygon id="Path-21" fill="#000000" opacity="0.099999994" points="69.3922914 32.4202615 32.8435758 70.5039241 58.3683556 20.7402338"></polygon>
-                                            <polygon id="Path-3" fill="url(#linearGradient-2)" opacity="0.099999994" points="101.428699 0 83.0667527 94.1480575 130.378721 47.0740288"></polygon>
-                                        </g>
-                                    </g>
-                                </g>
-                            </svg></span>
-                        <h2 class="brand-text">PROYECTO</h2>
+                <li class="nav-item me-auto"><a class="navbar-brand" href="/homepy4" style="    margin-top: 0;"><span class="brand-logo">
+                        <img alt="" src="../../../dataPY4/images/pyt_4_logo_blanco.png" style="width: 100%; max-width: fit-content;"></span>
                     </a></li>
-                <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>
+               <!-- <li class="nav-item nav-toggle"><a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse"><i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i><i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i></a></li>-->
             </ul>
         </div>
         <div class="shadow-bottom"></div>
-        <div class="main-menu-content">
+        <div class="main-menu-content" style="background: transparent;">
             <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-                <li class=" nav-item"><a class="d-flex align-items-center" href="{{#if py4}}/py4/PYT-4{{/if}}"><i data-feather="home"></i><span class="menu-title text-truncate" data-i18n="Dashboards">Dashboards</span><span class="badge badge-light-warning rounded-pill ms-auto me-1">2</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="dashboard-analytics.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Analytics">Analytics</span></a>
-                        </li>
-                        <li class="active"><a class="d-flex align-items-center" href="dashboard-ecommerce.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="eCommerce">eCommerce</span></a>
-                        </li>
-                    </ul>
-                </li>
+                <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="tablero">Tableto</span></a></li>
+                <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/usuarios/PYT-4"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Usuarios">Usuarios</span></a></li>
+
                 
-                </li>
-                <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">Apps &amp; Pages</span><i data-feather="more-horizontal"></i>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="/pepito/PYT-4"><i data-feather="mail"></i><span class="menu-title text-truncate" data-i18n="Email">Email</span></a>
-                <li class=" nav-item"><a class="d-flex align-items-center" href="#"><i data-feather="file-text"></i><span class="menu-title text-truncate" data-i18n="Invoice">Invoice</span></a>
-                    <ul class="menu-content">
-                        <li><a class="d-flex align-items-center" href="app-invoice-list.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="List">List</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="app-invoice-preview.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Preview">Preview</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="app-invoice-edit.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Edit">Edit</span></a>
-                        </li>
-                        <li><a class="d-flex align-items-center" href="app-invoice-add.html"><i data-feather="circle"></i><span class="menu-item text-truncate" data-i18n="Add">Add</span></a>
-                        </li>
-                    </ul>
-                </li>
-                </li>
             </ul>
         </div>
     </div>
-    <!-- END: Main Menu-->
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+      style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form novalidate class="needs-validation invalid was-validated repeater" action="#" method="post">
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="lastName"
+                 ></div>
+              <div class="divider">
+                <div class="divider-text">Dirección</div>
+              </div>
+              <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
+                 >
+                  <option selected=""> Guadalajara </option>
+                 
+                  <option> Atoyac </option>
+                  <option> Mezcala </option>
+                </select></div>
+              <div class="form-group"><label for="register-fraccionamiento"
+                  class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                  placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="fraccionamiento"
+                 ></div>
+              <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                  name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"
+                 ></div>
+              <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                  name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"
+                 ></div>
+              <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text"
+                  name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"
+                 ></div>
+              <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text"
+                  name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9"
+                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="avenida"
+                 ></div>
+              <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                  type="text" name="referencia" placeholder="Referencia"
+                  aria-describedby="register-referencia" tabindex="9"
+                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"
+                 ></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11"
+                    class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="telefono"
+                    ng-reflect-mask-expression="(000) 000 00 00">
+                </div>
+              </div>
+              <div class="divider">
+                <div class="divider-text">Chofer</div>
+              </div>
+               <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
+                 >
+                  <option selected=""> Guadalajara </option>
+                 
+                  <option> Atoyac </option>
+                  <option> Mezcala </option>
+                </select></div>
+              <div class="divider">
+                <div class="divider-text">Productos</div>
+              </div>
+
+              <div data-repeater-list="category-group">
+                  <div data-repeater-item>
+                      <button type="button" class="btn btn-warning waves-effect waves-float waves-light" data-repeater-delete>-</button>
+                      
+
+                      <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                  <select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
+                 >
+                  <option selected=""> Garrafón </option>
+                  <option> Tapa </option>
+                  <option> Sello </option>
+                  <option> Liner </option>
+                  <option> Etiqueta </option>
+                </select></div>
+
+            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+                  <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                  <select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
+                 >
+                  <option selected=""> Efectivo </option>
+                  <option> Tarjeta </option>
+                  <option> Transferencia </option>
+                </select></div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+
+                    
+
+                                <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid">
+                  <option selected=""> Refill </option>
+                  <option> Garrafon nuevo </option>
+                  <option> Canje </option>
+                  <option> Garantía </option>
+                  <option> Obsequio </option>
+                  <option> Maquila para sucursales </option>
+                  <option> Maquila para Independientes </option>
+                </select></div>
+                
+                </div>
+                </div>
+                <button type="button" class="btn btn-success waves-effect waves-float waves-light" data-repeater-create >+</button>
+<div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+
+                 <div class="divider">
+                <div class="divider-text">Venta</div>
+              </div>
+
+                <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid">
+                  <option selected=""> Por pagar </option>
+                  <option> Por Verificar </option>
+                  <option> Pagado </option>
+                  <option> Obsequio </option>
+                  <option> Garantía </option>
+                  <option>Prestado </option>
+                </select>
+                </div>
+                 <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control ng-touched ng-pristine ng-valid"> 
+                  <option selected=""> En proceso </option>
+                  <option> Entregado </option>
+                  <option> Rezagado </option>
+                  <option> Reasignado </option>
+                  <option> Cancelado </option>
+                  <option>Por facturar </option>
+                  <option>Devuelto </option>
+                </select>
+                </div>
+                <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados (S/R)</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+
+            <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  required></div>
+          </div>
+          <div class="modal-footer">
+             <button tabindex="26" rippleeffect="" class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrate</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- END: Main Menu-->
+{{/if}}
     

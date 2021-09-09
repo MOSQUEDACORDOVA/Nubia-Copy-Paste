@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
+const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
 const dashboardControllerPY21 = require('../controllers/dashboardControllerPY21');
@@ -29,9 +30,22 @@ router.get('/home/:id', dashboardController.dashboard);
 
 
 
-//PYT-4
-router.get('/py4/:id', dashboardControllerPY4.dashboard);
-router.get('/pepito/:id', dashboardControllerPY4.pepito);
+//PYT-4 
+    //get
+    router.get('/error/:msg', dashboardControllerPY4.dashboard);
+router.get('/py4/:id', dashboardControllerPY4.login);
+router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
+router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
+router.get('/loginpy4', dashboardControllerPY4.login);
+router.get('/registerpy4/:id', dashboardControllerPY4.register);
+router.get('/usuarios/:msg',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+// Cerrar Sesión
+router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
+
+    //post
+router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
+router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
+router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);

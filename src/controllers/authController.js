@@ -3,6 +3,7 @@ exports.authenticatedUser = (req, res, next) => {
 
 	// Autenticado
 	if(req.isAuthenticated()) {
+		res.locals.user = req.user || {};
 		return next();
 	}
 
