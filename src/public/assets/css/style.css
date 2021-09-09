@@ -54,7 +54,7 @@
 }
 
 /*--------------------------- PYT-24 ---------------------------*/
-.py24 .vertical-layout.vertical-menu-modern .main-menu::after {
+.dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
     content: ' ';
     width: 2px;
     height: 100%;
