@@ -131,22 +131,6 @@ const Clientes = db.define('Clientes', {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
 
 

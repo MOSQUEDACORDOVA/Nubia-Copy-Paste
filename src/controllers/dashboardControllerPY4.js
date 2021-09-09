@@ -10,15 +10,35 @@ exports.dashboard = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-   
+  DataBase.ClientesAll().then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+    // console.log(clientes_arr)
+     DataBase.PedidosAll().then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       console.log(pedidos_let)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
       dashboard: true,
       py4:true,
-      dash:true
-
-    })
+      dash:true,
+      clientes_d,
+      clientes_arr,
+      pedidos_,
+      pedidos_let
+    }) 
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
 };
 
 exports.login = (req, res) => {
@@ -100,7 +120,7 @@ exports.usuariosTable = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error/" + msg);
+    return res.redirect("/errorpy4/" + msg);
   });
    
 };
@@ -121,7 +141,7 @@ exports.save_cliente_py4 = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error/" + msg);
+    return res.redirect("/errorpy4/" + msg);
   });
 }
   exports.reguserPy4 = (req, res) => {
@@ -135,7 +155,7 @@ exports.save_cliente_py4 = (req, res) => {
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error/" + msg);
+      return res.redirect("/errorpy4/" + msg);
     });
 };
 
@@ -143,5 +163,20 @@ exports.save_cliente_py4 = (req, res) => {
 exports.closeSesion = (req, res) => {
   req.session.destroy(() => {
     res.redirect("/loginpy4");
+  });
+};
+
+exports.regPedidoPy4 = (req, res) => {
+  console.log(req.body)
+  const user = res.locals.user
+  const { id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
+    res.redirect('/homepy4/'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
   });
 };

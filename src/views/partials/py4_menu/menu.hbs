@@ -1,5 +1,50 @@
 {{#if login}}{{else}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script>
 
+$(document).ready(function(){
+      
+  var valor = $('#array').val()
+        var array = JSON.parse(valor.replace(/&quot;/g,'"'))
+    console.log(array) 
+
+
+
+$('#id_cliente').on('change', (e) =>{
+    let id_ = e.target.value
+    console.log(id_)
+    var found = array.find(element => element.id == id_);
+        console.log(found)
+        $('input[name="firstName"]').val(found.firstName)
+        $('input[name="lastName"]').val(found.lastName)
+
+if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
+  console.log("option doesn't exist!");
+  $('#ciudad_select').prepend('<option selected value="' + found.ciudad + '">' + found.ciudad + '</option>');  
+}else{
+    console.log("option exist!");
+    $('#ciudad_select').find('option:selected').remove().end();
+    $("#ciudad_select option[value='" + found.ciudad + "']").attr("selected", true);
+}
+                  //val(found.ciudad)
+
+         $('input[name="fraccionamiento"]').val(found.fraccionamiento)
+        $('input[name="coto"]').val(found.coto)
+         $('input[name="casa"]').val(found.casa)
+        $('input[name="calle"]').val(found.calle)
+         $('input[name="avenida"]').val(found.avenida)
+          $('input[name="referencia"]').val(found.referencia)
+        $('input[name="telefono"]').val(found.telefono)
+
+
+})
+
+
+		})
+
+</script>
+<input type="text" id="array" hidden value="{{clientes_d}}">
+<input type="text" id="array_pedido" hidden value="{{pedidos_}}">
 <!-- BEGIN: Header-->
 <nav
     class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
@@ -298,13 +343,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form novalidate class="needs-validation invalid was-validated repeater" action="#" method="post">
+                <form novalidate class="needs-validation invalid was-validated repeater" action="/reg_pedido_modal" method="post">
+                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
+                    <select
+                            name="id_cliente" aria-describedby="id_cliente" tabindex="3"
+                            class="form-control ng-touched ng-pristine ng-valid" id="id_cliente">
+                            <option selected=""> Seleccione un cliente </option>
+                            {{#each clientes_arr as |cliente i|}}
+                            <option value="{{id}}"> {{firstName}} </option>
+                            {{/each}}
+                        </select></div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
-                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" autofocus required>
                     </div>
                     <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
-                            type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                            type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
                             tabindex="2" class="form-control ng-untouched ng-pristine ng-valid"
                             ng-reflect-name="lastName"></div>
                     <div class="divider">
@@ -312,9 +366,8 @@
                     </div>
                     <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
                             name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
-                            <option selected=""> Guadalajara </option>
-
+                            class="form-control ng-touched ng-pristine ng-valid" id="ciudad_select">
+                            <option > Guadalajara </option>
                             <option> Atoyac </option>
                             <option> Mezcala </option>
                         </select></div>
@@ -326,20 +379,25 @@
                     <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
                             name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
                             class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"></div>
+
                     <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
                             name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
                             class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"></div>
+
                     <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
                             type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
                             class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"></div>
-                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                    <input
                             type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
                             tabindex="9" class="form-control ng-untouched ng-pristine ng-valid"
                             ng-reflect-name="avenida"></div>
+
                     <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
                             type="text" name="referencia" placeholder="Referencia"
                             aria-describedby="register-referencia" tabindex="9"
                             class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"></div>
+
                     <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
                         <div class="input-group">
                             <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
@@ -350,32 +408,31 @@
                                 ng-reflect-mask-expression="(000) 000 00 00">
                         </div>
                     </div>
+
                     <div class="divider">
                         <div class="divider-text">Chofer</div>
                     </div>
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
-                            name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
-                            <option selected=""> Guadalajara </option>
 
-                            <option> Atoyac </option>
-                            <option> Mezcala </option>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Seleccione un chofer</label><select
+                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
+                            <option selected=""> Pedro </option>
+                            <option> Juan </option>
+                            <option> Carlos </option>
                         </select></div>
+
                     <div class="divider">
                         <div class="divider-text">Productos</div>
                     </div>
 
-                    <div data-repeater-list="category-group">
+                    <div data-repeater-list="productos">
                         <div data-repeater-item>
                             <button type="button" class="btn btn-warning waves-effect waves-float waves-light"
                                 data-repeater-delete>-</button>
 
-
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de
-                                    Pago</label>
-                                <select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
-                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid"
-                                    ng-reflect-name="ciudad">
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Producto</label>
+                                <select name="product"  aria-describedby="register-ciudad"
+                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
                                     <option selected=""> Garrafón </option>
                                     <option> Tapa </option>
                                     <option> Sello </option>
@@ -385,30 +442,25 @@
                             </div>
 
                             <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
-                                <input type="text" name="firstName" placeholder="Pedro"
-                                    aria-describedby="register-firstName" tabindex="1" autofocus=""
-                                    class="form-control ng-untouched ng-pristine ng-valid" required>
+                                <input type="text" name="cantidad_producto" placeholder="Cantidad"
+                                    aria-describedby="cantidad_producto" tabindex="1"                                     class="form-control ng-untouched ng-pristine ng-valid" required>
                             </div>
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de
-                                    Pago</label>
-                                <select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
-                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid"
-                                    ng-reflect-name="ciudad">
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                                <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
                                     <option selected=""> Efectivo </option>
                                     <option> Tarjeta </option>
                                     <option> Transferencia </option>
                                 </select>
                             </div>
                             <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
-                                <input type="text" name="firstName" placeholder="Pedro"
-                                    aria-describedby="register-firstName" tabindex="1" autofocus=""
-                                    class="form-control ng-untouched ng-pristine ng-valid" required>
+                                <input type="text" name="monto_producto" placeholder="Monto"
+                                    aria-describedby="register-firstName" tabindex="1"                                     class="form-control ng-untouched ng-pristine ng-valid" required>
                             </div>
 
 
-
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de
-                                    venta</label><select name="ciudad" placeholder="Ciudad"
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label>
+                            <select name="tipo_venta" placeholder="Ciudad"
                                     aria-describedby="register-ciudad" tabindex="3"
                                     class="form-control ng-touched ng-pristine ng-valid">
                                     <option selected=""> Refill </option>
@@ -422,19 +474,21 @@
 
                         </div>
                     </div>
+
                     <button type="button" class="btn btn-success waves-effect waves-float waves-light"
                         data-repeater-create>+</button>
+
                     <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
-                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                        <input type="text" name="monto_total" placeholder="Monto total" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" required>
                     </div>
 
                     <div class="divider">
                         <div class="divider-text">Venta</div>
                     </div>
 
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del
-                            Pago</label><select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label>
+                    <select name="status_pago"  aria-describedby="register-ciudad"
                             tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
                             <option selected=""> Por pagar </option>
                             <option> Por Verificar </option>
@@ -444,8 +498,8 @@
                             <option>Prestado </option>
                         </select>
                     </div>
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del
-                            Pedido</label><select name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad"
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label>
+                    <select name="status_pedido" aria-describedby="register-ciudad"
                             tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
                             <option selected=""> En proceso </option>
                             <option> Entregado </option>
@@ -456,20 +510,19 @@
                             <option>Devuelto </option>
                         </select>
                     </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados
-                            (S/R)</label>
-                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
+                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" required>
                     </div>
 
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
-                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid" required>
+                        <input type="text" name="observacion" placeholder="Observación" aria-describedby="register-firstName"
+                            tabindex="1"  class="form-control ng-untouched ng-pristine ng-valid" required>
                     </div>
             </div>
             <div class="modal-footer">
                 <button tabindex="26" rippleeffect=""
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrate</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrar</button>
             </div>
             </form>
         </div>
