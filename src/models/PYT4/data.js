@@ -1,9 +1,10 @@
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const db = require("../../config/db");
 const bcrypt = require("bcrypt-nodejs");
 const Usuarios = require("../../models/PYT4/Usuarios");
 const Clientes = require("../../models/PYT4/Clientes");
-
+const Pedidos = require("../../models/PYT4/Pedidos");
+const Productos_pedidos = require("../../models/PYT4/Productos_pedidos");
 
 
 module.exports = {
@@ -168,6 +169,78 @@ module.exports = {
       })
         .then((data) => {
           let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+
+
+   //Pedidos
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
+    return new Promise((resolve, reject) => {
+      console.log(productos.length)
+      let products = JSON.stringify(productos);
+      
+      Pedidos.create(
+        {
+          chofer: chofer,productos: products,monto_total: monto_total,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario, ClienteId: id_cliente})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          console.log(data_set)
+          console.log(data.id)
+          for (let i = 0; i < productos.length; i++) {
+            Productos_pedidos.create(
+              {
+                product: productos[i].product ,cantidad_producto: productos[i].cantidad_producto,metodo_pago: productos[i].metodo_pago,monto_producto: productos[i].monto_producto,tipo_venta: productos[i].tipo_venta, PedidoId: data.id },)
+              .then((data_prod) => {
+               console.log(" se guardo bien")
+               console.log(" se guardo bien")
+               if (i == productos.length-1) {
+                Clientes.update(
+                  {
+                    firstName: firstName,lastName: lastName,ciudad: ciudad,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+                        id: id_cliente
+                    }})
+                  .then((data_cli) => {
+                    let data_set2 = JSON.stringify(data_cli);
+                    resolve('Pedido registrado con éxito');
+                    //console.log(planes);
+                  })
+                  .catch((err) => {
+                    reject(err)
+                  });
+              }
+              })
+              .catch((err) => {
+                reject(err)
+              });
+            
+          }
+          
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+
+  PedidosAll(){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        { model: Productos_pedidos,as:'Productos_' }
+    ]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
           resolve(data_p);
           ////console.log(id_usuario);
         })

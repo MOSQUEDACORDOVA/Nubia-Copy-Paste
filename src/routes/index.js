@@ -32,7 +32,7 @@ router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
     //get
-    router.get('/error/:msg', dashboardControllerPY4.dashboard);
+    router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
@@ -46,6 +46,9 @@ router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
 router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
+router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
+
+
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);

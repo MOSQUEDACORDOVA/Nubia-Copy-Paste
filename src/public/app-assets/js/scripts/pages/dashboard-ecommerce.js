@@ -60,6 +60,7 @@ $(window).on('load', function () {
   // On load Toast
   setTimeout(function () {
     toastr['success'](
+
       'Has iniciado sesión con éxito. ¡Ahora puedes empezar a explorar!',
       'Bienvenido Mosqueda Cordova',
       {

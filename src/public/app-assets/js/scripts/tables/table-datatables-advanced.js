@@ -16,9 +16,9 @@ function filterColumn(i, val) {
       filterByDate(i, startDate, endDate); // We call our filter function
     }
 
-    $('.dt-advanced-search').dataTable().fnDraw();
+    $('.datatables-basic').dataTable().fnDraw();
   } else {
-    $('.dt-advanced-search').DataTable().column(i).search(val, false, true).draw();
+    $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
   }
 }
 
