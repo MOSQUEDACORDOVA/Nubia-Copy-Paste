@@ -1,90 +1,85 @@
 /**
- * DataTables Basic
+ * DataTables Advanced
  */
-// Filter column wise function
-function filterColumn(i, val) {
-  if (i == 5) {
-    var startDate = $('.start_date').val(),
-      endDate = $('.end_date').val();
-    if (startDate !== '' && endDate !== '') {
-      filterByDate(i, startDate, endDate); // We call our filter function
-    }
 
-    $('.dt-advanced-search').dataTable().fnDraw();
-  } else {
-    $('.dt-advanced-search').DataTable().column(i).search(val, false, true).draw();
-  }
-}
+ 'use strict';
 
-// Datepicker for advanced filter
-var separator = ' - ',
-  rangePickr = $('.flatpickr-range'),
-  dateFormat = 'MM/DD/YYYY';
-var options = {
-  autoUpdateInput: false,
-  autoApply: true,
-  locale: {
-    format: dateFormat,
-    separator: separator
-  },
-  opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
-};
-
-//
-if (rangePickr.length) {
-  rangePickr.flatpickr({
-    mode: 'range',
-    dateFormat: 'm/d/Y',
-    onClose: function (selectedDates, dateStr, instance) {
-      var startDate = '',
-        endDate = new Date();
-      if (selectedDates[0] != undefined) {
-        startDate =
-          selectedDates[0].getMonth() + 1 + '/' + selectedDates[0].getDate() + '/' + selectedDates[0].getFullYear();
-        $('.start_date').val(startDate);
-      }
-      if (selectedDates[1] != undefined) {
-        endDate =
-          selectedDates[1].getMonth() + 1 + '/' + selectedDates[1].getDate() + '/' + selectedDates[1].getFullYear();
-        $('.end_date').val(endDate);
-      }
-      $(rangePickr).trigger('change').trigger('keyup');
-    }
-  });
-}
-
-// Advance filter function
-// We pass the column location, the start date, and the end date
-var filterByDate = function (column, startDate, endDate) {
-  // Custom filter syntax requires pushing the new filter to the global filter array
-  $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
-    var rowDate = normalizeDate(aData[column]),
-      start = normalizeDate(startDate),
-      end = normalizeDate(endDate);
-
-    // If our date from the row is between the start and end
-    if (start <= rowDate && rowDate <= end) {
-      return true;
-    } else if (rowDate >= start && end === '' && start !== '') {
-      return true;
-    } else if (rowDate <= end && start === '' && end !== '') {
-      return true;
-    } else {
-      return false;
-    }
-  });
-};
-
-// converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
-var normalizeDate = function (dateString) {
-  var date = new Date(dateString);
-  var normalized =
-    date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
-  return normalized;
-};
-// Advanced Search Functions Ends
+ // Advanced Search Functions Starts
+ // --------------------------------------------------------------------
+ 
+ 
+ 
+ // Datepicker for advanced filter
+ var separator = ' - ',
+   rangePickr = $('.flatpickr-range'),
+   dateFormat = 'MM/DD/YYYY';
+ var options = {
+   autoUpdateInput: false,
+   autoApply: true,
+   locale: {
+     format: dateFormat,
+     separator: separator
+   },
+   opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
+ };
+ 
+ //
+ if (rangePickr.length) {
+   rangePickr.flatpickr({
+     mode: 'range',
+     dateFormat: 'm/d/Y',
+     onClose: function (selectedDates, dateStr, instance) {
+       var startDate = '',
+         endDate = new Date();
+       if (selectedDates[0] != undefined) {
+         startDate =
+           selectedDates[0].getMonth() + 1 + '/' + selectedDates[0].getDate() + '/' + selectedDates[0].getFullYear();
+         $('.start_date').val(startDate);
+       }
+       if (selectedDates[1] != undefined) {
+         endDate =
+           selectedDates[1].getMonth() + 1 + '/' + selectedDates[1].getDate() + '/' + selectedDates[1].getFullYear();
+         $('.end_date').val(endDate);
+       }
+       $(rangePickr).trigger('change').trigger('keyup');
+     }
+   });
+ }
+ 
+ // Advance filter function
+ // We pass the column location, the start date, and the end date
+ var filterByDate = function (column, startDate, endDate) {
+   // Custom filter syntax requires pushing the new filter to the global filter array
+   $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
+     var rowDate = normalizeDate(aData[column]),
+       start = normalizeDate(startDate),
+       end = normalizeDate(endDate);
+ 
+     // If our date from the row is between the start and end
+     if (start <= rowDate && rowDate <= end) {
+       return true;
+     } else if (rowDate >= start && end === '' && start !== '') {
+       return true;
+     } else if (rowDate <= end && start === '' && end !== '') {
+       
+       return true;
+     } else {
+       return false;
+     }
+   });
+ };
+ 
+ // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
+ var normalizeDate = function (dateString) {
+   var date = new Date(dateString);
+   var normalized =
+     date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
+   return normalized;
+ };
+ // Advanced Search Functions Ends
  $(function () {
   'use strict';
+  
   let valor = $('#array_pedido').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
@@ -96,6 +91,7 @@ console.log(array2)
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),
     dt_basic_table2 = $('.datatables-basic2'),
+    dt_adv_filter_table = $('.datatables-basic'),
     dt_row_grouping_table = $('.dt-row-grouping'),
     dt_multilingual_table = $('.dt-multilingual'),
     assetPath = '../../dataPY4/';
@@ -130,14 +126,7 @@ console.log(array2)
       } }, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
-        { data: 'createdAt',
-        render: function ( data, type, row ) {
-          console.log(type)
-          var dateSplit = data.split('-');
-          return type === "display" || type === "filter" ?
-              dateSplit[1] +'-'+ dateSplit[2] +'-'+ dateSplit[0] :
-              data;
-      }},
+        { data: 'createdAt'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -164,8 +153,6 @@ console.log(array2)
               "Rezagado": { title: 'Rezagado', class: ' badge-light-warning' },
               "En proceso": { title: 'En proceso', class: ' badge-light-info' }
             };
-            console.log($status[$status_number])
-            console.log($status_number)
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
@@ -177,7 +164,12 @@ console.log(array2)
               '</span>'
             );
           }
-        }
+        },{
+          targets: 5,
+          render:function(data){
+            return moment(data).format('MM/DD/YYYY');
+          }
+        },
       ],
      
       order: [[2, 'desc']],
@@ -185,63 +177,7 @@ console.log(array2)
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
-      buttons: [
-        {
-          extend: 'collection',
-          className: 'btn btn-outline-secondary dropdown-toggle me-2',
-          text: feather.icons['share'].toSvg({ class: 'font-small-4 me-50' }) + 'Export',
-          buttons: [
-            {
-              extend: 'print',
-              text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'csv',
-              text: feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) + 'Csv',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'excel',
-              text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'pdf',
-              text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'copy',
-              text: feather.icons['copy'].toSvg({ class: 'font-small-4 me-50' }) + 'Copy',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            }
-          ],
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-            $(node).parent().removeClass('btn-group');
-            setTimeout(function () {
-              $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex');
-            }, 50);
-          }
-        },
-        {
-          text: feather.icons['plus'].toSvg({ class: 'me-50 font-small-4' }) + 'Add New Record',
-          className: 'create-new btn btn-primary',
-          attr: {
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#modals-slide-in'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
-        }
-      ],
+  
       responsive: {
         details: {
           display: $.fn.dataTable.Responsive.display.modal({
@@ -332,8 +268,6 @@ console.log(array2)
               "Entregado": { title: 'Entregado', class: ' badge-light-success' },
               "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' },
             };
-            console.log($status[$status_number])
-            console.log($status_number)
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
@@ -345,7 +279,13 @@ console.log(array2)
               '</span>'
             );
           }
-        }
+        },{
+          targets: 5,
+          render:function(data){
+            console.log(data)
+            return moment(data).format('L');
+          }
+        },
       ],
      
       order: [[2, 'desc']],
@@ -454,6 +394,7 @@ console.log(array2)
   }
   // Flat Date picker
   if (dt_date_table.length) {
+    console.log('datailfe')
     dt_date_table.flatpickr({
       monthSelectorType: 'static',
       dateFormat: 'm/d/Y'
@@ -489,7 +430,8 @@ console.log(array2)
   });
 
   // on key up from input field
-  $('input.dt-input').on('keyup', function () {
+  $('input.dt-input').on('keyup change', function () {
+    console.log($(this).attr('data-column'))
     filterColumn($(this).attr('data-column'), $(this).val());
   });
 
@@ -506,3 +448,25 @@ console.log(array2)
   });
 
 });
+// Filter column wise function
+function filterColumn(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date').val(),
+      endDate = $('.end_date').val();
+      console.log(startDate)
+      console.log(endDate)
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+    if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }
+    $('.datatables-basic').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
+  }
+}
