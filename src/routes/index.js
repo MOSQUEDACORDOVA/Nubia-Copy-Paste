@@ -54,7 +54,7 @@ router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.get('/py21/:id', dashboardControllerPY21.dashboard);
 router.get('/login/:id', dashboardControllerPY21.login);
 router.get('/register/:id', dashboardControllerPY21.register);
-router.get('/error/:id', dashboardControllerPY21.error);
+router.get('/error404/:id', dashboardControllerPY21.error);
 router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
 router.get('/board/:id', dashboardControllerPY21.board);
 router.get('/config/:id', dashboardControllerPY21.config);

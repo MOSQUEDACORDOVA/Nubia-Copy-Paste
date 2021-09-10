@@ -37,8 +37,9 @@ $(window).on('load', function () {
   // On load Toast
   setTimeout(function () {
     toastr['success'](
-      'Se ha loggeado correctamente. !',
-      '👋 Bienvenido a MOSQUEDA CORDOVA!',
+
+      'Has iniciado sesión con éxito. ¡Ahora puedes empezar a explorar!',
+      'Bienvenido Mosqueda Cordova',
       {
         closeButton: true,
         tapToDismiss: false,

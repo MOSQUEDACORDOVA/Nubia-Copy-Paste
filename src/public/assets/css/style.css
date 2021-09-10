@@ -1,13 +1,13 @@
 /*--------------------------- PYT-21 ---------------------------*/
-.py21 .btn-primary {
+.py21 .btn-primary, .btn-primary {
 	border-color: #7367f0 !important;
     background-color: #7367f0 !important;
     color: #fff !important;
 }
-.btn-primary:hover:not(.disabled):not(:disabled) {
+.py21 .btn-primary:hover:not(.disabled):not(:disabled), .btn-primary:hover:not(.disabled):not(:disabled) {
     box-shadow: 0 8px 25px -8px #7367f0;
 }
-.py21 .text-primary, .text-primary {
+.py21 .text-primary {
 	color: #6610f2;
 }
 .py21 .input-group-append .input-group-text {
@@ -54,7 +54,7 @@
 }
 
 /*--------------------------- PYT-24 ---------------------------*/
-.py24 .vertical-layout.vertical-menu-modern .main-menu::after {
+.dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
     content: ' ';
     width: 2px;
     height: 100%;
@@ -147,4 +147,4 @@
 .py24 .main-menu svg {
     stroke: #D9A443 !important;
 }
-/*--------------------------- PY-21 ---------------------------*/
+/*--------------------------- PY-24 ---------------------------*/

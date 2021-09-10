@@ -45,21 +45,26 @@
     <!-- END: Page CSS-->
 
     
-    
-    
+
+   
 
     {{#if py21}}
+     <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
         <!-- BEGIN: PY21 Custom CSS-->
         <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
-        <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css">
+        {{!-- <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css"> --}}
         <!-- END: PY21 Custom CSS-->
     {{/if}}
 
-
     {{#if py24}}
+     <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
         <!-- BEGIN: PY21 Custom CSS-->
         <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
-        <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css">
+        {{!-- <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css"> --}}
         <!-- END: PY21 Custom CSS-->
     {{/if}}
 
@@ -90,7 +95,7 @@
     <!-- END: Page CSS-->
     {{/if}}
 </head>
-<body class="vertical-layout vertical-menu-modern  navbar-floating footer-static {{#if py24}} py24 {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py24}} py24 {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
     data-menu="vertical-menu-modern" data-col="">
 
                               {{#if  modal_home}}
