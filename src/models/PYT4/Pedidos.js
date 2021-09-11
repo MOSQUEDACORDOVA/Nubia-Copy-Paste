@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const Clientes = require("../../models/PYT4/Clientes");
 const Usuarios = require("../../models/PYT4/Usuarios");
 const Productos_pedidos = require("../../models/PYT4/Productos_pedidos");
-const Pedidos = db.define('Pedidos', {
+const Pedidos = db.define('pedidos', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
