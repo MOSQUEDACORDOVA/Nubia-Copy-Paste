@@ -85,9 +85,7 @@
   //let stproductos = JSON.parse(array.productos)
   let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por facturar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
-console.log(status_pedido);
 
-console.log(array2)  
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),
     dt_basic_table2 = $('.datatables-basic2'),
@@ -219,6 +217,10 @@ console.log(array2)
       }
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+      // on key up from input field
+  $('input.dt-input').on('keyup change', function () {
+    filterColumn($(this).attr('data-column'), $(this).val());
+  });
   }
   if (dt_basic_table2.length) {
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
@@ -282,7 +284,6 @@ console.log(array2)
         },{
           targets: 5,
           render:function(data){
-            console.log(data)
             return moment(data).format('L');
           }
         },
@@ -391,10 +392,13 @@ console.log(array2)
       }
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+      // on key up from input field
+  $('input.dt-input2').on('keyup change', function () {
+    filterColumn2($(this).attr('data-column'), $(this).val());
+  });
   }
   // Flat Date picker
   if (dt_date_table.length) {
-    console.log('datailfe')
     dt_date_table.flatpickr({
       monthSelectorType: 'static',
       dateFormat: 'm/d/Y'
@@ -429,11 +433,7 @@ console.log(array2)
     }
   });
 
-  // on key up from input field
-  $('input.dt-input').on('keyup change', function () {
-    console.log($(this).attr('data-column'))
-    filterColumn($(this).attr('data-column'), $(this).val());
-  });
+
 
   // Responsive Table
   // --------------------------------------------------------------------
@@ -453,8 +453,6 @@ function filterColumn(i, val) {
   if (i == 5) {
     var startDate = $('.start_date').val(),
       endDate = $('.end_date').val();
-      console.log(startDate)
-      console.log(endDate)
     if (startDate !== '' && endDate !== '') {
       
       filterByDate(i, startDate, endDate); // We call our filter function
@@ -468,5 +466,25 @@ function filterColumn(i, val) {
     
   } else {
     $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
+  }
+}
+// Filter column wise function
+function filterColumn2(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date2').val(),
+      endDate = $('.end_date2').val();
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+    if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }
+    $('.datatables-basic2').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
   }
 }
