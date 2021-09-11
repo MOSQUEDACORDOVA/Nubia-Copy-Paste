@@ -119,7 +119,7 @@ console.log(array2)
       data: status_pedido,
       columns: [
         { data: 'id' },
-        { data: 'Cliente.firstName' },
+        { data: 'cliente.firstName' },
         { data: 'monto_total',
         render: function ( data, type, row ) {
           return '$'+ data;
@@ -236,7 +236,7 @@ console.log(array2)
       data: status_pedido2,
       columns: [
         { data: 'id' },
-        { data: 'Cliente.firstName' },
+        { data: 'cliente.firstName' },
         { data: 'monto_total',
         render: function ( data, type, row ) {
           return '$'+ data;
