@@ -14,6 +14,9 @@
     background-color: #001871 !important;
     color: #fff !important;
 }
+.py4 .header-navbar .navbar-container ul.navbar-nav li i.ficon:hover, .header-navbar .navbar-container ul.navbar-nav li svg.ficon:hover {
+    color: unset;
+}
 .main-menu.menu-light.py4 .navigation li a {
     color: white;
 }
