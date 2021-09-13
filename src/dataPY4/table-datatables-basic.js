@@ -144,7 +144,7 @@
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 bg-primary' }) +
               '</a>' 
             );
           }

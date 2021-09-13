@@ -184,7 +184,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                             data-feather="check-square"></i> Task</a>
                         <a class="dropdown-item" href="app-chat.html"><i
                             class="me-50" data-feather="message-square"></i> Chats</a>-->
-                    <div class="dropdown-divider"></div>
+                    {{!-- <div class="dropdown-divider"></div> --}}
                    <!-- <a class="dropdown-item"    href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i>
                         Settings</a>
                         <a class="dropdown-item" href="page-pricing.html"><i class="me-50"
@@ -312,7 +312,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 </style>
 
 <!-- BEGIN: Main Menu-->
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true"
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow py4" data-scroll-to-active="true"
     style="background: linear-gradient(to bottom, #001867 0%, #010c70 51%, #0092ae 100%);">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -327,11 +327,12 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
     <div class="shadow-bottom"></div>
     <div class="main-menu-content" style="background: transparent;">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+            <li core-menu-vertical-section="" class="navigation-header mt-2"><span class="navigation-section-text text-white">Opciones</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
             <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
                         data-feather="mail"></i><span class="menu-title text-truncate"
-                        data-i18n="tablero">Tableto</span></a></li>
+                        data-i18n="tablero">Tablero</span></a></li>
             <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/usuarios/PYT-4"><i data-feather="mail"></i><span class="menu-title text-truncate"
+                    href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Usuarios</span></a></li>
 
 
