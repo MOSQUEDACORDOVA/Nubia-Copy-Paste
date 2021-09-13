@@ -360,7 +360,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                                             <select class="select2 form-select" id="select2-basic" name="id_cliente">
                                                 <option selected=""> Seleccione un cliente </option>
                                               {{#each clientes_arr as |cliente i|}}
-                            <option value="{{id}}"> {{firstName}} </option>
+                            <option value="{{id}}"> {{firstName}} {{lastName}}</option>
                             {{/each}}
                                             </select>
                    </div>
