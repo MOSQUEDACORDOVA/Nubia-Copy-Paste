@@ -351,8 +351,11 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                
                 <form novalidate class="needs-validation invalid was-validated repeater" action="/reg_pedido_modal" method="post">
-                            <div class="col-md-6 mb-1">
+                           
+
+                    <div class="form-group">
                                             <label class="form-label" for="select2-basic">Basic</label>
                                             <select class="select2 form-select" id="select2-basic" name="id_cliente">
                                                 <option selected=""> Seleccione un cliente </option>
@@ -360,9 +363,6 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                             <option value="{{id}}"> {{firstName}} </option>
                             {{/each}}
                                             </select>
-                                        </div>
-
-                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
                    </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
