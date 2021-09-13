@@ -46,8 +46,8 @@ $(document).ready(function(){
                                                 <label class="form-label">Fecha:</label>
                                                 <div class="mb-0 d-flex">
                                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control dt-date start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
-                                                    <input type="text" class="form-control dt-date end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
+                                                    <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
+                                                    <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -82,31 +82,32 @@ $(document).ready(function(){
               <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
               </div>
               <div class="card-body">
+                  
                 <h4 class="card-title">Ventas</h4>
                 <p class="card-text"> Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
                   modificarlos rápidamente. </p>
               </div>
               <div class="d-flex justify-content-between align-items-center mx-0 row">
-
-              </div>
-                <section id="column-search-datatable">
-                     <div class="card-body">
-                                    <form class="dt_adv_search" method="POST">
+<form class="dt_adv_search" method="POST">
                                         <div class="row">
                                             <!--<div class="col-md-4">
                                                 <label class="form-label">City:</label>
                                                 <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
                                             </div>-->
                                             <div class="col-md-4">
-                                                <label class="form-label">Date:</label>
-                                                <div class="mb-0">
+                                                <label class="form-label">Fecha:</label>
+                                                <div class="mb-0 d-flex">
                                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control dt-date start_date2 dt-input2" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
-                                                    <input type="text" class="form-control dt-date end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
+                                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
+                                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
+                                    </form><br>
+              </div>
+                <section id="column-search-datatable">
+                     <div class="card-body">
+                                 
                                 </div>
                     <div class="row">
                         <div class="col-12">

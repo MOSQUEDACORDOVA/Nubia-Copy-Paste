@@ -6,7 +6,31 @@
 
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
+ var minDate, maxDate,minDate2, maxDate2;
  
+ // Custom filtering function which will search data in column four between two values
+ $.fn.dataTable.ext.search.push(
+     function( settings, data, dataIndex ) {
+         var min = minDate.val();
+         var max = maxDate.val();
+       
+
+     let f = data[5]
+         var date = new Date(f);
+  console.log(min)
+  console.log(max)
+  console.log(date)
+         if (
+             ( min === null && max === null ) ||
+             ( min === null && date <= max ) ||
+             ( min <= date   && max === null ) ||
+             ( min <= date   && date <= max ) 
+         ) {
+             return true;
+         }
+         return false;
+     }
+ );
  
  
  // Datepicker for advanced filter
@@ -54,18 +78,20 @@
      var rowDate = normalizeDate(aData[column]),
        start = normalizeDate(startDate),
        end = normalizeDate(endDate);
- 
+       var  min2 = minDate2.val();
+       var max2 = maxDate2.val();
+       let f = aData[5]
+       var date = new Date(f);
      // If our date from the row is between the start and end
-     if (start <= rowDate && rowDate <= end) {
-       return true;
-     } else if (rowDate >= start && end === '' && start !== '') {
-       return true;
-     } else if (rowDate <= end && start === '' && end !== '') {
-       
-       return true;
-     } else {
-       return false;
-     }
+     if (
+      ( min2 === null && max2 === null ) ||
+      ( min2 === null && date <= max2 ) ||
+      ( min2 <= date   && max2 === null ) ||
+      ( min2 <= date   && date <= max2 ) 
+  ) {
+      return true;
+  }
+  return false;
    });
  };
  
@@ -97,7 +123,19 @@
   if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
   }
+  minDate = new DateTime($('#min'), {
+    format: 'DD/MM/YYYY'
+});
+maxDate = new DateTime($('#max'), {
+    format: 'DD/MM/YYYY'
+});
 
+minDate2 = new DateTime($('#min1'), {
+  format: 'DD/MM/YYYY'
+});
+maxDate2 = new DateTime($('#max1'), {
+  format: 'DD/MM/YYYY'
+});
   // DataTable with buttons
   // --------------------------------------------------------------------
  
@@ -165,7 +203,7 @@
         },{
           targets: 5,
           render:function(data){
-            return moment(data).format('MM/DD/YYYY');
+            return moment(data).format('L');
           }
         },
       ],
@@ -218,9 +256,17 @@
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
-  $('input.dt-input').on('keyup change', function () {
+ /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
-  });
+  });**/
+
+  
+    // Refilter the table
+    $('#min1, #max1').on('change', function () {
+      console.log(minDate2.val())
+      filterByDate(5); // We call our filter function
+      dt_basic.draw();
+      });
   }
   if (dt_basic_table2.length) {
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
@@ -393,9 +439,15 @@
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
-  $('input.dt-input2').on('keyup change', function () {
+ /*$('input.dt-input2').on('keyup change', function () {
     filterColumn2($(this).attr('data-column'), $(this).val());
-  });
+  });*/
+
+  $('#min, #max').on('change', function () {
+    console.log(minDate.val())
+    dt_basic2.draw();
+    });
+
   }
   // Flat Date picker
   if (dt_date_table.length) {
@@ -478,10 +530,10 @@ function filterColumn2(i, val) {
       filterByDate(i, startDate, endDate); // We call our filter function
     }
     
-    if (startDate == '' && endDate == '') {
+ /*   if (startDate == '' && endDate == '') {
       
       location.reload();
-    }
+    }*/
     $('.datatables-basic2').dataTable().fnDraw();
     
   } else {
