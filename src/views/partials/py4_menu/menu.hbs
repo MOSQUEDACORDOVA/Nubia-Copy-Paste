@@ -14,7 +14,7 @@ $(document).ready(function(){
 
 
 
-$('#id_cliente').on('change', (e) =>{
+$('#select2-basic').on('change', (e) =>{
     let id_ = e.target.value
     console.log(id_)
     var found = array.find(element => element.id == id_);
@@ -165,7 +165,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                 </li>-->
 
             <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#"
-                    data-bs-toggle="modal" data-bs-target="#registro_pedido_modal"> <i data-feather='truck'></i></a>
+                    data-bs-toggle="modal" data-bs-target="#registro_pedido_modal"> <i data-feather='shopping-cart'></i></a>
 
             </li>
             <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
@@ -329,7 +329,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
             <li core-menu-vertical-section="" class="navigation-header mt-2"><span class="navigation-section-text text-white">Opciones</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
             <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
-                        data-feather="mail"></i><span class="menu-title text-truncate"
+                        data-feather="home"></i><span class="menu-title text-truncate"
                         data-i18n="tablero">Tablero</span></a></li>
             <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
@@ -352,29 +352,31 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
             </div>
             <div class="modal-body">
                 <form novalidate class="needs-validation invalid was-validated repeater" action="/reg_pedido_modal" method="post">
-                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
-                    <select
-                            name="id_cliente" aria-describedby="id_cliente" tabindex="3"
-                            class="form-control ng-touched ng-pristine ng-valid" id="id_cliente">
-                            <option selected=""> Seleccione un cliente </option>
-                            {{#each clientes_arr as |cliente i|}}
+                            <div class="col-md-6 mb-1">
+                                            <label class="form-label" for="select2-basic">Basic</label>
+                                            <select class="select2 form-select" id="select2-basic" name="id_cliente">
+                                                <option selected=""> Seleccione un cliente </option>
+                                              {{#each clientes_arr as |cliente i|}}
                             <option value="{{id}}"> {{firstName}} </option>
                             {{/each}}
-                        </select></div>
+                                            </select>
+                                        </div>
+
+                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
+                   </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" autofocus required>
+                            tabindex="1" class="form-control mb-2" autofocus required>
                     </div>
                     <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
                             type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
-                            tabindex="2" class="form-control ng-untouched ng-pristine ng-valid"
-                            ng-reflect-name="lastName"></div>
+                            tabindex="2" class="form-control mb-2"></div>
                     <div class="divider">
                         <div class="divider-text">Dirección</div>
                     </div>
                     <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
                             name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control ng-touched ng-pristine ng-valid" id="ciudad_select">
+                            class="form-control mb-2" id="ciudad_select">
                             <option > Guadalajara </option>
                             <option> Atoyac </option>
                             <option> Mezcala </option>
@@ -382,29 +384,28 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                     <div class="form-group"><label for="register-fraccionamiento"
                             class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
                             placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="fraccionamiento">
+                            class="form-control mb-2">
                     </div>
                     <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
                             name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"></div>
+                            class="form-control mb-2"></div>
 
                     <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
                             name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"></div>
+                            class="form-control mb-2"></div>
 
                     <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
                             type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"></div>
+                            class="form-control mb-2"></div>
                     <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
                     <input
                             type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
-                            tabindex="9" class="form-control ng-untouched ng-pristine ng-valid"
-                            ng-reflect-name="avenida"></div>
+                            tabindex="9" class="form-control mb-2"></div>
 
                     <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
                             type="text" name="referencia" placeholder="Referencia"
                             aria-describedby="register-referencia" tabindex="9"
-                            class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"></div>
+                            class="form-control mb-2"></div>
 
                     <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
                         <div class="input-group">
@@ -412,8 +413,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                             </div>
                             <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
                                 aria-describedby="register-telefono" tabindex="11"
-                                class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="telefono"
-                                ng-reflect-mask-expression="(000) 000 00 00">
+                                class="form-control mb-2">
                         </div>
                     </div>
 
@@ -423,7 +423,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                     <div class="form-group"><label for="register-ciudad" class="form-label">Seleccione un chofer</label><select
                             name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad">
+                            class="form-control mb-2">
                             <option selected=""> Pedro </option>
                             <option> Juan </option>
                             <option> Carlos </option>
@@ -440,7 +440,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                             <div class="form-group"><label for="register-ciudad" class="form-label">Producto</label>
                                 <select name="product"  aria-describedby="register-ciudad"
-                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                                    tabindex="3" class="form-control mb-2">
                                     <option selected=""> Garrafón </option>
                                     <option> Tapa </option>
                                     <option> Sello </option>
@@ -451,11 +451,11 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                             <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
                                 <input type="text" name="cantidad_producto" placeholder="Cantidad"
-                                    aria-describedby="cantidad_producto" tabindex="1"                                     class="form-control ng-untouched ng-pristine ng-valid" required>
+                                    aria-describedby="cantidad_producto" tabindex="1" class="form-control mb-2" required>
                             </div>
                             <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
                                 <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
-                                    tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                                    tabindex="3" class="form-control mb-2">
                                     <option selected=""> Efectivo </option>
                                     <option> Tarjeta </option>
                                     <option> Transferencia </option>
@@ -463,14 +463,14 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                             </div>
                             <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
                                 <input type="text" name="monto_producto" placeholder="Monto"
-                                    aria-describedby="register-firstName" tabindex="1"                                     class="form-control ng-untouched ng-pristine ng-valid" required>
+                                    aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
                             </div>
 
 
                             <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label>
                             <select name="tipo_venta" placeholder="Ciudad"
                                     aria-describedby="register-ciudad" tabindex="3"
-                                    class="form-control ng-touched ng-pristine ng-valid">
+                                    class="form-control mb-2">
                                     <option selected=""> Refill </option>
                                     <option> Garrafon nuevo </option>
                                     <option> Canje </option>
@@ -488,7 +488,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                     <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
                         <input type="text" name="monto_total" placeholder="Monto total" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" required>
+                            tabindex="1" class="form-control mb-2" required>
                     </div>
 
                     <div class="divider">
@@ -497,7 +497,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                     <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label>
                     <select name="status_pago"  aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                            tabindex="3" class="form-control mb-2">
                             <option selected=""> Por pagar </option>
                             <option> Por Verificar </option>
                             <option> Pagado </option>
@@ -508,7 +508,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                     </div>
                     <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label>
                     <select name="status_pedido" aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control ng-touched ng-pristine ng-valid">
+                            tabindex="3" class="form-control mb-2">
                             <option selected=""> En proceso </option>
                             <option> Entregado </option>
                             <option> Rezagado </option>
@@ -520,17 +520,17 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
                         <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control ng-untouched ng-pristine ng-valid" required>
+                            tabindex="1" class="form-control mb-2" required>
                     </div>
 
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                         <input type="text" name="observacion" placeholder="Observación" aria-describedby="register-firstName"
-                            tabindex="1"  class="form-control ng-untouched ng-pristine ng-valid" required>
+                            tabindex="1"  class="form-control mb-2" required>
                     </div>
             </div>
             <div class="modal-footer">
                 <button tabindex="26" rippleeffect=""
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrar</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
             </div>
             </form>
         </div>

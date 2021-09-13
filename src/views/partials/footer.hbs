@@ -59,6 +59,10 @@
         
     {{/if}}
 {{#if py4}}
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+ <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
+    <!-- END: Page JS-->
     {{#if users1}}
        <!-- BEGIN: Page JS-->
         <!-- BEGIN: Page Vendor JS-->
@@ -99,13 +103,14 @@
     <!-- END: Page JS-->  
     {{/if}}
     <script>
-        $(window).on('load', function() {
+         $(window).on('load', function() {
             if (feather) {
                 feather.replace({
                     width: 14,
                     height: 14
                 });
             }
+            
               $('#button_modal_init').click()
 			
         
