@@ -1,3 +1,107 @@
+/*---------------------------- PYT-4 ---------------------------*/
+.py4 .page-item.active .page-link {
+    background-color: #001871;
+}
+.py4 .flatpickr-calendar .flatpickr-day.today {
+    border-color: #001871 !important;
+}
+.py4 .flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #001871 !important;
+    border-color: #001871 !important;
+}
+.py4 .btn-primary, .btn-primary {
+    border-color: #001871 !important;
+    background-color: #001871 !important;
+    color: #fff !important;
+}
+.main-menu.menu-light.py4 .navigation li a {
+    color: white;
+}
+.was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
+    border-color: #001871;
+    box-shadow: 0 0 0 0.25rem #00187125;
+}
+.was-validated .form-control:valid:focus, .form-control.is-valid:focus {
+    border-color: #001871;
+    box-shadow: 0 0 0 0.25rem #00187125;
+}
+.was-validated .form-control:invalid, .form-control.is-invalid {
+    border-color: unset;
+    padding-right: 0;
+    background-image: unset;
+    background-position: unset;
+    background-size: unset;
+}
+.was-validated .form-control:valid, .form-control.is-valid {
+    border-color: unset;
+    padding-right: 0;
+    background-image: unset;
+    background-position: unset;
+    background-size: unset;
+}
+.py4 .paginate-button.active {
+    background-color: #001871 !important;
+}
+.main-menu.py4 .navigation > li.active > a {
+    background: linear-gradient(118deg,#001871,#0093B2) !important;
+    box-shadow: 0 0 10px 1px rgba(0,147,178,.7) !important;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+}
+.py4 .btn-primary:hover:not(.disabled):not(:disabled), .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #001871;
+}
+.py4 .text-primary {
+	color: #001871 !important;
+}
+.py4 .input-group-append .input-group-text {
+	padding: 0.800rem 1rem;
+}
+.py4 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #001871 !important;
+}
+.py4 .form-control:focus {
+    border-color: #001871 !important;
+}
+.py4 .btn-primary:hover:not(.disabled):not(:disabled) {
+    box-shadow: 0 8px 25px -8px #001871;
+}
+.py4 .form-check-input:focus {
+    border-color: #001871;
+    box-shadow: 0 2px 4px 0 rgba(var(--bs-primary-rgb), 0.4);
+}
+.py4 .form-check-input:checked {
+    background-color: #001871 !important;
+    border-color: #001871 !important;
+}
+.py4 .dropdown-item {
+    transition: .3s ease all;
+}
+.py4 .dropdown-item:hover {
+    background: #001871;
+    color: white;
+}
+.py4 .feather-bell {
+    transition: .3s ease all;
+}
+.py4 .feather-bell:hover {
+    color: #001871;
+}
+.py4 input:focus {
+    border: 1px solid #001871 !important;
+}
+.py4 button.btn-outline-primary {
+    border: 1px solid #001871 !important;
+}
+.py4 .form-select:focus {
+    border: 1px solid #001871 !important;
+}
+
+.py4 .auth-register {
+    max-height: 500px;
+    overflow: auto;
+}
 /*--------------------------- PYT-21 ---------------------------*/
 .py21 .btn-primary, .btn-primary {
 	border-color: #7367f0 !important;

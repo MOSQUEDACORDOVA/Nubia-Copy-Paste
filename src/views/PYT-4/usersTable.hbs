@@ -18,7 +18,7 @@
           <div class="scrolling-inside-modal">
 
             <!-- Button trigger modal -->
-            <button type="button" class="btn btn-outline-primary waves-effect" data-bs-toggle="modal"
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
               data-bs-target="#exampleModalScrollable">
               Agregar Cliente
             </button>
@@ -81,22 +81,22 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form novalidate class="needs-validation invalid was-validated" action="/save_cliente_py4" method="post">
+            <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
               <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
               <input
                   type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control ng-untouched ng-pristine ng-valid"
+                  tabindex="1" autofocus="" class="form-control mb-2"
                   required></div>
               <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
                   type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
-                  tabindex="2" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="lastName"
+                  tabindex="2" class="form-control mb-2"
                  ></div>
               <div class="divider">
                 <div class="divider-text">Dirección</div>
               </div>
               <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
                   name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="ciudad"
+                  class="form-control mb-2"
                  >
                   <option selected=""> Guadalajara </option>
                   <option> Zapopan </option>
@@ -229,36 +229,35 @@
               <div class="form-group"><label for="register-fraccionamiento"
                   class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
                   placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="fraccionamiento"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
                   name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="coto"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
                   name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="casa"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text"
                   name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="calle"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text"
                   name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="avenida"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
                   type="text" name="referencia" placeholder="Referencia"
                   aria-describedby="register-referencia" tabindex="9"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="referencia"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
                 <div class="input-group">
                   <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
                   <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
                     aria-describedby="register-telefono" tabindex="11"
-                    class="form-control ng-untouched ng-pristine ng-invalid" ng-reflect-name="telefono"
-                    ng-reflect-mask-expression="(000) 000 00 00">
+                    class="form-control mb-2">
                 </div>
               </div>
               <div class="divider">
@@ -267,12 +266,12 @@
               <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
                   1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
                   aria-describedby="register-nombre_familiar_1" tabindex="12"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="nombre_familiar_1"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
                   1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
                   aria-describedby="register-apellido_familiar_1" tabindex="13"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="apellido_familiar_1"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
                   1</label>
@@ -280,19 +279,18 @@
                   <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
                   <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
                     mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
-                    class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="telefono_familiar_1"
-                    ng-reflect-mask-expression="(000) 000 00 00">
+                    class="form-control mb-2">
                 </div>
               </div>
               <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
                   2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
                   aria-describedby="register-nombre_familiar_2" tabindex="15"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="nombre_familiar_2"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
                   2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
                   aria-describedby="register-apellido_familiar_2" tabindex="16"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="apellido_familiar_2"
+                  class="form-control mb-2"
                  ></div>
               <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
                   2</label>
@@ -300,14 +298,12 @@
                   <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
                   <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
                     mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
-                    class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="telefono_familiar_2"
-                    ng-reflect-mask-expression="(000) 000 00 00">
+                    class="form-control mb-2">
                 </div>
               </div>
               <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
                   cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
-                  name="tipo_cliente" class="form-control ng-touched ng-pristine ng-valid"
-                  ng-reflect-name="tipo_cliente" ng-reflect-model="0">
+                  name="tipo_cliente" class="form-control mb-2">
                   <option selected=""> Residencial </option>
                   <option> Negocio </option>
                   <option> Punto de venta </option>
@@ -318,22 +314,20 @@
                   cliente?</label>
                 <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
                     name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
-                    class="custom-control-input ng-untouched ng-pristine ng-valid" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
+                    class="custom-control-input me-1" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
                 </div>
               </div>
               <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
                   pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
                   mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                  class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="fecha_ultimo_pedido"
-                  ng-reflect-mask-expression="00/00/0000"></div>
+                  class="form-control mb-2"></div>
               <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de garrafones
                   en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
                   aria-describedby="register-utimos_botellones" tabindex="23"
-                  class="form-control ng-touched ng-pristine ng-valid" ng-reflect-name="utimos_botellones"></div>
-              <div class="form-group ng-star-inserted"><label for="register-sucursal"
+                  class="form-control mb-2"></div>
+              <div class="form-group"><label for="register-sucursal"
                   class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
-                  name="sucursal" class="form-control ng-touched ng-pristine ng-valid"
-                  ng-reflect-name="sucursal">
+                  name="sucursal" class="form-control mb-2">
                   <option selected=""> Bugambilias </option>
                   <option> Patria </option>
                   <option> Adamar </option>
@@ -347,11 +341,11 @@
               </div>
               <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
                   name="email" placeholder="pedro@example.com" aria-describedby="register-email"
-                  tabindex="25" class="form-control ng-untouched ng-pristine ng-valid" ng-reflect-name="email"
+                  tabindex="25" class="form-control mb-2"
                  ></div>
           </div>
           <div class="modal-footer">
-             <button tabindex="26" rippleeffect="" class="btn btn-primary btn-block waves-effect waves-float waves-light ng-star-inserted">Regístrate</button>
+             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
           </div>
           </form>
         </div>
