@@ -147,7 +147,7 @@ console.log(array)
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4' }) +
               '</a>' 
             );
           }
@@ -247,6 +247,18 @@ console.log(array)
         }
       },
       language: {
+        "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
         paginate: {
           // remove previous & next text from pagination
           previous: '&nbsp;',
