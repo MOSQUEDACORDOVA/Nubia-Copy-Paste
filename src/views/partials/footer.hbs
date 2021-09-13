@@ -129,7 +129,6 @@ if(dominio=="localhost" || dominio=="projectos-666.web.app"){
   }
 }
     }
-    window.onpaint = preloadFunc();
 
         $(window).on('load', function() {
             if (feather) {
@@ -138,6 +137,10 @@ if(dominio=="localhost" || dominio=="projectos-666.web.app"){
                     height: 14
                 });
             }
+            if($('#button_modal_init').length){
+                preloadFunc();
+            }
+            
               $('#button_modal_init').click()
 			
         
