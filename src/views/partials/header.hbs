@@ -22,34 +22,6 @@
 
 
 
-<script>
-    window.onload = function(e)
-{
-  var dominio=window.location.hostname;
-var dominio_actual="";
-if(dominio=="localhost" || dominio=="projectos-666.web.app"){
-  dominio_actual="desarrollo";
-}else{
-  dominio_actual=dominio;
-  switch(dominio){
-    case 'bwater.mosquedacordova.com' || 'bwater.com': 
-    window.location.href ="/py4/PYT-4"
-    return false
-    sessionStorage.setItem('SS_proyecto_actual', 'PYT-4');
-    break
-    case 'pyt21.mosquedacordova.com' || 'cbfcapital.com': 
-    sessionStorage.setItem('SS_proyecto_actual', 'PYT-21');
-    break
-    case 'pyt24.mosquedacordova.com' || 'minner.com': 
-    sessionStorage.setItem('SS_proyecto_actual', 'PYT-24');
-    break
-    case 'pyt27.mosquedacordova.com' || 'dawi11.com': 
-    sessionStorage.setItem('SS_proyecto_actual', 'PYT-27');
-    break
-  }
-}
-};
-</script>
 
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
