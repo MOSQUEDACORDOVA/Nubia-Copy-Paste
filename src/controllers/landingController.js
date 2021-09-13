@@ -6,9 +6,9 @@ exports.showLandingPage = (req, res) => {
   }
   let hostname = req.headers.host
   console.log(hostname)
-  let spliter = hostname.split('.')
+  let spliter = hostname.split(':')
   console.log(spliter)
-  if (spliter[0]== "bwater") {
+  if (spliter[0]== "bwater" || spliter[1]== "3001") {
     res.redirect('/loginpy4')
   }else{
     res.render("home", {
