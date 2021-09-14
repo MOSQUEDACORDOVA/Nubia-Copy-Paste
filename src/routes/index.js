@@ -47,7 +47,7 @@ router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardC
 router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 
 
-router.get('/usuarios/:msg',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
 
