@@ -160,9 +160,51 @@ module.exports = {
     });
   },
 
+  update_cliente(id_cliente,firstName,lastName,ciudad,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursal: sucursal,},{
+            where:
+            {
+              id: id_cliente
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Cliente actualizado con éxito');
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+
   ClientesAll(){
     return new Promise((resolve, reject) => {
       Clientes.findAll({order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+
+  
+  ClientebyId(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{
+        id: id
+      }},{order: [
         // Will escape title and validate DESC against a list of valid direction parameters
         ["updatedAt", "DESC"],
       ],

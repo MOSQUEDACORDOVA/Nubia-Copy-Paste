@@ -148,7 +148,10 @@ console.log(array)
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+              '</a>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'  
             );
           }
         }
@@ -324,6 +327,17 @@ console.log(array)
        window.location.href = `/delete_cliente/${id}`;
      }
    })
+  });
+
+  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = e.target.classList[0]
+    console.log(id_edit)
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+  window.location.href = `/editar_cliente/${id_edit}`;
+
   });
 
 });

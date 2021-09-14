@@ -44,6 +44,8 @@ router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardCo
 
 
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
+router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
+
 
 router.get('/usuarios/:msg',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Cerrar Sesión
@@ -55,7 +57,7 @@ router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
 router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
-
+router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);

@@ -1,0 +1,280 @@
+<div class="app-content content" style="transition:none">
+    <div class="content-overlay"></div>
+
+    <div class="card">
+<div class="card-body">
+      <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_cliente" method="post">
+  <input type="hidden" name="id_cliente" value="{{cliente_let.id}}">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" autofocus required value="{{cliente_let.firstName}}">
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
+                    <input type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2" value="{{cliente_let.lastName}}">
+                      </div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="register-ciudad" class="form-label">Ciudad</label>
+                                            <select class="select2 form-select" id="ciudad_select" name="ciudad">
+                                                <option selected>{{cliente_let.ciudad}} </option>
+                                             <option> Guadalajara </option>
+                    <option> Zapopan </option>
+                    <option> Tlaquepaque </option>
+                    <option> Tonalá </option>
+                    <option> Puerto Vallarta </option>
+                    <option> Lagos de Moreno </option>
+                    <option> Ciudad Guzmán </option>
+                    <option> Tepatitlán de Morelos </option>
+                    <option> Hacienda Santa Fe </option>
+                    <option> Ocotlán </option>
+                    <option> Tesistán (San Francisco Tesistán) </option>
+                    <option> Arandas </option>
+                    <option> San Juan de los Lagos </option>
+                    <option> Autlán de Navarro </option>
+                    <option> Ameca </option>
+                    <option> Tala </option>
+                    <option> La Barca </option>
+                    <option> Zapotlanejo </option>
+                    <option> San Agustín </option>
+                    <option> Tlajomulco de Zúñiga </option>
+                    <option> Coyula </option>
+                    <option> Tequila </option>
+                    <option> Ixtapa </option>
+                    <option> San Sebastián el Grande </option>
+                    <option> Tuxpan </option>
+                    <option> Atotonilco el Alto </option>
+                    <option> Santa Cruz del Valle </option>
+                    <option> Sayula </option>
+                    <option> Las Pintitas </option>
+                    <option> Encarnación de Díaz </option>
+                    <option> Jalostotitlán </option>
+                    <option> San Miguel el Alto </option>
+                    <option> Teocaltiche </option>
+                    <option> Las Pintas </option>
+                    <option> Zapotiltic </option>
+                    <option> El Salto </option>
+                    <option> Chapala </option>
+                    <option> El Grullo </option>
+                    <option> Santa Anita </option>
+                    <option> Lomas del Sur </option>
+                    <option> Jocotepec </option>
+                    <option> Tamazula de Gordiano </option>
+                    <option> Zacoalco de Torres </option>
+                    <option> Cihuatlán </option>
+                    <option> El Quince (San José El Quince) </option>
+                    <option> Jamay </option>
+                    <option> San José El Verde (El Verde) </option>
+                    <option> Magdalena </option>
+                    <option> Ahualulco de Mercado </option>
+                    <option> Villa Hidalgo </option>
+                    <option> Tizapán el Alto </option>
+                    <option> Cocula </option>
+                    <option> Real del Valle </option>
+                    <option> Yahualica de González Gallo </option>
+                    <option> Poncitlán </option>
+                    <option> Etzatlán </option>
+                    <option> Capilla de Guadalupe </option>
+                    <option> Colotlán </option>
+                    <option> San José del Castillo </option>
+                    <option> San Julián </option>
+                    <option> Tototlán </option>
+                    <option> La Tijera </option>
+                    <option> Tecalitlán </option>
+                    <option> Acatic </option>
+                    <option> Ojuelos de Jalisco </option>
+                    <option> Lomas de San Agustín </option>
+                    <option> Ayotlán </option>
+                    <option> El Arenal </option>
+                    <option> Degollado </option>
+                    <option> Santa Cruz de las Flores </option>
+                    <option> La Resolana </option>
+                    <option> Villas de la Hacienda (Fraccionamiento) </option>
+                    <option> Amatitán </option>
+                    <option> Ajijic </option>
+                    <option> Acatlán de Juárez </option>
+                    <option> Valle Dorado Inn </option>
+                    <option> San Ignacio Cerro Gordo </option>
+                    <option> Tecolotlán </option>
+                    <option> Juanacatlán </option>
+                    <option> Galaxia Bonito Jalisco </option>
+                    <option> Unión de Tula </option>
+                    <option> Las Juntas </option>
+                    <option> Tomatlán </option>
+                    <option> La Alameda </option>
+                    <option> Talpa de Allende </option>
+                    <option> Mascota </option>
+                    <option> El Capulín </option>
+                    <option> Rancho Alegre (Fraccionamiento) </option>
+                    <option> Jesús María </option>
+                    <option> San Martín Hidalgo </option>
+                    <option> La Huerta </option>
+                    <option> Mazamitla </option>
+                    <option> La Ribera </option>
+                    <option> Los Olivos </option>
+                    <option> Unión de San Antonio </option>
+                    <option> Villa Corona </option>
+                    <option> San Patricio Melaque </option>
+                    <option> San Miguel Cuyutlán </option>
+                    <option> Los Ruiseñores </option>
+                    <option> Usmajac </option>
+                    <option> Atotonilquillo </option>
+                    <option> Ayutla </option>
+                    <option> Bellavista </option>
+                    <option> San Sebastián del Sur </option>
+                    <option> San Juan Cosalá </option>
+                    <option> Pihuamo </option>
+                    <option> Atequiza </option>
+                    <option> Zapote del Valle (Zapote de Santa Cruz) </option>
+                    <option> El Refugio </option>
+                    <option> Ixtlahuacán del Río </option>
+                    <option> Ixtlahuacán de los Membrillos </option>
+                    <option> Colinas del Roble </option>
+                    <option> Tapalpa </option>
+                    <option> Galaxia la Noria </option>
+                    <option> Puente Grande </option>
+                    <option> La Venta del Astillero </option>
+                    <option> Cuitzeo (La Estancia) </option>
+                    <option> Atemajac de Brizuela </option>
+                    <option> San Juanito de Escobedo </option>
+                    <option> Cajititlán </option>
+                    <option> San Diego de Alejandría </option>
+                    <option> San Francisco de Asis </option>
+                    <option> Villa Purificación </option>
+                    <option> San Andrés Ixtlán </option>
+                    <option> San Pedro Itzicán </option>
+                    <option> Atoyac </option>
+                    <option> Mezcala </option>
+                                            </select>
+                        </div>
+                    <div class="form-group"><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label>
+                            <input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2" value="{{cliente_let.fraccionamiento}}">
+                    </div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2" value="{{cliente_let.coto}}"></div>
+
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2" value="{{cliente_let.casa}}"></div>
+
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2" value="{{cliente_let.calle}}"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                    <input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2" value="{{cliente_let.avenida}}"></div>
+
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9"
+                            class="form-control mb-2" value="{{cliente_let.referencia}}"></div>
+
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11"
+                                class="form-control mb-2" value="{{cliente_let.telefono}}">
+                        </div>
+                    </div>
+
+<div class="divider">
+                <div class="divider-text">Familiares</div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
+                  1</label>
+                  <input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_1" tabindex="12"
+                  class="form-control mb-2" value="{{cliente_let.nombre_familiar_1}}"
+                 >
+                 </div>
+              <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
+                  1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_1" tabindex="13"
+                  class="form-control mb-2" value="{{cliente_let.apellido_familiar_1}}"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
+                  1</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                    class="form-control mb-2" value="{{cliente_let.telefono_familiar_1}}">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
+                  2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_2" tabindex="15"
+                  class="form-control mb-2" value="{{cliente_let.nombre_familiar_2}}"
+                 ></div>
+              <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
+                  2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_2" tabindex="16"
+                  class="form-control mb-2" value="{{cliente_let.apellido_familiar_2}}"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
+                  2</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                    class="form-control mb-2" value="{{cliente_let.telefono_familiar_2}}">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                  cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                  name="tipo_cliente" class="form-control mb-2">
+                  <option selected=""> {{cliente_let.tipo}} </option>
+                  <option > Residencial </option>
+                  <option> Negocio </option>
+                  <option> Punto de venta </option>
+                  <option> Sucursal </option>
+                  <option> Independiente </option>
+                </select></div>
+              <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                  cliente?</label>
+                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
+                    name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                    class="custom-control-input me-1" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
+                </div>
+              </div>
+              <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
+                  pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                  mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                  class="form-control mb-2" value="{{cliente_let.fecha_ultimo_pedido}}"></div>
+              <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de garrafones
+                  en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
+                  aria-describedby="register-utimos_botellones" tabindex="23"
+                  class="form-control mb-2" value="{{cliente_let.ultimos_botellones}}"></div>
+              <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
+                  name="sucursal" class="form-control mb-2">
+                  <option selected=""> {{cliente_let.sucursal}} </option>
+                  <option > Bugambilias </option>
+                  <option> Patria </option>
+                  <option> Adamar </option>
+                </select></div>
+              <div class="divider">
+                <div class="divider-text">Acceso</div>
+              </div>
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                  tabindex="25" class="form-control mb-2" value="{{cliente_let.email}}"
+                 ></div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
+            </div>
+            </form>
+            </div>
+            </div>
+</div>
+<!-- END: Content-->
