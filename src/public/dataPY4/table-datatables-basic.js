@@ -146,8 +146,8 @@ console.log(array)
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4' }) +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' 
             );
           }
@@ -304,10 +304,26 @@ console.log(array)
       $('.modal').modal('hide');
     }
   });
-
+  $('.odd').addClass('selector');
+  $('.even').addClass('selector'); 
   // Delete Record
-  $('.datatables-basic tbody').on('click', '.delete-record', function () {
-    dt_basic.row($(this).parents('tr')).remove().draw();
+  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
+   //dt_basic.row($(this).parents('tr')).remove().draw();
+   var id = e.target.classList[0]
+   Swal.fire({
+     title: 'Eliminar',
+     text: "Seguro desea cliente, tambien se borraran los pedidos de dicho cliente",
+     icon: 'warning',
+     showCancelButton: true,
+     confirmButtonColor: '#3085d6',
+     cancelButtonColor: '#d33',
+     cancelButtonText: 'Cancelar',
+     confirmButtonText: 'Eliminar'
+   }).then((result) => {
+     if (result.isConfirmed) {
+       window.location.href = `/delete_cliente/${id}`;
+     }
+   })
   });
 
 });
