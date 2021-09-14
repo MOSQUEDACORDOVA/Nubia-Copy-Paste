@@ -3065,7 +3065,7 @@ body:after {
 
 .select2-container--classic .select2-results__option[aria-selected='true'],
 .select2-container--default .select2-results__option[aria-selected='true'] {
-  background-color: #7367f0 !important;
+  background-color: #001871 !important;
   color: #fff !important; }
 
 .select2-container--classic .select2-results__option i,
@@ -3079,8 +3079,8 @@ body:after {
 
 .select2-container--classic .select2-results__option--highlighted,
 .select2-container--default .select2-results__option--highlighted {
-  background-color: rgba(var(--bs-primary-rgb), 0.12) !important;
-  color: #7367f0 !important; }
+  background-color: #0018703d !important;
+  color: white !important; }
 
 .select2-container--classic .select2-result-repository__avatar img,
 .select2-container--default .select2-result-repository__avatar img {

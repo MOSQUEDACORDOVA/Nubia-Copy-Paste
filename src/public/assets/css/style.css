@@ -17,13 +17,16 @@
 .py4 .header-navbar .navbar-container ul.navbar-nav li i.ficon:hover, .header-navbar .navbar-container ul.navbar-nav li svg.ficon:hover {
     color: unset;
 }
+.py4 .dropdown-item:hover, .py4 .dropdown-item:focus, .py4 .dropdown-item.active, .py4 .dropdown-item:active {
+    color: white;
+    background-color: #001871;
+}
 .py4 .select2.select2-container .select2-selection__arrow b {
     display: none;
 } 
 .main-menu.menu-light.py4 .navigation li a {
     color: white;
 }
-
 .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
     border-color: #001871;
     box-shadow: 0 0 0 0.25rem #00187125;

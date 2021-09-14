@@ -51,7 +51,7 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 <input type="text" id="array_pedido" hidden value="{{pedidos_}}">
 <!-- BEGIN: Header-->
 <nav
-    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl">
+    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py4">
     <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
             <ul class="nav navbar-nav d-xl-none">
@@ -164,9 +164,14 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                     </ul>
                 </li>-->
 
-            <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#"
-                    data-bs-toggle="modal" data-bs-target="#registro_pedido_modal"> <i class="ficon" data-feather="shopping-cart"></i>
-
+            <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
+                    <i class="ficon me-1" data-feather="shopping-cart"></i>
+                    <span class="menu-title text-truncate"></span>Añadir <br>pedido</span>
+                </a>
+            </li>
+            <li class="nav-item border mx-1">
+                <span class="divider"></span>
             </li>
             <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
                     id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -189,8 +194,9 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
                         Settings</a>
                         <a class="dropdown-item" href="page-pricing.html"><i class="me-50"
                             data-feather="credit-card"></i> Pricing</a>-->
-                            <a class="dropdown-item" href="page-faq.html"><i
-                            class="me-50" data-feather="help-circle"></i> FAQ</a><a class="dropdown-item"
+                            {{!-- <a class="dropdown-item" href="page-faq.html"><i
+                            class="me-50" data-feather="help-circle"></i> FAQ</a> --}}
+                            <a class="dropdown-item"
                         href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar Sesion</a>
 
                 </div>
@@ -357,14 +363,14 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
 
                     <div class="form-group">
                                             <label class="form-label" for="select2-basic">Basic</label>
-                                            <select class="select2 form-select mb-2" id="select2-basic" name="id_cliente">
+                                            <select class="select2 form-select" id="select2-basic" name="id_cliente">
                                                 <option selected=""> Seleccione un cliente </option>
                                               {{#each clientes_arr as |cliente i|}}
                             <option value="{{id}}"> {{firstName}} {{lastName}}</option>
                             {{/each}}
                                             </select>
                    </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                    <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" autofocus required>
                     </div>
