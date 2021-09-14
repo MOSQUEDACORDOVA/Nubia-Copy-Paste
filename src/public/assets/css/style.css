@@ -20,10 +20,7 @@
 .main-menu.menu-light.py4 .navigation li a {
     color: white;
 }
-.dropdown-item:hover, .dropdown-item:focus {
-    color: white;
-    background-color: #001871;
-}
+
 .was-validated .form-control:invalid:focus, .form-control.is-invalid:focus {
     border-color: #001871;
     box-shadow: 0 0 0 0.25rem #00187125;

@@ -14,7 +14,7 @@ $(document).ready(function(){
 
 
 
-$('#id_cliente').on('change', (e) =>{
+$('#select2-basic').on('change', (e) =>{
     let id_ = e.target.value
     console.log(id_)
     var found = array.find(element => element.id == id_);
@@ -352,16 +352,18 @@ if ( $("#ciudad_select option[value='" + found.ciudad + "']").length == 0 ){
             </div>
             <div class="modal-body">
                 <form novalidate class="needs-validation invalid was-validated repeater" action="/reg_pedido_modal" method="post">
-                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
-                    <select
-                            name="id_cliente" aria-describedby="id_cliente" tabindex="3"
-                            class="form-control mb-2" id="id_cliente">
-                            <option selected=""> Seleccione un cliente </option>
-                            {{#each clientes_arr as |cliente i|}}
+                            <div class="col-md-6 mb-1">
+                                            <label class="form-label" for="select2-basic">Basic</label>
+                                            <select class="select2 form-select" id="select2-basic" name="id_cliente">
+                                                <option selected=""> Seleccione un cliente </option>
+                                              {{#each clientes_arr as |cliente i|}}
                             <option value="{{id}}"> {{firstName}} </option>
                             {{/each}}
-                        </select>
-                    </div>
+                                            </select>
+                                        </div>
+
+                    <div class="form-group"><label for="id_clientes" class="form-label">Seleccione un cliente</label>
+                   </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" autofocus required>
