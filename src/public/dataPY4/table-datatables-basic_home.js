@@ -4,6 +4,7 @@
 
  'use strict';
 
+
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
@@ -17,9 +18,6 @@
 
      let f = data[5]
          var date = new Date(f);
-  console.log(min)
-  console.log(max)
-  console.log(date)
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
@@ -170,9 +168,12 @@ maxDate2 = new DateTime($('#max1'), {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4' }) +
-              '</a>' 
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'  
             );
           } },
       ], columnDefs: [
@@ -244,7 +245,6 @@ maxDate2 = new DateTime($('#max1'), {
   
     // Refilter the table
     $('#min1, #max1').on('change', function () {
-      console.log(minDate2.val())
       filterByDate(5); // We call our filter function
       dt_basic.draw();
       });
@@ -280,9 +280,12 @@ maxDate2 = new DateTime($('#max1'), {
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4' }) +
-              '</a>' 
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'              
             );
           } },
       ],columnDefs: [
@@ -349,7 +352,6 @@ maxDate2 = new DateTime($('#max1'), {
   });*/
 
   $('#min, #max').on('change', function () {
-    console.log(minDate.val())
     dt_basic2.draw();
     });
 
@@ -400,8 +402,71 @@ maxDate2 = new DateTime($('#max1'), {
   $('.dataTables_filter .form-control').removeClass('form-control-sm');
   $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
   // Delete Record
-  $('.datatables-basic tbody').on('click', '.delete-record', function () {
-    dt_basic.row($(this).parents('tr')).remove().draw();
+  
+  $('.odd').addClass('selector');
+  $('.even').addClass('selector'); 
+
+  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id = e.target.classList[0]
+    Swal.fire({
+      title: 'Eliminar',
+      text: "Seguro desea eliminar el pedido indicado",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = `/delete_pedido/${id}`;
+      }
+    })
+
+  });
+  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = e.target.classList[0]
+    console.log(id_edit)
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+  window.location.href = `/editar_pedido/${id_edit}`;
+
+  });
+
+  $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit2 = e.target.classList[0]
+    console.log(id_edit2)
+    if (typeof id_edit2 =="undefined") {
+      return console.log(id_edit2)
+    }
+  window.location.href = `/editar_pedido/${id_edit2}`;
+
+  });
+
+  $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+   // var id2= e.target.classList[0]
+    var id2= e.target.classList[0]
+    console.log(id2)
+    Swal.fire({
+      title: 'Eliminar',
+      text: "Seguro desea eliminar el pedido indicado",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = `/delete_pedido/${id2}`;
+      }
+    })
+
   });
 
 });

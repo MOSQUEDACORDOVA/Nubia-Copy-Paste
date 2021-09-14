@@ -38,6 +38,13 @@ router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
+
+router.get('/delete_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_pedido);
+router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
+
+
+router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
+
 router.get('/usuarios/:msg',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
@@ -47,7 +54,7 @@ router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
 router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
-
+router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 
 
 //PYT-21

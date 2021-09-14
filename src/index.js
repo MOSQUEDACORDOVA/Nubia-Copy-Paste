@@ -12,13 +12,13 @@ const fileupload = require('express-fileupload');
 //var firebase = require("firebase/app");
 
 // Conectar con la base de datos
-// db.sync()
-// 	.then(() => {
-// 		console.log('Base de datos conectada');
-// 	})
-// 	.catch(err => {
-// 		console.log('Error: ', err);
-// 	});
+ db.sync()
+ 	.then(() => {
+ 		console.log('Base de datos conectada');
+ 	})
+ 	.catch(err => {
+ 		console.log('Error: ', err);
+ 	});
 
 // Crear el servidor de express
 const app = express();

@@ -1,0 +1,315 @@
+<div class="app-content content" style="transition:none">
+    <div class="content-overlay"></div>
+
+    <div class="card">
+<div class="card-body">
+      <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido" method="post">
+  <input type="hidden" name="id_pedido" value="{{pedido_let.id}}">
+  <input type="hidden" name="id_cliente" value="{{pedido_let.cliente.id}}">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" autofocus required value="{{pedido_let.cliente.firstName}}">
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
+                    <input type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2" value="{{pedido_let.cliente.lastName}}">
+                      </div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+                    <div class="form-group">
+                      <label for="register-ciudad" class="form-label">Ciudad</label>
+                                            <select class="select2 form-select" id="ciudad_select" name="ciudad">
+                                                <option selected>{{pedido_let.cliente.ciudad}} </option>
+                                             <option> Guadalajara </option>
+                    <option> Zapopan </option>
+                    <option> Tlaquepaque </option>
+                    <option> Tonalá </option>
+                    <option> Puerto Vallarta </option>
+                    <option> Lagos de Moreno </option>
+                    <option> Ciudad Guzmán </option>
+                    <option> Tepatitlán de Morelos </option>
+                    <option> Hacienda Santa Fe </option>
+                    <option> Ocotlán </option>
+                    <option> Tesistán (San Francisco Tesistán) </option>
+                    <option> Arandas </option>
+                    <option> San Juan de los Lagos </option>
+                    <option> Autlán de Navarro </option>
+                    <option> Ameca </option>
+                    <option> Tala </option>
+                    <option> La Barca </option>
+                    <option> Zapotlanejo </option>
+                    <option> San Agustín </option>
+                    <option> Tlajomulco de Zúñiga </option>
+                    <option> Coyula </option>
+                    <option> Tequila </option>
+                    <option> Ixtapa </option>
+                    <option> San Sebastián el Grande </option>
+                    <option> Tuxpan </option>
+                    <option> Atotonilco el Alto </option>
+                    <option> Santa Cruz del Valle </option>
+                    <option> Sayula </option>
+                    <option> Las Pintitas </option>
+                    <option> Encarnación de Díaz </option>
+                    <option> Jalostotitlán </option>
+                    <option> San Miguel el Alto </option>
+                    <option> Teocaltiche </option>
+                    <option> Las Pintas </option>
+                    <option> Zapotiltic </option>
+                    <option> El Salto </option>
+                    <option> Chapala </option>
+                    <option> El Grullo </option>
+                    <option> Santa Anita </option>
+                    <option> Lomas del Sur </option>
+                    <option> Jocotepec </option>
+                    <option> Tamazula de Gordiano </option>
+                    <option> Zacoalco de Torres </option>
+                    <option> Cihuatlán </option>
+                    <option> El Quince (San José El Quince) </option>
+                    <option> Jamay </option>
+                    <option> San José El Verde (El Verde) </option>
+                    <option> Magdalena </option>
+                    <option> Ahualulco de Mercado </option>
+                    <option> Villa Hidalgo </option>
+                    <option> Tizapán el Alto </option>
+                    <option> Cocula </option>
+                    <option> Real del Valle </option>
+                    <option> Yahualica de González Gallo </option>
+                    <option> Poncitlán </option>
+                    <option> Etzatlán </option>
+                    <option> Capilla de Guadalupe </option>
+                    <option> Colotlán </option>
+                    <option> San José del Castillo </option>
+                    <option> San Julián </option>
+                    <option> Tototlán </option>
+                    <option> La Tijera </option>
+                    <option> Tecalitlán </option>
+                    <option> Acatic </option>
+                    <option> Ojuelos de Jalisco </option>
+                    <option> Lomas de San Agustín </option>
+                    <option> Ayotlán </option>
+                    <option> El Arenal </option>
+                    <option> Degollado </option>
+                    <option> Santa Cruz de las Flores </option>
+                    <option> La Resolana </option>
+                    <option> Villas de la Hacienda (Fraccionamiento) </option>
+                    <option> Amatitán </option>
+                    <option> Ajijic </option>
+                    <option> Acatlán de Juárez </option>
+                    <option> Valle Dorado Inn </option>
+                    <option> San Ignacio Cerro Gordo </option>
+                    <option> Tecolotlán </option>
+                    <option> Juanacatlán </option>
+                    <option> Galaxia Bonito Jalisco </option>
+                    <option> Unión de Tula </option>
+                    <option> Las Juntas </option>
+                    <option> Tomatlán </option>
+                    <option> La Alameda </option>
+                    <option> Talpa de Allende </option>
+                    <option> Mascota </option>
+                    <option> El Capulín </option>
+                    <option> Rancho Alegre (Fraccionamiento) </option>
+                    <option> Jesús María </option>
+                    <option> San Martín Hidalgo </option>
+                    <option> La Huerta </option>
+                    <option> Mazamitla </option>
+                    <option> La Ribera </option>
+                    <option> Los Olivos </option>
+                    <option> Unión de San Antonio </option>
+                    <option> Villa Corona </option>
+                    <option> San Patricio Melaque </option>
+                    <option> San Miguel Cuyutlán </option>
+                    <option> Los Ruiseñores </option>
+                    <option> Usmajac </option>
+                    <option> Atotonilquillo </option>
+                    <option> Ayutla </option>
+                    <option> Bellavista </option>
+                    <option> San Sebastián del Sur </option>
+                    <option> San Juan Cosalá </option>
+                    <option> Pihuamo </option>
+                    <option> Atequiza </option>
+                    <option> Zapote del Valle (Zapote de Santa Cruz) </option>
+                    <option> El Refugio </option>
+                    <option> Ixtlahuacán del Río </option>
+                    <option> Ixtlahuacán de los Membrillos </option>
+                    <option> Colinas del Roble </option>
+                    <option> Tapalpa </option>
+                    <option> Galaxia la Noria </option>
+                    <option> Puente Grande </option>
+                    <option> La Venta del Astillero </option>
+                    <option> Cuitzeo (La Estancia) </option>
+                    <option> Atemajac de Brizuela </option>
+                    <option> San Juanito de Escobedo </option>
+                    <option> Cajititlán </option>
+                    <option> San Diego de Alejandría </option>
+                    <option> San Francisco de Asis </option>
+                    <option> Villa Purificación </option>
+                    <option> San Andrés Ixtlán </option>
+                    <option> San Pedro Itzicán </option>
+                    <option> Atoyac </option>
+                    <option> Mezcala </option>
+                                            </select>
+                        </div>
+                    <div class="form-group"><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label>
+                            <input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2" value="{{pedido_let.cliente.fraccionamiento}}">
+                    </div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2" value="{{pedido_let.cliente.coto}}"></div>
+
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2" value="{{pedido_let.cliente.casa}}"></div>
+
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2" value="{{pedido_let.cliente.calle}}"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                    <input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2" value="{{pedido_let.cliente.avenida}}"></div>
+
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9"
+                            class="form-control mb-2" value="{{pedido_let.cliente.referencia}}"></div>
+
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11"
+                                class="form-control mb-2" value="{{pedido_let.cliente.telefono}}">
+                        </div>
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-text">Chofer</div>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Seleccione un chofer</label><select
+                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2">
+                            <option selected=""> {{pedido_let.chofer}} </option>
+                            <option> Juan </option>
+                            <option> Carlos </option>
+                        </select></div>
+
+                    <div class="divider">
+                        <div class="divider-text">Productos</div>
+                    </div>
+
+                    <div data-repeater-list="productos">
+                      {{#each pedido_let.Productos_ as |productos i|}}
+                        <div data-repeater-item>
+                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light"
+                                data-repeater-delete>-</button>
+
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Producto</label>
+                                <select name="product"  aria-describedby="register-ciudad"
+                                    tabindex="3" class="form-control mb-2">
+                                    <option selected=""> {{product}} </option>
+                                    <option > Garrafón </option>
+                                    <option> Tapa </option>
+                                    <option> Sello </option>
+                                    <option> Liner </option>
+                                    <option> Etiqueta </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
+                                <input type="text" name="cantidad_producto" placeholder="Cantidad"
+                                    aria-describedby="cantidad_producto" tabindex="1" class="form-control mb-2" required value="{{cantidad_producto}}">
+                            </div>
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                                <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                                    tabindex="3" class="form-control mb-2">
+                                    <option selected=""> {{metodo_pago}} </option>
+                                    <option > Efectivo </option>
+                                    <option> Tarjeta </option>
+                                    <option> Transferencia </option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
+                                <input type="text" name="monto_producto" placeholder="Monto"
+                                    aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required value="{{monto_producto}}">
+                            </div>
+
+
+                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label>
+                            <select name="tipo_venta" placeholder="Ciudad"
+                                    aria-describedby="register-ciudad" tabindex="3"
+                                    class="form-control mb-2">
+                                     <option selected=""> {{tipo_venta}} </option>
+                                    <option > Refill </option>
+                                    <option> Garrafon nuevo </option>
+                                    <option> Canje </option>
+                                    <option> Garantía </option>
+                                    <option> Obsequio </option>
+                                    <option> Maquila para sucursales </option>
+                                    <option> Maquila para Independientes </option>
+                                </select></div>
+
+                        </div>
+                        {{/each}}
+                    </div>
+
+                    <button type="button" class="btn btn-success waves-effect waves-float waves-light"
+                        data-repeater-create>+</button>
+
+                    <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
+                        <input type="text" name="monto_total" placeholder="Monto total" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" required value="{{pedido_let.monto_total}}">
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-text">Venta</div>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label>
+                    <select name="status_pago"  aria-describedby="register-ciudad"
+                            tabindex="3" class="form-control mb-2">
+                            <option selected=""> {{pedido_let.status_pago}} </option>
+                            <option > Por pagar </option>
+                            <option> Por Verificar </option>
+                            <option> Pagado </option>
+                            <option> Obsequio </option>
+                            <option> Garantía </option>
+                            <option>Prestado </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label>
+                    <select name="status_pedido" aria-describedby="register-ciudad"
+                            tabindex="3" class="form-control mb-2">
+                            <option selected=""> {{pedido_let.status_pedido}} </option>
+                            <option > En proceso </option>
+                            <option> Entregado </option>
+                            <option> Rezagado </option>
+                            <option> Reasignado </option>
+                            <option> Cancelado </option>
+                            <option>Por facturar </option>
+                            <option>Devuelto </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
+                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" required value="{{pedido_let.garrafones_prestamos}}">
+                    </div>
+
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="observacion" placeholder="Observación" aria-describedby="register-firstName"
+                            tabindex="1"  class="form-control mb-2" required value="{{pedido_let.observacion}}">
+                    </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
+            </div>
+            </form>
+            </div>
+            </div>
+</div>
+<!-- END: Content-->
