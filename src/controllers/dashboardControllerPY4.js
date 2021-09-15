@@ -10,6 +10,7 @@ exports.dashboard = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
+  console.log(msg)
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
@@ -27,7 +28,8 @@ exports.dashboard = (req, res) => {
       clientes_d,
       clientes_arr,
       pedidos_,
-      pedidos_let
+      pedidos_let,
+      msg
     }) 
   }).catch((err) => {
     console.log(err)
@@ -100,9 +102,11 @@ exports.sesionstart = (req, res) => {
 
 exports.usuariosTable = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+
+  if (req.query.mensaje) {
+    msg = req.query.mensaje;
   }
+  console.log(req.query)
   let proyecto = "PYT-4"
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
@@ -136,6 +140,7 @@ exports.save_cliente_py4 = (req, res) => {
   }
 
   DataBase.registrar_cliente(firstName,lastName,ciudad,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email).then((respuesta) =>{
+
     res.redirect('/usuarios/'+respuesta)
 
   }).catch((err) => {
@@ -283,7 +288,8 @@ return res.redirect("/errorpy4/" + msg);
 
   DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
     console.log(respuesta)
-    res.redirect('/homepy4/'+respuesta)
+    let msg=respuesta
+    res.redirect('/homepy4/'+msg)
 
   }).catch((err) => {
     console.log(err)

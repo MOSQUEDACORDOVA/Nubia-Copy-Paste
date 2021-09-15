@@ -122,7 +122,10 @@
         })
 
 		$(document).ready(function(){
-   
+   if ( $("#msgs").length ) {
+    let mensaje = $('#msgs').text();
+  Swal.fire(mensaje)
+ }
         $('#basicSelect').on('change',(e)=>{
 				 var value = $('#basicSelect').val()
 				 console.log(value)
