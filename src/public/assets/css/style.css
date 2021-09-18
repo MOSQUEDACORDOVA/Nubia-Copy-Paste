@@ -17,6 +17,9 @@
 .py4 .header-navbar .navbar-container ul.navbar-nav li i.ficon:hover, .header-navbar .navbar-container ul.navbar-nav li svg.ficon:hover {
     color: unset;
 }
+.py4 .nav-item .añadir {
+    font-size: 12px;
+}
 .py4 .dropdown-item:hover, .py4 .dropdown-item:focus, .py4 .dropdown-item.active, .py4 .dropdown-item:active {
     color: white;
     background-color: #001871;
