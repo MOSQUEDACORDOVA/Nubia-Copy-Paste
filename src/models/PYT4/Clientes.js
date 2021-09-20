@@ -28,6 +28,11 @@ const Clientes = db.define('clientes', {
 		allowNull: true,
 		defaultValue: ""
 	},
+	municipio: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 	fraccionamiento: {
 		type: DataTypes.TEXT,
 		allowNull: true,

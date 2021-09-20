@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt-nodejs");
 const Usuarios = require("../../models/PYT4/Usuarios");
 const Clientes = require("../../models/PYT4/Clientes");
 const Pedidos = require("../../models/PYT4/Pedidos");
+const Personal = require("../../models/PYT4/Personal");
 const Productos_pedidos = require("../../models/PYT4/Productos_pedidos");
 
 
@@ -248,7 +249,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
     return new Promise((resolve, reject) => {
       console.log(productos.length)
       let products = JSON.stringify(productos);
@@ -271,7 +272,7 @@ module.exports = {
                 
                 Clientes.update(
                   {
-                    firstName: firstName,lastName: lastName,ciudad: ciudad,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+                    firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
                         id: id_cliente
                     }})
                   .then((data_cli) => {
@@ -298,7 +299,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido, id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
+ PedidosUpd(id_pedido, id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
     return new Promise((resolve, reject) => {
      
       let products = JSON.stringify(productos);
@@ -345,7 +346,7 @@ module.exports = {
 
                       Clientes.update(
                         {
-                          firstName: firstName,lastName: lastName,ciudad: ciudad,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+                          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
                               id: id_cliente
                           }})
                         .then((data_cli) => {
@@ -474,5 +475,102 @@ module.exports = {
         });
     });
   },
+
+     //Personal
+     savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso) {
+      return new Promise((resolve, reject) => {
+        Personal.create(
+          {
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Personal registrado con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso) {
+      return new Promise((resolve, reject) => {
+        Personal.update(
+          {
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso}, {where:{
+              id: id_personal
+            }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Personal actualizado con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+   
+    PersonalAll(){
+      return new Promise((resolve, reject) => {
+        Personal.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    PersonalById(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    ChoferesAll(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {
+          cargo: 'Chofer'        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Delete_Personal(id){
+      return new Promise((resolve, reject) => {
+        Personal.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve('data_p');
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
   
 };
