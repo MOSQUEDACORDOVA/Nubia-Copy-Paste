@@ -18,7 +18,9 @@ exports.dashboard = (req, res) => {
      DataBase.PedidosAll().then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-      // console.log(pedidos_let)
+       DataBase.ChoferesAll().then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+       console.log(choferes_)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -29,6 +31,7 @@ exports.dashboard = (req, res) => {
       clientes_arr,
       pedidos_,
       pedidos_let,
+      choferes_,
       msg
     }) 
   }).catch((err) => {
@@ -41,6 +44,11 @@ exports.dashboard = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
 };
 
 exports.login = (req, res) => {
@@ -232,9 +240,9 @@ exports.closeSesion = (req, res) => {
 exports.regPedidoPy4 = (req, res) => {
   console.log(req.body)
   const user = res.locals.user
-  const { id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
 
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
     res.redirect('/homepy4/'+respuesta)
 
   }).catch((err) => {
@@ -284,12 +292,133 @@ return res.redirect("/errorpy4/" + msg);
  exports.Save_editPedidoPy4 = (req, res) => {
   console.log(req.body)
   const user = res.locals.user
-  const {id_pedido, id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+  const {id_pedido, id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
 
-  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
     console.log(respuesta)
     let msg=respuesta
     res.redirect('/homepy4/'+msg)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+
+//PERSONAL
+exports.personal_table = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  console.log(msg)
+  DataBase.ClientesAll().then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+    // console.log(clientes_arr)
+     DataBase.PedidosAll().then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+      // console.log(pedidos_let)
+      DataBase.PersonalAll().then((personal_)=>{
+        let personal_let = JSON.parse(personal_)
+         let count = personal_let.length
+        // console.log(pedidos_let)
+    res.render("PYT-4/personal", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      personal:true,
+      clientes_d,
+      clientes_arr,
+      pedidos_,
+      pedidos_let,
+      personal_,
+      personal_let,
+      msg
+    }) 
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+
+exports.save_personal = (req, res) => {
+  console.log(req.body)
+  const { firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso} = req.body
+  let msg = false;
+
+  DataBase.savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso).then((respuesta) =>{
+    res.redirect('/personal_py4/'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+
+exports.delete_personal = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id
+console.log(id_)
+  DataBase.Delete_Personal(id_).then((respuesta) =>{
+    
+     console.log(respuesta)
+  let msg = "Personal Eliminado con éxito"
+  res.redirect('/personal_py4/'+msg)
+
+   })   
+ };
+
+ exports.editar_personal = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id
+console.log(id_)
+DataBase.PersonalById(id_).then((personal_)=>{
+  let personal_let = JSON.parse(personal_)[0]
+ console.log(personal_let)
+res.render("PYT-4/edit_personal", {
+  pageName: "Bwater",
+  dashboardPage: true,
+  dashboard: true,
+  py4:true,
+  personal:true,
+  personal_,
+  personal_let
+}) 
+}).catch((err) => {
+console.log(err)
+let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+});
+ };
+
+ exports.save_personal_py4 = (req, res) => {
+  console.log(req.body)
+  const user = res.locals.user
+  const {id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso} = req.body
+
+  DataBase.updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso).then((respuesta) =>{
+    console.log(respuesta)
+    let msg=respuesta
+    res.redirect('/personal_py4/'+msg)
 
   }).catch((err) => {
     console.log(err)

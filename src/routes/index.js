@@ -32,13 +32,24 @@ router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
     //get
-    router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
+router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 
+
+//personal
+router.get('/personal_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
+router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.personal_table);
+router.post('/save_personal_py4', dashboardControllerPY4.save_personal);
+router.get('/delete_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_personal);
+router.get('/editar_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_personal);
+router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_personal_py4);
+
+
+//pedido
 router.get('/delete_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_pedido);
 router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
 
@@ -48,6 +59,8 @@ router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardC
 
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+
+
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
 
@@ -58,6 +71,12 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
+
+
+
+
+
+
 
 //PYT-21
 router.get('/py21/:id', dashboardControllerPY21.dashboard);
