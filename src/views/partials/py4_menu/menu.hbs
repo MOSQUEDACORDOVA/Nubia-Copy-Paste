@@ -606,62 +606,87 @@ $('#status_pago').val('Pagado')
                     <div class="mb-1">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon" aria-expanded="true">Garrafon</a>
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon" aria-expanded="true">Garrafon 19L</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella" aria-expanded="false">Botella</a>
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella" aria-expanded="false">Botella 1L</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l" aria-expanded="false">Garrafon 11L</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l" aria-expanded="false">Botella 5L</a>
+                            </li>
                         </ul>
+
                         <div class="tab-content mt-2">
                             <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab" aria-expanded="true">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput1" readonly="readonly" value="Precio: 0$">
                                 <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <p class="mb-0 mt-1">Cantidad Total: <span>0</span></p>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
                             </div>
 
                             <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput2" readonly="readonly" value="Precio: 0$">
                                 <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <p class="mb-0 mt-1">Cantidad Total: <span>0</span></p>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
                             </div>
 
                             <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput3" readonly="readonly" value="Precio: 0$">
                                 <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
                                     </div>
                                 </div>
-                                <p class="mb-0 mt-1">Cantidad Total: <span>0</span></p>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput4" readonly="readonly" value="Precio: 0$">
+                                
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
                             </div>
                         </div>
                     </div>
