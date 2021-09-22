@@ -355,7 +355,7 @@ $('#status_pago').val('Pagado')
                         data-i18n="Usuarios">Usuarios</span></a>
             </li>
              <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/personal_py4"><i data-feather="users"></i><span class="menu-title text-truncate"
+                    href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Personal</span></a>
             </li>
 
@@ -388,207 +388,321 @@ $('#status_pago').val('Pagado')
                             {{/each}}
                                             </select>
                    </div>
-                    <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
-                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control mb-2" autofocus required>
-                    </div>
-                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
-                            type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
-                            tabindex="2" class="form-control mb-2"></div>
-                    <div class="divider">
-                        <div class="divider-text">Dirección</div>
-                    </div>
-                    <div class="form-group"><label for="register-lastName" class="form-label">Ciudad</label><input
-                            type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
-                            tabindex="2" class="form-control mb-2" value="Guadalajara" id="ciudad_select" readonly>
-                            </div>
-                       <div class="form-group">
-                      <label for="register-ciudad" class="form-label">Municipio</label>
-                    <select class="select2 form-select mb-2" id="municipio_select" name="municipio">
-                    <option> Acatic </option>
-                    <option> Acatlán de Juárez </option>
-                    <option> Ahualulco de Mercado </option>
-                    <option> Ajijic </option>
-                    <option> Amatitán </option>
-                    <option> Ameca </option>
-                    <option> Arandas </option>
-                    <option> Atemajac de Brizuela </option>
-                    <option> Atequiza </option>
-                    <option> Atotonilco el Alto </option>
-                    <option> Atotonilquillo </option>
-                    <option> Atoyac </option>
-                    <option> Autlán de Navarro </option>
-                    <option> Ayotlán </option>
-                    <option> Ayutla </option>
-                    <option> Bellavista </option>
-                    <option> Cajititlán </option>
-                    <option> Capilla de Guadalupe </option>
-                    <option> Chapala </option>
-                    <option> Cihuatlán </option>
-                    <option> Ciudad Guzmán </option>
-                    <option> Cocula </option>
-                    <option> Colinas del Roble </option>
-                    <option> Colotlán </option>
-                    <option> Coyula </option>
-                    <option> Cuitzeo (La Estancia) </option>
-                    <option> Degollado </option>
-                    <option> El Arenal </option>
-                    <option> El Capulín </option>
-                    <option> El Grullo </option>
-                    <option> El Quince (San José El Quince) </option>
-                    <option> El Refugio </option>
-                    <option> El Salto </option>
-                    <option> Encarnación de Díaz </option>
-                    <option> Etzatlán </option>
-                    <option> Galaxia Bonito Jalisco </option>
-                    <option> Galaxia la Noria </option>
-                    <option> Guadalajara </option>
-                    <option> Hacienda Santa Fe </option>
-                    <option> Ixtapa </option>
-                    <option> Ixtlahuacán de los Membrillos </option>
-                    <option> Ixtlahuacán del Río </option>
-                    <option> Jalostotitlán </option>
-                    <option> Jamay </option>
-                    <option> Jesús María </option>
-                    <option> Jocotepec </option>
-                    <option> Juanacatlán </option>
-                    <option> La Alameda </option>
-                    <option> La Barca </option>
-                    <option> La Huerta </option>
-                    <option> La Resolana </option>
-                    <option> La Ribera </option>
-                    <option> La Tijera </option>
-                    <option> La Venta del Astillero </option>
-                    <option> Lagos de Moreno </option>
-                    <option> Las Juntas </option>
-                    <option> Las Pintas </option>
-                    <option> Las Pintitas </option>
-                    <option> Lomas de San Agustín </option>
-                    <option> Lomas del Sur </option>
-                    <option> Los Olivos </option>
-                    <option> Los Ruiseñores </option>
-                    <option> Magdalena </option>
-                    <option> Mascota </option>
-                    <option> Mazamitla </option>
-                    <option> Mezcala </option>
-                    <option> Ocotlán </option>
-                    <option> Ojuelos de Jalisco </option>
-                    <option> Pihuamo </option>
-                    <option> Poncitlán </option>
-                    <option> Puente Grande </option>
-                    <option> Puerto Vallarta </option>
-                    <option> Rancho Alegre (Fraccionamiento) </option>
-                    <option> Real del Valle </option>
-                    <option> San Agustín </option>
-                    <option> San Andrés Ixtlán </option>
-                    <option> San Diego de Alejandría </option>
-                    <option> San Francisco de Asis </option>
-                    <option> San Ignacio Cerro Gordo </option>
-                    <option> San José El Verde (El Verde) </option>
-                    <option> San José del Castillo </option>
-                    <option> San Juan Cosalá </option>
-                    <option> San Juan de los Lagos </option>
-                    <option> San Juanito de Escobedo </option>
-                    <option> San Julián </option>
-                    <option> San Martín Hidalgo </option>
-                    <option> San Miguel Cuyutlán </option>
-                    <option> San Miguel el Alto </option>
-                    <option> San Patricio Melaque </option>
-                    <option> San Pedro Itzicán </option>
-                    <option> San Sebastián del Sur </option>
-                    <option> San Sebastián el Grande </option>
-                    <option> Santa Anita </option>
-                    <option> Santa Cruz de las Flores </option>
-                    <option> Santa Cruz del Valle </option>
-                    <option> Sayula </option>
-                    <option> Tala </option>
-                    <option> Talpa de Allende </option>
-                    <option> Tamazula de Gordiano </option>
-                    <option> Tapalpa </option>
-                    <option> Tecalitlán </option>
-                    <option> Tecolotlán </option>
-                    <option> Teocaltiche </option>
-                    <option> Tepatitlán de Morelos </option>
-                    <option> Tequila </option>
-                    <option> Tesistán (San Francisco Tesistán) </option>
-                    <option> Tizapán el Alto </option>
-                    <option> Tlajomulco de Zúñiga </option>
-                    <option> Tlaquepaque </option>
-                    <option> Tomatlán </option>
-                    <option> Tonalá </option>
-                    <option> Tototlán </option>
-                    <option> Tuxpan </option>
-                    <option> Unión de San Antonio </option>
-                    <option> Unión de Tula </option>
-                    <option> Usmajac </option>
-                    <option> Valle Dorado Inn </option>
-                    <option> Villa Corona </option>
-                    <option> Villa Hidalgo </option>
-                    <option> Villa Purificación </option>
-                    <option> Villas de la Hacienda (Fraccionamiento) </option>
-                    <option> Yahualica de González Gallo </option>
-                    <option> Zacoalco de Torres </option>
-                    <option> Zapopan </option>
-                    <option> Zapote del Valle (Zapote de Santa Cruz) </option>
-                    <option> Zapotiltic </option>
-                    <option> Zapotlanejo </option>
-                                            </select>
+
+                    <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                        Modificar Cliente
+                    </button>
+
+                   <div class="collapse" id="client-info">
+
+                        <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
+                            <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                                tabindex="1" class="form-control mb-2" autofocus required>
                         </div>
-                    <div class="form-group"><label for="register-fraccionamiento"
-                            class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
-                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                            class="form-control mb-2">
-                    </div>
-                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
-                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                            class="form-control mb-2"></div>
 
-                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
-                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                            class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                                type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control mb-2"></div>
+                        <div class="divider">
+                            <div class="divider-text">Dirección</div>
+                        </div>
 
-                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
-                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                            class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
-                    <input
-                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
-                            tabindex="9" class="form-control mb-2"></div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Ciudad</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Guadalajara" id="ciudad_select" readonly>
+                                </div>
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Municipio</label>
 
-                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                            type="text" name="referencia" placeholder="Referencia"
-                            aria-describedby="register-referencia" tabindex="9"
-                            class="form-control mb-2"></div>
+                        <select class="select2 form-select" id="municipio_select" name="municipio">
+                            <option> Acatic </option>
+                            <option> Acatlán de Juárez </option>
+                            <option> Ahualulco de Mercado </option>
+                            <option> Ajijic </option>
+                            <option> Amatitán </option>
+                            <option> Ameca </option>
+                            <option> Arandas </option>
+                            <option> Atemajac de Brizuela </option>
+                            <option> Atequiza </option>
+                            <option> Atotonilco el Alto </option>
+                            <option> Atotonilquillo </option>
+                            <option> Atoyac </option>
+                            <option> Autlán de Navarro </option>
+                            <option> Ayotlán </option>
+                            <option> Ayutla </option>
+                            <option> Bellavista </option>
+                            <option> Cajititlán </option>
+                            <option> Capilla de Guadalupe </option>
+                            <option> Chapala </option>
+                            <option> Cihuatlán </option>
+                            <option> Ciudad Guzmán </option>
+                            <option> Cocula </option>
+                            <option> Colinas del Roble </option>
+                            <option> Colotlán </option>
+                            <option> Coyula </option>
+                            <option> Cuitzeo (La Estancia) </option>
+                            <option> Degollado </option>
+                            <option> El Arenal </option>
+                            <option> El Capulín </option>
+                            <option> El Grullo </option>
+                            <option> El Quince (San José El Quince) </option>
+                            <option> El Refugio </option>
+                            <option> El Salto </option>
+                            <option> Encarnación de Díaz </option>
+                            <option> Etzatlán </option>
+                            <option> Galaxia Bonito Jalisco </option>
+                            <option> Galaxia la Noria </option>
+                            <option> Guadalajara </option>
+                            <option> Hacienda Santa Fe </option>
+                            <option> Ixtapa </option>
+                            <option> Ixtlahuacán de los Membrillos </option>
+                            <option> Ixtlahuacán del Río </option>
+                            <option> Jalostotitlán </option>
+                            <option> Jamay </option>
+                            <option> Jesús María </option>
+                            <option> Jocotepec </option>
+                            <option> Juanacatlán </option>
+                            <option> La Alameda </option>
+                            <option> La Barca </option>
+                            <option> La Huerta </option>
+                            <option> La Resolana </option>
+                            <option> La Ribera </option>
+                            <option> La Tijera </option>
+                            <option> La Venta del Astillero </option>
+                            <option> Lagos de Moreno </option>
+                            <option> Las Juntas </option>
+                            <option> Las Pintas </option>
+                            <option> Las Pintitas </option>
+                            <option> Lomas de San Agustín </option>
+                            <option> Lomas del Sur </option>
+                            <option> Los Olivos </option>
+                            <option> Los Ruiseñores </option>
+                            <option> Magdalena </option>
+                            <option> Mascota </option>
+                            <option> Mazamitla </option>
+                            <option> Mezcala </option>
+                            <option> Ocotlán </option>
+                            <option> Ojuelos de Jalisco </option>
+                            <option> Pihuamo </option>
+                            <option> Poncitlán </option>
+                            <option> Puente Grande </option>
+                            <option> Puerto Vallarta </option>
+                            <option> Rancho Alegre (Fraccionamiento) </option>
+                            <option> Real del Valle </option>
+                            <option> San Agustín </option>
+                            <option> San Andrés Ixtlán </option>
+                            <option> San Diego de Alejandría </option>
+                            <option> San Francisco de Asis </option>
+                            <option> San Ignacio Cerro Gordo </option>
+                            <option> San José El Verde (El Verde) </option>
+                            <option> San José del Castillo </option>
+                            <option> San Juan Cosalá </option>
+                            <option> San Juan de los Lagos </option>
+                            <option> San Juanito de Escobedo </option>
+                            <option> San Julián </option>
+                            <option> San Martín Hidalgo </option>
+                            <option> San Miguel Cuyutlán </option>
+                            <option> San Miguel el Alto </option>
+                            <option> San Patricio Melaque </option>
+                            <option> San Pedro Itzicán </option>
+                            <option> San Sebastián del Sur </option>
+                            <option> San Sebastián el Grande </option>
+                            <option> Santa Anita </option>
+                            <option> Santa Cruz de las Flores </option>
+                            <option> Santa Cruz del Valle </option>
+                            <option> Sayula </option>
+                            <option> Tala </option>
+                            <option> Talpa de Allende </option>
+                            <option> Tamazula de Gordiano </option>
+                            <option> Tapalpa </option>
+                            <option> Tecalitlán </option>
+                            <option> Tecolotlán </option>
+                            <option> Teocaltiche </option>
+                            <option> Tepatitlán de Morelos </option>
+                            <option> Tequila </option>
+                            <option> Tesistán (San Francisco Tesistán) </option>
+                            <option> Tizapán el Alto </option>
+                            <option> Tlajomulco de Zúñiga </option>
+                            <option> Tlaquepaque </option>
+                            <option> Tomatlán </option>
+                            <option> Tonalá </option>
+                            <option> Tototlán </option>
+                            <option> Tuxpan </option>
+                            <option> Unión de San Antonio </option>
+                            <option> Unión de Tula </option>
+                            <option> Usmajac </option>
+                            <option> Valle Dorado Inn </option>
+                            <option> Villa Corona </option>
+                            <option> Villa Hidalgo </option>
+                            <option> Villa Purificación </option>
+                            <option> Villas de la Hacienda (Fraccionamiento) </option>
+                            <option> Yahualica de González Gallo </option>
+                            <option> Zacoalco de Torres </option>
+                            <option> Zapopan </option>
+                            <option> Zapote del Valle (Zapote de Santa Cruz) </option>
+                            <option> Zapotiltic </option>
+                            <option> Zapotlanejo </option>
+                        </select>
 
-                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
-                            </div>
-                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                                aria-describedby="register-telefono" tabindex="11"
+                        </div>
+
+                        <div class="form-group"><label for="register-fraccionamiento"
+                                class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
                                 class="form-control mb-2">
                         </div>
-                    </div>
+                        <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                                name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                                class="form-control mb-2"></div>
+
+                        <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                                name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                                class="form-control mb-2"></div>
+
+                        <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                                type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                                class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                        <input
+                                type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                                tabindex="9" class="form-control mb-2"></div>
+
+                        <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                                type="text" name="referencia" placeholder="Referencia"
+                                aria-describedby="register-referencia" tabindex="9"
+                                class="form-control mb-2"></div>
+
+                        <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                </div>
+                                <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                    aria-describedby="register-telefono" tabindex="11"
+                                    class="form-control">
+                            </div>
+                        </div>
+
+                   </div>
 
                     <div class="divider">
                         <div class="divider-text">Chofer</div>
                     </div>
 
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Seleccione un chofer</label><select
+                    <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select
                             name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2">
                             {{#each choferes_ as |chofer i |}}
                             <option>{{name}} {{lastName}}</option>
                             {{/each}}
-                        </select></div>
+                        </select>
+                    </div>
 
                     <div class="divider">
                         <div class="divider-text">Productos</div>
                     </div>
 
-                    <div data-repeater-list="productos">
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon" aria-expanded="true">Garrafon 19L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella" aria-expanded="false">Botella 1L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l" aria-expanded="false">Garrafon 11L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l" aria-expanded="false">Botella 5L</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab" aria-expanded="true">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput1" readonly="readonly" value="Precio: 0$">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput2" readonly="readonly" value="Precio: 0$">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput3" readonly="readonly" value="Precio: 0$">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
+                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput4" readonly="readonly" value="Precio: 0$">
+                                
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                    </div>
+                                </div>
+                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-around m-0">
+                        <p class="m-0">Total del producto: <span>0</span></p>
+                        <p class="m-0">Monto Total: <span>100$</span></p>
+                    </div>
+
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    {{!-- <div data-repeater-list="productos">
                         <div data-repeater-item>
-                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light"
+                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light mb-1"
                                 data-repeater-delete>-</button>
                             <button type="button" class="btn btn-success waves-effect waves-float waves-light"
                         data-repeater-create>+</button>
@@ -663,23 +777,26 @@ $('#status_pago').val('Pagado')
                             </div>
 
 
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label>
-                            <select name="tipo_venta" placeholder="Ciudad"
+                            <div class="form-group">
+                                <label for="register-ciudad" class="form-label">Tipo de venta</label>
+                                <select name="tipo_venta" placeholder="Ciudad"
                                     aria-describedby="register-ciudad" tabindex="3"
                                     class="form-control mb-2">
-                                    <option selected=""> Refill </option>
-                                    <option> Garrafon nuevo </option>
-                                    <option> Canje </option>
-                                    <option> Garantía </option>
-                                    <option> Obsequio </option>
-                                    <option> Maquila para sucursales </option>
-                                    <option> Maquila para Independientes </option>
-                                </select></div>
+                                    <option selected="">Refill</option>
+                                    <option> Garrafon nuevo</option>
+                                    <option> Canje</option>
+                                    <option> Garantía</option>
+                                    <option> Obsequio</option>
+                                    <option> Maquila para sucursales</option>
+                                    <option> Maquila para Independientes</option>
+                                </select>
+                            </div>
 
                         </div>
                     </div>
 
-                   
+     
+
                      <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
                                 <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
                                     tabindex="3" class="form-control mb-2" id="metodo_pago">
