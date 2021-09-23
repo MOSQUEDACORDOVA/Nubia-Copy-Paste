@@ -15,12 +15,12 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: ""
 	},
-	productos: {
+	monto_total: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
 	},
-	monto_total: {
+	metodo_pago: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
@@ -45,7 +45,26 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: ""
 	},
-
+	garrafon19L: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
+	botella1L: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
+	garrafon11L: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
+	botella5L: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 
 
 
@@ -53,7 +72,7 @@ const Pedidos = db.define('pedidos', {
 
 Pedidos.Usuarios= Pedidos.belongsTo(Usuarios);
 Pedidos.Clientes= Pedidos.belongsTo(Clientes);
-Pedidos.hasMany(Productos_pedidos, {as: 'Productos_'})
+//Pedidos.hasMany(Productos_pedidos, {as: 'Productos_'})
 
 module.exports = Pedidos;
 

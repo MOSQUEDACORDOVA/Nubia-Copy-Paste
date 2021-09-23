@@ -7,20 +7,18 @@ const passport = require("passport");
 
 exports.dashboard = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
   console.log(msg)
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-    // console.log(clientes_arr)
      DataBase.PedidosAll().then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
        DataBase.ChoferesAll().then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
-       console.log(choferes_)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -53,8 +51,8 @@ exports.dashboard = (req, res) => {
 
 exports.login = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
    
     res.render("PYT-4/login", {
@@ -68,8 +66,8 @@ exports.login = (req, res) => {
 
 exports.register = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
    
     res.render("PYT-4/register", {
@@ -83,8 +81,8 @@ exports.register = (req, res) => {
 
 exports.sesionstart = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
   console.log(req.body);
   passport.authenticate("local", function (err, user, info) {
@@ -111,21 +109,30 @@ exports.sesionstart = (req, res) => {
 exports.usuariosTable = (req, res) => {
   let msg = false;
 
-  if (req.query.mensaje) {
-    msg = req.query.mensaje;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
   console.log(req.query)
   let proyecto = "PYT-4"
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length
+     let count = clientes_arr.length 
+     DataBase.PedidosAll().then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       DataBase.ChoferesAll().then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
      res.render("PYT-4/usersTable", {
       pageName: "Bwater",
       dashboardPage: true,
       dashboard: true,
       py4:true,
       users1:true,
-      clientes_d,
+      clientes_d,pedidos_,
+      pedidos_let,
+      choferes,
+      choferes_,
+      clientes_arr,
       count,
       msg
     })
@@ -134,6 +141,16 @@ exports.usuariosTable = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
    
 };
 
@@ -238,11 +255,20 @@ exports.closeSesion = (req, res) => {
 };
 
 exports.regPedidoPy4 = (req, res) => {
-  console.log(req.body)
-  const user = res.locals.user
-  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+ // console.log(req.body)
 
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
+  let garrafon19L ={refill_cant: req.body.refill_cant_garrafon, refill_mont: req.body.refill_garrafon_mont, canje_cant: req.body.canje_cant_garrafon, canje_mont:req.body.canje_garrafon_mont, nuevo_cant:req.body.enNew_cant_garrafon, nuevo_mont: req.body.nuevo_garrafon_mont, total_cant: req.body.total_garrafon_cant, total_cost: req.body.total_garrafon}
+
+  let botella1L ={refill_cant: req.body.refill_cant_botella, refill_mont: req.body.refill_botella_mont, canje_cant: req.body.canje_cant_botella, canje_mont:req.body.canje_botella_mont, nuevo_cant:req.body.enNew_cant_botella, nuevo_mont: req.body.nuevo_botella_mont, total_cant: req.body.total_botella_cant, total_cost: req.body.total_botella}
+
+  let garrafon11L ={refill_cant: req.body.refill_cant_garrafon11l, refill_mont: req.body.refill_garrafon11l_mont, canje_cant: req.body.canje_cant_garrafon11l, canje_mont:req.body.canje_garrafon11l_mont, nuevo_cant:req.body.enNew_cant_garrafon11l, nuevo_mont: req.body.nuevo_garrafon11l_mont, total_cant: req.body.total_garrafon11l_cant, total_cost: req.body.total_garrafon11l}
+
+  let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l}
+
+  const user = res.locals.user
+  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, user.id).then((respuesta) =>{
     res.redirect('/homepy4/'+respuesta)
 
   }).catch((err) => {
@@ -273,6 +299,17 @@ console.log(id_)
 DataBase.PedidoById(id_).then((pedidos_)=>{
   let pedido_let = JSON.parse(pedidos_)[0]
  console.log(pedido_let)
+ DataBase.ChoferesAll().then((choferes)=>{
+  let choferes_ = JSON.parse(choferes)
+ console.log(choferes_)
+ let garrafon19L = JSON.parse(pedido_let.garrafon19L);
+ let botella1L = JSON.parse(pedido_let.botella1L)
+ let garrafon11L = JSON.parse(pedido_let.garrafon11L)
+ let botella5L = JSON.parse(pedido_let.botella5L)
+ console.log(garrafon19L)
+ console.log(botella1L)
+ console.log(garrafon11L)
+ console.log(botella5L)
 res.render("PYT-4/edit_pedido", {
   pageName: "Bwater",
   dashboardPage: true,
@@ -280,21 +317,57 @@ res.render("PYT-4/edit_pedido", {
   py4:true,
   dash:true,
   pedidos_,
-  pedido_let
+  pedido_let,
+  garrafon19L,
+botella1L,
+garrafon11L,
+botella5L,
 }) 
 }).catch((err) => {
 console.log(err)
 let msg = "Error en sistema";
 return res.redirect("/errorpy4/" + msg);
 });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
  };
 
  exports.Save_editPedidoPy4 = (req, res) => {
+  
+  let garrafon19L ={refill_cant: req.body.refill_cant_garrafon, refill_mont: req.body.refill_garrafon_mont, canje_cant: req.body.canje_cant_garrafon, canje_mont:req.body.canje_garrafon_mont, nuevo_cant:req.body.enNew_cant_garrafon, nuevo_mont: req.body.nuevo_garrafon_mont, total_cant: req.body.total_garrafon_cant, total_cost: req.body.total_garrafon}
+
+  let botella1L ={refill_cant: req.body.refill_cant_botella, refill_mont: req.body.refill_botella_mont, canje_cant: req.body.canje_cant_botella, canje_mont:req.body.canje_botella_mont, nuevo_cant:req.body.enNew_cant_botella, nuevo_mont: req.body.nuevo_botella_mont, total_cant: req.body.total_botella_cant, total_cost: req.body.total_botella}
+
+  let garrafon11L ={refill_cant: req.body.refill_cant_garrafon11l, refill_mont: req.body.refill_garrafon11l_mont, canje_cant: req.body.canje_cant_garrafon11l, canje_mont:req.body.canje_garrafon11l_mont, nuevo_cant:req.body.enNew_cant_garrafon11l, nuevo_mont: req.body.nuevo_garrafon11l_mont, total_cant: req.body.total_garrafon11l_cant, total_cost: req.body.total_garrafon11l}
+
+  let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l}
+
+  const user = res.locals.user
+  const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, user.id).then((respuesta) =>{
+    console.log(respuesta)
+    let msg=respuesta
+    res.redirect('/homepy4/'+msg)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+exports.cambiaS_pedido = (req, res) => {
   console.log(req.body)
   const user = res.locals.user
-  const {id_pedido, id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion} = req.body
+  const id_pedido = req.params.id
+  const status = req.params.status
+  console.log(status)
 
-  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, user.id).then((respuesta) =>{
+  DataBase.CambiaStatus(id_pedido,status).then((respuesta) =>{
     console.log(respuesta)
     let msg=respuesta
     res.redirect('/homepy4/'+msg)
@@ -310,8 +383,8 @@ return res.redirect("/errorpy4/" + msg);
 //PERSONAL
 exports.personal_table = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
   console.log(msg)
   DataBase.ClientesAll().then((clientes_d)=>{
@@ -325,7 +398,9 @@ exports.personal_table = (req, res) => {
       DataBase.PersonalAll().then((personal_)=>{
         let personal_let = JSON.parse(personal_)
          let count = personal_let.length
-        // console.log(pedidos_let)
+        
+           DataBase.ChoferesAll().then((choferes)=>{
+            let choferes_ = JSON.parse(choferes)
     res.render("PYT-4/personal", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -334,17 +409,23 @@ exports.personal_table = (req, res) => {
       personal:true,
       clientes_d,
       clientes_arr,
-      pedidos_,
-      pedidos_let,
-      personal_,
       personal_let,
+      personal_,
+      pedidos_,
+choferes,
+choferes_,
       msg
     }) 
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/errorpy4/" + msg);
-  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
   }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
