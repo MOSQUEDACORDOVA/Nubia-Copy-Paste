@@ -27,7 +27,8 @@
     <script src="../../../app-assets/js/core/app-menu.js"></script>
     <script src="../../../app-assets/js/core/app.js"></script>
     <!-- END: Theme JS-->
-<!-- BEGIN: Page Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
     <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
@@ -51,8 +52,7 @@
     <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
     <!-- END: Page JS-->
 
-    <!-- BEGIN: DASHBOARD ECOMMERCE GRAPIHCS JS
-    <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script>-->
+    {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
     <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
 
     {{#if py21}}
@@ -140,6 +140,12 @@
     <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script>
     <!-- END: Page JS-->  
     {{/if}}
+
+    {{#if py24}}
+        <script src="../../../app-assets/js/scripts/pages/page-pricing.js"></script>
+        <script src="../../../app-assets/js/scripts/cards/card-analytics.js"></script>
+    {{/if}}
+
     <script>
          $(window).on('load', function() {
             if (feather) {
