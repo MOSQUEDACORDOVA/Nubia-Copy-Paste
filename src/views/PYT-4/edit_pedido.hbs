@@ -1,11 +1,27 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
 <div class="app-content content" style="transition:none">
     <div class="content-overlay"></div>
 
-    <div class="card">
+    <div class="card" style="right: 0; margin: 1.3rem auto 0; width: calc(100vw - (100vw - 109%) - calc(2rem * 2) - 260px);">
 <div class="card-body">
       <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido" method="post">
   <input type="hidden" name="id_pedido" value="{{pedido_let.id}}">
   <input type="hidden" name="id_cliente" value="{{pedido_let.cliente.id}}">
+
+    <div class="form-group">
+                                            <label class="form-label" for="select2-basic">Basic</label>
+                                            <select class="select2 form-select" id="select2-basic">
+                                                <option value="{{pedido_let.cliente.id}}"selected=""> {{pedido_let.cliente.firstName}} </option>
+                                                 </select>
+
+                         
+                   </div>
+
+    <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                        Modificar Cliente
+                    </button>
+
+                   <div class="collapse" id="client-info">
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" autofocus required value="{{pedido_let.cliente.firstName}}">
@@ -17,138 +33,144 @@
                     <div class="divider">
                         <div class="divider-text">Dirección</div>
                     </div>
-                    <div class="form-group">
-                      <label for="register-ciudad" class="form-label">Ciudad</label>
-                                            <select class="select2 form-select" id="ciudad_select" name="ciudad">
-                                                <option selected>{{pedido_let.cliente.ciudad}} </option>
-                                             <option> Guadalajara </option>
-                    <option> Zapopan </option>
-                    <option> Tlaquepaque </option>
-                    <option> Tonalá </option>
-                    <option> Puerto Vallarta </option>
-                    <option> Lagos de Moreno </option>
-                    <option> Ciudad Guzmán </option>
-                    <option> Tepatitlán de Morelos </option>
-                    <option> Hacienda Santa Fe </option>
-                    <option> Ocotlán </option>
-                    <option> Tesistán (San Francisco Tesistán) </option>
-                    <option> Arandas </option>
-                    <option> San Juan de los Lagos </option>
-                    <option> Autlán de Navarro </option>
-                    <option> Ameca </option>
-                    <option> Tala </option>
-                    <option> La Barca </option>
-                    <option> Zapotlanejo </option>
-                    <option> San Agustín </option>
-                    <option> Tlajomulco de Zúñiga </option>
-                    <option> Coyula </option>
-                    <option> Tequila </option>
-                    <option> Ixtapa </option>
-                    <option> San Sebastián el Grande </option>
-                    <option> Tuxpan </option>
-                    <option> Atotonilco el Alto </option>
-                    <option> Santa Cruz del Valle </option>
-                    <option> Sayula </option>
-                    <option> Las Pintitas </option>
-                    <option> Encarnación de Díaz </option>
-                    <option> Jalostotitlán </option>
-                    <option> San Miguel el Alto </option>
-                    <option> Teocaltiche </option>
-                    <option> Las Pintas </option>
-                    <option> Zapotiltic </option>
-                    <option> El Salto </option>
-                    <option> Chapala </option>
-                    <option> El Grullo </option>
-                    <option> Santa Anita </option>
-                    <option> Lomas del Sur </option>
-                    <option> Jocotepec </option>
-                    <option> Tamazula de Gordiano </option>
-                    <option> Zacoalco de Torres </option>
-                    <option> Cihuatlán </option>
-                    <option> El Quince (San José El Quince) </option>
-                    <option> Jamay </option>
-                    <option> San José El Verde (El Verde) </option>
-                    <option> Magdalena </option>
-                    <option> Ahualulco de Mercado </option>
-                    <option> Villa Hidalgo </option>
-                    <option> Tizapán el Alto </option>
-                    <option> Cocula </option>
-                    <option> Real del Valle </option>
-                    <option> Yahualica de González Gallo </option>
-                    <option> Poncitlán </option>
-                    <option> Etzatlán </option>
-                    <option> Capilla de Guadalupe </option>
-                    <option> Colotlán </option>
-                    <option> San José del Castillo </option>
-                    <option> San Julián </option>
-                    <option> Tototlán </option>
-                    <option> La Tijera </option>
-                    <option> Tecalitlán </option>
-                    <option> Acatic </option>
-                    <option> Ojuelos de Jalisco </option>
-                    <option> Lomas de San Agustín </option>
-                    <option> Ayotlán </option>
-                    <option> El Arenal </option>
-                    <option> Degollado </option>
-                    <option> Santa Cruz de las Flores </option>
-                    <option> La Resolana </option>
-                    <option> Villas de la Hacienda (Fraccionamiento) </option>
-                    <option> Amatitán </option>
-                    <option> Ajijic </option>
-                    <option> Acatlán de Juárez </option>
-                    <option> Valle Dorado Inn </option>
-                    <option> San Ignacio Cerro Gordo </option>
-                    <option> Tecolotlán </option>
-                    <option> Juanacatlán </option>
-                    <option> Galaxia Bonito Jalisco </option>
-                    <option> Unión de Tula </option>
-                    <option> Las Juntas </option>
-                    <option> Tomatlán </option>
-                    <option> La Alameda </option>
-                    <option> Talpa de Allende </option>
-                    <option> Mascota </option>
-                    <option> El Capulín </option>
-                    <option> Rancho Alegre (Fraccionamiento) </option>
-                    <option> Jesús María </option>
-                    <option> San Martín Hidalgo </option>
-                    <option> La Huerta </option>
-                    <option> Mazamitla </option>
-                    <option> La Ribera </option>
-                    <option> Los Olivos </option>
-                    <option> Unión de San Antonio </option>
-                    <option> Villa Corona </option>
-                    <option> San Patricio Melaque </option>
-                    <option> San Miguel Cuyutlán </option>
-                    <option> Los Ruiseñores </option>
-                    <option> Usmajac </option>
-                    <option> Atotonilquillo </option>
-                    <option> Ayutla </option>
-                    <option> Bellavista </option>
-                    <option> San Sebastián del Sur </option>
-                    <option> San Juan Cosalá </option>
-                    <option> Pihuamo </option>
-                    <option> Atequiza </option>
-                    <option> Zapote del Valle (Zapote de Santa Cruz) </option>
-                    <option> El Refugio </option>
-                    <option> Ixtlahuacán del Río </option>
-                    <option> Ixtlahuacán de los Membrillos </option>
-                    <option> Colinas del Roble </option>
-                    <option> Tapalpa </option>
-                    <option> Galaxia la Noria </option>
-                    <option> Puente Grande </option>
-                    <option> La Venta del Astillero </option>
-                    <option> Cuitzeo (La Estancia) </option>
-                    <option> Atemajac de Brizuela </option>
-                    <option> San Juanito de Escobedo </option>
-                    <option> Cajititlán </option>
-                    <option> San Diego de Alejandría </option>
-                    <option> San Francisco de Asis </option>
-                    <option> Villa Purificación </option>
-                    <option> San Andrés Ixtlán </option>
-                    <option> San Pedro Itzicán </option>
-                    <option> Atoyac </option>
-                    <option> Mezcala </option>
-                                            </select>
+                    <div class="form-group mb-2"><label for="register-lastName" class="form-label">Ciudad</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Guadalajara" id="ciudad_select" readonly>
+                                </div>
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Municipio</label>
+
+                        <select class="select2 form-select" id="municipio_select" name="municipio">
+                            <option selected> {{pedido_let.cliente.municipio}} </option>
+                            <option> Acatic </option>
+                            <option> Acatlán de Juárez </option>
+                            <option> Ahualulco de Mercado </option>
+                            <option> Ajijic </option>
+                            <option> Amatitán </option>
+                            <option> Ameca </option>
+                            <option> Arandas </option>
+                            <option> Atemajac de Brizuela </option>
+                            <option> Atequiza </option>
+                            <option> Atotonilco el Alto </option>
+                            <option> Atotonilquillo </option>
+                            <option> Atoyac </option>
+                            <option> Autlán de Navarro </option>
+                            <option> Ayotlán </option>
+                            <option> Ayutla </option>
+                            <option> Bellavista </option>
+                            <option> Cajititlán </option>
+                            <option> Capilla de Guadalupe </option>
+                            <option> Chapala </option>
+                            <option> Cihuatlán </option>
+                            <option> Ciudad Guzmán </option>
+                            <option> Cocula </option>
+                            <option> Colinas del Roble </option>
+                            <option> Colotlán </option>
+                            <option> Coyula </option>
+                            <option> Cuitzeo (La Estancia) </option>
+                            <option> Degollado </option>
+                            <option> El Arenal </option>
+                            <option> El Capulín </option>
+                            <option> El Grullo </option>
+                            <option> El Quince (San José El Quince) </option>
+                            <option> El Refugio </option>
+                            <option> El Salto </option>
+                            <option> Encarnación de Díaz </option>
+                            <option> Etzatlán </option>
+                            <option> Galaxia Bonito Jalisco </option>
+                            <option> Galaxia la Noria </option>
+                            <option> Guadalajara </option>
+                            <option> Hacienda Santa Fe </option>
+                            <option> Ixtapa </option>
+                            <option> Ixtlahuacán de los Membrillos </option>
+                            <option> Ixtlahuacán del Río </option>
+                            <option> Jalostotitlán </option>
+                            <option> Jamay </option>
+                            <option> Jesús María </option>
+                            <option> Jocotepec </option>
+                            <option> Juanacatlán </option>
+                            <option> La Alameda </option>
+                            <option> La Barca </option>
+                            <option> La Huerta </option>
+                            <option> La Resolana </option>
+                            <option> La Ribera </option>
+                            <option> La Tijera </option>
+                            <option> La Venta del Astillero </option>
+                            <option> Lagos de Moreno </option>
+                            <option> Las Juntas </option>
+                            <option> Las Pintas </option>
+                            <option> Las Pintitas </option>
+                            <option> Lomas de San Agustín </option>
+                            <option> Lomas del Sur </option>
+                            <option> Los Olivos </option>
+                            <option> Los Ruiseñores </option>
+                            <option> Magdalena </option>
+                            <option> Mascota </option>
+                            <option> Mazamitla </option>
+                            <option> Mezcala </option>
+                            <option> Ocotlán </option>
+                            <option> Ojuelos de Jalisco </option>
+                            <option> Pihuamo </option>
+                            <option> Poncitlán </option>
+                            <option> Puente Grande </option>
+                            <option> Puerto Vallarta </option>
+                            <option> Rancho Alegre (Fraccionamiento) </option>
+                            <option> Real del Valle </option>
+                            <option> San Agustín </option>
+                            <option> San Andrés Ixtlán </option>
+                            <option> San Diego de Alejandría </option>
+                            <option> San Francisco de Asis </option>
+                            <option> San Ignacio Cerro Gordo </option>
+                            <option> San José El Verde (El Verde) </option>
+                            <option> San José del Castillo </option>
+                            <option> San Juan Cosalá </option>
+                            <option> San Juan de los Lagos </option>
+                            <option> San Juanito de Escobedo </option>
+                            <option> San Julián </option>
+                            <option> San Martín Hidalgo </option>
+                            <option> San Miguel Cuyutlán </option>
+                            <option> San Miguel el Alto </option>
+                            <option> San Patricio Melaque </option>
+                            <option> San Pedro Itzicán </option>
+                            <option> San Sebastián del Sur </option>
+                            <option> San Sebastián el Grande </option>
+                            <option> Santa Anita </option>
+                            <option> Santa Cruz de las Flores </option>
+                            <option> Santa Cruz del Valle </option>
+                            <option> Sayula </option>
+                            <option> Tala </option>
+                            <option> Talpa de Allende </option>
+                            <option> Tamazula de Gordiano </option>
+                            <option> Tapalpa </option>
+                            <option> Tecalitlán </option>
+                            <option> Tecolotlán </option>
+                            <option> Teocaltiche </option>
+                            <option> Tepatitlán de Morelos </option>
+                            <option> Tequila </option>
+                            <option> Tesistán (San Francisco Tesistán) </option>
+                            <option> Tizapán el Alto </option>
+                            <option> Tlajomulco de Zúñiga </option>
+                            <option> Tlaquepaque </option>
+                            <option> Tomatlán </option>
+                            <option> Tonalá </option>
+                            <option> Tototlán </option>
+                            <option> Tuxpan </option>
+                            <option> Unión de San Antonio </option>
+                            <option> Unión de Tula </option>
+                            <option> Usmajac </option>
+                            <option> Valle Dorado Inn </option>
+                            <option> Villa Corona </option>
+                            <option> Villa Hidalgo </option>
+                            <option> Villa Purificación </option>
+                            <option> Villas de la Hacienda (Fraccionamiento) </option>
+                            <option> Yahualica de González Gallo </option>
+                            <option> Zacoalco de Torres </option>
+                            <option> Zapopan </option>
+                            <option> Zapote del Valle (Zapote de Santa Cruz) </option>
+                            <option> Zapotiltic </option>
+                            <option> Zapotlanejo </option>
+                        </select>
+
                         </div>
                     <div class="form-group"><label for="register-fraccionamiento"
                             class="form-label">Fraccionamiento</label>
@@ -187,113 +209,205 @@
                         </div>
                     </div>
 
-                    <div class="divider">
+
+                   </div>
+                   <div class="divider">
                         <div class="divider-text">Chofer</div>
                     </div>
 
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Seleccione un chofer</label><select
+                    <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select
                             name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2">
-                            <option selected=""> {{pedido_let.chofer}} </option>
-                            <option> Juan </option>
-                            <option> Carlos </option>
-                        </select></div>
+                            <option selected>{{pedido_let.chofer}}</option>
+                            {{#each choferes_ as |chofer i |}}
+                            <option>{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
 
                     <div class="divider">
                         <div class="divider-text">Productos</div>
                     </div>
 
-                    <div data-repeater-list="productos">
-                      {{#each pedido_let.Productos_ as |productos i|}}
-                        <div data-repeater-item>
-                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light"
-                                data-repeater-delete>-</button>
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon2" aria-expanded="true">Garrafon 19L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella2" aria-expanded="false">Botella 1L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l2" aria-expanded="false">Garrafon 11L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l2" aria-expanded="false">Botella 5L</a>
+                            </li>
+                        </ul>
 
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Producto</label>
-                                <select name="product"  aria-describedby="register-ciudad"
-                                    tabindex="3" class="form-control mb-2">
-                                    <option selected=""> {{product}} </option>
-                                    <option > Garrafón </option>
-                                    <option> Tapa </option>
-                                    <option> Sello </option>
-                                    <option> Liner </option>
-                                    <option> Etiqueta </option>
-                                </select>
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon2" aria-labelledby="garrafon-tab" aria-expanded="true">
+                                
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_refill_garrafon" id="count_refill_garrafon" name="refill_cant_garrafon" value="{{garrafon19L.refill_cant}}"/>
+                                                </div>
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50 refill_garrafon_mont" id="refill_garrafon_mont" readonly="readonly" name="refill_garrafon_mont" value="{{garrafon19L.refill_mont}}" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_canje_garrafon" id="count_canje_garrafon" name="canje_cant_garrafon" value="{{garrafon19L.canje_cant}}"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 canje_garrafon_mont" id="canje_garrafon_mont" readonly="readonly" name="canje_garrafon_mont" value="{{garrafon19L.canje_mont}}" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enNew_garrafon" value="{{garrafon19L.nuevo_cant}}" id="count_enNew_garrafon" name="enNew_cant_garrafon"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon_mont" id="enNew_garrafon_mont" readonly="readonly" value="{{garrafon19L.nuevo_mont}}" name="nuevo_garrafon_mont" hidden>
+                                </div>
+                                <input type="number" class=" total_garrafon" value="{{garrafon19L.total_cant}}" id="total_garrafon" name="total_garrafon_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon" class=" cant_garrafon">{{garrafon19L.total_cant}}</span></p>
+                                <input type="number" class="monto_garrafon_input" value="{{garrafon19L.total_cost}}" id="monto_garrafon_input" name="total_garrafon" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon" class=" monto_garrafon">{{garrafon19L.total_cost}}</span></p>
                             </div>
 
-                            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
-                                <input type="text" name="cantidad_producto" placeholder="Cantidad"
-                                    aria-describedby="cantidad_producto" tabindex="1" class="form-control mb-2" required value="{{cantidad_producto}}">
+                            
+
+                            <div class="tab-pane" id="botella2" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_refill_botella" value="{{botella1L.refill_cant}}" id="count_refill_botella" name="refill_cant_botella"/>
+                                                </div>
+                                    
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50 refill_botella_mont" id="refill_botella_mont" readonly="readonly" value="{{botella1L.refill_mont}}" name="refill_botella_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_canje_botella" value="{{botella1L.canje_cant}}" id="count_canje_botella" name="canje_cant_botella"/>
+                                                </div>
+                                   
+                                    </div> <input type="text" class="form-control mb-1 w-50 canje_botella_mont" id="canje_botella_mont" readonly="readonly" value="{{botella1L.canje_mont}}" name="canje_botella_mont" hidden>
+                                </div>
+                                 <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enNew_botella" value="{{botella1L.nuevo_cant}}" id="count_enNew_botella" name="enNew_cant_botella"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_botella_mont" id="enNew_botella_mont" readonly="readonly" value="{{botella1L.nuevo_mont}}" name="nuevo_botella_mont" hidden>
+                                </div>
+                                <input type="number" class=" total_botella" value="{{botella1L.total_cant}}" id="total_botella" name="total_botella_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella" class=" cant_botella">{{botella1L.total_cant}}</span></p>
+                                <input type="number" class=" monto_botella_input" value="{{botella1L.total_cost}}" id="monto_botella_input" name="total_botella" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella" class=" monto_botella">{{botella1L.total_cost}}</span></p>
                             </div>
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+
+                            <div class="tab-pane" id="garrafon11l2" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_refill_garrafon11l" value="{{garrafon11L.refill_cant}}" id="count_refill_garrafon11l" name="refill_cant_garrafon11l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 refill_garrafon11l_mont" id="refill_garrafon11l_mont" readonly="readonly" value="{{garrafon11L.refill_mont}}" name="refill_garrafon11l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_canje_garrafon11l" value="{{garrafon11L.canje_cant}}" id="count_canje_garrafon11l" name="canje_cant_garrafon11l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 canje_garrafon11l_mont" id="canje_garrafon11l_mont" readonly="readonly" value="{{garrafon11L.canje_mont}}" name="canje_garrafon11l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enNew_garrafon11l" value="{{garrafon11L.nuevo_cant}}"  id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon11l_mont" id="enNew_garrafon11l_mont" readonly="readonly" value="{{garrafon11L.nuevo_mont}}" name="nuevo_garrafon11l_mont" hidden>
+                                </div>
+                                <input type="number" class=" total_garrafon11l" value="{{garrafon11L.total_cant}}" id="total_garrafon11l" name="total_garrafon11l_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l" class=" cant_garrafon11l">{{garrafon11L.total_cant}}</span></p>
+                                <input type="number" class=" monto_garrafon11l_input" value="{{garrafon11L.total_cost}}" id="monto_garrafon11l_input" name="total_garrafon11l" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l" class=" monto_garrafon11l">{{garrafon11L.total_cost}}</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l2" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
+                                                             
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_refill_botella5l" value="{{botella5L.refill_cant}}" id="count_refill_botella5l" name="refill_cant_botella5l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 refill_botella5l_mont" id="refill_botella5l_mont" readonly="readonly" value="{{botella5L.refill_mont}}" name="refill_botella5l_mont" hidden>
+                                
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_canje_botella5l" value="{{botella5L.canje_cant}}"  id="count_canje_botella5l" name="canje_cant_botella5l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 canje_botella5l_mont" id="canje_botella5l_mont" readonly="readonly" value="{{botella5L.canje_mont}}" name="canje_botella5l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enNew_botella5l" value="{{botella5L.nuevo_cant}}" id="count_enNew_botella5l" name="enNew_cant_botella5l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_botella5l_mont" id="enNew_botella5l_mont" readonly="readonly"  value="{{botella5L.nuevo_mont}}" name="nuevo_botella5l_mont" hidden>
+                                </div>
+                                <input type="number" class=" total_botella5l" value="{{botella5L.total_cant}}" id="total_botella5l" name="total_botella5l_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella5l" class=" cant_botella5l">{{botella5L.total_cant}}</span></p>
+                                <input type="number" class=" monto_botella5l_input" value="{{botella5L.total_cost}}"  id="monto_botella5l_input" name="total_botella5l" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella5l" class=" monto_botella5l">{{botella5L.total_cost}}</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-around m-0">
+                       <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}" id="total_total_inp" name="total_total_inp" hidden/>
+                        <p class="m-0">Monto Total: $<span id="total_total" class="total_total">{{pedido_let.monto_total}}</span></p>
+                    </div>
+
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
                                 <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
-                                    tabindex="3" class="form-control mb-2">
-                                    <option selected=""> {{metodo_pago}} </option>
+                                    tabindex="3" class="form-control mb-2 metodo_pago" id="metodo_pago">
+                                    <option selected=""> {{pedido_let.metodo_pago}} </option>
                                     <option > Efectivo </option>
                                     <option> Tarjeta </option>
                                     <option> Transferencia </option>
                                 </select>
                             </div>
-                            <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
-                                <input type="text" name="monto_producto" placeholder="Monto"
-                                    aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required value="{{monto_producto}}">
-                            </div>
-
-
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Tipo de venta</label>
-                            <select name="tipo_venta" placeholder="Ciudad"
-                                    aria-describedby="register-ciudad" tabindex="3"
-                                    class="form-control mb-2">
-                                     <option selected=""> {{tipo_venta}} </option>
-                                    <option > Refill </option>
-                                    <option> Garrafon nuevo </option>
-                                    <option> Canje </option>
-                                    <option> Garantía </option>
-                                    <option> Obsequio </option>
-                                    <option> Maquila para sucursales </option>
-                                    <option> Maquila para Independientes </option>
-                                </select></div>
-
-                        </div>
-                        {{/each}}
+                            <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
+                        <input type="text" name="status_pago" 
+                            tabindex="1" class="form-control mb-2 status_pago" readonly id="status_pago" value="{{pedido_let.status_pago}}">
                     </div>
-
-                    <button type="button" class="btn btn-success waves-effect waves-float waves-light"
-                        data-repeater-create>+</button>
-
-                    <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
-                        <input type="text" name="monto_total" placeholder="Monto total" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control mb-2" required value="{{pedido_let.monto_total}}">
-                    </div>
-
-                    <div class="divider">
-                        <div class="divider-text">Venta</div>
-                    </div>
-
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label>
-                    <select name="status_pago"  aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control mb-2">
-                            <option selected=""> {{pedido_let.status_pago}} </option>
-                            <option > Por pagar </option>
-                            <option> Por Verificar </option>
-                            <option> Pagado </option>
-                            <option> Obsequio </option>
-                            <option> Garantía </option>
-                            <option>Prestado </option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label>
-                    <select name="status_pedido" aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control mb-2">
-                            <option selected=""> {{pedido_let.status_pedido}} </option>
-                            <option > En proceso </option>
-                            <option> Entregado </option>
-                            <option> Rezagado </option>
-                            <option> Reasignado </option>
-                            <option> Cancelado </option>
-                            <option>Por facturar </option>
-                            <option>Devuelto </option>
-                        </select>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
+                        <input type="text" name="status_pedido" 
+                            tabindex="1" class="form-control mb-2" readonly value="Por entregar" value="{{pedido_let.status_pedido}}">
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
                         <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
@@ -305,7 +419,7 @@
                             tabindex="1"  class="form-control mb-2" required value="{{pedido_let.observacion}}">
                     </div>
             <div class="modal-footer">
-                <button tabindex="26" rippleeffect=""
+                <button tabindex="26" rippleeffect="" type="submit"
                     class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
             </div>
             </form>

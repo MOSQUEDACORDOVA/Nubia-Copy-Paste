@@ -8,32 +8,26 @@ const Productos_pedidos = db.define('productos_pedidos', {
 		primaryKey: true,
 		autoIncrement: true
 	},
-	product: {
+	garrafon19L: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
 	},
-	cantidad_producto: {
+	botella1L: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
 	},
-	metodo_pago: {
+	garrafon11L: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
 	},
-	monto_producto: {
+	botella5L: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
 	},
-	tipo_venta: {
-		type: DataTypes.TEXT,
-		allowNull: true,
-		defaultValue: ""
-	},
-
 });
 
 

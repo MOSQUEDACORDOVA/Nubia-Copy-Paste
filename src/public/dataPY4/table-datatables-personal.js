@@ -6,7 +6,7 @@
   'use strict';
   let valor_personal = $('#array_personal').val()
   let array_personal = JSON.parse(valor_personal.replace(/&quot;/g,'"'))
-console.log(array_personal)  
+console.log(valor_personal)  
 
   var dt_basic_table_personal = $('.datatables-basic_personal'),
     dt_date_table = $('.dt-date'),
