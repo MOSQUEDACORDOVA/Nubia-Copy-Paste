@@ -106,8 +106,9 @@
   
   let valor = $('#array_pedido').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
+  console.log(array2)
   //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por facturar" || status.status_pedido == "Devuelto"); // return implicito
+  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
 
   var dt_basic_table = $('.datatables-basic'),
@@ -181,11 +182,11 @@ maxDate2 = new DateTime($('#max1'), {
           // Label
           targets: 3,
           render: function (data, type, full, meta) {
-            
+            console.log(full)
             var $status_number = full['status_pedido'];
             var $status = {
               "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
-              "Por facturar": { title: 'Por facturar', class: ' badge-light-success' },
+              "Por entregar": { title: 'Por entregar', class: ' badge-light-yellow' },
               "Devuelto": { title: 'Devuelto', class: ' badge-light-danger' },
               "Rezagado": { title: 'Rezagado', class: ' badge-light-warning' },
               "En proceso": { title: 'En proceso', class: ' badge-light-info' }
@@ -196,7 +197,7 @@ maxDate2 = new DateTime($('#max1'), {
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '">' +
+              '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -306,7 +307,7 @@ maxDate2 = new DateTime($('#max1'), {
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '">' +
+              '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -509,4 +510,33 @@ function filterColumn2(i, val) {
   } else {
     $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
   }
+}
+// Filter column wise function
+async function cambioSP(id, status) {
+  console.log(status)
+  const { value: estado } = await Swal.fire({
+    title: 'Seleccione un nuevo Status',
+    input: 'select',
+    inputOptions: {
+        Entregado: 'Entregado',
+        Cancelado: 'Cancelado',
+        'Por entregar': 'Por entregar',
+    },
+    inputPlaceholder: 'Seleccione un nuevo Status',
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value === status) {
+          resolve('Debe seleccionar un estado diferente')
+        } else {
+           resolve()
+        }
+      })
+    }
+  })
+  
+  if (estado) {
+    window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+  }
+
 }

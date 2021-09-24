@@ -249,26 +249,18 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
     return new Promise((resolve, reject) => {
-      console.log(productos.length)
-      let products = JSON.stringify(productos);
-      console.log(id_cliente) 
+      let garrafon19L_ = JSON.stringify(garrafon19L);
+      let botella1L_ = JSON.stringify(botella1L);
+      let garrafon11L_ = JSON.stringify(garrafon11L);
+      let botella5L_ = JSON.stringify(botella5L);
+
       Pedidos.create(
         {
-          chofer: chofer,productos: products,monto_total: monto_total,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario, clienteId: id_cliente})
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          console.log(data_set)
-          console.log(data.id)
-          for (let i = 0; i < productos.length; i++) {
-            Productos_pedidos.create(
-              {
-                product: productos[i].product ,cantidad_producto: productos[i].cantidad_producto,metodo_pago: productos[i].metodo_pago,monto_producto: productos[i].monto_producto,tipo_venta: productos[i].tipo_venta, pedidoId: data.id },)
-              .then((data_prod) => {
-               console.log(" se guardo bien")
-               console.log(" se guardo bien")
-               if (i == productos.length-1) {
                 
                 Clientes.update(
                   {
@@ -283,132 +275,59 @@ module.exports = {
                   .catch((err) => {
                     reject(err)
                   });
-              }
-              })
-              .catch((err) => {
-                reject(err)
-              });
-            
-          }
-          
-            
-          //console.log(planes);
         })
         .catch((err) => {
           reject(err)
         });
     });
   },
- PedidosUpd(id_pedido, id_cliente, firstName, lastName,  ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, productos, monto_total, status_pago,   status_pedido, garrafones_prestamos, observacion, id_usuario) {
+ PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
     return new Promise((resolve, reject) => {
-     
-      let products = JSON.stringify(productos);
-      
+      let garrafon19L_ = JSON.stringify(garrafon19L);
+      let botella1L_ = JSON.stringify(botella1L);
+      let garrafon11L_ = JSON.stringify(garrafon11L);
+      let botella5L_ = JSON.stringify(botella5L);
       Pedidos.update(
         {
-          chofer: chofer,productos: products,monto_total: monto_total,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario, clienteId: id_cliente}, { where:{
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente}, { where:{
             id: id_pedido
         }})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          console.log(data_set)
-          Productos_pedidos.findAll({ where:{
-            pedidoId: id_pedido
-        }}).then(function(count) {
           console.log('Aqui el contador')
-
-          if (productos.length  > count.length) {
-            for (let i = 0; i < productos.length; i++) {
-              if (typeof count[i] == "undefined" ) {
-                
-              }else{
-                Productos_pedidos.update(
-                {
-                  product: productos[i].product ,cantidad_producto: productos[i].cantidad_producto,metodo_pago: productos[i].metodo_pago,monto_producto: productos[i].monto_producto,tipo_venta: productos[i].tipo_venta, pedidoId: parseInt(id_pedido) },{ where:{
-                    id: count[i].id
-                }})
-                .catch((err) => {
-                  console.log(err)
-                  //reject(err)
-                });
-              }
-              
-              console.log(i)
-              
-              if (i == count.length ) {
-               
-                
-                Productos_pedidos.create(
-                  {
-                    product: productos[i].product ,cantidad_producto: productos[i].cantidad_producto,metodo_pago: productos[i].metodo_pago,monto_producto: productos[i].monto_producto,tipo_venta: productos[i].tipo_venta, pedidoId: id_pedido}).then((es)=>{
-                     
-                      
-
-                      Clientes.update(
+          Clientes.update(
                         {
                           firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
                               id: id_cliente
                           }})
                         .then((data_cli) => {
                           let data_set2 = JSON.stringify(data_cli);
-                          console.log(" secreo")
-                          console.log(es.id)
-                          resolve(es.id);
+                          resolve("Se actualizó correctamente el pedido");
                           //console.log(planes);
                         })
                         .catch((err) => {                      
                           reject(err)
                         });
-                    }).catch((err) => {
-                      console.log(err)
-                      //reject(err)
-                    });
-              }
-            
-              
-            }
-          }else{
-            for (let i = 0; i < productos.length; i++) {
-              //console.log(count[i].id)
-              Productos_pedidos.update(
-                {
-                  product: productos[i].product ,cantidad_producto: productos[i].cantidad_producto,metodo_pago: productos[i].metodo_pago,monto_producto: productos[i].monto_producto,tipo_venta: productos[i].tipo_venta, pedidoId: id_pedido },{ where:{
-                    id: count[i].id
-                }})
-                .then((data_prod) => {
-                 console.log(" se guardo bien")
-                 if (i == productos.length-1) {
-                  Clientes.update(
-                    {
-                      firstName: firstName,lastName: lastName,ciudad: ciudad,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
-                          id: id_cliente
-                      }})
-                    .then((data_cli) => {
-                      let data_set2 = JSON.stringify(data_cli);
-                      console.log(" se actualizo  bien el cliente")
-                      resolve('Pedido actualizado con éxito');
-                      //console.log(planes);
-                    })
-                    .catch((err) => {                      
-                      reject(err)
-                    });
-                }
-
                 })
                 .catch((err) => {
                   console.log(err)
-                  //reject(err)
-                });
-              
-            }
-          }
-          
-    
+                  reject(err)
+                })
+              })
+  },
 
-          }).catch((err) => {
-            reject(err)
-          });
-   
+  CambiaStatus(id_pedido,status) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          status_pedido: status}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          console.log(data_set)
+          resolve("Se actualizó el estado con éxito");
             
           //console.log(planes);
         })
@@ -423,7 +342,6 @@ module.exports = {
       Pedidos.findAll({include:[
         {association:Pedidos.Usuarios },
         {association:Pedidos.Clientes },
-        { model: Productos_pedidos,as:'Productos_' }
     ]
       },)
         .then((data) => {
@@ -444,7 +362,7 @@ module.exports = {
       },include:[
         {association:Pedidos.Usuarios },
         {association:Pedidos.Clientes },
-        { model: Productos_pedidos,as:'Productos_' }
+        //{ model: Productos_pedidos,as:'Productos_' }
     ]
       })
         .then((data) => {
@@ -543,7 +461,7 @@ module.exports = {
     ChoferesAll(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer'        }})
+          cargo: 'Chofer' }})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)

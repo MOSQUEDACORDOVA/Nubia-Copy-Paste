@@ -8,56 +8,8 @@
 
 $(document).ready(function(){
       
-  var valor = $('#array').val()
-        var array = JSON.parse(valor.replace(/&quot;/g,'"'))
-    console.log(array) 
-
-
-
-$('#select2-basic').on('change', (e) =>{
-    let id_ = e.target.value
-    console.log(id_)
-    var found = array.find(element => element.id == id_);
-        console.log(found)
-        $('input[name="firstName"]').val(found.firstName)
-        $('input[name="lastName"]').val(found.lastName)
-
-if ( $("#municipio_select option[value='" + found.ciudad + "']").length == 0 ){
-  console.log("option doesn't exist!");
-  $('#municipio_select').prepend('<option selected value="' + found.ciudad + '">' + found.ciudad + '</option>');  
-}else{
-    console.log("option exist!");
-    $('#municipio_select').find('option:selected').remove().end();
-    $("#municipio_select option[value='" + found.ciudad + "']").attr("selected", true);
-}
-                  //val(found.ciudad)
-
-         $('input[name="fraccionamiento"]').val(found.fraccionamiento)
-        $('input[name="coto"]').val(found.coto)
-         $('input[name="casa"]').val(found.casa)
-        $('input[name="calle"]').val(found.calle)
-         $('input[name="avenida"]').val(found.avenida)
-          $('input[name="referencia"]').val(found.referencia)
-        $('input[name="telefono"]').val(found.telefono)
-
-
-})
-
-$('#metodo_pago').on('change', (e) =>{
-    let metodo = e.target.value
-    console.log(metodo)
   
-if(metodo == "Transferencia"){
-console.log("Por verificar")
 
-$('#status_pago').val('Por verificar')
-    }else{
-console.log("Pagado")
-$('#status_pago').val('Pagado')
-    }
-
-
-		})
 })
 </script>
 <input type="text" id="array" hidden value="{{clientes_d}}">
@@ -71,113 +23,16 @@ $('#status_pago').val('Pagado')
                 <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon"
                             data-feather="menu"></i></a></li>
             </ul>
-            <!--  <ul class="nav navbar-nav bookmark-icons">
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-email.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Email"><i class="ficon" data-feather="mail"></i></a></li>
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-chat.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon" data-feather="message-square"></i></a></li>
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-calendar.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon" data-feather="calendar"></i></a></li>
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link" href="app-todo.html" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon" data-feather="check-square"></i></a></li>
-                </ul>
-                <ul class="nav navbar-nav">
-                    <li class="nav-item d-none d-lg-block"><a class="nav-link bookmark-star"><i class="ficon text-warning" data-feather="star"></i></a>
-                        <div class="bookmark-input search-input">
-                            <div class="bookmark-input-icon"><i data-feather="search"></i></div>
-                            <input class="form-control input" type="text" placeholder="Bookmark" tabindex="0" data-search="search">
-                            <ul class="search-list search-list-bookmark"></ul>
-                        </div>
-                    </li>
-                </ul>-->
+          
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <!--<li class="nav-item dropdown dropdown-language"><a class="nav-link dropdown-toggle" id="dropdown-flag" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language">English</span></a>
-                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-flag"><a class="dropdown-item" href="#" data-language="en"><i class="flag-icon flag-icon-us"></i> English</a><a class="dropdown-item" href="#" data-language="fr"><i class="flag-icon flag-icon-fr"></i> French</a><a class="dropdown-item" href="#" data-language="de"><i class="flag-icon flag-icon-de"></i> German</a><a class="dropdown-item" href="#" data-language="pt"><i class="flag-icon flag-icon-pt"></i> Portuguese</a></div>
-                </li>
-                <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon" data-feather="moon"></i></a></li>
-                <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon" data-feather="search"></i></a>
-                    <div class="search-input">
-                        <div class="search-input-icon"><i data-feather="search"></i></div>
-                        <input class="form-control input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="search">
-                        <div class="search-input-close"><i data-feather="x"></i></div>
-                        <ul class="search-list search-list-main"></ul>
-                    </div>
-                </li>
-                <li class="nav-item dropdown dropdown-cart me-25"><a class="nav-link" href="#" data-bs-toggle="dropdown"><i class="ficon" data-feather="shopping-cart"></i><span class="badge rounded-pill bg-primary badge-up cart-item-count">6</span></a>
-                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
-                        <li class="dropdown-menu-header">
-                            <div class="dropdown-header d-flex">
-                                <h4 class="notification-title mb-0 me-auto">My Cart</h4>
-                                <div class="badge rounded-pill badge-light-primary">4 Items</div>
-                            </div>
-                        </li>
-                        <li class="scrollable-container media-list">
-
-                            <div class="list-item align-items-center"><img class="d-block rounded me-1" src="../../../app-assets/images/pages/eCommerce/5.png" alt="donuts" width="62">
-                                <div class="list-item-body flex-grow-1"><i class="ficon cart-item-remove" data-feather="x"></i>
-                                    <div class="media-heading">
-                                        <h6 class="cart-item-title"><a class="text-body" href="app-ecommerce-details.html"> MacBook Pro</a></h6><small class="cart-item-by">By Apple</small>
-                                    </div>
-                                    <div class="cart-item-qty">
-                                        <div class="input-group">
-                                            <input class="touchspin-cart" type="number" value="1">
-                                        </div>
-                                    </div>
-                                    <h5 class="cart-item-price">$2,999.00</h5>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="dropdown-menu-footer">
-                            <div class="d-flex justify-content-between mb-1">
-                                <h6 class="fw-bolder mb-0">Total:</h6>
-                                <h6 class="text-primary fw-bolder mb-0">$10,999.00</h6>
-                            </div><a class="btn btn-primary w-100" href="app-ecommerce-checkout.html">Checkout</a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown dropdown-notification me-25"><a class="nav-link" href="#" data-bs-toggle="dropdown"><i class="ficon" data-feather="bell"></i><span class="badge rounded-pill bg-danger badge-up">5</span></a>
-                    <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
-                        <li class="dropdown-menu-header">
-                            <div class="dropdown-header d-flex">
-                                <h4 class="notification-title mb-0 me-auto">Notifications</h4>
-                                <div class="badge rounded-pill badge-light-primary">6 New</div>
-                            </div>
-                        </li>
-                        <li class="scrollable-container media-list">
-                            <a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar bg-light-danger">
-                                            <div class="avatar-content">MD</div>
-                                        </div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">Revised Order 👋</span>&nbsp;checkout</p><small class="notification-text"> MD Inc. order updated</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <div class="list-item d-flex align-items-center">
-                                <h6 class="fw-bolder me-auto mb-0">System Notifications</h6>
-                                <div class="form-check form-check-primary form-switch">
-                                    <input class="form-check-input" id="systemNotification" type="checkbox" checked="">
-                                    <label class="form-check-label" for="systemNotification"></label>
-                                </div>
-                            </div>
-                      <a class="d-flex" href="#">
-                                <div class="list-item d-flex align-items-start">
-                                    <div class="me-1">
-                                        <div class="avatar bg-light-warning">
-                                            <div class="avatar-content"><i class="avatar-icon" data-feather="alert-triangle"></i></div>
-                                        </div>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1">
-                                        <p class="media-heading"><span class="fw-bolder">High memory</span>&nbsp;usage</p><small class="notification-text"> BLR Server using high memory</small>
-                                    </div>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Read all notifications</a></li>
-                    </ul>
-                </li>-->
-
-            <li class="nav-item dropdown dropdown-notification me-25">
+             <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add_cliente">
+                    <i class="ficon me-1" data-feather="shopping-cart"></i>
+                    <span class="menu-title text-truncate añadir">Añadir <br>cliente</span>
+                </a>
+            </li>
+                       <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
                     <span class="menu-title text-truncate añadir">Añadir <br>pedido</span>
@@ -194,23 +49,7 @@ $('#status_pago').val('Pagado')
                             class="avatar-status-online"></span></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                   <!-- <a class="dropdown-item"
-                        href="page-profile.html"><i class="me-50" data-feather="user"></i> Profile</a>
-                        <a  class="dropdown-item" href="app-email.html"><i class="me-50" data-feather="mail"></i>
-                        Inbox</a>
-                        <a class="dropdown-item" href="app-todo.html"><i class="me-50"
-                            data-feather="check-square"></i> Task</a>
-                        <a class="dropdown-item" href="app-chat.html"><i
-                            class="me-50" data-feather="message-square"></i> Chats</a>-->
-                    {{!-- <div class="dropdown-divider"></div> --}}
-                   <!-- <a class="dropdown-item"    href="page-account-settings-account.html"><i class="me-50" data-feather="settings"></i>
-                        Settings</a>
-                        <a class="dropdown-item" href="page-pricing.html"><i class="me-50"
-                            data-feather="credit-card"></i> Pricing</a>-->
-                            {{!-- <a class="dropdown-item" href="page-faq.html"><i
-                            class="me-50" data-feather="help-circle"></i> FAQ</a> --}}
-                            <a class="dropdown-item"
-                        href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar Sesion</a>
+                     <a class="dropdown-item"   href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar Sesion</a>
 
                 </div>
             </li>
@@ -621,135 +460,150 @@ $('#status_pago').val('Pagado')
 
                         <div class="tab-content mt-2">
                             <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab" aria-expanded="true">
-                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput1" readonly="readonly" value="Precio: 0$">
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Refil</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Canje</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <p class="mb-0">Cantidad Total: <span>0</span></p>
-                            </div>
-
-                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
-                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput2" readonly="readonly" value="Precio: 0$">
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Refil</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Canje</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <p class="mb-0">Cantidad Total: <span>0</span></p>
-                            </div>
-
-                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
-                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput3" readonly="readonly" value="Precio: 0$">
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Refil</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mb-1">
-                                    <p class="m-0">Canje</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
-                                </div>
-                                <p class="mb-0">Cantidad Total: <span>0</span></p>
-                            </div>
-
-                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
-                                <input type="text" class="form-control mb-1 w-50" id="readonlyInput4" readonly="readonly" value="Precio: 0$">
                                 
                                 <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_refill_garrafon" name="refill_cant_garrafon"/>
+                                                </div>
                                     </div>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont" readonly="readonly" value="0" name="refill_garrafon_mont" hidden>
                                 </div>
                                 <div class="d-flex align-items-center mb-1">
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
-                                        <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
-                                    </div>
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_canje_garrafon" name="canje_cant_garrafon"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont" readonly="readonly" value="0" name="canje_garrafon_mont" hidden>
                                 </div>
-                                <p class="mb-0">Cantidad Total: <span>0</span></p>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_enNew_garrafon" name="enNew_cant_garrafon"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont" readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden>
+                                </div>
+                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
+                            </div>
+
+                            
+
+                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_refill_botella" name="refill_cant_botella"/>
+                                                </div>
+                                    
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_botella_mont" readonly="readonly" value="0" name="refill_botella_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_canje_botella" name="canje_cant_botella"/>
+                                                </div>
+                                   
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_botella_mont" readonly="readonly" value="0" name="canje_botella_mont" hidden>
+                                </div>
+                                 <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_enNew_botella" name="enNew_cant_botella"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella_mont" readonly="readonly" value="0" name="nuevo_botella_mont" hidden>
+                                </div>
+                                <input type="number" class="" value="0" id="total_botella" name="total_botella_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella_input" name="total_botella" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella">0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_refill_garrafon11l" name="refill_cant_garrafon11l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="refill_garrafon11l_mont" readonly="readonly" value="0" name="refill_garrafon11l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_canje_garrafon11l" name="canje_cant_garrafon11l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_garrafon11l_mont" readonly="readonly" value="0" name="canje_garrafon11l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon11l_mont" readonly="readonly" value="0" name="nuevo_garrafon11l_mont" hidden>
+                                </div>
+                                <input type="number" class="" value="0" id="total_garrafon11l" name="total_garrafon11l_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon11l_input" name="total_garrafon11l" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l">0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
+                                                             
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_refill_botella5l" name="refill_cant_botella5l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="refill_botella5l_mont" readonly="readonly" value="0" name="refill_botella5l_mont" hidden>
+                                
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                       <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_canje_botella5l" name="canje_cant_botella5l"/>
+                                                </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_botella5l_mont" readonly="readonly" value="0" name="canje_botella5l_mont" hidden>
+                                </div>
+                                <div class="d-flex align-items-center mb-1">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin" value="0" id="count_enNew_botella5l" name="enNew_cant_botella5l"/>
+                                                </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella5l_mont" readonly="readonly" value="0" name="nuevo_botella5l_mont" hidden>
+                                </div>
+                                <input type="number" class="" value="0" id="total_botella5l" name="total_botella5l_cant" hidden/>
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella5l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella5l_input" name="total_botella5l" hidden/>
+                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella5l">0</span></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex justify-content-around m-0">
-                        <p class="m-0">Total del producto: <span>0</span></p>
-                        <p class="m-0">Monto Total: <span>100$</span></p>
+                       <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden/>
+                        <p class="m-0">Monto Total: $<span id="total_total">100$</span></p>
                     </div>
 
                     <div class="divider">
                         <hr>
                     </div>
 
-                    {{!-- <div data-repeater-list="productos">
-                        <div data-repeater-item>
-                            <button type="button" class="btn btn-warning waves-effect waves-float waves-light mb-1"
-                                data-repeater-delete>-</button>
-
-                            <div class="form-group"><label for="register-ciudad" class="form-label">Producto</label>
-                                <select name="product"  aria-describedby="register-ciudad"
-                                    tabindex="3" class="form-control mb-2">
-                                    <option selected="">Garrafón 19L</option>
-                                    <option>Botella 1L</option>
-                                    <option>Garrafón 11L</option>
-                                    <option>Botella 5L</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group"><label for="register-firstName" class="form-label">Cantidad</label>
-                                <input type="text" name="cantidad_producto" placeholder="Cantidad"
-                                    aria-describedby="cantidad_producto" tabindex="1" class="form-control mb-2" required>
-                            </div>
-                          
-                            <div class="form-group"><label for="register-firstName" class="form-label">Monto</label>
-                                <input type="text" name="monto_producto" placeholder="Monto"
-                                    aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
-                            </div>
-
-
-                            <div class="form-group">
-                                <label for="register-ciudad" class="form-label">Tipo de venta</label>
-                                <select name="tipo_venta" placeholder="Ciudad"
-                                    aria-describedby="register-ciudad" tabindex="3"
-                                    class="form-control mb-2">
-                                    <option selected="">Refill</option>
-                                    <option> Garrafon nuevo</option>
-                                    <option> Canje</option>
-                                    <option> Garantía</option>
-                                    <option> Obsequio</option>
-                                    <option> Maquila para sucursales</option>
-                                    <option> Maquila para Independientes</option>
-                                </select>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <button type="button" class="btn btn-success waves-effect waves-float waves-light mb-1"
-                        data-repeater-create>+</button> --}}
-
-                    <div class="divider"></div>
-
-                     <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
                                 <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
                                     tabindex="3" class="form-control mb-2" id="metodo_pago">
                                     <option selected=""> Efectivo </option>
@@ -757,45 +611,14 @@ $('#status_pago').val('Pagado')
                                     <option> Transferencia </option>
                                 </select>
                             </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Monto Total</label>
-                        <input type="text" name="monto_total" placeholder="Monto total" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control mb-2" required>
-                    </div>
-
-                    <div class="divider">
-                        <div class="divider-text">Venta</div>
-                    </div>
-                <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
+                            <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
                         <input type="text" name="status_pago" 
-                            tabindex="1" class="form-control mb-2" readonly id="status_pago">
+                            tabindex="1" class="form-control mb-2" readonly id="status_pago" value="Pagado">
                     </div>
-                  <!--  <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pago</label>
-                    <select name="status_pago"  aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control mb-2">
-                            <option selected=""> Por pagar </option>
-                            <option> Por Verificar </option>
-                            <option> Pagado </option>
-                            <option> Obsequio </option>
-                            <option> Garantía </option>
-                            <option>Prestado </option>
-                        </select>
-                    </div>-->
                     <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
                         <input type="text" name="status_pedido" 
                             tabindex="1" class="form-control mb-2" readonly value="Por entregar">
                     </div>
-                  <!--  <div class="form-group"><label for="register-ciudad" class="form-label">Status del Pedido</label>
-                    <select name="status_pedido" aria-describedby="register-ciudad"
-                            tabindex="3" class="form-control mb-2">
-                            <option selected=""> En proceso </option>
-                            <option> Entregado </option>
-                            <option> Rezagado </option>
-                            <option> Reasignado </option>
-                            <option> Cancelado </option>
-                            <option>Por facturar </option>
-                            <option>Devuelto </option>
-                        </select>
-                    </div>-->
                     <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
                         <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" required>
@@ -814,5 +637,285 @@ $('#status_pago').val('Pagado')
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="add_cliente" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+      style="display: none;" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2"
+                  required></div>
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2"
+                 ></div>
+              <div class="divider">
+                <div class="divider-text">Dirección</div>
+              </div>
+              <div class="form-group"><label for="register-ciudad" class="form-label">Ciudad</label><select
+                  name="ciudad" placeholder="Ciudad" aria-describedby="register-ciudad" tabindex="3"
+                  class="form-control mb-2"
+                 >
+                  <option selected=""> Guadalajara </option>
+                  <option> Zapopan </option>
+                  <option> Tlaquepaque </option>
+                  <option> Tonalá </option>
+                  <option> Puerto Vallarta </option>
+                  <option> Lagos de Moreno </option>
+                  <option> Ciudad Guzmán </option>
+                  <option> Tepatitlán de Morelos </option>
+                  <option> Hacienda Santa Fe </option>
+                  <option> Ocotlán </option>
+                  <option> Tesistán (San Francisco Tesistán) </option>
+                  <option> Arandas </option>
+                  <option> San Juan de los Lagos </option>
+                  <option> Autlán de Navarro </option>
+                  <option> Ameca </option>
+                  <option> Tala </option>
+                  <option> La Barca </option>
+                  <option> Zapotlanejo </option>
+                  <option> San Agustín </option>
+                  <option> Tlajomulco de Zúñiga </option>
+                  <option> Coyula </option>
+                  <option> Tequila </option>
+                  <option> Ixtapa </option>
+                  <option> San Sebastián el Grande </option>
+                  <option> Tuxpan </option>
+                  <option> Atotonilco el Alto </option>
+                  <option> Santa Cruz del Valle </option>
+                  <option> Sayula </option>
+                  <option> Las Pintitas </option>
+                  <option> Encarnación de Díaz </option>
+                  <option> Jalostotitlán </option>
+                  <option> San Miguel el Alto </option>
+                  <option> Teocaltiche </option>
+                  <option> Las Pintas </option>
+                  <option> Zapotiltic </option>
+                  <option> El Salto </option>
+                  <option> Chapala </option>
+                  <option> El Grullo </option>
+                  <option> Santa Anita </option>
+                  <option> Lomas del Sur </option>
+                  <option> Jocotepec </option>
+                  <option> Tamazula de Gordiano </option>
+                  <option> Zacoalco de Torres </option>
+                  <option> Cihuatlán </option>
+                  <option> El Quince (San José El Quince) </option>
+                  <option> Jamay </option>
+                  <option> San José El Verde (El Verde) </option>
+                  <option> Magdalena </option>
+                  <option> Ahualulco de Mercado </option>
+                  <option> Villa Hidalgo </option>
+                  <option> Tizapán el Alto </option>
+                  <option> Cocula </option>
+                  <option> Real del Valle </option>
+                  <option> Yahualica de González Gallo </option>
+                  <option> Poncitlán </option>
+                  <option> Etzatlán </option>
+                  <option> Capilla de Guadalupe </option>
+                  <option> Colotlán </option>
+                  <option> San José del Castillo </option>
+                  <option> San Julián </option>
+                  <option> Tototlán </option>
+                  <option> La Tijera </option>
+                  <option> Tecalitlán </option>
+                  <option> Acatic </option>
+                  <option> Ojuelos de Jalisco </option>
+                  <option> Lomas de San Agustín </option>
+                  <option> Ayotlán </option>
+                  <option> El Arenal </option>
+                  <option> Degollado </option>
+                  <option> Santa Cruz de las Flores </option>
+                  <option> La Resolana </option>
+                  <option> Villas de la Hacienda (Fraccionamiento) </option>
+                  <option> Amatitán </option>
+                  <option> Ajijic </option>
+                  <option> Acatlán de Juárez </option>
+                  <option> Valle Dorado Inn </option>
+                  <option> San Ignacio Cerro Gordo </option>
+                  <option> Tecolotlán </option>
+                  <option> Juanacatlán </option>
+                  <option> Galaxia Bonito Jalisco </option>
+                  <option> Unión de Tula </option>
+                  <option> Las Juntas </option>
+                  <option> Tomatlán </option>
+                  <option> La Alameda </option>
+                  <option> Talpa de Allende </option>
+                  <option> Mascota </option>
+                  <option> El Capulín </option>
+                  <option> Rancho Alegre (Fraccionamiento) </option>
+                  <option> Jesús María </option>
+                  <option> San Martín Hidalgo </option>
+                  <option> La Huerta </option>
+                  <option> Mazamitla </option>
+                  <option> La Ribera </option>
+                  <option> Los Olivos </option>
+                  <option> Unión de San Antonio </option>
+                  <option> Villa Corona </option>
+                  <option> San Patricio Melaque </option>
+                  <option> San Miguel Cuyutlán </option>
+                  <option> Los Ruiseñores </option>
+                  <option> Usmajac </option>
+                  <option> Atotonilquillo </option>
+                  <option> Ayutla </option>
+                  <option> Bellavista </option>
+                  <option> San Sebastián del Sur </option>
+                  <option> San Juan Cosalá </option>
+                  <option> Pihuamo </option>
+                  <option> Atequiza </option>
+                  <option> Zapote del Valle (Zapote de Santa Cruz) </option>
+                  <option> El Refugio </option>
+                  <option> Ixtlahuacán del Río </option>
+                  <option> Ixtlahuacán de los Membrillos </option>
+                  <option> Colinas del Roble </option>
+                  <option> Tapalpa </option>
+                  <option> Galaxia la Noria </option>
+                  <option> Puente Grande </option>
+                  <option> La Venta del Astillero </option>
+                  <option> Cuitzeo (La Estancia) </option>
+                  <option> Atemajac de Brizuela </option>
+                  <option> San Juanito de Escobedo </option>
+                  <option> Cajititlán </option>
+                  <option> San Diego de Alejandría </option>
+                  <option> San Francisco de Asis </option>
+                  <option> Villa Purificación </option>
+                  <option> San Andrés Ixtlán </option>
+                  <option> San Pedro Itzicán </option>
+                  <option> Atoyac </option>
+                  <option> Mezcala </option>
+                </select></div>
+              <div class="form-group"><label for="register-fraccionamiento"
+                  class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                  placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                  name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                  name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text"
+                  name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text"
+                  name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                  type="text" name="referencia" placeholder="Referencia"
+                  aria-describedby="register-referencia" tabindex="9"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11"
+                    class="form-control mb-2">
+                </div>
+              </div>
+              <div class="divider">
+                <div class="divider-text">Familiares</div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
+                  1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_1" tabindex="12"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
+                  1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_1" tabindex="13"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
+                  1</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                    class="form-control mb-2">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
+                  2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_2" tabindex="15"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
+                  2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_2" tabindex="16"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
+                  2</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                    class="form-control mb-2">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                  cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                  name="tipo_cliente" class="form-control mb-2">
+                  <option selected=""> Residencial </option>
+                  <option> Negocio </option>
+                  <option> Punto de venta </option>
+                  <option> Sucursal </option>
+                  <option> Independiente </option>
+                </select></div>
+              <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                  cliente?</label>
+                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
+                    name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                    class="custom-control-input me-1" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
+                </div>
+              </div>
+              <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
+                  pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                  mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                  class="form-control mb-2"></div>
+              <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de garrafones
+                  en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
+                  aria-describedby="register-utimos_botellones" tabindex="23"
+                  class="form-control mb-2"></div>
+              <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
+                  name="sucursal" class="form-control mb-2">
+                  <option selected=""> Bugambilias </option>
+                  <option> Patria </option>
+                  <option> Adamar </option>
+                </select></div>
+              <!--bindings={
+  "ng-reflect-ng-if-else": "[object Object]"
+}-->
+              <!--container-->
+              <div class="divider">
+                <div class="divider-text">Acceso</div>
+              </div>
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                  tabindex="25" class="form-control mb-2" required
+                 ></div>
+          </div>
+          <div class="modal-footer">
+             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
 <!-- END: Main Menu-->
 {{/if}}
