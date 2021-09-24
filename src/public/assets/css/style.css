@@ -201,6 +201,12 @@
     border-radius: 4px;
     transition: .3s ease all;
 }
+.py24 .progress-bar-primary .progress-bar {
+    background-color: #D9A443;
+}
+.py24 .progress-bar-primary {
+    background-color: #d9a54327;
+}
 .py24 .btn-primary {
 	border-color: #D9A443 !important;
     background-color: #D9A443 !important;

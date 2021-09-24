@@ -213,8 +213,6 @@ return res.redirect("/errorpy4/" + msg);
 }
 
 
-
-
   exports.reguserPy4 = (req, res) => {
     console.log(req.body)
     const { tipo, nombre, email, password} = req.body

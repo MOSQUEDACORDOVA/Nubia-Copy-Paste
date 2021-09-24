@@ -39,7 +39,6 @@ router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControl
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 
-
 //personal
 router.get('/personal_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.personal_table);
@@ -114,6 +113,8 @@ router.get('/seller24/:id', dashboardControllerPY24.seller);
 router.get('/paymethods24/:id', dashboardControllerPY24.paymethods);
 router.get('/deposits24/:id', dashboardControllerPY24.deposits);
 router.get('/duration24/:id', dashboardControllerPY24.duration);
+router.get('/th/:id', dashboardControllerPY24.th);
+router.get('/plans/:id', dashboardControllerPY24.plans);
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);

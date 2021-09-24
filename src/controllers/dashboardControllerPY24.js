@@ -94,7 +94,8 @@ exports.board = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      dash: true
     })
 };
 
@@ -142,7 +143,8 @@ exports.contracts = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      cont: true
     })
 };
 
@@ -158,7 +160,8 @@ exports.earnings = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      earn: true
     })
 };
 
@@ -174,7 +177,8 @@ exports.retreats = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      ret: true
     })
 };
 
@@ -190,7 +194,8 @@ exports.users = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      users: true
     })
 };
 
@@ -206,7 +211,8 @@ exports.seller = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      sell: true
     })
 };
 
@@ -222,7 +228,8 @@ exports.paymethods = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      pay: true
     })
 };
 
@@ -238,7 +245,8 @@ exports.deposits = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      dep: true
     })
 };
 
@@ -254,6 +262,42 @@ exports.duration = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false
+      login: false,
+      dur: true
+    })
+};
+
+
+exports.th = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/th", {
+      pageName: "Administrar TH",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      th: true
+    })
+};
+
+exports.plans = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/plans", {
+      pageName: "Planes",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      plan: true
     })
 };
