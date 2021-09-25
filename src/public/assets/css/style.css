@@ -35,6 +35,19 @@
 .py4 .select2.select2-container .select2-selection__arrow b {
     display: none;
 } 
+.py4 .was-validated .form-select:valid:not([multiple]):not([size]), .py4 .was-validated .form-select:valid:not([multiple])[size="1"], .py4 .form-select.is-valid:not([multiple]):not([size]), .py4 .form-select.is-valid:not([multiple])[size="1"] {
+    padding-right: unset;
+    background-image: none;
+    background-position: unset;
+    background-size: unset;
+}
+.was-validated .form-select:valid:focus, .form-select.is-valid:focus {
+    border-color: #001871;
+    box-shadow: 0 0 0 0.25rem #00187125;
+}
+.py4 .was-validated .form-select:valid, .py4 .form-select.is-valid {
+    border: 1px solid #d8d6de;
+}
 .main-menu.menu-light.py4 .navigation li a {
     color: white;
 }
