@@ -3,121 +3,250 @@
         <div class="content-body">
 
             <div class="row">
-                <div class="col-12">
-                    <!-- payment methods -->
+                <div class="col-lg-9">
                     <div class="card">
-                        <div class="card-header border-bottom">
-                            <h4 class="card-title">Métodos de pago</h4>
+                        <div class="card-header">
+                            <h4 class="card-title">Agregar método de retiro</h4>
                         </div>
-                        <div class="card-body my-1 py-25">
-                            <div class="row gx-4">
-                                <div class="col-lg-6">
-                                    <form id="creditCardForm" class="row gx-2 gy-1 validate-form" onsubmit="return false" novalidate="novalidate">
-                                        <div class="col-12">
-                                            <div class="form-check form-check-inline mb-1">
-                                                <input name="collapsible-payment" class="form-check-input" type="radio" id="collapsible-payment-cc" checked="">
-                                                <label class="form-check-label" for="collapsible-payment-cc">Credito/Debito/ATM Card</label>
-                                            </div>
-                                            <div class="form-check form-check-inline mb-1">
-                                                <input name="collapsible-payment" class="form-check-input" type="radio" value="" id="collapsible-payment-cash">
-                                                <label class="form-check-label" for="collapsible-payment-cash">Cuenta de PayPal</label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mt-0">
-                                            <label class="form-label" for="addCardNumber">Número de tarjeta</label>
-                                            <div class="input-group input-group-merge">
-                                                <input id="addCardNumber" name="addCard" class="form-control add-credit-card-mask" type="text" placeholder="5637 8172 1290 7898" aria-describedby="addCard2" data-msg="Please enter your credit card number">
-                                                <span class="input-group-text cursor-pointer p-25" id="addCard2">
-                                                    <span class="add-card-type"></span>
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="">
-                                            <label class="form-label" for="addCardName">Nombre en la tarjeta</label>
-                                            <input type="text" id="addCardName" class="form-control" placeholder="Daniel Paz">
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label class="form-label" for="addCardExpiryDate">Fecha de vencimiento</label>
-                                            <input type="text" id="addCardExpiryDate" class="form-control add-expiry-date-mask" placeholder="MM/YY">
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label class="form-label" for="addCardCvv">CVV</label>
-                                            <input type="text" id="addCardCvv" class="form-control add-cvv-code-mask" maxlength="3" placeholder="cvv">
-                                        </div>
-
-                                        <div class="col-12">
-                                            <div class="d-flex align-items-center">
-                                                <div class="form-check form-switch form-check-primary me-25">
-                                                    <input type="checkbox" class="form-check-input" id="addSaveCard" checked="">
-                                                    <label class="form-check-label" for="addSaveCard">
-                                                        <span class="switch-icon-left"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-                                                        <span class="switch-icon-right"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
-                                                    </label>
-                                                </div>
-                                                <label class="form-check-label fw-bolder" for="addSaveCard"> ¿Guardar tarjeta para facturación futura? </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 mt-2 pt-1">
-                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar Cambios</button>
-                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
-                                        </div>
-                                        <div></div>
-                                        <input type="hidden">
-                                    </form>
+                        <div class="card-body">
+                            <form class="row">
+                                <div class="col-md-6 col-sm-12 mb-2">
+                                    <label class="form-label" for="credit-card">Tarjeta de Crédito o Debito</label>
+                                    <input type="text" class="form-control credit-card-mask" placeholder="0000 0000 0000 0000" id="credit-card">
                                 </div>
-                                <div class="col-lg-6 mt-2 mt-lg-0">
-                                    <h6 class="fw-bolder mb-2">Mis Tarjetas</h6>
-                                    <div class="added-cards">
-                                        <div class="cardMaster rounded border p-2 mb-1">
-                                            <div class="d-flex justify-content-between flex-sm-row flex-column">
-                                                <div class="card-information">
-                                                    <img class="mb-1 img-fluid" src="../../../app-assets/images/icons/payments/mastercard.png" alt="Master Card">
-                                                    <div class="d-flex align-items-center mb-50">
-                                                        <h6 class="mb-0">Daniel Paz</h6>
-                                                        <span class="badge badge-light-warning text-warningms-50">Principal</span>
-                                                    </div>
-                                                    <span class="card-number">∗∗∗∗ ∗∗∗∗ 9856</span>
-                                                </div>
-                                                <div class="d-flex flex-column text-start text-lg-end">
-                                                    <div class="d-flex order-sm-0 order-1 mt-1 mt-sm-0">
-                                                        <button class="btn btn-outline-primary text-primary me-75 waves-effect" data-bs-toggle="modal" data-bs-target="#editCard">
-                                                            Editar
-                                                        </button>
-                                                        <button class="btn btn-outline-secondary waves-effect">Borrar</button>
-                                                    </div>
-                                                    <span class="mt-2">La tarjeta vence el 12/24</span>
-                                                </div>
+                                <div class="col-md-6 col-sm-12 mb-2">
+                                    <label class="form-label" for="dni">Documento de Identificación</label>
+                                    <input type="text" class="form-control credit-card-mask" placeholder="DNI" id="dni">
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-2">
+                                    <label class="form-label" for="phone-number">Teléfono</label>
+                                    <div class="input-group input-group-merge">
+                                        <span class="input-group-text">VE (+58)</span>
+                                        <input type="text" class="form-control phone-number-mask" placeholder="1 234 567 8900" id="phone-number">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-2">
+                                    <label class="form-label" for="date">Fecha</label>
+                                    <input type="text" class="form-control date-mask" placeholder="YYYY-MM-DD" id="date">
+                                </div>
+                                <div class="col-12">
+                                    <i class="btn btn-primary prefix-mask waves-input-wrapper waves-effect waves-float waves-light" style="color:rgb(255, 255, 255);background:rgba(0, 0, 0, 0)"><input type="submit" class="waves-button-input" value="Guardar" style="background-color:rgba(0,0,0,0);"></i>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-9">
+                    <div class="card">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Retiros realizados</h6></div></div>
+                            <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                                        <label class="d-flex align-items-center">Mostrar 
+                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                <option value="7">7</option>
+                                                <option value="10">10</option><option value="25">25</option>
+                                                <option value="50">50</option><option value="75">75</option>
+                                                <option value="100">100</option>
+                                            </select> entradas
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                        <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nro</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Inversión</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
                                             </div>
-                                        </div>
-                                        <div class="cardMaster border rounded p-2">
-                                            <div class="d-flex justify-content-between flex-sm-row flex-column">
-                                                <div class="card-information">
-                                                    <img class="mb-1 img-fluid" src="../../../app-assets/images/icons/payments/visa.png" alt="Visa Card">
-                                                    <h6>Mosqueda Cordova</h6>
-                                                    <span class="card-number">∗∗∗∗ ∗∗∗∗ 5896</span>
-                                                </div>
-                                                <div class="d-flex flex-column text-start text-lg-end">
-                                                    <div class="d-flex order-sm-0 order-1 mt-1 mt-sm-0">
-                                                        <button class="btn btn-outline-primary text-primary me-75 waves-effect" data-bs-toggle="modal" data-bs-target="#editCard">
-                                                            Editar
-                                                        </button>
-                                                        <button class="btn btn-outline-secondary waves-effect">Borrar</button>
-                                                    </div>
-                                                    <span class="mt-2">La tarjeta vence el 02/24</span>
-                                                </div>
+                                        </td>
+                                        <td>001</td>
+
+                                        <td>1</td>
+
+                                        <td>1000$</td>
+
+                                        <td>200$</td>
+                                        
+                                        <td>07/08/2021</td>
+
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-success">Realizado</span>
+                                        </td>
+                                        
+                                    </tr>
+
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
                                             </div>
-                                        </div>
+                                        </td>
+                                        <td>001</td>
+
+                                        <td>1</td>
+
+                                        <td>1000$</td>
+
+                                        <td>200$</td>
+                                        
+                                        <td>07/08/2021</td>
+
+                                        <td>
+                                            <span class="badge rounded-pill badge-light-info">Disponible</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">
+                                        <td class=" control" tabindex="0" style="display: none;"></td>
+                                        <td class=" dt-checkboxes-cell">
+                                            <div class="form-check"> 
+                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                                <label class="form-check-label" for="checkbox100"></label>
+                                            </div>
+                                        </td>
+                                        <td>001</td>
+
+                                        <td>1</td>
+
+                                        <td>1000$</td>
+
+                                        <td>200$</td>
+                                        
+                                        <td>07/08/2021</td>
+
+                                        <td>
+                                            <span class="badge rounded-pill  badge-light-info">Disponible</span>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div class="d-flex justify-content-between mx-0 row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <!-- / payment methods -->
                 </div>
             </div>
+            
+            <!--- MODAL --->
+            <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="addNewCardTitle">Código del retiro 001</h1>
+                            <div class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Inversión</label>
+                                    <input id="" name="" class="form-control" type="text" value="1000$" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias</label>
+                                    <input id="" name="" class="form-control" type="text" value="200$" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Fecha</label>
+                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Estado</label>
+                                    <input type="text" id="" class="form-control" value="Realizado" readonly>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+            
+            <!--- MODAL --->
+            <div class="modal fade" id="addNewCard2" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="addNewCardTitle">Código del retiro 001</h1>
+                            <div class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Inversión</label>
+                                    <input id="" name="" class="form-control" type="text" value="1000$" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias</label>
+                                    <input id="" name="" class="form-control" type="text" value="200$" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Fecha</label>
+                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Tipo de retiro</label>
+                                    <select name="" id="" class="form-select">
+                                        <option value="">Capital + Ganancias</option>
+                                        <option value="">Ganancias</option>
+                                    </select>
+                                </div>
+    
+                                <div class="col-12 mb-1 text-center">
+                                    <p class="lead font-small-3">Monto total a retirar: <span>1200$</span></p>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary">Ralizar retiro</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
         </div>
     </div>  
 </div>

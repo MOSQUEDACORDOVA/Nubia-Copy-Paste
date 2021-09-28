@@ -10,7 +10,7 @@ exports.dashboard = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-    res.render(proyecto+"/home", {
+    res.render(proyecto+"/board", {
       pageName: "Dashboard",
       dashboardPage: true,
       dashboard: true,

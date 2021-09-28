@@ -10,12 +10,6 @@
                         <div class="card-body">
                             <form class="form form-vertical">
                                 <div class="row">
-                                    <div class="col-12">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="first-name-vertical">Nombre Completo</label>
-                                            <input type="text" id="first-name-vertical" class="form-control" name="fname" placeholder="Nombre Completo">
-                                        </div>
-                                    </div>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Inversión</label>
@@ -25,22 +19,34 @@
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Duración</label>
-                                            <input type="text" class="form-control" name="email-id" placeholder="Ej. 3 Meses">
+                                            <select name="" id="" class="form-select">
+                                                <option value="">3 Meses</option>
+                                                <option value="">6 Meses</option>
+                                                <option value="">1 Año</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="mb-1">
-                                            <label class="form-label" for="email-id-vertical">Email</label>
-                                            <input type="email" id="email-id-vertical" class="form-control" name="email-id" placeholder="Email">
+                                            <label class="form-label" for="">Ganancia Mínima</label>
+                                            <select name="" id="" class="form-select">
+                                                <option value="">100$</option>
+                                                <option value="">200$</option>
+                                                <option value="">300$</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="mb-1">
-                                            <label class="form-label" for="contact-info-vertical">Teléfono</label>
-                                            <input type="number" id="contact-info-vertical" class="form-control" name="contact" placeholder="Teléfono">
+                                            <label class="form-label" for="">Ganancia Máxima</label>
+                                            <select name="" id="" class="form-select">
+                                                <option value="">600$</option>
+                                                <option value="">700$</option>
+                                                <option value="">800$</option>
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 mt-1">
                                         <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light">Crear Contrato</button>
                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                     </div>
@@ -203,8 +209,37 @@
                             </div>
                             <div class="modal-body">
                                 <h1 class="text-center mb-1" id="addNewCardTitle">Código del Contrato: 001</h1>
-                                <div class="card-body">
-                                    <div style="height:400px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="bar-chart-ex chartjs chartjs-render-monitor" data-height="400" width="1328" height="800" style="display: block; width: 664px; height: 400px;"></canvas></div>
+                                <div class="card-body row">
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="modalAddCardNumber">Número del contrato</label>
+                                        <input id="modalAddCardNumber" name="modalAddCard" class="form-control add-credit-card-mask" type="text" value="1356 3215 6548 7898" readonly>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="capital">Capital invertido</label>
+                                        <input id="capital" name="" class="form-control" type="text" value="1000$" readonly>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="modalAddCardName">Fecha de inicio</label>
+                                        <input type="text" id="modalAddCardName" class="form-control" value="20/9/2021" readonly>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="modalAddCardExpiryDate">Decha de culminación</label>
+                                        <input type="text" id="modalAddCardExpiryDate" class="form-control add-expiry-date-mask" value="20/10/2021" readonly>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2 mb-md-0">
+                                        <label class="form-label" for="modalAddCardCvv">Ganancias</label>
+                                        <input type="text" id="modalAddCardCvv" class="form-control add-cvv-code-mask" value="300$" readonly>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label class="form-label" for="modalAddCardCvv">Bono</label>
+                                        <input type="text" id="modalAddCardCvv" class="form-control add-cvv-code-mask" value="15$" readonly>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

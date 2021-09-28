@@ -146,7 +146,7 @@
     box-shadow: 0 8px 25px -8px #7367f0;
 }
 .py21 .text-primary {
-	color: #6610f2;
+	color: #6610f2 !important;
 }
 .py21 .input-group-append .input-group-text {
 	padding: 0.800rem 1rem;
@@ -213,6 +213,224 @@
     color: white !important; */
     border-radius: 4px;
     transition: .3s ease all;
+}
+.py24.landheader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+/* .py24 .nav .nav-item .nav-link {
+    transition: .3s ease all;
+}
+.py24 .nav .nav-item .nav-link:hover {
+    color: #D9A443;
+} */
+.py24.banner {
+    display: block;
+    margin-top: 80px;
+}
+.py24.banner, .py24.acerca, .py24.inversion {
+    position: relative;
+    padding: 140px 0;
+}
+.py24.banner span {
+    display: block;
+    width: 120px;
+    height: 3px;
+    background: white;
+    margin: auto;
+}
+/* BTN LIGHT */
+.py24.banner .btn-outline-light:hover, .py24.pagos .btn-outline-light:hover, .py24.inversion .btn-outline-light:hover {
+    color: #D9A443 !important;
+}
+.py24.banner::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #795a219d;
+}
+.py24.banner .bg-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.py24.banner .row {
+    position: relative;
+    z-index: 3;
+}
+.py24.banner h1 {
+    font-weight: bold;
+}
+@media (min-width: 768px) {
+    .py24.banner p {
+        font-size: 1rem; 
+    }   
+}
+@media (min-width: 992px) {
+    .py24.banner h1 {
+        font-size: 3rem; 
+    }   
+}
+.py24.acerca .col-md-6 {
+    transition: .3s ease all;
+}
+.py24.acerca .col-md-6:hover {
+    transform: scale(0.9);
+}
+.py24.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.py24.pagos::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #795a219d;
+}
+.py24.pagos .text-center, .py24.inversion .text-center {
+    position: relative;
+    z-index: 3;
+}
+.py24.pagos .text-center h2, .py24.inversion .text-center h2 {
+    font-weight: bold;
+}
+.py24.inversion {
+    position: relative;
+    padding: 80px 0;
+    background-image: url(http://www.0800flor.net/wp-content/uploads/2018/02/inversionistas.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+.py24.inversion::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #283046b0;
+}
+.py24.inversion span {
+    display: block;
+    width: 60px;
+    height: 3px;
+    margin: 30px auto;
+    background: white;
+}
+.py24.testimonios {
+    padding: 60px 0;
+    color: #283046;
+}
+.py24.testimonios h2 {
+    font-weight: bold;
+    color: #283046;
+}
+.py24.testimonios .icon {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+.py24.testimonios .carousel .container {
+    display: none;
+}
+.py24.testimonios .carousel .carousel-item {
+    opacity: 0;
+    transition: .6s ease all;
+}
+.py24.testimonios .carousel .carousel-item.active  {
+    opacity: 1;
+}
+.py24.testimonios .carousel .carousel-item.active .container {
+    display: block;
+    opacity: 1;
+}
+.py24.testimonios .carousel .carousel-item .col-12 .text {
+    text-align: center;
+}
+.py24.testimonios .carousel .carousel-item .col-12 .text p {
+    line-height: 25px;
+}
+/* CAROUSEL CONTROLS */
+.py24.testimonios .carousel .carousel-control-prev, .py24.testimonios .carousel .carousel-control-next {
+    top: 50%;
+    width: 40px;
+    height: 40px;
+    background: #D9A443;
+    transition: .3s ease all;
+}
+.py24.testimonios .carousel .carousel-control-prev:hover, .py24.testimonios .carousel .carousel-control-next:hover { 
+    transform: scale(1.1);
+}
+.py24.testimonios .carousel .carousel-control-prev {
+    left: 10px;
+}
+.py24.testimonios .carousel .carousel-control-next {
+    right: 10px;
+}
+.py24.testimonios .carousel .carousel-item .col-12 {
+    overflow: hidden;
+}
+.py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100 {
+    transition: .6s ease all;
+}
+.py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100:hover {
+    transform: scale(1.1)
+}
+
+@media (min-width: 768px) {
+    .py24.testimonios .carousel .carousel-item .col-12 .text {
+        text-align: left;
+    }
+}
+@media (min-width: 992px) {
+    .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100 {
+        height: 340px;
+        object-fit: cover;
+    }
+}
+@media (min-width: 1100px) {
+    .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100 {
+        height: 370px;
+    }
+}
+.py24 .horizontal-menu-wrapper .main-menu::after {
+    content: ' ';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: rgba(191,139,75,1);
+    background: -moz-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(191,139,75,1)), color-stop(22%, rgba(140,77,22,1)), color-stop(55%, rgba(242,202,128,1)), color-stop(84%, rgba(140,77,22,1)), color-stop(100%, rgba(166,105,51,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
 .py24 .progress-bar-primary .progress-bar {
     background-color: #D9A443;

@@ -83,7 +83,6 @@ router.get('/login/:id', dashboardControllerPY21.login);
 router.get('/register/:id', dashboardControllerPY21.register);
 router.get('/error404/:id', dashboardControllerPY21.error);
 router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
-router.get('/board/:id', dashboardControllerPY21.board);
 router.get('/config/:id', dashboardControllerPY21.config);
 router.get('/profile/:id', dashboardControllerPY21.profile);
 router.get('/contracts/:id', dashboardControllerPY21.contracts);
@@ -102,7 +101,6 @@ router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/error24/:id', dashboardControllerPY24.error);
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
-router.get('/board24/:id', dashboardControllerPY24.board);
 router.get('/config24/:id', dashboardControllerPY24.config);
 router.get('/profile24/:id', dashboardControllerPY24.profile);
 router.get('/contracts24/:id', dashboardControllerPY24.contracts);
@@ -115,6 +113,7 @@ router.get('/deposits24/:id', dashboardControllerPY24.deposits);
 router.get('/duration24/:id', dashboardControllerPY24.duration);
 router.get('/th/:id', dashboardControllerPY24.th);
 router.get('/plans/:id', dashboardControllerPY24.plans);
+router.get('/web/:id', dashboardControllerPY24.web);
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);

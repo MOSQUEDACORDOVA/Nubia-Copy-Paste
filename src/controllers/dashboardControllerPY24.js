@@ -3,6 +3,22 @@ const path = require("path");
 const Swal = require("sweetalert2");
 //const {getStreamUrls} = require('mixcloud-audio')
 
+exports.web= (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/landing/web", {
+      pageName: "Minner",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login: true
+    })
+};
+
 exports.dashboard = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -10,11 +26,11 @@ exports.dashboard = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-    res.render(proyecto+"/home", {
+    res.render(proyecto+"/board", {
       pageName: "Dashboard",
       dashboardPage: true,
       dashboard: true,
-      py24:true
+      py24:true,
     })
 };
 
