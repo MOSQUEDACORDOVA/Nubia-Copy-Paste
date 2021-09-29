@@ -1,43 +1,163 @@
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Agregar método de pago</h4>
+            <section class="vertical-wizard">
+                <div class="bs-stepper vertical vertical-wizard-example">
+                    <div class="bs-stepper-header">
+                        <h4>Añadir metodo de pago</h4>
+                        <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="true">
+                                <span class="bs-stepper-box">1</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">2</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Pago Móvil</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">3</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">4</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12 mb-2">
-                                <label class="form-label" for="credit-card">Tarjeta de Crédito</label>
-                                <input type="text" class="form-control credit-card-mask" placeholder="0000 0000 0000 0000" id="credit-card">
+                    <div class="bs-stepper-content">
+                        <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Transferencia Bancaria</h5>
                             </div>
-                            <div class="col-md-6 col-sm-12 mb-2">
-                                <label class="form-label" for="dni">Documento de Identificación</label>
-                                <input type="text" class="form-control credit-card-mask" placeholder="DNI" id="dni">
-                            </div>
-                            <div class="col-md-6 col-sm-12 mb-2">
-                                <label class="form-label" for="phone-number">Teléfono</label>
-                                <div class="input-group input-group-merge">
-                                    <span class="input-group-text">VE (+58)</span>
-                                    <input type="text" class="form-control phone-number-mask" placeholder="1 234 567 8900" id="phone-number">
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Nombre Completo</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Documento de identificación</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
                                 </div>
                             </div>
-                            <div class="col-md-6 col-sm-12 mb-2">
-                                <label class="form-label" for="date">Fecha</label>
-                                <input type="text" class="form-control date-mask" placeholder="YYYY-MM-DD" id="date">
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Tipo de Banco</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Tipo de Cuenta</label>
+                                    <select name="" id="" class="form-select">
+                                        <option value="" selected>Corriente</option>
+                                        <option value="">Ahorro</option>
+                                    </select>
+                                </div>
+                                <div class="mb-1">
+                                    <label class="form-label" for="">Nro de Cuenta Bancaria</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
                             </div>
-                            <div class="col-12">
-                                <input type="submit" class="btn btn-primary prefix-mask" value="Guardar">
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Añadir
+                                </button>
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                    Descartar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Retiro en BTC</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Añadir
+                                </button>
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                    Descartar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Retiro en Billetera digital</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="vertical-first-name">Email</label>
+                                    <input type="email" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Añadir
+                                </button>
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                    Descartar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Pago Móvil</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Nombre Completo</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Documento de identicicación</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Banco</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Telefono</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Añadir
+                                </button>
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                    Descartar
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            
+            </section>
+
             <div class="col-12">
                 <div class="card">
-                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Depositos</h6></div></div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Metodos de pago</h6></div></div>
                         <div class="d-flex justify-content-between align-items-center mx-0 row">
                             <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -57,20 +177,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="table-responsive">
+                            <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" style="width: 102px;">Banco</th><th tabindex="0" colspan="2">Nro de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Tipo de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Telefono</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
+                                    
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap"><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
+                                    
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap"><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
 
-                        <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
-                            <thead>
-                                <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nro de Tarjeta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Teléfono</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">0000 1587 0266 0551</span></div></div></td><td>20.164.194</td><td>0412-1951611</td><td>2020/06/03</td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-
-                                <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">0000 1587 0266 0551</span></div></div></td><td>20.164.194</td><td>0412-1951611</td><td>2020/06/03</td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-
-                                <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">0000 1587 0266 0551</span></div></div></td><td>20.164.194</td><td>0412-1951611</td><td>2020/06/03</td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div class="d-flex justify-content-between mx-0 row">
                             <div class="col-sm-12 col-md-6">
@@ -88,6 +210,63 @@
                     </div>
                 </div>
             </div>
+
+            <!--- MODAL --->
+            <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="addNewCardTitle">Actualizar Metodo de Pago</h1>
+                            <div class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Metodo</label>
+                                    <input id="" name="" class="form-control" type="text" value="Transferencia" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Nombre</label>
+                                    <input type="text" id="" class="form-control" value="Mosqueda Cordova">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Documento de identificación</label>
+                                    <input type="text" id="" class="form-control" value="20.075.065">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Banco</label>
+                                    <input id="" name="" class="form-control" type="text" value="Banesco">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Tipo de Cuenta</label>
+                                    <select name="" id="" class="form-select">
+                                        <option value="" selected>Corriente</option>
+                                        <option value="">Ahorro</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Nro de Cuenta</label>
+                                    <input id="" name="" class="form-control" type="text" value="0116 0115 0055 0055">
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Actualizar</button>
+                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
         </div>
     </div>
 </div>

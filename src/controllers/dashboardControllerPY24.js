@@ -249,6 +249,22 @@ exports.paymethods = (req, res) => {
     })
 };
 
+exports.paymanag = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/pay-managment", {
+      pageName: "Gestión de Pagos",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login: false,
+    })
+};
+
 exports.deposits = (req, res) => {
   let msg = false;
   if (req.query.msg) {

@@ -93,6 +93,7 @@ router.get('/seller/:id', dashboardControllerPY21.seller);
 router.get('/paymethods/:id', dashboardControllerPY21.paymethods);
 router.get('/deposits/:id', dashboardControllerPY21.deposits);
 router.get('/duration/:id', dashboardControllerPY21.duration);
+router.get('/pay/:id', dashboardControllerPY21.pay);
 
 
 //PYT-24
@@ -114,6 +115,7 @@ router.get('/duration24/:id', dashboardControllerPY24.duration);
 router.get('/th/:id', dashboardControllerPY24.th);
 router.get('/plans/:id', dashboardControllerPY24.plans);
 router.get('/web/:id', dashboardControllerPY24.web);
+router.get('/paym/:id', dashboardControllerPY24.paymanag);
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);

@@ -190,7 +190,23 @@
 .py21 .form-select:focus {
     border: 1px solid #7367f0 !important;
 }
-
+.py21 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
+    background-color: #7367f0;
+    color: #fff;
+    box-shadow: 0 8px 25px -8px #7367f0;
+}
+.py21 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
+    color: #7367f0;
+}
+.py21 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
+    background-color: #7267f02a;
+    color: #7367f0 !important;
+}
+.py21 .modal .bs-stepper {
+    background-color: unset;
+    box-shadow: unset;
+    border-radius: 0.5rem;
+}
 /*--------------------------- PYT-24 ---------------------------*/
 .dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
     content: ' ';
@@ -508,5 +524,17 @@
 }
 .py24 .main-menu svg {
     stroke: #D9A443 !important;
+}
+.py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
+    background-color: #D9A443;
+    color: #fff;
+    box-shadow: 0 8px 25px -8px #D9A443;
+}
+.py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
+    color: #D9A443;
+}
+.py24 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
+    background-color: #d9a5433a;
+    color: #D9A443 !important;
 }
 /*--------------------------- PY-24 ---------------------------*/

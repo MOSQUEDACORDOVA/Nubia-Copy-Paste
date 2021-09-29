@@ -1,41 +1,149 @@
 <div class="app-content content py21">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-            <div class="row">
-                <div class="col-lg-9">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Agregar método de retiro</h4>
+            <section class="vertical-wizard">
+                <div class="bs-stepper vertical vertical-wizard-example">
+                    <div class="bs-stepper-header">
+                        <h4>Elige un metodo de retiro</h4>
+                        <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="true">
+                                <span class="bs-stepper-box">1</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                </span>
+                            </button>
                         </div>
-                        <div class="card-body">
-                            <form class="row">
-                                <div class="col-md-6 col-sm-12 mb-2">
-                                    <label class="form-label" for="credit-card">Tarjeta de Crédito o Debito</label>
-                                    <input type="text" class="form-control credit-card-mask" placeholder="0000 0000 0000 0000" id="credit-card">
+                        <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">2</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Pago Móvil</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">3</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                            <button type="button" class="step-trigger" aria-selected="false">
+                                <span class="bs-stepper-box">4</span>
+                                <span class="bs-stepper-label">
+                                    <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="bs-stepper-content">
+                        <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Transferencia Bancaria</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Nombre Completo</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
                                 </div>
-                                <div class="col-md-6 col-sm-12 mb-2">
-                                    <label class="form-label" for="dni">Documento de Identificación</label>
-                                    <input type="text" class="form-control credit-card-mask" placeholder="DNI" id="dni">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Documento de identificación</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
                                 </div>
-                                <div class="col-md-6 col-sm-12 mb-2">
-                                    <label class="form-label" for="phone-number">Teléfono</label>
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text">VE (+58)</span>
-                                        <input type="text" class="form-control phone-number-mask" placeholder="1 234 567 8900" id="phone-number">
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Tipo de Banco</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
                                 </div>
-                                <div class="col-md-6 col-sm-12 mb-2">
-                                    <label class="form-label" for="date">Fecha</label>
-                                    <input type="text" class="form-control date-mask" placeholder="YYYY-MM-DD" id="date">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Tipo de Cuenta</label>
+                                    <select name="" id="" class="form-select">
+                                        <option value="" selected>Corriente</option>
+                                        <option value="">Ahorro</option>
+                                    </select>
                                 </div>
-                                <div class="col-12">
-                                    <i class="btn btn-primary prefix-mask waves-input-wrapper waves-effect waves-float waves-light" style="color:rgb(255, 255, 255);background:rgba(0, 0, 0, 0)"><input type="submit" class="waves-button-input" value="Guardar" style="background-color:rgba(0,0,0,0);"></i>
+                                <div class="mb-1">
+                                    <label class="form-label" for="">Nro de Cuenta Bancaria</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
                                 </div>
-                            </form>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Solicitar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Retiro en BTC</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Solicitar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Retiro en Billetera digital</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="vertical-first-name">Email</label>
+                                    <input type="email" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Solicitar
+                                </button>
+                            </div>
+                        </div>
+                        <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                            <div class="content-header">
+                                <h5 class="mb-0">Pago Móvil</h5>
+                            </div>
+                            <div class="row">
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Nombre Completo</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Documento de identicicación</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Banco</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                                <div class="mb-1 col-md-6">
+                                    <label class="form-label" for="">Telefono</label>
+                                    <input type="text" id="" class="form-control" placeholder="">
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                    Solicitar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+            </section>
+
+            <div class="row">
                 <div class="col-12 col-lg-9">
                     <div class="card">
                         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Retiros realizados</h6></div></div>
@@ -129,7 +237,7 @@
                                         <td>07/08/2021</td>
 
                                         <td>
-                                            <span class="badge rounded-pill  badge-light-info">Disponible</span>
+                                            <span class="badge rounded-pill  badge-light-warning">Solicitado</span>
                                         </td>
                                     </tr>
 
