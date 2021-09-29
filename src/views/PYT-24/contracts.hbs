@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="col-12 mt-1">
-                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light">Crear Contrato</button>
+                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Crear Contrato</button>
                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                     </div>
                                 </div>
@@ -199,71 +199,242 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!--- MODAL CONTRACTS --->
-                <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-transparent">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <h1 class="text-center mb-1" id="">Código del Contrato: 001</h1>
-                                <div class="card-body row">
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Número del contrato</label>
-                                        <input id="" name="" class="form-control" type="text" value="1356 3215 6548 7898" readonly>
-                                    </div>
+            <!--- MODAL CONTRACTS --->
+            <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="">Código del Contrato: 001</h1>
+                            <div class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Número del contrato</label>
+                                    <input id="" name="" class="form-control" type="text" value="1356 3215 6548 7898" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="capital">Capital invertido</label>
-                                        <input id="capital" name="" class="form-control" type="text" value="1000$" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="capital">Capital invertido</label>
+                                    <input id="capital" name="" class="form-control" type="text" value="1000$" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Fecha de activación</label>
-                                        <input type="text" id="" class="form-control" value="20/9/2021" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Fecha de activación</label>
+                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Decha de culminación</label>
-                                        <input type="text" id="" class="form-control" value="20/10/2021" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Decha de culminación</label>
+                                    <input type="text" id="" class="form-control" value="20/10/2021" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Ganancias Alcanzadas</label>
-                                        <input type="text" id="m" class="form-control" value="300$" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias Alcanzadas</label>
+                                    <input type="text" id="m" class="form-control" value="300$" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Ganancias Alcanzadas</label>
-                                        <input type="text" id="" class="form-control" value="150$" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias Alcanzadas</label>
+                                    <input type="text" id="" class="form-control" value="150$" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Ganancias Mínima</label>
-                                        <input type="text" id="" class="form-control" value="100$" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias Mínima</label>
+                                    <input type="text" id="" class="form-control" value="100$" readonly>
+                                </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Ganancias Máxima</label>
-                                        <input type="text" id="" class="form-control" value="300$" readonly>
-                                    </div>
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Ganancias Máxima</label>
+                                    <input type="text" id="" class="form-control" value="300$" readonly>
+                                </div>
 
-                                    <div class="col-12 mb-2">
-                                        <label class="form-label" for="">Bono</label>
-                                        <input type="text" id="" class="form-control" value="15$" readonly>
-                                    </div>
-                                    
-                                    <div class="col-12">
-                                        <a href="#" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
-                                    </div>
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Bono</label>
+                                    <input type="text" id="" class="form-control" value="15$" readonly>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <a href="#" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--- END MODAL CONTRACTS --->
+            </div>
+            <!--- END MODAL CONTRACTS --->
+
+            {{!-- MODAL PAGAR --}}
+            <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <div class="text-center">
+                                <h1>Pago a realizar</h1>
+                                <p class="mb-3"></p>
+                            </div>
+
+                            <section class="vertical-wizard">
+                                <div class="bs-stepper vertical vertical-wizard-example">
+                                    <div class="bs-stepper-header">
+                                        <h4>Elige un metodo de retiro</h4>
+                                        <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                            <button type="button" class="step-trigger" aria-selected="true">
+                                                <span class="bs-stepper-box">1</span>
+                                                <span class="bs-stepper-label">
+                                                    <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                                            <button type="button" class="step-trigger" aria-selected="false">
+                                                <span class="bs-stepper-box">2</span>
+                                                <span class="bs-stepper-label">
+                                                    <span class="bs-stepper-title">Pago Móvil</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                            <button type="button" class="step-trigger" aria-selected="false">
+                                                <span class="bs-stepper-box">3</span>
+                                                <span class="bs-stepper-label">
+                                                    <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                            <button type="button" class="step-trigger" aria-selected="false">
+                                                <span class="bs-stepper-box">4</span>
+                                                <span class="bs-stepper-label">
+                                                    <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="bs-stepper-content">
+                                        <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                            <div class="content-header">
+                                                <h5 class="mb-0">Transferencia Bancaria</h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Nombre Completo</label>
+                                                    <input type="text" id="" class="form-control" placeholder="" value="Mosqueda Cordova" readonly>
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Documento de identificación</label>
+                                                    <input type="text" id="" class="form-control" placeholder="" value="20.705.025" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Tipo de Banco</label>
+                                                    <input type="text" id="" class="form-control" placeholder="" value="Banesco" readonly>
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Tipo de Cuenta</label>
+                                                    <input type="text" id="" class="form-control" placeholder="" value="Corriente" readonly>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Nro de Cuenta Bancaria</label>
+                                                    <input type="text" id="" class="form-control" placeholder="" value="0116 0552 0855 5995" readonly>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Adjuntar imagen del comprobante</label>
+                                                    <input type="file" id="" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Monto</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Nro de referencia</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                    Enviar pago a verificación
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                            <div class="content-header">
+                                                <h5 class="mb-0">Retiro en BTC</h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                    Realizar Pago
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                            <div class="content-header">
+                                                <h5 class="mb-0">Retiro en Billetera digital</h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="vertical-first-name">Email</label>
+                                                    <input type="email" id="" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                    Realizar Pago
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                            <div class="content-header">
+                                                <h5 class="mb-0">Pago Móvil</h5>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Nombre Completo</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Documento de identicicación</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Banco</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Telefono</label>
+                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                </div>
+                                            </div>
+
+                                            <div class="d-flex">
+                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                    Realizar Pago
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- END MODAL PAGAR --}}
             </div>
         </div>
     </div>

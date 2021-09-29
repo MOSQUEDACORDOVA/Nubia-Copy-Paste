@@ -207,6 +207,7 @@
     box-shadow: unset;
     border-radius: 0.5rem;
 }
+
 /*--------------------------- PYT-24 ---------------------------*/
 .dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
     content: ' ';
@@ -229,6 +230,11 @@
     color: white !important; */
     border-radius: 4px;
     transition: .3s ease all;
+}
+.py24 .modal .bs-stepper {
+    background-color: unset;
+    box-shadow: unset;
+    border-radius: 0.5rem;
 }
 .py24.landheader {
     position: fixed;
