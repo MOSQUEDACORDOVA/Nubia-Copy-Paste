@@ -10,7 +10,7 @@ exports.dashboard = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-    res.render(proyecto+"/home", {
+    res.render(proyecto+"/board", {
       pageName: "Dashboard",
       dashboardPage: true,
       dashboard: true,
@@ -219,6 +219,22 @@ exports.paymethods = (req, res) => {
   console.log(proyecto)
     res.render(proyecto+"/paymethods", {
       pageName: "Formas de Pago",
+      dashboardPage: true,
+      dashboard: true,
+      py21:true,
+      login: false
+    })
+};
+
+exports.pay = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/pay-managment", {
+      pageName: "Gestión de Pagos",
       dashboardPage: true,
       dashboard: true,
       py21:true,
