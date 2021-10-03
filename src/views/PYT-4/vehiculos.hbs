@@ -7,7 +7,7 @@
 {{#if msg}}
 <label id="msgs">{{msg}}</label>
 {{/if}}
-<input type="text" id="array_personal" hidden value="{{personal_}}">
+<input type="text" id="array_vehiculos" hidden value="{{vehiculos_}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
@@ -36,8 +36,8 @@
               <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
               </div>
               <div class="card-body">
-                <h4 class="card-title">Personal</h4>
-                <p class="card-text"> Todo el Personal de la plataforma están acá, pronto podrás filtrarlos y
+                <h4 class="card-title">Vehículos</h4>
+                <p class="card-text"> Todo los vehículos de la plataforma están acá, pronto podrás filtrarlos y
                   modificarlos rápidamente. </p>
               </div>
               <div class="d-flex justify-content-between align-items-center mx-0 row">
@@ -49,15 +49,19 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
-                                <table class="datatables-basic_personal table">
+                                <table class="datatables-basic_vehiculos table">
                                     <thead>
                                         <tr>
                                             <th>id</th>
-                                            <th>Nombre</th>
-                                            <th>Email</th>
-                                            <th>Cargo</th>
-                                            <th>Salario</th>
-                                            <th>Teléfono</th>
+                                            <th>Fecha Registro</th>
+                                            <th>Matricula</th>
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
+                                            <th>Año</th>
+                                            <th>Tipo</th>
+                                            <th>Capacidad</th>
+                                            <th>Status</th>
+                                            <th>Sucursal</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
@@ -80,61 +84,50 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addEmployedTitle">Agregar Empleado</h5>
+            <h5 class="modal-title" id="addEmployedTitle">Agregar Vehículo</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="needs-validation was-validated" action="/save_personal_py4" method="post">
-              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+            <form class="needs-validation was-validated" action="/save_vehiculo_py4" method="post">
+              <div class="form-group"><label for="register-firstName" class="form-label">Matrícula</label>
               <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  type="text" name="matricula" placeholder="Matricula" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2"
                   required></div>
-              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
-                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+              <div class="form-group"><label for="register-lastName" class="form-label">Marca</label><input
+                  type="text" name="marca" placeholder="Marca" aria-describedby="register-lastName"
                   tabindex="2" class="form-control mb-2"
                  ></div>
               
               <div class="form-group"><label for="register-direccion"
-                  class="form-label">Dirección</label><input type="text" name="direccion"
-                  placeholder="Dirección" aria-describedby="register-direccion" tabindex="5"
+                  class="form-label">Módelo</label><input type="text" name="modelo"
+                  placeholder="Módelo" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2"
+                 ></div>
+
+                 <div class="form-group"><label for="register-direccion"
+                  class="form-label">Año</label><input type="text" name="anio"
+                  placeholder="Año" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2"
+                 ></div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Tipo</label><input type="text" name="tipo"
+                  placeholder="Tipo" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2"
+                 ></div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Capacidad</label><input type="number" name="capacidad"
+                  placeholder="Capacidad" aria-describedby="register-direccion" tabindex="5"
                   class="form-control mb-2"
                  ></div>
                  
-              <div class="form-group"><label for="register-ciudad" class="form-label">Cargo</label><select
-                  name="cargo" placeholder="cargo" aria-describedby="register-cargo" tabindex="3"
+              <div class="form-group"><label for="register-ciudad" class="form-label">Status</label><select
+                  name="status" placeholder="Status" aria-describedby="register-cargo" tabindex="3"
                   class="form-control mb-2"                 >
-                  <option selected=""> Chofer </option>
-                  <option> Logistica </option>
+                  <option selected=""> Operativo </option>
+                  <option> Inoperativo </option>
 
-                </select></div>
-                 <div class="form-group"><label for="register-sucursal"
-                  class="form-label">Vehiculo Asignado</label>
-                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo" name="vehiculo">
-                    <option value="default">Seleccione un vehiculo</option>
-                    {{#each vehiculos_let as |vehiculo i|}}
-                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
-                        {{/each}}
-                        </select>
-                </select>
-                </div>
-                  <div class="form-group"><label for="register-direccion"
-                  class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
-                  placeholder="" aria-describedby="register-direccion" tabindex="5"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-salario" class="form-label">Salario</label><input type="text"
-                  name="salario" placeholder="Salario" aria-describedby="register-salario" tabindex="6"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
-                <div class="input-group">
-                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
-                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                    aria-describedby="register-telefono" tabindex="11"
-                    class="form-control mb-2">
-                </div>
-              </div>              
+                </select></div>             
               <div class="form-group"><label for="register-sucursal"
                   class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
                   name="sucursal" class="form-control mb-2">
@@ -142,14 +135,9 @@
                   <option> Patria </option>
                   <option> Adamar </option>
                 </select></div>
-
-              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
-                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
-                  tabindex="25" class="form-control mb-2"
-                 ></div>
           </div>
           <div class="modal-footer">
-             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
           </div>
           </form>
         </div>

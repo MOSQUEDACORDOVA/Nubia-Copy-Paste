@@ -47,6 +47,21 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser,dashboard
 router.get('/editar_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_personal);
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_personal_py4);
 
+//vehiculos
+router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.vehiculos_table);
+router.get('/vehiculos_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.vehiculos_table);
+router.post('/save_vehiculo_py4', dashboardControllerPY4.save_vehiculos);
+router.get('/delete_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_vehiculos);
+router.get('/editar_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
+router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_vehiculos_py4);
+
+
+//CP
+router.post('/consultaCP',authControllerPY4.authenticatedUser, dashboardControllerPY4.consultaCP);
+//corte
+router.get('/corte_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
+router.get('/corteday_py4/:day',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
+router.get('/corte_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.corte_table);
 
 //pedido
 router.get('/delete_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_pedido);

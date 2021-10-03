@@ -22,7 +22,7 @@
             <input
                   type="text" name="id_personal" placeholder="Pedro" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2" value="{{personal_let.id}}"
-                  required>
+                  hidden>
               <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
               <input
                   type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
@@ -47,6 +47,16 @@
                   <option> Logistica </option>
 
                 </select></div>
+                <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Vehiculo Asignado</label>
+                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo" name="vehiculo">
+                    <option value="{{personal_let.vehiculoId}}">{{personal_let.vehiculo.marca}} {{personal_let.vehiculo.modelo}}/{{personal_let.vehiculo.matricula}}</option>
+                    {{#each vehiculos_let as |vehiculo i|}}
+                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
+                        {{/each}}
+                        </select>
+                </select>
+                </div>
                   <div class="form-group"><label for="register-direccion"
                   class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
                   placeholder="" aria-describedby="register-direccion" tabindex="5" value="{{personal_let.fecha_ingreso}}"
