@@ -247,14 +247,15 @@ $('#select2-basic').on('change', (e) =>{
       console.log(found)
       $('input[name="firstName"]').val(found.firstName)
       $('input[name="lastName"]').val(found.lastName)
-
-if ( $("#municipio_select option[value='" + found.ciudad + "']").length == 0 ){
+      $('input[name="cp"]').val(found.estado)
+      $('input[name="municipio"]').val(found.municipio)
+if ( $("#select_asentamiento_me option[value='" + found.cpId + "']").length == 0 ){
 console.log("option doesn't exist!");
-$('#municipio_select').prepend('<option selected value="' + found.ciudad + '">' + found.ciudad + '</option>');  
+$('#select_asentamiento_me').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
 }else{
   console.log("option exist!");
-  $('#municipio_select').find('option:selected').remove().end();
-  $("#municipio_select option[value='" + found.ciudad + "']").attr("selected", true);
+  $('#select_asentamiento_me').find('option:selected').remove().end();
+  $("#select_asentamiento_me option[value='" + found.cpId + "']").attr("selected", true);
 }
                 //val(found.ciudad)
 

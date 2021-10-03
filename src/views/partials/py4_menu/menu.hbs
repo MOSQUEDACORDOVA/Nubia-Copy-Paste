@@ -5,9 +5,53 @@
 
 
 <script>
-
 $(document).ready(function(){
-      
+
+  $('#cp_select').on('keyup', (e)=>{
+     $("#select_asentamiento_me").empty();
+let cp = e.target.value
+console.log(cp)
+const data = new FormData();
+data.append("cp", cp);
+$.ajax({
+      url: '/consultaCP',
+      type: 'POST',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      /*xhr: function () {        
+          var xhr = $.ajaxSettings.xhr();
+          xhr.upload.onprogress = function (event) {
+              var perc = Math.round((event.loaded / event.total) * 100);
+             // $("#nombreArchivoCalendario1").text(inputFile.name);
+             
+              $("#progressBar1").text(perc + '%');
+              $("#progressBar1").css('width', perc + '%');
+          };
+          return xhr;
+      },
+      beforeSend: function (xhr) {
+        displayLoading()
+          $("#progressBar1").text('0%');
+          $("#progressBar1").css('width', '0%');
+      },*/
+      success: function (data, textStatus, jqXHR)
+      {  
+     var municipio = ""
+for (let i = 0; i < data.cp_let.length; i++) {
+  
+  municipio = data.cp_let[0].municipio
+   $("#select_asentamiento_me").append('<option value="'+data.cp_let[i].id+'">'+data.cp_let[i].asentamiento+'</option>');
+}
+console.log(municipio)
+$('#municipio').val(municipio)
+      },
+      error: function (jqXHR, textStatus) { 
+        console.log('error:'+ jqXHR)
+      }
+  });
+  })   
   
 
 })
@@ -193,9 +237,17 @@ $(document).ready(function(){
                     href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Usuarios</span></a>
             </li>
-             <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+            <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Personal</span></a>
+            </li>
+            <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/corte_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
+                        data-i18n="Corte">Corte</span></a>
+            </li>
+            <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/vehiculos_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
+                        data-i18n="Corte">Vehiculos</span></a>
             </li>
 
 
@@ -246,141 +298,23 @@ $(document).ready(function(){
                             <div class="divider-text">Dirección</div>
                         </div>
 
-                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Ciudad</label><input
+                       <div class="form-group mb-2" hidden><label for="register-lastName" class="form-label">Ciudad</label><input
                                 type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
                                 tabindex="2" class="form-control" value="Guadalajara" id="ciudad_select" readonly>
                                 </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" id="cp_select" >
+                                </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control"  id="municipio" readonly >
+                                </div>          
                         <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Municipio</label>
 
-                        <select class="select2 form-select" id="municipio_select" name="municipio">
-                            <option> Acatic </option>
-                            <option> Acatlán de Juárez </option>
-                            <option> Ahualulco de Mercado </option>
-                            <option> Ajijic </option>
-                            <option> Amatitán </option>
-                            <option> Ameca </option>
-                            <option> Arandas </option>
-                            <option> Atemajac de Brizuela </option>
-                            <option> Atequiza </option>
-                            <option> Atotonilco el Alto </option>
-                            <option> Atotonilquillo </option>
-                            <option> Atoyac </option>
-                            <option> Autlán de Navarro </option>
-                            <option> Ayotlán </option>
-                            <option> Ayutla </option>
-                            <option> Bellavista </option>
-                            <option> Cajititlán </option>
-                            <option> Capilla de Guadalupe </option>
-                            <option> Chapala </option>
-                            <option> Cihuatlán </option>
-                            <option> Ciudad Guzmán </option>
-                            <option> Cocula </option>
-                            <option> Colinas del Roble </option>
-                            <option> Colotlán </option>
-                            <option> Coyula </option>
-                            <option> Cuitzeo (La Estancia) </option>
-                            <option> Degollado </option>
-                            <option> El Arenal </option>
-                            <option> El Capulín </option>
-                            <option> El Grullo </option>
-                            <option> El Quince (San José El Quince) </option>
-                            <option> El Refugio </option>
-                            <option> El Salto </option>
-                            <option> Encarnación de Díaz </option>
-                            <option> Etzatlán </option>
-                            <option> Galaxia Bonito Jalisco </option>
-                            <option> Galaxia la Noria </option>
-                            <option> Guadalajara </option>
-                            <option> Hacienda Santa Fe </option>
-                            <option> Ixtapa </option>
-                            <option> Ixtlahuacán de los Membrillos </option>
-                            <option> Ixtlahuacán del Río </option>
-                            <option> Jalostotitlán </option>
-                            <option> Jamay </option>
-                            <option> Jesús María </option>
-                            <option> Jocotepec </option>
-                            <option> Juanacatlán </option>
-                            <option> La Alameda </option>
-                            <option> La Barca </option>
-                            <option> La Huerta </option>
-                            <option> La Resolana </option>
-                            <option> La Ribera </option>
-                            <option> La Tijera </option>
-                            <option> La Venta del Astillero </option>
-                            <option> Lagos de Moreno </option>
-                            <option> Las Juntas </option>
-                            <option> Las Pintas </option>
-                            <option> Las Pintitas </option>
-                            <option> Lomas de San Agustín </option>
-                            <option> Lomas del Sur </option>
-                            <option> Los Olivos </option>
-                            <option> Los Ruiseñores </option>
-                            <option> Magdalena </option>
-                            <option> Mascota </option>
-                            <option> Mazamitla </option>
-                            <option> Mezcala </option>
-                            <option> Ocotlán </option>
-                            <option> Ojuelos de Jalisco </option>
-                            <option> Pihuamo </option>
-                            <option> Poncitlán </option>
-                            <option> Puente Grande </option>
-                            <option> Puerto Vallarta </option>
-                            <option> Rancho Alegre (Fraccionamiento) </option>
-                            <option> Real del Valle </option>
-                            <option> San Agustín </option>
-                            <option> San Andrés Ixtlán </option>
-                            <option> San Diego de Alejandría </option>
-                            <option> San Francisco de Asis </option>
-                            <option> San Ignacio Cerro Gordo </option>
-                            <option> San José El Verde (El Verde) </option>
-                            <option> San José del Castillo </option>
-                            <option> San Juan Cosalá </option>
-                            <option> San Juan de los Lagos </option>
-                            <option> San Juanito de Escobedo </option>
-                            <option> San Julián </option>
-                            <option> San Martín Hidalgo </option>
-                            <option> San Miguel Cuyutlán </option>
-                            <option> San Miguel el Alto </option>
-                            <option> San Patricio Melaque </option>
-                            <option> San Pedro Itzicán </option>
-                            <option> San Sebastián del Sur </option>
-                            <option> San Sebastián el Grande </option>
-                            <option> Santa Anita </option>
-                            <option> Santa Cruz de las Flores </option>
-                            <option> Santa Cruz del Valle </option>
-                            <option> Sayula </option>
-                            <option> Tala </option>
-                            <option> Talpa de Allende </option>
-                            <option> Tamazula de Gordiano </option>
-                            <option> Tapalpa </option>
-                            <option> Tecalitlán </option>
-                            <option> Tecolotlán </option>
-                            <option> Teocaltiche </option>
-                            <option> Tepatitlán de Morelos </option>
-                            <option> Tequila </option>
-                            <option> Tesistán (San Francisco Tesistán) </option>
-                            <option> Tizapán el Alto </option>
-                            <option> Tlajomulco de Zúñiga </option>
-                            <option> Tlaquepaque </option>
-                            <option> Tomatlán </option>
-                            <option> Tonalá </option>
-                            <option> Tototlán </option>
-                            <option> Tuxpan </option>
-                            <option> Unión de San Antonio </option>
-                            <option> Unión de Tula </option>
-                            <option> Usmajac </option>
-                            <option> Valle Dorado Inn </option>
-                            <option> Villa Corona </option>
-                            <option> Villa Hidalgo </option>
-                            <option> Villa Purificación </option>
-                            <option> Villas de la Hacienda (Fraccionamiento) </option>
-                            <option> Yahualica de González Gallo </option>
-                            <option> Zacoalco de Torres </option>
-                            <option> Zapopan </option>
-                            <option> Zapote del Valle (Zapote de Santa Cruz) </option>
-                            <option> Zapotiltic </option>
-                            <option> Zapotlanejo </option>
+                        <select class="select2 form-select" id="select_asentamiento_me" name="asentamiento">
+                            
                         </select>
 
                         </div>
@@ -661,141 +595,23 @@ $(document).ready(function(){
               <div class="divider">
                 <div class="divider-text">Dirección</div>
               </div>
-               <div class="form-group mb-2"><label for="register-lastName" class="form-label">Ciudad</label><input
+                      <div class="form-group mb-2" hidden><label for="register-lastName" class="form-label">Ciudad</label><input
                                 type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
                                 tabindex="2" class="form-control" value="Guadalajara" id="ciudad_select" readonly>
                                 </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" id="cp_select" >
+                                </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control"  id="municipio" readonly >
+                                </div>          
                         <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Municipio</label>
 
-                        <select class="select2 form-select" id="municipio_select" name="municipio">
-                            <option> Acatic </option>
-                            <option> Acatlán de Juárez </option>
-                            <option> Ahualulco de Mercado </option>
-                            <option> Ajijic </option>
-                            <option> Amatitán </option>
-                            <option> Ameca </option>
-                            <option> Arandas </option>
-                            <option> Atemajac de Brizuela </option>
-                            <option> Atequiza </option>
-                            <option> Atotonilco el Alto </option>
-                            <option> Atotonilquillo </option>
-                            <option> Atoyac </option>
-                            <option> Autlán de Navarro </option>
-                            <option> Ayotlán </option>
-                            <option> Ayutla </option>
-                            <option> Bellavista </option>
-                            <option> Cajititlán </option>
-                            <option> Capilla de Guadalupe </option>
-                            <option> Chapala </option>
-                            <option> Cihuatlán </option>
-                            <option> Ciudad Guzmán </option>
-                            <option> Cocula </option>
-                            <option> Colinas del Roble </option>
-                            <option> Colotlán </option>
-                            <option> Coyula </option>
-                            <option> Cuitzeo (La Estancia) </option>
-                            <option> Degollado </option>
-                            <option> El Arenal </option>
-                            <option> El Capulín </option>
-                            <option> El Grullo </option>
-                            <option> El Quince (San José El Quince) </option>
-                            <option> El Refugio </option>
-                            <option> El Salto </option>
-                            <option> Encarnación de Díaz </option>
-                            <option> Etzatlán </option>
-                            <option> Galaxia Bonito Jalisco </option>
-                            <option> Galaxia la Noria </option>
-                            <option> Guadalajara </option>
-                            <option> Hacienda Santa Fe </option>
-                            <option> Ixtapa </option>
-                            <option> Ixtlahuacán de los Membrillos </option>
-                            <option> Ixtlahuacán del Río </option>
-                            <option> Jalostotitlán </option>
-                            <option> Jamay </option>
-                            <option> Jesús María </option>
-                            <option> Jocotepec </option>
-                            <option> Juanacatlán </option>
-                            <option> La Alameda </option>
-                            <option> La Barca </option>
-                            <option> La Huerta </option>
-                            <option> La Resolana </option>
-                            <option> La Ribera </option>
-                            <option> La Tijera </option>
-                            <option> La Venta del Astillero </option>
-                            <option> Lagos de Moreno </option>
-                            <option> Las Juntas </option>
-                            <option> Las Pintas </option>
-                            <option> Las Pintitas </option>
-                            <option> Lomas de San Agustín </option>
-                            <option> Lomas del Sur </option>
-                            <option> Los Olivos </option>
-                            <option> Los Ruiseñores </option>
-                            <option> Magdalena </option>
-                            <option> Mascota </option>
-                            <option> Mazamitla </option>
-                            <option> Mezcala </option>
-                            <option> Ocotlán </option>
-                            <option> Ojuelos de Jalisco </option>
-                            <option> Pihuamo </option>
-                            <option> Poncitlán </option>
-                            <option> Puente Grande </option>
-                            <option> Puerto Vallarta </option>
-                            <option> Rancho Alegre (Fraccionamiento) </option>
-                            <option> Real del Valle </option>
-                            <option> San Agustín </option>
-                            <option> San Andrés Ixtlán </option>
-                            <option> San Diego de Alejandría </option>
-                            <option> San Francisco de Asis </option>
-                            <option> San Ignacio Cerro Gordo </option>
-                            <option> San José El Verde (El Verde) </option>
-                            <option> San José del Castillo </option>
-                            <option> San Juan Cosalá </option>
-                            <option> San Juan de los Lagos </option>
-                            <option> San Juanito de Escobedo </option>
-                            <option> San Julián </option>
-                            <option> San Martín Hidalgo </option>
-                            <option> San Miguel Cuyutlán </option>
-                            <option> San Miguel el Alto </option>
-                            <option> San Patricio Melaque </option>
-                            <option> San Pedro Itzicán </option>
-                            <option> San Sebastián del Sur </option>
-                            <option> San Sebastián el Grande </option>
-                            <option> Santa Anita </option>
-                            <option> Santa Cruz de las Flores </option>
-                            <option> Santa Cruz del Valle </option>
-                            <option> Sayula </option>
-                            <option> Tala </option>
-                            <option> Talpa de Allende </option>
-                            <option> Tamazula de Gordiano </option>
-                            <option> Tapalpa </option>
-                            <option> Tecalitlán </option>
-                            <option> Tecolotlán </option>
-                            <option> Teocaltiche </option>
-                            <option> Tepatitlán de Morelos </option>
-                            <option> Tequila </option>
-                            <option> Tesistán (San Francisco Tesistán) </option>
-                            <option> Tizapán el Alto </option>
-                            <option> Tlajomulco de Zúñiga </option>
-                            <option> Tlaquepaque </option>
-                            <option> Tomatlán </option>
-                            <option> Tonalá </option>
-                            <option> Tototlán </option>
-                            <option> Tuxpan </option>
-                            <option> Unión de San Antonio </option>
-                            <option> Unión de Tula </option>
-                            <option> Usmajac </option>
-                            <option> Valle Dorado Inn </option>
-                            <option> Villa Corona </option>
-                            <option> Villa Hidalgo </option>
-                            <option> Villa Purificación </option>
-                            <option> Villas de la Hacienda (Fraccionamiento) </option>
-                            <option> Yahualica de González Gallo </option>
-                            <option> Zacoalco de Torres </option>
-                            <option> Zapopan </option>
-                            <option> Zapote del Valle (Zapote de Santa Cruz) </option>
-                            <option> Zapotiltic </option>
-                            <option> Zapotlanejo </option>
+                        <select class="select2 form-select" id="select_asentamiento" name="asentamiento">
+                            
                         </select>
 
                         </div>
