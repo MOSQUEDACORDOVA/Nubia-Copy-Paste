@@ -7,8 +7,8 @@
 <script>
 $(document).ready(function(){
 
-  $('#cp_select').on('keyup', (e)=>{
-     $("#select_asentamiento_me").empty();
+  $('.cp_select').on('keyup', (e)=>{
+     $(".select_asentamiento_me").empty();
 let cp = e.target.value
 console.log(cp)
 const data = new FormData();
@@ -42,10 +42,10 @@ $.ajax({
 for (let i = 0; i < data.cp_let.length; i++) {
   
   municipio = data.cp_let[0].municipio
-   $("#select_asentamiento_me").append('<option value="'+data.cp_let[i].id+'">'+data.cp_let[i].asentamiento+'</option>');
+   $(".select_asentamiento_me").append('<option value="'+data.cp_let[i].id+'">'+data.cp_let[i].asentamiento+'</option>');
 }
 console.log(municipio)
-$('#municipio').val(municipio)
+$('.municipio').val(municipio)
       },
       error: function (jqXHR, textStatus) { 
         console.log('error:'+ jqXHR)
@@ -304,16 +304,16 @@ $('#municipio').val(municipio)
                                 </div>
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
                                 type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control" id="cp_select" >
+                                tabindex="2" class="form-control cp_select" id="cp_select" >
                                 </div>
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
                                 type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control"  id="municipio" readonly >
+                                tabindex="2" class="form-control municipio"  id="municipio" readonly >
                                 </div>          
                         <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Municipio</label>
 
-                        <select class="select2 form-select" id="select_asentamiento_me" name="asentamiento">
+                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento_me" name="asentamiento">
                             
                         </select>
 
@@ -601,16 +601,16 @@ $('#municipio').val(municipio)
                                 </div>
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
                                 type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control" id="cp_select" >
+                                tabindex="2" class="form-control cp_select" id="cp_select" >
                                 </div>
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
                                 type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control"  id="municipio" readonly >
+                                tabindex="2" class="form-control municipio"  id="municipio" readonly >
                                 </div>          
                         <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Municipio</label>
 
-                        <select class="select2 form-select" id="select_asentamiento" name="asentamiento">
+                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento" name="asentamiento">
                             
                         </select>
 
