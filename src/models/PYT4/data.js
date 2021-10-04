@@ -424,7 +424,9 @@ module.exports = {
       Pedidos.findAll({include:[
         {association:Pedidos.Usuarios },
         {association:Pedidos.Clientes },
-        
+        {association:Pedidos.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
     ]
       },{ group: ['chofer'] },)
         .then((data) => {

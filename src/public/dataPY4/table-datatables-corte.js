@@ -127,6 +127,8 @@ status_pedido.forEach( x => {
 })
 
 console.log(nuevoObjeto)
+let arregloDeClavesYValores = Object.entries(nuevoObjeto);
+console.log("Claves y valores: ", arregloDeClavesYValores);
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),
     dt_basic_table2 = $('.datatables-basic2'),
@@ -167,17 +169,14 @@ maxDate2 = new DateTime($('#max1'), {
       });
     });
     var dt_basic = dt_basic_table.DataTable({
-      data: nuevoObjeto,
-      columns: [
-        { data: 'monto' },
-        { data: 'monto_total',
-        render: function ( data, type, row ) {
-          return '$'+ data;
-      } }, // used for sorting so will hide this column
-        { data: 'status_pedido' },
-        { data: 'status_pago' },
-        { data: 'status_pago' },
-        { data: 'createdAt'},
+      data: arregloDeClavesYValores,
+     columns: [
+        { data: '0' },
+        { data: '0'},
+        { data: '0' },
+        { data: '0' },
+        { data: '0' },
+        { data: '0'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -196,42 +195,153 @@ maxDate2 = new DateTime($('#max1'), {
       ], columnDefs: [
         {
           // Label
-          targets: 3,
+          targets: 1,
           render: function (data, type, full, meta) {
-            console.log(full)
-            var $status_number = full['status_pedido'];
-            var $status = {
-              "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
-              "Por entregar": { title: 'Por entregar', class: ' badge-light-yellow' },
-              "Devuelto": { title: 'Devuelto', class: ' badge-light-danger' },
-              "Rezagado": { title: 'Rezagado', class: ' badge-light-warning' },
-              "En proceso": { title: 'En proceso', class: ' badge-light-info' }
-            };
-            if (typeof $status[$status_number] === 'undefined') {
-              return data;
+            let marca="", modelo ="", matricula="", vehiculo ="";
+              for (let i = 0; i < full[1].length; i++) {
+                marca = full[1][i]['personal']['vehiculo']['marca']
+                modelo = full[1][i]['personal']['vehiculo']['modelo']
+                matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
-              $status[$status_number].title +
-              '</span>'
-            );
+            vehiculo = marca + modelo + matricula
+            return vehiculo;
           }
+      },
+      {
+        // Label
+        targets: 2,
+        render: function (data, type, full, meta) {
+          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+            for (let i = 0; i < full[1].length; i++) {
+              botella1L = JSON.parse(full[1][i]['botella1L'])
+              botella5L = JSON.parse(full[1][i]['botella5L'])
+              garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+              garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+              if (Array.isArray(botella1L)) {
+                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+            } else {
+              Tbotella1L += parseInt(botella1L['total_cant']);
+            }
+
+            if (Array.isArray(botella5L)) {
+              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+          } else {
+            Tbotella5L += parseInt(botella5L['total_cant']);
+          }
+
+          if (Array.isArray(garrafon11L)) {
+            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+        } else {
+          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+        }
+
+
+            if (Array.isArray(garrafon19L)) {
+              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+          } else {
+            Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          }
+
+
+          }
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          return total_garrafones;
+        }
+    },
+          {
+            // Label
+            targets: 3,
+            render: function (data, type, full, meta) {
+              var suma = 0;
+                for (let i = 0; i < full[1].length; i++) {
+                  if (full[1][i]['metodo_pago'] == "Efectivo") {
+                    if (Array.isArray(full[1][i]['monto_total'])) {
+                      suma += countArray(parseInt(full[1][i]['monto_total']));
+                  } else {
+                      suma += parseInt(full[1][i]['monto_total']);
+                  }
+
+                  }
+                  
+              }
+              return suma;
+            }
         },{
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
+          }
+        },
+        {
+          
+          // Label
           targets: 5,
-          render:function(data){
-            return moment(data).format('L');
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
           }
         },
       ],
-     
       order: [[2, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
-  
+      lengthMenu: [7, 10, 25, 50, 75, 100],  
+      responsive: {
+        details: {
+          display: $.fn.dataTable.Responsive.display.modal({
+            header: function (row) {
+              console.log(row)
+              var data = row.data();
+              return 'Details of ' + data['full_name'];
+            }
+          }),
+          type: 'column',
+          renderer: function (api, rowIdx, columns) {
+            var data = $.map(columns, function (col, i) {
+              return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
+                ? '<tr data-dt-row="' +
+                    col.rowIdx +
+                    '" data-dt-column="' +
+                    col.columnIndex +
+                    '">' +
+                    '<td>' +
+                    col.title +
+                    ':' +
+                    '</td> ' +
+                    '<td>' +
+                    col.data +
+                    '</td>' +
+                    '</tr>'
+                : '';
+            }).join('');
+
+            return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
+          }
+        }
+      },
      
       language: {
       "decimal": "",
