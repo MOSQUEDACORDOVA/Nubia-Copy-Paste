@@ -366,11 +366,13 @@ $('.municipio').val(municipio)
                         <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
                         <select
                             name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control mb-2">
+                            class="form-control mb-2" id='chofer'>
+                            <option default>Seleccione un chofer</option>
                             {{#each choferes_ as |chofer i |}}
-                            <option>{{name}} {{lastName}}</option>
+                            <option data-id="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
+                        <input type="hidden" id="id_chofer" name="id_chofer" >
                     </div>
 
                     <div class="divider">
@@ -593,7 +595,11 @@ $('.municipio').val(municipio)
                         <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" required>
                     </div>
-
+                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                                dañados</label>
+                            <input type="text" name="danados" placeholder="Garrafones Dañados"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" >
+                        </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                         <input type="text" name="observacion" placeholder="Observación" aria-describedby="register-firstName"
                             tabindex="1"  class="form-control mb-2" required>

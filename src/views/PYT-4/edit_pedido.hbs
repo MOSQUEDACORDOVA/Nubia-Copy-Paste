@@ -103,16 +103,19 @@
                             <div class="divider-text">Chofer</div>
                         </div>
 
+                     
                         <div class="form-group">
-                            <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
-                            <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
-                                class="form-control mb-2">
-                                <option selected>{{pedido_let.chofer}}</option>
-                                {{#each choferes_ as |chofer i |}}
-                                <option>{{name}} {{lastName}}</option>
-                                {{/each}}
-                            </select>
-                        </div>
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select
+                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 chofer">
+                            <option selected data-id="{{pedido_let.personalId}}">{{pedido_let.chofer}}</option>
+                            {{#each choferes_ as |chofer2 j |}}
+                            <option data-id="{{id}}">{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                        <input type="hidden" id="id_chofer" name="id_chofer" class="id_chofer" value="{{pedido_let.personalId}}">
+                    </div>
 
                         <div class="divider">
                             <div class="divider-text">Productos</div>
@@ -408,13 +411,19 @@
                         <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
                                 prestados(S/R)</label>
                             <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
                                 value="{{pedido_let.garrafones_prestamos}}">
+                        </div>
+                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                               dañados</label>
+                            <input type="text" name="danados" placeholder="Garrafones Dañados"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
+                                value="{{pedido_let.danados}}">
                         </div>
 
                         <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                             <input type="text" name="observacion" placeholder="Observación"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
                                 value="{{pedido_let.observacion}}">
                         </div>
                         <div class="modal-footer">

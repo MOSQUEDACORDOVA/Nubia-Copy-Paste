@@ -188,12 +188,14 @@ maxDate2 = new DateTime($('#max1'), {
       data: ArrayResidencial,
      columns: [
       { data: '0',render: function (data, type, full, meta) {
+        console.log(full[1])
         let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
         let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
         let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
         let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
         let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
-        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;        
+        let danados = 0, garrafones_prestamos=0;
           for (let i = 0; i < full[1].length; i++) {
             botella1L = JSON.parse(full[1][i]['botella1L'])
             botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -260,19 +262,27 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
               Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
         }
 
+            if (Array.isArray(full[1][i]['danados'])) {
+              danados += countArray(parseInt(full[1][i]['danados']));
+          } else {
+              danados += parseInt(full[1][i]['danados']);
+          }
+
+          if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+            garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+        } else {
+            garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+        }
+
 
         }
-        console.log(Tbotella1LO)
-        console.log(Tbotella5LO)
-        console.log(Tgarrafon11LO)
-        console.log(Tgarrafon19LO)
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-        
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         console.log(danados)
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -298,7 +308,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         targets: 2,
         render: function (data, type, full, meta) {
           let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0, danados=0,garrafones_prestamos=0;
             for (let i = 0; i < full[1].length; i++) {
               botella1L = JSON.parse(full[1][i]['botella1L'])
               botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -329,9 +339,20 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             Tgarrafon19L += parseInt(garrafon19L['total_cant']);
           }
 
+          if (Array.isArray(full[1][i]['danados'])) {
+            danados += countArray(parseInt(full[1][i]['danados']));
+        } else {
+          danados += parseInt(full[1][i]['danados']);
+        }
+
+        if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+          garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+      } else {
+        garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+      }
 
           }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
           return total_garrafones;
         }
     },
@@ -351,7 +372,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                   }
                   
               }
-              return suma;
+              return '$ '+suma;
             }
         },{
           
@@ -368,7 +389,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
         {
@@ -386,7 +407,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
       ],
@@ -423,14 +444,18 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var totalrefill = triggerLink.data("totalrefill");
       var totalcanje = triggerLink.data("totalcanje");
       var totalObsequio = triggerLink.data("totalobsequio");
+      var totaldanados = triggerLink.data("totaldanados");
       var totalnuevo = triggerLink.data("totalnuevo");
-    
+      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
+
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>totalrefill: "+
-      totalrefill+"</h5><h5>totalcanje: "+
-      totalcanje+"</h5><h5>totalnuevo: "+
-      totalnuevo+"</h5><h5>totalObsequio: "+
-      totalObsequio+"</h5><h5>Total_total: "+
+      $(this).find(".modal-body").html("<h5>Total Refill: "+
+      totalrefill+"</h5><h5>Total Canej: "+
+      totalcanje+"</h5><h5>Total Nuevos: "+
+      totalnuevo+"</h5><h5>Total Obsequio: "+
+      totalObsequio+"</h5><h5>Total Dañados: "+
+      totaldanados+"</h5><h5>Total Prestamos: "+
+      garrafones_prestamos+"</h5><h5>Total General: "+
       Total_total+"</h5>");
   });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
@@ -462,12 +487,14 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       data: ArrayNegocio,
      columns: [
       { data: '0',render: function (data, type, full, meta) {
+        console.log(full[1])
         let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
         let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
         let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
         let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
         let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
-        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;        
+        let danados = 0, garrafones_prestamos=0;
           for (let i = 0; i < full[1].length; i++) {
             botella1L = JSON.parse(full[1][i]['botella1L'])
             botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -534,19 +561,27 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
               Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
         }
 
+            if (Array.isArray(full[1][i]['danados'])) {
+              danados += countArray(parseInt(full[1][i]['danados']));
+          } else {
+              danados += parseInt(full[1][i]['danados']);
+          }
+
+          if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+            garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+        } else {
+            garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+        }
+
 
         }
-        console.log(Tbotella1LO)
-        console.log(Tbotella5LO)
-        console.log(Tgarrafon11LO)
-        console.log(Tgarrafon19LO)
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-        
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         console.log(danados)
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -572,7 +607,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         targets: 2,
         render: function (data, type, full, meta) {
           let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0, danados=0,garrafones_prestamos=0;
             for (let i = 0; i < full[1].length; i++) {
               botella1L = JSON.parse(full[1][i]['botella1L'])
               botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -603,9 +638,20 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             Tgarrafon19L += parseInt(garrafon19L['total_cant']);
           }
 
+          if (Array.isArray(full[1][i]['danados'])) {
+            danados += countArray(parseInt(full[1][i]['danados']));
+        } else {
+          danados += parseInt(full[1][i]['danados']);
+        }
+
+        if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+          garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+      } else {
+        garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+      }
 
           }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
           return total_garrafones;
         }
     },
@@ -625,7 +671,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                   }
                   
               }
-              return suma;
+              return '$ '+suma;
             }
         },{
           
@@ -642,7 +688,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
         {
@@ -660,7 +706,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
       ],
@@ -697,14 +743,18 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var totalrefill = triggerLink.data("totalrefill");
       var totalcanje = triggerLink.data("totalcanje");
       var totalObsequio = triggerLink.data("totalobsequio");
+      var totaldanados = triggerLink.data("totaldanados");
       var totalnuevo = triggerLink.data("totalnuevo");
-    
+      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
+
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>totalrefill: "+
-      totalrefill+"</h5><h5>totalcanje: "+
-      totalcanje+"</h5><h5>totalnuevo: "+
-      totalnuevo+"</h5><h5>totalObsequio: "+
-      totalObsequio+"</h5><h5>Total_total: "+
+      $(this).find(".modal-body").html("<h5>Total Refill: "+
+      totalrefill+"</h5><h5>Total Canej: "+
+      totalcanje+"</h5><h5>Total Nuevos: "+
+      totalnuevo+"</h5><h5>Total Obsequio: "+
+      totalObsequio+"</h5><h5>Total Dañados: "+
+      totaldanados+"</h5><h5>Total Prestamos: "+
+      garrafones_prestamos+"</h5><h5>Total General: "+
       Total_total+"</h5>");
   });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
@@ -736,12 +786,14 @@ if (dt_PuntoVenta.length) {
       data: ArrayPuntoVenta,
      columns: [
       { data: '0',render: function (data, type, full, meta) {
+        console.log(full[1])
         let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
         let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
         let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
         let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
         let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
-        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;        
+        let danados = 0, garrafones_prestamos=0;
           for (let i = 0; i < full[1].length; i++) {
             botella1L = JSON.parse(full[1][i]['botella1L'])
             botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -808,19 +860,27 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
               Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
         }
 
+            if (Array.isArray(full[1][i]['danados'])) {
+              danados += countArray(parseInt(full[1][i]['danados']));
+          } else {
+              danados += parseInt(full[1][i]['danados']);
+          }
+
+          if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+            garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+        } else {
+            garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+        }
+
 
         }
-        console.log(Tbotella1LO)
-        console.log(Tbotella5LO)
-        console.log(Tgarrafon11LO)
-        console.log(Tgarrafon19LO)
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-        
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         console.log(danados)
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -846,7 +906,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         targets: 2,
         render: function (data, type, full, meta) {
           let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0, danados=0,garrafones_prestamos=0
             for (let i = 0; i < full[1].length; i++) {
               botella1L = JSON.parse(full[1][i]['botella1L'])
               botella5L = JSON.parse(full[1][i]['botella5L'])
@@ -876,10 +936,20 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
           } else {
             Tgarrafon19L += parseInt(garrafon19L['total_cant']);
           }
+          if (Array.isArray(full[1][i]['danados'])) {
+            danados += countArray(parseInt(full[1][i]['danados']));
+        } else {
+          danados += parseInt(full[1][i]['danados']);
+        }
 
+        if (Array.isArray(full[1][i]['garrafones_prestamos'])) {
+          garrafones_prestamos += countArray(parseInt(full[1][i]['garrafones_prestamos']));
+      } else {
+        garrafones_prestamos += parseInt(full[1][i]['garrafones_prestamos']);
+      }
 
           }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
           return total_garrafones;
         }
     },
@@ -899,7 +969,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                   }
                   
               }
-              return suma;
+              return '$ '+suma;
             }
         },{
           
@@ -916,7 +986,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
         {
@@ -934,7 +1004,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 }
                 }                
             }
-            return suma;
+            return '$ '+suma;
           }
         },
       ],
@@ -971,14 +1041,18 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var totalrefill = triggerLink.data("totalrefill");
       var totalcanje = triggerLink.data("totalcanje");
       var totalObsequio = triggerLink.data("totalobsequio");
+      var totaldanados = triggerLink.data("totaldanados");
       var totalnuevo = triggerLink.data("totalnuevo");
-    
+      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
+
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>totalrefill: "+
-      totalrefill+"</h5><h5>totalcanje: "+
-      totalcanje+"</h5><h5>totalnuevo: "+
-      totalnuevo+"</h5><h5>totalObsequio: "+
-      totalObsequio+"</h5><h5>Total_total: "+
+      $(this).find(".modal-body").html("<h5>Total Refill: "+
+      totalrefill+"</h5><h5>Total Canej: "+
+      totalcanje+"</h5><h5>Total Nuevos: "+
+      totalnuevo+"</h5><h5>Total Obsequio: "+
+      totalObsequio+"</h5><h5>Total Dañados: "+
+      totaldanados+"</h5><h5>Total Prestamos: "+
+      garrafones_prestamos+"</h5><h5>Total General: "+
       Total_total+"</h5>");
   });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');

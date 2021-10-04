@@ -339,11 +339,26 @@ $('.status_pago').val('Por verificar')
 console.log("Pagado")
 $('.status_pago').val('Pagado')
   }
+  
+  
 
 
   })
 
-
+  $('.chofer').on('change', ()=>{
+    var option = $('.chofer').find(':selected');
+    
+    var id_chofer = option.data("id");
+    console.log(id_chofer)
+    $(".id_chofer").val(id_chofer);
+    })
+    $('#chofer').on('change', ()=>{
+      var option = $('#chofer').find(':selected');
+      
+      var id_chofer = option.data("id");
+      console.log(id_chofer)
+      $("#id_chofer").val(id_chofer);
+      })
 
 
 });

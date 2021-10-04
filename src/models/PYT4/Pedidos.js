@@ -38,7 +38,7 @@ const Pedidos = db.define('pedidos', {
 	garrafones_prestamos: {
 		type: DataTypes.TEXT,
 		allowNull: true,
-		defaultValue: ""
+		defaultValue: 0
 	},
 	observacion: {
 		type: DataTypes.TEXT,
@@ -64,6 +64,11 @@ const Pedidos = db.define('pedidos', {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
+	},
+	danados: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
 	},
 
 
