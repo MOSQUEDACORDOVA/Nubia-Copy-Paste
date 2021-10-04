@@ -70,27 +70,29 @@ $('.municipio').val(municipio)
                     <div class="divider">
                         <div class="divider-text">Dirección</div>
                     </div>
-                      <div class="form-group mb-2" hidden><label for="register-lastName" class="form-label">Ciudad</label><input
-                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control" value="Guadalajara" id="ciudad_select" readonly>
-                                </div>
+                      
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
                                 type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
                                 tabindex="2" class="form-control cp_select" id="cp_select" value="{{cliente_let.estado}}">
                                 </div>
+<div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
+                                </div>
+
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
                                 type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
                                 tabindex="2" class="form-control municipio"  id="municipio" readonly value="{{cliente_let.municipio}}">
                                 </div>          
                         <div class="form-group mb-2">
-                        <label for="register-ciudad" class="form-label">Municipio</label>
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
 
                         <select class="select2 form-select select_asentamiento" id="select_asentamiento" name="asentamiento">
                             <option value="{{cliente_let.cp.id}}">{{cliente_let.cp.asentamiento}}</option>
                         </select>
 
                         </div>
-                    <div class="form-group"><label for="register-fraccionamiento"
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
                             class="form-label">Fraccionamiento</label>
                             <input type="text" name="fraccionamiento"
                             placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
