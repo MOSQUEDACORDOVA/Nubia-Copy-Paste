@@ -37,152 +37,33 @@
                             <div class="divider">
                                 <div class="divider-text">Dirección</div>
                             </div>
-                            <div class="form-group mb-2"><label for="register-lastName"
-                                    class="form-label">Ciudad</label><input type="text" name="ciudad"
-                                    placeholder="Ciudad" aria-describedby="register-lastName" tabindex="2"
-                                    class="form-control" value="Guadalajara" id="ciudad_select" readonly>
-                            </div>
-                            <div class="form-group mb-2">
-                                <label for="register-ciudad" class="form-label">Municipio</label>
+                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control cp_select" id="cp_select" value="{{cliente_let.estado}}">
+                                </div>
+<div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
+                                </div>
 
-                                <select class="select2 form-select" id="municipio_select" name="municipio">
-                                    <option selected> {{pedido_let.cliente.municipio}} </option>
-                                    <option> Acatic </option>
-                                    <option> Acatlán de Juárez </option>
-                                    <option> Ahualulco de Mercado </option>
-                                    <option> Ajijic </option>
-                                    <option> Amatitán </option>
-                                    <option> Ameca </option>
-                                    <option> Arandas </option>
-                                    <option> Atemajac de Brizuela </option>
-                                    <option> Atequiza </option>
-                                    <option> Atotonilco el Alto </option>
-                                    <option> Atotonilquillo </option>
-                                    <option> Atoyac </option>
-                                    <option> Autlán de Navarro </option>
-                                    <option> Ayotlán </option>
-                                    <option> Ayutla </option>
-                                    <option> Bellavista </option>
-                                    <option> Cajititlán </option>
-                                    <option> Capilla de Guadalupe </option>
-                                    <option> Chapala </option>
-                                    <option> Cihuatlán </option>
-                                    <option> Ciudad Guzmán </option>
-                                    <option> Cocula </option>
-                                    <option> Colinas del Roble </option>
-                                    <option> Colotlán </option>
-                                    <option> Coyula </option>
-                                    <option> Cuitzeo (La Estancia) </option>
-                                    <option> Degollado </option>
-                                    <option> El Arenal </option>
-                                    <option> El Capulín </option>
-                                    <option> El Grullo </option>
-                                    <option> El Quince (San José El Quince) </option>
-                                    <option> El Refugio </option>
-                                    <option> El Salto </option>
-                                    <option> Encarnación de Díaz </option>
-                                    <option> Etzatlán </option>
-                                    <option> Galaxia Bonito Jalisco </option>
-                                    <option> Galaxia la Noria </option>
-                                    <option> Guadalajara </option>
-                                    <option> Hacienda Santa Fe </option>
-                                    <option> Ixtapa </option>
-                                    <option> Ixtlahuacán de los Membrillos </option>
-                                    <option> Ixtlahuacán del Río </option>
-                                    <option> Jalostotitlán </option>
-                                    <option> Jamay </option>
-                                    <option> Jesús María </option>
-                                    <option> Jocotepec </option>
-                                    <option> Juanacatlán </option>
-                                    <option> La Alameda </option>
-                                    <option> La Barca </option>
-                                    <option> La Huerta </option>
-                                    <option> La Resolana </option>
-                                    <option> La Ribera </option>
-                                    <option> La Tijera </option>
-                                    <option> La Venta del Astillero </option>
-                                    <option> Lagos de Moreno </option>
-                                    <option> Las Juntas </option>
-                                    <option> Las Pintas </option>
-                                    <option> Las Pintitas </option>
-                                    <option> Lomas de San Agustín </option>
-                                    <option> Lomas del Sur </option>
-                                    <option> Los Olivos </option>
-                                    <option> Los Ruiseñores </option>
-                                    <option> Magdalena </option>
-                                    <option> Mascota </option>
-                                    <option> Mazamitla </option>
-                                    <option> Mezcala </option>
-                                    <option> Ocotlán </option>
-                                    <option> Ojuelos de Jalisco </option>
-                                    <option> Pihuamo </option>
-                                    <option> Poncitlán </option>
-                                    <option> Puente Grande </option>
-                                    <option> Puerto Vallarta </option>
-                                    <option> Rancho Alegre (Fraccionamiento) </option>
-                                    <option> Real del Valle </option>
-                                    <option> San Agustín </option>
-                                    <option> San Andrés Ixtlán </option>
-                                    <option> San Diego de Alejandría </option>
-                                    <option> San Francisco de Asis </option>
-                                    <option> San Ignacio Cerro Gordo </option>
-                                    <option> San José El Verde (El Verde) </option>
-                                    <option> San José del Castillo </option>
-                                    <option> San Juan Cosalá </option>
-                                    <option> San Juan de los Lagos </option>
-                                    <option> San Juanito de Escobedo </option>
-                                    <option> San Julián </option>
-                                    <option> San Martín Hidalgo </option>
-                                    <option> San Miguel Cuyutlán </option>
-                                    <option> San Miguel el Alto </option>
-                                    <option> San Patricio Melaque </option>
-                                    <option> San Pedro Itzicán </option>
-                                    <option> San Sebastián del Sur </option>
-                                    <option> San Sebastián el Grande </option>
-                                    <option> Santa Anita </option>
-                                    <option> Santa Cruz de las Flores </option>
-                                    <option> Santa Cruz del Valle </option>
-                                    <option> Sayula </option>
-                                    <option> Tala </option>
-                                    <option> Talpa de Allende </option>
-                                    <option> Tamazula de Gordiano </option>
-                                    <option> Tapalpa </option>
-                                    <option> Tecalitlán </option>
-                                    <option> Tecolotlán </option>
-                                    <option> Teocaltiche </option>
-                                    <option> Tepatitlán de Morelos </option>
-                                    <option> Tequila </option>
-                                    <option> Tesistán (San Francisco Tesistán) </option>
-                                    <option> Tizapán el Alto </option>
-                                    <option> Tlajomulco de Zúñiga </option>
-                                    <option> Tlaquepaque </option>
-                                    <option> Tomatlán </option>
-                                    <option> Tonalá </option>
-                                    <option> Tototlán </option>
-                                    <option> Tuxpan </option>
-                                    <option> Unión de San Antonio </option>
-                                    <option> Unión de Tula </option>
-                                    <option> Usmajac </option>
-                                    <option> Valle Dorado Inn </option>
-                                    <option> Villa Corona </option>
-                                    <option> Villa Hidalgo </option>
-                                    <option> Villa Purificación </option>
-                                    <option> Villas de la Hacienda (Fraccionamiento) </option>
-                                    <option> Yahualica de González Gallo </option>
-                                    <option> Zacoalco de Torres </option>
-                                    <option> Zapopan </option>
-                                    <option> Zapote del Valle (Zapote de Santa Cruz) </option>
-                                    <option> Zapotiltic </option>
-                                    <option> Zapotlanejo </option>
-                                </select>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control municipio"  id="municipio" readonly value="{{cliente_let.municipio}}">
+                                </div>          
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
 
-                            </div>
-                            <div class="form-group"><label for="register-fraccionamiento"
-                                    class="form-label">Fraccionamiento</label>
-                                <input type="text" name="fraccionamiento" placeholder="Fraccionamiento"
-                                    aria-describedby="register-fraccionamiento" tabindex="5" class="form-control mb-2"
-                                    value="{{pedido_let.cliente.fraccionamiento}}">
-                            </div>
+                        <select class="select2 form-select select_asentamiento" id="select_asentamiento" name="asentamiento">
+                            <option value="{{cliente_let.cp.id}}">{{cliente_let.cp.asentamiento}}</option>
+                        </select>
+
+                        </div>
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label>
+                            <input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2" value="{{cliente_let.fraccionamiento}}">
+                    </div>
                             <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input
                                     type="text" name="coto" placeholder="Coto" aria-describedby="register-coto"
                                     tabindex="6" class="form-control mb-2" value="{{pedido_let.cliente.coto}}"></div>
@@ -298,6 +179,14 @@
                                             id="enNew_garrafon_mont" readonly="readonly"
                                             value="{{garrafon19L.nuevo_mont}}" name="nuevo_garrafon_mont" hidden>
                                     </div>
+                                     <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_garrafon" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" value="{{garrafon19L.enobsequio_cant_garrafon}}"/>
+                                                </div>
+                                    </div>
+                                </div>
                                     <input type="number" class=" total_garrafon" value="{{garrafon19L.total_cant}}"
                                         id="total_garrafon" name="total_garrafon_cant" hidden />
                                     <p class="mb-0">Cantidad Total: <span id="cant_garrafon"
@@ -351,6 +240,14 @@
                                             id="enNew_botella_mont" readonly="readonly" value="{{botella1L.nuevo_mont}}"
                                             name="nuevo_botella_mont" hidden>
                                     </div>
+                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_botella" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella" value="{{botella1L.enobsequio_cant_botella}}"/>
+                                                </div>
+                                    </div>
+                                </div>
                                     <input type="number" class=" total_botella" value="{{botella1L.total_cant}}"
                                         id="total_botella" name="total_botella_cant" hidden />
                                     <p class="mb-0">Cantidad Total: <span id="cant_botella"
@@ -399,6 +296,14 @@
                                             id="enNew_garrafon11l_mont" readonly="readonly"
                                             value="{{garrafon11L.nuevo_mont}}" name="nuevo_garrafon11l_mont" hidden>
                                     </div>
+                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_garrafon11l" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l" value="{{garrafon11L.enobsequio_cant_garrafon11l}}"/>
+                                                </div>
+                                    </div>
+                                </div>
                                     <input type="number" class=" total_garrafon11l" value="{{garrafon11L.total_cant}}"
                                         id="total_garrafon11l" name="total_garrafon11l_cant" hidden />
                                     <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l"
@@ -450,6 +355,14 @@
                                             id="enNew_botella5l_mont" readonly="readonly"
                                             value="{{botella5L.nuevo_mont}}" name="nuevo_botella5l_mont" hidden>
                                     </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_botella5l" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" value="{{botella5L.enobsequio_cant_botella5l}}"/>
+                                                </div>
+                                    </div>
+                                </div>
                                     <input type="number" class=" total_botella5l" value="{{botella5L.total_cant}}"
                                         id="total_botella5l" name="total_botella5l_cant" hidden />
                                     <p class="mb-0">Cantidad Total: <span id="cant_botella5l"

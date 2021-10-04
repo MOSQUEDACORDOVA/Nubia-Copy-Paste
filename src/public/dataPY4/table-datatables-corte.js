@@ -107,34 +107,50 @@
   let corte = $('#array_corte').val()
   
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
-  
-  //let stproductos = JSON.parse(corte.productos)
-  let status_pedido = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
-  let status_pedido2 = corte2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
-  console.log(status_pedido)
-  let nuevoObjeto = {}
-//Recorremos el arreglo 
-status_pedido.forEach( x => {
-  //Si la ciudad no existe en nuevoObjeto entonces
-  //la creamos e inicializamos el arreglo de profesionales. 
-  if( !nuevoObjeto.hasOwnProperty(x.chofer)){
-    nuevoObjeto[x.chofer] =[]
-  }
-  
-  //Agregamos los datos de profesionales. 
-    nuevoObjeto[x.chofer].push(x)
-  
-})
+    //let stproductos = JSON.parse(corte.productos)
+  let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
+  let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
+  let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de Venta'); // return implicitoreturn implicito
 
-console.log(nuevoObjeto)
-let arregloDeClavesYValores = Object.entries(nuevoObjeto);
-console.log("Claves y valores: ", arregloDeClavesYValores);
+  //TABLA RESIDENCIAL
+  let NewResidencial = {}
+//Recorremos el arreglo 
+Residencial.forEach( x => {
+  if( !NewResidencial.hasOwnProperty(x.chofer)){
+    NewResidencial[x.chofer] =[]
+  }
+    NewResidencial[x.chofer].push(x)  
+})
+let ArrayResidencial = Object.entries(NewResidencial);
+
+//TABLA NEGOCIO
+let NewNegocio = {}
+//Recorremos el arreglo 
+Negocio.forEach( x => {
+  if( !NewNegocio.hasOwnProperty(x.chofer)){
+    NewNegocio[x.chofer] =[]
+  }
+    NewNegocio[x.chofer].push(x)  
+})
+let ArrayNegocio = Object.entries(NewNegocio);
+
+
+//TABLA PTO VENTA
+let NewPuntoVenta = {}
+//Recorremos el arreglo 
+PuntoVenta.forEach( x => {
+  if( !NewPuntoVenta.hasOwnProperty(x.chofer)){
+    NewPuntoVenta[x.chofer] =[]
+  }
+    NewPuntoVenta[x.chofer].push(x)  
+})
+let ArrayPuntoVenta = Object.entries(NewPuntoVenta);
+
   var dt_basic_table = $('.datatables-basic'),
+  dt_negocio = $('.datatables-basicNegocio'),
+  dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
     dt_date_table = $('.dt-date'),
     dt_basic_table2 = $('.datatables-basic2'),
-    dt_adv_filter_table = $('.datatables-basic'),
-    dt_row_grouping_table = $('.dt-row-grouping'),
-    dt_multilingual_table = $('.dt-multilingual'),
     assetPath = '../../dataPY4/';
 
   if ($('body').attr('data-framework') === 'laravel') {
@@ -169,29 +185,99 @@ maxDate2 = new DateTime($('#max1'), {
       });
     });
     var dt_basic = dt_basic_table.DataTable({
-      data: arregloDeClavesYValores,
+      data: ArrayResidencial,
      columns: [
-        { data: '0' },
+      { data: '0',render: function (data, type, full, meta) {
+        let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+        let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+        let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
+        let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
+        let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+          for (let i = 0; i < full[1].length; i++) {
+            botella1L = JSON.parse(full[1][i]['botella1L'])
+            botella5L = JSON.parse(full[1][i]['botella5L'])
+            garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+            garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+            console.log(botella1L)
+            if (Array.isArray(botella1L)) {
+              Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+              Tbotella1LR += countArray(parseInt(botella1L['refill_cant']));
+              Tbotella1LC += countArray(parseInt(botella1L['canje_cant']));
+              Tbotella1LN += countArray(parseInt(botella1L['nuevo_cant']));
+              Tbotella1LO += countArray(parseInt(botella1L['enobsequio_cant_botella']));
+
+          } else {
+            Tbotella1L += parseInt(botella1L['total_cant']);
+            Tbotella1LR += parseInt(botella1L['refill_cant']);
+            Tbotella1LC += parseInt(botella1L['canje_cant']);
+            Tbotella1LN += parseInt(botella1L['nuevo_cant']);
+            Tbotella1LO += parseInt(botella1L['enobsequio_cant_botella']);
+          }
+
+          if (Array.isArray(botella5L)) {
+            Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+             Tbotella5LR += countArray(parseInt(botella5L['refill_cant']));
+              Tbotella5LC += countArray(parseInt(botella5L['canje_cant']));
+              Tbotella5LN += countArray(parseInt(botella5L['nuevo_cant']));
+Tbotella5LO += countArray(parseInt(botella5L['enobsequio_cant_botella5l']));
+        } else {
+          Tbotella5L += parseInt(botella5L['total_cant']);
+           Tbotella5LR += parseInt(botella5L['refill_cant']);
+              Tbotella5LC += parseInt(botella5L['canje_cant']);
+              Tbotella5LN += parseInt(botella5L['nuevo_cant']);
+              Tbotella5LO += parseInt(botella5L['enobsequio_cant_botella5l']);
+        }
+
+        if (Array.isArray(garrafon11L)) {
+          Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+           Tgarrafon11LR += countArray(parseInt(garrafon11L['refill_cant']));
+              Tgarrafon11LC += countArray(parseInt(garrafon11L['canje_cant']));
+              Tgarrafon11LN += countArray(parseInt(garrafon11L['nuevo_cant']));
+              Tgarrafon11LO += countArray(parseInt(garrafon11L['enobsequio_cant_garrafon11l']));
+      } else {
+        Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+         Tgarrafon11LR += parseInt(garrafon11L['refill_cant']);
+              Tgarrafon11LC += parseInt(garrafon11L['canje_cant']);
+              Tgarrafon11LN += parseInt(garrafon11L['nuevo_cant']);
+              Tgarrafon11LO += parseInt(garrafon11L['enobsequio_cant_garrafon11l']);
+      }
+
+
+          if (Array.isArray(garrafon19L)) {
+            Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+            
+         Tgarrafon19LR += countArray(parseInt(garrafon19L['refill_cant']));
+              Tgarrafon19LC += countArray(parseInt(garrafon19L['canje_cant']));
+              Tgarrafon19LN += countArray(parseInt(garrafon19L['enobsequio_cant_garrafon']));
+Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
+        } else {
+          Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          
+         Tgarrafon19LR += parseInt(garrafon19L['refill_cant']);
+              Tgarrafon19LC += parseInt(garrafon19L['canje_cant']);
+              Tgarrafon19LN += parseInt(garrafon19L['nuevo_cant']);
+              Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
+        }
+
+
+        }
+        console.log(Tbotella1LO)
+        console.log(Tbotella5LO)
+        console.log(Tgarrafon11LO)
+        console.log(Tgarrafon19LO)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
+        let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
+        let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
+        let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
+        
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
         { data: '0' },
         { data: '0'},
-        {   // Actions
-          targets: -1,
-          title: 'Opciones',
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
-            );
-          } },
       ], columnDefs: [
         {
           // Label
@@ -309,40 +395,7 @@ maxDate2 = new DateTime($('#max1'), {
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],  
-      responsive: {
-        details: {
-          display: $.fn.dataTable.Responsive.display.modal({
-            header: function (row) {
-              console.log(row)
-              var data = row.data();
-              return 'Details of ' + data['full_name'];
-            }
-          }),
-          type: 'column',
-          renderer: function (api, rowIdx, columns) {
-            var data = $.map(columns, function (col, i) {
-              return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
-                ? '<tr data-dt-row="' +
-                    col.rowIdx +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
-                : '';
-            }).join('');
-
-            return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
-          }
-        }
-      },
-     
+    
       language: {
       "decimal": "",
       "emptyTable": "No hay información",
@@ -363,6 +416,23 @@ maxDate2 = new DateTime($('#max1'), {
         }
       }
     });
+    $("#corte_modal").on('show.bs.modal', function (e) {
+      var triggerLink = $(e.relatedTarget);
+      var Total_total = triggerLink.data("id");
+      var title = triggerLink.data("title");
+      var totalrefill = triggerLink.data("totalrefill");
+      var totalcanje = triggerLink.data("totalcanje");
+      var totalObsequio = triggerLink.data("totalobsequio");
+      var totalnuevo = triggerLink.data("totalnuevo");
+    
+      $("#corte_modalTitle").text(title);
+      $(this).find(".modal-body").html("<h5>totalrefill: "+
+      totalrefill+"</h5><h5>totalcanje: "+
+      totalcanje+"</h5><h5>totalnuevo: "+
+      totalnuevo+"</h5><h5>totalObsequio: "+
+      totalObsequio+"</h5><h5>Total_total: "+
+      Total_total+"</h5>");
+  });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -376,7 +446,556 @@ maxDate2 = new DateTime($('#max1'), {
       dt_basic.draw();
       });
   }
- 
+  if (dt_negocio.length) {
+    $('.dt-column-searchNegocio thead tr').clone(true).appendTo('.dt-column-searchNegocio thead');
+    $('.dt-column-searchNegocio thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+  
+      $('input', this).on('keyup change', function () {
+        if (dt_basic_N.column(i).search() !== this.value) {
+          dt_basic_N.column(i).search(this.value).draw();
+        }
+      });
+    });
+    var dt_basic_N = dt_negocio.DataTable({
+      data: ArrayNegocio,
+     columns: [
+      { data: '0',render: function (data, type, full, meta) {
+        let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+        let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+        let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
+        let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
+        let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+          for (let i = 0; i < full[1].length; i++) {
+            botella1L = JSON.parse(full[1][i]['botella1L'])
+            botella5L = JSON.parse(full[1][i]['botella5L'])
+            garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+            garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+            console.log(botella1L)
+            if (Array.isArray(botella1L)) {
+              Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+              Tbotella1LR += countArray(parseInt(botella1L['refill_cant']));
+              Tbotella1LC += countArray(parseInt(botella1L['canje_cant']));
+              Tbotella1LN += countArray(parseInt(botella1L['nuevo_cant']));
+              Tbotella1LO += countArray(parseInt(botella1L['enobsequio_cant_botella']));
+
+          } else {
+            Tbotella1L += parseInt(botella1L['total_cant']);
+            Tbotella1LR += parseInt(botella1L['refill_cant']);
+            Tbotella1LC += parseInt(botella1L['canje_cant']);
+            Tbotella1LN += parseInt(botella1L['nuevo_cant']);
+            Tbotella1LO += parseInt(botella1L['enobsequio_cant_botella']);
+          }
+
+          if (Array.isArray(botella5L)) {
+            Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+             Tbotella5LR += countArray(parseInt(botella5L['refill_cant']));
+              Tbotella5LC += countArray(parseInt(botella5L['canje_cant']));
+              Tbotella5LN += countArray(parseInt(botella5L['nuevo_cant']));
+Tbotella5LO += countArray(parseInt(botella5L['enobsequio_cant_botella5l']));
+        } else {
+          Tbotella5L += parseInt(botella5L['total_cant']);
+           Tbotella5LR += parseInt(botella5L['refill_cant']);
+              Tbotella5LC += parseInt(botella5L['canje_cant']);
+              Tbotella5LN += parseInt(botella5L['nuevo_cant']);
+              Tbotella5LO += parseInt(botella5L['enobsequio_cant_botella5l']);
+        }
+
+        if (Array.isArray(garrafon11L)) {
+          Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+           Tgarrafon11LR += countArray(parseInt(garrafon11L['refill_cant']));
+              Tgarrafon11LC += countArray(parseInt(garrafon11L['canje_cant']));
+              Tgarrafon11LN += countArray(parseInt(garrafon11L['nuevo_cant']));
+              Tgarrafon11LO += countArray(parseInt(garrafon11L['enobsequio_cant_garrafon11l']));
+      } else {
+        Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+         Tgarrafon11LR += parseInt(garrafon11L['refill_cant']);
+              Tgarrafon11LC += parseInt(garrafon11L['canje_cant']);
+              Tgarrafon11LN += parseInt(garrafon11L['nuevo_cant']);
+              Tgarrafon11LO += parseInt(garrafon11L['enobsequio_cant_garrafon11l']);
+      }
+
+
+          if (Array.isArray(garrafon19L)) {
+            Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+            
+         Tgarrafon19LR += countArray(parseInt(garrafon19L['refill_cant']));
+              Tgarrafon19LC += countArray(parseInt(garrafon19L['canje_cant']));
+              Tgarrafon19LN += countArray(parseInt(garrafon19L['enobsequio_cant_garrafon']));
+Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
+        } else {
+          Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          
+         Tgarrafon19LR += parseInt(garrafon19L['refill_cant']);
+              Tgarrafon19LC += parseInt(garrafon19L['canje_cant']);
+              Tgarrafon19LN += parseInt(garrafon19L['nuevo_cant']);
+              Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
+        }
+
+
+        }
+        console.log(Tbotella1LO)
+        console.log(Tbotella5LO)
+        console.log(Tgarrafon11LO)
+        console.log(Tgarrafon19LO)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
+        let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
+        let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
+        let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
+        
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+        { data: '0'},
+        { data: '0' },
+        { data: '0' },
+        { data: '0' },
+        { data: '0'},
+      ], columnDefs: [
+        {
+          // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            let marca="", modelo ="", matricula="", vehiculo ="";
+              for (let i = 0; i < full[1].length; i++) {
+                marca = full[1][i]['personal']['vehiculo']['marca']
+                modelo = full[1][i]['personal']['vehiculo']['modelo']
+                matricula = full[1][i]['personal']['vehiculo']['matricula']
+            }
+            vehiculo = marca + modelo + matricula
+            return vehiculo;
+          }
+      },
+      {
+        // Label
+        targets: 2,
+        render: function (data, type, full, meta) {
+          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+            for (let i = 0; i < full[1].length; i++) {
+              botella1L = JSON.parse(full[1][i]['botella1L'])
+              botella5L = JSON.parse(full[1][i]['botella5L'])
+              garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+              garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+              if (Array.isArray(botella1L)) {
+                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+            } else {
+              Tbotella1L += parseInt(botella1L['total_cant']);
+            }
+
+            if (Array.isArray(botella5L)) {
+              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+          } else {
+            Tbotella5L += parseInt(botella5L['total_cant']);
+          }
+
+          if (Array.isArray(garrafon11L)) {
+            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+        } else {
+          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+        }
+
+
+            if (Array.isArray(garrafon19L)) {
+              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+          } else {
+            Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          }
+
+
+          }
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          return total_garrafones;
+        }
+    },
+          {
+            // Label
+            targets: 3,
+            render: function (data, type, full, meta) {
+              var suma = 0;
+                for (let i = 0; i < full[1].length; i++) {
+                  if (full[1][i]['metodo_pago'] == "Efectivo") {
+                    if (Array.isArray(full[1][i]['monto_total'])) {
+                      suma += countArray(parseInt(full[1][i]['monto_total']));
+                  } else {
+                      suma += parseInt(full[1][i]['monto_total']);
+                  }
+
+                  }
+                  
+              }
+              return suma;
+            }
+        },{
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
+          }
+        },
+        {
+          
+          // Label
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
+          }
+        },
+      ],
+      order: [[2, 'desc']],
+      dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100],  
+    
+      language: {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+    });
+    $("#corte_modal").on('show.bs.modal', function (e) {
+      var triggerLink = $(e.relatedTarget);
+      var Total_total = triggerLink.data("id");
+      var title = triggerLink.data("title");
+      var totalrefill = triggerLink.data("totalrefill");
+      var totalcanje = triggerLink.data("totalcanje");
+      var totalObsequio = triggerLink.data("totalobsequio");
+      var totalnuevo = triggerLink.data("totalnuevo");
+    
+      $("#corte_modalTitle").text(title);
+      $(this).find(".modal-body").html("<h5>totalrefill: "+
+      totalrefill+"</h5><h5>totalcanje: "+
+      totalcanje+"</h5><h5>totalnuevo: "+
+      totalnuevo+"</h5><h5>totalObsequio: "+
+      totalObsequio+"</h5><h5>Total_total: "+
+      Total_total+"</h5>");
+  });
+    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+      // on key up from input field
+ /* $('input.dt-input').on('keyup change', function () {
+    filterColumn($(this).attr('data-column'), $(this).val());
+  });**/
+
+  
+    // Refilter the table
+    $('#min1, #max1').on('change', function () {
+      filterByDate(5); // We call our filter function
+      dt_basic.draw();
+      });
+  }
+if (dt_PuntoVenta.length) {
+    $('.dt-column-searchPuntoVenta thead tr').clone(true).appendTo('.dt-column-searchPuntoVenta thead');
+    $('.dt-column-searchPuntoVenta thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+  
+      $('input', this).on('keyup change', function () {
+        if (dt_basic_PV.column(i).search() !== this.value) {
+          dt_basic_PV.column(i).search(this.value).draw();
+        }
+      });
+    });
+    var dt_basic_PV= dt_PuntoVenta.DataTable({
+      data: ArrayPuntoVenta,
+     columns: [
+      { data: '0',render: function (data, type, full, meta) {
+        let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+        let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+        let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
+        let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;
+        let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;
+        let Tbotella1LO=0, Tbotella5LO =0, Tgarrafon11LO=0, Tgarrafon19LO =0;
+          for (let i = 0; i < full[1].length; i++) {
+            botella1L = JSON.parse(full[1][i]['botella1L'])
+            botella5L = JSON.parse(full[1][i]['botella5L'])
+            garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+            garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+            console.log(botella1L)
+            if (Array.isArray(botella1L)) {
+              Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+              Tbotella1LR += countArray(parseInt(botella1L['refill_cant']));
+              Tbotella1LC += countArray(parseInt(botella1L['canje_cant']));
+              Tbotella1LN += countArray(parseInt(botella1L['nuevo_cant']));
+              Tbotella1LO += countArray(parseInt(botella1L['enobsequio_cant_botella']));
+
+          } else {
+            Tbotella1L += parseInt(botella1L['total_cant']);
+            Tbotella1LR += parseInt(botella1L['refill_cant']);
+            Tbotella1LC += parseInt(botella1L['canje_cant']);
+            Tbotella1LN += parseInt(botella1L['nuevo_cant']);
+            Tbotella1LO += parseInt(botella1L['enobsequio_cant_botella']);
+          }
+
+          if (Array.isArray(botella5L)) {
+            Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+             Tbotella5LR += countArray(parseInt(botella5L['refill_cant']));
+              Tbotella5LC += countArray(parseInt(botella5L['canje_cant']));
+              Tbotella5LN += countArray(parseInt(botella5L['nuevo_cant']));
+Tbotella5LO += countArray(parseInt(botella5L['enobsequio_cant_botella5l']));
+        } else {
+          Tbotella5L += parseInt(botella5L['total_cant']);
+           Tbotella5LR += parseInt(botella5L['refill_cant']);
+              Tbotella5LC += parseInt(botella5L['canje_cant']);
+              Tbotella5LN += parseInt(botella5L['nuevo_cant']);
+              Tbotella5LO += parseInt(botella5L['enobsequio_cant_botella5l']);
+        }
+
+        if (Array.isArray(garrafon11L)) {
+          Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+           Tgarrafon11LR += countArray(parseInt(garrafon11L['refill_cant']));
+              Tgarrafon11LC += countArray(parseInt(garrafon11L['canje_cant']));
+              Tgarrafon11LN += countArray(parseInt(garrafon11L['nuevo_cant']));
+              Tgarrafon11LO += countArray(parseInt(garrafon11L['enobsequio_cant_garrafon11l']));
+      } else {
+        Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+         Tgarrafon11LR += parseInt(garrafon11L['refill_cant']);
+              Tgarrafon11LC += parseInt(garrafon11L['canje_cant']);
+              Tgarrafon11LN += parseInt(garrafon11L['nuevo_cant']);
+              Tgarrafon11LO += parseInt(garrafon11L['enobsequio_cant_garrafon11l']);
+      }
+
+
+          if (Array.isArray(garrafon19L)) {
+            Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+            
+         Tgarrafon19LR += countArray(parseInt(garrafon19L['refill_cant']));
+              Tgarrafon19LC += countArray(parseInt(garrafon19L['canje_cant']));
+              Tgarrafon19LN += countArray(parseInt(garrafon19L['enobsequio_cant_garrafon']));
+Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
+        } else {
+          Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          
+         Tgarrafon19LR += parseInt(garrafon19L['refill_cant']);
+              Tgarrafon19LC += parseInt(garrafon19L['canje_cant']);
+              Tgarrafon19LN += parseInt(garrafon19L['nuevo_cant']);
+              Tgarrafon19LO += parseInt(garrafon19L['enobsequio_cant_garrafon']);
+        }
+
+
+        }
+        console.log(Tbotella1LO)
+        console.log(Tbotella5LO)
+        console.log(Tgarrafon11LO)
+        console.log(Tgarrafon19LO)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+        let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
+        let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
+        let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
+        let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
+        
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+        { data: '0'},
+        { data: '0' },
+        { data: '0' },
+        { data: '0' },
+        { data: '0'},
+      ], columnDefs: [
+        {
+          // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            let marca="", modelo ="", matricula="", vehiculo ="";
+              for (let i = 0; i < full[1].length; i++) {
+                marca = full[1][i]['personal']['vehiculo']['marca']
+                modelo = full[1][i]['personal']['vehiculo']['modelo']
+                matricula = full[1][i]['personal']['vehiculo']['matricula']
+            }
+            vehiculo = marca + modelo + matricula
+            return vehiculo;
+          }
+      },
+      {
+        // Label
+        targets: 2,
+        render: function (data, type, full, meta) {
+          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
+          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
+            for (let i = 0; i < full[1].length; i++) {
+              botella1L = JSON.parse(full[1][i]['botella1L'])
+              botella5L = JSON.parse(full[1][i]['botella5L'])
+              garrafon11L = JSON.parse(full[1][i]['garrafon11L'])
+              garrafon19L = JSON.parse(full[1][i]['garrafon19L'])
+              if (Array.isArray(botella1L)) {
+                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
+            } else {
+              Tbotella1L += parseInt(botella1L['total_cant']);
+            }
+
+            if (Array.isArray(botella5L)) {
+              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
+          } else {
+            Tbotella5L += parseInt(botella5L['total_cant']);
+          }
+
+          if (Array.isArray(garrafon11L)) {
+            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
+        } else {
+          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
+        }
+
+
+            if (Array.isArray(garrafon19L)) {
+              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
+          } else {
+            Tgarrafon19L += parseInt(garrafon19L['total_cant']);
+          }
+
+
+          }
+          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)
+          return total_garrafones;
+        }
+    },
+          {
+            // Label
+            targets: 3,
+            render: function (data, type, full, meta) {
+              var suma = 0;
+                for (let i = 0; i < full[1].length; i++) {
+                  if (full[1][i]['metodo_pago'] == "Efectivo") {
+                    if (Array.isArray(full[1][i]['monto_total'])) {
+                      suma += countArray(parseInt(full[1][i]['monto_total']));
+                  } else {
+                      suma += parseInt(full[1][i]['monto_total']);
+                  }
+
+                  }
+                  
+              }
+              return suma;
+            }
+        },{
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
+          }
+        },
+        {
+          
+          // Label
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var suma = 0;
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+                }                
+            }
+            return suma;
+          }
+        },
+      ],
+      order: [[2, 'desc']],
+      dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100],  
+    
+      language: {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+    });
+    $("#corte_modal").on('show.bs.modal', function (e) {
+      var triggerLink = $(e.relatedTarget);
+      var Total_total = triggerLink.data("id");
+      var title = triggerLink.data("title");
+      var totalrefill = triggerLink.data("totalrefill");
+      var totalcanje = triggerLink.data("totalcanje");
+      var totalObsequio = triggerLink.data("totalobsequio");
+      var totalnuevo = triggerLink.data("totalnuevo");
+    
+      $("#corte_modalTitle").text(title);
+      $(this).find(".modal-body").html("<h5>totalrefill: "+
+      totalrefill+"</h5><h5>totalcanje: "+
+      totalcanje+"</h5><h5>totalnuevo: "+
+      totalnuevo+"</h5><h5>totalObsequio: "+
+      totalObsequio+"</h5><h5>Total_total: "+
+      Total_total+"</h5>");
+  });
+    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+      // on key up from input field
+ /* $('input.dt-input').on('keyup change', function () {
+    filterColumn($(this).attr('data-column'), $(this).val());
+  });**/
+
+  
+    // Refilter the table
+    $('#min1, #max1').on('change', function () {
+      filterByDate(5); // We call our filter function
+      dt_basic.draw();
+      });
+  }
+
+  
   // Flat Date picker
   if (dt_date_table.length) {
     dt_date_table.flatpickr({

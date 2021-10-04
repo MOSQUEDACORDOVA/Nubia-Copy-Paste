@@ -5,13 +5,44 @@
 </style>
 <script>
   $(document).ready(function(){
-    
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
 
     fecha_corte = new DateTime($('#fecha_corte'), {
   format: 'DD/MM/YYYY'
 });
+
+$('.select_tipo').on('click', (e)=>{
+    console.log(e.target.innerHTML)
+    
+                switch (e.target.innerHTML) {
+                  case 'Residenciales':
+                  if ($('#negocio').is(':visible') || $('#puntoVenta').is(':visible')){
+                      $('#negocio').attr('style', 'display: none;')
+                      $('#puntoVenta').attr('style', 'display: none;')
+                  }
+                $('#residenciales').removeAttr('style')
+
+
+                    break;
+                    case 'Negocio':
+                      if ($('#residenciales').is(':visible') || $('#puntoVenta').is(':visible')){
+                      $('#residenciales').attr('style', 'display: none;')
+                      $('#puntoVenta').attr('style', 'display: none;')
+                  }
+$('#negocio').removeAttr('style')
+                      break;
+                      case 'Puntos de Venta':
+                        if ($('#negocio').is(':visible') || $('#residenciales').is(':visible')){
+                      $('#negocio').attr('style', 'display: none;')
+                      $('#residenciales').attr('style', 'display: none;')
+                  }
+$('#puntoVenta').removeAttr('style')
+                        break;
+                  default:
+                    break;
+                }
+})
 
 $('#fecha_corte').on('change', (e)=>{
   console.log(e.target.value)
@@ -58,7 +89,7 @@ window.location.href=`/corteday_py4/${fecha}`
                                     </div>
                                     
                                     <div class="col">
-                                                <label class="mb-1 text-white">Fecha: <span id="fecha_mostrar"></span></label>
+                                                <label class="mb-1 text-white">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
                                                 <div class="mb-0 d-flex">
                                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                                     <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
@@ -78,7 +109,7 @@ window.location.href=`/corteday_py4/${fecha}`
                                             <i data-feather="users" class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo">Residenciales</h2>
+                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Residenciales</h2>
                                     <p class="card-text">Total Ventas del día: <strong> {{residencial_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{residencial_mont}}</strong>.</p>
                                 </div>
@@ -95,7 +126,7 @@ window.location.href=`/corteday_py4/${fecha}`
                                             <i data-feather="package" class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo">Negocio</h2>
+                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Negocio</h2>
                                     <p class="card-text">Total Ventas del día: <strong> {{negocio_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{negocio_mont}}</strong>.</p>
                                 </div>
@@ -109,7 +140,7 @@ window.location.href=`/corteday_py4/${fecha}`
                                             <i data-feather="package" class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo">Puntos de Venta</h2>
+                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Puntos de Venta</h2>
                                     <p class="card-text">Total Ventas del día: <strong> {{ptoVenta_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{ptoVenta_mont}}</strong>.</p>
                                 </div>
@@ -117,14 +148,14 @@ window.location.href=`/corteday_py4/${fecha}`
                         </div>
                         <!-- Orders Chart Card ends -->
                     </div>
-
-
+</section>
+                <div class="card" id="residenciales" style="display: none;">
                     <!-- List DataTable -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="card invoice-list-wrapper">
-                                <div class="card-datatable table-responsive">
-                                    <table class="datatables-basic table dt-column-search" id="pedidos_corte">
+                            <div class="card invoice-list-wrapper" >
+                                <div class="card-datatable ">
+                                    <table class="datatables-basic table dt-column-search" id="pedidos_corte" >
                                     <thead>
                                         <tr>
                                             <th>Nombre del Chofer</th>
@@ -133,7 +164,6 @@ window.location.href=`/corteday_py4/${fecha}`
                                             <th>Total Efectivo</th>
                                             <th>Total transferencias</th>
                                             <th>Total pagos tarjetas</th>
-                                            <th>Opciones</th>
                                         </tr>
                                     </thead>
                                      
@@ -142,16 +172,81 @@ window.location.href=`/corteday_py4/${fecha}`
                             </div>
                         </div>
                     </div>
-                    
-                    <!--/ List DataTable -->
-                </section>
+                    </div>
+                
+              <div class="card" id="negocio" style="display: none;">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card invoice-list-wrapper" >
+                                <div class="card ">
+                                    <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del Chofer</th>
+                                            <th>Unidad</th>
+                                            <th>Total Garrafones</th>
+                                            <th>Total Efectivo</th>
+                                            <th>Total transferencias</th>
+                                            <th>Total pagos tarjetas</th>
+                                        </tr>
+                                    </thead>
+                                     
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>  
+              <div class="card" id="puntoVenta" style="display: none;">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card invoice-list-wrapper" >
+                                <div class="card ">
+                                    <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre del Chofer</th>
+                                            <th>Unidad</th>
+                                            <th>Total Garrafones</th>
+                                            <th>Total Efectivo</th>
+                                            <th>Total transferencias</th>
+                                            <th>Total pagos tarjetas</th>
+                                        </tr>
+                                    </thead>
+                                     
+                                </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>  
+                 
                 <!-- Dashboard Analytics end -->
   </div>
 </div>
 </div>
 </div>
 </div>
-
+ <div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
 
 
 
