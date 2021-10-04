@@ -253,7 +253,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -262,7 +262,7 @@ module.exports = {
 
       Pedidos.create(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente})
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer})
         .then((data) => {
           let data_set = JSON.stringify(data);
                 
@@ -285,7 +285,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+ PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -293,7 +293,7 @@ module.exports = {
       let botella5L_ = JSON.stringify(botella5L);
       Pedidos.update(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente}, { where:{
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer}, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -424,7 +424,9 @@ module.exports = {
       Pedidos.findAll({include:[
         {association:Pedidos.Usuarios },
         {association:Pedidos.Clientes },
-        
+        {association:Pedidos.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
     ]
       },{ group: ['chofer'] },)
         .then((data) => {

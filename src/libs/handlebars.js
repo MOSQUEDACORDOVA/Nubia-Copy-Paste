@@ -1,3 +1,4 @@
+var moment = require('moment'); // require
 module.exports = {
 	showAlerts: (message = {}, alerts) => {
 		const categoria = Object.keys(message);
@@ -187,16 +188,11 @@ module.exports = {
 				 return out;
 				},
 			formatoFecha2: (fecha, user) => {
-					const f = new Date(fecha);
-					f.toLocaleString()
-					 
-					var Anyo = f.getFullYear();
-					var Mes = f.getMonth();
-					var Dia = f.getDate();
-						var fecha_ = f.toLocaleString()
+				console.log(fecha)
+				var fecha_dia =moment(fecha).format('L');
 
 						//console.log(fecha_)
-					 return fecha_;
+					 return fecha_dia;
 					},
 					formatoFecha: (fecha, user) => {
 						const f = new Date(fecha);
