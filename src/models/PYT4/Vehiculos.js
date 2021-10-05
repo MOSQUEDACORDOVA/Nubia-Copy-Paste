@@ -1,42 +1,38 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
-const Vehiculos = require('../../models/PYT4/Vehiculos')
-const Personal = db.define('personal', {
+
+const Vehiculos = db.define('vehiculos', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
 	},
-	fecha_ingreso: {
+	matricula: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	name: {
+	marca: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	lastName: {
+	modelo: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	cargo: {
+	anio: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	salario: {
+	tipo: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	telefono: {
+	capacidad: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	correo: {
-		type: DataTypes.TEXT,
-		allowNull: true,
-	},
-	direccion: {
+	status: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
@@ -47,6 +43,7 @@ const Personal = db.define('personal', {
 });
 
 
-Personal.Vehiculos= Personal.belongsTo(Vehiculos);
-module.exports = Personal;
+
+
+module.exports = Vehiculos;
 

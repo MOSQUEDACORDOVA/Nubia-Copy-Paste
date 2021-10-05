@@ -3,7 +3,7 @@ const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
 const Clientes = require("../../models/PYT4/Clientes");
 const Usuarios = require("../../models/PYT4/Usuarios");
-const Productos_pedidos = require("../../models/PYT4/Productos_pedidos");
+const Personal = require("../../models/PYT4/Personal");
 const Pedidos = db.define('pedidos', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -38,7 +38,7 @@ const Pedidos = db.define('pedidos', {
 	garrafones_prestamos: {
 		type: DataTypes.TEXT,
 		allowNull: true,
-		defaultValue: ""
+		defaultValue: 0
 	},
 	observacion: {
 		type: DataTypes.TEXT,
@@ -65,6 +65,11 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: ""
 	},
+	danados: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
 
 
 
@@ -72,6 +77,7 @@ const Pedidos = db.define('pedidos', {
 
 Pedidos.Usuarios= Pedidos.belongsTo(Usuarios);
 Pedidos.Clientes= Pedidos.belongsTo(Clientes);
+Pedidos.Personal= Pedidos.belongsTo(Personal);
 //Pedidos.hasMany(Productos_pedidos, {as: 'Productos_'})
 
 module.exports = Pedidos;

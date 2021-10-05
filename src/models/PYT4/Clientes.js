@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
-
+const CoP = require("../../models/PYT4/CP");
 const Clientes = db.define('clientes', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -138,7 +138,7 @@ const Clientes = db.define('clientes', {
 
 });
 
-
+Clientes.CoP= Clientes.belongsTo(CoP);
 
 module.exports = Clientes;
 
