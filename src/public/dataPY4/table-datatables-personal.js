@@ -60,7 +60,7 @@ console.log(valor_personal)
                         console.log(full)
             var $user_img = "-",
               $name = full['name'] + " " + full['lastName'],
-              $post = "Cliente";
+              $post = full['cargo'];
             if ($user_img) {
               // For Avatar image
               var $output =

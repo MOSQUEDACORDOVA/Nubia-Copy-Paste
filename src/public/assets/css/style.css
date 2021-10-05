@@ -1,4 +1,97 @@
 /*---------------------------- PYT-4 ---------------------------*/
+#toast-container {
+    display: none !important;
+    opacity: 0 !important;
+}
+table.dataTable>thead .sorting:before, table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_asc:after, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_desc:after, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_asc_disabled:after, table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting_desc_disabled:after {
+    display: none !important;
+}
+table tbody td button {
+    width: 150px;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.py4table table tr td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.py4 .list-group .badge.bg-primary {
+    background-color: #001871 !important;
+    color: white;
+}
+.py4 .list-group .list-group-item-primary {
+    background-color: rgba(0, 24, 113, 0.185);
+    color: #001871;
+}
+.py4 .list-group .list-group-item {
+    transition: .3s ease all;
+}
+.py4 .list-group .list-group-item:hover {
+    background-color: rgba(0, 24, 113, 0.096);
+    color: #001871;
+}
+.row.match-height.py4 .card .avatar {
+    cursor: default;
+}
+.row.match-height.py4 .card-congratulation {
+    color: #fff;
+    background-color: #001871;
+    box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
+}
+.row.match-height.py4 .card-congratulation {
+    padding: 10px;
+}
+.row.match-height.py4 .card-congratulation p {
+    background: rgba(150, 150, 150, 0.151);
+    text-align: left !important;
+}
+.row.match-height.py4 .card {
+    width: 100%;
+    max-width: 330px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.row.match-height.py4 .card p {
+    font-size: 1rem;
+    width: 100%;
+    background: rgba(150, 150, 150, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.row.match-height.py4 .card .card-body .col .card-text {
+    text-align: left !important;
+}
+.py4 .card.card-congrats.py4 {
+    color: #fff;
+    background-color: #001871;
+    box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
+}
+.py4 .card.btn-outline-primary h2 {
+    transition: .3s ease all;
+}
+.py4 .card.btn-outline-primary .avatar {
+    transition: .3s ease all;
+}
+.py4 .card.btn-outline-primary:hover {
+    border: 4px solid #001871 !important;
+}
+.py4 .card.btn-outline-primary {
+    border: 1px solid #001871 !important;
+    background-color: transparent;
+    color: #001871;
+    transition: .3s ease all;
+}
+.py4 .btn-outline-primary:hover:not(.disabled):not(:disabled) {
+    color: #001871;
+}
+.py4 .btn-check:checked + .btn-outline-primary, .py4 .btn-check:active + .btn-outline-primary, .py4 .btn-outline-primary:active, .py4 .btn-outline-primary.active, .py4 .btn-outline-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: rgba(0, 24, 113, 0.493);
+    border-color: #001871;
+}
 .py4 .nav-pills .nav-link.active {
     border-color: #001871;
     box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493)
@@ -231,6 +324,9 @@
     border-radius: 4px;
     transition: .3s ease all;
 }
+.py24.bg-dark {
+    background-color: #161d31 !important;
+}
 .py24 .modal .bs-stepper {
     background-color: unset;
     box-shadow: unset;
@@ -422,15 +518,59 @@
     transform: scale(1.1)
 }
 
+.py24.webfooter {
+    margin-left: 0;
+} 
+.py24.webfooter .nav-link {
+    color: #b4b7bd;
+    border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0);
+    transition: .3s ease all;
+}
+.py24.webfooter .nav-link:hover {
+    color: #D9A443;
+    border: 1px solid #D9A443;
+}
+.py24.webfooter .btn-outline-primary {
+    border: 1px solid #D9A443 !important;
+    background-color: transparent;
+    color: #D9A443;
+}
+.py24.webfooter .btn-outline-primary:hover {
+    color: #D9A443;
+}
+.py24.webfooter {
+    text-align: center;
+}
+.py24.webfooter a img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+@media (min-width:992px) {
+    .py24.webfooter {
+        text-align: left;
+    }
+
+}
 @media (min-width: 768px) {
     .py24.testimonios .carousel .carousel-item .col-12 .text {
         text-align: left;
+    }
+    .py24.testimonios2 .carousel .carousel-item .col-12 .text {
+        text-align: center;
     }
 }
 @media (min-width: 992px) {
     .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100 {
         height: 340px;
         object-fit: cover;
+    }
+    .py24.testimonios2 .carousel .carousel-control-prev {
+        left: 130px;
+    }
+    .py24.testimonios2 .carousel .carousel-control-next {
+        right: 130px;
     }
 }
 @media (min-width: 1100px) {
@@ -543,4 +683,5 @@
     background-color: #d9a5433a;
     color: #D9A443 !important;
 }
+
 /*--------------------------- PY-24 ---------------------------*/

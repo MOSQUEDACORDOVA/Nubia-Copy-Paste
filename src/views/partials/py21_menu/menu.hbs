@@ -138,7 +138,8 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">MENU INVERSIONISTA</span><i
+            {{#if msg}}
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">INVERSIONISTA</span><i
                     data-feather="more-horizontal"></i>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/py21/PYT-21">
@@ -170,6 +171,7 @@
                     <span class="menu-title text-truncate" data-i18n="Ingresos">Retiros</span>
                 </a>
             </li>
+            {{#if msg}}
             <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg><span class="menu-title text-truncate" data-i18n="Authentication">Autenticación</span></a>
                 <ul class="menu-content">
                     <li>
@@ -192,8 +194,10 @@
                     <span class="menu-title text-truncate"data-i18n="Email">No Autorizado</span>
                 </a>
             </li>
+            {{/if}}
+            {{/if}}
 
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">MENU ADMINISTRADOR</span><i
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">ADMINISTRADOR</span><i
                     data-feather="more-horizontal"></i>
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/py21/PYT-21">
@@ -201,12 +205,14 @@
                     <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
                 </a>
             </li>
+            {{#if msg}}
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/contracts/PYT-21">
                     <i data-feather='trending-up'></i>
                     <span class="menu-title text-truncate" data-i18n="Contratos">Contratos</span>
                 </a>
             </li>
+            {{/if}}
             {{!-- <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/earnings/PYT-21">
                     <i data-feather='dollar-sign'></i>
@@ -255,6 +261,7 @@
                     <span class="menu-title text-truncate" data-i18n="Vendedores">Vendedores</span>
                 </a>
             </li>
+
         </ul>
     </div>
 </div>

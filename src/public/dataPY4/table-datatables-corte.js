@@ -299,7 +299,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 modelo = full[1][i]['personal']['vehiculo']['modelo']
                 matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            vehiculo = marca + modelo + matricula
+            vehiculo = marca +" "+ modelo+" "+ matricula
             return vehiculo;
           }
       },
@@ -449,16 +449,14 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
 
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>Total Refill: "+
-      totalrefill+"</h5><h5>Total Canej: "+
-      totalcanje+"</h5><h5>Total Nuevos: "+
-      totalnuevo+"</h5><h5>Total Obsequio: "+
-      totalObsequio+"</h5><h5>Total Dañados: "+
-      totaldanados+"</h5><h5>Total Prestamos: "+
-      garrafones_prestamos+"</h5><h5>Total General: "+
-      Total_total+"</h5>");
+      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
+      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
+      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
+      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestamos: <span class='badge bg-primary rounded-pill'>"+
+      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
+      Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
@@ -598,7 +596,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 modelo = full[1][i]['personal']['vehiculo']['modelo']
                 matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            vehiculo = marca + modelo + matricula
+            vehiculo = marca + " " + modelo + " " + matricula
             return vehiculo;
           }
       },
@@ -748,16 +746,14 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
 
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>Total Refill: "+
-      totalrefill+"</h5><h5>Total Canej: "+
-      totalcanje+"</h5><h5>Total Nuevos: "+
-      totalnuevo+"</h5><h5>Total Obsequio: "+
-      totalObsequio+"</h5><h5>Total Dañados: "+
-      totaldanados+"</h5><h5>Total Prestamos: "+
-      garrafones_prestamos+"</h5><h5>Total General: "+
-      Total_total+"</h5>");
+      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
+      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
+      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
+      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestamos: <span class='badge bg-primary rounded-pill'>"+
+      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
+      Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
@@ -897,7 +893,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 modelo = full[1][i]['personal']['vehiculo']['modelo']
                 matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            vehiculo = marca + modelo + matricula
+            vehiculo = marca + " " + modelo + " " + matricula
             return vehiculo;
           }
       },
@@ -1046,16 +1042,14 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
 
       $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<h5>Total Refill: "+
-      totalrefill+"</h5><h5>Total Canej: "+
-      totalcanje+"</h5><h5>Total Nuevos: "+
-      totalnuevo+"</h5><h5>Total Obsequio: "+
-      totalObsequio+"</h5><h5>Total Dañados: "+
-      totaldanados+"</h5><h5>Total Prestamos: "+
-      garrafones_prestamos+"</h5><h5>Total General: "+
-      Total_total+"</h5>");
+      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
+      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
+      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
+      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestamos: <span class='badge bg-primary rounded-pill'>"+
+      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
+      Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
