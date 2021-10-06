@@ -41,14 +41,28 @@ table tbody td button {
     background-color: #001871;
     box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
 }
+.row.match-height.py4 .card-congratulation {
+    padding: 10px;
+}
+.row.match-height.py4 .card-congratulation p {
+    background: rgba(150, 150, 150, 0.151);
+    text-align: left !important;
+}
 .row.match-height.py4 .card {
     width: 100%;
-    max-width: 320px;
+    max-width: 330px;
     margin-left: auto;
     margin-right: auto;
 }
-.row.match-height.py4 .card p.card-text {
-    font-size: 1.1rem;
+.row.match-height.py4 .card p {
+    font-size: 1rem;
+    width: 100%;
+    background: rgba(150, 150, 150, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+}
+.row.match-height.py4 .card .card-body .col .card-text {
+    text-align: left !important;
 }
 .py4 .card.card-congrats.py4 {
     color: #fff;
@@ -61,8 +75,8 @@ table tbody td button {
 .py4 .card.btn-outline-primary .avatar {
     transition: .3s ease all;
 }
-.py4 .card.btn-outline-primary:hover .avatar {
-    background: white !important;
+.py4 .card.btn-outline-primary:hover {
+    border: 4px solid #001871 !important;
 }
 .py4 .card.btn-outline-primary {
     border: 1px solid #001871 !important;
@@ -70,12 +84,8 @@ table tbody td button {
     color: #001871;
     transition: .3s ease all;
 }
-.py4 .card.btn-outline-primary:hover h2 {
-    color: white;
-}
 .py4 .btn-outline-primary:hover:not(.disabled):not(:disabled) {
-    background-color: #001871;
-    color: white;
+    color: #001871;
 }
 .py4 .btn-check:checked + .btn-outline-primary, .py4 .btn-check:active + .btn-outline-primary, .py4 .btn-outline-primary:active, .py4 .btn-outline-primary.active, .py4 .btn-outline-primary.dropdown-toggle.show {
     color: #fff;

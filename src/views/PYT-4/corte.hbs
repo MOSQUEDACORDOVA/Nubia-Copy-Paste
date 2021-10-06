@@ -9,48 +9,83 @@
      $('.even').addClass('dt-head-center'); 
 
     fecha_corte = new DateTime($('#fecha_corte'), {
-  format: 'DD/MM/YYYY'
-});
+        format: 'DD/MM/YYYY'
+    });
 
-$('.select_tipo').on('click', (e)=>{
-    console.log(e.target.innerHTML)
-    
-                switch (e.target.innerHTML) {
-                  case 'Residenciales':
-                  if ($('#negocio').is(':visible') || $('#puntoVenta').is(':visible')){
-                      $('#negocio').attr('style', 'display: none;')
-                      $('#puntoVenta').attr('style', 'display: none;')
-                  }
-                $('#residenciales').removeAttr('style')
+    $('#btnresidenciales').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#btnpuntoVenta').on('click', (e)=> {
+        Reset(2);
+    });
+    $('#btnnegocio').on('click', (e)=> {
+        Reset(3);
+    });
+
+    function Reset(num) {
+        $('#residenciales').removeClass('show')
+        $('#residenciales').addClass('collpase')
+
+        $('#puntoVenta').removeClass('show')
+        $('#puntoVenta').addClass('collpase')
+
+        $('#negocio').removeClass('show')
+        $('#negocio').addClass('collpase')
+
+        if(num === 1) {
+            $('#residenciales').removeClass('collpase')
+            $('#residenciales').addClass('show')
+        } else if (num === 2) {
+            $('#puntoVenta').removeClass('collpase')
+            $('#puntoVenta').addClass('show')
+        } else {
+            $('#negocio').addClass('show')
+            $('#negocio').removeClass('collpase')
+        }
+    }
+
+/*$('.select_tipo').on('click', (e)=>{
+    let val;
+    if(e.target.classList.contains('select_tipo')) {
+        val = e.target.childNodes[3].innerHTML;
+        console.log(e.target.childNodes[3].innerHTML)
+    } 
+    switch (val) {
+        case 'Residenciales':
+        if ($('#negocio').is(':visible') || $('#puntoVenta').is(':visible')){
+            $('#negocio').attr('style', 'display: none;')
+            $('#puntoVenta').attr('style', 'display: none;')
+        }
+    $('#residenciales').removeAttr('style')
 
 
-                    break;
-                    case 'Negocio':
-                      if ($('#residenciales').is(':visible') || $('#puntoVenta').is(':visible')){
-                      $('#residenciales').attr('style', 'display: none;')
-                      $('#puntoVenta').attr('style', 'display: none;')
-                  }
-$('#negocio').removeAttr('style')
-                      break;
-                      case 'Puntos de Venta':
-                        if ($('#negocio').is(':visible') || $('#residenciales').is(':visible')){
-                      $('#negocio').attr('style', 'display: none;')
-                      $('#residenciales').attr('style', 'display: none;')
-                  }
-$('#puntoVenta').removeAttr('style')
-                        break;
-                  default:
-                    break;
-                }
+        break;
+        case 'Negocio':
+            if ($('#residenciales').is(':visible') || $('#puntoVenta').is(':visible')){
+            $('#residenciales').attr('style', 'display: none;')
+            $('#puntoVenta').attr('style', 'display: none;')
+        }
+    $('#negocio').removeAttr('style')
+            break;
+            case 'Puntos de Venta':
+            if ($('#negocio').is(':visible') || $('#residenciales').is(':visible')){
+            $('#negocio').attr('style', 'display: none;')
+            $('#residenciales').attr('style', 'display: none;')
+        }
+    $('#puntoVenta').removeAttr('style')
+            break;
+        default:
+        break;
+    }
+})*/
+
+    $('#fecha_corte').on('change', (e)=>{
+        console.log(e.target.value)
+        let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
+        console.log(fecha)
+        window.location.href=`/corteday_py4/${fecha}`
+    })
 })
-
-$('#fecha_corte').on('change', (e)=>{
-  console.log(e.target.value)
-  let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
-  console.log(fecha)
-window.location.href=`/corteday_py4/${fecha}`
-})
-  })
 </script>
 {{#if msg}}
 <label id="msgs">{{msg}}</label>
@@ -78,21 +113,19 @@ window.location.href=`/corteday_py4/${fecha}`
                                             <i data-feather="award" class="font-large-1 text-primary"></i>
                                         </div>
                                     </div>
-                                    <div class="text-center">
-                                        <h1 class="mb-1 text-white">Ventas del día</h1>
-                                        <p class="card-text m-auto w-75">
-                                            Total Ventas del día: <strong> {{cont_ventas_del_dia}}</strong> <br>
-                                            Por un monto total de: <strong>$ {{ventas_del_dia}}</strong>.
-                                        </p>
+                                    <div>
+                                        <h1 class="my-1 text-white text-center">Total del día</h1>
+                                        <p class="card-text mb-1">Ventas: <strong> {{cont_ventas_del_dia}}</strong></p>
+                                        <p class="card-text"> Ingreso: <strong>$ {{ventas_del_dia}}</strong></p>
                                     </div>
                                     
                                     <div class="col">
-                                                <label class="mb-1 text-white">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
-                                                <div class="mb-0 d-flex">
-                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
-                                                </div>
-                                            </div>
+                                        <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
+                                        <div class="mb-0 d-flex">
+                                            <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                            <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -101,15 +134,15 @@ window.location.href=`/corteday_py4/${fecha}`
                         <!-- Subscribers Chart Card starts -->
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card btn-outline-primary">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center"  id="btnresidenciales" data-bs-toggle="collapse" href="#residenciales" role="button" aria-expanded="false" aria-controls="residenciales">
                                     <div class="avatar bg-light-primary p-50 m-0">
                                         <div class="avatar-content">
                                             <i data-feather="users" class="font-medium-5 text-primary"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Residenciales</h2>
-                                    <p class="card-text text-center">Total Ventas del día: <strong> {{residencial_cont}}</strong> <br>
-                                            Por un monto total de: <strong>$ {{residencial_mont}}</strong>.</p>
+                                    <h2 class="fw-bolder my-1">Residenciales</h2>
+                                    <p class="card-text mb-1">Ventas: <strong> {{residencial_cont}}</strong></p>
+                                    <p>Ingreso: <strong>$ {{residencial_mont}}</strong></p>
                                 </div>
                             </div>
                         </div>
@@ -118,30 +151,30 @@ window.location.href=`/corteday_py4/${fecha}`
                         <!-- Orders Chart Card starts -->
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card btn-outline-primary">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center" id="btnnegocio"  data-bs-toggle="collapse" href="#negocio" role="button" aria-expanded="false" aria-controls="negocio">
                                     <div class="avatar bg-light-warning p-50 m-0">
                                         <div class="avatar-content">
                                             <i data-feather='shopping-bag' class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Negocio</h2>
-                                    <p class="card-text text-center">Total Ventas del día: <strong> {{negocio_cont}}</strong> <br>
-                                            Por un monto total de: <strong>$ {{negocio_mont}}</strong>.</p>
+                                    <h2 class="fw-bolder my-1">Negocio</h2>
+                                    <p class="card-text mb-1">Ventas del día: <strong> {{negocio_cont}}</strong></p>
+                                    <p>Ingreso: <strong>$ {{negocio_mont}}</strong></p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="col-lg-3 col-sm-6 col-12">
                             <div class="card btn-outline-primary">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                <div class="card-body p-1 d-flex flex-column align-items-center justify-content-center" id="btnpuntoVenta" data-bs-toggle="collapse" href="#puntoVenta" role="button" aria-expanded="false" aria-controls="puntoVenta">
                                     <div class="avatar bg-light-success p-50 m-0">
                                         <div class="avatar-content">
                                             <i data-feather='credit-card' class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Puntos de Venta</h2>
-                                    <p class="card-text text-center">Total Ventas del día: <strong> {{ptoVenta_cont}}</strong> <br>
-                                            Por un monto total de: <strong>$ {{ptoVenta_mont}}</strong>.</p>
+                                    <h2 class="fw-bolder my-1">Puntos de Venta</h2>
+                                    <p class="mb-1">Ventas del día: <strong> {{ptoVenta_cont}}</strong></p>
+                                    <p>Ingreso: <strong>$ {{ptoVenta_mont}}</strong></p>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +182,7 @@ window.location.href=`/corteday_py4/${fecha}`
                     </div>
                 </section>
 
-                <div class="card py4table" id="residenciales" style="display: none;">
+                <div class="card py4table collapse" id="residenciales">
                     <!-- List DataTable -->
                     <div class="row">
                         <div class="col-12">
@@ -178,56 +211,60 @@ window.location.href=`/corteday_py4/${fecha}`
                     </div>
                 </div>
                 
-                <div class="card py4table" id="negocio" style="display: none;">
+                <div class="card py4table collapse" id="negocio">
                         <!-- List DataTable -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">Negocios</h6></div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre del Chofer</th>
-                                                        <th>Unidad</th>
-                                                        <th>Total Garrafones</th>
-                                                        <th>Total Efectivo</th>
-                                                        <th>Total transferencias</th>
-                                                        <th>Total pagos tarjetas</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
+                                <div class="table-responsive">
+                                    <div class="card invoice-list-wrapper" >
+                                        <div class="card ">
+                                            <div class="card-header p-1">
+                                                <div class="head-label"><h6 class="mb-0">Negocios</h6></div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nombre del Chofer</th>
+                                                            <th>Unidad</th>
+                                                            <th>Total Garrafones</th>
+                                                            <th>Total Efectivo</th>
+                                                            <th>Total transferencias</th>
+                                                            <th>Total pagos tarjetas</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         </div>  
-                <div class="card py4table" id="puntoVenta" style="display: none;">
+                <div class="card py4table collapse" id="puntoVenta">
                         <!-- List DataTable -->
                         <div class="row">
                             <div class="col-12">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">Puntos de Venta</h6></div>
-                                        </div>
-                                        <div class="table-responsive">
-                                            <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre del Chofer</th>
-                                                        <th>Unidad</th>
-                                                        <th>Total Garrafones</th>
-                                                        <th>Total Efectivo</th>
-                                                        <th>Total transferencias</th>
-                                                        <th>Total pagos tarjetas</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
+                                <div class="table-responsive">
+                                    <div class="card invoice-list-wrapper" >
+                                        <div class="card ">
+                                            <div class="card-header p-1">
+                                                <div class="head-label"><h6 class="mb-0">Puntos de Venta</h6></div>
+                                            </div>
+                                            <div class="table-responsive">
+                                                <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nombre del Chofer</th>
+                                                            <th>Unidad</th>
+                                                            <th>Total Garrafones</th>
+                                                            <th>Total Efectivo</th>
+                                                            <th>Total transferencias</th>
+                                                            <th>Total pagos tarjetas</th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
