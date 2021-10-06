@@ -456,7 +456,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
       Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
@@ -596,7 +596,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 modelo = full[1][i]['personal']['vehiculo']['modelo']
                 matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            vehiculo = marca + modelo + matricula
+            vehiculo = marca + " " + modelo + " " + matricula
             return vehiculo;
           }
       },
@@ -753,7 +753,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
       Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
@@ -893,7 +893,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                 modelo = full[1][i]['personal']['vehiculo']['modelo']
                 matricula = full[1][i]['personal']['vehiculo']['matricula']
             }
-            vehiculo = marca + modelo + matricula
+            vehiculo = marca + " " + modelo + " " + matricula
             return vehiculo;
           }
       },
@@ -1049,7 +1049,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
       Total_total+"</span></li></ul>");
   });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+    // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());

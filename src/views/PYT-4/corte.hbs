@@ -90,7 +90,7 @@ window.location.href=`/corteday_py4/${fecha}`
                                                 <label class="mb-1 text-white">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
                                                 <div class="mb-0 d-flex">
                                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
+                                                    <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
                                                 </div>
                                             </div>
                                 </div>
@@ -147,14 +147,18 @@ window.location.href=`/corteday_py4/${fecha}`
                         </div>
                         <!-- Orders Chart Card ends -->
                     </div>
-</section>
-                <div class="card" id="residenciales" style="display: none;">
+                </section>
+
+                <div class="card py4table" id="residenciales" style="display: none;">
                     <!-- List DataTable -->
                     <div class="row">
                         <div class="col-12">
-                            <div class="card invoice-list-wrapper" >
-                                <div class="card-datatable ">
-                                    <div class="table-responsive">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
+                                        </div>
                                         <table class="datatables-basic table dt-column-search" id="pedidos_corte" >
                                             <thead>
                                                 <tr>
@@ -172,58 +176,64 @@ window.location.href=`/corteday_py4/${fecha}`
                             </div>
                         </div>
                     </div>
-                    </div>
+                </div>
                 
-              <div class="card" id="negocio" style="display: none;">
-                    <!-- List DataTable -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card invoice-list-wrapper" >
-                                <div class="card ">
-                                    <div class="table-responsive">
-                                        <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre del Chofer</th>
-                                                    <th>Unidad</th>
-                                                    <th>Total Garrafones</th>
-                                                    <th>Total Efectivo</th>
-                                                    <th>Total transferencias</th>
-                                                    <th>Total pagos tarjetas</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                <div class="card py4table" id="negocio" style="display: none;">
+                        <!-- List DataTable -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Negocios</h6></div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre del Chofer</th>
+                                                        <th>Unidad</th>
+                                                        <th>Total Garrafones</th>
+                                                        <th>Total Efectivo</th>
+                                                        <th>Total transferencias</th>
+                                                        <th>Total pagos tarjetas</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </div>  
-              <div class="card" id="puntoVenta" style="display: none;">
-                    <!-- List DataTable -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card invoice-list-wrapper" >
-                                <div class="card ">
-                                    <div class="table-responsive">
-                                        <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre del Chofer</th>
-                                                    <th>Unidad</th>
-                                                    <th>Total Garrafones</th>
-                                                    <th>Total Efectivo</th>
-                                                    <th>Total transferencias</th>
-                                                    <th>Total pagos tarjetas</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                        </div>  
+                <div class="card py4table" id="puntoVenta" style="display: none;">
+                        <!-- List DataTable -->
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Puntos de Venta</h6></div>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre del Chofer</th>
+                                                        <th>Unidad</th>
+                                                        <th>Total Garrafones</th>
+                                                        <th>Total Efectivo</th>
+                                                        <th>Total transferencias</th>
+                                                        <th>Total pagos tarjetas</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    </div>  
+                        </div>  
                  
                 <!-- Dashboard Analytics end -->
   </div>
