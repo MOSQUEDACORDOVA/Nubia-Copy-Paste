@@ -26,6 +26,15 @@
     background-color: #001871;
     box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
 }
+.row.match-height.py4 .card {
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.row.match-height.py4 .card p.card-text {
+    font-size: 1.1rem;
+}
 .py4 .card.card-congrats.py4 {
     color: #fff;
     background-color: #001871;
