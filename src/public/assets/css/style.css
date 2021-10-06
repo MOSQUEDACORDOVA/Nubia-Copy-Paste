@@ -1,4 +1,63 @@
 /*---------------------------- PYT-4 ---------------------------*/
+#toast-container {
+    display: none !important;
+    opacity: 0 !important;
+}
+.py4 .list-group .badge.bg-primary {
+    background-color: #001871 !important;
+    color: white;
+}
+.py4 .list-group .list-group-item-primary {
+    background-color: rgba(0, 24, 113, 0.185);
+    color: #001871;
+}
+.py4 .list-group .list-group-item {
+    transition: .3s ease all;
+}
+.py4 .list-group .list-group-item:hover {
+    background-color: rgba(0, 24, 113, 0.096);
+    color: #001871;
+}
+.row.match-height.py4 .card .avatar {
+    cursor: default;
+}
+.row.match-height.py4 .card-congratulation {
+    color: #fff;
+    background-color: #001871;
+    box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
+}
+.py4 .card.card-congrats.py4 {
+    color: #fff;
+    background-color: #001871;
+    box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493);
+}
+.py4 .card.btn-outline-primary h2 {
+    transition: .3s ease all;
+}
+.py4 .card.btn-outline-primary .avatar {
+    transition: .3s ease all;
+}
+.py4 .card.btn-outline-primary:hover .avatar {
+    background: white !important;
+}
+.py4 .card.btn-outline-primary {
+    border: 1px solid #001871 !important;
+    background-color: transparent;
+    color: #001871;
+    transition: .3s ease all;
+}
+.py4 .card.btn-outline-primary:hover h2 {
+    color: white;
+}
+.py4 .btn-outline-primary:hover:not(.disabled):not(:disabled) {
+    background-color: #001871;
+    color: white;
+}
+.py4 .btn-check:checked + .btn-outline-primary, .py4 .btn-check:active + .btn-outline-primary, .py4 .btn-outline-primary:active, .py4 .btn-outline-primary.active, .py4 .btn-outline-primary.dropdown-toggle.show {
+    color: #fff;
+    background-color: rgba(0, 24, 113, 0.493);
+    border-color: #001871;
+}
 .py4 .nav-pills .nav-link.active {
     border-color: #001871;
     box-shadow: 0 8px 25px -8px rgba(0, 24, 113, 0.493)

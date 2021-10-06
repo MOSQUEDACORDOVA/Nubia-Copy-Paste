@@ -68,16 +68,14 @@ window.location.href=`/corteday_py4/${fecha}`
     <div class="content-body">
      <!-- Dashboard Analytics Start -->
                 <section id="dashboard-analytics">
-                    <div class="row match-height">
+                    <div class="row match-height py4">
                         <!-- Greetings Card starts -->
                         <div class="col-lg-3 col-md-12 col-sm-12">
-                            <div class="card card-congratulations">
+                            <div class="card card-congratulation">
                                 <div class="card-body text-center">
-                                    <img src="../../../app-assets/images/elements/decore-left.png" class="congratulations-img-left" alt="card-img-left" />
-                                    <img src="../../../app-assets/images/elements/decore-right.png" class="congratulations-img-right" alt="card-img-right" />
-                                    <div class="avatar avatar-xl bg-primary shadow">
+                                    <div class="avatar avatar-xl bg-light shadow">
                                         <div class="avatar-content">
-                                            <i data-feather="award" class="font-large-1"></i>
+                                            <i data-feather="award" class="font-large-1 text-primary"></i>
                                         </div>
                                     </div>
                                     <div class="text-center">
@@ -102,15 +100,15 @@ window.location.href=`/corteday_py4/${fecha}`
 
                         <!-- Subscribers Chart Card starts -->
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-header flex-column align-items-start pb-0">
+                            <div class="card btn-outline-primary">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                     <div class="avatar bg-light-primary p-50 m-0">
                                         <div class="avatar-content">
-                                            <i data-feather="users" class="font-medium-5"></i>
+                                            <i data-feather="users" class="font-medium-5 text-primary"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Residenciales</h2>
-                                    <p class="card-text">Total Ventas del día: <strong> {{residencial_cont}}</strong> <br>
+                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Residenciales</h2>
+                                    <p class="card-text text-center">Total Ventas del día: <strong> {{residencial_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{residencial_mont}}</strong>.</p>
                                 </div>
                             </div>
@@ -119,29 +117,29 @@ window.location.href=`/corteday_py4/${fecha}`
 
                         <!-- Orders Chart Card starts -->
                         <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-header flex-column align-items-start pb-0">
+                            <div class="card btn-outline-primary">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
                                     <div class="avatar bg-light-warning p-50 m-0">
                                         <div class="avatar-content">
-                                            <i data-feather="package" class="font-medium-5"></i>
+                                            <i data-feather='shopping-bag' class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Negocio</h2>
-                                    <p class="card-text">Total Ventas del día: <strong> {{negocio_cont}}</strong> <br>
+                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Negocio</h2>
+                                    <p class="card-text text-center">Total Ventas del día: <strong> {{negocio_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{negocio_mont}}</strong>.</p>
                                 </div>
                             </div>
                         </div>
                             <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card">
-                                <div class="card-header flex-column align-items-start pb-0">
-                                    <div class="avatar bg-light-warning p-50 m-0">
+                            <div class="card btn-outline-primary">
+                                <div class="card-body d-flex flex-column align-items-center justify-content-center">
+                                    <div class="avatar bg-light-success p-50 m-0">
                                         <div class="avatar-content">
-                                            <i data-feather="package" class="font-medium-5"></i>
+                                            <i data-feather='credit-card' class="font-medium-5"></i>
                                         </div>
                                     </div>
-                                    <h2 class="fw-bolder mt-1 select_tipo" style="cursor: pointer;">Puntos de Venta</h2>
-                                    <p class="card-text">Total Ventas del día: <strong> {{ptoVenta_cont}}</strong> <br>
+                                    <h2 class="fw-bolder my-1 text-center select_tipo" style="cursor: pointer;">Puntos de Venta</h2>
+                                    <p class="card-text text-center">Total Ventas del día: <strong> {{ptoVenta_cont}}</strong> <br>
                                             Por un monto total de: <strong>$ {{ptoVenta_mont}}</strong>.</p>
                                 </div>
                             </div>

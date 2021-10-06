@@ -7,6 +7,7 @@ const passport = require("passport");
 var moment = require('moment'); // require
 
 exports.dashboard = (req, res) => {
+  // console.log(res.locals.user);
   let msg = false;
   if (req.params.msg) {
     msg = req.params.msg;
