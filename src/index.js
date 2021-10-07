@@ -29,7 +29,7 @@ const fileupload = require('express-fileupload');
  	.catch(err => {
  		console.log('Error: ', err);
  	});
-
+require('./models/PYT21/Usuarios');
 // Crear el servidor de express
 const app = express();
 
