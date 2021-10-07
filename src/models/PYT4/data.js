@@ -259,7 +259,12 @@ module.exports = {
       let botella1L_ = JSON.stringify(botella1L);
       let garrafon11L_ = JSON.stringify(garrafon11L);
       let botella5L_ = JSON.stringify(botella5L);
-
+      if (garrafones_prestamos =="") {
+        garrafones_prestamos = 0
+      }
+      if (danados =="") {
+        danados = 0
+      }
       Pedidos.create(
         {
           chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer})
@@ -291,6 +296,12 @@ module.exports = {
       let botella1L_ = JSON.stringify(botella1L);
       let garrafon11L_ = JSON.stringify(garrafon11L);
       let botella5L_ = JSON.stringify(botella5L);
+      if (garrafones_prestamos =="") {
+        garrafones_prestamos = 0
+      }
+      if (danados =="") {
+        danados = 0
+      }
       Pedidos.update(
         {
           chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer}, { where:{

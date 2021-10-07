@@ -110,7 +110,7 @@
     //let stproductos = JSON.parse(corte.productos)
   let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
   let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
-  let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de Venta'); // return implicitoreturn implicito
+  let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
 
   //TABLA RESIDENCIAL
   let NewResidencial = {}
