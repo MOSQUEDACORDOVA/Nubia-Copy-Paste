@@ -1,7 +1,51 @@
 const fs = require("fs");
 const path = require("path");
 const Swal = require("sweetalert2");
+const DataBase = require("../models/PYT21/data");
+const passport = require("passport");
+
 //const {getStreamUrls} = require('mixcloud-audio')
+
+exports.sesionstart = (req, res) => {
+  console.log(req.body);
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      console.log(err)
+      return next(err);
+    }
+    if (!user) {
+      console.log("no existe usuario")
+      return res.redirect("/login/PYT-21");
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        console.log(err)
+        return next(err);
+      }
+      console.log(user.dataValues.id);
+      return res.redirect('/py21/PYT-21')
+    });
+  })(req, res);
+};
+// Registro de usuarios
+exports.reguserpy21 = (req, res) => {
+  console.log(req.body);
+  const { username, email, password} = req.body;
+  let msg = false;
+
+  DataBase.RegUser(username, email, password).then((respuesta) =>{
+    res.redirect('/py21/PYT-21'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error404/PYT-21" + msg);
+  });
+};
 
 exports.dashboard = (req, res) => {
   let msg = false;

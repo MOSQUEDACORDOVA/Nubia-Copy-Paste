@@ -3,6 +3,7 @@ const router = express.Router();
 const exphbs = require('express-handlebars');
 const path = require('path');
 const db = require('./config/db');
+const db21 = require('./config/dbPY21');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -15,6 +16,15 @@ const fileupload = require('express-fileupload');
  db.sync()
  	.then(() => {
  		console.log('Base de datos conectada');
+ 	})
+ 	.catch(err => {
+ 		console.log('Error: ', err);
+ 	});
+
+// Conectar con la base de datos
+ db21.sync()
+ 	.then(() => {
+ 		console.log('Base de datos conectada PY21');
  	})
  	.catch(err => {
  		console.log('Error: ', err);
