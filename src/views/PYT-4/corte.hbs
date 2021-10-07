@@ -21,6 +21,9 @@
     $('#btnnegocio').on('click', (e)=> {
         Reset(3);
     });
+     $('#btnGral').on('click', (e)=> {
+        Reset(4);
+    });
 
     function Reset(num) {
         $('#residenciales').removeClass('show')
@@ -31,53 +34,30 @@
 
         $('#negocio').removeClass('show')
         $('#negocio').addClass('collpase')
-
-        if(num === 1) {
-            $('#residenciales').removeClass('collpase')
+        
+        $('#total').removeClass('show')
+        $('#total').addClass('collpase')
+        switch (num){
+            case 1:
+$('#residenciales').removeClass('collpase')
             $('#residenciales').addClass('show')
-        } else if (num === 2) {
-            $('#puntoVenta').removeClass('collpase')
+            break;
+             case 2:
+$('#puntoVenta').removeClass('collpase')
             $('#puntoVenta').addClass('show')
-        } else {
-            $('#negocio').addClass('show')
+            break;
+             case 3:
+ $('#negocio').addClass('show')
             $('#negocio').removeClass('collpase')
+            break;
+case 4:
+ $('#total').addClass('show')
+            $('#total').removeClass('collpase')
+            break;
+            default:
+            break
         }
     }
-
-/*$('.select_tipo').on('click', (e)=>{
-    let val;
-    if(e.target.classList.contains('select_tipo')) {
-        val = e.target.childNodes[3].innerHTML;
-        console.log(e.target.childNodes[3].innerHTML)
-    } 
-    switch (val) {
-        case 'Residenciales':
-        if ($('#negocio').is(':visible') || $('#puntoVenta').is(':visible')){
-            $('#negocio').attr('style', 'display: none;')
-            $('#puntoVenta').attr('style', 'display: none;')
-        }
-    $('#residenciales').removeAttr('style')
-
-
-        break;
-        case 'Negocio':
-            if ($('#residenciales').is(':visible') || $('#puntoVenta').is(':visible')){
-            $('#residenciales').attr('style', 'display: none;')
-            $('#puntoVenta').attr('style', 'display: none;')
-        }
-    $('#negocio').removeAttr('style')
-            break;
-            case 'Puntos de Venta':
-            if ($('#negocio').is(':visible') || $('#residenciales').is(':visible')){
-            $('#negocio').attr('style', 'display: none;')
-            $('#residenciales').attr('style', 'display: none;')
-        }
-    $('#puntoVenta').removeAttr('style')
-            break;
-        default:
-        break;
-    }
-})*/
 
     $('#fecha_corte').on('change', (e)=>{
         console.log(e.target.value)
@@ -107,7 +87,7 @@
                         <!-- Greetings Card starts -->
                         <div class="col-lg-3 col-md-12 col-sm-12">
                             <div class="card card-congratulation">
-                                <div class="card-body text-center">
+                                <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
                                     <div class="avatar avatar-xl bg-light shadow">
                                         <div class="avatar-content">
                                             <i data-feather="award" class="font-large-1 text-primary"></i>
@@ -181,7 +161,34 @@
                         <!-- Orders Chart Card ends -->
                     </div>
                 </section>
-
+                <div class="card py4table collapse show" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">General</h6></div>
+                                        </div>
+                                        <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre del Chofer</th>
+                                                    <th>Unidad</th>
+                                                    <th>Total Garrafones</th>
+                                                    <th>Total Efectivo</th>
+                                                    <th>Total transferencias</th>
+                                                    <th>Total pagos tarjetas</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card py4table collapse" id="residenciales">
                     <!-- List DataTable -->
                     <div class="row">

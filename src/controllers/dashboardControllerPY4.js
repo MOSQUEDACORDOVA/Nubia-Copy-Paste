@@ -4,7 +4,8 @@ const Swal = require("sweetalert2");
 const DataBase = require("../models/PYT4/data")
 const passport = require("passport");
 //const {getStreamUrls} = require('mixcloud-audio')
-var moment = require('moment'); // require
+//var moment = require('moment'); // require
+var moment = require('moment-timezone');
 
 exports.dashboard = (req, res) => {
   // console.log(res.locals.user);
@@ -530,7 +531,7 @@ exports.corte_table = (req, res) => {
  
   if (req.params.day) {
     console.log(req.params.day)
-    dia =moment(req.params.day, 'YYYY-DD-MM').format('L');
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
   }else{
     dia = new Date()
   }
@@ -557,17 +558,26 @@ exports.corte_table = (req, res) => {
             let ptoVenta_cont = 0
             let ptoVenta_mont= 0
             var chofer_pedido = []
+            console.log(moment.tz.names())
             for (let i = 0; i < pedidos_let.length; i++) {
               fecha_created = pedidos_let[i].createdAt
-              let iguales = moment(dia).isSame(fecha_created, 'day'); // true
-              if (iguales == true) {
+               console.log(fecha_created)
+               //fecha_created = moment(fecha_created).format('DD/MM/YYYY HH:mm')
+
+               
+
+               
+              //.format('L')
+              
+              console.log()
+              let iguales = moment.tz(fecha_created,'UTC').isSame(dia, 'day'); // true
+              if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
                 pedidos_byday.push(pedidos_let[i])
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
                 
                 switch (pedidos_let[i].cliente.tipo) {
                   case 'Residencial':
-
                     residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
                    residencial_cont ++
                     break;

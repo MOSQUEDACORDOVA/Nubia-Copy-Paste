@@ -180,6 +180,29 @@ maxDate2 = new DateTime($('#max1'), {
       ], columnDefs: [
         {
           // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            console.log(full['cliente']['tipo'])
+            var $status_number = full['cliente']['tipo'];
+            var $status = {
+              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" >' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
           targets: 3,
           render: function (data, type, full, meta) {
             console.log(full)
@@ -207,7 +230,7 @@ maxDate2 = new DateTime($('#max1'), {
           render:function(data){
             console.log(moment.tz.names())
            // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment.tz(data).format('L');
+            return moment.tz(data,'America/Bogota').format('L');
           }
         },
       ],
@@ -294,6 +317,29 @@ maxDate2 = new DateTime($('#max1'), {
       ],columnDefs: [
         {
           // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            console.log(full['cliente']['tipo'])
+            var $status_number = full['cliente']['tipo'];
+            var $status = {
+              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" >' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
           targets: 3,
           render: function (data, type, full, meta) {
             
@@ -318,7 +364,7 @@ maxDate2 = new DateTime($('#max1'), {
           targets: 5,
           render:function(data){
            // return moment(data).format('L');
-            return moment.tz(data).format('L');
+            return moment.tz(data, 'America/Bogota').format('L');
           }
         },
       ],
