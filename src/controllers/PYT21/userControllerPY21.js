@@ -2,21 +2,9 @@
 exports.createUser = async (req, res) => {
     const { username, email, password } = req.body;
     
-    // La contraseña y cofirmar contraseña no son iguales
-    if (password !== confirmPassword) {
-      req.flash("error", "Las contraseñas no son iguales");
-  
-      return res.render("reg_admin", {
-        pageName: "Registrate",
-        dashboardPage: true,
-        logo:true, 
-        crea_usuario:true,
-        messages: req.flash(),
-      });
-    }
     try {
       await Usuarios.create({
-        username: username, email: email, password: password, tipo: 'Administrador'
+        username: username, email: email, password: password, type_user: 'Administrador'
       });
   
       res.redirect("/usuarios_a");

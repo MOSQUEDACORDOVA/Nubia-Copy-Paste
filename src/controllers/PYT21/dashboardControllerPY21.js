@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Swal = require("sweetalert2");
-const DataBase = require("../models/PYT21/data");
+const DataBase = require("../../models/PYT21/data");
 const passport = require("passport");
 
 //const {getStreamUrls} = require('mixcloud-audio')
@@ -31,20 +31,24 @@ exports.sesionstart = (req, res) => {
     });
   })(req, res);
 };
+
 // Registro de usuarios
 exports.reguserpy21 = (req, res) => {
   console.log(req.body);
-  const { username, email, password} = req.body;
+  const { username, email, password } = req.body;
   let msg = false;
-
-  DataBase.RegUser(username, email, password).then((respuesta) =>{
-    res.redirect('/py21/PYT-21'+respuesta)
-
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error404/PYT-21" + msg);
-  });
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/register/PYT-21');
+  } else {
+    DataBase.RegUser(username, email, password).then((respuesta) =>{
+      res.redirect('/py21/PYT-21'+respuesta)
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-21" + msg);
+    });
+  }
 };
 
 exports.dashboard = (req, res) => {

@@ -37,6 +37,10 @@ const Usuarios = db21.define('usuarios', {
 			}
 		}
 	},
+    type_user: {
+        type: DataTypes.STRING(15),
+        allowNull: false,
+    }
 }, {
 	hooks: {
 		beforeCreate(usuario) {
