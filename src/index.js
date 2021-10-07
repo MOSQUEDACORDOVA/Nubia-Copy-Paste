@@ -21,7 +21,7 @@ const fileupload = require('express-fileupload');
  		console.log('Error: ', err);
  	});
 
-// Conectar con la base de datos
+// Conectar con la base de datos PYT21
  db21.sync()
  	.then(() => {
  		console.log('Base de datos conectada PY21');

@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const userController = require('../controllers/userController');
+const userControllerPY21 = require('../controllers/userControllerPY21');
 const authController = require('../controllers/authController');
 const authControllerPY21 = require('../controllers/authControllerPY21');
 const authControllerPY4 = require('../controllers/authControllerpy4');
@@ -107,6 +108,9 @@ router.get('/paymethods/:id', authControllerPY21.authenticatedAdmin, dashboardCo
 router.get('/deposits/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.deposits);
 router.get('/duration/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.duration);
 router.get('/pay/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.pay);
+
+// Cerrar Sesión
+router.get('/logout/:id', userControllerPY21.closeSesion);
 
 //POST
 router.post('/loginpy21', dashboardControllerPY21.sesionstart);

@@ -1,6 +1,6 @@
 // Crear usuario en la base de datos
 exports.createUser = async (req, res) => {
-    const { name_, email_, password, confirmPassword } = req.body;
+    const { username, email, password } = req.body;
     
     // La contraseña y cofirmar contraseña no son iguales
     if (password !== confirmPassword) {
@@ -16,7 +16,7 @@ exports.createUser = async (req, res) => {
     }
     try {
       await Usuarios.create({
-        name: name_, email: email_, password: password, tipo: 'Administrador'
+        username: username, email: email, password: password, tipo: 'Administrador'
       });
   
       res.redirect("/usuarios_a");
@@ -37,4 +37,11 @@ exports.createUser = async (req, res) => {
         messages: req.flash(),
       });
     }
-  };
+};
+
+// Cerrar sesión
+exports.closeSesion = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/login/PYT-21");
+  });
+};
