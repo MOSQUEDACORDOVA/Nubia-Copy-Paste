@@ -586,16 +586,21 @@
             </span>
 
             <form class="auth-login-form mt-2" action="/loginpy21" method="POST">
+             <div class="none">
+                                        <input class="form-control" id="register-username" type="text" name="proyect"
+                                            placeholder="johndoe" aria-describedby="register-username" value="PYT21"
+                                            tabindex="1" hidden />
+                                    </div>
                 <div class="mb-1">
                     <label class="form-label" for="login-email">Email</label>
-                    <input class="form-control" id="login-email" type="text" name="login-email" placeholder="mosquedac@gmail.com" tabindex="1" autofocus autocomplete="off">
+                    <input class="form-control" id="login-email" type="text" name="email" placeholder="mosquedac@gmail.com" tabindex="1" autofocus autocomplete="off">
                 </div>
                 <div class="mb-1">
                     <div class="d-flex justify-content-between">
                         <label class="form-label" for="login-password">Contraseña</label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge" id="login-password" type="password" name="login-password" placeholder="············" tabindex="2" autocomplete="off"><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                        <input class="form-control form-control-merge" id="login-password" type="password" name="password" placeholder="············" tabindex="2" autocomplete="off"><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                     </div>
                 </div>
                 <div class="mb-1">
