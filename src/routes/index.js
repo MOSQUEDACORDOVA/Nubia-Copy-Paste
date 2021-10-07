@@ -4,15 +4,20 @@ const authController = require('../controllers/authController');
 const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
-const dashboardControllerPY21 = require('../controllers/dashboardControllerPY21');
-const dashboardControllerPY24 = require('../controllers/dashboardControllerPY24');
 const dashboardControllerPY27 = require('../controllers/dashboardControllerPY27');
 const landingController = require('../controllers/landingController');
 const passport = require('passport');
 
+/*------------- PYT21 -------------*/
+const userControllerPY21 = require('../controllers/PYT21/userControllerPY21');
+const authControllerPY21 = require('../controllers/PYT21/authControllerPY21');
+const dashboardControllerPY21 = require('../controllers/PYT21/dashboardControllerPY21');
+/*------------- PYT24 -------------*/
+const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControllerPY24');
+/*---------------------------------*/
+
 // Landing Page
 router.get('/', landingController.showLandingPage);
-// Landing Page
 
 //router.get('//:msg', landingController.showLandingPage);
 
@@ -89,24 +94,35 @@ router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardCont
 
 
 
-//PYT-21
-router.get('/py21/:id', dashboardControllerPY21.dashboard);
+/*--------------------- PYT-21 ---------------------*/
+router.get('/py21/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.dashboard);
 router.get('/login/:id', dashboardControllerPY21.login);
 router.get('/register/:id', dashboardControllerPY21.register);
 router.get('/error404/:id', dashboardControllerPY21.error);
 router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
-router.get('/config/:id', dashboardControllerPY21.config);
-router.get('/profile/:id', dashboardControllerPY21.profile);
-router.get('/contracts/:id', dashboardControllerPY21.contracts);
-router.get('/earnings/:id', dashboardControllerPY21.earnings);
-router.get('/retreats/:id', dashboardControllerPY21.retreats);
-router.get('/users/:id', dashboardControllerPY21.users);
-router.get('/seller/:id', dashboardControllerPY21.seller);
-router.get('/paymethods/:id', dashboardControllerPY21.paymethods);
-router.get('/deposits/:id', dashboardControllerPY21.deposits);
-router.get('/duration/:id', dashboardControllerPY21.duration);
-router.get('/pay/:id', dashboardControllerPY21.pay);
+router.get('/config/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.config);
+router.get('/profile/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.profile);
+router.get('/contracts/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.contracts);
+router.get('/earnings/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.earnings);
+router.get('/retreats/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.retreats);
+router.get('/users/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.users);
+router.get('/seller/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.seller);
+router.get('/paymethods/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.paymethods);
+router.get('/deposits/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.deposits);
+router.get('/duration/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.duration);
+router.get('/pay/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.pay);
 
+//POST
+router.post('/loginpy21', dashboardControllerPY21.sesionstart);
+router.post('/reguserpy21', dashboardControllerPY21.reguserpy21);
+
+// Cerrar Sesión
+router.get('/logout/:id', userControllerPY21.closeSesion);
+
+
+
+
+/*--------------------------------------------------*/
 
 //PYT-24
 router.get('/py24/:id', dashboardControllerPY24.dashboard);
@@ -128,6 +144,11 @@ router.get('/th/:id', dashboardControllerPY24.th);
 router.get('/plans/:id', dashboardControllerPY24.plans);
 router.get('/web/:id', dashboardControllerPY24.web);
 router.get('/paym/:id', dashboardControllerPY24.paymanag);
+
+// 404
+router.use((req, res, next) => {
+  res.status(404).redirect('/error404/PYT-21')
+});
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);

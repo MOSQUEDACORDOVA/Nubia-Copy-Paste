@@ -19,11 +19,18 @@ passport.use(
 			console.log(req.body.proyect)
 // Modelo a auntenticar
 var Usuarios = "";
-if (req.body.proyect == "PYT4") {
-	console.log("q")
+switch (req.body.proyect) {
+	case 'PYT4':
+		console.log("q")
 Usuarios = require('../models/PYT4/Usuarios');	
+		break;
+		case 'PYT21':
+			console.log("q")
+	Usuarios = require('../models/PYT21/Usuarios');	
+			break;
+	default:
+		break;
 }
-
 			try {
 				const usuario = await Usuarios.findOne({
 					where: {email}

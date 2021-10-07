@@ -205,7 +205,9 @@ maxDate2 = new DateTime($('#max1'), {
         },{
           targets: 5,
           render:function(data){
-            return moment(data).format('L');
+            console.log(moment.tz.names())
+           // return moment.tz(data, 'America/Mexico_City').format('L');
+            return moment.tz(data).format('L');
           }
         },
       ],
@@ -315,7 +317,8 @@ maxDate2 = new DateTime($('#max1'), {
         },{
           targets: 5,
           render:function(data){
-            return moment(data).format('L');
+           // return moment(data).format('L');
+            return moment.tz(data).format('L');
           }
         },
       ],
