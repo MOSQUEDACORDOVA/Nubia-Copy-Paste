@@ -119,10 +119,7 @@ router.post('/reguserpy21', dashboardControllerPY21.reguserpy21);
 // Cerrar Sesión
 router.get('/logout/:id', userControllerPY21.closeSesion);
 
-// 404
-router.use((req, res, next) => {
-  res.status(404).redirect('/error404/PYT-21')
-});
+
 
 
 /*--------------------------------------------------*/
@@ -147,6 +144,11 @@ router.get('/th/:id', dashboardControllerPY24.th);
 router.get('/plans/:id', dashboardControllerPY24.plans);
 router.get('/web/:id', dashboardControllerPY24.web);
 router.get('/paym/:id', dashboardControllerPY24.paymanag);
+
+// 404
+router.use((req, res, next) => {
+  res.status(404).redirect('/error404/PYT-21')
+});
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);

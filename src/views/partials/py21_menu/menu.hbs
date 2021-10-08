@@ -89,8 +89,8 @@
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
-                        <span class="user-name fw-bolder">Mosqueda C.</span>
-                        <span class="user-status">Administrador</span>
+                        <span class="user-name fw-bolder">{{ username }}</span>
+                        <span class="user-status">{{ typeUser }}</span>
                     </div>
                     <span class="avatar">
                         <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
@@ -138,22 +138,22 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            {{#if msg}}
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">INVERSIONISTA</span><i
+            {{#if roleClient }}
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
-            <li class=" nav-item">
+            <li class="{{#if dash}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/py21/PYT-21">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if contr}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/contracts/PYT-21">
                     <i data-feather='trending-up'></i>
                     <span class="menu-title text-truncate" data-i18n="Contratos">Contratos</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/deposits/PYT-21">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
@@ -165,103 +165,70 @@
                     <span class="menu-title text-truncate" data-i18n="Ingresos">Ganancias</span>
                 </a>
             </li> --}}
-            <li class=" nav-item">
+            <li class="{{#if retr}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/retreats/PYT-21">
                     <i data-feather='check'></i>
                     <span class="menu-title text-truncate" data-i18n="Ingresos">Retiros</span>
                 </a>
             </li>
-            {{#if msg}}
-            <li class="nav-item has-sub" style=""><a class="d-flex align-items-center" href="#"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-check"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg><span class="menu-title text-truncate" data-i18n="Authentication">Autenticación</span></a>
-                <ul class="menu-content">
-                    <li>
-                        <a class="d-flex align-items-center" href="/login/PYT-21"><span class="menu-item text-truncate" data-i18n="Basic">Login</span></a>
-                    </li>
-                    <li>
-                        <a class="d-flex align-items-center" href="/register/PYT-21"><span class="menu-item text-truncate" data-i18n="Basic">Registro</span></a>
-                    </li>
-                </ul>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/error404/PYT-21">
-                    <i data-feather='layout'></i>
-                    <span class="menu-title text-truncate"data-i18n="Email">404</span>
-                </a>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/notauthorized/PYT-21">
-                    <i data-feather='layout'></i>
-                    <span class="menu-title text-truncate"data-i18n="Email">No Autorizado</span>
-                </a>
-            </li>
             {{/if}}
+            
+            {{#if roleSeller}}
+            <li class="{{#if sellers}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='user-plus'></i>
+                    <span class="menu-title text-truncate" data-i18n="Vendedores">Referidos</span>
+                </a>
+            </li>
             {{/if}}
 
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">ADMINISTRADOR</span><i
+            {{#if roleAdmin}}
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
-            <li class=" nav-item">
+            <li class="{{#if dash}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/py21/PYT-21">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
                 </a>
             </li>
-            {{#if msg}}
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/contracts/PYT-21">
-                    <i data-feather='trending-up'></i>
-                    <span class="menu-title text-truncate" data-i18n="Contratos">Contratos</span>
-                </a>
-            </li>
-            {{/if}}
-            {{!-- <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/earnings/PYT-21">
-                    <i data-feather='dollar-sign'></i>
-                    <span class="menu-title text-truncate" data-i18n="Ingresos">Ganancias</span>
-                </a>
-            </li>
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/retreats/PYT-21">
-                    <i data-feather='check'></i>
-                    <span class="menu-title text-truncate" data-i18n="Retiros">Retiros</span>
-                </a>
-            </li> --}}
-            <li class=" nav-item">
+
+            <li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/deposits/PYT-21">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if managpay}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/pay/PYT-21">
                     <i data-feather='dollar-sign'></i>
                     <span class="menu-title text-truncate">Gestión de Pagos</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if payform}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/paymethods/PYT-21">
                     <i data-feather='star'></i>
                     <span class="menu-title text-truncate" data-i18n="Formas de Pago">Formas de Pago</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if durat}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/duration/PYT-21">
                     <i data-feather='alert-triangle'></i>
                     <span class="menu-title text-truncate" data-i18n="Duracion">Duración y Riesgo</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if users}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/users/PYT-21">
                     <i data-feather='users'></i>
                     <span class="menu-title text-truncate" data-i18n="Usuarios">Usuarios</span>
                 </a>
             </li>
-            <li class=" nav-item">
+            <li class="{{#if sellers}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/seller/PYT-21">
                     <i data-feather='user-plus'></i>
                     <span class="menu-title text-truncate" data-i18n="Vendedores">Vendedores</span>
                 </a>
             </li>
-
+            {{/if}}
         </ul>
     </div>
 </div>

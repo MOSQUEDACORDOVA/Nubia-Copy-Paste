@@ -58,11 +58,31 @@ exports.dashboard = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+  
+    let roleAdmin;
+    let roleClient;
+    let roleSeller;
+    if (req.user.type_user === 'Inversionista') {
+      roleClient = true;
+    } else if(req.user.type_user === 'Vendedor') {
+      roleClient = true;
+      roleSeller = true;
+    }
+    else {
+      roleAdmin = true;
+    }
+
     res.render(proyecto+"/board", {
-      pageName: "Dashboard",
+      pageName: "Tablero",
       dashboardPage: true,
       dashboard: true,
-      py21:true
+      py21:true,
+      dash: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -78,7 +98,7 @@ exports.login = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: true
+      login: true,
     })
 };
 
@@ -130,35 +150,39 @@ exports.notauthorized = (req, res) => {
     })
 };
 
-exports.board = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-    res.render(proyecto+"/board", {
-      pageName: "Tablero",
-      dashboardPage: true,
-      dashboard: true,
-      py21:true,
-      login: false
-    })
-};
-
 exports.config = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+  let proyecto = req.params.id 
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
     res.render(proyecto+"/configuration", {
       pageName: "Configuración de la cuenta",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      config: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleClient,
+      roleAdmin,
+      roleSeller
     })
 };
 
@@ -169,12 +193,32 @@ exports.profile = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
     res.render(proyecto+"/profile", {
       pageName: "Mi Perfil",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      prof: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleClient,
+      roleAdmin,
+      roleSeller
     })
 };
 
@@ -185,12 +229,32 @@ exports.contracts = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+  
     res.render(proyecto+"/contracts", {
       pageName: "Contratos",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      contr: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -206,7 +270,9 @@ exports.earnings = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      username: req.user.username,
+      typeUser: req.user.type_user
     })
 };
 
@@ -217,12 +283,32 @@ exports.retreats = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
     res.render(proyecto+"/retreats", {
       pageName: "Retiros",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      retr: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -233,12 +319,31 @@ exports.users = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
     res.render(proyecto+"/users", {
       pageName: "Usuarios",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      users: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -249,12 +354,28 @@ exports.seller = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+  
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  } else if(req.user.type_user === 'Administrador') {
+    roleAdmin = true;
+  }
     res.render(proyecto+"/seller", {
       pageName: "Vendedores",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      sellers: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -265,12 +386,31 @@ exports.paymethods = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
     res.render(proyecto+"/paymethods", {
       pageName: "Formas de Pago",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      payform: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -281,12 +421,32 @@ exports.pay = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
     res.render(proyecto+"/pay-managment", {
       pageName: "Gestión de Pagos",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      managpay: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -297,12 +457,31 @@ exports.deposits = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
     res.render(proyecto+"/deposits", {
       pageName: "Depositos",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      dep: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
 
@@ -313,11 +492,30 @@ exports.duration = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
     res.render(proyecto+"/duration", {
       pageName: "Duración y Riesgo",
       dashboardPage: true,
       dashboard: true,
       py21:true,
-      login: false
+      login: false,
+      durat: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller
     })
 };
