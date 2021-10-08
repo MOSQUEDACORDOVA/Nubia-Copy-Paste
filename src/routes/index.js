@@ -38,6 +38,7 @@ router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
+router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 
@@ -87,7 +88,7 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
-
+router.post('/fecha_corte_prest_change',authControllerPY4.authenticatedUser, dashboardControllerPY4.fech_corte_prestado);
 
 
 

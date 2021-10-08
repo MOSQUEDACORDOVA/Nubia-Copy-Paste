@@ -6,7 +6,9 @@ const Clientes = require("../../models/PYT4/Clientes");
 const Pedidos = require("../../models/PYT4/Pedidos");
 const Personal = require("../../models/PYT4/Personal");
 const Vehiculos = require("../../models/PYT4/Vehiculos");
+const GPrestados = require("../../models/PYT4/GPrestados");
 const CoP = require("../../models/PYT4/CP");
+var moment = require('moment-timezone');
 
 module.exports = {
   //USUARIO
@@ -271,19 +273,18 @@ module.exports = {
         .then((data) => {
           let data_set = JSON.stringify(data);
                 
-                Clientes.update(
-                  {
-                    firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
-                        id: id_cliente
-                    }})
-                  .then((data_cli) => {
-                    let data_set2 = JSON.stringify(data_cli);
-                    resolve('Pedido registrado con éxito');
-                    //console.log(planes);
-                  })
-                  .catch((err) => {
-                    reject(err)
-                  });
+          let hoy =moment().format('YYYY-MM-DD')
+          Clientes.update(
+            {
+              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+                  id: id_cliente
+              }}) .then((data_cli) => {
+                resolve("Se creó correctamente el pedido");
+                //console.log(planes);
+              })          
+            .catch((err) => {                      
+              reject(err)
+            });
         })
         .catch((err) => {
           reject(err)
@@ -309,26 +310,24 @@ module.exports = {
         }})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          console.log('Aqui el contador')
+          let hoy =moment().format('YYYY-MM-DD')
           Clientes.update(
-                        {
-                          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
-                              id: id_cliente
-                          }})
-                        .then((data_cli) => {
-                          let data_set2 = JSON.stringify(data_cli);
-                          resolve("Se actualizó correctamente el pedido");
-                          //console.log(planes);
-                        })
-                        .catch((err) => {                      
-                          reject(err)
-                        });
-                })
-                .catch((err) => {
-                  console.log(err)
-                  reject(err)
-                })
-              })
+            {
+              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+                  id: id_cliente
+              }}) .then((data_cli) => {
+                resolve("Se actualizó correctamente el pedido");
+                //console.log(planes);
+              })          
+            .catch((err) => {                      
+              reject(err)
+            });         
+
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    })})
   },
 
   CambiaStatus(id_pedido,status) {
@@ -341,8 +340,49 @@ module.exports = {
         }})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          console.log(data_set)
-          resolve("Se actualizó el estado con éxito");
+          //console.log(data_set)
+          Pedidos.findAll({where: {id: id_pedido}}).then((pedido_) =>{
+             console.log(pedido_[0].dataValues.status_pedido)
+           if (pedido_[0].dataValues.status_pedido =="Entregado") {
+              let hoy =moment.tz(pedido_[0].dataValues.createdAt,'UTC').format('YYYY-MM-DD')
+console.log(hoy)
+            GPrestados.findAll({where:{
+                     clienteId: pedido_[0].dataValues.clienteId, 
+                     personalId: pedido_[0].dataValues.personalId,
+                     fecha_ingreso: hoy
+                   }}).then((date)=>{
+                     console.log(date)
+                     if (date =="") {
+                       console.log(hoy)
+                       GPrestados.create({
+                         cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido
+                       }).then((data_cli) => {
+                         resolve("Se creó correctamente el pedido");
+                         //console.log(planes);
+                       })
+                     }
+                     GPrestados.update({
+                       cantidad: pedido_[0].dataValues.garrafones_prestamos,status_pedido:pedido_[0].dataValues.status_pedido },
+                       {where:
+                         {cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido}
+                     }).then((data_upd) => {
+                       let data_set2 = JSON.stringify(data_upd)
+                       console.log(data_set2);
+                       resolve("Se creó correctamente el pedido");
+                       //console.log(planes);
+                     })
+                   }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+           }
+           resolve("Se actualizó el estado con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+      
+         
             
           //console.log(planes);
         })
@@ -440,6 +480,26 @@ module.exports = {
         ] },        
     ]
       },{ group: ['chofer'] },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PrestadosGroupByCliente(){
+    return new Promise((resolve, reject) => {
+      GPrestados.findAll({include:[
+        {association:GPrestados.Clientes },
+        {association:GPrestados.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
+    ]
+      },{ group: ['clienteId'] },)
         .then((data) => {
           let data_p = JSON.stringify(data);
           //console.log(data)
