@@ -94,11 +94,12 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                             <div class="card">
                                 <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
                                 <div class="col">
-                                        <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
-                                        <div class="mb-0 d-flex">
-                                            <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                            <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
-                                        </div>
+                                        <label class="form-label">Fecha:</label>
+                                                <div class="mb-0 d-flex">
+                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_"/>
+                                                    <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>
+                                                </div>
                                     </div>
                                 <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
                                     <thead>
@@ -106,6 +107,8 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                                             <th>Cliente</th>
                                             <th>Nª Envases Prestados</th>
                                             <th>Fecha</th>
+                                            <th>Devueltos</th>
+                                            <th>Fecha Ult. Devolución</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>

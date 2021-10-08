@@ -344,7 +344,7 @@ module.exports = {
           Pedidos.findAll({where: {id: id_pedido}}).then((pedido_) =>{
              console.log(pedido_[0].dataValues.status_pedido)
            if (pedido_[0].dataValues.status_pedido =="Entregado") {
-              let hoy =moment.tz(pedido_[0].dataValues.createdAt,'UTC').format('YYYY-MM-DD')
+              let hoy =moment.tz(pedido_[0].dataValues.createdAt,'UTC').format('MM/DD/YYYY')
 console.log(hoy)
             GPrestados.findAll({where:{
                      clienteId: pedido_[0].dataValues.clienteId, 
@@ -391,7 +391,50 @@ console.log(hoy)
         });
     });
   },
- 
+ UpdateGPRestados(id_chofer,cantidad,id_cliente, fecha,nueva_cantidad) {
+    return new Promise((resolve, reject) => {
+      let hoy =moment().format('MM/DD/YYYY')
+      fecha = moment(fecha).format('MM/DD/YYYY')
+console.log(hoy)
+   GPrestados.update({devueltos: cantidad, fecha_devolucion: hoy, cantidad:nueva_cantidad },
+      {where:{fecha_ingreso:fecha,clienteId: id_cliente, personalId: id_chofer}
+                     }).then((data_upd) => {
+                       let data_set2 = JSON.stringify(data_upd)
+                       console.log(data_set2);
+                       GPrestados.findAll({where:{
+                        fecha_ingreso:fecha,clienteId: id_cliente, personalId: id_chofer
+                      }}).then((date)=>{
+                        let data_set2 = JSON.stringify(date)
+
+                       resolve(data_set2);                      
+                   }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+                        }).catch((err) => {
+                          console.log(err)
+                          reject(err)
+                        })
+    });
+  },
+
+  DescontarGPrestados(id_chofer,cantidad,id_cliente, fecha) {
+    return new Promise((resolve, reject) => {
+      fecha = moment(fecha).format('MM/DD/YYYY')
+      console.log(fecha)
+                       GPrestados.findAll({where:{
+                        fecha_ingreso:fecha,clienteId: id_cliente, personalId: id_chofer
+                      }}).then((date)=>{
+                        let data_set2 = JSON.stringify(date)
+
+                       resolve(data_set2);                      
+                   }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+    });
+  },
+
   PedidosAll(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[

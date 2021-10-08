@@ -77,6 +77,7 @@ router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,da
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 
+router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', authControllerPY4.authenticatedUser,dashboardControllerPY4.corte_prestados_table);
 
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);

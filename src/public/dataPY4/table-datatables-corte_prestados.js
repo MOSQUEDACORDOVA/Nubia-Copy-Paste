@@ -3,34 +3,11 @@
  */
 
  'use strict';
-
-
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
- var minDate, maxDate,minDate2, maxDate2;
- 
+ var minDate_, maxDate_;
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
-       
 
-     let f = data[5]
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
- 
- 
  // Datepicker for advanced filter
  var separator = ' - ',
    rangePickr = $('.flatpickr-range'),
@@ -70,22 +47,27 @@
  
  // Advance filter function
  // We pass the column location, the start date, and the end date
- var filterByDate = function (column, startDate, endDate) {
+ var filterByDate__ = function (column, startDate, endDate) {
    // Custom filter syntax requires pushing the new filter to the global filter array
    $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
      var rowDate = normalizeDate(aData[column]),
        start = normalizeDate(startDate),
        end = normalizeDate(endDate);
-       var  min2 = minDate2.val();
-       var max2 = maxDate2.val();
-       let f = aData[5]
-       var date = new Date(f);
+       var  min2_ = minDate_.val();
+       var max2_ = maxDate_.val();
+       let f = aData[2]
+       console.log(f)
+       console.log(min2_)
+       console.log(max2_)
+       var date_ = new Date(f);
+       
+       console.log(date_)
      // If our date from the row is between the start and end
      if (
-      ( min2 === null && max2 === null ) ||
-      ( min2 === null && date <= max2 ) ||
-      ( min2 <= date   && max2 === null ) ||
-      ( min2 <= date   && date <= max2 ) 
+      ( min2_ === null && max2_ === null ) ||
+      ( min2_ === null && date_ <= max2_ ) ||
+      ( min2_ <= date_   && max2_ === null ) ||
+      ( min2_ <= date_   && date_ <= max2_ ) 
   ) {
       return true;
   }
@@ -165,19 +147,13 @@ let ArrayGral = Object.entries(Newcorte2);
   if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
   }
-  minDate = new DateTime($('#min'), {
+  minDate_ = new DateTime($('#min_'), {
     format: 'DD/MM/YYYY'
 });
-maxDate = new DateTime($('#max'), {
+maxDate_ = new DateTime($('#max_'), {
     format: 'DD/MM/YYYY'
 });
 
-minDate2 = new DateTime($('#min1'), {
-  format: 'DD/MM/YYYY'
-});
-maxDate2 = new DateTime($('#max1'), {
-  format: 'DD/MM/YYYY'
-});
   // DataTable with buttons
   // --------------------------------------------------------------------
  
@@ -221,8 +197,10 @@ maxDate2 = new DateTime($('#max1'), {
          console.log(ArrayConductores)
          console.log(data)
          
+
         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+cantidad+'" data-arrayconductores="'+data_str+'" data-title="Garrafones Prestados a'+full[1][0]['cliente']['firstName']+'"  data-bs-target="#corte_modal">'+full[1][0]['cliente']['firstName']+'</button>'}  },
         { data: '0'},
+        { data: '0' },
         { data: '0' },
         { data: '0' },
       ], columnDefs: [
@@ -254,6 +232,36 @@ maxDate2 = new DateTime($('#max1'), {
           return fecha;
         }
     },
+    {
+      // Label
+      targets: 3,
+      render: function (data, type, full, meta) {
+        let devueltos=0;
+        let id=""
+          for (let i = 0; i < full[1].length; i++) {
+            if (Array.isArray(full[1][i]['devueltos'])) {
+              devueltos += countArray(parseInt(full[1][i]['devueltos']));
+          } else {
+              devueltos += parseInt(full[1][i]['devueltos']);
+          }
+          id=full[1][i]['clienteId']+ ","+full[1][i]['fecha']
+        }
+        return devueltos;
+      }
+  },
+  {
+    // Label
+    targets: 4,
+    render: function (data, type, full, meta) {
+      let fecha="";
+        for (let i = 0; i < full[1].length; i++) {
+         fecha=full[1][i]['fecha_devolucion']
+
+    
+      }
+      return fecha;
+    }
+},
          
       ],
       order: [[2, 'desc']],
@@ -282,6 +290,13 @@ maxDate2 = new DateTime($('#max1'), {
         }
       }
     });
+       // Refilter the table
+       $('#min_, #max_').on('change', function () {
+        filterByDate__(2); // We call our filter function
+        dt_Gral_t.draw();
+        });
+
+    
     $("#corte_modal").on('show.bs.modal', function (e) {
       var triggerLink = $(e.relatedTarget);
       var Total_total = triggerLink.data("id");
@@ -295,28 +310,22 @@ maxDate2 = new DateTime($('#max1'), {
     for (let i = 0; i < my_object.length; i++) {
       
       for (let j = 0; j < my_object[i].length; j++) {
-        
+         console.log(my_object[i][j][0])
         if (typeof my_object[i][j][0]['personal'] !='undefined') {
-          console.log(my_object[i][j][0]['personal'])
+          id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +my_object[i][j][0]['cantidad']
 
-          $("#corte_modalBody").append("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>"+ my_object[i][j][0]['personal']['name']+": <span class='badge bg-primary rounded-pill'>" + my_object[i][j][0]['cantidad'] +"</span></li>"+
-      "</ul>");
+          $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object[i][j][0]['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${my_object[i][j][0]['cantidad']}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
         }
+
       }
       
     }
-      //$(this).find(".modal-body").append(txt2);
-     /* $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + ArrayConductores +"</span></li>"+
-      "<li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
-      Total_total+"</span></li></ul>");*/
   });
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
-  });**/
-
-  
+  });**/  
  
   }
 
@@ -377,13 +386,13 @@ maxDate2 = new DateTime($('#max1'), {
 
 });
 // Filter column wise function
-function filterColumn(i, val) {
+function filterColumn3(i, val) {
   if (i == 5) {
-    var startDate = $('.start_date').val(),
-      endDate = $('.end_date').val();
+    var startDate = $('.start_date_').val(),
+      endDate = $('.end_date_').val();
     if (startDate !== '' && endDate !== '') {
       
-      filterByDate(i, startDate, endDate); // We call our filter function
+      filterByDate_(i, startDate, endDate); // We call our filter function
     }
     
     if (startDate == '' && endDate == '') {
@@ -398,31 +407,49 @@ function filterColumn(i, val) {
 }
 
 // Filter column wise function
-async function cambioSP(id, status) {
-  console.log(status)
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Entregado: 'Entregado',
-        Cancelado: 'Cancelado',
-        'Por entregar': 'Por entregar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
+async function habilitar_dev(id) {
+  console.log(id.id)
+  let array = (id.id).split(',')
+  let fecha_ = array[1]
+  let id_chofer =array[2]
+  let cantidad =array[3]
+  let id_cliente = array[0]
+  console.log(id.value)
+  console.log(cantidad)
+  fecha_ = fecha_.replaceAll('/','-')
+  if (parseInt(id.value) > parseInt(cantidad)) {
+    Swal.fire('La cantidad de devueltos no debe ser mayor a la prestada')
+    return
+  }
+  
+ 
+  Swal.fire({
+    title: 'Seguro desea actualizar los devueltos',
     showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
-        }
-      })
+    confirmButtonText: 'Confirmar',
+    cancelButtonText: 'Cancelar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/actualizar_devueltos/${id_chofer}/${id.value}/${id_cliente}/${fecha_}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      Swal.fire('Listo')
+     window.location.href =`/homepy4`
     }
   })
-  
-  if (estado) {
-    window.location.href = `/cambiaS_pedido/${id}/${estado}`;
-  }
 
 }

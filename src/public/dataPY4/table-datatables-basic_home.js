@@ -17,7 +17,11 @@
        
 
      let f = data[5]
+    
          var date = new Date(f);
+          console.log(date)
+          console.log(min)
+          console.log(max)
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
