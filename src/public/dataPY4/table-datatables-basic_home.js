@@ -106,7 +106,6 @@
   
   let valor = $('#array_pedido').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
-  console.log(array2)
   //let stproductos = JSON.parse(array.productos)
   let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
@@ -180,9 +179,31 @@ maxDate2 = new DateTime($('#max1'), {
       ], columnDefs: [
         {
           // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            
+            var $status_number = full['cliente']['tipo'];
+            var $status = {
+              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" >' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
           targets: 3,
           render: function (data, type, full, meta) {
-            console.log(full)
             var $status_number = full['status_pedido'];
             var $status = {
               "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
@@ -205,9 +226,8 @@ maxDate2 = new DateTime($('#max1'), {
         },{
           targets: 5,
           render:function(data){
-            console.log(moment.tz.names())
            // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment.tz(data).format('L');
+            return moment.tz(data,'America/Bogota').format('L');
           }
         },
       ],
@@ -294,6 +314,28 @@ maxDate2 = new DateTime($('#max1'), {
       ],columnDefs: [
         {
           // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            var $status_number = full['cliente']['tipo'];
+            var $status = {
+              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" >' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
           targets: 3,
           render: function (data, type, full, meta) {
             
@@ -318,7 +360,7 @@ maxDate2 = new DateTime($('#max1'), {
           targets: 5,
           render:function(data){
            // return moment(data).format('L');
-            return moment.tz(data).format('L');
+            return moment.tz(data, 'America/Bogota').format('L');
           }
         },
       ],
@@ -432,7 +474,6 @@ maxDate2 = new DateTime($('#max1'), {
   $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
@@ -443,7 +484,6 @@ maxDate2 = new DateTime($('#max1'), {
   $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit2 = e.target.classList[0]
-    console.log(id_edit2)
     if (typeof id_edit2 =="undefined") {
       return console.log(id_edit2)
     }
@@ -455,7 +495,6 @@ maxDate2 = new DateTime($('#max1'), {
     //dt_basic.row($(this).parents('tr')).remove().draw();
    // var id2= e.target.classList[0]
     var id2= e.target.classList[0]
-    console.log(id2)
     Swal.fire({
       title: 'Eliminar',
       text: "Seguro desea eliminar el pedido indicado",
@@ -516,7 +555,6 @@ function filterColumn2(i, val) {
 }
 // Filter column wise function
 async function cambioSP(id, status) {
-  console.log(status)
   const { value: estado } = await Swal.fire({
     title: 'Seleccione un nuevo Status',
     input: 'select',

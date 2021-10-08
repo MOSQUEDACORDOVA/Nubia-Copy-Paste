@@ -4,7 +4,8 @@ const Swal = require("sweetalert2");
 const DataBase = require("../models/PYT4/data")
 const passport = require("passport");
 //const {getStreamUrls} = require('mixcloud-audio')
-var moment = require('moment'); // require
+//var moment = require('moment'); // require
+var moment = require('moment-timezone');
 
 exports.dashboard = (req, res) => {
   // console.log(res.locals.user);
@@ -13,6 +14,12 @@ exports.dashboard = (req, res) => {
     msg = req.params.msg;
   }
   console.log(msg)
+  if (req.params.day) {
+    console.log(req.params.day)
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
@@ -21,6 +28,39 @@ exports.dashboard = (req, res) => {
        let count = pedidos_let.length
        DataBase.ChoferesAll().then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
+        DataBase.PrestadosGroupByCliente().then((prestamos_)=>{
+          let prestamos_let = JSON.parse(prestamos_)  
+          console.log(prestamos_let)        
+                let prestamos_byday = []
+                let prestamos_del_dia = 0
+                let residencial_cont = 0
+                let negocio_cont = 0
+                let ptoVenta_cont = 0
+                for (let i = 0; i < prestamos_let.length; i++) {
+                  fecha_created = prestamos_let[i].fecha_ingreso
+                  console.log(fecha_created)
+                  let iguales = moment(fecha_created).isSame(dia, 'day'); // true
+                  if (iguales == true) {
+                    prestamos_byday.push(prestamos_let[i])
+                    prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad)                    
+                    switch (prestamos_let[i].cliente.tipo) {
+                      case 'Residencial':
+                       residencial_cont ++
+                        break;
+                        case 'Negocio':
+                           negocio_cont++
+                          break;
+                          case 'Punto de venta':
+                            ptoVenta_cont++
+                            break;
+                      default:
+                        break;
+                    }
+                  }
+                }
+                console.log(prestamos_byday)
+                   prestamos_byday =JSON.stringify(prestamos_byday)
+                   
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -31,7 +71,7 @@ exports.dashboard = (req, res) => {
       clientes_arr,
       pedidos_,
       pedidos_let,
-      choferes_,
+      choferes_,prestamos_byday,prestamos_,
       msg
     }) 
   }).catch((err) => {
@@ -39,6 +79,11 @@ exports.dashboard = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
   }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -50,6 +95,7 @@ exports.dashboard = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 };
+
 
 exports.login = (req, res) => {
   let msg = false;
@@ -530,7 +576,7 @@ exports.corte_table = (req, res) => {
  
   if (req.params.day) {
     console.log(req.params.day)
-    dia =moment(req.params.day, 'YYYY-DD-MM').format('L');
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
   }else{
     dia = new Date()
   }
@@ -559,15 +605,14 @@ exports.corte_table = (req, res) => {
             var chofer_pedido = []
             for (let i = 0; i < pedidos_let.length; i++) {
               fecha_created = pedidos_let[i].createdAt
-              let iguales = moment(dia).isSame(fecha_created, 'day'); // true
-              if (iguales == true) {
+              let iguales = moment.tz(fecha_created,'UTC').isSame(dia, 'day'); // true
+              if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
                 pedidos_byday.push(pedidos_let[i])
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
                 
                 switch (pedidos_let[i].cliente.tipo) {
                   case 'Residencial':
-
                     residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
                    residencial_cont ++
                     break;
@@ -584,7 +629,6 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-                console.log(pedidos_byday)
                pedidos_byday =JSON.stringify(pedidos_byday)
               
     res.render("PYT-4/corte", {
@@ -620,6 +664,107 @@ choferes_,
     return res.redirect("/errorpy4/" + msg);
   });
 };
+
+
+//CORTE PRESTADOS
+exports.corte_prestados_table = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let dia =""
+ 
+  if (req.params.day) {
+    console.log(req.params.day)
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
+  console.log(dia)
+  DataBase.ClientesAll().then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+    // console.log(clientes_arr)
+     DataBase.PedidosAllGroupByChoferes().then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+      DataBase.PersonalAll().then((personal_)=>{
+        let personal_let = JSON.parse(personal_)
+         let count = personal_let.length        
+           DataBase.ChoferesAll().then((choferes)=>{
+            let choferes_ = JSON.parse(choferes)
+            let pedidos_byday = []
+            let ventas_del_dia = 0
+            let cont_ventas_del_dia = 0
+            let residencial_cont = 0
+            let residencial_mont= 0
+            let negocio_cont = 0
+            let negocio_mont= 0
+            let ptoVenta_cont = 0
+            let ptoVenta_mont= 0
+            var chofer_pedido = []
+            for (let i = 0; i < pedidos_let.length; i++) {
+              fecha_created = pedidos_let[i].createdAt
+              let iguales = moment.tz(fecha_created,'UTC').isSame(dia, 'day'); // true
+              if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
+                pedidos_byday.push(pedidos_let[i])
+               ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
+                cont_ventas_del_dia++
+                
+                switch (pedidos_let[i].cliente.tipo) {
+                  case 'Residencial':
+                    residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
+                   residencial_cont ++
+                    break;
+                    case 'Negocio':
+                       negocio_mont= parseInt(negocio_mont) + parseInt(pedidos_let[i].monto_total)
+                       negocio_cont++
+                      break;
+                      case 'Punto de venta':
+                        ptoVenta_mont = parseInt(ptoVenta_mont) + parseInt(pedidos_let[i].monto_total)
+                        ptoVenta_cont++
+                        break;
+                  default:
+                    break;
+                }
+              }
+            }
+               pedidos_byday =JSON.stringify(pedidos_byday)
+              
+    res.render("PYT-4/corte", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      corte:true,dia,
+      clientes_d,clientes_arr,personal_let,personal_,pedidos_byday,
+      cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,
+choferes,chofer_pedido,
+choferes_,
+      msg
+    }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
 
 
 //CP
