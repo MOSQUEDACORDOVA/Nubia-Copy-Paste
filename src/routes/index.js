@@ -88,7 +88,6 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
-router.post('/fecha_corte_prest_change',authControllerPY4.authenticatedUser, dashboardControllerPY4.fech_corte_prestado);
 
 
 
