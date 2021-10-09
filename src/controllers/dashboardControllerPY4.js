@@ -40,7 +40,7 @@ exports.dashboard = (req, res) => {
                   fecha_created = prestamos_let[i].fecha_ingreso
                   console.log(fecha_created)
                   let iguales = moment(fecha_created).isSame(dia, 'day'); // true
-                  if (iguales == true) {
+                  
                     prestamos_byday.push(prestamos_let[i])
                     prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad)                    
                     switch (prestamos_let[i].cliente.tipo) {
@@ -56,7 +56,6 @@ exports.dashboard = (req, res) => {
                       default:
                         break;
                     }
-                  }
                 }
                 console.log(prestamos_byday)
                    prestamos_byday =JSON.stringify(prestamos_byday)
@@ -668,101 +667,28 @@ choferes_,
 
 //CORTE PRESTADOS
 exports.corte_prestados_table = (req, res) => {
-  let msg = false;
-  if (req.params.msg) {
-    msg = req.params.msg;
-  }
-  let dia =""
- 
-  if (req.params.day) {
-    console.log(req.params.day)
-    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
-  }else{
-    dia = new Date()
-  }
-  console.log(dia)
-  DataBase.ClientesAll().then((clientes_d)=>{
-    let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length
-    // console.log(clientes_arr)
-     DataBase.PedidosAllGroupByChoferes().then((pedidos_)=>{
-      let pedidos_let = JSON.parse(pedidos_)
-       let count = pedidos_let.length
-      DataBase.PersonalAll().then((personal_)=>{
-        let personal_let = JSON.parse(personal_)
-         let count = personal_let.length        
-           DataBase.ChoferesAll().then((choferes)=>{
-            let choferes_ = JSON.parse(choferes)
-            let pedidos_byday = []
-            let ventas_del_dia = 0
-            let cont_ventas_del_dia = 0
-            let residencial_cont = 0
-            let residencial_mont= 0
-            let negocio_cont = 0
-            let negocio_mont= 0
-            let ptoVenta_cont = 0
-            let ptoVenta_mont= 0
-            var chofer_pedido = []
-            for (let i = 0; i < pedidos_let.length; i++) {
-              fecha_created = pedidos_let[i].createdAt
-              let iguales = moment.tz(fecha_created,'UTC').isSame(dia, 'day'); // true
-              if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
-                pedidos_byday.push(pedidos_let[i])
-               ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
-                cont_ventas_del_dia++
-                
-                switch (pedidos_let[i].cliente.tipo) {
-                  case 'Residencial':
-                    residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
-                   residencial_cont ++
-                    break;
-                    case 'Negocio':
-                       negocio_mont= parseInt(negocio_mont) + parseInt(pedidos_let[i].monto_total)
-                       negocio_cont++
-                      break;
-                      case 'Punto de venta':
-                        ptoVenta_mont = parseInt(ptoVenta_mont) + parseInt(pedidos_let[i].monto_total)
-                        ptoVenta_cont++
-                        break;
-                  default:
-                    break;
-                }
-              }
-            }
-               pedidos_byday =JSON.stringify(pedidos_byday)
-              
-    res.render("PYT-4/corte", {
-      pageName: "Bwater",
-      dashboardPage: true,
-      dashboard: true,
-      py4:true,
-      corte:true,dia,
-      clientes_d,clientes_arr,personal_let,personal_,pedidos_byday,
-      cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,
-choferes,chofer_pedido,
-choferes_,
-      msg
-    }) 
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-  }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/errorpy4/" + msg);
-  });
+  console.log(req.params)
+  let id_chofer  = req.params. id_chofer, 
+  cantidad = req.params.cantidad ,
+  id_cliente = req.params.id_cliente ,
+  fecha = req.params.fecha;
+  
+  DataBase.DescontarGPrestados(id_chofer,  cantidad, id_cliente, fecha).then((desc_)=>{
+    let desc__let = JSON.parse(desc_)[0]
+    console.log(desc__let)
+    let devueltos_nuevo = parseInt(desc__let.devueltos)+ parseInt(cantidad)
+    let nueva_cantidad = parseInt(desc__let.cantidad)- parseInt(cantidad)
+    console.log(devueltos_nuevo)
+    console.log(nueva_cantidad)
+    DataBase.UpdateGPRestados(id_chofer,  devueltos_nuevo, id_cliente, fecha,nueva_cantidad).then((personal_)=>{
+      let pedidos_let = JSON.parse(personal_)[0]
+      console.log(pedidos_let)        
+      res.send(pedidos_let.devueltos)
+    })
+  })
+
+  
+
 };
 
 
