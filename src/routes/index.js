@@ -12,7 +12,10 @@ const passport = require('passport');
 const userControllerPY21 = require('../controllers/PYT21/userControllerPY21');
 const authControllerPY21 = require('../controllers/PYT21/authControllerPY21');
 const dashboardControllerPY21 = require('../controllers/PYT21/dashboardControllerPY21');
+
 /*------------- PYT24 -------------*/
+const userControllerPY24 = require('../controllers/PYT24/userControllerPY24');
+const authControllerPY24 = require('../controllers/PYT24/authControllerPY24');
 const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControllerPY24');
 /*---------------------------------*/
 
@@ -95,29 +98,32 @@ router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardCont
 
 
 /*--------------------- PYT-21 ---------------------*/
-router.get('/py21/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.dashboard);
 router.get('/login/:id', dashboardControllerPY21.login);
 router.get('/register/:id', dashboardControllerPY21.register);
 router.get('/error404/:id', dashboardControllerPY21.error);
 router.get('/notauthorized/:id', dashboardControllerPY21.notauthorized);
+// Auth user
+router.get('/py21/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.dashboard);
 router.get('/config/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.config);
-router.get('/profile/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.profile);
 router.get('/contracts/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.contracts);
-router.get('/earnings/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.earnings);
 router.get('/retreats/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.retreats);
-router.get('/users/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.users);
-router.get('/seller/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.seller);
-router.get('/paymethods/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.paymethods);
 router.get('/deposits/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.deposits);
+// router.get('/earnings/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.earnings);
+// router.get('/profile/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.profile);
+
+// Auth admin
+router.get('/seller/:id', authControllerPY21.authenticatedAdminOrSeller, dashboardControllerPY21.seller);
+router.get('/users/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.users);
+router.get('/pay/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.pay);
+router.get('/paymethods/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.paymethods);
 router.get('/duration/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.duration);
-router.get('/pay/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.pay);
 
 //POST
 router.post('/loginpy21', dashboardControllerPY21.sesionstart);
 router.post('/reguserpy21', dashboardControllerPY21.reguserpy21);
 
 // Cerrar Sesión
-router.get('/logout/:id', userControllerPY21.closeSesion);
+router.get('/logout/PYT-21', userControllerPY21.closeSesion);
 
 
 
@@ -125,25 +131,37 @@ router.get('/logout/:id', userControllerPY21.closeSesion);
 /*--------------------------------------------------*/
 
 //PYT-24
-router.get('/py24/:id', dashboardControllerPY24.dashboard);
+router.get('/web/:id', dashboardControllerPY24.web);
 router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/error24/:id', dashboardControllerPY24.error);
+
+// Auth user
+router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.dashboard);
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
-router.get('/config24/:id', dashboardControllerPY24.config);
-router.get('/profile24/:id', dashboardControllerPY24.profile);
-router.get('/contracts24/:id', dashboardControllerPY24.contracts);
-router.get('/earnings24/:id', dashboardControllerPY24.earnings);
-router.get('/retreats24/:id', dashboardControllerPY24.retreats);
-router.get('/users24/:id', dashboardControllerPY24.users);
-router.get('/seller24/:id', dashboardControllerPY24.seller);
-router.get('/paymethods24/:id', dashboardControllerPY24.paymethods);
-router.get('/deposits24/:id', dashboardControllerPY24.deposits);
-router.get('/duration24/:id', dashboardControllerPY24.duration);
-router.get('/th/:id', dashboardControllerPY24.th);
-router.get('/plans/:id', dashboardControllerPY24.plans);
-router.get('/web/:id', dashboardControllerPY24.web);
-router.get('/paym/:id', dashboardControllerPY24.paymanag);
+router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
+router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
+router.get('/deposits24/:id', authControllerPY24.authenticatedUser,  dashboardControllerPY24.deposits);
+router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
+
+// Auth Admin
+router.get('/seller24/:id', authControllerPY24.authenticatedAdminOrSeller, dashboardControllerPY24.seller);
+router.get('/users24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.users);
+router.get('/paymethods24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.paymethods);
+router.get('/th/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.th);
+router.get('/paym/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.paymanag);
+
+// router.get('/profile24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.profile);
+// router.get('/contracts24/:id', dashboardControllerPY24.contracts);
+// router.get('/earnings24/:id', dashboardControllerPY24.earnings);
+// router.get('/duration24/:id', dashboardControllerPY24.duration);
+
+//POST
+router.post('/loginpy24', dashboardControllerPY24.sesionstart);
+router.post('/reguserpy24', dashboardControllerPY24.reguserpy24);
+
+// Cerrar Sesión
+router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 // 404
 router.use((req, res, next) => {

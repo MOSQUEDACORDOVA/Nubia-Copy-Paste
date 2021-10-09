@@ -4,6 +4,7 @@ const exphbs = require('express-handlebars');
 const path = require('path');
 const db = require('./config/db');
 const db21 = require('./config/dbPY21');
+const db24 = require('./config/dbPY24');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -29,7 +30,16 @@ const fileupload = require('express-fileupload');
  	.catch(err => {
  		console.log('Error: ', err);
  	});
+
 require('./models/PYT21/Usuarios');
+// Conectar con la base de datos PYT24
+db24.sync()
+	.then(() => {
+		console.log('Base de datos conectada PY24');
+	})
+	.catch(err => {
+		console.log('Error: ', err);
+	});
 // Crear el servidor de express
 const app = express();
 
