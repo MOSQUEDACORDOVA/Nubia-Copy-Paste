@@ -328,7 +328,7 @@ exports.users = (req, res) => {
   } else if(req.user.type_user === 'Vendedor') {
     roleClient = true;
     roleSeller = true;
-  }
+  } 
   else {
     roleAdmin = true;
   }
@@ -363,6 +363,8 @@ exports.seller = (req, res) => {
     roleSeller = true;
   } else if(req.user.type_user === 'Administrador') {
     roleAdmin = true;
+  } else {
+    roleAdmin = true;
   }
     res.render(proyecto+"/seller", {
       pageName: "Vendedores",
@@ -395,10 +397,11 @@ exports.paymethods = (req, res) => {
   } else if(req.user.type_user === 'Vendedor') {
     roleClient = true;
     roleSeller = true;
-  }
+  } 
   else {
     roleAdmin = true;
   }
+
     res.render(proyecto+"/paymethods", {
       pageName: "Formas de Pago",
       dashboardPage: true,
@@ -466,7 +469,7 @@ exports.deposits = (req, res) => {
   } else if(req.user.type_user === 'Vendedor') {
     roleClient = true;
     roleSeller = true;
-  }
+  } 
   else {
     roleAdmin = true;
   }

@@ -1,12 +1,14 @@
 <div class="app-content content py21">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            {{#if roleSeller}}
             <div class="alert alert-primary" role="alert">
                 <div class="alert-body text-primary"><strong>Link para referir</strong><br>https://cbfxcapital.com/link_referido</div>
             </div>
-            
+            {{/if}}
             <section id="basic-datatable">
                 <div class="row">
+                    {{#if roleAdmin}}
                     <div class="col-12">
                         <div class="card">
                             <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Usuarios</h6></div></div>
@@ -63,7 +65,7 @@
                             </div>
                         </div>
                     </div>
-                    
+                    {{/if}}
                     <div class="col-12">
                         <div class="card">
                             <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Referidos</h6></div></div>

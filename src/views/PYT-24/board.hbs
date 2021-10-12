@@ -1,15 +1,18 @@
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            {{#if roleClient}}
             <div class="alert alert-warning" role="alert">
                 <div class="alert-body">
                     ¡Cuenta no verificada! Para poder de todos nuestros servicios debes <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#verificar">verificar tu cuenta</a>.
                 </div>
             </div>
+            {{/if}}
 
             <!-- Dashboard Ecommerce Starts -->
             <section id="dashboard-ecommerce">
-                <div class="row match-height">                       
+                <div class="row match-height">     
+                    {{#if roleClient}}                  
                     <div class="col-lg-6 col-12">
                         <div class="card">
                             <div class="card-header d-flex justify-content-between align-items-sm-center align-items-start flex-sm-row flex-column">
@@ -26,8 +29,9 @@
                             </div>
                         </div>
                     </div>  
+                    {{/if}}
 
-                    <div class="col-lg-6 col-12">
+                    <div class="{{#if roleAdmin}}col-xl-8 {{/if}}col-lg-6 col-12">
                         <div class="row match-height">
                             <!-- SALDO -->
                             <div class="col-lg-6 col-md-4 col-6">
@@ -311,6 +315,7 @@
                 </div>
             </section>
 
+            {{#if roleClient}}
             <div class="row">
                 <div class="col-lg-8 col-md-10 col-12 mb-1">
                     <div class="card">
@@ -379,6 +384,7 @@
                     </div>
                 </div>
             </div>
+            {{/if}}
 
             <!--- MODAL --->
             <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">

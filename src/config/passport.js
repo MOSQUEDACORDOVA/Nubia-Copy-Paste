@@ -22,12 +22,16 @@ var Usuarios = "";
 switch (req.body.proyect) {
 	case 'PYT4':
 		console.log("q")
-Usuarios = require('../models/PYT4/Usuarios');	
+		Usuarios = require('../models/PYT4/Usuarios');	
 		break;
-		case 'PYT21':
-			console.log("q")
-	Usuarios = require('../models/PYT21/Usuarios');	
-			break;
+	case 'PYT21':
+		console.log("21")
+		Usuarios = require('../models/PYT21/Usuarios');	
+		break;
+	case 'PYT24':
+		console.log("24")
+		Usuarios = require('../models/PYT24/Usuarios');	
+		break;
 	default:
 		break;
 }
