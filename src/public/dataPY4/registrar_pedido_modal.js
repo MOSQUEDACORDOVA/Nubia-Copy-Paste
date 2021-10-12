@@ -327,6 +327,7 @@ $('#select_asentamiento_me').prepend('<option selected value="' + found.cpId + '
        $('input[name="avenida"]').val(found.avenida)
         $('input[name="referencia"]').val(found.referencia)
       $('input[name="telefono"]').val(found.telefono)
+      $('input[name="sucursal"]').val(found.sucursaleId)
 
 
 })

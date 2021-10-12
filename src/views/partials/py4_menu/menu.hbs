@@ -58,6 +58,7 @@ $('.municipio').val(municipio)
 </script>
 <input type="text" id="array" hidden value="{{clientes_d}}">
 <input type="text" id="array_pedido" hidden value="{{pedidos_}}">
+<input type="text" id="array_sucursales" hidden value="{{sucursales_}}">
 <!-- BEGIN: Header-->
 <nav
     class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py4">
@@ -249,6 +250,10 @@ $('.municipio').val(municipio)
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Vehiculos</span></a>
             </li>
+             <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
+                        data-i18n="Corte">Sucursales</span></a>
+            </li>
 
 
         </ul>
@@ -320,7 +325,11 @@ $('.municipio').val(municipio)
                         </select>
 
                         </div>
-
+                            <div class="form-group" hidden><label for="register-fraccionamiento"
+                                class="form-label">Sucursal</label><input type="text" name="sucursal"
+                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                                class="form-control mb-2">
+                        </div>
                         <div class="form-group" hidden><label for="register-fraccionamiento"
                                 class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
                                 placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
@@ -763,9 +772,10 @@ $('.municipio').val(municipio)
               <div class="form-group"><label for="register-sucursal"
                   class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
                   name="sucursal" class="form-control mb-2">
-                  <option selected=""> Bugambilias </option>
-                  <option> Patria </option>
-                  <option> Adamar </option>
+                  <option selected=""> Seleccione una sucursal </option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
                 </select></div>
               <!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"

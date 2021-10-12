@@ -8,6 +8,7 @@ const Personal = require("../../models/PYT4/Personal");
 const Vehiculos = require("../../models/PYT4/Vehiculos");
 const GPrestados = require("../../models/PYT4/GPrestados");
 const CoP = require("../../models/PYT4/CP");
+const Sucursales = require("../../models/PYT4/Sucursales");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -118,7 +119,25 @@ module.exports = {
         });
     });
   },
-
+  Gerentes(){
+    return new Promise((resolve, reject) => {
+      Usuarios.findAll({
+        where: {
+          tipo: {
+            [Op.or]: ['Director', 'Gerente de Sucursal']
+          }
+        },
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  },
 
   actualizarpassW(id, password) {
     //Actualizar clave
@@ -151,7 +170,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.create(
         {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursal: sucursal,estado:cp, cpId: asentamiento})
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento})
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve('Cliente registrado con éxito');
@@ -167,7 +186,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.update(
         {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursal: sucursal,estado:cp, cpId: asentamiento},{
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento},{
             where:
             {
               id: id_cliente
@@ -255,7 +274,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -269,7 +288,7 @@ module.exports = {
       }
       Pedidos.create(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer})
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal })
         .then((data) => {
           let data_set = JSON.stringify(data);
                 
@@ -291,7 +310,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+ PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -305,7 +324,7 @@ module.exports = {
       }
       Pedidos.update(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer}, { where:{
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer,sucursaleId: sucursal}, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -559,7 +578,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Personal.create(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo})
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo, sucursaleId:sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Personal registrado con éxito');
@@ -574,7 +593,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Personal.update(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo, sucursaleId:sucursal}, {where:{
               id: id_personal
             }})
           .then((data) => {
@@ -676,7 +695,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Vehiculos.create(
           {
-            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,})
+            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,sucursaleId: sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Vehículo registrado con éxito');
@@ -691,7 +710,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Vehiculos.update(
           {
-            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,}, {where:{
+            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad, sucursaleId: sucursal}, {where:{
               id: id_vehiculo
             }})
           .then((data) => {
@@ -752,4 +771,92 @@ console.log(hoy)
           });
       });
     },
+
+    //SUCURSALES
+    Sucursales_ALl(){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({include:[
+          {model: Vehiculos , as:'Vehiculos'},
+           {model: Clientes , as:'Clientes'},
+            {model: GPrestados , as:'GPrestados'},
+           {model: Pedidos , as:'Pedidos'},
+           {model: Personal , as:'Personal'}
+        ]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    saveSucursal(nombre, direccion, longitud, latitud, telefono, gerente,telefono_gerente, id_gerente) {
+      return new Promise((resolve, reject) => {
+        Sucursales.create(
+          {nombre: nombre, direccion: direccion, logitud: longitud, latitud: latitud, telefono: telefono, gerente: gerente,telefono_gerente: telefono_gerente, id_gerente: id_gerente})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Sucursal registrada con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    updSucursal(id_Sucursales,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
+      return new Promise((resolve, reject) => {
+        Sucursales.update(
+          {
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+              id: id_Sucursales
+            }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Sucursal actualizada con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    delete_sucursales(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve('data_p');
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Sucursales_id(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    
+    
 };

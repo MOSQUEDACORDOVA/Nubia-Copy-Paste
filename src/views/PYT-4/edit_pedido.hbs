@@ -39,7 +39,7 @@
                             </div>
                          <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
                                 type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control cp_select" id="cp_select" value="{{cliente_let.estado}}">
+                                tabindex="2" class="form-control cp_select" id="cp_select" value="{{pedido_let.cliente.cpId}}">
                                 </div>
 <div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
                                 type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
@@ -54,9 +54,14 @@
                         <label for="register-ciudad" class="form-label">Asentamiento</label>
 
                         <select class="select2 form-select select_asentamiento" id="select_asentamiento" name="asentamiento">
-                            <option value="{{cliente_let.cp.id}}">{{cliente_let.cp.asentamiento}}</option>
+                            <option value="{{pedido_let.cliente.cp.id}}">{{pedido_let.cliente.cp.asentamiento}}</option>
                         </select>
 
+                        </div>
+                         <div class="form-group" hidden><label for="register-fraccionamiento"
+                                class="form-label">Sucursal</label><input type="text" name="sucursal"
+                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                                class="form-control mb-2" value="{{pedido_let.cliente.sucursaleId}}">
                         </div>
                     <div class="form-group" hidden><label for="register-fraccionamiento"
                             class="form-label">Fraccionamiento</label>
