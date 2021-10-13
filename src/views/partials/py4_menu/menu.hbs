@@ -1,60 +1,60 @@
 {{#if login}}{{else}}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 
 
 
 <script>
-$(document).ready(function(){
+    $(document).ready(function () {
+//$('#sucursal_change').modal('show')
 
-  $('.cp_select').on('keyup', (e)=>{
-     $(".select_asentamiento_me").empty();
-let cp = e.target.value
-console.log(cp)
-const data = new FormData();
-data.append("cp", cp);
-$.ajax({
-      url: '/consultaCP',
-      type: 'POST',
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      /*xhr: function () {        
-          var xhr = $.ajaxSettings.xhr();
-          xhr.upload.onprogress = function (event) {
-              var perc = Math.round((event.loaded / event.total) * 100);
-             // $("#nombreArchivoCalendario1").text(inputFile.name);
-             
-              $("#progressBar1").text(perc + '%');
-              $("#progressBar1").css('width', perc + '%');
-          };
-          return xhr;
-      },
-      beforeSend: function (xhr) {
-        displayLoading()
-          $("#progressBar1").text('0%');
-          $("#progressBar1").css('width', '0%');
-      },*/
-      success: function (data, textStatus, jqXHR)
-      {  
-     var municipio = ""
-for (let i = 0; i < data.cp_let.length; i++) {
-  
-  municipio = data.cp_let[0].municipio
-   $(".select_asentamiento_me").append('<option value="'+data.cp_let[i].id+'">'+data.cp_let[i].asentamiento+'</option>');
-}
-console.log(municipio)
-$('.municipio').val(municipio)
-      },
-      error: function (jqXHR, textStatus) { 
-        console.log('error:'+ jqXHR)
-      }
-  });
-  })   
-  
+        $('.cp_select').on('keyup', (e) => {
+            $(".select_asentamiento_me").empty();
+            let cp = e.target.value
+            console.log(cp)
+            const data = new FormData();
+            data.append("cp", cp);
+            $.ajax({
+                url: '/consultaCP',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                /*xhr: function () {        
+                    var xhr = $.ajaxSettings.xhr();
+                    xhr.upload.onprogress = function (event) {
+                        var perc = Math.round((event.loaded / event.total) * 100);
+                       // $("#nombreArchivoCalendario1").text(inputFile.name);
+                       
+                        $("#progressBar1").text(perc + '%');
+                        $("#progressBar1").css('width', perc + '%');
+                    };
+                    return xhr;
+                },
+                beforeSend: function (xhr) {
+                  displayLoading()
+                    $("#progressBar1").text('0%');
+                    $("#progressBar1").css('width', '0%');
+                },*/
+                success: function (data, textStatus, jqXHR) {
+                    var municipio = ""
+                    for (let i = 0; i < data.cp_let.length; i++) {
 
-})
+                        municipio = data.cp_let[0].municipio
+                        $(".select_asentamiento_me").append('<option value="' + data.cp_let[i].id + '">' + data.cp_let[i].asentamiento + '</option>');
+                    }
+                    console.log(municipio)
+                    $('.municipio').val(municipio)
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR)
+                }
+            });
+        })
+
+
+    })
 </script>
 <input type="text" id="array" hidden value="{{clientes_d}}">
 <input type="text" id="array_pedido" hidden value="{{pedidos_}}">
@@ -68,17 +68,26 @@ $('.municipio').val(municipio)
                 <li class="nav-item"><a class="nav-link menu-toggle" href="#"><i class="ficon"
                             data-feather="menu"></i></a></li>
             </ul>
-          
+
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-             <li class="nav-item dropdown dropdown-notification me-25">
-                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#add_cliente">
+            <li class="nav-item dropdown dropdown-notification me-25" >
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#sucursal_change" id="cambiar_sucursal">
+                    <i class="ficon me-1" data-feather='user-plus'></i>
+                    <span class="menu-title text-truncate añadir">Cambiar<br><span id="suc_actual">Sucursal</span></span>
+                </a>
+            </li>
+            <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#add_cliente">
                     <i class="ficon me-1" data-feather='user-plus'></i>
                     <span class="menu-title text-truncate añadir">Añadir <br>cliente</span>
                 </a>
             </li>
-                       <li class="nav-item dropdown dropdown-notification me-25">
-                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
+            <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#registro_pedido_modal">
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
                     <span class="menu-title text-truncate añadir">Añadir <br>pedido</span>
                 </a>
@@ -94,7 +103,8 @@ $('.municipio').val(municipio)
                             class="avatar-status-online"></span></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
-                     <a class="dropdown-item"   href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar Sesion</a>
+                    <a class="dropdown-item" href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar
+                        Sesion</a>
 
                 </div>
             </li>
@@ -230,7 +240,14 @@ $('.municipio').val(municipio)
     <div class="shadow-bottom"></div>
     <div class="main-menu-content" style="background: transparent;">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li core-menu-vertical-section="" class="navigation-header mt-2"><span class="navigation-section-text text-white">Opciones</span><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg></li>
+            <li core-menu-vertical-section="" class="navigation-header mt-2"><span
+                    class="navigation-section-text text-white">Opciones</span><svg xmlns="http://www.w3.org/2000/svg"
+                    width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+                    <circle cx="12" cy="12" r="1"></circle>
+                    <circle cx="19" cy="12" r="1"></circle>
+                    <circle cx="5" cy="12" r="1"></circle>
+                </svg></li>
             <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
                         data-feather="home"></i><span class="menu-title text-truncate"
                         data-i18n="tablero">Tablero</span></a></li>
@@ -242,15 +259,15 @@ $('.municipio').val(municipio)
                     href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Personal</span></a>
             </li>
-           <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/corte_py4"><i data-feather='pie-chart'></i><span class="menu-title text-truncate"
+            <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/corte_py4"><i
+                        data-feather='pie-chart'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Corte</span></a>
             </li>
             <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Vehiculos</span></a>
             </li>
-             <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+            <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Sucursales</span></a>
             </li>
@@ -271,29 +288,32 @@ $('.municipio').val(municipio)
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                
-                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal" method="post">
-                           
+
+                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal"
+                    method="post">
+
 
                     <div class="form-group">
-                                            <label class="form-label" for="select2-basic">Cliente</label>
-                                            <select class="select2 form-select" id="select2-basic" name="id_cliente">
-                                                <option selected=""> Seleccione un cliente </option>
-                                              {{#each clientes_arr as |cliente i|}}
+                        <label class="form-label" for="select2-basic">Cliente</label>
+                        <select class="select2 form-select" id="select2-basic" name="id_cliente">
+                            <option selected=""> Seleccione un cliente </option>
+                            {{#each clientes_arr as |cliente i|}}
                             <option value="{{id}}"> {{firstName}} {{lastName}}</option>
                             {{/each}}
-                                            </select>
-                   </div>
+                        </select>
+                    </div>
 
-                    <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse" data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
                         Modificar Cliente
                     </button>
 
-                   <div class="collapse" id="client-info">
+                    <div class="collapse" id="client-info">
 
                         <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
-                            <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
-                                tabindex="1" class="form-control mb-2" autofocus required>
+                            <input type="text" name="firstName" placeholder="Primer Nombre"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" autofocus
+                                required>
                         </div>
 
                         <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
@@ -303,29 +323,33 @@ $('.municipio').val(municipio)
                             <div class="divider-text">Dirección</div>
                         </div>
 
-                       
-                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
-                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control cp_select" id="cp_select" >
-                                </div>
 
-                        <div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
-                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
-                                </div>
-                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
-                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control municipio"  id="municipio" readonly >
-                                </div>          
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
+                                Postal</label><input type="text" name="cp" placeholder="cp"
+                                aria-describedby="register-lastName" tabindex="2" class="form-control cp_select"
+                                id="cp_select">
+                        </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName"
+                                class="form-label">Estado</label><input type="text" name="ciudad" placeholder="Ciudad"
+                                aria-describedby="register-lastName" tabindex="2" class="form-control" value="Jalisco"
+                                id="ciudad_select" readonly>
+                        </div>
+                        <div class="form-group mb-2"><label for="register-lastName"
+                                class="form-label">Municipio</label><input type="text" name="municipio"
+                                placeholder="Municipio" aria-describedby="register-lastName" tabindex="2"
+                                class="form-control municipio" id="municipio" readonly>
+                        </div>
                         <div class="form-group mb-2">
-                        <label for="register-ciudad" class="form-label">Asentamiento</label>
+                            <label for="register-ciudad" class="form-label">Asentamiento</label>
 
-                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento_me" name="asentamiento">
-                            
-                        </select>
+                            <select class="select2 form-select select_asentamiento_me" id="select_asentamiento_me"
+                                name="asentamiento">
+
+                            </select>
 
                         </div>
-                            <div class="form-group" hidden><label for="register-fraccionamiento"
+                        <div class="form-group" hidden><label for="register-fraccionamiento"
                                 class="form-label">Sucursal</label><input type="text" name="sucursal"
                                 placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
                                 class="form-control mb-2">
@@ -335,38 +359,39 @@ $('.municipio').val(municipio)
                                 placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
                                 class="form-control mb-2">
                         </div>
-                        <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
-                                name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                        <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input
+                                type="text" name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
                                 class="form-control mb-2"></div>
 
-                        <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
-                                name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                        <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input
+                                type="text" name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
                                 class="form-control mb-2"></div>
 
                         <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
-                                type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                                class="form-control mb-2"></div>
+                                type="text" name="calle" placeholder="Calle" aria-describedby="register-calle"
+                                tabindex="8" class="form-control mb-2"></div>
                         <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
-                        <input
-                                type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
-                                tabindex="9" class="form-control mb-2"></div>
+                            <input type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                                tabindex="9" class="form-control mb-2">
+                        </div>
 
-                        <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                                type="text" name="referencia" placeholder="Referencia"
-                                aria-describedby="register-referencia" tabindex="9"
+                        <div class="form-group"><label for="register-referencia"
+                                class="form-label">Referencia</label><input type="text" name="referencia"
+                                placeholder="Referencia" aria-describedby="register-referencia" tabindex="9"
                                 class="form-control mb-2"></div>
 
                         <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
                             <div class="input-group mb-2">
-                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                <div class="input-group-prepend"><span id="basic-addon1"
+                                        class="input-group-text">+52</span>
                                 </div>
-                                <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                                    aria-describedby="register-telefono" tabindex="11"
+                                <input type="number" name="telefono" placeholder="(760) 123 00 00"
+                                    mask="(000) 000 00 00" aria-describedby="register-telefono" tabindex="11"
                                     class="form-control">
                             </div>
                         </div>
 
-                   </div>
+                    </div>
 
                     <div class="divider">
                         <div class="divider-text">Chofer</div>
@@ -374,15 +399,14 @@ $('.municipio').val(municipio)
 
                     <div class="form-group">
                         <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
-                        <select
-                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                        <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2" id='chofer'>
                             <option default>Seleccione un chofer</option>
                             {{#each choferes_ as |chofer i |}}
                             <option data-id="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
-                        <input type="hidden" id="id_chofer" name="id_chofer" >
+                        <input type="hidden" id="id_chofer" name="id_chofer">
                     </div>
 
                     <div class="divider">
@@ -392,192 +416,252 @@ $('.municipio').val(municipio)
                     <div class="mb-1">
                         <ul class="nav nav-pills">
                             <li class="nav-item">
-                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon" aria-expanded="true">Garrafon 19L</a>
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon"
+                                    aria-expanded="true">Garrafon 19L</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella" aria-expanded="false">Botella 1L</a>
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella"
+                                    aria-expanded="false">Botella 1L</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l" aria-expanded="false">Garrafon 11L</a>
+                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l"
+                                    aria-expanded="false">Garrafon 11L</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l" aria-expanded="false">Botella 5L</a>
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l"
+                                    aria-expanded="false">Botella 5L</a>
                             </li>
                         </ul>
 
                         <div class="tab-content mt-2">
-                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab" aria-expanded="true">
-                                
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab"
+                                aria-expanded="true">
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_refill_garrafon" name="refill_cant_garrafon"/>
-                                                </div>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_refill_garrafon"
+                                                name="refill_cant_garrafon" />
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont" readonly="readonly" value="0" name="refill_garrafon_mont" hidden>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont"
+                                        readonly="readonly" value="0" name="refill_garrafon_mont" hidden>
                                 </div>
 
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_canje_garrafon" name="canje_cant_garrafon"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont" readonly="readonly" value="0" name="canje_garrafon_mont" hidden>
+                                            <input type="number" class="touchspin" value="0" id="count_canje_garrafon"
+                                                name="canje_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont"
+                                        readonly="readonly" value="0" name="canje_garrafon_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Envase Nuevo</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enNew_garrafon" name="enNew_cant_garrafon"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont" readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden>
+                                            <input type="number" class="touchspin" value="0" id="count_enNew_garrafon"
+                                                name="enNew_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont"
+                                        readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon"/>
-                                                </div>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant" hidden/>
+                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant"
+                                    hidden />
                                 <p class="mb-0">Cantidad Total: <span id="cant_garrafon">0</span></p>
-                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon" hidden/>
-                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon"
+                                    hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
                             </div>
 
-                            
 
-                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+
+                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab"
+                                aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_refill_botella" name="refill_cant_botella"/>
-                                                </div>
-                                    
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_refill_botella"
+                                                name="refill_cant_botella" />
+                                        </div>
+
                                     </div>
-                                    <input type="text" class="form-control mb-1 w-50" id="refill_botella_mont" readonly="readonly" value="0" name="refill_botella_mont" hidden>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_botella_mont"
+                                        readonly="readonly" value="0" name="refill_botella_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_canje_botella" name="canje_cant_botella"/>
-                                                </div>
-                                   
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_botella_mont" readonly="readonly" value="0" name="canje_botella_mont" hidden>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_canje_botella"
+                                                name="canje_cant_botella" />
+                                        </div>
+
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_botella_mont"
+                                        readonly="readonly" value="0" name="canje_botella_mont" hidden>
                                 </div>
-                                 <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Envase Nuevo</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enNew_botella" name="enNew_cant_botella"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella_mont" readonly="readonly" value="0" name="nuevo_botella_mont" hidden>
+                                            <input type="number" class="touchspin" value="0" id="count_enNew_botella"
+                                                name="enNew_cant_botella" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella_mont"
+                                        readonly="readonly" value="0" name="nuevo_botella_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella"/>
-                                                </div>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_botella" name="enobsequio_cant_botella" />
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="number" class="" value="0" id="total_botella" name="total_botella_cant" hidden/>
+                                <input type="number" class="" value="0" id="total_botella" name="total_botella_cant"
+                                    hidden />
                                 <p class="mb-0">Cantidad Total: <span id="cant_botella">0</span></p>
-                                <input type="number" class="" value="0" id="monto_botella_input" name="total_botella" hidden/>
-                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella_input" name="total_botella"
+                                    hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella">0</span></p>
                             </div>
 
 
-                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab"
+                                aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_refill_garrafon11l" name="refill_cant_garrafon11l"/>
-                                                </div>
-                                    </div><input type="text" class="form-control mb-1 w-50" id="refill_garrafon11l_mont" readonly="readonly" value="0" name="refill_garrafon11l_mont" hidden>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_refill_garrafon11l" name="refill_cant_garrafon11l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="refill_garrafon11l_mont"
+                                        readonly="readonly" value="0" name="refill_garrafon11l_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_canje_garrafon11l" name="canje_cant_garrafon11l"/>
-                                                </div>
-                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_garrafon11l_mont" readonly="readonly" value="0" name="canje_garrafon11l_mont" hidden>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_canje_garrafon11l" name="canje_cant_garrafon11l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_garrafon11l_mont"
+                                        readonly="readonly" value="0" name="canje_garrafon11l_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Envase Nuevo</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon11l_mont" readonly="readonly" value="0" name="nuevo_garrafon11l_mont" hidden>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon11l_mont"
+                                        readonly="readonly" value="0" name="nuevo_garrafon11l_mont" hidden>
                                 </div>
- <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l"/>
-                                                </div>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l" />
+                                        </div>
                                     </div>
                                 </div>
 
-                                <input type="number" class="" value="0" id="total_garrafon11l" name="total_garrafon11l_cant" hidden/>
+                                <input type="number" class="" value="0" id="total_garrafon11l"
+                                    name="total_garrafon11l_cant" hidden />
                                 <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l">0</span></p>
-                                <input type="number" class="" value="0" id="monto_garrafon11l_input" name="total_garrafon11l" hidden/>
-                                 <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon11l_input"
+                                    name="total_garrafon11l" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l">0</span></p>
                             </div>
 
-                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
-                                                             
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab"
+                                aria-expanded="false">
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Refil</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_refill_botella5l" name="refill_cant_botella5l"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="refill_botella5l_mont" readonly="readonly" value="0" name="refill_botella5l_mont" hidden>
-                                
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_refill_botella5l"
+                                                name="refill_cant_botella5l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="refill_botella5l_mont"
+                                        readonly="readonly" value="0" name="refill_botella5l_mont" hidden>
+
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
-                                       <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_canje_botella5l" name="canje_cant_botella5l"/>
-                                                </div>
-                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_botella5l_mont" readonly="readonly" value="0" name="canje_botella5l_mont" hidden>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_canje_botella5l"
+                                                name="canje_cant_botella5l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_botella5l_mont"
+                                        readonly="readonly" value="0" name="canje_botella5l_mont" hidden>
                                 </div>
-                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Envase Nuevo</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enNew_botella5l" name="enNew_cant_botella5l"/>
-                                                </div>
-                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella5l_mont" readonly="readonly" value="0" name="nuevo_botella5l_mont" hidden>
+                                            <input type="number" class="touchspin" value="0" id="count_enNew_botella5l"
+                                                name="enNew_cant_botella5l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella5l_mont"
+                                        readonly="readonly" value="0" name="nuevo_botella5l_mont" hidden>
                                 </div>
-                                 <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l"/>
-                                                </div>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" />
+                                        </div>
                                     </div>
                                 </div>
-                                <input type="number" class="" value="0" id="total_botella5l" name="total_botella5l_cant" hidden/>
+                                <input type="number" class="" value="0" id="total_botella5l" name="total_botella5l_cant"
+                                    hidden />
                                 <p class="mb-0">Cantidad Total: <span id="cant_botella5l">0</span></p>
-                                <input type="number" class="" value="0" id="monto_botella5l_input" name="total_botella5l" hidden/>
-                                 <p class="m-0">Costo Total del producto: $<span id="monto_botella5l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella5l_input"
+                                    name="total_botella5l" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella5l">0</span></p>
                             </div>
                         </div>
                     </div>
 
                     <div class="d-flex m-0">
-                       <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden/>
+                        <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden />
                         <b class="m-0">Monto Total: $<span id="total_total">100</span></b>
                     </div>
 
@@ -586,33 +670,34 @@ $('.municipio').val(municipio)
                     </div>
 
                     <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
-                                <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
-                                    tabindex="3" class="form-control mb-2" id="metodo_pago">
-                                    <option selected=""> Efectivo </option>
-                                    <option> Tarjeta </option>
-                                    <option> Transferencia </option>
-                                </select>
-                            </div>
-                            <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
-                        <input type="text" name="status_pago" 
-                            tabindex="1" class="form-control mb-2" readonly id="status_pago" value="Pagado">
+                        <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                            tabindex="3" class="form-control mb-2" id="metodo_pago">
+                            <option selected=""> Efectivo </option>
+                            <option> Tarjeta </option>
+                            <option> Transferencia </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
+                        <input type="text" name="status_pago" tabindex="1" class="form-control mb-2" readonly
+                            id="status_pago" value="Pagado">
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
-                        <input type="text" name="status_pedido" 
-                            tabindex="1" class="form-control mb-2" readonly value="Por entregar">
+                        <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
+                            value="Por entregar">
                     </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones prestados(S/R)</label>
-                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName"
-                            tabindex="1" class="form-control mb-2" required>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            prestados(S/R)</label>
+                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
                     </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
-                                dañados</label>
-                            <input type="text" name="danados" placeholder="Garrafones Dañados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" >
-                        </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            dañados</label>
+                        <input type="text" name="danados" placeholder="Garrafones Dañados"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2">
+                    </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
-                        <input type="text" name="observacion" placeholder="Observación" aria-describedby="register-firstName"
-                            tabindex="1"  class="form-control mb-2" required>
+                        <input type="text" name="observacion" placeholder="Observación"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
                     </div>
             </div>
             <div class="modal-footer">
@@ -625,176 +710,205 @@ $('.municipio').val(municipio)
 </div>
 
 <div class="modal fade" id="add_cliente" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-      style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
-              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
-              <input
-                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control mb-2"
-                  ></div>
-              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
-                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
-                  tabindex="2" class="form-control mb-2"
-                 ></div>
-              <div class="divider">
-                <div class="divider-text">Dirección</div>
-              </div>
-                      
-                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
-                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control cp_select" id="cp_select" >
-                                </div>
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                            type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2"></div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
 
-                        <div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
-                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
-                                </div>
+                    <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
+                            Postal</label><input type="text" name="cp" placeholder="cp"
+                            aria-describedby="register-lastName" tabindex="2" class="form-control cp_select"
+                            id="cp_select">
+                    </div>
+
+                    <div class="form-group mb-2"><label for="register-lastName" class="form-label">Estado</label><input
+                            type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
+                    </div>
 
 
-                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
-                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control municipio"  id="municipio" readonly >
-                                </div>          
-                        <div class="form-group mb-2">
+                    <div class="form-group mb-2"><label for="register-lastName"
+                            class="form-label">Municipio</label><input type="text" name="municipio"
+                            placeholder="Municipio" aria-describedby="register-lastName" tabindex="2"
+                            class="form-control municipio" id="municipio" readonly>
+                    </div>
+                    <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Asentamiento</label>
 
-                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento" name="asentamiento">
-                            
+                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento"
+                            name="asentamiento">
+
                         </select>
 
+                    </div>
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" required>
                         </div>
-              <div class="form-group" hidden><label for="register-fraccionamiento"
-                  class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
-                  placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
-                  name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
-                  name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text"
-                  name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text"
-                  name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                  type="text" name="referencia" placeholder="Referencia"
-                  aria-describedby="register-referencia" tabindex="9"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
-                <div class="input-group">
-                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
-                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                    aria-describedby="register-telefono" tabindex="11"
-                    class="form-control mb-2" required>
-                </div>
-              </div>
-              <div class="divider">
-                <div class="divider-text">Familiares</div>
-              </div>
-              <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
-                  1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
-                  aria-describedby="register-nombre_familiar_1" tabindex="12"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
-                  1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
-                  aria-describedby="register-apellido_familiar_1" tabindex="13"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
-                  1</label>
-                <div class="input-group">
-                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
-                  <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
-                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
-                    class="form-control mb-2">
-                </div>
-              </div>
-              <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
-                  2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
-                  aria-describedby="register-nombre_familiar_2" tabindex="15"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
-                  2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
-                  aria-describedby="register-apellido_familiar_2" tabindex="16"
-                  class="form-control mb-2"
-                 ></div>
-              <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
-                  2</label>
-                <div class="input-group">
-                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
-                  <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
-                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
-                    class="form-control mb-2">
-                </div>
-              </div>
-              <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
-                  cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
-                  name="tipo_cliente" class="form-control mb-2">
-                  <option selected=""> Residencial </option>
-                  <option> Negocio </option>
-                  <option> Punto de venta </option>
-                  <option> Sucursal </option>
-                  <option> Independiente </option>
-                </select></div>
-              <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
-                  cliente?</label>
-                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
-                    name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
-                    class="custom-control-input me-1" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
-                </div>
-              </div>
-              <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
-                  pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
-                  mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                  class="form-control mb-2"></div>
-              <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de garrafones
-                  en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
-                  aria-describedby="register-utimos_botellones" tabindex="23"
-                  class="form-control mb-2"></div>
-              <div class="form-group"><label for="register-sucursal"
-                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
-                  name="sucursal" class="form-control mb-2">
-                  <option selected=""> Seleccione una sucursal </option>
-                  {{#each sucursales_let as |sucursal i|}}
-                  <option value={{id}}> {{nombre}} </option>
-                  {{/each}}
-                </select></div>
-              <!--bindings={
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">Familiares</div>
+                    </div>
+                    <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del
+                            familiar
+                            1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                            aria-describedby="register-nombre_familiar_1" tabindex="12" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del
+                            familiar
+                            1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                            aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del
+                            familiar
+                            1</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                                class="form-control mb-2">
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
+                            familiar
+                            2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                            aria-describedby="register-nombre_familiar_2" tabindex="15" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del
+                            familiar
+                            2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                            aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del
+                            familiar
+                            2</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                                class="form-control mb-2">
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                            cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                            name="tipo_cliente" class="form-control mb-2">
+                            <option selected=""> Residencial </option>
+                            <option> Negocio </option>
+                            <option> Punto de venta </option>
+                            <option> Sucursal </option>
+                            <option> Independiente </option>
+                        </select></div>
+                    <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                            cliente?</label>
+                        <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
+                                name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                                class="custom-control-input me-1" value="SI"><label for="customCheck1"
+                                class="custom-control-label">Sí</label>
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                            último
+                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
+                            garrafones
+                            en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
+                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-sucursal" class="form-label">Sucursal</label><select
+                            aria-describedby="register-sucursal" tabindex="24" name="sucursal"
+                            class="form-control mb-2">
+                            <option selected=""> Seleccione una sucursal </option>
+                            {{#each sucursales_let as |sucursal i|}}
+                            <option value={{id}}> {{nombre}} </option>
+                            {{/each}}
+                        </select></div>
+                    <!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
 }-->
-              <!--container-->
-              <div class="divider">
-                <div class="divider-text">Acceso</div>
-              </div>
-              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
-                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
-                  tabindex="25" class="form-control mb-2"
-                 ></div>
-          </div>
-          <div class="modal-footer">
-             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
-          </div>
-          </form>
+                    <!--container-->
+                    <div class="divider">
+                        <div class="divider-text">Acceso</div>
+                    </div>
+                    <div class="form-group"><label for="register-email" class="form-label">Correo</label><input
+                            type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                            tabindex="25" class="form-control mb-2"></div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26"
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+            </div>
+            </form>
         </div>
-      </div>
     </div>
+</div>
+<div class="modal fade" id="sucursal_change" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Cambiar Sucursal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal"
+                    method="post">
+                    <div class="mb-1">
+                        <label class="form-label" for="basicSelect">Selecciona el proyecto</label>
+                        <select class="form-select" id="basicSelect">
+                            <option value="default">Default</option>
+                            <option value="/py4/PYT-4">PYT-4</option>
+                            <option value="/py21/PYT-21">PYT-21</option>
+                            <option value="/py24/PYT-24">PYT-24</option>
+                            <option value="/py27/PYT-27">PYT-27</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Cambiar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- END: Main Menu-->
 {{/if}}

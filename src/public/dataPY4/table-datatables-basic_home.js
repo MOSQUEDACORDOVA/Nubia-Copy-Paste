@@ -227,7 +227,29 @@ maxDate2 = new DateTime($('#max1'), {
               '</span>'
             );
           }
-        },{
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
           targets: 5,
           render:function(data){
            // return moment.tz(data, 'America/Mexico_City').format('L');
@@ -356,6 +378,27 @@ maxDate2 = new DateTime($('#max1'), {
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
               '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -583,5 +626,30 @@ async function cambioSP(id, status) {
   if (estado) {
     window.location.href = `/cambiaS_pedido/${id}/${estado}`;
   }
+}
 
+async function cambioPago(id, status) {
+  const { value: estado } = await Swal.fire({
+    title: 'Seleccione un nuevo Status',
+    input: 'select',
+    inputOptions: {
+        Pagado: 'Pagado',
+        'Por verificar': 'Por verificar',
+    },
+    inputPlaceholder: 'Seleccione un nuevo Status',
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value === status) {
+          resolve('Debe seleccionar un estado diferente')
+        } else {
+           resolve()
+        }
+      })
+    }
+  })
+  
+  if (estado) {
+    window.location.href = `/cambia_S_pago/${id}/${estado}`;
+  }
 }

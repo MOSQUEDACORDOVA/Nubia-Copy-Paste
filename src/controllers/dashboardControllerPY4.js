@@ -8,7 +8,8 @@ const passport = require("passport");
 var moment = require('moment-timezone');
 
 exports.dashboard = (req, res) => {
-  
+  console.log(req.session.sucursal_select)
+
   let msg = false;
   if (req.params.msg) {
     msg = req.params.msg;
@@ -19,6 +20,7 @@ exports.dashboard = (req, res) => {
   }else{
     dia = new Date()
   }
+ 
   //DATA-COMUNES
   DataBase.ClientesAll().then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
@@ -32,7 +34,6 @@ exports.dashboard = (req, res) => {
           let sucursales_let = JSON.parse(sucursales_)
         DataBase.PrestadosGroupByCliente().then((prestamos_)=>{
           let prestamos_let = JSON.parse(prestamos_)  
-                 
                 let prestamos_byday = []
                 let prestamos_del_dia = 0
                 let residencial_cont = 0
@@ -43,7 +44,7 @@ exports.dashboard = (req, res) => {
                   
                   let iguales = moment(fecha_created).isSame(dia, 'day'); // true
                   
-                    prestamos_byday.push(prestamos_let[i])
+                    prestamos_byday.push(prestamos_let[i])//OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
                     prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad)                    
                     switch (prestamos_let[i].cliente.tipo) {
                       case 'Residencial':
@@ -137,7 +138,7 @@ exports.sesionstart = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
-  passport.authenticate("local", function (err, user, info) {
+  passport.authenticate("local",  function (err, user, info) {
     if (err) {
       console.log(err)
       return next(err);
@@ -146,12 +147,19 @@ exports.sesionstart = (req, res) => {
       console.log("no existe usuario")
       return res.redirect("/loginpy4");
     }
-    req.logIn(user, function (err) {
+    req.logIn(user, async function (err) {
       if (err) {
         console.log(err)
         return next(err);
       }
       console.log(user.dataValues.id);
+     let id_sucursal = await DataBase.Sucursal_byId_gerente(user.dataValues.id).then((resp)=>{
+        let resp_ = JSON.parse(resp)
+        let sucursal_select = resp_[0].id
+      return  sucursal_select
+      })
+      req.session.sucursal_select= id_sucursal
+console.log(req.session.sucursal_select)
       return res.redirect('/homepy4')
     });
   })(req, res);
@@ -159,6 +167,7 @@ exports.sesionstart = (req, res) => {
 
 
 exports.usuariosTable = (req, res) => {
+  
   let msg = false;
 
   if (req.params.msg) {
@@ -434,6 +443,24 @@ exports.cambiaS_pedido = (req, res) => {
   
 
   DataBase.CambiaStatus(id_pedido,status).then((respuesta) =>{
+    
+    let msg=respuesta
+    res.redirect('/homepy4/'+msg)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+exports.cambia_S_pago = (req, res) => {
+  
+  const user = res.locals.user
+  const id_pedido = req.params.id
+  const status = req.params.status
+  
+
+  DataBase.CambiaStatusPago(id_pedido,status).then((respuesta) =>{
     
     let msg=respuesta
     res.redirect('/homepy4/'+msg)

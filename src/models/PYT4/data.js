@@ -410,6 +410,26 @@ console.log(hoy)
         });
     });
   },
+  CambiaStatusPago(id_pedido,status) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          status_pago: status}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+                       resolve("Se actualizó correctamente el status del pago");
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
  UpdateGPRestados(id_chofer,cantidad,id_cliente, fecha,nueva_cantidad) {
     return new Promise((resolve, reject) => {
       let hoy =moment().format('MM/DD/YYYY')
@@ -857,6 +877,21 @@ console.log(hoy)
           });
       });
     },
-    
+    Sucursal_byId_gerente(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({where: {
+          id_gerente: id
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     
 };

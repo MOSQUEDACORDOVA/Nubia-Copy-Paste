@@ -37,7 +37,6 @@ router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
-router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
@@ -84,6 +83,7 @@ router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardCo
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
 router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 
