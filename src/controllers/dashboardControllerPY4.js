@@ -7,6 +7,25 @@ const passport = require("passport");
 //var moment = require('moment'); // require
 var moment = require('moment-timezone');
 
+exports.change_sucursal = (req, res) => {
+  console.log(req.session.sucursal_select)
+let nuevo_id = req.body.cambia_sucursal
+  //DATA-COMUNES
+  DataBase.Sucursales_id(nuevo_id).then((resp)=>{
+    let resp_ = JSON.parse(resp)
+    console.log(resp_)
+   let sucursal_select = resp_[0].id
+   req.session.sucursal_select= sucursal_select
+   console.log(req.session.sucursal_select)
+         return res.redirect('/homepy4')
+     
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
 exports.dashboard = (req, res) => {
   console.log(req.session.sucursal_select)
 
@@ -20,19 +39,19 @@ exports.dashboard = (req, res) => {
   }else{
     dia = new Date()
   }
- 
+ let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  DataBase.ClientesAll().then((clientes_d)=>{
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAll().then((pedidos_)=>{
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAll().then((choferes)=>{
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
-        DataBase.PrestadosGroupByCliente().then((prestamos_)=>{
+        DataBase.PrestadosGroupByClienteS(id_sucursal).then((prestamos_)=>{
           let prestamos_let = JSON.parse(prestamos_)  
                 let prestamos_byday = []
                 let prestamos_del_dia = 0
@@ -174,13 +193,15 @@ exports.usuariosTable = (req, res) => {
     msg = req.params.msg;
   }
   let proyecto = "PYT-4"
-  DataBase.ClientesAll().then((clientes_d)=>{
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length 
-     DataBase.PedidosAll().then((pedidos_)=>{
+     let count = clientes_arr.length
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAll().then((choferes)=>{
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
@@ -258,7 +279,10 @@ exports.delete_cliente = (req, res) => {
  exports.editar_cliente = (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id
-  
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
 DataBase.ClientebyId(id_).then((clientes_)=>{
   let cliente_let = JSON.parse(clientes_)[0]
   DataBase.Sucursales_ALl().then((sucursales_)=>{
@@ -278,6 +302,11 @@ let msg = "Error en sistema";
 return res.redirect("/errorpy4/" + msg);
 });
 }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+  }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
@@ -369,9 +398,14 @@ exports.delete_pedido = (req, res) => {
   
 DataBase.PedidoById(id_).then((pedidos_)=>{
   let pedido_let = JSON.parse(pedidos_)[0]
-  
- DataBase.ChoferesAll().then((choferes)=>{
-  let choferes_ = JSON.parse(choferes)
+
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
   
  let garrafon19L = JSON.parse(pedido_let.garrafon19L);
  let botella1L = JSON.parse(pedido_let.botella1L)
@@ -403,6 +437,11 @@ return res.redirect("/errorpy4/" + msg);
   return res.redirect("/errorpy4/" + msg);
   });
 }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+  }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
@@ -479,21 +518,20 @@ exports.personal_table = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
-  
-  DataBase.ClientesAll().then((clientes_d)=>{
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     
-     DataBase.PedidosAll().then((pedidos_)=>{
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
        
-      DataBase.PersonalAll().then((personal_)=>{
+      DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
         let personal_let = JSON.parse(personal_)
          let count = personal_let.length
-        
-           DataBase.ChoferesAll().then((choferes)=>{
-            let choferes_ = JSON.parse(choferes)
             DataBase.vehiculosAll().then((vehiculos_)=>{
               let vehiculos_let = JSON.parse(vehiculos_)
                let count = vehiculos_let.length
@@ -572,11 +610,20 @@ exports.delete_personal = (req, res) => {
  exports.editar_personal = (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id
-  
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
 DataBase.PersonalById(id_).then((personal_)=>{
   let personal_let = JSON.parse(personal_)[0]
   
- DataBase.vehiculosAll().then((vehiculos_)=>{
+ DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
   let vehiculos_let = JSON.parse(vehiculos_)
    let count = vehiculos_let.length
    DataBase.Sucursales_ALl().then((sucursales_)=>{
@@ -604,6 +651,24 @@ return res.redirect("/errorpy4/" + msg);
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+
+
+
  };
 
  exports.save_personal_py4 = (req, res) => {
@@ -639,19 +704,22 @@ exports.corte_table = (req, res) => {
   }else{
     dia = new Date()
   }
-  
-  DataBase.ClientesAll().then((clientes_d)=>{
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     
-     DataBase.PedidosAllGroupByChoferes().then((pedidos_)=>{
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-      DataBase.PersonalAll().then((personal_)=>{
-        let personal_let = JSON.parse(personal_)
-         let count = personal_let.length        
-           DataBase.ChoferesAll().then((choferes)=>{
-            let choferes_ = JSON.parse(choferes)
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
+          let personal_let = JSON.parse(personal_)
+           let count = personal_let.length
+      DataBase.PedidosAllGroupByChoferesS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
             let pedidos_byday = []
             let ventas_del_dia = 0
             let cont_ventas_del_dia = 0
@@ -669,7 +737,6 @@ exports.corte_table = (req, res) => {
                 pedidos_byday.push(pedidos_let[i])
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
-                
                 switch (pedidos_let[i].cliente.tipo) {
                   case 'Residencial':
                     residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
@@ -688,8 +755,7 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-               pedidos_byday =JSON.stringify(pedidos_byday)
-              
+               pedidos_byday =JSON.stringify(pedidos_byday)           
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -722,12 +788,16 @@ choferes_,
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+   }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
 };
 
 
 //CORTE PRESTADOS
 exports.corte_prestados_table = (req, res) => {
-  
   let id_chofer  = req.params. id_chofer, 
   cantidad = req.params.cantidad ,
   id_cliente = req.params.id_cliente ,
@@ -776,20 +846,20 @@ exports.vehiculos_table = (req, res) => {
     msg = req.params.msg;
   }
   
-  DataBase.ClientesAll().then((clientes_d)=>{
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     
-     DataBase.PedidosAll().then((pedidos_)=>{
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)       
        
-      DataBase.vehiculosAll().then((vehiculos_)=>{
+      DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
         let vehiculos_let = JSON.parse(vehiculos_)
          let count = vehiculos_let.length
-        
-           DataBase.ChoferesAll().then((choferes)=>{
-            let choferes_ = JSON.parse(choferes)
             DataBase.Sucursales_ALl().then((sucursales_)=>{
               let sucursales_let = JSON.parse(sucursales_)
     res.render("PYT-4/vehiculos", {
@@ -915,19 +985,17 @@ exports.sucursales = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
-  //comunes
-  DataBase.ClientesAll().then((clientes_d)=>{
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     
-     DataBase.PedidosAll().then((pedidos_)=>{
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       
-           
-           DataBase.ChoferesAll().then((choferes)=>{
-            let choferes_ = JSON.parse(choferes)
-            DataBase.vehiculosAll().then((vehiculos_)=>{
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+            DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
               let vehiculos_let = JSON.parse(vehiculos_)
                let count = vehiculos_let.length
  DataBase.Sucursales_ALl().then((sucursales_)=>{

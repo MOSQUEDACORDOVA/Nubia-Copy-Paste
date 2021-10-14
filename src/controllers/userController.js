@@ -160,62 +160,6 @@ exports.createUser_client = async (req, res) => {
     });
   }
 };
-exports.createUser_empresa = async (req, res) => {
-  const { email,name_empresa,
-    password,
-    confirmPassword,photo1,direccion,telefono,bank_id,cuenta,nombre_empleado,
-    apellido_empleado,  correo_empleado, telefono_empleado, descripcion,departamento, distrito } = req.body;
-  // La contraseña y cofirmar contraseña no son iguales
-  if (password !== confirmPassword) {
-    req.flash("error", "Las contraseñas no son iguales");
-
-    return res.render("reg_cliente", {
-      pageName: "Registro Cliente",
-      layout: "page-form",
-      messages: req.flash(),
-    });
-  }
-  try {
-    await Usuarios.create({
-      name: name_empresa, email: email, password: password, banco: bank_id,cuenta: cuenta, tipo: 'Empresa', photo:photo1, direccion: direccion, descripcion: descripcion, telefono: telefono
-    }).then((data) =>{
-      let parsed = data.toJSON()
-      console.log(parsed.id)
-      let id_usuario = parsed.id
-       Sucursales.create({
-        tipo: 'Principal', direccion: direccion, descripcion: descripcion, telefono: telefono,departamento: departamento,
-        distrito: distrito,usuarioId: id_usuario
-      }).then((data_sucursal) =>{
-        let parsed_sucursal = data_sucursal.toJSON()
-        console.log(parsed_sucursal)
-        let sucursalId =parsed_sucursal.id
-        Encargados.create({
-          nombre: nombre_empleado,apellido: apellido_empleado, correo: correo_empleado,  telefono: telefono_empleado,tipo:'Encargado', sucursaleId: sucursalId
-        }).then((data_encargado) =>{
-          let parsed2 = data_encargado.toJSON()
-          console.log(parsed2)
-          
-        });
-      });
-    });
-    res.redirect("/login");
-  } catch (err) {
-    console.log(err);
-    if (err.errors) {
-      req.flash(
-        "error",
-        err.errors.map((error) => error.message)
-      );
-    } else {
-      req.flash("error", "Error desconocido");
-    }
-    res.render("reg_empresa", {
-      pageName: "Registrate",
-      layout: "page-form",
-      messages: req.flash(),
-    });
-  }
-};
 
 // Actualizar usuario en la base de datos
 exports.UpdateUser = async (req, res) => {

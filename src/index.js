@@ -86,8 +86,6 @@ app.use(passport.session());
 app.use((req, res, next) => {
 	res.locals.messages = req.flash();
 
-//console.log(res);
-
 	res.locals.user = {...req.user} || null;
 	
 	next();

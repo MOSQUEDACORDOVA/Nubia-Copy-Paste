@@ -37,13 +37,14 @@ router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
+router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
 router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
-
+router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 //personal
 router.get('/personal_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.personal_table);
@@ -60,13 +61,6 @@ router.get('/delete_vehiculos/:id', authControllerPY4.authenticatedUser,dashboar
 router.get('/editar_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
 router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_vehiculos_py4);
 
-//SUCURSALES
-router.get('/sucursales_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.sucursales);
-router.get('/sucursales_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.sucursales);
-router.post('/save_sucursal_py4', dashboardControllerPY4.save_sucursal);
-router.get('/delete_sucursales/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_sucursales);
-router.get('/editar_sucursales/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales);
-router.post('/editar_sucursales', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales_save);
 
 //CP
 router.post('/consultaCP',authControllerPY4.authenticatedUser, dashboardControllerPY4.consultaCP);
@@ -83,7 +77,6 @@ router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardCo
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
 router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
-router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 

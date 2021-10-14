@@ -222,7 +222,26 @@ module.exports = {
         });
     });
   },
-
+  ClientesAllS(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{sucursaleId:id},
+        include:[
+        {association:Clientes.CoP },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   
   ClientebyId(id){
     return new Promise((resolve, reject) => {
@@ -493,6 +512,26 @@ console.log(hoy)
         });
     });
   },
+  PedidosAllS(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{sucursaleId:id},
+        include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        
+    ]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PedidoById(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
@@ -573,9 +612,51 @@ console.log(hoy)
         });
     });
   },
+  PedidosAllGroupByChoferesS(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{sucursaleId:id},include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        {association:Pedidos.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
+    ]
+      },{ group: ['chofer'] },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PrestadosGroupByCliente(){
     return new Promise((resolve, reject) => {
       GPrestados.findAll({include:[
+        {association:GPrestados.Clientes },
+        {association:GPrestados.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
+    ]
+      },{ group: ['clienteId'] },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PrestadosGroupByClienteS(id){
+    return new Promise((resolve, reject) => {
+      GPrestados.findAll({where:{sucursaleId: id},
+        include:[
         {association:GPrestados.Clientes },
         {association:GPrestados.Personal, include:[
           {association: Personal.Vehiculos}
@@ -641,6 +722,21 @@ console.log(hoy)
           });
       });
     },
+PersonalAllS(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {sucursaleId:id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    
     PersonalById(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
@@ -691,7 +787,21 @@ console.log(hoy)
           });
       });
     },
- 
+    ChoferesAllS(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {
+          cargo: 'Chofer', sucursaleId: id }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     CPbycp(cp){
       return new Promise((resolve, reject) => {
         CoP.findAll({where: {
@@ -747,6 +857,20 @@ console.log(hoy)
     vehiculosAll(){
       return new Promise((resolve, reject) => {
         Vehiculos.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    vehiculosAllS(id){
+      return new Promise((resolve, reject) => {
+        Vehiculos.findAll({where:{sucursaleId:id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)

@@ -889,16 +889,15 @@
             </div>
             <div class="modal-body">
 
-                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal"
+                <form novalidate class="needs-validation was-validated repeater" action="/cambiar_sucursal"
                     method="post">
                     <div class="mb-1">
-                        <label class="form-label" for="basicSelect">Selecciona el proyecto</label>
-                        <select class="form-select" id="basicSelect">
+                        <label class="form-label" >Selecciona el proyecto</label>
+                        <select class="form-select" name="cambia_sucursal">
                             <option value="default">Default</option>
-                            <option value="/py4/PYT-4">PYT-4</option>
-                            <option value="/py21/PYT-21">PYT-21</option>
-                            <option value="/py24/PYT-24">PYT-24</option>
-                            <option value="/py27/PYT-27">PYT-27</option>
+                            {{#each sucursales_let as |sucursal i|}}
+                            <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
                         </select>
                     </div>
             </div>
