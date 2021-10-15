@@ -201,7 +201,6 @@ maxDate2 = new DateTime($('#max1'), {
       data: ArrayGral,
      columns: [
       { data: '0',render: function (data, type, full, meta) {
-        console.log(full[1])
         let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
         let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
         let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;
@@ -289,17 +288,17 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
 
 
         }
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-         console.log(danados)
         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
         { data: '0' },
+        { data: '0'},
         { data: '0'},
       ], columnDefs: [
         {
@@ -373,9 +372,17 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             // Label
             targets: 3,
             render: function (data, type, full, meta) {
-              var suma = 0;
+              var suma = 0, deuda =0
                 for (let i = 0; i < full[1].length; i++) {
                   if (full[1][i]['metodo_pago'] == "Efectivo") {
+                    console.log(full[1][i]['deuda_anterior'])
+                    if (full[1][i]['deuda_anterior'] != "0") {
+                      if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                        deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                    } else {
+                        deuda += parseInt(full[1][i]['deuda_anterior']);
+                    }
+                    }
                     if (Array.isArray(full[1][i]['monto_total'])) {
                       suma += countArray(parseInt(full[1][i]['monto_total']));
                   } else {
@@ -385,24 +392,38 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
                   }
                   
               }
-              return '$ '+suma;
+              let total = parseInt(suma) + parseInt(deuda)
+                  console.log(total)
+              return '$ '+ total;
             }
         },{
           
           // Label
           targets: 4,
           render: function (data, type, full, meta) {
-            var suma = 0;
+            var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
                 if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
           }
         },
         {
@@ -410,17 +431,49 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
           // Label
           targets: 5,
           render: function (data, type, full, meta) {
-            var suma = 0;
+            var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
                 if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+          }
+        },
+        {
+          
+          // Label
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var deuda_ant = 0
+              for (let i = 0; i < full[1].length; i++) {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda_ant += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda_ant += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                
+            }
+            return '$ '+ deuda_ant;
           }
         },
       ],
@@ -586,7 +639,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
 
 
         }
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
@@ -597,6 +650,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         { data: '0' },
         { data: '0' },
         { data: '0' },
+        { data: '0'},
         { data: '0'},
       ], columnDefs: [
         {
@@ -670,54 +724,107 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             // Label
             targets: 3,
             render: function (data, type, full, meta) {
-              var suma = 0;
-                for (let i = 0; i < full[1].length; i++) {
-                  if (full[1][i]['metodo_pago'] == "Efectivo") {
-                    if (Array.isArray(full[1][i]['monto_total'])) {
-                      suma += countArray(parseInt(full[1][i]['monto_total']));
-                  } else {
-                      suma += parseInt(full[1][i]['monto_total']);
-                  }
-
-                  }
-                  
-              }
-              return '$ '+suma;
-            }
-        },{
-          
-          // Label
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var suma = 0;
+              var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
-                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                if (full[1][i]['metodo_pago'] == "Efectivo") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+            }
+        },
+        {
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0, deuda = 0
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+
+                }
+                
+            }
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+          }
+        },
+        {
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var suma = 0, deuda = 0
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+
+                }
+                
+            }
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
           }
         },
         {
           
           // Label
-          targets: 5,
+          targets: 6,
           render: function (data, type, full, meta) {
-            var suma = 0;
+            var deuda_ant = 0
               for (let i = 0; i < full[1].length; i++) {
-                if (full[1][i]['metodo_pago'] == "Tarjeta") {
-                  if (Array.isArray(full[1][i]['monto_total'])) {
-                    suma += countArray(parseInt(full[1][i]['monto_total']));
-                } else {
-                    suma += parseInt(full[1][i]['monto_total']);
-                }
-                }                
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda_ant += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda_ant += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                
             }
-            return '$ '+suma;
+            return '$ '+ deuda_ant;
           }
         },
       ],
@@ -883,7 +990,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
 
 
         }
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
@@ -894,6 +1001,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         { data: '0' },
         { data: '0' },
         { data: '0' },
+        { data: '0'},
         { data: '0'},
       ], columnDefs: [
         {
@@ -967,36 +1075,59 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             // Label
             targets: 3,
             render: function (data, type, full, meta) {
-              var suma = 0;
-                for (let i = 0; i < full[1].length; i++) {
-                  if (full[1][i]['metodo_pago'] == "Efectivo") {
-                    if (Array.isArray(full[1][i]['monto_total'])) {
-                      suma += countArray(parseInt(full[1][i]['monto_total']));
-                  } else {
-                      suma += parseInt(full[1][i]['monto_total']);
-                  }
-
-                  }
-                  
-              }
-              return '$ '+suma;
-            }
-        },{
-          
-          // Label
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var suma = 0;
+              var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
-                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                if (full[1][i]['metodo_pago'] == "Efectivo") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+            }
+        },
+        {
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0, deuda = 0
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+
+                }
+                
+            }
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
           }
         },
         {
@@ -1004,17 +1135,49 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
           // Label
           targets: 5,
           render: function (data, type, full, meta) {
-            var suma = 0;
+            var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
                 if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+          }
+        },
+        {
+          
+          // Label
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var deuda_ant = 0
+              for (let i = 0; i < full[1].length; i++) {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda_ant += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda_ant += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                
+            }
+            return '$ '+ deuda_ant;
           }
         },
       ],
@@ -1180,7 +1343,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
 
 
         }
-        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
+        let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
         let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
@@ -1191,6 +1354,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         { data: '0' },
         { data: '0' },
         { data: '0' },
+        { data: '0'},
         { data: '0'},
       ], columnDefs: [
         {
@@ -1263,36 +1427,59 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
             // Label
             targets: 3,
             render: function (data, type, full, meta) {
-              var suma = 0;
-                for (let i = 0; i < full[1].length; i++) {
-                  if (full[1][i]['metodo_pago'] == "Efectivo") {
-                    if (Array.isArray(full[1][i]['monto_total'])) {
-                      suma += countArray(parseInt(full[1][i]['monto_total']));
-                  } else {
-                      suma += parseInt(full[1][i]['monto_total']);
-                  }
-
-                  }
-                  
-              }
-              return '$ '+suma;
-            }
-        },{
-          
-          // Label
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var suma = 0;
+              var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
-                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                if (full[1][i]['metodo_pago'] == "Efectivo") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+            }
+        },
+        {
+          
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var suma = 0, deuda = 0
+              for (let i = 0; i < full[1].length; i++) {
+                if (full[1][i]['metodo_pago'] == "Transferencia") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                  if (Array.isArray(full[1][i]['monto_total'])) {
+                    suma += countArray(parseInt(full[1][i]['monto_total']));
+                } else {
+                    suma += parseInt(full[1][i]['monto_total']);
+                }
+
+                }
+                
+            }
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
           }
         },
         {
@@ -1300,17 +1487,49 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
           // Label
           targets: 5,
           render: function (data, type, full, meta) {
-            var suma = 0;
+            var suma = 0, deuda = 0
               for (let i = 0; i < full[1].length; i++) {
                 if (full[1][i]['metodo_pago'] == "Tarjeta") {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
                   if (Array.isArray(full[1][i]['monto_total'])) {
                     suma += countArray(parseInt(full[1][i]['monto_total']));
                 } else {
                     suma += parseInt(full[1][i]['monto_total']);
                 }
-                }                
+
+                }
+                
             }
-            return '$ '+suma;
+            let total = parseInt(suma) + parseInt(deuda)
+                console.log(total)
+            return '$ '+ total;
+          }
+        },
+        {
+          
+          // Label
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var deuda_ant = 0
+              for (let i = 0; i < full[1].length; i++) {
+                  console.log(full[1][i]['deuda_anterior'])
+                  if (full[1][i]['deuda_anterior'] != "0") {
+                    if (Array.isArray(full[1][i]['deuda_anterior'])) {
+                      deuda_ant += countArray(parseInt(full[1][i]['deuda_anterior']));
+                  } else {
+                      deuda_ant += parseInt(full[1][i]['deuda_anterior']);
+                  }
+                  }
+                
+            }
+            return '$ '+ deuda_ant;
           }
         },
       ],

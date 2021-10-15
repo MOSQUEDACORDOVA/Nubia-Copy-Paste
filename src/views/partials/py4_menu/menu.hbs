@@ -271,6 +271,10 @@
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Sucursales</span></a>
             </li>
+                        <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/carga_inicial_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
+                        data-i18n="Corte">Carga Inicial</span></a>
+            </li>
 
 
         </ul>
@@ -307,7 +311,12 @@
                         data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
                         Modificar Cliente
                     </button>
-
+                    
+                      <div class="form-group mt-2" style="display: none;" id="deuda_box">
+                        <label for="register-firstName" class="form-label">El cliente tiene una deuda por verificar de: $<span id="deuda_verf"></span></label><br>
+                        <label for="register-firstName" class="form-label">Se le prestaron: <span id="prestados_anterior"></span> garrafones</label><br>
+                         <input type="text" name="deuda_anterior" class="d-none" >   
+                        </div>
                     <div class="collapse" id="client-info">
 
                         <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>

@@ -56,12 +56,8 @@
        var  min2_ = minDate_.val();
        var max2_ = maxDate_.val();
        let f = aData[2]
-       console.log(f)
-       console.log(min2_)
-       console.log(max2_)
        var date_ = new Date(f);
        
-       console.log(date_)
      // If our date from the row is between the start and end
      if (
       ( min2_ === null && max2_ === null ) ||
@@ -93,40 +89,6 @@
   let Residencial = corte_prestados2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
   let Negocio = corte_prestados2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
   let PuntoVenta = corte_prestados2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
-
-  //TABLA RESIDENCIAL
-  let NewResidencial = {}
-//Recorremos el arreglo 
-Residencial.forEach( x => {
-  if( !NewResidencial.hasOwnProperty(x.chofer)){
-    NewResidencial[x.chofer] =[]
-  }
-    NewResidencial[x.chofer].push(x)  
-})
-let ArrayResidencial = Object.entries(NewResidencial);
-
-//TABLA NEGOCIO
-let NewNegocio = {}
-//Recorremos el arreglo 
-Negocio.forEach( x => {
-  if( !NewNegocio.hasOwnProperty(x.chofer)){
-    NewNegocio[x.chofer] =[]
-  }
-    NewNegocio[x.chofer].push(x)  
-})
-let ArrayNegocio = Object.entries(NewNegocio);
-
-
-//TABLA PTO VENTA
-let NewPuntoVenta = {}
-//Recorremos el arreglo 
-PuntoVenta.forEach( x => {
-  if( !NewPuntoVenta.hasOwnProperty(x.chofer)){
-    NewPuntoVenta[x.chofer] =[]
-  }
-    NewPuntoVenta[x.chofer].push(x)  
-})
-let ArrayPuntoVenta = Object.entries(NewPuntoVenta);
 
 //TABLA GRAL
 let Newcorte2 = {}
@@ -173,7 +135,6 @@ maxDate_ = new DateTime($('#max_'), {
       data: ArrayGral,
      columns: [
       { data: '0',render: function (data, type, full, meta) {
-        console.log(full[1])
             let cantidad=0; 
           for (let i = 0; i < full[1].length; i++) {
            if (Array.isArray(full[1][i]['cantidad'])) {
@@ -194,8 +155,6 @@ maxDate_ = new DateTime($('#max_'), {
         //ArrayConductores = JSON.stringify(ArrayConductores)
         
         var data_str = encodeURIComponent(JSON.stringify(ArrayConductores));
-         console.log(ArrayConductores)
-         console.log(data)
          
 
         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+cantidad+'" data-arrayconductores="'+data_str+'" data-title="Garrafones Prestados a'+full[1][0]['cliente']['firstName']+'"  data-bs-target="#corte_modal">'+full[1][0]['cliente']['firstName']+'</button>'}  },
@@ -303,18 +262,25 @@ maxDate_ = new DateTime($('#max_'), {
       var title = triggerLink.data("title");
      var ArrayConductores = triggerLink.data("arrayconductores");
       var my_object = JSON.parse(decodeURIComponent(ArrayConductores));
-      console.log(my_object)
       $("#corte_modalTitle").text(title); 
     //  $("#corte_modalBody").append(txt2);
-    $("#corte_modalBody").empty()
+    $("#corte_modalBody").empty() 
+    let cantidad=0; 
     for (let i = 0; i < my_object.length; i++) {
       
       for (let j = 0; j < my_object[i].length; j++) {
-         console.log(my_object[i][j][0])
         if (typeof my_object[i][j][0]['personal'] !='undefined') {
-          id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +my_object[i][j][0]['cantidad']
+         
+       for (let k = 0; k < my_object[i][j].length; k++) {
+           if (Array.isArray(my_object[i][j][k]['cantidad'])) {
+            cantidad += countArray(parseInt(my_object[i][j][k]['cantidad']));
+        } else {
+            cantidad += parseInt(my_object[i][j][k]['cantidad']);
+        }
+       }
+          id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +cantidad
 
-          $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object[i][j][0]['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${my_object[i][j][0]['cantidad']}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
+          $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object[i][j][0]['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${cantidad}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
         }
 
       }

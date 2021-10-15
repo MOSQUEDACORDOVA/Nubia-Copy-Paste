@@ -19,9 +19,6 @@
      let f = data[5]
     
          var date = new Date(f);
-          console.log(date)
-          console.log(min)
-          console.log(max)
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
@@ -253,7 +250,7 @@ maxDate2 = new DateTime($('#max1'), {
           targets: 5,
           render:function(data){
            // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment.tz(data,'America/Bogota').format('L');
+            return moment(data).format('L');
           }
         },
       ],
@@ -407,7 +404,7 @@ maxDate2 = new DateTime($('#max1'), {
           targets: 5,
           render:function(data){
            // return moment(data).format('L');
-            return moment.tz(data, 'America/Bogota').format('L');
+            return moment(data).format('L');
           }
         },
       ],

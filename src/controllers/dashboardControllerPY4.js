@@ -54,7 +54,7 @@ exports.dashboard = (req, res) => {
         DataBase.PrestadosGroupByClienteS(id_sucursal).then((prestamos_)=>{
           let prestamos_let = JSON.parse(prestamos_)  
                 let prestamos_byday = []
-                let prestamos_del_dia = 0
+                let prestamos_del_dia = 0, devueltos_del_dia =0
                 let residencial_cont = 0
                 let negocio_cont = 0
                 let ptoVenta_cont = 0
@@ -62,9 +62,12 @@ exports.dashboard = (req, res) => {
                   fecha_created = prestamos_let[i].fecha_ingreso
                   
                   let iguales = moment(fecha_created).isSame(dia, 'day'); // true
-                  
+                  if (iguales == true) {
                     prestamos_byday.push(prestamos_let[i])//OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
-                    prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad)                    
+                    prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad) 
+                    devueltos_del_dia = parseInt(devueltos_del_dia) + parseInt(prestamos_let[i].devueltos) 
+                    console.log(devueltos_del_dia)   
+
                     switch (prestamos_let[i].cliente.tipo) {
                       case 'Residencial':
                        residencial_cont ++
@@ -77,10 +80,12 @@ exports.dashboard = (req, res) => {
                             break;
                       default:
                         break;
-                    }
+                    } 
+                  }
+                  
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
-                   
+                   console.log(prestamos_byday)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -91,7 +96,8 @@ exports.dashboard = (req, res) => {
       clientes_arr,
       pedidos_,
       pedidos_let,
-      choferes_,prestamos_byday,prestamos_,sucursales_let,
+      choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
+      devueltos_del_dia,
       msg
     }) 
   }).catch((err) => {
@@ -366,9 +372,9 @@ exports.regPedidoPy4 = (req, res) => {
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal} = req.body
+  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal, deuda_anterior} = req.body
 
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal).then((respuesta) =>{
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior).then((respuesta) =>{
     res.redirect('/homepy4/'+respuesta)
 
   }).catch((err) => {
@@ -459,9 +465,9 @@ return res.redirect("/errorpy4/" + msg);
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal} = req.body
+  const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
 
-  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal).then((respuesta) =>{
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior).then((respuesta) =>{
 
     
     let msg=respuesta
@@ -732,7 +738,7 @@ exports.corte_table = (req, res) => {
             var chofer_pedido = []
             for (let i = 0; i < pedidos_let.length; i++) {
               fecha_created = pedidos_let[i].createdAt
-              let iguales = moment.tz(fecha_created,'UTC').isSame(dia, 'day'); // true
+              let iguales = moment(fecha_created).isSame(dia, 'day'); // true
               if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
                 pedidos_byday.push(pedidos_let[i])
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
@@ -755,7 +761,9 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-               pedidos_byday =JSON.stringify(pedidos_byday)           
+               pedidos_byday =JSON.stringify(pedidos_byday)  
+               DataBase.Sucursales_ALl().then((sucursales_)=>{
+                let sucursales_let = JSON.parse(sucursales_)         
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -765,9 +773,14 @@ exports.corte_table = (req, res) => {
       clientes_d,clientes_arr,personal_let,personal_,pedidos_byday,
       cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,
 choferes,chofer_pedido,
-choferes_,
+choferes_,sucursales_let,
       msg
     }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -816,11 +829,26 @@ exports.corte_prestados_table = (req, res) => {
     })
   })
 
-  
+}
 
-};
+  //DEUDA PEDIDO
+  exports.verifica_deuda_pedido = (req, res) => {
+    let id_cliente = req.body.id_cliente
 
-
+    console.log(req.session.sucursal_select)
+    DataBase.Verf_deuda_pedido(id_cliente, req.session.sucursal_select).then((desc_)=>{
+      let deuda = JSON.parse(desc_)
+      let deuda_monto = 0, prestados = 0;
+      console.log(deuda)
+      for (let i = 0; i < deuda.length; i++) {
+        
+        deuda_monto = parseFloat(deuda_monto) + parseFloat(deuda[i].monto_total)
+        prestados = parseFloat(prestados) + parseFloat(deuda[i].garrafones_prestamos)
+      } 
+        console.log(deuda_monto)
+        return res.status(200).send({'deuda':deuda_monto,'prestados':prestados });
+      })
+  }
 
 //CP
 exports.consultaCP = (req, res) => {

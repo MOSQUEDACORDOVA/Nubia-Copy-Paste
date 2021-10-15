@@ -22,7 +22,10 @@
                             data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
                             Modificar Cliente
                         </button>
-
+<div class="form-group mt-2" style="display: none;" id="deuda_box">
+                          <label for="register-firstName" class="form-label">El cliente tiene una deuda por verificar de: $<span id="deuda_verf"></span></label>
+                         <input type="text" name="deuda_anterior" class="d-none" value="{{pedido_let.deuda_anterior}}">   
+                        </div>
                         <div class="collapse" id="client-info">
                             <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                                 <input type="text" name="firstName" placeholder="Primer Nombre"
