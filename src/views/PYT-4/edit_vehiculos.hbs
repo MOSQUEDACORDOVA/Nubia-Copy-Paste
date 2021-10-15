@@ -3,7 +3,20 @@
     display: none;
   }
 </style>
+<script>
+  $(function(){
+   if ( $("#sucursal_select option[value]") =='{{vehiculos_let.sucursaleId}}' ){
+console.log("option doesn't exist!");
+//$('#sucursal_select').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
 
+}else{
+  console.log("option exist!");
+ // $('#sucursal_select').prepend('<option selected value="{{vehiculos_let.sucursaleId}}">' + found.cp.asentamiento + '</option>');
+  //$('#sucursal_select').find('option:selected').remove().end();
+$("#sucursal_select option[value='{{vehiculos_let.sucursaleId}}']").attr("selected", true);
+}
+  })
+</script>
 {{#if msg}}
 <label id="msgs">{{msg}}</label>
 {{/if}}
@@ -65,12 +78,13 @@
                 </select></div>             
               <div class="form-group"><label for="register-sucursal"
                   class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
-                  name="sucursal" class="form-control mb-2">
-                  <option selected=""> {{vehiculos_let.sucursal}} </option>
-                  <option > Bugambilias </option>
-                  <option> Patria </option>
-                  <option> Adamar </option>
+                  name="sucursal" class="form-control mb-2" id="sucursal_select">
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                 
                 </select></div>
+
           </div>
           <div class="modal-footer">
              <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>

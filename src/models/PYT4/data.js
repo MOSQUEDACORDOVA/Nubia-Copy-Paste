@@ -8,6 +8,8 @@ const Personal = require("../../models/PYT4/Personal");
 const Vehiculos = require("../../models/PYT4/Vehiculos");
 const GPrestados = require("../../models/PYT4/GPrestados");
 const CoP = require("../../models/PYT4/CP");
+const Sucursales = require("../../models/PYT4/Sucursales");
+const Carga_init = require("../../models/PYT4/Carga_init");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -118,7 +120,25 @@ module.exports = {
         });
     });
   },
-
+  Gerentes(){
+    return new Promise((resolve, reject) => {
+      Usuarios.findAll({
+        where: {
+          tipo: {
+            [Op.or]: ['Director', 'Gerente de Sucursal']
+          }
+        },
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  },
 
   actualizarpassW(id, password) {
     //Actualizar clave
@@ -151,7 +171,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.create(
         {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursal: sucursal,estado:cp, cpId: asentamiento})
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento})
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve('Cliente registrado con éxito');
@@ -167,7 +187,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.update(
         {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursal: sucursal,estado:cp, cpId: asentamiento},{
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio: municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento},{
             where:
             {
               id: id_cliente
@@ -203,7 +223,26 @@ module.exports = {
         });
     });
   },
-
+  ClientesAllS(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{sucursaleId:id},
+        include:[
+        {association:Clientes.CoP },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   
   ClientebyId(id){
     return new Promise((resolve, reject) => {
@@ -255,7 +294,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -269,7 +308,7 @@ module.exports = {
       }
       Pedidos.create(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer})
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior })
         .then((data) => {
           let data_set = JSON.stringify(data);
                 
@@ -291,7 +330,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario) {
+ PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal,deuda_anterior) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -305,7 +344,7 @@ module.exports = {
       }
       Pedidos.update(
         {
-          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer}, { where:{
+          chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer,sucursaleId: sucursal,deuda_anterior:deuda_anterior}, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -344,7 +383,7 @@ module.exports = {
           Pedidos.findAll({where: {id: id_pedido}}).then((pedido_) =>{
              console.log(pedido_[0].dataValues.status_pedido)
            if (pedido_[0].dataValues.status_pedido =="Entregado") {
-              let hoy =moment.tz(pedido_[0].dataValues.createdAt,'UTC').format('MM/DD/YYYY')
+              let hoy =moment(pedido_[0].dataValues.createdAt).format('MM/DD/YYYY')
 console.log(hoy)
             GPrestados.findAll({where:{
                      clienteId: pedido_[0].dataValues.clienteId, 
@@ -355,7 +394,7 @@ console.log(hoy)
                      if (date =="") {
                        console.log(hoy)
                        GPrestados.create({
-                         cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido
+                         cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido, sucursaleId: pedido_[0].dataValues.sucursaleId
                        }).then((data_cli) => {
                          resolve("Se creó correctamente el pedido");
                          //console.log(planes);
@@ -364,7 +403,7 @@ console.log(hoy)
                      GPrestados.update({
                        cantidad: pedido_[0].dataValues.garrafones_prestamos,status_pedido:pedido_[0].dataValues.status_pedido },
                        {where:
-                         {cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido}
+                         {cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido, sucursaleId: pedido_[0].dataValues.sucursaleId}
                      }).then((data_upd) => {
                        let data_set2 = JSON.stringify(data_upd)
                        console.log(data_set2);
@@ -387,6 +426,26 @@ console.log(hoy)
           //console.log(planes);
         })
         .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  CambiaStatusPago(id_pedido,status) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          status_pago: status, deuda_anterior:0}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+                       resolve("Se actualizó correctamente el status del pago");
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -454,6 +513,26 @@ console.log(hoy)
         });
     });
   },
+  PedidosAllS(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{sucursaleId:id},
+        include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        
+    ]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PedidoById(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
@@ -464,6 +543,28 @@ console.log(hoy)
         //{ model: Productos_pedidos,as:'Productos_' }
     ]
       })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  Verf_deuda_pedido(id,id_sucursal){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        clienteId: id,
+        status_pago:'Por verificar',
+        sucursaleId: id_sucursal
+      },include:[
+        {association:Pedidos.Clientes },
+       // {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]})
         .then((data) => {
           let data_p = JSON.stringify(data);
           //console.log(data)
@@ -534,9 +635,50 @@ console.log(hoy)
         });
     });
   },
+  PedidosAllGroupByChoferesS(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{sucursaleId:id},include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        {association:Pedidos.Personal, include:[
+          {association: Personal.Vehiculos}] },        
+    ]
+      },{ group: ['chofer'] },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PrestadosGroupByCliente(){
     return new Promise((resolve, reject) => {
       GPrestados.findAll({include:[
+        {association:GPrestados.Clientes },
+        {association:GPrestados.Personal, include:[
+          {association: Personal.Vehiculos}
+        ] },        
+    ]
+      },{ group: ['clienteId'] },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PrestadosGroupByClienteS(id){
+    return new Promise((resolve, reject) => {
+      GPrestados.findAll({where:{sucursaleId: id},
+        include:[
         {association:GPrestados.Clientes },
         {association:GPrestados.Personal, include:[
           {association: Personal.Vehiculos}
@@ -559,7 +701,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Personal.create(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo})
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo, sucursaleId:sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Personal registrado con éxito');
@@ -574,7 +716,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Personal.update(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo, sucursaleId:sucursal}, {where:{
               id: id_personal
             }})
           .then((data) => {
@@ -602,6 +744,21 @@ console.log(hoy)
           });
       });
     },
+PersonalAllS(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {sucursaleId:id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    
     PersonalById(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
@@ -652,7 +809,21 @@ console.log(hoy)
           });
       });
     },
- 
+    ChoferesAllS(id){
+      return new Promise((resolve, reject) => {
+        Personal.findAll({where: {
+          cargo: 'Chofer', sucursaleId: id }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     CPbycp(cp){
       return new Promise((resolve, reject) => {
         CoP.findAll({where: {
@@ -676,7 +847,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Vehiculos.create(
           {
-            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,})
+            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,sucursaleId: sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Vehículo registrado con éxito');
@@ -691,7 +862,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Vehiculos.update(
           {
-            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,}, {where:{
+            matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad, sucursaleId: sucursal}, {where:{
               id: id_vehiculo
             }})
           .then((data) => {
@@ -708,6 +879,20 @@ console.log(hoy)
     vehiculosAll(){
       return new Promise((resolve, reject) => {
         Vehiculos.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    vehiculosAllS(id){
+      return new Promise((resolve, reject) => {
+        Vehiculos.findAll({where:{sucursaleId:id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -746,6 +931,152 @@ console.log(hoy)
             //console.log(data)
             resolve('data_p');
             ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+
+    //SUCURSALES
+    Sucursales_ALl(){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({include:[
+          {model: Vehiculos , as:'Vehiculos'},
+           {model: Clientes , as:'Clientes'},
+            {model: GPrestados , as:'GPrestados'},
+           {model: Pedidos , as:'Pedidos'},
+           {model: Personal , as:'Personal'}
+        ]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    saveSucursal(nombre, direccion, longitud, latitud, telefono, gerente,telefono_gerente, id_gerente) {
+      return new Promise((resolve, reject) => {
+        Sucursales.create(
+          {nombre: nombre, direccion: direccion, logitud: longitud, latitud: latitud, telefono: telefono, gerente: gerente,telefono_gerente: telefono_gerente, id_gerente: id_gerente})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Sucursal registrada con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    updSucursal(id_Sucursales,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
+      return new Promise((resolve, reject) => {
+        Sucursales.update(
+          {
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+              id: id_Sucursales
+            }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Sucursal actualizada con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    delete_sucursales(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve('data_p');
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Sucursales_id(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Sucursal_byId_gerente(id){
+      return new Promise((resolve, reject) => {
+        Sucursales.findAll({where: {
+          id_gerente: id
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+
+    //Carga inicial
+    Carga_initS(id){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    carga_init_corte(id, id_personal){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({where:{sucursaleId:id, personalId: id_personal}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    savecarga_inicial(carga_init,  chofer,id_sucursal) {
+      return new Promise((resolve, reject) => {
+        Carga_init.create(
+          {cantidad_inicial: carga_init, personalId: chofer, sucursaleId:id_sucursal})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Carga registrada con éxito');
+            //console.log(planes);
           })
           .catch((err) => {
             reject(err)

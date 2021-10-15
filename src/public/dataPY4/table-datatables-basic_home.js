@@ -19,9 +19,6 @@
      let f = data[5]
     
          var date = new Date(f);
-          console.log(date)
-          console.log(min)
-          console.log(max)
          if (
              ( min === null && max === null ) ||
              ( min === null && date <= max ) ||
@@ -183,6 +180,20 @@ maxDate2 = new DateTime($('#max1'), {
       ], columnDefs: [
         {
           // Label
+          targets: 0,
+          render: function (data, type, full, meta) {
+            console.log(full['updatedAt'])
+           let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+           let modificacion = moment(fecha_creado).isSame(modificado)
+           console.log(modificacion)
+            if (modificacion == false) {
+              return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            }
+            return (`<span class="badge rounded-pill badge-light-info"> ${full['id']}</span>`);
+          }
+        },
+        {
+          // Label
           targets: 1,
           render: function (data, type, full, meta) {
             
@@ -227,11 +238,33 @@ maxDate2 = new DateTime($('#max1'), {
               '</span>'
             );
           }
-        },{
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
           targets: 5,
           render:function(data){
            // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment.tz(data,'America/Bogota').format('L');
+            return moment(data).format('L');
           }
         },
       ],
@@ -360,11 +393,32 @@ maxDate2 = new DateTime($('#max1'), {
               '</span>'
             );
           }
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
         },{
           targets: 5,
           render:function(data){
            // return moment(data).format('L');
-            return moment.tz(data, 'America/Bogota').format('L');
+            return moment(data).format('L');
           }
         },
       ],
@@ -583,5 +637,30 @@ async function cambioSP(id, status) {
   if (estado) {
     window.location.href = `/cambiaS_pedido/${id}/${estado}`;
   }
+}
 
+async function cambioPago(id, status) {
+  const { value: estado } = await Swal.fire({
+    title: 'Seleccione un nuevo Status',
+    input: 'select',
+    inputOptions: {
+        Pagado: 'Pagado',
+        'Por verificar': 'Por verificar',
+    },
+    inputPlaceholder: 'Seleccione un nuevo Status',
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value === status) {
+          resolve('Debe seleccionar un estado diferente')
+        } else {
+           resolve()
+        }
+      })
+    }
+  })
+  
+  if (estado) {
+    window.location.href = `/cambia_S_pago/${id}/${estado}`;
+  }
 }

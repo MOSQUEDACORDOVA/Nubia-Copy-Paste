@@ -70,7 +70,11 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: 0
 	},
-
+	deuda_anterior: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
 
 
 });

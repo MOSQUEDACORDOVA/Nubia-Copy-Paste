@@ -94,12 +94,16 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                             <div class="card">
                                 <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
                                 <div class="col">
-                                        <label class="form-label">Fecha:</label>
+                                        <label class="form-label">Cambiar fecha de corte (prestados):</label>
                                                 <div class="mb-0 d-flex">
                                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_"/>
-                                                    <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>
+                                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
+                                                   <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
                                                 </div>
+                                    </div>
+                                     <div class="col">
+                                        <label class="form-label">Total prestados (del día): {{prestamos_del_dia}}</label><br>
+                                         <label class="form-label">Total devueltos (del día): {{devueltos_del_dia}}</label>     
                                     </div>
                                 <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
                                     <thead>

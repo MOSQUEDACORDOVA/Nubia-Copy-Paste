@@ -1,0 +1,68 @@
+<script>
+  $(document).ready(function(){
+ if ( $("#select_gerente option[value]") =='{{sucursales_let.gerente}}' ){
+console.log("option doesn't exist!");
+//$('#select_gerente').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
+
+}else{
+  console.log("{{sucursales_let.id_gerente}}");
+$("#select_gerente option[data-id='{{sucursales_let.id_gerente}}']").attr("selected", true);
+}
+ 
+  
+})
+</script>
+<div class="app-content content" style="transition:none">
+    <div class="content-overlay"></div>
+
+    <div class="card">
+<div class="card-body">
+      <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_sucursales" method="post">
+  <input type="hidden" name="id_sucursal" value="{{sucursales_let.id}}">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" value="{{sucursales_let.nombre}}">
+              </div>
+              <div class="form-group"><label for="register-direccion" class="form-label">Dirección</label><input
+                  type="text" name="direccion" placeholder="Dirección" aria-describedby="register-direccion"
+                  tabindex="5" class="form-control mb-2" value="{{sucursales_let.direccion}}"></div>
+
+              <div class="form-group"><label for="register-ciudad" class="form-label">Longitud</label>
+              <input type="text" name="longitud" placeholder="Longitud" tabindex="5" class="form-control mb-2" value="{{sucursales_let.logitud}}">
+              </div>
+              <div class="form-group"><label for="register-ciudad" class="form-label">Latitud</label>
+              <input type="text" name="latitud" placeholder="Latitud" tabindex="5" class="form-control mb-2" value="{{sucursales_let.latitud}}">
+              </div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" value="{{sucursales_let.telefono}}">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-sucursal" class="form-label">Gerente</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="gerente" class="form-control mb-2" id="select_gerente">
+                  <option >Seleccione un gerente</option>
+                  {{#each gerentes_let as |gerente i|}}
+                  <option data-id="{{id}}"> {{name}} </option>
+                  {{/each}}
+                </select>
+                <input type="text" name="id_gerente" tabindex="5" class="form-control mb-2" hidden>
+                </div>
+
+                <div class="form-group"><label for="register-telefono" class="form-label">Teléfono Gerente</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_gerente" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" value="{{sucursales_let.telefono_gerente}}"> 
+                </div>
+              </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+            </div>
+            </form>
+            </div>
+            </div>
+</div>
+<!-- END: Content-->
