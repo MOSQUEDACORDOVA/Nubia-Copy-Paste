@@ -9,6 +9,7 @@ const Vehiculos = require("../../models/PYT4/Vehiculos");
 const GPrestados = require("../../models/PYT4/GPrestados");
 const CoP = require("../../models/PYT4/CP");
 const Sucursales = require("../../models/PYT4/Sucursales");
+const Carga_init = require("../../models/PYT4/Carga_init");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -434,7 +435,7 @@ console.log(hoy)
         
       Pedidos.update(
         {
-          status_pago: status}, { where:{
+          status_pago: status, deuda_anterior:0}, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -640,8 +641,7 @@ console.log(hoy)
         {association:Pedidos.Usuarios },
         {association:Pedidos.Clientes },
         {association:Pedidos.Personal, include:[
-          {association: Personal.Vehiculos}
-        ] },        
+          {association: Personal.Vehiculos}] },        
     ]
       },{ group: ['chofer'] },)
         .then((data) => {
@@ -1039,5 +1039,48 @@ PersonalAllS(id){
           });
       });
     },
-    
+
+    //Carga inicial
+    Carga_initS(id){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    carga_init_corte(id, id_personal){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({where:{sucursaleId:id, personalId: id_personal}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    savecarga_inicial(carga_init,  chofer,id_sucursal) {
+      return new Promise((resolve, reject) => {
+        Carga_init.create(
+          {cantidad_inicial: carga_init, personalId: chofer, sucursaleId:id_sucursal})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Carga registrada con éxito');
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
 };

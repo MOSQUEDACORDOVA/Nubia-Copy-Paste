@@ -723,7 +723,7 @@ exports.corte_table = (req, res) => {
         DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
           let personal_let = JSON.parse(personal_)
            let count = personal_let.length
-      DataBase.PedidosAllGroupByChoferesS(id_sucursal).then((pedidos_)=>{
+      DataBase.PedidosAllGroupByChoferesS(id_sucursal).then(async (pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
             let pedidos_byday = []
@@ -736,11 +736,16 @@ exports.corte_table = (req, res) => {
             let ptoVenta_cont = 0
             let ptoVenta_mont= 0
             var chofer_pedido = []
+            let carga_inicial ="", arr_carga=[]
             for (let i = 0; i < pedidos_let.length; i++) {
               fecha_created = pedidos_let[i].createdAt
               let iguales = moment(fecha_created).isSame(dia, 'day'); // true
               if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
+                carga_inicial = JSON.parse(await DataBase.carga_init_corte(id_sucursal,pedidos_let[i].personalId))
+                arr_carga.push(carga_inicial)
+                //
                 pedidos_byday.push(pedidos_let[i])
+
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
                 switch (pedidos_let[i].cliente.tipo) {
@@ -761,7 +766,11 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-               pedidos_byday =JSON.stringify(pedidos_byday)  
+            console.log(pedidos_byday) 
+            console.log(arr_carga) 
+               pedidos_byday =JSON.stringify(pedidos_byday) 
+               arr_carga = JSON.stringify(arr_carga)
+               
                DataBase.Sucursales_ALl().then((sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)         
     res.render("PYT-4/corte", {
@@ -773,7 +782,7 @@ exports.corte_table = (req, res) => {
       clientes_d,clientes_arr,personal_let,personal_,pedidos_byday,
       cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,
 choferes,chofer_pedido,
-choferes_,sucursales_let,
+choferes_,sucursales_let,arr_carga,
       msg
     }) 
 }).catch((err) => {
@@ -1153,3 +1162,91 @@ return res.redirect("/errorpy4/" + msg);
   });
 };
  
+//CARGA INCIAL
+exports.carga_inicial = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let dia =""
+ 
+  if (req.params.day) {
+    
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
+  let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
+          let personal_let = JSON.parse(personal_)
+           let count = personal_let.length 
+               DataBase.Sucursales_ALl().then((sucursales_)=>{
+                let sucursales_let = JSON.parse(sucursales_)  
+                    DataBase.Carga_initS(id_sucursal).then((carga_)=>{
+                let carga_let = JSON.parse(carga_) 
+                console.log(carga_let)     
+    res.render("PYT-4/carga_init", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      carga_init:true,dia,
+      clientes_d,clientes_arr,personal_let,personal_,
+      pedidos_,choferes,choferes_,sucursales_let,
+      msg,carga_
+    }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+               }).catch((err =>{
+                 console.log(err)
+                 let msg = "Error en sistema";
+                 return res.redirect("/errorpy4/"+ msg)
+               }))
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+   }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+exports.save_carga_inicial = (req, res) => {
+  
+  const { carga_init,  id_chofer_carga} = req.body
+  let msg = false;
+  console.log(id_chofer_carga)
+  DataBase.savecarga_inicial(carga_init,  id_chofer_carga, req.session.sucursal_select).then((respuesta) =>{
+    res.redirect('/carga_inicial_py4/'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};

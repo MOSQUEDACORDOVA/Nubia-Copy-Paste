@@ -180,6 +180,20 @@ maxDate2 = new DateTime($('#max1'), {
       ], columnDefs: [
         {
           // Label
+          targets: 0,
+          render: function (data, type, full, meta) {
+            console.log(full['updatedAt'])
+           let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+           let modificacion = moment(fecha_creado).isSame(modificado)
+           console.log(modificacion)
+            if (modificacion == false) {
+              return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            }
+            return (`<span class="badge rounded-pill badge-light-info"> ${full['id']}</span>`);
+          }
+        },
+        {
+          // Label
           targets: 1,
           render: function (data, type, full, meta) {
             

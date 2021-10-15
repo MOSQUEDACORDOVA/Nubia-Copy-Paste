@@ -300,7 +300,7 @@ $(function () {
   //OTROS DESPUES DE LOS SELECT DE PRODUCTOS
   var valor = $('#array').val()
   var array = JSON.parse(valor.replace(/&quot;/g, '"'))
-  $('#select2-basic').on('change', (e) => {
+  $('#id_cliente_reg_pedido').on('change', (e) => {
     let id_ = e.target.value
     console.log(id_)
     var found = array.find(element => element.id == id_);
@@ -339,7 +339,7 @@ $(function () {
 
       success: function (data, textStatus, jqXHR) {
         $('#deuda_box').attr('style', 'display:none')
-        $('input[name="deuda_anterior"]').val('')
+        $('input[name="deuda_anterior"]').val('0')
         console.log(data)
         if (data['deuda']>0) {
           $('#deuda_box').removeAttr('style')

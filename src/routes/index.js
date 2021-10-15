@@ -61,6 +61,12 @@ router.get('/delete_sucursales/:id', authControllerPY4.authenticatedUser,dashboa
 router.get('/editar_sucursales/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales);
 router.post('/editar_sucursales', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales_save);
 
+//carga inicial
+router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.carga_inicial);
+router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
+router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
+
+
 //vehiculos
 router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.vehiculos_table);
 router.get('/vehiculos_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.vehiculos_table);

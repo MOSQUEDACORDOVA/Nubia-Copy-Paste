@@ -107,6 +107,10 @@
   let corte = $('#array_corte').val()
   
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
+
+  let carga = $('#array_carga').val()
+  
+  var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
     //let stproductos = JSON.parse(corte.productos)
   let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
   let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
@@ -293,7 +297,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         let totalCanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -503,25 +507,6 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         }
       }
     });
-    $("#corte_modal").on('show.bs.modal', function (e) {
-      var triggerLink = $(e.relatedTarget);
-      var Total_total = triggerLink.data("id");
-      var title = triggerLink.data("title");
-      var totalrefill = triggerLink.data("totalrefill");
-      var totalcanje = triggerLink.data("totalcanje");
-      var totalObsequio = triggerLink.data("totalobsequio");
-      var totaldanados = triggerLink.data("totaldanados");
-      var totalnuevo = triggerLink.data("totalnuevo");
-      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
-
-      $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
-      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
-      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
-      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestados: <span class='badge bg-primary rounded-pill'>"+
-      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
-      Total_total+"</span></li></ul>");
-  });
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -645,7 +630,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
          console.log(danados)
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'} },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -854,25 +839,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         }
       }
     });
-    $("#corte_modal").on('show.bs.modal', function (e) {
-      var triggerLink = $(e.relatedTarget);
-      var Total_total = triggerLink.data("id");
-      var title = triggerLink.data("title");
-      var totalrefill = triggerLink.data("totalrefill");
-      var totalcanje = triggerLink.data("totalcanje");
-      var totalObsequio = triggerLink.data("totalobsequio");
-      var totaldanados = triggerLink.data("totaldanados");
-      var totalnuevo = triggerLink.data("totalnuevo");
-      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
-
-      $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
-      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
-      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
-      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestados: <span class='badge bg-primary rounded-pill'>"+
-      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
-      Total_total+"</span></li></ul>");
-  });
+   
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -996,7 +963,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
          console.log(danados)
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -1207,25 +1174,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         }
       }
     });
-    $("#corte_modal").on('show.bs.modal', function (e) {
-      var triggerLink = $(e.relatedTarget);
-      var Total_total = triggerLink.data("id");
-      var title = triggerLink.data("title");
-      var totalrefill = triggerLink.data("totalrefill");
-      var totalcanje = triggerLink.data("totalcanje");
-      var totalObsequio = triggerLink.data("totalobsequio");
-      var totaldanados = triggerLink.data("totaldanados");
-      var totalnuevo = triggerLink.data("totalnuevo");
-      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
-
-      $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
-      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
-      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
-      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestados: <span class='badge bg-primary rounded-pill'>"+
-      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
-      Total_total+"</span></li></ul>");
-  });
+ 
     // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -1349,7 +1298,7 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         let totalObsequio = parseInt(Tbotella1LO)+parseInt(Tbotella5LO)+parseInt(Tgarrafon11LO)+parseInt(Tgarrafon19LO)
         let totalNuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
          console.log(danados)
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
+         return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">'+data+'</button>'}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -1559,25 +1508,6 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
         }
       }
     });
-    $("#corte_modal").on('show.bs.modal', function (e) {
-      var triggerLink = $(e.relatedTarget);
-      var Total_total = triggerLink.data("id");
-      var title = triggerLink.data("title");
-      var totalrefill = triggerLink.data("totalrefill");
-      var totalcanje = triggerLink.data("totalcanje");
-      var totalObsequio = triggerLink.data("totalobsequio");
-      var totaldanados = triggerLink.data("totaldanados");
-      var totalnuevo = triggerLink.data("totalnuevo");
-      var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
-
-      $("#corte_modalTitle").text(title);
-      $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+
-      totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+
-      totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+
-      totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestados: <span class='badge bg-primary rounded-pill'>"+
-      garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+
-      Total_total+"</span></li></ul>");
-  });
     // $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -1592,6 +1522,35 @@ Tgarrafon19LO += countArray(parseInt(garrafon19L['nuevo_cant']));
       });
   }
 
+  $("#corte_modal").on('show.bs.modal', function (e) {
+    var triggerLink = $(e.relatedTarget);
+    var Total_total = triggerLink.data("id");
+    var title = triggerLink.data("title");
+    var totalrefill = triggerLink.data("totalrefill");
+    var totalcanje = triggerLink.data("totalcanje");
+    var totalObsequio = triggerLink.data("totalobsequio");
+    var totaldanados = triggerLink.data("totaldanados");
+    var totalnuevo = triggerLink.data("totalnuevo");
+    var garrafones_prestamos = triggerLink.data("garrafones_prestamos");
+    var id_personal = triggerLink.data("id_personal");
+    
+    console.log(carga2)
+    let cant_ini=0
+    for (let i = 0; i < carga2.length; i++) {
+      for (let j = 0; j < carga2[i].length; j++) {
+        console.log(carga2[i][j]['personalId'])
+      if (carga2[i][j]['personalId'] == id_personal) {
+        cant_ini = parseInt(cant_ini) +parseInt(carga2[i][j]['cantidad_inicial'])
+      }
+      }
+      
+      
+    }
+    console.log(cant_ini)
+    let carga_final = parseInt(cant_ini)-(parseInt(totalrefill)+parseInt(totalcanje)+parseInt(totalnuevo)+parseInt(totalObsequio))
+    $("#corte_modalTitle").text(title);
+    $(this).find(".modal-body").html("<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Carga Inicial: <span class='badge bg-primary rounded-pill'>" + cant_ini +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Refill: <span class='badge bg-primary rounded-pill'>" + totalrefill +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Canej: <span class='badge bg-primary rounded-pill'>" +totalcanje +"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Nuevos: <span class='badge bg-primary rounded-pill'>"+ totalnuevo+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Obsequio: <span class='badge bg-primary rounded-pill'>"+ totalObsequio+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Carga Final: <span class='badge bg-primary rounded-pill'>"+carga_final+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Dañados: <span class='badge bg-primary rounded-pill'>"+ totaldanados+"</span></li><li class='list-group-item d-flex justify-content-between align-items-center'>Total Prestados: <span class='badge bg-primary rounded-pill'>"+garrafones_prestamos+"</span></li><li class='list-group-item list-group-item-primary d-flex justify-content-between align-items-center'>Total General: <span class='badge bg-primary rounded-pill'>"+Total_total+"</span></li></ul>");
+});
   
   // Flat Date picker
   if (dt_date_table.length) {
