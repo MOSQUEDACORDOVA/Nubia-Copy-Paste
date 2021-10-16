@@ -87,25 +87,25 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
 
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <li class="nav-item dropdown dropdown-notification me-25" >
+            <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">
                     <i data-feather='layers' class="ficon me-1"></i>
                     <span class="menu-title text-truncate añadir">Cambiar<br><span id="suc_actual">Sucursal</span></span>
                 </a>
             </li>
-            <li class="nav-item dropdown dropdown-notification me-25">
+            <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#add_cliente">
                     <i class="ficon me-1" data-feather='user-plus'></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>cliente</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Cliente</span>
                 </a>
             </li>
-            <li class="nav-item dropdown dropdown-notification me-25">
+            <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#registro_pedido_modal">
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>pedido</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido</span>
                 </a>
             </li>
             <li class="nav-item border mx-1">
@@ -121,7 +121,30 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
                     <a class="dropdown-item" href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar
                         Sesion</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown dropdown-actions d-md-none">
+                <a class="nav-link dropdown-toggle dropdown-actions-link"
+                    id="dropdown-actions" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i data-feather='more-vertical' class="ficon"></i>
+                </a>
 
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-actions">
+                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#add_cliente">
+                        <i class="ficon me-1" data-feather='user-plus'></i>
+                        Añadir Cliente
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#registro_pedido_modal">
+                        <i class="ficon me-1" data-feather="shopping-cart"></i>
+                        Añadir Pedido
+                    </a>
+                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#sucursal_change" id="cambiar_sucursal">
+                        <i data-feather='layers' class="ficon me-1"></i>
+                        Cambiar Sucursal
+                    </a>
                 </div>
             </li>
         </ul>

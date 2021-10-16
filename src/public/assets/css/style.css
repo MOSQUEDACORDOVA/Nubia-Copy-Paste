@@ -64,6 +64,9 @@ table tbody td button {
 .row.match-height.py4 .card .card-body .col .card-text {
     text-align: left !important;
 }
+.py4 .nav-item.dropdown.dropdown-actions .dropdown-menu a:hover .ficon {
+    color: white;
+}
 .py4 .card.card-congrats.py4 {
     color: #fff;
     background-color: #001871;
