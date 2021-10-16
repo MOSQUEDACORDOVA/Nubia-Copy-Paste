@@ -138,6 +138,28 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        {{#if presale}}
+            <li class="{{#if board}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/boardpresale/PYT-24">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
+                </a>
+            </li>
+            <li class="{{#if buy}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/presale/PYT-24">
+                    <i data-feather='user-plus'></i>
+                    <span class="menu-title text-truncate">Comprar TH</span>
+                </a>
+            </li>
+            <li class="{{#if dep}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/depositpresale/PYT-24">
+                    <i data-feather='credit-card'></i>
+                    <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
+                </a>
+            </li>
+            <br><br>
+        {{else}}
+
             {{#if roleClient }}
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
@@ -166,14 +188,14 @@
                 </a>
             </li>
 
-                {{#if roleSeller}}
+            {{#if roleSeller}}
             <li class="{{#if sell}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/seller24/PYT-24">
                     <i data-feather='user-plus'></i>
                     <span class="menu-title text-truncate">Referidos</span>
                 </a>
             </li>
-                {{/if}}
+            {{/if}}
 
             <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/web/PYT-24" target="_blank">
@@ -237,6 +259,7 @@
                 </a>
             </li>
             {{/if}}
+        {{/if}}
         </ul>
     </div>
 </div>

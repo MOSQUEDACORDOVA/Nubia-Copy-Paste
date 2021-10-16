@@ -130,10 +130,16 @@ router.get('/logout/PYT-21', userControllerPY21.closeSesion);
 
 /*--------------------------------------------------*/
 
-//PYT-24
+// PYT-24
+// PRESALE
+router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.presale);
+router.get('/boardpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.boardpresale);
+router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
+
 router.get('/web/:id', dashboardControllerPY24.web);
-router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/register24/:id', dashboardControllerPY24.register);
+router.get('/login24/:id', dashboardControllerPY24.login);
+router.get('/error24/:id', dashboardControllerPY24.error);
 router.get('/error24/:id', dashboardControllerPY24.error);
 
 // Auth user
