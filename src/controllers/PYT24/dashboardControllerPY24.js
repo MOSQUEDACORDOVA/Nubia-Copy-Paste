@@ -41,7 +41,7 @@ exports.sesionstart = (req, res) => {
         return next(err);
       }
       console.log(user.dataValues.id);
-      return res.redirect('/py24/PYT-24')
+      return res.redirect('/boardpresale/PYT-24')
     });
   })(req, res);
 };
@@ -111,7 +111,7 @@ exports.login = (req, res) => {
       pageName: "Login",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py24: true,
       login: true
     })
 };
@@ -127,7 +127,7 @@ exports.register = (req, res) => {
       pageName: "Registro",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py24: true,
       login: true
     })
 };
@@ -629,5 +629,92 @@ exports.plans = (req, res) => {
       roleAdmin,
       roleClient,
       roleSeller
+    })
+};
+
+exports.presale = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+ 
+  let roleAdmin;
+  let roleClient = true;
+  let roleSeller;
+  let presale = true;
+  
+    res.render(proyecto+"/presale", {
+      pageName: "Minner - Comprar TH",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller,
+      presale,
+      buy: true
+    })
+};
+
+exports.boardpresale = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+ 
+  let roleAdmin;
+  let roleClient = true;
+  let roleSeller;
+  let presale = true;
+  
+    res.render(proyecto+"/boardpresale", {
+      pageName: "Minner - Tablero",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller,
+      presale,
+      board: true,
+    })
+};
+
+exports.depositpresale = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+ 
+  let roleAdmin;
+  let roleClient = true;
+  let roleSeller;
+  let presale = true;
+  
+    res.render(proyecto+"/depositpresale", {
+      pageName: "Minner - Depositos",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller,
+      presale,
+      dep: true
     })
 };

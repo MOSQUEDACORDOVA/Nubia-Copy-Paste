@@ -28,44 +28,84 @@ fecha_corte = new DateTime($('#fecha_corte'), {
 {{/if}}
 
 <div class="app-content content py4">
-    <div class="content-overlay"></div>
-    <div class="header-navbar-shadow"></div>
     <div class="content-wrapper container-xxl p-0">
-        <div class="content-header row">
-        </div>
         <div class="content-body">
             <!-- CONTENIDO -->
-                <div class="card">
+            <div class="row">
+                <div class="col-xl-8 col-md-6 col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                            <div class="row">
 
-              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-              </div>
-              <div class="card-body">
-                <h4 class="card-title">Pedidos</h4>
-                <p class="card-text"> Todos los pedidos de la plataforma están acá, pronto podrás filtrarlos y
-                  modificarlos rápidamente. </p>
-              </div>
-              <div class="d-flex justify-content-between align-items-center mx-0 row">
-
-              </div>
-                <section id="column-search-datatable">
-                        <div class="card-body">
-                                    <form class="dt_adv_search" method="POST">
-                                        <div class="row">
-                                            <!--<div class="col-md-4">
-                                                <label class="form-label">City:</label>
-                                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                                            </div>-->
-                                            <div class="col-md-4">
-                                                <label class="form-label">Fecha:</label>
-                                                <div class="mb-0 d-flex">
-                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
-                                                    <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
-                                                </div>
+                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='clipboard' class="feather feather-trending-up text-primary avatar-icon"></i>
                                             </div>
                                         </div>
-                                    </form>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Pedidos</h4>
+                                        </div>
+                                    </div>
                                 </div>
+
+                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='info' class="feather feather-trending-up  avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Prestados</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-sm-6 col-12" type="button" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-success me-2">
+                                            <div class="avatar-content">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Ventas</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card collapse show" id="pedidostable">
+                <div class="card-body">
+                    <h4 class="card-title">Pedidos</h4>
+                    <p class="card-text"> Todos los pedidos de la plataforma están acá, pronto podrás filtrarlos y
+                    modificarlos rápidamente.</p>
+                </div>
+                <section id="column-search-datatable">
+                    <div class="card-body">
+                        <form class="dt_adv_search" method="POST">
+                            <div class="row">
+                                <!--<div class="col-md-4">
+                                    <label class="form-label">City:</label>
+                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
+                                </div>-->
+                                <div class="col-md-4">
+                                    <label class="form-label">Fecha:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                        <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
+                                        <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="card">
@@ -81,30 +121,35 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                     
                                 </table>
                             </div>
                         </div>
                     </div>
-
-
                 </section>
-                                      <div class="row">
-                        <div class="col-12">
+            </div>
+
+            <div class="row collapse" id="prestadostable">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Prestados</h4>
+                            <p class="card-text">Todos los prestamos de la plataforma están acá, pronto podrás filtrarlos y modificarlos rápidamente. </p>
+                            <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
+                            <div class="col-md-6 col-lg-4">
+                                <p class="m-0">Cambiar fecha de corte (prestados):</p>
+                                <div class="my-1 d-flex">
+                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
+                                    <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                <p class="m-0">Total prestados (del día): {{prestamos_del_dia}}</p><br>
+                                <p class="m-0">Total devueltos (del día): {{devueltos_del_dia}}</p>     
+                            </div>
+                        </div>
+                        <div class="table-responsive">
                             <div class="card">
-                                <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
-                                <div class="col">
-                                        <label class="form-label">Cambiar fecha de corte (prestados):</label>
-                                                <div class="mb-0 d-flex">
-                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
-                                                   <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
-                                                </div>
-                                    </div>
-                                     <div class="col">
-                                        <label class="form-label">Total prestados (del día): {{prestamos_del_dia}}</label><br>
-                                         <label class="form-label">Total devueltos (del día): {{devueltos_del_dia}}</label>     
-                                    </div>
                                 <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
                                     <thead>
                                         <tr>
@@ -113,93 +158,88 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                                             <th>Fecha</th>
                                             <th>Devueltos</th>
                                             <th>Fecha Ult. Devolución</th>
-                                            <th>Opciones</th>
                                         </tr>
                                     </thead>
-                                     
                                 </table>
                             </div>
-                        </div>
-                         <div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
-      style="display: none;" aria-hidden="corte_modal">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="corte_modalTitle"></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body" id='corte_modalBody'>
-          
-          </div>
-          <div class="modal-footer">
-             
-          </div>
-        </div>
-      </div>
-    </div>
+                        </div>        
                     </div>
                 </div>
+            </div>
 
+            <div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
+            style="display: none;" aria-hidden="corte_modal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="corte_modalTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id='corte_modalBody'>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <div class="card">
-
-              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-              </div>
-              <div class="card-body">
-                  
-                <h4 class="card-title">Ventas</h4>
-                <p class="card-text"> Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
-                  modificarlos rápidamente. </p>
-              </div>
-              <div class="d-flex justify-content-between align-items-center mx-0 row">
-<form class="dt_adv_search" method="POST">
-                                        <div class="row">
-                                            <!--<div class="col-md-4">
-                                                <label class="form-label">City:</label>
-                                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                                            </div>-->
-                                            <div class="col-md-4">
-                                                <label class="form-label">Fecha:</label>
-                                                <div class="mb-0 d-flex">
-                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
-                                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form><br>
-              </div>
-                <section id="column-search-datatable">
-                     <div class="card-body">
-                                 
+            <div class="card collapse" id="ventastable">
+                <div class="card-body">
+                    <h4 class="card-title">Ventas</h4>
+                    <p class="card-text">Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
+                    modificarlos rápidamente.</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                    <form class="dt_adv_search" method="POST">
+                        <div class="row">
+                            <!--<div class="col-md-4">
+                                <label class="form-label">City:</label>
+                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
+                            </div>-->
+                            <div class="col-md-4">
+                                <label class="form-label">Fecha:</label>
+                                <div class="mb-0 d-flex">
+                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
+                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
                                 </div>
+                            </div>
+                        </div>
+                    </form><br>
+                </div>
+
+                <section id="column-search-datatable">
+                    <div class="card-body">
+                                
+                    </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
-                                <table class="datatables-basic2 table dt-column-search2">
-                                    <thead>
-                                        <tr>
-                                            <th>Nº Pedido</th>
-                                            <th>Cliente</th>
-                                            <th>Monto Total</th>
-                                            <th>Status del Pedido</th>
-                                            <th>Status de Pago</th>
-                                            <th>Fecha</th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic2 table dt-column-search2">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section>
-
-                </div>
-
             </div>
-
         </div>
     </div>
+</div>
     <!-- REGISTRO
                         <div class="card mb-0">
                             <div class="card-body">

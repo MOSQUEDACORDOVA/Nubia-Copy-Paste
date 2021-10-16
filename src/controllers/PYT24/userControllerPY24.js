@@ -7,7 +7,7 @@ exports.createUser = async (req, res) => {
         username: username, email: email, password: password, type_user: 'Administrador'
       });
   
-      res.redirect("/usuarios_a");
+      res.redirect("/boardpresale");
     } catch (err) {
       console.log(err);
       if (err.errors) {
