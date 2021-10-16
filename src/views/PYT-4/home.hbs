@@ -6,11 +6,11 @@
 
 <script>
 
-$(document).ready(function(){
+$(document).ready(function() {
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
-fecha_corte = new DateTime($('#fecha_corte'), {
+    fecha_corte = new DateTime($('#fecha_corte'), {
         format: 'DD/MM/YYYY'
     });
         $('#fecha_corte').on('change', (e)=>{
@@ -19,8 +19,44 @@ fecha_corte = new DateTime($('#fecha_corte'), {
         console.log(fecha)
      window.location.href=`/prestados/${fecha}`
 
-    })
-})
+    });
+
+    $('#btnpedidos').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#btnprestados').on('click', (e)=> {
+        Reset(2);
+    });
+    $('#btnventas').on('click', (e)=> {
+        Reset(3);
+    });
+
+    function Reset(num) {
+        $('#pedidostable').removeClass('show');
+        $('#pedidostable').addClass('collpase');
+
+        $('#prestadostable').removeClass('show');
+        $('#prestadostable').addClass('collpase');
+
+        $('#ventastable').removeClass('show');
+        $('#ventastable').addClass('collpase');
+        
+        switch (num){
+            case 1:
+                $('#pedidostable').removeClass('collpase');
+                $('#pedidostable').addClass('show');
+            break;
+            case 2:
+                $('#prestadostable').removeClass('collpase');
+                $('#prestadostable').addClass('show');
+            break;
+            case 3:
+                $('#ventastable').addClass('show');
+                $('#ventastable').removeClass('collpase');
+            break;
+        }
+    }
+});
 
 </script>
 {{#if msg}}
@@ -37,7 +73,7 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                         <div class="card-body statistics-body">
                             <div class="row">
 
-                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-primary me-2">
                                             <div class="avatar-content">
@@ -50,7 +86,7 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnprestados" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-warning me-2">
                                             <div class="avatar-content">
@@ -63,7 +99,7 @@ fecha_corte = new DateTime($('#fecha_corte'), {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-sm-6 col-12" type="button" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-4 col-sm-6 col-12" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
                                             <div class="avatar-content">
