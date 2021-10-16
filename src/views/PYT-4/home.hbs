@@ -10,13 +10,23 @@ $(document).ready(function(){
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
+fecha_corte = new DateTime($('#fecha_corte'), {
+        format: 'DD/MM/YYYY'
+    });
+        $('#fecha_corte').on('change', (e)=>{
+        console.log(e.target.value)
+        let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
+        console.log(fecha)
+     window.location.href=`/prestados/${fecha}`
 
+    })
 })
 
 </script>
 {{#if msg}}
 <label id="msgs">{{msg}}</label>
 {{/if}}
+
 <div class="app-content content py4">
     <div class="content-overlay"></div>
     <div class="header-navbar-shadow"></div>
@@ -76,7 +86,58 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
+
+
                 </section>
+                                      <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
+                                <div class="col">
+                                        <label class="form-label">Cambiar fecha de corte (prestados):</label>
+                                                <div class="mb-0 d-flex">
+                                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
+                                                   <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
+                                                </div>
+                                    </div>
+                                     <div class="col">
+                                        <label class="form-label">Total prestados (del día): {{prestamos_del_dia}}</label><br>
+                                         <label class="form-label">Total devueltos (del día): {{devueltos_del_dia}}</label>     
+                                    </div>
+                                <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
+                                    <thead>
+                                        <tr>
+                                            <th>Cliente</th>
+                                            <th>Nª Envases Prestados</th>
+                                            <th>Fecha</th>
+                                            <th>Devueltos</th>
+                                            <th>Fecha Ult. Devolución</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                     
+                                </table>
+                            </div>
+                        </div>
+                         <div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id='corte_modalBody'>
+          
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+        </div>
+      </div>
+    </div>
+                    </div>
                 </div>
 
 
@@ -132,6 +193,7 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </section>
+
                 </div>
 
             </div>

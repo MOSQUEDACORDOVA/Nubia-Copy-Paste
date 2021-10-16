@@ -1,6 +1,13 @@
 <script>
   $(document).ready(function(){
+ if ( $("#sucursal_select option[value]") =='{{cliente_let.sucursaleId}}' ){
+console.log("option doesn't exist!");
+//$('#sucursal_select').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
 
+}else{
+  console.log("option exist!");
+$("#sucursal_select option[value='{{cliente_let.sucursaleId}}']").attr("selected", true);
+}
   $('.cp_select').on('keyup', (e)=>{
      $(".select_asentamiento").empty();
 let cp = e.target.value
@@ -197,13 +204,13 @@ $('.municipio').val(municipio)
                   en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
                   aria-describedby="register-utimos_botellones" tabindex="23"
                   class="form-control mb-2" value="{{cliente_let.ultimos_botellones}}"></div>
-              <div class="form-group"><label for="register-sucursal"
+                           <div class="form-group"><label for="register-sucursal"
                   class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
-                  name="sucursal" class="form-control mb-2">
-                  <option selected=""> {{cliente_let.sucursal}} </option>
-                  <option > Bugambilias </option>
-                  <option> Patria </option>
-                  <option> Adamar </option>
+                  name="sucursal" class="form-control mb-2" id="sucursal_select">
+                  
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
                 </select></div>
               <div class="divider">
                 <div class="divider-text">Acceso</div>

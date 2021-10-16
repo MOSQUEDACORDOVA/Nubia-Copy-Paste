@@ -5,7 +5,7 @@ const Vehiculos = require('../../models/PYT4/Vehiculos')
 const Personal = db.define('personal', {
 	id: {
 		type: DataTypes.INTEGER,
-		primaryKey: true,
+		primaryKey: true,	
 		autoIncrement: true
 	},
 	fecha_ingreso: {
@@ -48,5 +48,6 @@ const Personal = db.define('personal', {
 
 
 Personal.Vehiculos= Personal.belongsTo(Vehiculos);
+//Personal.hasMany(Carga_init, {as: 'Carga_init'})
 module.exports = Personal;
 
