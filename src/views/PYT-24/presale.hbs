@@ -96,30 +96,13 @@
 
                             <div class="col-12"></div>
                             <!-- PLANS -->
-                            {{#each data as |item|}}       
+                            {{#each data as |item i|}}       
                             <div class="col-12 col-md-4">
-                                <div class="card {{#if "item.price > 6 && < 13"}} standard-pricing popular {{else}} basic-pricing {{/if}} text-center">
+                                <div class="card {{#planesclasepy24 item.amount_th}} {{/planesclasepy24}} text-center">
                                     <div class="card-body">
-                                        {{#if "item.price <= 6"}}
-                                        <img src="../../../app-assets/images/illustration/Pot1.svg" class="mb-2 mt-5" alt="svg img">
-                                        <h3>{{item.name}}</h3>
-                                        <p class="card-text">Inicial</p>
-                                        {{/if}}
-
-                                        {{#if "item.price > 6 && < 13"}}
-                                        <div class="pricing-badge text-end">
-                                            <span class="badge rounded-pill bg-light-primary text-primary">Popular</span>
-                                        </div>
-                                        <img src="../../../app-assets/images/illustration/Pot2.svg" class="mb-1" alt="svg img">
-                                        <h3>{{item.name}}</h3>
-                                        <p class="card-text">Mejor compra</p>
-                                        {{/if}}
-
-                                        {{#if "item.price > 13"}}
-                                        <img src="../../../app-assets/images/illustration/Pot3.svg" class="mb-2" alt="svg img">
-                                        <h3>{{item.name}}</h3>
-                                        <p class="card-text">Profesional</p>
-                                        {{/if}}
+                                    
+                                        {{#planesinfopy24 item.amount_th item.name}}
+                                        {{/planesinfopy24}}
 
                                         <!-- NOMBRE DEL PLAN -->
                                         <div class="annual-plan">
@@ -194,7 +177,6 @@
                         </div>
                     </div>
                 </div>
-
                 {{/if}}
 
 

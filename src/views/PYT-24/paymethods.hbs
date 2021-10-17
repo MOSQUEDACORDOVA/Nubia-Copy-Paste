@@ -38,107 +38,111 @@
                             </button>
                         </div>
                     </div>
+
                     <div class="bs-stepper-content">
-                        <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                        <form method="POST" action="/addbank" id="account-details-vertical" class="content dstepper-block active" role="tabpanel">
                             <div class="content-header">
                                 <h5 class="mb-0">Transferencia Bancaria</h5>
                             </div>
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Nombre Completo</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="fullname" class="form-control" placeholder="" required>
                                 </div>
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Documento de identificación</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="dni" class="form-control" placeholder="" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Tipo de Banco</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="bank_name" class="form-control" placeholder="" required>
                                 </div>
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Tipo de Cuenta</label>
-                                    <select name="" id="" class="form-select">
-                                        <option value="" selected>Corriente</option>
-                                        <option value="">Ahorro</option>
+                                    <select name="type_account" id="" class="form-select" required>
+                                        <option value="Corriente" selected>Corriente</option>
+                                        <option value="Ahorro">Ahorro</option>
                                     </select>
                                 </div>
                                 <div class="mb-1">
                                     <label class="form-label" for="">Nro de Cuenta Bancaria</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="num_account" class="form-control" placeholder="" required>
                                 </div>
                             </div>
                             <div class="d-flex">
-                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                     Añadir
                                 </button>
                                 <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
                                     Descartar
                                 </button>
                             </div>
-                        </div>
-                        <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                        </form>
+
+                        <form method="POST" action="/addbtc" id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                             <div class="content-header">
                                 <h5 class="mb-0">Retiro en BTC</h5>
                             </div>
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="code_wallet" class="form-control" placeholder="" required>
                                 </div>
                             </div>
 
                             <div class="d-flex">
-                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                     Añadir
                                 </button>
                                 <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
                                     Descartar
                                 </button>
                             </div>
-                        </div>
-                        <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                        </form>
+
+                        <form method="POST" action="/addwallet" id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
                             <div class="content-header">
                                 <h5 class="mb-0">Retiro en Billetera digital</h5>
                             </div>
                             <div class="row">
                                 <div class="mb-1 col-md-6">
-                                    <label class="form-label" for="vertical-first-name">Email</label>
-                                    <input type="email" id="" class="form-control" placeholder="">
+                                    <label class="form-label" for="">Email</label>
+                                    <input type="email" id="" name="email" class="form-control" placeholder="" required>
                                 </div>
                             </div>
 
                             <div class="d-flex">
-                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                     Añadir
                                 </button>
                                 <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
                                     Descartar
                                 </button>
                             </div>
-                        </div>
-                        <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                        </form>
+
+                        <form method="POST" action="/addpaym" id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
                             <div class="content-header">
                                 <h5 class="mb-0">Pago Móvil</h5>
                             </div>
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Nombre Completo</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" name="fullname" id="" class="form-control" placeholder="" required>
                                 </div>
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Documento de identicicación</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" name="dni" id="" class="form-control" placeholder="" required>
                                 </div>
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Banco</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="bank_name" class="form-control" placeholder="" required>
                                 </div>
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="">Telefono</label>
-                                    <input type="text" id="" class="form-control" placeholder="">
+                                    <input type="text" id="" name="phone" class="form-control" placeholder="" required>
                                 </div>
                             </div>
 

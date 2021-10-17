@@ -5,6 +5,7 @@ const Usuarios = require("../../models/PYT24/Usuarios");
 const TH = require("../../models/PYT24/th");
 const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
+const MPagos = require("../../models/PYT24/MetodosPago");
 
 module.exports = {
     //USUARIO
@@ -19,6 +20,58 @@ module.exports = {
                 reject(err)
             });
         });
+    },
+    // CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
+    AddBank(fullname, dni, bank_name, type_account, num_account) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'Trasnferencia Bancaria', full_name: fullname, dni: dni, bank_name: bank_name, type_account: type_account, num_account: num_account })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (trasnferencia Bancaria) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE PAGO, PAGO MOVIL
+    AddPaym(fullname, dni, bank_name, phone) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'Pago Movil', full_name: fullname, dni: dni, bank_name: bank_name, phone: phone })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (Pago Movil) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE PAGO, RETIRO EN BTC
+    AddBTC(code_wallet) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'BTC', code_wallet: code_wallet })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (RETIRO EN BTC) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE PAGO, BILLETERA DIGITAL
+    AddDigitalWallet(email) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'Billetera Digital', digital_wallet_email: email })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (BILLETERA DIGITAL) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
     },
     // AÑADIR MAQUINA DE MINADO
     AddMachineTH(amount) {

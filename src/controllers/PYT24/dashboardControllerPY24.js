@@ -744,6 +744,77 @@ exports.createpackages = (req, res) => {
   };
 }
 
+// CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
+exports.addbank = (req, res) => {
+  const { fullname, dni, bank_name, type_account, num_account } = req.body;
+  let msg = false;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || type_account.trim() === '' || num_account.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddBank(fullname, dni, bank_name, type_account, num_account).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO (PAGO MOVIL)
+exports.addpaym = (req, res) => {
+  const { fullname, dni, bank_name, phone } = req.body;
+  let msg = false;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || phone.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddPaym(fullname, dni, bank_name, phone).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO RETIRO EN BTC
+exports.addbtc = (req, res) => {
+  const { code_wallet } = req.body;
+  let msg = false;
+  if (code_wallet.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddBTC(code_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO BILLETERA DIGITAL
+exports.addwallet = (req, res) => {
+  const { email } = req.body;
+  let msg = false;
+  if (email.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddDigitalWallet(email).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
 
 exports.plans = (req, res) => {
   let msg = false;
