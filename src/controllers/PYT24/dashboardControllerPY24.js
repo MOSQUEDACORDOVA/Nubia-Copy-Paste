@@ -800,7 +800,7 @@ exports.presale = (req, res) => {
     let data = JSON.parse(response);
     DataBase.GetControlTH().then((response_th)=>{
       let data_th = JSON.parse(response_th)[0];
-      console.log(data_th)
+      //console.log(data_th)
     res.render(proyecto+"/presale", {
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
