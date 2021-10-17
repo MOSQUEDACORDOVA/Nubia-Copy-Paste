@@ -32,7 +32,7 @@ module.exports = {
 			`;
 		}
 	},
-	sucursalesdisponibles: (sucursales, id_suc) => {
+	planespy24: (sucursales, id_suc) => {
 		//console.log(sucursales)
 		//console.log(id_suc)
 		var aux = sucursales.split(",");

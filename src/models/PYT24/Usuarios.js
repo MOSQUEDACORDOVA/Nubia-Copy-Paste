@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const bcrypt = require('bcrypt-nodejs');
-
+// USUARIOS
 const Usuarios = db24.define('usuarios', {
     id: {
 		type: DataTypes.INTEGER,

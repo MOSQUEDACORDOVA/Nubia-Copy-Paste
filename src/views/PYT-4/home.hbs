@@ -68,12 +68,12 @@ $(document).ready(function() {
         <div class="content-body">
             <!-- CONTENIDO -->
             <div class="row">
-                <div class="col-xl-8 col-md-6 col-12">
+                <div class="col-12">
                     <div class="card card-statistics">
                         <div class="card-body statistics-body">
                             <div class="row">
 
-                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-primary me-2">
                                             <div class="avatar-content">
@@ -86,7 +86,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnprestados" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnprestados" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-warning me-2">
                                             <div class="avatar-content">
@@ -99,7 +99,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-4 col-sm-6 col-12" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
                                             <div class="avatar-content">
@@ -144,20 +144,22 @@ $(document).ready(function() {
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="card">
-                                <table class="datatables-basic table dt-column-search" id="example">
-                                    <thead>
-                                        <tr>
-                                            <th>Nº Pedido</th>
-                                            <th>Cliente</th>
-                                            <th>Monto Total</th>
-                                            <th>Status del Pedido</th>
-                                            <th>Status de Pago</th>
-                                            <th>Fecha</th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                </table>
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic table dt-column-search" id="example">
+                                        <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

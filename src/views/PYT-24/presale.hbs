@@ -1,8 +1,7 @@
-<div class="app-content content ">
+<div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-            <section id="pricing-plan">
-                
+            <section id="pricing-plan">    
                 {{#if roleClient}}
                 <!-- title text and switch button -->
                 <div class="text-center">
@@ -11,14 +10,13 @@
                     <div class="d-flex align-items-center justify-content-center mb-5 pb-50">
                         <h6 class="me-1 mb-0">12 Meses</h6>
                         <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="priceSwitc">
-                            <label class="form-check-label" for="priceSwitch"></label>
+                            <input type="checkbox" class="form-check-input" id="">
+                            <label class="form-check-label" for=""></label>
                         </div>
                         <h6 class="ms-50 mb-0">24 Meses</h6>
                     </div>
                 </div>
                 <!--/ title text and switch button -->
-
                 <!-- pricing plan cards -->
                 <div class="row pricing-card">
                     <div class="col-12 col-sm-offset-2 col-sm-10 col-md-12 col-lg-offset-2 col-lg-10 mx-auto">
@@ -40,13 +38,13 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3">
-                                                                <label class="col-form-label" for="first-name">Meses de Minería</label>
+                                                                <label class="col-form-label" for="">Meses de Minería</label>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <select name="" id="" class="form-select">
-                                                                    <option value="">6 Meses</option>
-                                                                    <option value="">12 Meses</option>
-                                                                    <option value="">18 Meses</option>
+                                                                <select name="duration" id="" class="form-select">
+                                                                    <option value="6">6 Meses</option>
+                                                                    <option value="12">12 Meses</option>
+                                                                    <option value="18">18 Meses</option>
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -54,10 +52,10 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3">
-                                                                <label class="col-form-label" for="email-id">Cantidad de TH</label>
+                                                                <label class="col-form-label" for="">Cantidad de TH</label>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <input type="number" id="" class="form-control" name="" placeholder="13" value="0" minlength="0">
+                                                                <input type="number" id="" class="form-control" name="amount" placeholder="13" value="0" min="0" required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -67,7 +65,17 @@
                                                                 <label class="col-form-label" for="">Costo</label>
                                                             </div>
                                                             <div class="col-sm-9">
-                                                                <input type="text" id="" class="form-control" name="" placeholder="" value="600$" readonly>
+                                                                <input type="number" id="" class="form-control" name="price" placeholder="600$" value="600" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3">
+                                                                <label class="col-form-label" for="">Costo de Mantenimiento</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="10%" readonly>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -85,33 +93,53 @@
                             </div>
 
                             <div class="col-12"></div>
-                            <!-- basic plan -->
+                            <!-- PLANS -->
+                            {{#each data as |item|}}       
                             <div class="col-12 col-md-4">
-                                <div class="card basic-pricing text-center">
+                                <div class="card {{#if "item.price > 6 && < 13"}} standard-pricing popular {{else}} basic-pricing {{/if}} text-center">
                                     <div class="card-body">
+                                        {{#if "item.price <= 6"}}
                                         <img src="../../../app-assets/images/illustration/Pot1.svg" class="mb-2 mt-5" alt="svg img">
-                                        <h3>Basico</h3>
+                                        <h3>{{item.name}}</h3>
                                         <p class="card-text">Inicial</p>
+                                        {{/if}}
+
+                                        {{#if "item.price > 6 && < 13"}}
+                                        <div class="pricing-badge text-end">
+                                            <span class="badge rounded-pill bg-light-primary text-primary">Popular</span>
+                                        </div>
+                                        <img src="../../../app-assets/images/illustration/Pot2.svg" class="mb-1" alt="svg img">
+                                        <h3>{{item.name}}</h3>
+                                        <p class="card-text">Mejor compra</p>
+                                        {{/if}}
+
+                                        {{#if "item.price > 13"}}
+                                        <img src="../../../app-assets/images/illustration/Pot3.svg" class="mb-2" alt="svg img">
+                                        <h3>{{item.name}}</h3>
+                                        <p class="card-text">Profesional</p>
+                                        {{/if}}
+
+                                        <!-- NOMBRE DEL PLAN -->
                                         <div class="annual-plan">
                                             <div class="plan-price mt-2">
                                                 <sup class="font-medium-1 fw-bold text-primary">$</sup>
-                                                <span class="pricing-basic-value fw-bolder text-primary">600</span>
-                                                {{!-- <sub class="pricing-duration text-body font-medium-1 fw-bold">600$</sub> --}}
+                                                <span class="pricing-basic-value fw-bolder text-primary">{{item.price}}</span>
                                             </div>
                                             <small class="annual-pricing d-none text-muted"></small>
                                         </div>
                                         <ul class="list-group list-group-circle text-start">
-                                            <li class="list-group-item">12 meses Minería</li>
-                                            <li class="list-group-item">Cantidad de TH: 6</li>
-                                            <li class="list-group-item">Coste de mantenimiento: 10%</li>
+                                            <li class="list-group-item">{{item.duration}} meses Minería</li>
+                                            <li class="list-group-item">Cantidad de TH: {{item.amount_th}} </li>
+                                            <li class="list-group-item">Coste de mantenimiento: {{item.maintance_charge}}%</li>
                                         </ul>
-                                        <button class="btn w-100 btn-outline-success mt-2 waves-effect">Tu paquete actual</button>
+                                        <button class="btn w-100 btn-primary mt-2 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Comprar</button>
                                     </div>
                                 </div>
                             </div>
-                            <!--/ basic plan -->
+                            {{/each}}
+                            <!-- PLANS -->
 
-                            <!-- standard plan -->
+                            <!-- 
                             <div class="col-12 col-md-4">
                                 <div class="card standard-pricing popular text-center">
                                     <div class="card-body">
@@ -132,13 +160,13 @@
                                             <li class="list-group-item">Cantidad de TH: 13</li>
                                             <li class="list-group-item">Coste de mantenimiento: 10%</li>
                                         </ul>
-                                        <button class="btn w-100 btn-primary mt-2 waves-effect waves-float waves-light">Comprar</button>
+                                        <button class="btn w-100 btn-outline-success mt-2 waves-effect" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Tu paquete actual</button>
                                     </div>
                                 </div>
                             </div>
-                            <!--/ standard plan -->
+                            -->
 
-                            <!-- enterprise plan -->
+                            <!-- 
                             <div class="col-12 col-md-4">
                                 <div class="card enterprise-pricing text-center">
                                     <div class="card-body">
@@ -156,14 +184,15 @@
                                             <li class="list-group-item">Cantidad de TH: 26</li>
                                             <li class="list-group-item">Coste de mantenimiento: 10%</li>
                                         </ul>
-                                        <button class="btn w-100 btn-outline-primary mt-2 waves-effect">Comprar</button>
+                                        <button class="btn w-100 btn-outline-primary mt-2 waves-effect" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Comprar</button>
                                     </div>
                                 </div>
                             </div>
-                            <!--/ enterprise plan -->
+                            -->
                         </div>
                     </div>
                 </div>
+
                 {{/if}}
 
 
@@ -223,6 +252,11 @@
                                                     <h5 class="mb-0">Transferencia Bancaria</h5>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <select class="form-select" id="" tabindex="-1" aria-hidden="true">
+                                                            <option value="">Cuentas disponibles</option>
+                                                        </select>
+                                                    </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Nombre Completo</label>
                                                         <input type="text" id="" class="form-control" placeholder="" value="Mosqueda Cordova" readonly>

@@ -100,7 +100,7 @@ router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', auth
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
 
-    //post
+//post
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
 router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
@@ -156,7 +156,6 @@ router.get('/web/:id', dashboardControllerPY24.web);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/error24/:id', dashboardControllerPY24.error);
-router.get('/error24/:id', dashboardControllerPY24.error);
 
 // Auth user
 router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.dashboard);
@@ -181,6 +180,26 @@ router.get('/paym/:id', authControllerPY24.authenticatedAdmin, dashboardControll
 //POST
 router.post('/loginpy24', dashboardControllerPY24.sesionstart);
 router.post('/reguserpy24', dashboardControllerPY24.reguserpy24);
+
+// AÑADIR MAQUINA DE MINADO 
+router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
+
+// CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
+router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
+// ACTUALIZAR PRECIO TH
+router.post('/updateth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateth);
+// ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
+router.post('/updatemaintance', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatemaintance);
+// ACTUALIZAR PORCENTAJE DE ERROR
+router.post('/updateerror', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateerror);
+// ACTUALIZAR GANANCIAS POR REFERIDOS
+router.post('/updateearnings', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateearnings);
+// ACTUALIZAR MINIMO DE RETIRO
+router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateminwithd);
+
+// CREAR PAQUETES
+router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
+
 
 // Cerrar Sesión
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);

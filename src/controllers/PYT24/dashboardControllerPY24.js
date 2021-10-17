@@ -3,6 +3,7 @@ const path = require("path");
 const Swal = require("sweetalert2");
 const DataBase = require("../../models/PYT24/data");
 const passport = require("passport");
+const { rejects } = require("assert");
 
 exports.web = (req, res) => {
   let msg = false;
@@ -559,7 +560,47 @@ exports.deposits = (req, res) => {
 //     })
 // };
 
+// AÑADIR MAQUINA DE MINADO
+exports.addth = (req, res) => {
+  console.log(req.body);
+  const { amount } = req.body;
+  let msg = false;
+  if (amount.trim() === '') {
+    console.log('Complete todos los campos')
+    res.redirect('/th/PYT-24');
+  } else {
+    DataBase.AddMachineTH(amount).then((respuesta) =>{
+      console.log("Datos agregados satisfactoriamente");
+      res.redirect('/th/PYT-24');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24" + msg);
+    });
+  }
+};
 
+// CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
+exports.controlth = (req, res) => {
+  console.log(req.body);
+  const { price, maintance, error, earnings, minwithd } = req.body;
+  let msg = false;
+  if (price.trim() === '' || maintance.trim() === '' || error.trim() === '' || earnings.trim() === '' || minwithd.trim() === '') {
+    console.log('Complete todos los campos')
+    res.redirect('/th/PYT-24');
+  } else {
+    DataBase.ControlTH(price, maintance, error, earnings, minwithd).then((respuesta) =>{
+      console.log("Datos agregados satisfactoriamente");
+      res.redirect('/th/PYT-24');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24" + msg);
+    });
+  }
+};
+
+// OBTENER DATOS GENERALES DEL SISTEMA, PRECIO TH, COBRO MANTENIMIENTO ETC
 exports.th = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -581,20 +622,129 @@ exports.th = (req, res) => {
     roleAdmin = true;
   }
 
-    res.render(proyecto+"/th", {
-      pageName: "Administrar TH",
-      dashboardPage: true,
-      dashboard: true,
-      py24:true,
-      login:false,
-      th: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      roleClient,
-      roleSeller
-    })
+  // CONTROL TH PRECIOS, COSTOS ETC
+  DataBase.GetControlTH().then((response)=>{
+    let data = JSON.parse(response)[0];
+    let machine;
+    // OBTENER MAQUINAS DE MINADO
+    DataBase.GetMachineTH().then((res)=> {
+      machine = JSON.parse(res)[0];
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error obteniendo maquinas de minado en el sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+
+      res.render(proyecto+"/th", {
+        pageName: "Administrar TH",
+        dashboardPage: true,
+        dashboard: true,
+        py24:true,
+        login:false,
+        th: true,
+        username: req.user.username,
+        typeUser: req.user.type_user,
+        roleAdmin,
+        roleClient,
+        roleSeller,
+        data,
+        machine
+      });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo datos de control precios etc, en el sistema";
+    return res.redirect("/error24/PYT-24");
+  })
 };
+
+// ACTUALIZAR PRECIO TH
+exports.updateth = (req, res) => {
+  const {price} = req.body
+
+  DataBase.UpdatePriceTH(price).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/th/PYT-24')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
+exports.updatemaintance = (req, res) => {
+  const {maintance} = req.body
+
+  DataBase.UpdateMaintance(maintance).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/th/PYT-24')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// ACTUALIZAR PORCENTAJE DE ERROR
+exports.updateerror = (req, res) => {
+  const {error} = req.body
+
+  DataBase.UpdateError(error).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/th/PYT-24')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// ACTUALIZAR GANANCIAS POR REFERIDOS
+exports.updateearnings = (req, res) => {
+  const {earnings} = req.body
+
+  DataBase.UpdateRefEarnings(earnings).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/th/PYT-24')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// ACTUALIZAR SALDO MINIMO DE RETIRO
+exports.updateminwithd = (req, res) => {
+  const {minwithd} = req.body
+
+  DataBase.UpdateMinWithdrawal(minwithd).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/th/PYT-24')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// CREAR PAQUETES
+exports.createpackages = (req, res) => {
+  const { name, price, duration, amount, maintance } = req.body;
+  let msg = false;
+  if (name.trim() === '' || price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.CreatePackages(name, price, duration, amount, maintance).then((respuesta) =>{
+      res.redirect('/plans/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24" + msg);
+    });
+  };
+}
+
 
 exports.plans = (req, res) => {
   let msg = false;
@@ -632,6 +782,7 @@ exports.plans = (req, res) => {
     })
 };
 
+// OBTENER PAQUETES
 exports.presale = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -644,7 +795,9 @@ exports.presale = (req, res) => {
   let roleClient = true;
   let roleSeller;
   let presale = true;
-  
+
+  DataBase.GetPackages().then((response)=>{
+    let data = JSON.parse(response);
     res.render(proyecto+"/presale", {
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
@@ -657,8 +810,14 @@ exports.presale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
+      data,
       buy: true
-    })
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.boardpresale = (req, res) => {
