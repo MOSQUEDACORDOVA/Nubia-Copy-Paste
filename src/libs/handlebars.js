@@ -32,13 +32,13 @@ module.exports = {
 			`;
 		}
 	},
-	planespy24: (sucursales, id_suc) => {
+	planesinfopy24: (price) => {
 		//console.log(sucursales)
 		//console.log(id_suc)
 		var aux = sucursales.split(",");
 		let cont =	aux.length;
 		var out = "";
-			 for (let i = 0; i < id_suc.length; i++) {
+			for (let i = 0; i < id_suc.length; i++) {
 				 
 				 console.log(aux[i])
 				 if (id_suc[i].id ==  aux[i]) {
@@ -47,6 +47,27 @@ module.exports = {
 			
 			}
 		 return out;
+	},
+	totalth: (totalth) => {
+		let total = 0;
+		totalth.forEach(element => {
+			total += parseInt(element.th_capacity);
+		});
+		return total;
+	},
+	totalthvendidos: (vendidos) => {
+		let total = 0;
+		vendidos.forEach(element => {
+			total += parseInt(element.sold_out);
+		});
+		return total;
+	},
+	totalthdisponibles: (disponibles) => {
+		let total = 0;
+		disponibles.forEach(element => {
+			total += parseInt(element.avalible);
+		});
+		return total;
 	},
 	empleados_disponibles: (sucursales, id_empleado) => {
 		//console.log(sucursales)

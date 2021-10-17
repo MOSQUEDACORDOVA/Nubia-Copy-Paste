@@ -625,10 +625,9 @@ exports.th = (req, res) => {
   // CONTROL TH PRECIOS, COSTOS ETC
   DataBase.GetControlTH().then((response)=>{
     let data = JSON.parse(response)[0];
-    let machine;
     // OBTENER MAQUINAS DE MINADO
-    DataBase.GetMachineTH().then((res)=> {
-      machine = JSON.parse(res)[0];
+    DataBase.GetMachineTH().then((resp)=> {
+      return machine = JSON.parse(resp);
     }).catch((err) => {
       console.log(err)
       let msg = "Error obteniendo maquinas de minado en el sistema";
