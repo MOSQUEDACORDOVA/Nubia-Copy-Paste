@@ -797,6 +797,9 @@ exports.presale = (req, res) => {
 
   DataBase.GetPackages().then((response)=>{
     let data = JSON.parse(response);
+    DataBase.GetControlTH().then((response_th)=>{
+      let data_th = JSON.parse(response_th)[0];
+      //console.log(data_th)
     res.render(proyecto+"/presale", {
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
@@ -809,7 +812,7 @@ exports.presale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
-      data,
+      data,data_th,
       buy: true
     });
   }).catch((err) => {
@@ -817,6 +820,11 @@ exports.presale = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/error24/PYT-24");
+});
 };
 
 exports.boardpresale = (req, res) => {
