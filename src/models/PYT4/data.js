@@ -941,13 +941,15 @@ PersonalAllS(id){
     //SUCURSALES
     Sucursales_ALl(){
       return new Promise((resolve, reject) => {
-        Sucursales.findAll({include:[
+        Sucursales.findAll(
+         /* {include:[
           {model: Vehiculos , as:'Vehiculos'},
            {model: Clientes , as:'Clientes'},
             {model: GPrestados , as:'GPrestados'},
            {model: Pedidos , as:'Pedidos'},
            {model: Personal , as:'Personal'}
-        ]})
+        ]}*/
+        )
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
