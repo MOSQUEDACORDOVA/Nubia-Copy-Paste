@@ -305,6 +305,24 @@ table tbody td button {
 }
 
 /*--------------------------- PYT-24 ---------------------------*/
+.py24 .select2 {
+    color: white;
+}
+.py24 .select2-container--default .select2-selection--single .select2-selection__arrow {
+    display: none;
+}
+.py24 .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: white;
+}
+.py24 .select2-container--classic .select2-results__option[aria-selected='true'], .select2-container--default .select2-results__option[aria-selected='true'] {
+    background-color: #D9A443 !important;
+    color: #fff !important;
+}
+
+.py24 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #D9A443 !important;
+    outline: 0;
+}
 .dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
     content: ' ';
     width: 2px;

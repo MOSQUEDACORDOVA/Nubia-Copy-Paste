@@ -171,7 +171,6 @@
                 <span class="d-block mb-1">ADMINISTRADOR</span>
                 
                 <section id="basic-vertical-layouts">
-
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <div class="card">
@@ -179,50 +178,45 @@
                                     <h4 class="card-title">Añadir Paquetes</h4>
                                 </div>
                                 <div class="card-body">
-                                    <form class="form form-vertical">
+                                    <form class="form form-vertical" method="POST" action="/createpackages">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="mb-1">
-                                                    <label class="form-label" for="first-name-vertical">Nombre del Plan</label>
-                                                    <input type="text" id="" class="form-control" name="fname" placeholder="VIP">
+                                                    <label class="form-label" for="">Nombre del Plan</label>
+                                                    <input type="text" id="" class="form-control" name="name" placeholder="VIP" required>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="mb-1">
-                                                    <label class="form-label" for="email-id-vertical">Precio</label>
-                                                    <input type="number" id="" class="form-control" name="" placeholder="650$">
+                                                    <label class="form-label" for="">Precio</label>
+                                                    <input type="number" id="" class="form-control" name="price" placeholder="650$" required>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="">Duración</label>
-                                                    <select name="" id="" class="form-select">
-                                                        <option value="">12 Meses</option>
-                                                        <option value="">24 Meses</option>
+                                                    <select name="duration" id="" class="form-select" required>
+                                                        <option value="6">6 Meses</option>
+                                                        <option value="12">12 Meses</option>
+                                                        <option value="24">24 Meses</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="">Cantidad de TH</label>
-                                                    <input type="text" id="" class="form-control" name="" placeholder="80 TH">
+                                                    <input type="number" id="" class="form-control" min="0" name="amount" placeholder="80 TH" required>
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
                                                 <div class="mb-1">
-                                                    <label class="form-label" for="">Ganancias</label>
-                                                    <input type="text" id="" class="form-control" name="" placeholder="200$">
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="mb-1">
                                                     <label class="form-label" for="">Cobro por mantenimiento</label>
-                                                    <input type="text" id="" class="form-control" name="" placeholder="10%">
+                                                    <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="10%" min="0" readonly required>
                                                 </div>
                                             </div>
   
                                             <div class="col-12">
-                                                <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar</button>
+                                                <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar</button>
                                                 <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                             </div>
                                         </div>
