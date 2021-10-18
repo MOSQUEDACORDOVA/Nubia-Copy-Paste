@@ -33,6 +33,18 @@ module.exports = {
 		}
 	},
 	// ----- PYT-24
+	paymethodspy24: (banks, paym, btc, wallet) => {
+		console.log("HBS")
+		console.log(banks)
+		console.log(paym)
+		console.log(btc)
+		console.log(wallet)
+		if (banks.length) {
+			return true;	
+		} else {
+			return false;
+		}
+	},
 	planesclasepy24: (item) => {
 		if (item > 6 && item <= 13) {
 			return 'standard-pricing popular';

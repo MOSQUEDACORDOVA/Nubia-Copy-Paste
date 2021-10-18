@@ -871,7 +871,29 @@ exports.presale = (req, res) => {
     DataBase.GetControlTH().then((response_th)=>{
       let data_th = JSON.parse(response_th)[0];
       //console.log(data_th)
-    res.render(proyecto+"/presale", {
+
+    // TRAER TODOS LOS METODOS DE PAGO
+    DataBase.GetAllPaym().then((all)=>{
+      let allpays = JSON.parse(all);
+      console.log(allpays)
+      // TRAER CUENTAS PARA TRANSFERENCIAS BANCARIAS
+      DataBase.GetBanks().then((banks)=>{
+        let allbanks = JSON.parse(banks);
+        console.log(allbanks)
+        // TRAER CUENTAS PARA PAGO MOVIL
+        DataBase.GetPaym().then((paym)=>{
+          let allpaym = JSON.parse(paym);
+          console.log(allpaym)
+          // TRAER CUENTAS PARA RETIRO EN BTC
+          DataBase.GetBTC().then((btc)=>{
+            let allbtc = JSON.parse(btc);
+            console.log(allbtc)
+            // TRAER CUENTAS PARA RETIRO EN BTC
+            DataBase.GetDigWallet().then((wallet)=>{
+              let allwallet = JSON.parse(wallet);
+              console.log(allwallet)
+            
+    res.render(proyecto+"/presale", { 
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
       dashboard: true,
@@ -883,7 +905,9 @@ exports.presale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
-      data,data_th,
+      data, 
+      data_th,
+      allpays, allbanks, allpaym, allbtc, allwallet,
       buy: true
     });
   }).catch((err) => {
@@ -891,11 +915,36 @@ exports.presale = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/error24/PYT-24");
-});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.boardpresale = (req, res) => {

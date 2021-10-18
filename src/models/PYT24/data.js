@@ -24,7 +24,7 @@ module.exports = {
     // CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
     AddBank(fullname, dni, bank_name, type_account, num_account) {
       return new Promise((resolve, reject) => {
-        MPagos.create({ transaction_type: 'Trasnferencia Bancaria', full_name: fullname, dni: dni, bank_name: bank_name, type_account: type_account, num_account: num_account })
+        MPagos.create({ transaction_type: 'Transferencia Bancaria', full_name: fullname, dni: dni, bank_name: bank_name, type_account: type_account, num_account: num_account })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Nuevo metodo de pago (trasnferencia Bancaria) registrado con éxito');
@@ -67,6 +67,86 @@ module.exports = {
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Nuevo metodo de pago (BILLETERA DIGITAL) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS METODOS DE PAGO
+    GetAllPaym() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA TRANSFERENCIAS BANCARIAS
+    GetBanks() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'Transferencia Bancaria'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log("TRANSFERENCIASSSSS")
+            console.log(data)
+            console.log("TRANSFERENCIASSSSS")
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA PAGO MOVIL
+    GetPaym() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'Pago Movil'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA RETIRO EN BTC
+    GetBTC() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'BTC'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA RETIRO EN BTC
+    GetDigWallet() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'Billetera Digital'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
           })
           .catch((err) => {
             reject(err)
