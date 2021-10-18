@@ -98,11 +98,11 @@ module.exports = {
     });
 
   },
-  actualizarUser(userid, name, email, photo1) {
+  actualizarUser(userid, name, email, tipo) {
     return new Promise((resolve, reject) => {
       Usuarios.update(
         {
-          name:name, email: email, photo:photo1
+          name:name, email: email, tipo:tipo
         },
         {
           where: {
@@ -967,6 +967,10 @@ PersonalAllS(id){
           {nombre: nombre, direccion: direccion, logitud: longitud, latitud: latitud, telefono: telefono, gerente: gerente,telefono_gerente: telefono_gerente, id_gerente: id_gerente})
           .then((data) => {
             let data_set = JSON.stringify(data);
+            console.log(data.id)
+            Usuarios.update({sucursaleId: data.id}, {where:{
+              id: id_gerente
+            }})
             resolve('Sucursal registrada con éxito');
             //console.log(planes);
           })

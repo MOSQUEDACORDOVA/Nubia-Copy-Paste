@@ -6,7 +6,12 @@
   'use strict';
   let valor_vehiculos = $('#array_vehiculos').val()
   let array_vehiculos = JSON.parse(valor_vehiculos.replace(/&quot;/g,'"'))
-console.log(valor_vehiculos)  
+
+
+let suc = $('#array_sucursales').val()
+
+var sucursale_pa = JSON.parse(suc.replace(/&quot;/g,'"'))
+ console.log(sucursale_pa)   
 
   var dt_basic_table_vehiculos = $('.datatables-basic_vehiculos'),
     dt_date_table = $('.dt-date'),
@@ -57,7 +62,19 @@ console.log(valor_vehiculos)
             return moment(data).format('L');
           }
         },
-        
+         {
+          targets: 9,
+          render:function(data, type, full, meta){
+            let nombre_suc = ""
+            for (let i = 0; i < sucursale_pa.length; i++) {
+                if (sucursale_pa[i]['id'] == data) {
+                  nombre_suc = sucursale_pa[i]['nombre']
+                }
+              
+            }
+            return nombre_suc;
+          }
+        },
       
       ],
       order: [[2, 'desc']],
