@@ -23,52 +23,43 @@ console.log(array)
   // --------------------------------------------------------------------
 
   if (dt_basic_table.length) {
+    $('.dt-column-searchClientes thead tr').clone(true).appendTo('.dt-column-searchClientes thead');
+    $('.dt-column-searchClientes thead tr:eq(0) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+  
+      $('input', this).on('keyup change', function () {
+        if (dt_basic.column(i).search() !== this.value) {
+          dt_basic.column(i).search(this.value).draw();
+        }
+      });
+    });
     var dt_basic = dt_basic_table.DataTable({
       data: array,
       columns: [
-        { data: 'id' },
-        { data: 'id' },
-        { data: 'id' }, // used for sorting so will hide this column
         { data: 'firstName' },
-        { data: 'email' },
+        { data: 'email' }, 
         { data: 'telefono' },
-        { data: 'telefono' },
+        {   // Actions
+          targets: -1,
+          title: '',
+          orderable: false,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="d-inline-flex">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'  
+            );
+          }  },
       ],
       columnDefs: [
         {
-          // For Responsive
-          className: 'control',
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0
-        },
-        {
-          // For Checkboxes
-          className: 'control',
-          targets: 1,
-          orderable: false,
-          responsivePriority: 3,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox' +
-              data +
-              '" /><label class="form-check-label" for="checkbox' +
-              data +
-              '"></label></div>'
-            );
-          },
-          checkboxes: {
-            selectAllRender:
-              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
-          }
-        },
-        {
-          targets: 2,
-          visible: false
-        },
-        {
           // Avatar image/badge, Name and post
-          targets: 3,
+          targets: 0,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
             console.log("a"+full['firstName'])
@@ -111,10 +102,6 @@ console.log(array)
           }
         },
         {
-          responsivePriority: 1,
-          targets: 2
-        },
-        {
           // Label
           targets: -2,
           render: function (data, type, full, meta) {
@@ -138,85 +125,11 @@ console.log(array)
             );
           }
         },
-        {
-          // Actions
-          targets: -1,
-          title: 'Opciones',
-          orderable: false,
-          render: function (data, type, full, meta) {
-            return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
-            );
-          }
-        }
       ],
       order: [[2, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
-      buttons: [
-        {
-          extend: 'collection',
-          className: 'btn btn-outline-secondary dropdown-toggle me-2',
-          text: feather.icons['share'].toSvg({ class: 'font-small-4 me-50' }) + 'Export',
-          buttons: [
-            {
-              extend: 'print',
-              text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'csv',
-              text: feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) + 'Csv',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'excel',
-              text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'pdf',
-              text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            },
-            {
-              extend: 'copy',
-              text: feather.icons['copy'].toSvg({ class: 'font-small-4 me-50' }) + 'Copy',
-              className: 'dropdown-item',
-              exportOptions: { columns: [3, 4, 5, 6, 7] }
-            }
-          ],
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-            $(node).parent().removeClass('btn-group');
-            setTimeout(function () {
-              $(node).closest('.dt-buttons').removeClass('btn-group').addClass('d-inline-flex');
-            }, 50);
-          }
-        },
-        {
-          text: feather.icons['plus'].toSvg({ class: 'me-50 font-small-4' }) + 'Add New Record',
-          className: 'create-new btn btn-primary',
-          attr: {
-            'data-bs-toggle': 'modal',
-            'data-bs-target': '#modals-slide-in'
-          },
-          init: function (api, node, config) {
-            $(node).removeClass('btn-secondary');
-          }
-        }
-      ],
       responsive: {
         details: {
           display: $.fn.dataTable.Responsive.display.modal({

@@ -53,6 +53,9 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser,dashboard
 router.get('/editar_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_personal);
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_personal_py4);
 
+
+router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_usuarios);
+router.post('/save_usuarios_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_usuarios_py4);
 //sucursales
 router.get('/sucursales_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.sucursales);
 router.get('/sucursales_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.sucursales);
