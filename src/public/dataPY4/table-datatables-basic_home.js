@@ -107,6 +107,8 @@
   
   let valor = $('#array_pedido').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
   let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
@@ -174,7 +176,10 @@ maxDate2 = new DateTime($('#max1'), {
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
+              '</a>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
+              feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' 
             );
           } },
       ], columnDefs: [
@@ -182,10 +187,8 @@ maxDate2 = new DateTime($('#max1'), {
           // Label
           targets: 0,
           render: function (data, type, full, meta) {
-            console.log(full['updatedAt'])
            let fecha_creado = full['createdAt'], modificado = full['updatedAt']
            let modificacion = moment(fecha_creado).isSame(modificado)
-           console.log(modificacion)
             if (modificacion == false) {
               return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
             }
@@ -206,10 +209,11 @@ maxDate2 = new DateTime($('#max1'), {
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
+        var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" >' +
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -351,6 +355,19 @@ maxDate2 = new DateTime($('#max1'), {
       ],columnDefs: [
         {
           // Label
+          targets: 0,
+          render: function (data, type, full, meta) {
+            
+           let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+           let modificacion = moment(fecha_creado).isSame(modificado)
+            if (modificacion == false) {
+              return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            }
+            return (`<span class="badge rounded-pill badge-light-info"> ${full['id']}</span>`);
+          }
+        },
+        {
+          // Label
           targets: 1,
           render: function (data, type, full, meta) {
             var $status_number = full['cliente']['tipo'];
@@ -362,10 +379,11 @@ maxDate2 = new DateTime($('#max1'), {
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
+            var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" >' +
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -449,6 +467,7 @@ maxDate2 = new DateTime($('#max1'), {
         }
       }
     });
+
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /*$('input.dt-input2').on('keyup change', function () {
@@ -460,6 +479,35 @@ maxDate2 = new DateTime($('#max1'), {
     });
 
   }
+
+  $("#home_modal").on('show.bs.modal', function (e) {
+    var triggerLink = $(e.relatedTarget);
+    var Total_total = triggerLink.data("id");
+    var title = triggerLink.data("title");
+   var Array = triggerLink.data("arraycliente");
+    var my_object = JSON.parse(decodeURIComponent(Array));
+    $("#home_modalTitle").text(title); 
+  //  $("#home_modalBody").append(txt2);
+  $("#home_modalBody").empty() 
+  let asentamiento =""
+  for (let i = 0; i < codigosP_arr.length; i++) {
+  if (my_object['cpId'] == codigosP_arr[i]['id']) {
+    asentamiento = codigosP_arr[i]['asentamiento']
+  }
+  }
+        $("#home_modalBody").append(`<ul class='list-group list-group-flush'>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Tipo: <span class='badge bg-primary rounded-pill'>${my_object['tipo']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Código postal: <span class='badge bg-primary rounded-pill'>${my_object['estado']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Estado: <span class='badge bg-primary rounded-pill'>Jalisco</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Municipio: <span class='badge bg-primary rounded-pill'>${my_object['municipio']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Asentamiento: <span class='badge bg-primary rounded-pill'>${asentamiento}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Coto: <span class='badge bg-primary rounded-pill'>${my_object['coto']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Casa: <span class='badge bg-primary rounded-pill'>${my_object['casa']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Avenida: <span class='badge bg-primary rounded-pill'>${my_object['avenida']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Referencia: <span class='badge bg-primary rounded-pill'>${my_object['referencia']}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Teléfono: <span class='badge bg-primary rounded-pill'>${my_object['telefono']}</span></li>
+        </ul>`);
+});
   // Flat Date picker
   if (dt_date_table.length) {
     dt_date_table.flatpickr({
@@ -539,6 +587,18 @@ maxDate2 = new DateTime($('#max1'), {
 
   });
 
+  $('.datatables-basic tbody').on('click', '.share_record', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = e.target.classList[0]
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+    let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+    $('#p1').text(direction_copy)
+    copyToClipboard('#p1')
+
+  });
+
   $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit2 = e.target.classList[0]
@@ -591,6 +651,14 @@ function filterColumn(i, val) {
     $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
   }
 }
+function copyToClipboard(elemento) {
+  var $temp = $("<input>")
+  $("body").append($temp);
+  $temp.val($(elemento).text()).select();
+  document.execCommand("copy");
+  $temp.remove();
+  Swal.fire('Enlace copiado en el portapapeles')
+  }
 // Filter column wise function
 function filterColumn2(i, val) {
   if (i == 5) {
