@@ -18,6 +18,10 @@ const Depositos = db24.define('depositos', {
 		type: DataTypes.STRING(50),
 		allowNull: true,
 	},
+	dni: {
+		type: DataTypes.STRING(50),
+		allowNull: true,
+	},
 	email: {
 		type: DataTypes.STRING(100),
 		allowNull: true,
@@ -68,5 +72,5 @@ const Depositos = db24.define('depositos', {
 	},
 });
 
-Depositos.Paquetes= Depositos.belongsTo(Paquetes);
+Depositos.Paquetes = Depositos.belongsTo(Paquetes);
 module.exports = Depositos;

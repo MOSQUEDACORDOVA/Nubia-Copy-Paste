@@ -1066,6 +1066,12 @@ exports.depositpresale = (req, res) => {
   let roleClient = true;
   let roleSeller;
   let presale = true;
+
+  let idUser = res.locals.user.id
+
+  DataBase.GetDeposits(idUser).then((response) => {
+    let AllRes = JSON.parse(response);
+    console.log(AllRes)
   
     res.render(proyecto+"/depositpresale", {
       pageName: "Minner - Depositos",
@@ -1079,8 +1085,14 @@ exports.depositpresale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
-      dep: true
-    })
+      dep: true,
+      AllRes
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.createdeposits = (req, res) => {
@@ -1089,13 +1101,15 @@ exports.createdeposits = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
+  let idUser = res.locals.user.id
   console.log(proyecto)
   console.log(req.body)
 
   const {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
 
-  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref).then((response) => {
+  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, idUser).then((response) => {
     console.log(response)
+    res.redirect('/depositpresale/PYT-24');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

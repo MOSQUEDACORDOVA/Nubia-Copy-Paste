@@ -182,9 +182,12 @@ module.exports = {
       });
     },
     // CREAR DEPOSITO
-    CreateDeposits(ttype, name, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference) {
+    CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_user) {
+      console.log(id_pack)
+      console.log(id_user)
+      console.log("IOIDDDDDADASDAD")
         return new Promise((resolve, reject) => {
-          Depositos.create({ transaction_type: ttype, name: name, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference})
+          Depositos.create({ transaction_type: ttype, name: name, dni: dni, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference, paqueteId: id_pack, usuarioId: id_user })
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');
@@ -193,6 +196,24 @@ module.exports = {
                 reject(err);
             });
         });
+    },
+    GetDeposits(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
     },
     // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
     ControlTH(price, maintance, error, earnings, minwithd) {
