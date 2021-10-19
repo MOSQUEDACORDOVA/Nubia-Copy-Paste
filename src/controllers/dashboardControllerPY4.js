@@ -41,6 +41,8 @@ exports.dashboard = (req, res) => {
   }
  let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
+  DataBase.CodigosP().then((cp_)=>{
+    let cp_arr = JSON.parse(cp_)
   DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
@@ -85,7 +87,7 @@ exports.dashboard = (req, res) => {
                   
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
-                   console.log(prestamos_byday)
+                   console.log(clientes_arr)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -97,7 +99,7 @@ exports.dashboard = (req, res) => {
       pedidos_,
       pedidos_let,
       choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
-      devueltos_del_dia,
+      devueltos_del_dia,cp_,
       msg
     }) 
   }).catch((err) => {
@@ -105,6 +107,11 @@ exports.dashboard = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -443,6 +450,36 @@ return res.redirect("/errorpy4/" + msg);
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
   });
+  }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+ };
+ exports.ver_pedido = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id
+  
+DataBase.PedidoById(id_).then((pedidos_)=>{
+  let pedido_let = JSON.parse(pedidos_)[0]
+ 
+ let garrafon19L = JSON.parse(pedido_let.garrafon19L);
+ let botella1L = JSON.parse(pedido_let.botella1L)
+ let garrafon11L = JSON.parse(pedido_let.garrafon11L)
+ let botella5L = JSON.parse(pedido_let.botella5L)
+res.render("PYT-4/ver_pedido", {
+  pageName: "Bwater",
+  dashboardPage: true,
+  dashboard: true,
+  py4:true,
+  dash:true,
+  pedido_let,
+  garrafon19L,
+botella1L,
+garrafon11L,
+botella5L,
+disabled_chofer: true
+}) 
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
