@@ -1094,9 +1094,8 @@ exports.createdeposits = (req, res) => {
 
   const {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
 
-  DataBase.CreateDeposits(id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref).then((response) => {
-    let all = JSON.parse(response);
-    console.log(all)
+  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref).then((response) => {
+    console.log(response)
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

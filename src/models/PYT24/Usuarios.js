@@ -67,7 +67,4 @@ Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
 
-Usuarios.Depositos = Usuarios.belongsTo(Depositos);
-Usuarios.Paquetes = Usuarios.belongsTo(Paquetes);
-
 module.exports = Usuarios;

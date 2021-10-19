@@ -184,7 +184,7 @@ module.exports = {
     // CREAR DEPOSITO
     CreateDeposits(ttype, name, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference) {
         return new Promise((resolve, reject) => {
-        TH.create({ transaction_type: ttype, name: name, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference})
+          Depositos.create({ transaction_type: ttype, name: name, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference})
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');

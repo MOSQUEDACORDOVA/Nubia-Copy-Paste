@@ -21,11 +21,6 @@ const Depositos = db24.define('depositos', {
 	email: {
 		type: DataTypes.STRING(100),
 		allowNull: true,
-		validate: {
-			isEmail: {
-				msg: 'Agrega un correo válido'
-			},
-		}
 	},
 	amount: {
 		type: DataTypes.INTEGER,
@@ -73,5 +68,6 @@ const Depositos = db24.define('depositos', {
 	},
 });
 
+//Depositos.Usuarios = Depositos.belongsTo(Usuarios);
 
 module.exports = Depositos;
