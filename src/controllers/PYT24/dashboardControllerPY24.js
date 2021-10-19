@@ -575,7 +575,7 @@ exports.addth = (req, res) => {
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error24/PYT-24");
     });
   }
 };
@@ -627,13 +627,8 @@ exports.th = (req, res) => {
     let data = JSON.parse(response)[0];
     // OBTENER MAQUINAS DE MINADO
     DataBase.GetMachineTH().then((resp)=> {
-      return machine = JSON.parse(resp);
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error obteniendo maquinas de minado en el sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-
+      machine = JSON.parse(resp);
+      
       res.render(proyecto+"/th", {
         pageName: "Administrar TH",
         dashboardPage: true,
@@ -651,6 +646,11 @@ exports.th = (req, res) => {
       });
   }).catch((err) => {
     console.log(err)
+    let msg = "Error obteniendo maquinas de minado en el sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
     let msg = "Error obteniendo datos de control precios etc, en el sistema";
     return res.redirect("/error24/PYT-24");
   })
@@ -658,9 +658,9 @@ exports.th = (req, res) => {
 
 // ACTUALIZAR PRECIO TH
 exports.updateth = (req, res) => {
-  const {price} = req.body
+  const {id, price} = req.body
 
-  DataBase.UpdatePriceTH(price).then((respuesta) =>{
+  DataBase.UpdatePriceTH(id, price).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -672,9 +672,9 @@ exports.updateth = (req, res) => {
 
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
 exports.updatemaintance = (req, res) => {
-  const {maintance} = req.body
+  const {id, maintance} = req.body
 
-  DataBase.UpdateMaintance(maintance).then((respuesta) =>{
+  DataBase.UpdateMaintance(id, maintance).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -686,9 +686,9 @@ exports.updatemaintance = (req, res) => {
 
 // ACTUALIZAR PORCENTAJE DE ERROR
 exports.updateerror = (req, res) => {
-  const {error} = req.body
+  const {id, error} = req.body
 
-  DataBase.UpdateError(error).then((respuesta) =>{
+  DataBase.UpdateError(id, error).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -700,9 +700,9 @@ exports.updateerror = (req, res) => {
 
 // ACTUALIZAR GANANCIAS POR REFERIDOS
 exports.updateearnings = (req, res) => {
-  const {earnings} = req.body
+  const {id, earnings} = req.body
 
-  DataBase.UpdateRefEarnings(earnings).then((respuesta) =>{
+  DataBase.UpdateRefEarnings(id, earnings).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -714,9 +714,9 @@ exports.updateearnings = (req, res) => {
 
 // ACTUALIZAR SALDO MINIMO DE RETIRO
 exports.updateminwithd = (req, res) => {
-  const {minwithd} = req.body
+  const {id, minwithd} = req.body
 
-  DataBase.UpdateMinWithdrawal(minwithd).then((respuesta) =>{
+  DataBase.UpdateMinWithdrawal(id, minwithd).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -740,6 +740,63 @@ exports.createpackages = (req, res) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error404/PYT-24" + msg);
+    });
+  };
+}
+
+// CREAR PAQUETES
+exports.createpackagespers = (req, res) => {
+  const { price, duration, amount, maintance } = req.body;
+  let msg = false;
+  if (price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.CreatePackagesPers(price, duration, amount, maintance).then((respuesta) =>{
+      let response = JSON.parse(respuesta);
+      res.send({response})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+// ACTUALIZAR PAQUETES
+exports.updatepackages = (req, res) => {
+  const { id, name, price, duration, amount, maintance } = req.body;
+  let msg = false;
+  if (id.trim() === '' || name.trim() === '' || price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.UpdatePackages(id, name, price, duration, amount, maintance).then((respuesta) =>{
+      res.redirect('/plans/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+// ELIMINAR PAQUETES
+exports.deletepackages = (req, res) => {
+  const { id } = req.body;
+  console.log(req.body)
+  console.log("ID")
+  let msg = false;
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.DeletePackages(id).then((respuesta) =>{
+      res.redirect('/plans/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
     });
   };
 }
@@ -836,7 +893,16 @@ exports.plans = (req, res) => {
   else {
     roleAdmin = true;
   }
+  DataBase.GetPackages().then((respuesta) =>{
+    let data = JSON.parse(respuesta);
 
+    DataBase.GetControlTH().then((response)=>{
+      let datath = JSON.parse(response)[0];
+      let percentage;
+      if(datath) {
+        percentage = datath.percentage_maintance;
+      }
+      
     res.render(proyecto+"/plans", {
       pageName: "Paquetes",
       dashboardPage: true,
@@ -848,8 +914,20 @@ exports.plans = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      data,
+      percentage
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo datos de control en el sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 // OBTENER PAQUETES
@@ -1003,4 +1081,25 @@ exports.depositpresale = (req, res) => {
       presale,
       dep: true
     })
+};
+
+exports.createdeposits = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  console.log(req.body)
+
+  const {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+
+  DataBase.CreateDeposits(id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref).then((response) => {
+    let all = JSON.parse(response);
+    console.log(all)
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };

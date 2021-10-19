@@ -1,6 +1,9 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const bcrypt = require('bcrypt-nodejs');
+const Paquetes = require('../../models/PYT24/Packages');
+const Depositos = require('../../models/PYT24/Depositos');
+
 // USUARIOS
 const Usuarios = db24.define('usuarios', {
     id: {
@@ -40,7 +43,17 @@ const Usuarios = db24.define('usuarios', {
     type_user: {
         type: DataTypes.STRING(15),
         allowNull: false,
-    }
+    },
+	available_balance: {
+		type: DataTypes.INTEGER,
+        allowNull: true,
+		defaultValue: 0
+	},
+	earnings: {
+		type: DataTypes.INTEGER,
+		allowNull: true,
+		defaultValue: 0
+	}
 }, {
 	hooks: {
 		beforeCreate(usuario) {
@@ -53,5 +66,8 @@ const Usuarios = db24.define('usuarios', {
 Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
+
+Usuarios.Depositos = Usuarios.belongsTo(Depositos);
+Usuarios.Paquetes = Usuarios.belongsTo(Paquetes);
 
 module.exports = Usuarios;

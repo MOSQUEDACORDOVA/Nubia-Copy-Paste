@@ -198,6 +198,12 @@ router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControl
 
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
+// CREAR PAQUETES PERSONALIZADOS
+router.post('/createpackagespers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackagespers);
+// ACTUALIZAR PAQUETES
+router.post('/updatepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepackages);
+// ELIMINAR PAQUETES
+router.post('/deletepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepackages);
 
 // METODOS DE PAGO, TRANSFERENCIA BANCARIA
 router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbank);
@@ -207,6 +213,9 @@ router.post('/addpaym', authControllerPY24.authenticatedAdmin, dashboardControll
 router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbtc);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
+
+// COMPRA DE PAQUETE
+router.post('/deposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createdeposits);
 
 
 // Cerrar Sesión

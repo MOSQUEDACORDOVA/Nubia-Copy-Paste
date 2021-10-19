@@ -168,7 +168,7 @@
 
                 <!--/ pricing plan cards -->
                 {{#if roleAdmin}}
-                <span class="d-block mb-1">ADMINISTRADOR</span>
+                <span class="d-block mb-1" id="adm">ADMINISTRADOR</span>
                 
                 <section id="basic-vertical-layouts">
                     <div class="row">
@@ -211,7 +211,7 @@
                                             <div class="col-12 col-md-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="">Cobro por mantenimiento</label>
-                                                    <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="10%" min="0" readonly required>
+                                                    <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="{{percentage}}" min="0" readonly required>
                                                 </div>
                                             </div>
   
@@ -249,85 +249,56 @@
                                     </div>
                                     <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                         <thead>
-                                            <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Total TH</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Mantenimiento</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Precio</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Creación</th></tr>
+                                            <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Total TH</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Mantenimiento</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Precio</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Creación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                            {{#if data}}
+                                                {{#each data as |item i|}}
+                                            <tr class="packages-items">
+                                                <td class="control" tabindex="0" style="display: none;"></td>                
                                                 <td class=" dt-checkboxes-cell">
                                                     <div class="form-check"> 
-                                                        <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                        <label class="form-check-label" for="checkbox100"></label>
+                                                        <input class="form-check-input dt-checkboxes" type="checkbox">
                                                     </div>
                                                 </td>
 
-                                                <td>1</td>
+                                                <td class="id">{{item.id}}</td>
 
-                                                <td>Basico</td>
+                                                <td class="name">{{item.name}}</td>
 
-                                                <td>6 TH</td>
+                                                <td class="amount">{{item.amount_th}} TH</td>
 
-                                                <td>10%</td>
+                                                <td class="maintance">{{item.maintance_charge}}%</td>
 
-                                                <td>200$</td>
+                                                <td class="price">{{item.price}}$</td>
 
-                                                <td>600$</td>
+                                                <td class="duration">{{item.duration}} Meses</td>
 
-                                                <td>12 Meses</td>
+                                                <td>{{item.createdAt}}
 
-                                                <td>2020/05/04</td>
-                                            </tr>
-                                            <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                                <td class=" dt-checkboxes-cell">
-                                                    <div class="form-check"> 
-                                                        <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                        <label class="form-check-label" for="checkbox100"></label>
+                                                <td>
+                                                    <div class="d-flex">
+                                                        <div>
+                                                            <input type="text" class="d-none" name="id" value="{{item.id}}">
+                                                            <button role="button" data-id="{{item.id}}" data-name="{{item.name}}" data-amount="{{item.amount_th}}"  data-maintance="{{item.maintance_charge}}" data-price="{{item.price}}" data-duration="{{item.duration}}" data-bs-toggle="modal" data-bs-target="#addNewCard" style="max-width: 50px;" class="btn btn-primary btn-sm">
+                                                                <i data-feather='edit-2' style="pointer-events: none;"></i>
+                                                            </button>
+                                                        </div>
+                                                        <form action="/deletepackages" method="post">
+                                                            <input type="text" class="d-none" name="id" value="{{item.id}}">
+                                                            <button style="max-width: 50px;" role="button" type="submit" class="btn btn-danger btn-sm">
+                                                                <i data-feather='x' class="ficon"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </td>
-
-                                                <td>1</td>
-
-                                                <td>Basico</td>
-
-                                                <td>6 TH</td>
-
-                                                <td>10%</td>
-
-                                                <td>200$</td>
-
-                                                <td>600$</td>
-
-                                                <td>12 Meses</td>
-
-                                                <td>2020/05/04</td>
                                             </tr>
-                                            <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                                <td class=" dt-checkboxes-cell">
-                                                    <div class="form-check"> 
-                                                        <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                        <label class="form-check-label" for="checkbox100"></label>
-                                                    </div>
-                                                </td>
-
-                                                <td>1</td>
-
-                                                <td>Basico</td>
-
-                                                <td>6 TH</td>
-
-                                                <td>10%</td>
-
-                                                <td>200$</td>
-
-                                                <td>600$</td>
-
-                                                <td>12 Meses</td>
-
-                                                <td>2020/05/04</td>
+                                                {{/each}}
+                                            {{else}}
+                                            <tr class="odd">
+                                                <td style="white-space: nowrap">No existen datos registrados</td>
                                             </tr>
-
+                                            {{/if}}
                                         </tbody>
                                     </table>
 
@@ -349,65 +320,65 @@
                         </div>
                     </div>
                 </section>
-
           
                 <!--- MODAL --->
-                <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+                {{#if data}}
+                <div class="modal fade" id="addNewCard" tabindex="-1" style="display: none;" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header bg-transparent">
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body">
-                                <h1 class="text-center mb-1" id="addNewCardTitle">Plan Basico</h1>
+                            <form action="/updatepackages" method="POST" class="modal-body">
+                                <h1 class="text-center mb-1" id="name">Plan Basico</h1>
                                 <div class="card-body row">
                                     <div class="col-md-6 mb-2">
                                         <label class="form-label" for="">Nombre del Plan</label>
-                                        <input id="" name="" class="form-control add-credit-card-mask" type="text" value="Basico">
+                                        <input id="name_pack" name="name" class="form-control" type="text" value="" required>
                                     </div>
 
                                     <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="capital">Precio</label>
-                                        <input id="capital" name="" class="form-control" type="text" value="650$">
+                                        <label class="form-label" for="">Precio</label>
+                                        <input id="price" name="price" class="form-control" type="number" value="" min="0" required>
                                     </div>
 
                                     <div class="col-md-6 mb-2">
                                         <label class="form-label" for="">Duración</label>
-                                        <select name="" id="" class="form-select">
-                                            <option value="">12 Meses</option>
-                                            <option value="">24 Meses</option>
+                                        <select name="duration" id="duration" class="form-select" required>
+                                            <option value="6">6 Meses</option>
+                                            <option value="12">12 Meses</option>
+                                            <option value="24">24 Meses</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-6 mb-2">
                                         <label class="form-label" for="">Cantidad de TH</label>
-                                        <input type="text" id="" class="form-control" value="6 TH">
+                                        <input type="text" id="amount" name="amount" class="form-control" min="0" value="" required>
                                     </div>
 
-                                    <div class="col-md-6 mb-2 mb-md-0">
-                                        <label class="form-label" for="modalAddCardCvv">Cobro por mantenimiento</label>
-                                        <input type="text" id="" class="form-control" value="10%">
+                                    <div class="col-md-12 mb-2">
+                                        <label class="form-label" for="">Cobro por mantenimiento</label>
+                                        <input type="number" id="maintance" name="maintance" class="form-control" min="0" value="{{percentage}}" required readonly>
                                     </div>
 
-                                    <div class="col-md-6 mb-2">
-                                        <label class="form-label" for="">Ganancias</label>
-                                        <input type="text" id="" class="form-control add-cvv-code-mask" value="200$">
-                                    </div>
+                                    <input type="text" id="id" name="id" class="d-none" required>
 
                                     <div class="col-12">
-                                        <button class="btn btn-primary">Guardar</button>
-                                        <button class="btn btn-outline-secondary">Descartar</button>
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Descartar</button>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
+                {{/if}}
                 <!--- END MODAL --->
                 {{/if}}      
 
                 {{!-- MODAL PAGAR --}}
-                <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                {{#if roleClient}}
+                <div class="modal fade" id="addNewCard2" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
                             <div class="modal-header bg-transparent">
@@ -574,8 +545,51 @@
                         </div>
                     </div>
                 </div>
+                {{/if}}
                 {{!-- END MODAL PAGAR --}}
             </section>
         </div>
     </div>
 </div>
+
+<script>
+    let toggleBtns = document.querySelectorAll('table .d-flex .btn.btn-primary.btn-sm');
+    let packages = document.querySelectorAll('.packages-items');
+
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            packages.forEach(pack => {
+                pack.classList.remove('active');
+            });
+            e.target.parentNode.parentNode.parentNode.parentNode.classList.add('active')
+            let id = document.querySelector('.packages-items.active .id').innerText,
+            name = document.querySelector('.packages-items.active .name').innerText,
+            price = e.target.getAttribute('data-price'),
+            amount = e.target.getAttribute('data-amount'),
+            duration = e.target.getAttribute('data-duration'),
+            maintance = e.target.getAttribute('data-maintance');
+            
+            SetModalUpdateValues(id, name, price, amount, duration, maintance);
+        });
+    });
+
+    const SetModalUpdateValues = (i, n, p, a, d, m) => {
+        const name = document.getElementById('name'),
+        namePack = document.getElementById('name_pack'),
+        price = document.getElementById('price'),
+        duration = document.getElementById('duration'),
+        amount = document.getElementById('amount'),
+        maintance = document.getElementById('maintance'),
+        id = document.getElementById('id');
+
+        id.value = i;
+        name.innerText = n;
+        namePack.value = n;
+        price.value = p;
+        duration.value = d;
+        amount.value = a;
+        maintance.value = m;
+    }
+
+</script>

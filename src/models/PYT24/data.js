@@ -6,19 +6,20 @@ const TH = require("../../models/PYT24/th");
 const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
+const Depositos = require("../../models/PYT24/Depositos");
 
 module.exports = {
     //USUARIO
     RegUser(username, email, password) {
         return new Promise((resolve, reject) => {
         Usuarios.create({ username: username, email: email, password: password, type_user: 'Inversionista' })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Usuario registrado con éxito');
-            })
-            .catch((err) => {
-                reject(err)
-            });
+          .then((data) => {
+              let data_set = JSON.stringify(data);
+              resolve('Usuario registrado con éxito');
+          })
+          .catch((err) => {
+              reject(err)
+          });
         });
     },
     // CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
@@ -180,6 +181,19 @@ module.exports = {
             });
       });
     },
+    // CREAR DEPOSITO
+    CreateDeposits(ttype, name, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference) {
+        return new Promise((resolve, reject) => {
+        TH.create({ transaction_type: ttype, name: name, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference})
+            .then((data) => {
+                let data_set = JSON.stringify(data);
+                resolve('Datos agregados satisfactoriamente');
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    },
     // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
     ControlTH(price, maintance, error, earnings, minwithd) {
         return new Promise((resolve, reject) => {
@@ -208,13 +222,13 @@ module.exports = {
         });
     },
     // ACTUALIZAR PRECIO TH
-    UpdatePriceTH(price) {
+    UpdatePriceTH(id, price) {
         return new Promise((resolve, reject) => {
           TH.update(
             {
               price: price
             }, { where:{
-                id: 3
+                id: id
             }})
             .then((data) => {
               let data_set = JSON.stringify(data);
@@ -226,13 +240,13 @@ module.exports = {
         });
     },
     // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
-    UpdateMaintance(maintance) {
+    UpdateMaintance(id, maintance) {
         return new Promise((resolve, reject) => {
           TH.update(
             {
               percentage_maintance: maintance
             }, { where:{
-                id: 3
+                id: id
             }})
             .then((data) => {
               let data_set = JSON.stringify(data);
@@ -244,13 +258,13 @@ module.exports = {
         });
     },
     // ACTUALIZAR PORCENTAJE DE ERROR
-    UpdateError(error) {
+    UpdateError(id, error) {
         return new Promise((resolve, reject) => {
           TH.update(
             {
               percentage_error: error
             }, { where:{
-                id: 3
+                id: id
             }})
             .then((data) => {
               let data_set = JSON.stringify(data);
@@ -262,13 +276,13 @@ module.exports = {
         });
     },
     // ACTUALIZAR GANANCIAS POR REFERIDOS
-    UpdateRefEarnings(earnings) {
+    UpdateRefEarnings(id, earnings) {
         return new Promise((resolve, reject) => {
           TH.update(
             {
               ref_earnings: earnings
             }, { where:{
-                id: 3
+                id: id
               }})
               .then((data) => {
               let data_set = JSON.stringify(data);
@@ -280,13 +294,13 @@ module.exports = {
         });
       },
     // ACTUALIZAR SALDO MINIMO DE RETIRO
-    UpdateMinWithdrawal(minwithd) {
+    UpdateMinWithdrawal(id, minwithd) {
       return new Promise((resolve, reject) => {
         TH.update(
           {
             min_withdrawal: minwithd
           }, { where:{
-                id: 3
+                id: id
           }})
           .then((data) => {
             let data_set = JSON.stringify(data);
@@ -299,16 +313,63 @@ module.exports = {
     },
     // CREAR PAQUETES
     CreatePackages(name, price, duration, amount, maintance) {
-        return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         Paquetes.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Datos agregados satisfactoriamente');
+        })
+        .catch((err) => {
+          reject(err);
         });
+      });
+    },
+    // CREAR PAQUETES PERSONALIZADOS
+    CreatePackagesPers(price, duration, amount, maintance) {
+      return new Promise((resolve, reject) => {
+        Paquetes.create({ price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      });
+    },
+    // ACTUALIZAR SALDO MINIMO DE RETIRO
+    UpdatePackages(id, name, price, duration, amount, maintance) {
+      return new Promise((resolve, reject) => {
+      Paquetes.update(
+          {
+            name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance
+          }, { where:{
+                id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Paquete actualizado con exito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ELIMINAR PAQUETES
+    DeletePackages(id){
+      return new Promise((resolve, reject) => {
+        Paquetes.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve('data_p');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
     },
     // OBTENER TODOS LOS PAQUETES
     GetPackages() {
