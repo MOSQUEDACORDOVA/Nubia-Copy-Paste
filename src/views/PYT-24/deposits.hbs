@@ -4,7 +4,8 @@
             
             <section id="basic-datatable">
                 <div class="row">
-                    {{#if roleClient}}
+
+                    <!--  PAGOS PENDIENTES A REALIZAR -->
                     <div class="col-12">
                         <div class="card">
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Depositos</h6></div></div>
@@ -29,13 +30,37 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Correo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Contrato</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Correo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Acción</th></tr>
                                     </thead>
                                     <tbody>
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-primary me-1"><span class="avatar-content text-primary">AX</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>001</td></tr>
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-primary me-1"><span class="avatar-content text-primary">AX</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>001</td></tr>
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-primary me-1"><span class="avatar-content text-primary">AX</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>001</td></tr>
- 
+                                        {{#if AllRes}}
+                                        {{#each AllRes as |item i|}}
+                                        <tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{name}}</td>
+                                            <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
+                                            <td>
+                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 paquete.createdAt}}{{/formatDatapy24}}" data-activated="{{#formatDatapy24 paquete.activatedAt}}{{/formatDatapy24}}" data-culmination="{{paquete.culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
+                                            </td>
+                                            <td>{{amount}}</td>
+                                            <td>{{bank_name}}</td>
+                                            <td>{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td>{{num_reference}}</td>
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-info">No Verificado</span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-primary AprobarBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-user="{{item.name}}" data-email="{{item.email}}" data-id="{{paquete.id}}" data-amount="{{item.amount}}" data-bank-name="{{item.bank_name}}" data-status="{{status}}" data-ref="{{item.num_reference}}" data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}" data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-datet="{{paquete.createdAt}} " data-date="{{#formatDatapy24 paquete.createdAt}}{{/formatDatapy24}}" data-activated="{{#formatDatapy24 paquete.activatedAt}}{{/formatDatapy24}}" data-culmination="{{paquete.culmination}}" data-voucher="{{voucher}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">Aprobar</a>
+                                            </td>
+                                        </tr>
+                                            
+                                            <!--<img src="/assets/img_up/{{voucher}}">-->
+                                        {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap;">No existen depositos realizados</td>
+                                            </tr>
+                                        {{/if}}
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -54,12 +79,11 @@
                             </div>
                         </div>
                     </div>
-                    {{/if}}
 
-                    {{#if roleAdmin}}
+                    <!--  PAGOS REALIZADOS -->
                     <div class="col-12">
                         <div class="card">
-                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Depositos</h6></div></div>
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Depositos Realizados</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -81,16 +105,34 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Correo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Contrato</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Correo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
                                     </thead>
                                     <tbody>
- 
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-primary me-1"><span class="avatar-content text-primary">AX</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>001</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">Aprobar</a></td></tr>
-
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-success me-1"><span class="avatar-content">CE</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>002</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">Aprobar</a></td></tr>
-
-                                        <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  bg-light-warning me-1"><span class="avatar-content">GG</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span></div></div></td><td>mosquedac@gmail.com</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a></td><td>$24973.48</td><td>Banesco</td><td>20/08/2021</td><td>003</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">Aprobar</a></td></tr>
- 
+                                        {{#if AllCompletes}}
+                                        {{#each AllCompletes as |item i|}}
+                                        <tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{name}}</td>
+                                            <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
+                                            <td>
+                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 paquete.createdAt}}{{/formatDatapy24}}" data-activated="{{#formatDatapy24 paquete.activatedAt}}{{/formatDatapy24}}" data-culmination="{{paquete.culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
+                                            </td>
+                                            <td>{{amount}}</td>
+                                            <td>{{bank_name}}</td>
+                                            <td>{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td>{{num_reference}}</td>
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-success">Realizado</span>
+                                            </td>
+                                        </tr>
+                                            
+                                            <!--<img src="/assets/img_up/{{voucher}}">-->
+                                        {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap;">No existen depositos realizados</td>
+                                            </tr>
+                                        {{/if}}
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -109,7 +151,6 @@
                             </div>
                         </div>
                     </div>
-                    {{/if}}
                 </div>
             </section>
 
@@ -121,54 +162,55 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1" id="addNewCardTitle">Pago Recibido</h1>
-                            <div class="card-body row">
+                            <h1 class="text-center mb-1" id="">Pago Recibido</h1>
+                            <form action="/startdeposit" method="POST" class="card-body row">
                                 <div class="col-12 mb-2">
                                     <label class="form-label" for="">Usuario</label>
-                                    <input id="" name="" class="form-control" type="text" value="Mosqueda Cordova" readonly>
+                                    <input type="text" id="id" name="id" class="d-none">
+                                    <input type="text" id="datet" name="date" class="d-none">
+                                    <input id="usuario" class="form-control" type="text" value="" readonly>
                                 </div>
 
                                 <div class="col-12 mb-2">
                                     <label class="form-label" for="capital">Email</label>
-                                    <input id="" name="" class="form-control" type="text" value="mosquedacordoba@gmail.com" readonly>
+                                    <input id="email" class="form-control" type="text" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Nro del contrato</label>
-                                    <input id="" name="" class="form-control" type="text" value="001" readonly>
+                                    <label class="form-label" for="">Nro del Paquete</label>
+                                    <input id="numPack" class="form-control" type="text" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Banco</label>
-                                    <input type="text" id="" class="form-control" value="Banesco" readonly>
+                                    <input type="text" id="bank" class="form-control" value="Banesco" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Nro de Comprobante</label>
-                                    <input type="text" id="" class="form-control" value="001" readonly>
+                                    <input type="text" id="bank_ref" class="form-control" value="001" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Monto</label>
-                                    <input type="text" id="" class="form-control" value="150$" readonly>
+                                    <input type="text" id="total_amount" class="form-control" value="" readonly>
                                 </div>
                                 
                                 <div class="col-12 mb-3">
                                     <label class="form-label d-block" for="">Foto del Comprobante</label>
-                                    <a href="https://pbs.twimg.com/media/Dcd1XAmWAAcmo_Q.jpg" target="_blank" rel="noopener noreferrer">
-                                        <img src="https://pbs.twimg.com/media/Dcd1XAmWAAcmo_Q.jpg" class="img-fluid rounded-1 cap">
+                                    <a href="" id="voucherLink" target="_blank" rel="noopener noreferrer">
+                                        <img src="" id="capVoucher" class="img-fluid rounded-1 cap">
                                     </a>
-                                    
                                 </div>
 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <a href="" class="btn btn-primary">Aprobar Contrato</a>
-                                        <a href="" class="btn btn-outline-secondary">Denegar</a>
+                                        <button type="submit" class="btn btn-primary">Aprobar Contrato</button>
+                                        <button class="btn btn-outline-secondary">Denegar</button>
                                     </div>
                                 </div>
 
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -183,56 +225,46 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1" id="">Código del paquete: 001</h1>
+                            <h1 class="text-center mb-1" id="pname">Código del paquete: 001</h1>
                             <div class="card-body row">
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Número del Paquete</label>
-                                    <input id="" name="" class="form-control" type="text" value="1356 3215 6548 7898" readonly>
+                                    <label class="form-label" for="">Nombre del Paquete</label>
+                                    <input id="name" class="form-control" type="text" value="Paquete Básico" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Precio</label>
-                                    <input id="" name="" class="form-control" type="text" value="1000$" readonly>
+                                    <label class="form-label" for="">Total de TH</label>
+                                    <input id="amount_th" class="form-control" type="text" value="15 TH" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Duración</label>
-                                    <input type="text" id="" class="form-control" value="6 Meses" readonly>
+                                    <label class="form-label" for="">Duración de Minado</label>
+                                    <input type="text" id="duration" class="form-control" value="12 Meses" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Fecha de Creación</label>
-                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                    <input type="text" id="date" class="form-control" value="20/9/2021" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Fecha de Activación</label>
-                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                    <input type="text" id="activated" class="form-control" value="20/9/2021" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Fecha de Culminación</label>
-                                    <input type="text" id="" class="form-control" value="20/10/2021" readonly>
+                                    <input type="text" id="culmination" class="form-control" value="20/10/2021" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Mínima</label>
-                                    <input type="text" id="" class="form-control" value="100$" readonly>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Máxima</label>
-                                    <input type="text" id="" class="form-control" value="300$" readonly>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Alcanzadas</label>
-                                    <input type="text" id="m" class="form-control" value="300$" readonly>
+                                    <label class="form-label" for="">Monto Total</label>
+                                    <input type="text" id="amount" class="form-control" value="400$" readonly>
                                 </div>
 
                                 <div class="col-12 col-md-6 mb-2">
                                     <label class="form-label" for="">Estado</label>
-                                    <input type="text" id="" class="form-control" value="Terminado" readonly>
+                                    <input type="text" id="state" class="form-control" value="Terminado" readonly>
                                 </div>
                                 
                                 <div class="col-12">
@@ -248,3 +280,76 @@
     </div>  
 </div>
                
+<script>
+    let btn = document.querySelectorAll('.showModalBtn'),
+    AprobarBtn = document.querySelectorAll('.AprobarBtn');
+
+    let newArr = [];
+
+    btn.forEach(e => {
+        e.addEventListener('click', (event) => {
+            let current = event.target
+            SetModal(current);
+        });
+    });
+
+    AprobarBtn.forEach(bn => {
+        bn.addEventListener('click', (event) => {
+            let current = event.target
+            SetPayModal(current);
+        });
+    });
+
+    const SetModal = (target) => {
+        const packName = document.getElementById('pname'),
+        name = document.getElementById('name'),
+        amount_th = document.getElementById('amount_th'),
+        duration = document.getElementById('duration'),
+        date = document.getElementById('date'),
+        activated = document.getElementById('activated'),
+        culmination = document.getElementById('culmination'),
+        amount = document.getElementById('amount'),
+        state = document.getElementById('state');
+
+        packName.innerText = target.getAttribute('data-name')
+        name.value = target.getAttribute('data-name')
+        amount_th.value = target.getAttribute('data-amount_th')
+        duration.value = target.getAttribute('data-duration')
+        amount.value = target.getAttribute('data-price')
+        date.value = target.getAttribute('data-date')
+        state.value = target.getAttribute('data-status')
+        activated.value = target.getAttribute('data-activated')
+        culmination.value = target.getAttribute('data-culmination')
+    }
+
+    const SetPayModal = (target) => {
+        const usuario = document.getElementById('usuario'),
+        id = document.getElementById('id'),
+        datet = document.getElementById('datet'),
+        email = document.getElementById('email'),
+        numPack = document.getElementById('numPack'),
+        bank = document.getElementById('bank'),
+        ref = document.getElementById('bank_ref'),
+        totalAmount = document.getElementById('total_amount'),
+        activated = document.getElementById('activated'),
+        culmination = document.getElementById('culmination'),
+        amount = document.getElementById('amount'),
+        state = document.getElementById('state'),
+        link = document.getElementById('voucherLink'),
+        capture = document.getElementById('capVoucher');
+        
+        id.value = target.getAttribute('data-id')
+        datet.value = target.getAttribute('data-datet')
+        usuario.value = target.getAttribute('data-user')
+        email.value = target.getAttribute('data-email')
+        numPack.value = target.getAttribute('data-id')
+        bank.value = target.getAttribute('data-bank-name')
+        ref.value = target.getAttribute('data-ref')
+        totalAmount.value = target.getAttribute('data-amount')
+        state.value = target.getAttribute('data-status')
+        activated.value = target.getAttribute('data-activated')
+        culmination.value = target.getAttribute('data-culmination')
+        link.href = `/assets/img_up/${target.getAttribute('data-voucher')}`;
+        capture.src = `/assets/img_up/${target.getAttribute('data-voucher')}`
+    }
+</script>

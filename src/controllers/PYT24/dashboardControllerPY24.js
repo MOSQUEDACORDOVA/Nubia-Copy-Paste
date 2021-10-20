@@ -42,7 +42,7 @@ exports.sesionstart = (req, res) => {
         return next(err);
       }
       console.log(user.dataValues.id);
-      return res.redirect('/boardpresale/PYT-24')
+      return res.redirect('/controlroles/PYT-24')
     });
   })(req, res);
 };
@@ -459,7 +459,6 @@ exports.paymanag = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  
   let roleAdmin;
   let roleClient;
   let roleSeller;
@@ -488,7 +487,8 @@ exports.paymanag = (req, res) => {
     })
 };
 
-exports.deposits = (req, res) => {
+// VER TODOS LOS DEPOSITOS
+exports.depositsadmin = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -509,6 +509,15 @@ exports.deposits = (req, res) => {
     roleAdmin = true;
   }
 
+
+  DataBase.GetAllPendingDeposits().then((response) => {
+    let AllRes = JSON.parse(response);
+    console.log(AllRes)
+
+    DataBase.GetAllCompleteDeposits().then((respuesta) => {
+      let AllCompletes = JSON.parse(respuesta);
+      console.log(AllCompletes)
+
     res.render(proyecto+"/deposits", {
       pageName: "Depositos",
       dashboardPage: true,
@@ -520,8 +529,48 @@ exports.deposits = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      AllRes,
+      AllCompletes
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// APROBAR DEPOSITO
+exports.startdeposit = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let roleAdmin;
+  let roleClient = true;
+  let roleSeller;
+  console.log(req.body)
+
+  let id = req.body.id;
+  let nDate = new Date();
+  let date = nDate.getDay() + nDate.getMonth() + nDate.getYear();
+  DataBase.UpdateDeposits(id, date).then((response) => {
+    console.log(response)
+    console.log("RESPUESTA CONTROLADOR")
+    res.redirect('deposits24/PYT-24');
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  })
 };
 
 // exports.duration = (req, res) => {
@@ -754,6 +803,8 @@ exports.createpackagespers = (req, res) => {
   } else {
     DataBase.CreatePackagesPers(price, duration, amount, maintance).then((respuesta) =>{
       let response = JSON.parse(respuesta);
+      console.log(response)
+      console.log("PERSONALIZADO")
       res.send({response})
     }).catch((err) => {
       console.log(err)
@@ -938,7 +989,7 @@ exports.presale = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
- 
+  
   let roleAdmin;
   let roleClient = true;
   let roleSeller;
@@ -1025,6 +1076,24 @@ exports.presale = (req, res) => {
   });
 };
 
+exports.controlroles = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  console.log("ROLE")
+  console.log(req.user.type_user)
+  if (req.user.type_user === 'Administrador') {
+    return res.redirect('../py24/PYT-24')
+  } else {
+    return res.redirect('../boardpresale/PYT-24')
+  }
+  
+};
+
 exports.boardpresale = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1037,7 +1106,7 @@ exports.boardpresale = (req, res) => {
   let roleClient = true;
   let roleSeller;
   let presale = true;
-  
+
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -1105,7 +1174,11 @@ exports.createdeposits = (req, res) => {
   console.log(proyecto)
   console.log(req.body)
 
-  const {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+  let {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+
+  //name = res.locals.user.username;
+  //dni = res.locals.user.dni;
+  //email = res.locals.user.email;
 
   DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, idUser).then((response) => {
     console.log(response)

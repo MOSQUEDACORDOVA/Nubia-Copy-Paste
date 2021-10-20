@@ -1,33 +1,16 @@
+<style>
+    #loading3 {
+		border-radius: 100%;
+		visibility: hidden;
+        display: none;
+	}
+</style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<script>
-    $(document).ready(function () {
-        let form = document.getElementById('personalizadosform');
-    
-        $('#personalizado').on('click', () => {
-            const data = new FormData(form);
-            $.ajax({
-            url: '/createpackagespers',
-            type: 'POST',
-            data: data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            success: function (data, textStatus, jqXHR) {
-                console.log(data.response.id);
-                $('#btnmodal').click();
+<div id="loading3" style="width: 200px;border-radius: 10px;">
+    <div id='progressBar3' class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;'>0%
+    </div>
+</div>
 
-                $('.d-none.id').each(function (index) {
-                    $(this).val(data.response.id);
-                });
-            },
-            error: function (jqXHR, textStatus) {
-                console.log('error:' + jqXHR);
-            }
-        });
-    });
-});
-     
-</script>
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
@@ -121,7 +104,7 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        
+            
                                     </div>
                                 </div>
                             </div>
@@ -260,7 +243,9 @@
                                                     </div>
                                                     <div class="mb-1">
                                                         <label class="form-label" for="">Adjuntar imagen del comprobante</label>
-                                                        <input type="file" id="img1" name="voucher" class="form-control" placeholder="" required>
+                                                        <input type="text" name="voucher" id="voucher" class="d-none">
+                                                        
+                                                        <input type="file" id="img1" class="form-control" placeholder="" required>
                                                     </div>
                                                     <div class="mb-1">
                                                         <label class="form-label" for="">Monto</label>
@@ -726,6 +711,31 @@
 
             amountModal.each(function (index) {
                 $(this).val(price_);
+            });
+        });
+
+            let form = document.getElementById('personalizadosform');
+    
+        $('#personalizado').on('click', () => {
+            const data = new FormData(form);
+            $.ajax({
+                url: '/createpackagespers',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data.response);
+                    $('#btnmodal').click();
+
+                    $('.d-none.id').each(function (index) {
+                        $(this).val(data.response.id);
+                    });
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
             });
         });
     });

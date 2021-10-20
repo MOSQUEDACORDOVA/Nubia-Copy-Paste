@@ -197,6 +197,45 @@ module.exports = {
             });
         });
     },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES
+    GetAllPendingDeposits(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS
+    GetAllCompleteDeposits(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {status: 'Realizado'},
+          include:[
+          {association:Depositos.Paquetes},
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS
     GetDeposits(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{usuarioId: id},
@@ -209,6 +248,25 @@ module.exports = {
           .then((data) => {
             let data_p = JSON.stringify(data);
             resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // APROBAR DEPOSITOS
+    UpdateDeposits(id, date){
+      return new Promise((resolve, reject) => {
+        Depositos.update({
+          status: 'Realizado',
+          activatedAt: date,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Deposito aprobado');
           })
           .catch((err) => {
             reject(err)
@@ -395,7 +453,13 @@ module.exports = {
     // OBTENER TODOS LOS PAQUETES
     GetPackages() {
       return new Promise((resolve, reject) => {
-        Paquetes.findAll()
+        Paquetes.findAll({
+          where: {
+            name: {
+              [Op.ne]: null
+            }
+          }
+        })
           .then((data) => {
             let data_p = JSON.stringify(data);
             console.log(data)

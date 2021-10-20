@@ -19,6 +19,10 @@ const authControllerPY24 = require('../controllers/PYT24/authControllerPY24');
 const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControllerPY24');
 /*---------------------------------*/
 
+const FileController = require('../models/PYT24/upload');
+const fileController = new FileController();
+
+
 // Landing Page
 router.get('/', landingController.showLandingPage);
 
@@ -152,8 +156,9 @@ router.get('/logout/PYT-21', userControllerPY21.closeSesion);
 
 // PYT-24
 // PRESALE
-router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.presale);
+router.get('/controlroles/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.controlroles);
 router.get('/boardpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.boardpresale);
+router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.presale);
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
 
 router.get('/web/:id', dashboardControllerPY24.web);
@@ -166,7 +171,7 @@ router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControlle
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
 router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
-router.get('/deposits24/:id', authControllerPY24.authenticatedUser,  dashboardControllerPY24.deposits);
+router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin,  dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
 
 // Auth Admin
@@ -203,7 +208,7 @@ router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControl
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
 // CREAR PAQUETES PERSONALIZADOS
-router.post('/createpackagespers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackagespers);
+router.post('/createpackagespers', authControllerPY24.authenticatedUser, dashboardControllerPY24.createpackagespers);
 // ACTUALIZAR PAQUETES
 router.post('/updatepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepackages);
 // ELIMINAR PAQUETES
@@ -218,22 +223,23 @@ router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControlle
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 
-// COMPRA DE PAQUETE
-router.post('/deposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createdeposits);
+// COMPRAR DE PAQUETE
+router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
+
+// APROBAR
+router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);
+// SUBIR IMAGEN
+router.post('/upload', fileController.subirArchivo);
 
 
 // Cerrar Sesión
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 // 404
-router.use((req, res, next) => {
-  res.status(404).redirect('/error404/PYT-21')
-});
+
 
 //PYT-27
 router.get('/py27/:id', dashboardControllerPY27.dashboard);
-
-
 
 
 

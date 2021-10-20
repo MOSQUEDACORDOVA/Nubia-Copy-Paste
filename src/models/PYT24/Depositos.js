@@ -70,6 +70,16 @@ const Depositos = db24.define('depositos', {
 		allowNull: false,
 		defaultValue: 'No verificado'
 	},
+	activatedAt: {
+		type: DataTypes.STRING(100),
+		allowNull: true,
+		defaultValue: null
+	},
+	culmination: {
+		type: DataTypes.STRING(100),
+		allowNull: true,
+		defaultValue: null
+	},
 });
 
 Depositos.Paquetes = Depositos.belongsTo(Paquetes);
