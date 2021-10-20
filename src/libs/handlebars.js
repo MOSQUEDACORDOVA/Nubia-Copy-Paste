@@ -32,22 +32,72 @@ module.exports = {
 			`;
 		}
 	},
-	planespy24: (sucursales, id_suc) => {
-		//console.log(sucursales)
-		//console.log(id_suc)
-		var aux = sucursales.split(",");
-		let cont =	aux.length;
-		var out = "";
-			 for (let i = 0; i < id_suc.length; i++) {
-				 
-				 console.log(aux[i])
-				 if (id_suc[i].id ==  aux[i]) {
-					out	+=`<label><input type="radio" id="sucursal${id_suc[i].id}" value="${id_suc[i].id}" name="sucursal[]" class="sucursal_check${id_suc[i].id}" > ${id_suc[i].distrito}</label><br>` 
-				 }
-			
-			}
-		 return out;
+	// ----- PYT-24
+	paymethodspy24: (banks, paym, btc, wallet) => {
+		console.log("HBS")
+		console.log(banks)
+		console.log(paym)
+		console.log(btc)
+		console.log(wallet)
+		if (banks.length) {
+			return true;	
+		} else {
+			return false;
+		}
 	},
+	planesclasepy24: (item) => {
+		if (item > 6 && item <= 13) {
+			return 'standard-pricing popular';
+		} else if(item <= 6) {
+			return 'basic-pricing';
+		}
+	},
+	planesinfopy24: (th, name) => {
+		console.log(th);
+		console.log(name);
+		if (th <= 6) {
+			return `
+			<img src="../../../app-assets/images/illustration/Pot1.svg" class="mb-2 mt-5" alt="svg img">
+			<h3>${name}</h3>
+			<p class="card-text">Inicial</p>`;
+		} else if(th > 6 && th <= 15) {
+			return `
+			<div class="pricing-badge text-end">
+				<span class="badge rounded-pill bg-light-primary text-primary">Popular</span>
+			</div>
+			<img src="../../../app-assets/images/illustration/Pot2.svg" class="mb-1" alt="svg img">
+			<h3>${name}</h3>
+			<p class="card-text">Mejor compra</p>
+			`
+		} else {
+			return `
+			<img src="../../../app-assets/images/illustration/Pot3.svg" class="mb-2" alt="svg img">
+			<h3>${name}</h3>
+			<p class="card-text">Profesional</p>`;
+		}
+	},
+	totalth: (totalth) => {
+		let total = 0;
+		totalth.forEach(element => {
+			total += parseInt(element.th_capacity);
+		});
+		return total;
+	},
+	totalthvendidos: (vendidos) => {
+		let total = 0;
+		vendidos.forEach(element => {
+			total += parseInt(element.sold_out);
+		});
+		return total;
+	},
+	totalthdisponibles: (disponibles) => {
+		let total = 0;
+		disponibles.forEach(element => {
+			total += parseInt(element.avalible);
+		});
+		return total;
+	},
+	// --------
 	empleados_disponibles: (sucursales, id_empleado) => {
 		//console.log(sucursales)
 		//console.log(id_suc)

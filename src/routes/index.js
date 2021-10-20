@@ -187,7 +187,6 @@ router.post('/reguserpy24', dashboardControllerPY24.reguserpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
-
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
 // ACTUALIZAR PRECIO TH
@@ -203,6 +202,24 @@ router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControl
 
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
+// CREAR PAQUETES PERSONALIZADOS
+router.post('/createpackagespers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackagespers);
+// ACTUALIZAR PAQUETES
+router.post('/updatepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepackages);
+// ELIMINAR PAQUETES
+router.post('/deletepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepackages);
+
+// METODOS DE PAGO, TRANSFERENCIA BANCARIA
+router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbank);
+// METODOS DE PAGO, PAGO MOVIL
+router.post('/addpaym', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addpaym);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbtc);
+// METODOS DE PAGO, BILLETERA DIGITAL
+router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
+
+// COMPRA DE PAQUETE
+router.post('/deposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createdeposits);
 
 
 // Cerrar Sesión

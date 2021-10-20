@@ -575,7 +575,7 @@ exports.addth = (req, res) => {
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error24/PYT-24");
     });
   }
 };
@@ -625,16 +625,10 @@ exports.th = (req, res) => {
   // CONTROL TH PRECIOS, COSTOS ETC
   DataBase.GetControlTH().then((response)=>{
     let data = JSON.parse(response)[0];
-    let machine;
     // OBTENER MAQUINAS DE MINADO
-    DataBase.GetMachineTH().then((res)=> {
-      machine = JSON.parse(res)[0];
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error obteniendo maquinas de minado en el sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-
+    DataBase.GetMachineTH().then((resp)=> {
+      machine = JSON.parse(resp);
+      
       res.render(proyecto+"/th", {
         pageName: "Administrar TH",
         dashboardPage: true,
@@ -652,6 +646,11 @@ exports.th = (req, res) => {
       });
   }).catch((err) => {
     console.log(err)
+    let msg = "Error obteniendo maquinas de minado en el sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
     let msg = "Error obteniendo datos de control precios etc, en el sistema";
     return res.redirect("/error24/PYT-24");
   })
@@ -659,9 +658,9 @@ exports.th = (req, res) => {
 
 // ACTUALIZAR PRECIO TH
 exports.updateth = (req, res) => {
-  const {price} = req.body
+  const {id, price} = req.body
 
-  DataBase.UpdatePriceTH(price).then((respuesta) =>{
+  DataBase.UpdatePriceTH(id, price).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -673,9 +672,9 @@ exports.updateth = (req, res) => {
 
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
 exports.updatemaintance = (req, res) => {
-  const {maintance} = req.body
+  const {id, maintance} = req.body
 
-  DataBase.UpdateMaintance(maintance).then((respuesta) =>{
+  DataBase.UpdateMaintance(id, maintance).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -687,9 +686,9 @@ exports.updatemaintance = (req, res) => {
 
 // ACTUALIZAR PORCENTAJE DE ERROR
 exports.updateerror = (req, res) => {
-  const {error} = req.body
+  const {id, error} = req.body
 
-  DataBase.UpdateError(error).then((respuesta) =>{
+  DataBase.UpdateError(id, error).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -701,9 +700,9 @@ exports.updateerror = (req, res) => {
 
 // ACTUALIZAR GANANCIAS POR REFERIDOS
 exports.updateearnings = (req, res) => {
-  const {earnings} = req.body
+  const {id, earnings} = req.body
 
-  DataBase.UpdateRefEarnings(earnings).then((respuesta) =>{
+  DataBase.UpdateRefEarnings(id, earnings).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -715,9 +714,9 @@ exports.updateearnings = (req, res) => {
 
 // ACTUALIZAR SALDO MINIMO DE RETIRO
 exports.updateminwithd = (req, res) => {
-  const {minwithd} = req.body
+  const {id, minwithd} = req.body
 
-  DataBase.UpdateMinWithdrawal(minwithd).then((respuesta) =>{
+  DataBase.UpdateMinWithdrawal(id, minwithd).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/th/PYT-24')
   }).catch((err) => {
@@ -745,6 +744,134 @@ exports.createpackages = (req, res) => {
   };
 }
 
+// CREAR PAQUETES
+exports.createpackagespers = (req, res) => {
+  const { price, duration, amount, maintance } = req.body;
+  let msg = false;
+  if (price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.CreatePackagesPers(price, duration, amount, maintance).then((respuesta) =>{
+      let response = JSON.parse(respuesta);
+      res.send({response})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+// ACTUALIZAR PAQUETES
+exports.updatepackages = (req, res) => {
+  const { id, name, price, duration, amount, maintance } = req.body;
+  let msg = false;
+  if (id.trim() === '' || name.trim() === '' || price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.UpdatePackages(id, name, price, duration, amount, maintance).then((respuesta) =>{
+      res.redirect('/plans/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+// ELIMINAR PAQUETES
+exports.deletepackages = (req, res) => {
+  const { id } = req.body;
+  console.log(req.body)
+  console.log("ID")
+  let msg = false;
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/plans/PYT-24');
+  } else {
+    DataBase.DeletePackages(id).then((respuesta) =>{
+      res.redirect('/plans/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
+exports.addbank = (req, res) => {
+  const { fullname, dni, bank_name, type_account, num_account } = req.body;
+  let msg = false;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || type_account.trim() === '' || num_account.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddBank(fullname, dni, bank_name, type_account, num_account).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO (PAGO MOVIL)
+exports.addpaym = (req, res) => {
+  const { fullname, dni, bank_name, phone } = req.body;
+  let msg = false;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || phone.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddPaym(fullname, dni, bank_name, phone).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO RETIRO EN BTC
+exports.addbtc = (req, res) => {
+  const { code_wallet } = req.body;
+  let msg = false;
+  if (code_wallet.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddBTC(code_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE PAGO BILLETERA DIGITAL
+exports.addwallet = (req, res) => {
+  const { email } = req.body;
+  let msg = false;
+  if (email.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.AddDigitalWallet(email).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
 
 exports.plans = (req, res) => {
   let msg = false;
@@ -766,7 +893,16 @@ exports.plans = (req, res) => {
   else {
     roleAdmin = true;
   }
+  DataBase.GetPackages().then((respuesta) =>{
+    let data = JSON.parse(respuesta);
 
+    DataBase.GetControlTH().then((response)=>{
+      let datath = JSON.parse(response)[0];
+      let percentage;
+      if(datath) {
+        percentage = datath.percentage_maintance;
+      }
+      
     res.render(proyecto+"/plans", {
       pageName: "Paquetes",
       dashboardPage: true,
@@ -778,8 +914,20 @@ exports.plans = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      data,
+      percentage
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo datos de control en el sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 // OBTENER PAQUETES
@@ -798,7 +946,32 @@ exports.presale = (req, res) => {
 
   DataBase.GetPackages().then((response)=>{
     let data = JSON.parse(response);
-    res.render(proyecto+"/presale", {
+    DataBase.GetControlTH().then((response_th)=>{
+      let data_th = JSON.parse(response_th)[0];
+      //console.log(data_th)
+
+    // TRAER TODOS LOS METODOS DE PAGO
+    DataBase.GetAllPaym().then((all)=>{
+      let allpays = JSON.parse(all);
+      console.log(allpays)
+      // TRAER CUENTAS PARA TRANSFERENCIAS BANCARIAS
+      DataBase.GetBanks().then((banks)=>{
+        let allbanks = JSON.parse(banks);
+        console.log(allbanks)
+        // TRAER CUENTAS PARA PAGO MOVIL
+        DataBase.GetPaym().then((paym)=>{
+          let allpaym = JSON.parse(paym);
+          console.log(allpaym)
+          // TRAER CUENTAS PARA RETIRO EN BTC
+          DataBase.GetBTC().then((btc)=>{
+            let allbtc = JSON.parse(btc);
+            console.log(allbtc)
+            // TRAER CUENTAS PARA RETIRO EN BTC
+            DataBase.GetDigWallet().then((wallet)=>{
+              let allwallet = JSON.parse(wallet);
+              console.log(allwallet)
+            
+    res.render(proyecto+"/presale", { 
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
       dashboard: true,
@@ -810,9 +983,41 @@ exports.presale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
-      data,
+      data, 
+      data_th,
+      allpays, allbanks, allpaym, allbtc, allwallet,
       buy: true
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+  });  
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -861,6 +1066,12 @@ exports.depositpresale = (req, res) => {
   let roleClient = true;
   let roleSeller;
   let presale = true;
+
+  let idUser = res.locals.user.id
+
+  DataBase.GetDeposits(idUser).then((response) => {
+    let AllRes = JSON.parse(response);
+    console.log(AllRes)
   
     res.render(proyecto+"/depositpresale", {
       pageName: "Minner - Depositos",
@@ -874,6 +1085,34 @@ exports.depositpresale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
-      dep: true
-    })
+      dep: true,
+      AllRes
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+exports.createdeposits = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  let idUser = res.locals.user.id
+  console.log(proyecto)
+  console.log(req.body)
+
+  const {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+
+  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, idUser).then((response) => {
+    console.log(response)
+    res.redirect('/depositpresale/PYT-24');
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };

@@ -9,12 +9,7 @@ const PAQUETES = db24.define('paquetes', {
 	},
 	name: {
 		type: DataTypes.STRING(30),
-		allowNull: false,
-		validate: {
-			notEmpty: {
-				msg: 'El nombre del paquete es obligatoria'
-			}
-		}
+		allowNull: true,
 	},
 	price: {
 		type: DataTypes.INTEGER,
