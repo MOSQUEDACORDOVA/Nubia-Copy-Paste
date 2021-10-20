@@ -66,5 +66,5 @@ const Usuarios = db24.define('usuarios', {
 Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
-
+Usuarios.Depositos = Usuarios.hasMany(Depositos);
 module.exports = Usuarios;

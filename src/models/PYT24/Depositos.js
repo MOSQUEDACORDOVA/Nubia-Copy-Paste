@@ -68,6 +68,5 @@ const Depositos = db24.define('depositos', {
 	},
 });
 
-//Depositos.Usuarios = Depositos.belongsTo(Usuarios);
-
+Depositos.Paquetes= Depositos.belongsTo(Paquetes);
 module.exports = Depositos;
