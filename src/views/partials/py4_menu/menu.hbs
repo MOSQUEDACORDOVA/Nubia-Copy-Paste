@@ -5,7 +5,21 @@
 
 
 <script>
+    function ucwords(str,force){ 
+        str=force ? str.toLowerCase() : str; 
+        return str.replace(/(\b)([a-zA-Z])/g, 
+            function(firstLetter){ 
+                    return firstLetter.toUpperCase();
+         }); 
+        }
     $(document).ready(function () {
+        $('input[type="text"]').keyup(function(evt){ // force: true to lower case all letter except first 
+       // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
+        var cp_value= ucwords($(this).val(),true) ; 
+        $(this).val(cp_value ); 
+        });
+
+Fuente: https://www.iteramos.com/pregunta/73739/con-jquery-como-puedo-poner-en-mayuscula-la-primera-letra-de-un-campo-de-texto-mientras-el-usuario-esta-editando-ese-campo
 //$('#sucursal_change').modal('show')
 $('#reg_pedido_modal1').on('submit', (e)=>{
 e.preventDefault()
