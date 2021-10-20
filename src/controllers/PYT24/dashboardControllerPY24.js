@@ -1174,13 +1174,13 @@ exports.createdeposits = (req, res) => {
   console.log(proyecto)
   console.log(req.body)
 
-  let {id, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+  let {id, methodid, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
 
-  //name = res.locals.user.username;
-  //dni = res.locals.user.dni;
-  //email = res.locals.user.email;
+  name = res.locals.user.username;
+  dni = res.locals.user.dni;
+  email = res.locals.user.email;
 
-  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, idUser).then((response) => {
+  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, methodid, idUser).then((response) => {
     console.log(response)
     res.redirect('/depositpresale/PYT-24');
   }).catch((err) => {

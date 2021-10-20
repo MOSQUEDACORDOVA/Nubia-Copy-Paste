@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const Usuarios = require('../../models/PYT24/Usuarios');
 const Paquetes = require('../../models/PYT24/Packages');
+const MetodosPagos = require('../../models/PYT24/MetodosPago');
 // DEPOSITOS
 
 const Depositos = db24.define('depositos', {
@@ -83,4 +84,5 @@ const Depositos = db24.define('depositos', {
 });
 
 Depositos.Paquetes = Depositos.belongsTo(Paquetes);
+Depositos.MetodosPagos = Depositos.belongsTo(MetodosPagos);
 module.exports = Depositos;

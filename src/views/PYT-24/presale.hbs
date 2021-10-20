@@ -213,7 +213,7 @@
                                                         <select class="form-select" id="selectBanks" tabindex="-1" aria-hidden="true" required>
                                                             <option value="" selected>Cuentas disponibles</option>
                                                             {{#each allbanks as |item i|}}
-                                                            <option data-bank-name="{{item.bank_name}}" data-bank-num-account="{{item.num_account}}" data-bank-type-account="{{item.type_account}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.num_account}}</option>
+                                                            <option data-bank-name="{{item.bank_name}}" data-bank-num-account="{{item.num_account}}" data-bank-type-account="{{item.type_account}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" data-id="{{item.id}}" value="{{item.id}}">{{item.bank_name}} - {{item.num_account}}</option>
                                                             {{/each}}
                                                         </select>
                                                     </div>
@@ -221,6 +221,7 @@
                                                         <label class="form-label" for="">Nombre Completo</label>
                                                         <input type="text" name="ttype" class="d-none" value="Trasnferencia Bancaria" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
                                                         <input type="text" id="fullname1" class="form-control" placeholder="" name="name" value="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -271,7 +272,7 @@
                                                 <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
                                                     <option value="" selected>Cuentas disponibles</option>
                                                     {{#each allbtc as |item i|}}
-                                                    <option data-code-wallet="{{item.code_wallet}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
                                                     {{/each}}
                                                 </select>
                                                 <div class="row">
@@ -279,6 +280,7 @@
                                                         <label class="form-label" for="">Codigo de la Billetera</label>
                                                         <input type="text" name="ttype" class="d-none" value="BTC" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
                                                         <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                 </div>
@@ -306,12 +308,13 @@
                                                         <select class="form-select" id="digWallet" tabindex="-1" aria-hidden="true" required>
                                                             <option value="" selected>Cuentas disponibles</option>
                                                             {{#each allwallet as |item i|}}
-                                                            <option data-email="{{item.digital_wallet_email}}" value="{{item.id}}">{{item.digital_wallet_email}}</option>
+                                                            <option data-id="{{item.id}}" data-email="{{item.digital_wallet_email}}" value="{{item.id}}">{{item.digital_wallet_email}}</option>
                                                             {{/each}}
                                                         </select>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Email</label>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                                                    
                                                         <input type="text" name="ttype" class="d-none" value="Billetera Digital" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                         <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
@@ -339,14 +342,15 @@
                                                         <select class="form-select" id="selectPaym" tabindex="-1" aria-hidden="true" required>
                                                             <option value="" selected>Cuentas disponibles</option>
                                                             {{#each allpaym as |item i|}}
-                                                            <option data-bank-name="{{item.bank_name}}" data-phone="{{item.phone}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.phone}}</option>
+                                                            <option data-bank-name="{{item.bank_name}}" data-phone="{{item.phone}}" data-id="{{item.id}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.phone}}</option>
                                                             {{/each}}
                                                         </select>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Nombre Completo</label>
                                                         <input type="text" name="ttype" class="d-none" value="Pago Movil" required readonly>
-                                                        <input type="text" name="id" class="d-none id" value="" required readonly>                           
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>  
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                         
                                                         <input type="text" id="fullname2" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -650,11 +654,19 @@
         typeAccount = document.getElementById('type_account'),
         numAccount = document.getElementById('num_account');
 
+        let Methodid = document.querySelectorAll('.d-none.methodid');
+
         fname1.value = index.getAttribute('data-fullname')
         bankName1.value = index.getAttribute('data-bank-name')
         dni1.value = index.getAttribute('data-dni')
         numAccount.value = index.getAttribute('data-bank-num-account')
         typeAccount.value = index.getAttribute('data-bank-type-account')
+
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
     }
     
     // Pago Movil
@@ -668,23 +680,48 @@
         bankName2.value = index.getAttribute('data-bank-name')
         dni2.value = index.getAttribute('data-dni')
         phone.value = index.getAttribute('data-phone')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
     }
     
     // BTC
     const SetValuesBTCWalletSelected = (index) => {
         const code = document.getElementById('code_wallet')
         code.value = index.getAttribute('data-code-wallet')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+              
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
     }
     
     // Billetera Digital
     const SetValuesWalletSelected = (index) => {
         const email = document.getElementById('wallet_email')
         email.value = index.getAttribute('data-email')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+              
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
     }
     
     $(function (){
         let amountModal = $('.amount');
         let idModal = $('.modal .d-none.id');
+        let idMethod = $('.modal .d-none.methodid');
         let paq = $('.card-body.paquetes');
 
         paq.each(function (index) {
@@ -700,6 +737,11 @@
                         $(this).val(e.target.getAttribute('data-id'));
                         console.log(e.target.getAttribute('data-id'))
                     });
+                    idMethod.each(function (index) {
+                        $(this).val(e.target.getAttribute('data-id'));
+                        console.log("ID METODO")
+                        console.log(e.target.getAttribute('data-id'));
+                    });
                 }
             });
         });
@@ -714,7 +756,7 @@
             });
         });
 
-            let form = document.getElementById('personalizadosform');
+        let form = document.getElementById('personalizadosform');
     
         $('#personalizado').on('click', () => {
             const data = new FormData(form);
