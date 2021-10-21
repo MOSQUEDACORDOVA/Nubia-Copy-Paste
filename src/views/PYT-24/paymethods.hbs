@@ -154,14 +154,76 @@
                                     Descartar
                                 </button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </section>
 
             <div class="col-12">
+                <div class="card card-statistics">
+                    <div class="card-body statistics-body">
+                        <div class="row">
+                            <!-- TRANSFERENCIAS -->
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" data-bs-target="#transf" aria-expanded="true" id="transfbtn">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-primary me-2">
+                                        <div class="avatar-content">
+                                            <i data-feather='activity' class="feather feather-trending-up avatar-icon text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h5 class="fw-bolder mb-0">Transferencias Bancarias</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" data-bs-target="#pagom" aria-expanded="true" id="pagombtn">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-primary me-2">
+                                        <div class="avatar-content">
+                                            <i data-feather='smartphone' class="feather feather-trending-up avatar-icon text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h5 class="fw-bolder mb-0">Pago Móvil</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 col-12" type="button" data-bs-toggle="collapse" data-bs-target="#billetera" aria-expanded="true" id="billeterabtn">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-primary me-2">
+                                        <div class="avatar-content">
+                                            <i data-feather='dollar-sign' class="feather feather-trending-up avatar-icon text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h5 class="fw-bolder mb-0">Billetera Digital</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0" type="button" data-bs-toggle="collapse" data-bs-target="#btcw" aria-expanded="true" id="btcwbtn">
+                                <div class="d-flex flex-row">
+                                    <div class="avatar bg-light-primary me-2">
+                                        <div class="avatar-content">
+                                            <i data-feather='credit-card' class="feather feather-trending-up avatar-icon text-primary"></i>
+                                        </div>
+                                    </div>
+                                    <div class="my-auto">
+                                        <h5 class="fw-bolder mb-0">BTC</h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TRANSFERENCIAS BANCARIAS -->
+            <div class="col-12 collapse" id="transf">
                 <div class="card">
-                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Metodos de pago</h6></div></div>
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Transferencias Bancarias</h6></div></div>
                         <div class="d-flex justify-content-between align-items-center mx-0 row">
                             <div class="col-sm-12 col-md-6">
                                 <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -184,16 +246,35 @@
                         <div class="table-responsive">
                             <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                 <thead>
-                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" style="width: 102px;">Banco</th><th tabindex="0" colspan="2">Nro de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Tipo de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Telefono</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" style="width: 102px;">Banco</th><th tabindex="0" colspan="2">Nro de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Tipo de cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">DNI</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
                                 </thead>
                                 <tbody>
+                                    {{#if allbanks}}
+                                    {{#each allbanks as |item i|}}
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>{{item.transaction_type}}</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">{{item.bank_name}}</span></div></div></td><td colspan="2" class="text-nowrap">{{item.num_account}}</td><td>{{item.type_account}}</td><td>{{item.full_name}}</td><td>{{item.dni}}</td><td>{{#statusmetodospagospy24 item.status}} {{/statusmetodospagospy24}}</td>
                                     
-                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-                                    
-                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap"><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-                                    
-                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>Transferencia</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Banesco</span></div></div></td><td colspan="2" class="text-nowrap">0116 0115 0055 0055</td><td>Corriente</td><td>Mosuqeda Cordova</td><td>20.708.052</td><td class="text-nowrap">0414-0652511</td><td><span class="badge rounded-pill badge-light-success">Habilitado</span></td><td class="text-nowrap"><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
+                                        <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
 
+                                            <form action="/updatestatuspaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <input type="text" name="status" value="{{item.status}}" class="d-none">
+                                                <button type="submit" class="dropdown-item w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</button>
+                                            </form>
+
+                                            <form action="/deletepaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <button type="submit" class="dropdown-item delete-record w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</button></div></div>
+
+                                                <a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{else}}
+                                    <tr>
+                                        <td style="white-space: nowrap;">No existen metodos de pago registrados</td>
+                                    </tr>
+                                    {{/if}}
                                 </tbody>
                             </table>
                         </div>
@@ -215,7 +296,238 @@
                 </div>
             </div>
 
-            <!--- MODAL --->
+            <!-- PAGO MOVIL -->
+            <div class="col-12 collapse" id="pagom">
+                <div class="card">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pago Movil</h6></div></div>
+                        <div class="d-flex justify-content-between align-items-center mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label class="d-flex align-items-center">Mostrar 
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                            <option value="7">7</option>
+                                            <option value="10">10</option><option value="25">25</option>
+                                            <option value="50">50</option><option value="75">75</option>
+                                            <option value="100">100</option>
+                                        </select> entradas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" style="width: 102px;">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Telefono</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
+                                </thead>
+                                <tbody>
+                                    <!-- PAGO MOVIL -->
+                                    {{#if allpaym}}
+                                    {{#each allpaym as |item i|}}
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>{{item.transaction_type}}</td><td style="white-space: nowrap;">{{item.full_name}}</td><td>{{item.dni}}</td><td><div class="d-flex justify-content-left align-items-center"><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">{{item.bank_name}}</span></div></div></td><td>{{item.phone}}</td><td>{{#statusmetodospagospy24 item.status}} {{/statusmetodospagospy24}}</td>
+                                    
+                                        <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
+
+                                            <form action="/updatestatuspaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <input type="text" name="status" value="{{item.status}}" class="d-none">
+                                                <button type="submit" class="dropdown-item w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</button>
+                                            </form>
+
+                                            <form action="/deletepaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <button type="submit" class="dropdown-item delete-record w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</button></div></div>
+
+                                                <a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{else}}
+                                    <tr>
+                                        <td style="white-space: nowrap;">No existen metodos de pago registrados</td>
+                                    </tr>
+                                    {{/if}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGO BTC -->
+            <div class="col-12 collapse" id="btcw">
+                <div class="card">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">BTC</h6></div></div>
+                        <div class="d-flex justify-content-between align-items-center mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label class="d-flex align-items-center">Mostrar 
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                            <option value="7">7</option>
+                                            <option value="10">10</option><option value="25">25</option>
+                                            <option value="50">50</option><option value="75">75</option>
+                                            <option value="100">100</option>
+                                        </select> entradas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap" aria-label="Date: activate to sort column ascending">Código Billetera</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
+                                </thead>
+                                <tbody>
+                                    <!-- PAGO MOVIL -->
+                                    {{#if allbtc}}
+                                    {{#each allbtc as |item i|}}
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>{{item.transaction_type}}</td><td style="white-space: nowrap;">{{item.code_wallet}}</td><td>{{#statusmetodospagospy24 item.status}} {{/statusmetodospagospy24}}</td>
+                                    
+                                        <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
+
+                                            <form action="/updatestatuspaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <input type="text" name="status" value="{{item.status}}" class="d-none">
+                                                <button type="submit" class="dropdown-item w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</button>
+                                            </form>
+
+                                            <form action="/deletepaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <button type="submit" class="dropdown-item delete-record w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</button></div></div>
+
+                                                <a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{else}}
+                                    <tr>
+                                        <td style="white-space: nowrap;">No existen metodos de pago registrados</td>
+                                    </tr>
+                                    {{/if}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PAGO BILLETERA DIGITAL -->
+            <div class="col-12 collapse" id="billetera">
+                <div class="card">
+                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Billetera Digital</h6></div></div>
+                        <div class="d-flex justify-content-between align-items-center mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label class="d-flex align-items-center">Mostrar 
+                                        <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                            <option value="7">7</option>
+                                            <option value="10">10</option><option value="25">25</option>
+                                            <option value="50">50</option><option value="75">75</option>
+                                            <option value="100">100</option>
+                                        </select> entradas
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                    <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                <thead>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th>Metodo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap" aria-label="Date: activate to sort column ascending">Email Billetera</th><th>Estado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Acción</th></tr>
+                                </thead>
+                                <tbody>
+                                    <!-- PAGO MOVIL -->
+                                    {{#if allwallet}}
+                                    {{#each allwallet as |item i|}}
+                                    <tr class="odd"><td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td><td>{{item.transaction_type}}</td><td style="white-space: nowrap;">{{item.digital_wallet_email}}</td><td>{{#statusmetodospagospy24 item.status}} {{/statusmetodospagospy24}}</td>
+                                    
+                                        <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
+
+                                            <form action="/updatestatuspaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <input type="text" name="status" value="{{item.status}}" class="d-none">
+                                                <button type="submit" class="dropdown-item w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Habilitar / Desabilitar</button>
+                                            </form>
+
+                                            <form action="/deletepaymethod" method="POST">
+                                                <input type="text" name="id" value="{{item.id}}" class="d-none">
+                                                <button type="submit" class="dropdown-item delete-record w-100"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</button></div></div>
+
+                                                <a href="javascript:;" class="item-edit" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard4"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                    {{else}}
+                                    <tr>
+                                        <td style="white-space: nowrap;">No existen metodos de pago registrados</td>
+                                    </tr>
+                                    {{/if}}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="d-flex justify-content-between mx-0 row">
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                    <ul class="pagination">
+                                        <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                        <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--- MODAL TRANSFERENCIAS --->
             <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -223,49 +535,162 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1" id="addNewCardTitle">Actualizar Metodo de Pago</h1>
-                            <div class="card-body row">
+                            <h1 class="text-center mb-1" id="">Actualizar Metodo de Pago</h1>
+                            <form action="/updatepaymethod" method="POST"  class="card-body row">
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Metodo</label>
-                                    <input id="" name="" class="form-control" type="text" value="Transferencia" readonly>
+                                    <input name="ttype" class="form-control" type="text" value="Trasnferencia Bancaria" readonly required>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Nombre</label>
-                                    <input type="text" id="" class="form-control" value="Mosqueda Cordova">
+                                    <input type="text" name="name" id="name1" class="form-control" value="">
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Documento de identificación</label>
-                                    <input type="text" id="" class="form-control" value="20.075.065">
+                                    <input type="text" id="dni1" class="form-control" value="">
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Banco</label>
-                                    <input id="" name="" class="form-control" type="text" value="Banesco">
+                                    <input id="bank1" name="bank" class="form-control" type="text" value="">
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Tipo de Cuenta</label>
-                                    <select name="" id="" class="form-select">
-                                        <option value="" selected>Corriente</option>
+                                    <select name="type_account" id="type_account1" class="form-select">
+                                        <option value="">Corriente</option>
                                         <option value="">Ahorro</option>
                                     </select>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Nro de Cuenta</label>
-                                    <input id="" name="" class="form-control" type="text" value="0116 0115 0055 0055">
+                                    <input id="num_account" name="num_account" class="form-control" type="text" value="">
                                 </div>
 
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Actualizar</button>
-                                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
 
-                            </div>
+            <!--- MODAL PAGO MOVIL --->
+            <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="">Actualizar Metodo de Pago</h1>
+                            <form action="/updatepaymethod" method="POST" class="card-body row">
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Metodo</label>
+                                    <input name="ttype" class="form-control" type="text" value="Pago Movil" readonly required>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Nombre</label>
+                                    <input type="text" name="name" id="name2" class="form-control" value="">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Documento de identificación</label>
+                                    <input type="text" id="dni2" class="form-control" value="">
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Banco</label>
+                                    <input id="bank2" name="bank" class="form-control" type="text" value="">
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Telefono</label>
+                                    <input id="phone" name="phone" class="form-control" type="text" value="">
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+
+            <!--- MODAL BTC --->
+            <div class="modal fade" id="addNewCard3" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="">Actualizar Metodo de Pago</h1>
+                            <form action="/updatepaymethod" method="POST" class="card-body row">
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Metodo</label>
+                                    <input name="ttype" class="form-control" type="text" value="BTC" readonly required>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Código de Billetera</label>
+                                    <input type="text" name="code_wallet" id="code_wallet" class="form-control" value="">
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+
+            <!--- MODAL BILLETERA DIGITAL --->
+            <div class="modal fade" id="addNewCard4" tabindex="-1" aria-labelledby="" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="">Actualizar Metodo de Pago</h1>
+                            <form action="/updatepaymethod" method="POST" class="card-body row">
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Metodo</label>
+                                    <input name="ttype" class="form-control" type="text" value="Billetera Digital" readonly required>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Email de Billetera Digital</label>
+                                    <input type="text" name="email_wallet" id="email_wallet" class="form-control" value="">
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Cerrar</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -274,3 +699,56 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+  $(document).ready(function(){
+
+    $('#transfbtn').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#pagombtn').on('click', (e)=> {
+        Reset(2);
+    });
+    $('#billeterabtn').on('click', (e)=> {
+        Reset(3);
+    });
+     $('#btcwbtn').on('click', (e)=> {
+        Reset(4);
+    });
+
+    function Reset(num) {
+        $('#transf').removeClass('show')
+        $('#transf').addClass('collpase')
+
+        $('#pagom').removeClass('show')
+        $('#pagom').addClass('collpase')
+
+        $('#billetera').removeClass('show')
+        $('#billetera').addClass('collpase')
+        
+        $('#btcw').removeClass('show')
+        $('#btcw').addClass('collpase')
+        switch (num){
+            case 1:
+                $('#transf').removeClass('collpase')
+                $('#transf').addClass('show')
+                break;
+            case 2:
+                $('#pagom').removeClass('collpase')
+                $('#pagom').addClass('show')
+                break;
+            case 3:
+                $('#billetera').addClass('show')
+                $('#billetera').removeClass('collpase')
+                break;
+            case 4:
+                $('#btcw').addClass('show')
+                $('#btcw').removeClass('collpase')
+                break;
+            default:
+            break
+        }
+    }
+
+})
+</script>

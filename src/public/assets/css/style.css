@@ -339,6 +339,40 @@ table tbody td button {
     background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
+.py24.landheader::after {
+    content: ' ';
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: rgba(191,139,75,1);
+    background: -moz-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -webkit-gradient(left top, right bottom, color-stop(0%, rgba(191,139,75,1)), color-stop(22%, rgba(140,77,22,1)), color-stop(55%, rgba(242,202,128,1)), color-stop(84%, rgba(140,77,22,1)), color-stop(100%, rgba(166,105,51,1)));
+    background: -webkit-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -o-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: -ms-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
+}
+@media (min-width: 992px) {
+    .py24.landheader .menu.nav .nav-item {
+        transition: .3s ease all;
+    }
+    .py24.landheader .menu .nav-item:hover {
+        background: #d9a5439d !important;
+        box-shadow: 0 8px 25px -8px #D9A443 !important;
+    }
+    .py24.landheader .menu .nav-item:hover .nav-link {
+        color: white !important;
+        opacity: 1;
+    }
+    .py24.landheader .menu .nav-item {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 8px;
+    }
+}
 .dark-layout .main-menu-content .navigation-main .nav-item.open > a {
     /* background-color: #D9A443 !important;
     color: white !important; */
@@ -395,15 +429,16 @@ table tbody td button {
     height: 100%;
     background: #795a219d;
 }
-.py24.banner .bg-banner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+.py24.banner {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    max-height: 600px;
+    background-image: url(https://hardzone.es/app/uploads-hardzone.es/2020/10/PortadamineriaAMD.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
+
 .py24.banner .row {
     position: relative;
     z-index: 3;

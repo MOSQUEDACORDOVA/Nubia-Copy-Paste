@@ -4,6 +4,7 @@ const Swal = require("sweetalert2");
 const DataBase = require("../../models/PYT24/data");
 const passport = require("passport");
 const { rejects } = require("assert");
+let moment = require('moment-timezone');
 
 exports.web = (req, res) => {
   let msg = false;
@@ -436,6 +437,22 @@ exports.paymethods = (req, res) => {
     roleAdmin = true;
   }
 
+  DataBase.GetBanksAdmin().then((banks)=>{
+    let allbanks = JSON.parse(banks);
+    console.log(allbanks)
+    // TRAER CUENTAS PARA PAGO MOVIL
+    DataBase.GetPaymAdmin().then((paym)=>{
+      let allpaym = JSON.parse(paym);
+      console.log(allpaym)
+      // TRAER CUENTAS PARA RETIRO EN BTC
+      DataBase.GetBTCAdmin().then((btc)=>{
+        let allbtc = JSON.parse(btc);
+        console.log(allbtc)
+        // TRAER CUENTAS PARA RETIRO EN BTC
+        DataBase.GetDigWalletAdmin().then((wallet)=>{
+          let allwallet = JSON.parse(wallet);
+          console.log(allwallet)
+        
     res.render(proyecto+"/paymethods", {
       pageName: "Formas de Pago",
       dashboardPage: true,
@@ -447,9 +464,87 @@ exports.paymethods = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      allbanks,
+      allpaym,
+      allbtc,
+      allwallet
+    });
+  }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/error24/PYT-24");
+  });  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });  
 };
+
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+exports.updatestatuspaymethod = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  let {id, status} = req.body;
+
+  if (id.trim() === '' || status.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    if(status === 'Habilitado') {
+      status = 'Deshabilitado';
+    } else {
+      status = 'Habilitado';
+    }
+    DataBase.UpdateStatusPayMethod(id, status).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }; 
+};
+
+// ELIMINAR METODOS DE PAGO
+exports.deletepaymethod = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  const {id} = req.body;
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/paymethods24/PYT-24');
+  } else {
+    DataBase.DeletePayMethod(id).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }; 
+};
+
 
 exports.paymanag = (req, res) => {
   let msg = false;
@@ -558,11 +653,17 @@ exports.startdeposit = (req, res) => {
   let roleClient = true;
   let roleSeller;
   console.log(req.body)
+  console.log("PARAMS")
 
-  let id = req.body.id;
-  let nDate = new Date();
-  let date = nDate.getDay() + nDate.getMonth() + nDate.getYear();
-  DataBase.UpdateDeposits(id, date).then((response) => {
+  let id = req.body.id; 
+  let duration = req.body.durationd;
+  let activated = moment().format('YYYY-MM-DD');
+  let culminated =  moment().add(duration, 'M').format('YYYY-MM-DD');
+  
+  console.log(activated)
+  console.log(culminated)
+  
+  DataBase.UpdateDeposits(id, activated, culminated).then((response) => {
     console.log(response)
     console.log("RESPUESTA CONTROLADOR")
     res.redirect('deposits24/PYT-24');
@@ -1087,7 +1188,7 @@ exports.controlroles = (req, res) => {
   console.log("ROLE")
   console.log(req.user.type_user)
   if (req.user.type_user === 'Administrador') {
-    return res.redirect('../py24/PYT-24')
+    return res.redirect('../th/PYT-24')
   } else {
     return res.redirect('../boardpresale/PYT-24')
   }

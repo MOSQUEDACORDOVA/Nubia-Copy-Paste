@@ -53,6 +53,11 @@ const MetodosPago = db24.define('metodos_pago', {
 			},
         }
     },
+    status: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        defaultValue: 'Habilitado'
+    }
 });
 
 module.exports = MetodosPago;

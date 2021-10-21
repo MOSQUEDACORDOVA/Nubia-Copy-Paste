@@ -66,6 +66,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
 		}
 	},
+	statusmetodospagospy24: (status) => {
+		if(status === 'Habilitado') {
+			return `<span class="badge rounded-pill badge-light-success">${status}</span>`
+		} else {
+			return `<span class="badge rounded-pill badge-light-danger">${status}</span>`
+		}
+	},
 	formatDatapy24: (date) => {
 		if(date) {
 			return date.slice(0,10)

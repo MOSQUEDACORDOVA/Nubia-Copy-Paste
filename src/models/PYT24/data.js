@@ -38,14 +38,14 @@ module.exports = {
     // CREAR METODO DE PAGO, PAGO MOVIL
     AddPaym(fullname, dni, bank_name, phone) {
       return new Promise((resolve, reject) => {
-        MPagos.create({ transaction_type: 'Pago Movil', full_name: fullname, dni: dni, bank_name: bank_name, phone: phone })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Nuevo metodo de pago (Pago Movil) registrado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
+        MPagos.create({ transaction_type: 'Pago Movil', full_name: fullname, dni: dni, bank_name: bank_name, phone: phone})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Nuevo metodo de pago (Pago Movil) registrado con éxito');
+        })
+        .catch((err) => {
+          reject(err)
+        });
       });
     },
     // CREAR METODO DE PAGO, RETIRO EN BTC
@@ -77,7 +77,7 @@ module.exports = {
     // OBTENER TODOS LOS METODOS DE PAGO
     GetAllPaym() {
       return new Promise((resolve, reject) => {
-        MPagos.findAll()
+        MPagos.findAll({ where: {status: 'Habilitado'}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             console.log(data)
@@ -88,8 +88,27 @@ module.exports = {
           });
       });
     },
-    // OBTENER CUENTAS PARA TRANSFERENCIAS BANCARIAS
+    // OBTENER CUENTAS PARA TRANSFERENCIAS BANCARIAS PARA CLIENTES
     GetBanks() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          status: 'Habilitado',
+          transaction_type: 'Transferencia Bancaria'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log("TRANSFERENCIASSSSS")
+            console.log(data)
+            console.log("TRANSFERENCIASSSSS")
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA TRANSFERENCIAS BANCARIAS PARA ADMIN
+    GetBanksAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
           transaction_type: 'Transferencia Bancaria'
@@ -106,8 +125,25 @@ module.exports = {
           });
       });
     },
-    // OBTENER CUENTAS PARA PAGO MOVIL
+    // OBTENER CUENTAS PARA PAGO MOVILPARA CLIENTES
     GetPaym() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          status: 'Habilitado',
+          transaction_type: 'Pago Movil'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA PAGO MOVIL PARA ADMIN
+    GetPaymAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
           transaction_type: 'Pago Movil'
@@ -122,10 +158,11 @@ module.exports = {
           });
       });
     },
-    // OBTENER CUENTAS PARA RETIRO EN BTC
+    // OBTENER CUENTAS PARA RETIRO EN BTC CLIENTES
     GetBTC() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
+          status: 'Habilitado',
           transaction_type: 'BTC'
         }})
           .then((data) => {
@@ -138,16 +175,85 @@ module.exports = {
           });
       });
     },
-    // OBTENER CUENTAS PARA RETIRO EN BTC
+    // OBTENER CUENTAS PARA RETIRO EN BTC ADMIN
+    GetBTCAdmin() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          status: 'Habilitado',
+          transaction_type: 'BTC'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA RETIRO EN BTC PARA CLIENTES
     GetDigWallet() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
+          status: 'Habilitado',
           transaction_type: 'Billetera Digital'
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
             console.log(data)
             resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },  
+    // OBTENER CUENTAS PARA RETIRO EN BTC PARA ADMIN
+    GetDigWalletAdmin() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          status: 'Habilitado',
+          transaction_type: 'Billetera Digital'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },  
+    // ACTUALIZAR METODOS DE PAGO
+    UpdateStatusPayMethod(id, status){
+      return new Promise((resolve, reject) => {
+        MPagos.update({
+          status: status,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Estatus actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ELIMINAR METODOS DE PAGO
+    DeletePayMethod(id){
+      return new Promise((resolve, reject) => {
+        MPagos.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve('data_p');
           })
           .catch((err) => {
             reject(err)
@@ -220,7 +326,7 @@ module.exports = {
     // OBTENER TODOS LOS DEPOSITOS REALIZADOS
     GetAllCompleteDeposits(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: 'Realizado'},
+        Depositos.findAll({where: {status: 'Aprobado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -258,18 +364,19 @@ module.exports = {
       });
     },
     // APROBAR DEPOSITOS
-    UpdateDeposits(id, date){
+    UpdateDeposits(id, activated, culminated){
       return new Promise((resolve, reject) => {
         Depositos.update({
-          status: 'Realizado',
-          activatedAt: date,
+          status: 'Aprobado',
+          activatedAt: activated,
+          culmination: culminated,
         }, { where: {
           id: id
         }})
           .then((data) => {
-            let data_s = JSON.stringify(data);
+            let data_s = JSON.stringify(data)[0];
             console.log(data_s)
-            resolve('Deposito aprobado');
+            resolve('DEPOSITO APROBADO !!');
           })
           .catch((err) => {
             reject(err)
