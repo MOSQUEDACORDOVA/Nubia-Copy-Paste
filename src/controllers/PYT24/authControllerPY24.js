@@ -6,7 +6,7 @@ exports.authenticatedUser = (req, res, next) => {
 		return next();
 	} 
 	// Si no esta autenticado
-	return res.redirect('/login/PYT-24');
+	return res.redirect('/login24/PYT-24');
 }
 
 exports.authenticatedAdminOrSeller = (req, res, next) => {
@@ -17,7 +17,7 @@ exports.authenticatedAdminOrSeller = (req, res, next) => {
 		return next();
 	}  
 	// Si no esta autenticado
-	return res.redirect('/login/PYT-24');
+	return res.redirect('/login24/PYT-24');
 }
 
 exports.authenticatedAdmin = (req, res, next) => {
@@ -28,5 +28,5 @@ exports.authenticatedAdmin = (req, res, next) => {
 		return next();
 	}  
 	// Si no esta autenticado
-	return res.redirect('/login/PYT-24');
+	return res.redirect('/login24/PYT-24');
 }

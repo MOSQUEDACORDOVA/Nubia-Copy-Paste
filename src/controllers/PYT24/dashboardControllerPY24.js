@@ -35,7 +35,7 @@ exports.sesionstart = (req, res) => {
     }
     if (!user) {
       console.log("no existe usuario")
-      return res.redirect("/login/PYT-24");
+      return res.redirect("/login24/PYT-24");
     }
     req.logIn(user, function (err) {
       if (err) {
