@@ -492,6 +492,52 @@ exports.paymethods = (req, res) => {
   });  
 };
 
+// ACTUALIZAR METODOS DE PAGO
+exports.updatepaymethod = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  let {id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet} = req.body;
+
+  if(req.body.ttype === 'Transferencia Bancaria') {
+    DataBase.UpdatePayMethodTransf(id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'Pago Movil') {
+    DataBase.UpdatePayMethodPaym(id, ttype, name, dni, bank, phone).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'BTC') {
+    DataBase.UpdatePayMethodBTC(id, ttype, code_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'Billetera Digital') {
+    DataBase.UpdatePayMethodDWallet(id, ttype, email_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }
+}; 
+
+
 // HABILITAR / DESHABILITAR METODOS DE PAGO
 exports.updatestatuspaymethod = (req, res) => {
   let msg = false;

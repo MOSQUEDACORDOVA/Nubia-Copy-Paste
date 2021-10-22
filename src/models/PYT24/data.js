@@ -226,7 +226,90 @@ module.exports = {
           });
       });
     },  
-    // ACTUALIZAR METODOS DE PAGO
+    // ACTUALIZAR METODOS DE PAGO TRASNFERENCIAS
+    UpdatePayMethodTransf(id, ttype, name, dni, bank_name, type_account, num_account){
+      return new Promise((resolve, reject) => {
+        MPagos.update({
+          transaction_type: ttype,
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          type_account: type_account,
+          num_account: num_account,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO PAGO MOVIL
+    UpdatePayMethodPaym(id, ttype, name, dni, bank_name, phone,){
+      return new Promise((resolve, reject) => {
+        MPagos.update({
+          transaction_type: ttype,
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          phone: phone,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO BTC
+    UpdatePayMethodBTC(id, ttype, code_wallet){
+      return new Promise((resolve, reject) => {
+        MPagos.update({
+          transaction_type: ttype,
+          code_wallet: code_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO BILLETERA
+    UpdatePayMethodDWallet(id, ttype, email_wallet){
+      return new Promise((resolve, reject) => {
+        MPagos.update({
+          transaction_type: ttype,
+          digital_wallet_email: email_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // HABILITAR / DESHABILITAR METODOS DE PAGO
     UpdateStatusPayMethod(id, status){
       return new Promise((resolve, reject) => {
         MPagos.update({
