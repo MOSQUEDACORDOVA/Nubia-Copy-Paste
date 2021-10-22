@@ -277,17 +277,17 @@
                                                 <td>{{#formatDatapy24 item.createdAt}}{{/formatDatapy24}}</td>
 
                                                 <td>
-                                                    <div class="d-flex">
+                                                    <div class="d-inline-flex">
                                                         <div>
                                                             <input type="text" class="d-none" name="id" value="{{item.id}}">
-                                                            <button role="button" data-id="{{item.id}}" data-name="{{item.name}}" data-amount="{{item.amount_th}}"  data-maintance="{{item.maintance_charge}}" data-price="{{item.price}}" data-duration="{{item.duration}}" data-bs-toggle="modal" data-bs-target="#addNewCard" style="max-width: 50px;" class="btn btn-primary btn-sm">
-                                                                <i data-feather='edit-2' style="pointer-events: none;"></i>
-                                                            </button>
+                                                            <a role="button" data-id="{{item.id}}" data-name="{{item.name}}" data-amount="{{item.amount_th}}"  data-maintance="{{item.maintance_charge}}" data-price="{{item.price}}" data-duration="{{item.duration}}" data-bs-toggle="modal" data-bs-target="#addNewCard" class="btn-edit">
+                                                                <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                            </a>
                                                         </div>
                                                         <form action="/deletepackages" method="post">
                                                             <input type="text" class="d-none" name="id" value="{{item.id}}">
-                                                            <button style="max-width: 50px;" role="button" type="submit" class="btn btn-danger btn-sm">
-                                                                <i data-feather='x' class="ficon"></i>
+                                                            <button role="button" type="submit" style="width: unset; background: none; border: none; outline: none;">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 ms-50 text-primary" style="margin-bottom: 2px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                                             </button>
                                                         </form>
                                                     </div>
@@ -553,9 +553,8 @@
 </div>
 
 <script>
-    let toggleBtns = document.querySelectorAll('table .d-flex .btn.btn-primary.btn-sm');
+    let toggleBtns = document.querySelectorAll('table .d-inline-flex .btn-edit');
     let packages = document.querySelectorAll('.packages-items');
-
 
     toggleBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
