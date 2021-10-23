@@ -35,6 +35,7 @@
     "passport-local": "^1.0.0",
     "passport-mixcloud": "0.0.2",
     "passport-soundcloud": "^0.2.0",
+    "push.js": "^1.0.12",
     "sequelize": "^6.6.2",
     "soundcloud": "^3.3.2",
     "soundcloud-downloader": "^1.0.0",

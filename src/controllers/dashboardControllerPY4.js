@@ -6,6 +6,7 @@ const passport = require("passport");
 //const {getStreamUrls} = require('mixcloud-audio')
 //var moment = require('moment'); // require
 var moment = require('moment-timezone');
+const Push = require('push.js')
 
 exports.change_sucursal = (req, res) => {
   console.log(req.session.sucursal_select)
@@ -28,7 +29,7 @@ let nuevo_id = req.body.cambia_sucursal
 
 exports.dashboard = (req, res) => {
   console.log(req.session.sucursal_select)
-
+  //Push.create('Hello World!')
   let msg = false;
   if (req.params.msg) {
     msg = req.params.msg;
@@ -48,7 +49,46 @@ exports.dashboard = (req, res) => {
      let count = clientes_arr.length
      DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
-       let count = pedidos_let.length
+
+DataBase.LastPedidosAllS(id_sucursal).then((pedidos_g)=>{
+  let pedidos_letG = JSON.parse(pedidos_g)
+   let notif1_2=[], notif3_5=[], notif6_12=[]
+   let hoy = moment()
+  var duration=""
+for (let i = 0; i < pedidos_letG.length; i++) {
+if (pedidos_letG[i].status_pedido == "Entregado") {
+  if (pedidos_letG[i].total_garrafones_pedido <= 2) {
+    let dia_pedido  = moment(pedidos_letG[i].createdAt)
+    duration = hoy.diff(dia_pedido, 'days');
+      if (duration >=10 && duration < 20) {
+        console.log(duration)
+        console.log(pedidos_letG[i])
+        notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration})
+      }     
+    }
+    if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
+      let dia_pedido  = moment(pedidos_letG[i].createdAt)
+      duration = hoy.diff(dia_pedido, 'days');
+        if (duration >=20 && duration < 30) {
+          console.log(duration)
+          console.log(pedidos_letG[i])
+          notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration})
+        }     
+      }
+      if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
+        let dia_pedido  = moment(pedidos_letG[i].createdAt)
+        duration = hoy.diff(dia_pedido, 'days');
+          if (duration >=30) {
+            console.log(duration)
+            console.log(pedidos_letG[i])
+            notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration})
+          }     
+        }
+  }
+  }
+  console.log(notif1_2)
+let cont_not1_2 = notif1_2.length
+
        DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
@@ -67,8 +107,7 @@ exports.dashboard = (req, res) => {
                   if (iguales == true) {
                     prestamos_byday.push(prestamos_let[i])//OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
                     prestamos_del_dia = parseInt(prestamos_del_dia) + parseInt(prestamos_let[i].cantidad) 
-                    devueltos_del_dia = parseInt(devueltos_del_dia) + parseInt(prestamos_let[i].devueltos) 
-                    console.log(devueltos_del_dia)   
+                    devueltos_del_dia = parseInt(devueltos_del_dia) + parseInt(prestamos_let[i].devueltos)    
 
                     switch (prestamos_let[i].cliente.tipo) {
                       case 'Residencial':
@@ -87,7 +126,6 @@ exports.dashboard = (req, res) => {
                   
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
-                   console.log(clientes_arr)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -100,6 +138,7 @@ exports.dashboard = (req, res) => {
       pedidos_let,
       choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
       devueltos_del_dia,cp_,
+      notif1_2,cont_not1_2,
       msg
     }) 
   }).catch((err) => {
@@ -117,6 +156,7 @@ exports.dashboard = (req, res) => {
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
 });
+
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -132,6 +172,11 @@ exports.dashboard = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 
@@ -377,7 +422,10 @@ exports.regPedidoPy4 = (req, res) => {
   const user = res.locals.user
   const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal, deuda_anterior} = req.body
 
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior).then((respuesta) =>{
+  let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
+console.log(total_garrafones_pedido)
+
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido).then((respuesta) =>{
     res.redirect('/homepy4/'+respuesta)
 
   }).catch((err) => {
@@ -500,7 +548,10 @@ disabled_chofer: true
   const user = res.locals.user
   const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
 
-  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior).then((respuesta) =>{
+  let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
+  console.log(total_garrafones_pedido)
+
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido).then((respuesta) =>{
 
     
     let msg=respuesta
