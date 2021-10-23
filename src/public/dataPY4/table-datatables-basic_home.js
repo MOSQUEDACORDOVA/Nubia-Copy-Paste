@@ -169,6 +169,36 @@ maxDate2 = new DateTime($('#max1'), {
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
+            let botella1Ltotal = (JSON.parse(full['botella1L']))['total_cant']
+            let botella1LRefill = (JSON.parse(full['botella1L']))['refill_cant']
+            let botella1LCanje = (JSON.parse(full['botella1L']))['canje_cant']
+            let botella1LObsequio = (JSON.parse(full['botella1L']))['enobsequio_cant_botella']
+            let botella1LNuevo = (JSON.parse(full['botella1L']))['nuevo_cant']
+
+            let botella5Ltotal = (JSON.parse(full['botella5L']))['total_cant']
+            let botella5LRefill = (JSON.parse(full['botella5L']))['refill_cant']
+            let botella5LCanje = (JSON.parse(full['botella5L']))['canje_cant']
+            let botella5LObsequio = (JSON.parse(full['botella5L']))['enobsequio_cant_botella5l']
+            let botella5LNuevo = (JSON.parse(full['botella5L']))['nuevo_cant']
+
+            let garrafon11Ltotal = (JSON.parse(full['garrafon11L']))['total_cant']
+            let garrafon11LRefill = (JSON.parse(full['garrafon11L']))['refill_cant']
+            let garrafon11LCanje = (JSON.parse(full['garrafon11L']))['canje_cant']
+            let garrafon11LObsequio = (JSON.parse(full['garrafon11L']))['enobsequio_cant_garrafon11l']
+            let garrafon11LNuevo = (JSON.parse(full['garrafon11L']))['nuevo_cant']
+
+            let garrafon19Ltotal = (JSON.parse(full['garrafon19L']))['total_cant']
+            let Garrafon19LRefill = (JSON.parse(full['garrafon19L']))['refill_cant']
+            let Garrafon19LCanje = (JSON.parse(full['garrafon19L']))['canje_cant']
+            let Garrafon19LObsequio = (JSON.parse(full['garrafon19L']))['enobsequio_cant_garrafon']
+            let Garrafon19LNuevo = (JSON.parse(full['garrafon19L']))['nuevo_cant']
+            let asentamiento = ""
+for (let i = 0; i < codigosP_arr.length; i++) {
+  if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+    asentamiento = codigosP_arr[i]['asentamiento']
+  }
+  
+}
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
@@ -179,7 +209,41 @@ maxDate2 = new DateTime($('#max1'), {
               '</a>' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+              '</a>' +
+             `<p id="CopyPedido" class="d-none">#Pedido:${full['id']}
+    Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']}
+    Asentamiento: ${asentamiento}
+    Coto: ${full['cliente']['coto']}
+    Casa:  ${full['cliente']['casa']}
+    Calle: ${full['cliente']['calle']}
+    Avenida: ${full['cliente']['avenida']}
+    Referencia:${full['cliente']['referencia']}
+    Botellones:${full['total_garrafones_pedido']}
+        Botella 1L: ${botella1Ltotal}
+          Botella 1L Refill: ${botella1LRefill}
+          Botella 1L Canje: ${botella1LCanje}
+          Botella 1L Obsequio: ${botella1LObsequio}
+          Botella 1L Nuevo: ${botella1LNuevo}
+        -----------------------------------
+        Botella 5L: ${botella5Ltotal}
+          Botella 5L Refill: ${botella5LRefill}
+          Botella 5L Canje: ${botella5LCanje}
+          Botella 5L Obsequio: ${botella5LObsequio}
+          Botella 5L Nuevo: ${botella5LNuevo}
+        ----------------------------------
+        Garrafon 11L: ${garrafon11Ltotal}
+          Garrafon 11L Refill: ${garrafon11LRefill}
+          Garrafon 11L Canje: ${garrafon11LCanje}
+          Garrafon 11L Obsequio: ${garrafon11LObsequio}
+          Garrafon 11L Nuevo: ${garrafon11LNuevo}
+        ---------------------------------
+        Garrafon 19L: ${garrafon19Ltotal}
+          Garrafon 19L Refill: ${Garrafon19LRefill}
+          Garrafon 19L Canje: ${Garrafon19LCanje}
+          Garrafon 19L Obsequio: ${Garrafon19LObsequio}
+          Garrafon 19L Nuevo: ${Garrafon19LNuevo}
+        ---------------------------------
+             </p>`
             );
           } },
       ], columnDefs: [
@@ -199,12 +263,18 @@ maxDate2 = new DateTime($('#max1'), {
           // Label
           targets: 1,
           render: function (data, type, full, meta) {
-            
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
             var $status_number = full['cliente']['tipo'];
             var $status = {
-              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
-              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
-              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+              "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
             };
             if (typeof $status[$status_number] === 'undefined') {
               return data;
@@ -370,11 +440,18 @@ maxDate2 = new DateTime($('#max1'), {
           // Label
           targets: 1,
           render: function (data, type, full, meta) {
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
             var $status_number = full['cliente']['tipo'];
             var $status = {
-              "Residencial": { title: full['cliente']['firstName'], class: 'badge-light-info' },
-              "Punto de venta": { title: full['cliente']['firstName'], class: ' badge-light-success' },
-              "Negocio": { title: full['cliente']['firstName'], class: ' badge-light-danger' },
+              "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
             };
             if (typeof $status[$status_number] === 'undefined') {
               return data;
@@ -593,9 +670,9 @@ maxDate2 = new DateTime($('#max1'), {
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-    let direction_copy = location.host + `/ver_pedido/${id_edit}`;
-    $('#p1').text(direction_copy)
-    copyToClipboard('#p1')
+    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+    $('#p1').text(direction_copy)*/
+    copyToClipboard('#CopyPedido')
 
   });
 
@@ -652,12 +729,13 @@ function filterColumn(i, val) {
   }
 }
 function copyToClipboard(elemento) {
-  var $temp = $("<input>")
+  var $temp = $("<textarea>")
+  var brRegex = /<br\s*[\/]?>/gi;
   $("body").append($temp);
-  $temp.val($(elemento).text()).select();
+  $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
   document.execCommand("copy");
   $temp.remove();
-  Swal.fire('Enlace copiado en el portapapeles')
+  Swal.fire('Pedido copiado en el portapapeles')
   }
 // Filter column wise function
 function filterColumn2(i, val) {
