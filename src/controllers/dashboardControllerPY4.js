@@ -919,11 +919,11 @@ exports.corte_table = (req, res) => {
             let ventas_del_dia = 0
             let cont_ventas_del_dia = 0
             let residencial_cont = 0
-            let residencial_mont= 0
+            let residencial_mont= 0, residencial_cont_garrafones=0
             let negocio_cont = 0
-            let negocio_mont= 0
+            let negocio_mont= 0,negocio_cont_garrafones=0
             let ptoVenta_cont = 0
-            let ptoVenta_mont= 0
+            let ptoVenta_mont= 0,ptoventa_cont_garrafones=0
             var chofer_pedido = []
             let carga_inicial ="", arr_carga=[]
             for (let i = 0; i < pedidos_let.length; i++) {
@@ -940,14 +940,17 @@ exports.corte_table = (req, res) => {
                 switch (pedidos_let[i].cliente.tipo) {
                   case 'Residencial':
                     residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
+                    residencial_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
                    residencial_cont ++
                     break;
                     case 'Negocio':
                        negocio_mont= parseInt(negocio_mont) + parseInt(pedidos_let[i].monto_total)
+                       negocio_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
                        negocio_cont++
                       break;
                       case 'Punto de venta':
                         ptoVenta_mont = parseInt(ptoVenta_mont) + parseInt(pedidos_let[i].monto_total)
+                        ptoventa_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
                         ptoVenta_cont++
                         break;
                   default:
@@ -959,7 +962,7 @@ exports.corte_table = (req, res) => {
             console.log(arr_carga) 
                pedidos_byday =JSON.stringify(pedidos_byday) 
                arr_carga = JSON.stringify(arr_carga)
-               
+               total_garrafones= parseInt(residencial_cont_garrafones) +parseInt(negocio_cont_garrafones) +parseInt(ptoventa_cont_garrafones)
                DataBase.Sucursales_ALl().then((sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)         
     res.render("PYT-4/corte", {
@@ -969,7 +972,9 @@ exports.corte_table = (req, res) => {
       py4:true,
       corte:true,dia,
       clientes_d,clientes_arr,personal_let,personal_,pedidos_byday,
-      cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,
+      cont_ventas_del_dia,ventas_del_dia,residencial_cont,residencial_mont, negocio_cont,  negocio_mont,ptoVenta_cont,ptoVenta_mont,pedidos_,residencial_cont_garrafones,
+      negocio_cont_garrafones,total_garrafones,
+      ptoventa_cont_garrafones,
 choferes,chofer_pedido,
 choferes_,sucursales_let,arr_carga,
       msg
