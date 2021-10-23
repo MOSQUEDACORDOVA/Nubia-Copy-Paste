@@ -87,7 +87,7 @@ if (pedidos_letG[i].status_pedido == "Entregado") {
   }
   }
   console.log(notif1_2)
-let cont_not1_2 = notif1_2.length
+let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
 
        DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
@@ -138,7 +138,8 @@ let cont_not1_2 = notif1_2.length
       pedidos_let,
       choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
       devueltos_del_dia,cp_,
-      notif1_2,cont_not1_2,
+      notif1_2,cont_not,notif3_5,
+      notif6_12,
       msg
     }) 
   }).catch((err) => {
