@@ -7,7 +7,7 @@ class FileController
     var ubicacion = __dirname + '/../public/assets/uploads/' + fileName;
   //  console.log(archivo.mimetype)
     if (archivo.mimetype == 'image/png' || archivo.mimetype == 'image/jpeg' ) {
-      ubicacion = __dirname + '/../public/assets/img_up/' + fileName;
+      ubicacion = __dirname + '/../../public/assets/img_up/' + fileName;
     }
     try {
       archivo.mv(ubicacion, (error) => {

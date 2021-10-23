@@ -52,6 +52,34 @@ module.exports = {
 			return 'basic-pricing';
 		}
 	},
+	paqueteNombrepy24: (name) => {
+		if(name) {
+			return name
+		} else {
+			return 'Personalizado'
+		}
+	},
+	estadodepositospy24: (status) => {
+		if(status === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-warning">${status}</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
+		}
+	},
+	statusmetodospagospy24: (status) => {
+		if(status === 'Habilitado') {
+			return `<span class="badge rounded-pill badge-light-success">${status}</span>`
+		} else {
+			return `<span class="badge rounded-pill badge-light-danger">${status}</span>`
+		}
+	},
+	formatDatapy24: (date) => {
+		if(date) {
+			return date.slice(0,10)
+		} else {
+			return ''
+		}
+	},
 	planesinfopy24: (th, name) => {
 		console.log(th);
 		console.log(name);
