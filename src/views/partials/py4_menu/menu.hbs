@@ -83,7 +83,11 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
             });
         })
 
-
+$('#bell_not').on('click', ()=>{
+    console.log('hola munco notificacion')
+    console.log($('#bell_not .badge').text())
+    $('#bell_not .badge').attr('style', 'display:none')
+})
     })
 </script>
 <input type="text" id="array" hidden value="{{clientes_d}}">
@@ -102,6 +106,67 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
 
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto" >
+            <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false" id="bell_not"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell ficon"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                {{#if cont_not}}<span class="badge rounded-pill bg-danger badge-up">{{cont_not}}</span>{{/if}}</a>
+            <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
+              <li class="dropdown-menu-header">
+                <div class="dropdown-header d-flex">
+                  <h4 class="notification-title mb-0 me-auto">Notificaciones</h4>
+                  <div class="badge rounded-pill badge-light-primary">{{cont_not}} New</div>
+                </div>
+              </li>
+              <li class="scrollable-container media-list ps ps--active-y">
+                  
+                      {{#each notif1_2 as |nt1_2 i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre_cliente}} {{apellido_cliente}}</span></p>
+                      <small class="notification-text"> No ha realizado un pedido desde hace {{tiempo_desde}} días<br>
+                      Pedido: #{{id_pedido}} / Cant. Garrafones: {{total_g}}
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+                      {{#each notif3_5 as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre_cliente}} {{apellido_cliente}}</span></p>
+                      <small class="notification-text"> No ha realizado un pedido desde hace {{tiempo_desde}} días<br>
+                      Pedido: #{{id_pedido}} / Cant. Garrafones: {{total_g}}
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+                      {{#each notif6_12 as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre_cliente}} {{apellido_cliente}}</span></p>
+                      <small class="notification-text"> No ha realizado un pedido desde hace {{tiempo_desde}} días<br>
+                      Pedido: #{{id_pedido}} / Cant. Garrafones: {{total_g}}
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+                  
+
+              <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px; height: 350px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 285px;"></div></div>
+              </li>
+              <!--<li class="dropdown-menu-footer"><a class="btn btn-primary w-100 waves-effect waves-float waves-light" href="#">Read all notifications</a></li>-->
+            </ul>
+          </li>
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">

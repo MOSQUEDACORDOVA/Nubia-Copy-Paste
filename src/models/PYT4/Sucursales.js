@@ -8,6 +8,7 @@ const Pedidos = require('./Pedidos')
 const Personal = require('./Personal')
 const Carga_init = require('./Carga_init')
 const Usuarios = require('./Usuarios')
+const Last_pedido = require('./Last_pedido')
 const Sucursales = db.define('sucursales', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -55,5 +56,6 @@ Sucursales.hasMany(Pedidos, {as: 'Pedidos'})
 Sucursales.hasMany(Personal, {as: 'Personal'})
 Sucursales.hasMany(Carga_init, {as: 'Carga_init'})
 Sucursales.hasMany(Usuarios, {as: 'Usuarios'})
+Sucursales.hasMany(Last_pedido, {as: 'Last_pedido'})
 module.exports = Sucursales;
 

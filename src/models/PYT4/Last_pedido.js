@@ -1,10 +1,11 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
-const Clientes = require("../../models/PYT4/Clientes");
-const Usuarios = require("../../models/PYT4/Usuarios");
-const Personal = require("../../models/PYT4/Personal");
-const Pedidos = db.define('pedidos', {
+const Clientes = require("./Clientes");
+const Usuarios = require("./Usuarios");
+const Personal = require("./Personal");
+const Pedidos = require("./Pedidos");
+const Last_pedido = db.define('last_pedido', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -83,10 +84,11 @@ const Pedidos = db.define('pedidos', {
 
 });
 
-Pedidos.Usuarios= Pedidos.belongsTo(Usuarios);
-Pedidos.Clientes= Pedidos.belongsTo(Clientes);
-Pedidos.Personal= Pedidos.belongsTo(Personal);
+Last_pedido.Usuarios= Last_pedido.belongsTo(Usuarios);
+Last_pedido.Clientes= Last_pedido.belongsTo(Clientes);
+Last_pedido.Personal= Last_pedido.belongsTo(Personal);
+Last_pedido.Pedidos= Last_pedido.belongsTo(Pedidos);
 //Pedidos.hasMany(Productos_pedidos, {as: 'Productos_'})
 
-module.exports = Pedidos;
+module.exports = Last_pedido;
 
