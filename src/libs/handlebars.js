@@ -73,11 +73,11 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-danger">${status}</span>`
 		}
 	},
-	statuspaymethodspy24: (status) => {
-		if(status === 'Habilitado') {
-			return 'Deshabilitar'
+	statuspaymethodspy24: (state) => {
+		if(state === 'Deshabilitado') {
+			return 'Habilitar';
 		} else {
-			return 'Habilitar'
+			return 'Deshabilitar';
 		}
 	},
 	formatDatapy24: (date) => {
