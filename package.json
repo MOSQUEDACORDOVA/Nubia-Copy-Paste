@@ -41,6 +41,5 @@
     "soundcloud-downloader": "^1.0.0",
     "sweetalert2": "^11.0.8"
   },
-  "devDependencies": {},
   "keywords": []
 }

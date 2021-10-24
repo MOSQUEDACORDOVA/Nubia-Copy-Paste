@@ -55,7 +55,7 @@ exports.reguserpy24 = (req, res) => {
   let msg = false;
   if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/register/PYT-24');
+    res.redirect('/register24/PYT-24');
   } else {
     DataBase.RegUser(username, email, password).then((respuesta) =>{
       res.redirect('/py24/PYT-24'+respuesta)

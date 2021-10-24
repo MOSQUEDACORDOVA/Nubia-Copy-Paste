@@ -1,3 +1,5 @@
+const express = require('express')
+const app = express()
 const router = require('express').Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -229,7 +231,6 @@ router.post('/updatepaymethod', authControllerPY24.authenticatedAdmin, dashboard
 // ELIMINAR METODOS DE PAGO
 router.post('/deletepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepaymethod);
 
-
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
 
@@ -243,6 +244,10 @@ router.post('/upload', fileController.subirArchivo);
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 // 404
+router.use((req, res, next) => {
+    res.status(404).redirect('/error24/PYT-24')
+})
+
 
 
 //PYT-27
