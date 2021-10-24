@@ -97,9 +97,6 @@ module.exports = {
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log("TRANSFERENCIASSSSS")
-            console.log(data)
-            console.log("TRANSFERENCIASSSSS")
             resolve(data_p);
           })
           .catch((err) => {
@@ -115,9 +112,6 @@ module.exports = {
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log("TRANSFERENCIASSSSS")
-            console.log(data)
-            console.log("TRANSFERENCIASSSSS")
             resolve(data_p);
           })
           .catch((err) => {
@@ -179,7 +173,6 @@ module.exports = {
     GetBTCAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
-          status: 'Habilitado',
           transaction_type: 'BTC'
         }})
           .then((data) => {
@@ -213,7 +206,6 @@ module.exports = {
     GetDigWalletAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
-          status: 'Habilitado',
           transaction_type: 'Billetera Digital'
         }})
           .then((data) => {
