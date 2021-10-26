@@ -398,6 +398,7 @@ exports.seller = (req, res) => {
   let roleAdmin;
   let roleClient;
   let roleSeller;
+  let presale = true;
   if (req.user.type_user === 'Inversionista') {
     roleClient = true;
   } else if(req.user.type_user === 'Vendedor') {
@@ -409,7 +410,7 @@ exports.seller = (req, res) => {
   }
 
     res.render(proyecto+"/seller", {
-      pageName: "Vendedores",
+      pageName: "Referidos",
       dashboardPage: true,
       dashboard: true,
       py24:true,
@@ -418,6 +419,9 @@ exports.seller = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
+      roleClient,
+      roleSeller,
+      presale
     });
 };
 
@@ -1195,6 +1199,16 @@ exports.presale = (req, res) => {
   let roleSeller;
   let presale = true;
 
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
   DataBase.GetPackages().then((response)=>{
     let data = JSON.parse(response);
     DataBase.GetControlTH().then((response_th)=>{
@@ -1308,6 +1322,16 @@ exports.boardpresale = (req, res) => {
   let roleSeller;
   let presale = true;
 
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -1333,9 +1357,18 @@ exports.depositpresale = (req, res) => {
   console.log(proyecto)
  
   let roleAdmin;
-  let roleClient = true;
+  let roleClient;
   let roleSeller;
   let presale = true;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
 
   let idUser = res.locals.user.id
 
