@@ -169,29 +169,29 @@ maxDate2 = new DateTime($('#max1'), {
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
-            let botella1Ltotal = (JSON.parse(full['botella1L']))['total_cant']
-            let botella1LRefill = (JSON.parse(full['botella1L']))['refill_cant']
-            let botella1LCanje = (JSON.parse(full['botella1L']))['canje_cant']
-            let botella1LObsequio = (JSON.parse(full['botella1L']))['enobsequio_cant_botella']
-            let botella1LNuevo = (JSON.parse(full['botella1L']))['nuevo_cant']
+            // let botella1Ltotal = (JSON.parse(full['botella1L']))['total_cant']
+            // let botella1LRefill = (JSON.parse(full['botella1L']))['refill_cant']
+            // let botella1LCanje = (JSON.parse(full['botella1L']))['canje_cant']
+            // let botella1LObsequio = (JSON.parse(full['botella1L']))['enobsequio_cant_botella']
+            // let botella1LNuevo = (JSON.parse(full['botella1L']))['nuevo_cant']
 
-            let botella5Ltotal = (JSON.parse(full['botella5L']))['total_cant']
-            let botella5LRefill = (JSON.parse(full['botella5L']))['refill_cant']
-            let botella5LCanje = (JSON.parse(full['botella5L']))['canje_cant']
-            let botella5LObsequio = (JSON.parse(full['botella5L']))['enobsequio_cant_botella5l']
-            let botella5LNuevo = (JSON.parse(full['botella5L']))['nuevo_cant']
+            // let botella5Ltotal = (JSON.parse(full['botella5L']))['total_cant']
+            // let botella5LRefill = (JSON.parse(full['botella5L']))['refill_cant']
+            // let botella5LCanje = (JSON.parse(full['botella5L']))['canje_cant']
+            // let botella5LObsequio = (JSON.parse(full['botella5L']))['enobsequio_cant_botella5l']
+            // let botella5LNuevo = (JSON.parse(full['botella5L']))['nuevo_cant']
 
-            let garrafon11Ltotal = (JSON.parse(full['garrafon11L']))['total_cant']
-            let garrafon11LRefill = (JSON.parse(full['garrafon11L']))['refill_cant']
-            let garrafon11LCanje = (JSON.parse(full['garrafon11L']))['canje_cant']
-            let garrafon11LObsequio = (JSON.parse(full['garrafon11L']))['enobsequio_cant_garrafon11l']
-            let garrafon11LNuevo = (JSON.parse(full['garrafon11L']))['nuevo_cant']
+            // let garrafon11Ltotal = (JSON.parse(full['garrafon11L']))['total_cant']
+            // let garrafon11LRefill = (JSON.parse(full['garrafon11L']))['refill_cant']
+            // let garrafon11LCanje = (JSON.parse(full['garrafon11L']))['canje_cant']
+            // let garrafon11LObsequio = (JSON.parse(full['garrafon11L']))['enobsequio_cant_garrafon11l']
+            // let garrafon11LNuevo = (JSON.parse(full['garrafon11L']))['nuevo_cant']
 
-            let garrafon19Ltotal = (JSON.parse(full['garrafon19L']))['total_cant']
-            let Garrafon19LRefill = (JSON.parse(full['garrafon19L']))['refill_cant']
-            let Garrafon19LCanje = (JSON.parse(full['garrafon19L']))['canje_cant']
-            let Garrafon19LObsequio = (JSON.parse(full['garrafon19L']))['enobsequio_cant_garrafon']
-            let Garrafon19LNuevo = (JSON.parse(full['garrafon19L']))['nuevo_cant']
+            // let garrafon19Ltotal = (JSON.parse(full['garrafon19L']))['total_cant']
+            // let Garrafon19LRefill = (JSON.parse(full['garrafon19L']))['refill_cant']
+            // let Garrafon19LCanje = (JSON.parse(full['garrafon19L']))['canje_cant']
+            // let Garrafon19LObsequio = (JSON.parse(full['garrafon19L']))['enobsequio_cant_garrafon']
+            // let Garrafon19LNuevo = (JSON.parse(full['garrafon19L']))['nuevo_cant']
             let asentamiento = ""
 for (let i = 0; i < codigosP_arr.length; i++) {
   if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
@@ -210,40 +210,36 @@ for (let i = 0; i < codigosP_arr.length; i++) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-             `<p id="CopyPedido" class="d-none">#Pedido:${full['id']}
-    Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']}
-    Asentamiento: ${asentamiento}
-    Coto: ${full['cliente']['coto']}
-    Casa:  ${full['cliente']['casa']}
-    Calle: ${full['cliente']['calle']}
-    Avenida: ${full['cliente']['avenida']}
-    Referencia:${full['cliente']['referencia']}
-    Botellones:${full['total_garrafones_pedido']}
-        Botella 1L: ${botella1Ltotal}
-          Botella 1L Refill: ${botella1LRefill}
-          Botella 1L Canje: ${botella1LCanje}
-          Botella 1L Obsequio: ${botella1LObsequio}
-          Botella 1L Nuevo: ${botella1LNuevo}
-        -----------------------------------
-        Botella 5L: ${botella5Ltotal}
-          Botella 5L Refill: ${botella5LRefill}
-          Botella 5L Canje: ${botella5LCanje}
-          Botella 5L Obsequio: ${botella5LObsequio}
-          Botella 5L Nuevo: ${botella5LNuevo}
-        ----------------------------------
-        Garrafon 11L: ${garrafon11Ltotal}
-          Garrafon 11L Refill: ${garrafon11LRefill}
-          Garrafon 11L Canje: ${garrafon11LCanje}
-          Garrafon 11L Obsequio: ${garrafon11LObsequio}
-          Garrafon 11L Nuevo: ${garrafon11LNuevo}
-        ---------------------------------
-        Garrafon 19L: ${garrafon19Ltotal}
-          Garrafon 19L Refill: ${Garrafon19LRefill}
-          Garrafon 19L Canje: ${Garrafon19LCanje}
-          Garrafon 19L Obsequio: ${Garrafon19LObsequio}
-          Garrafon 19L Nuevo: ${Garrafon19LNuevo}
-        ---------------------------------
-             </p>`
+             `<p id="CopyPedido" class="d-none">#Pedido:${full['id']} -
+Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']};
+Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']};
+Referencia:${full['cliente']['referencia']}
+Botellones pedidos:${full['total_garrafones_pedido']}</p>`
+        // Botella 1L: ${botella1Ltotal}
+        //   Botella 1L Refill: ${botella1LRefill}
+        //   Botella 1L Canje: ${botella1LCanje}
+        //   Botella 1L Obsequio: ${botella1LObsequio}
+        //   Botella 1L Nuevo: ${botella1LNuevo}
+        // -----------------------------------
+        // Botella 5L: ${botella5Ltotal}
+        //   Botella 5L Refill: ${botella5LRefill}
+        //   Botella 5L Canje: ${botella5LCanje}
+        //   Botella 5L Obsequio: ${botella5LObsequio}
+        //   Botella 5L Nuevo: ${botella5LNuevo}
+        // ----------------------------------
+        // Garrafon 11L: ${garrafon11Ltotal}
+        //   Garrafon 11L Refill: ${garrafon11LRefill}
+        //   Garrafon 11L Canje: ${garrafon11LCanje}
+        //   Garrafon 11L Obsequio: ${garrafon11LObsequio}
+        //   Garrafon 11L Nuevo: ${garrafon11LNuevo}
+        // ---------------------------------
+        // Garrafon 19L: ${garrafon19Ltotal}
+        //   Garrafon 19L Refill: ${Garrafon19LRefill}
+        //   Garrafon 19L Canje: ${Garrafon19LCanje}
+        //   Garrafon 19L Obsequio: ${Garrafon19LObsequio}
+        //   Garrafon 19L Nuevo: ${Garrafon19LNuevo}
+        // ---------------------------------
+             
             );
           } },
       ], columnDefs: [
@@ -635,21 +631,37 @@ for (let i = 0; i < codigosP_arr.length; i++) {
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
-  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
+  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {    
     var id = e.target.classList[0]
     Swal.fire({
       title: 'Eliminar',
       text: "Seguro desea eliminar el pedido indicado",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
+      confirmButtonText: 'Eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return fetch(`/delete_pedido/${id}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = `/delete_pedido/${id}`;
+        console.log(result)
+        dt_basic.row($(this).parents('tr')).remove().draw();
+        Swal.fire({
+          title: `Pedido ${id} borrado con éxito`,
+        })
       }
     })
 
@@ -695,13 +707,30 @@ for (let i = 0; i < codigosP_arr.length; i++) {
       text: "Seguro desea eliminar el pedido indicado",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
+      confirmButtonText: 'Eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return fetch(`/delete_pedido/${id2}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = `/delete_pedido/${id2}`;
+        console.log(result)
+        dt_basic2.row($(this).parents('tr')).remove().draw();
+        Swal.fire({
+          title: `Pedido ${id2} borrado con éxito`,
+        })
       }
     })
 
@@ -781,7 +810,7 @@ async function cambioSP(id, status) {
   })
   
   if (estado) {
-    window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+window.location.href = `/cambiaS_pedido/${id}/${estado}`;
   }
 }
 
