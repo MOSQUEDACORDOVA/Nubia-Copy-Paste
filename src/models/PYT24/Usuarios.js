@@ -53,6 +53,24 @@ const Usuarios = db24.define('usuarios', {
 		type: DataTypes.INTEGER,
 		allowNull: true,
 		defaultValue: 0
+	},
+	front_img_dni: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	back_img_dni: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	account_verified: {
+		type: DataTypes.STRING(50),
+		allowNull: false,
+		defaultValue: 'No verificado'
+	},
+	status: {
+		type: DataTypes.STRING(50),
+		allowNull: false,
+		defaultValue: 'activo'
 	}
 }, {
 	hooks: {

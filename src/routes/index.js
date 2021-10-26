@@ -173,9 +173,10 @@ router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControlle
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
 router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
-router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin,  dashboardControllerPY24.depositsadmin);
+router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
-
+// MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
+router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
 router.get('/seller24/:id', authControllerPY24.authenticatedAdminOrSeller, dashboardControllerPY24.seller);
 router.get('/users24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.users);
@@ -206,6 +207,11 @@ router.post('/updateerror', authControllerPY24.authenticatedAdmin, dashboardCont
 router.post('/updateearnings', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateearnings);
 // ACTUALIZAR MINIMO DE RETIRO
 router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateminwithd);
+
+// CONVERTIR INVERSIONISTA EN VENDEDOR
+router.post('/usertoseller', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.usertoseller);
+// CONVERTIR VENDEDOR EN USUARIO
+router.post('/sellertouser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.sellertouser);
 
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);

@@ -352,18 +352,14 @@ exports.users = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin;
-  let roleClient;
-  let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
+  let roleAdmin = true;
+  DataBase.GetAllVerifiedUsers().then((users)=>{
+    let allusers = JSON.parse(users);
+    console.log(allusers)
+
+    DataBase.GetAllUnVerifiedUsers().then((usernoverify)=>{
+      let allunverif = JSON.parse(usernoverify);
+      console.log(allunverif)
 
     res.render(proyecto+"/users", {
       pageName: "Usuarios",
@@ -375,9 +371,20 @@ exports.users = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      roleClient,
-      roleSeller
-    })
+      allusers,
+      allunverif
+    });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.seller = (req, res) => {
@@ -411,9 +418,55 @@ exports.seller = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      roleClient,
-      roleSeller
-    })
+    });
+};
+
+// CONVERTIR USUARIO EN VENDEDOR
+exports.usertoseller = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  const {id} = req.body;
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/users24/PYT-24');
+  } else {
+    DataBase.UserToSeller(id).then((respuesta) =>{
+      res.redirect('/users24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }; 
+};
+
+// CONVERTIR VENDEDOR EN USUARIO
+exports.sellertouser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  const {id} = req.body;
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/users24/PYT-24');
+  } else {
+    DataBase.SellerToUser(id).then((respuesta) =>{
+      res.redirect('/users24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }; 
 };
 
 exports.paymethods = (req, res) => {
@@ -1146,7 +1199,8 @@ exports.presale = (req, res) => {
     let data = JSON.parse(response);
     DataBase.GetControlTH().then((response_th)=>{
       let data_th = JSON.parse(response_th)[0];
-      //console.log(data_th)
+      console.log(data_th)
+      console.log("THA54GA4G54AS45G4A5S54G4AS45G54AS54G")
 
     // TRAER TODOS LOS METODOS DE PAGO
     DataBase.GetAllPaym().then((all)=>{
@@ -1304,6 +1358,29 @@ exports.depositpresale = (req, res) => {
       dep: true,
       AllRes
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// OBTENER TODOS LOS DEPOSITOS DE USURIOS ADMIN
+exports.getdeposits = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  const { id } = req.body;
+  console.log(id)
+
+  DataBase.GetDeposits(id).then((response) => {
+    let AllRes = JSON.parse(response);
+    console.log(AllRes)
+    res.send({AllRes})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

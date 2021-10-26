@@ -7,6 +7,7 @@ const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
 const Depositos = require("../../models/PYT24/Depositos");
+const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
 
 module.exports = {
     //USUARIO
@@ -21,6 +22,96 @@ module.exports = {
               reject(err)
           });
         });
+    },
+    // CONVERITR USUARIO A VENDEDOR
+    UserToSeller(id) {
+        return new Promise((resolve, reject) => {
+          Usuarios.update({
+            type_user: 'Vendedor'
+          }, { where: {
+            id: id
+          }})
+            .then((data) => {
+              let data_s = JSON.stringify(data);
+              console.log(data_s)
+              resolve('Permisos de vendedor añadidos a usuario satisfactoriamente');
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        });
+    },
+    // CONVERITR VENDEDOR A USUARIO
+    SellerToUser(id) {
+        return new Promise((resolve, reject) => {
+          Usuarios.update({
+            type_user: 'Inversionista'
+          }, { where: {
+            id: id
+          }})
+            .then((data) => {
+              let data_s = JSON.stringify(data);
+              console.log(data_s)
+              resolve('Permisos de vendedor removidos a usuario satisfactoriamente');
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        });
+    },
+    // OBTENER CLIENTES VERIFICADOS
+    GetAllVerifiedUsers() {
+      return new Promise((resolve, reject) => {   
+        Usuarios.findAll({ where: {
+          account_verified: {
+            [Op.eq]: 'Verificado',
+          },
+          type_user: {
+            [Op.ne]: 'Administrador',
+          },
+        },
+        include:[
+          {association:Usuarios.Depositos},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("USUARIOS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // OBTENER CLIENTES NO VERIFICADOS
+    GetAllUnVerifiedUsers() {
+      return new Promise((resolve, reject) => {   
+        Usuarios.findAll({ where: {
+          account_verified: {
+            [Op.eq]: 'No verificado',
+          },
+          type_user: {
+            [Op.ne]: 'Administrador',
+          },
+        },
+        include:[
+          {association:Usuarios.Depositos},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("USUARIOS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
     },
     // CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
     AddBank(fullname, dni, bank_name, type_account, num_account) {

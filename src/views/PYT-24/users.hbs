@@ -1,12 +1,12 @@
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-            <section id="basic-datatable">
-                
+            <section id="basic-datatable">               
                 <div class="row">
+                    {{!--- VERIFICADOS ---}}
                     <div class="col-12">
                         <div class="card">
-                            <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Usuarios</h6></div></div>
+                            <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Usuarios Verificados</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -28,20 +28,42 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Contratos</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Paquetes</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
                                     </thead>
                                     <tbody>
+                                        {{#if allusers}}
+                                        {{#each allusers as |user i|}}      
                                         <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-info">Vendedor</span></td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2">2</a></td><td><span class="badge rounded-pill  badge-light-info">Activo</span></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
-                                        </tr>
-                                        <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-success">Inversor</span></td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2">2</a></td><td><span class="badge rounded-pill  badge-light-info">Activo</span></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
-                                        </tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{user.username}}</td>
+                                            <td style="white-space: nowrap;">{{user.email}}</td>
+                                            <td>
+                                                {{#roleuserpy24 user.type_user}}{{/roleuserpy24}}
+                                            </td>
+                                            <td>
+                                                <form id="form{{user.id}}">
+                                                    <input type="text" class="d-none" name="id" value="{{user.id}}" readonly required>
+                                                    {{#userdepositspy24 user.id user.depositos}}{{/userdepositspy24}}
+                                                </form>
+                                            </td>
+                                            <td>
+                                                {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
+                                            </td>
+                                            <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
 
-                                        <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-info">Vendedor</span></td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2">2</a></td><td><span class="badge rounded-pill  badge-light-info">Activo</span></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
+                                            <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
+                                                {{#usertosellerpy24 user.id user.type_user}}{{/usertosellerpy24}}
+                                            </td>
                                         </tr>
-
+                                        {{/each}}
+                                        {{else}}
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                <p>No existen usuarios pendientes por verificación.</p>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
+                                        
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -61,6 +83,9 @@
                         </div>
                     </div>
 
+                    <button class="d-none" id="btnModalPaquetes" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2"></button>
+
+                    {{!--- PENDIENTES POR VERIFICAR ---}}
                     <div class="col-12">
                         <div class="card">
                             <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pendientes por verificación</h6></div></div>
@@ -85,20 +110,35 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">DNI</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
                                     </thead>
                                     <tbody>
+                                        {{#if allunverif}}
+                                        {{#each allunverif as |user i|}}      
                                         <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-info">Vendedor</span></td><td>20.708.253</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Ver</a></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{user.username}}</td>
+                                            <td style="white-space: nowrap;">{{user.email}}</td>
+                                            <td>
+                                                {{#roleuserpy24 user.type_user}}{{/roleuserpy24}}
+                                            </td>
+                                            <td>
+                                                {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
+                                            </td>
+                                            <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
+
+                                            <td>
+                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}"  data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Verificar</a>
+                                            </td>
                                         </tr>
-                                        <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-info">Vendedor</span></td><td>20.708.253</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Ver</a></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
+                                        {{/each}}
+                                        {{else}}
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                <p>No existen usuarios pendientes por verificación.</p>
+                                            </td>
                                         </tr>
-                                        <tr class="even">
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox99"><label class="form-check-label" for="checkbox99"></label></div></td><td><div class="d-flex justify-content-left align-items-center"><div class="avatar  me-1"><img src="../../../app-assets/images/avatars/10-small.png" alt="Avatar" width="32" height="32"></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Mosqueda Cordova</span></div></div></td><td>mosquedac@gmail.com</td><td>mosquedac</td><td><span class="badge rounded-pill  badge-light-info">Vendedor</span></td><td>20.708.253</td><td><a href="#" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Ver</a></td><td style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Detalles</a><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-archive font-small-4 me-50"><polyline points="21 8 21 21 3 21 3 8"></polyline><rect x="1" y="3" width="22" height="5"></rect><line x1="10" y1="12" x2="14" y2="12"></line></svg>Archivar</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Borrar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td>
-                                        </tr>
-                                      
-                                   
+                                        {{/if}}
 
                                     </tbody>
                                 </table>
@@ -132,12 +172,12 @@
                             <div id="pricing-plan">
                                 <!-- title text and switch button -->
                                 <div class="text-center">
-                                    <h1 id="pricingModalTitle">Contratos</h1>
+                                    <h1 id="pricingModalTitle">Paquetes</h1>
                                     <p class="mb-3"></p>
                                 </div>
                                 <div class="row">
                                     <div class="col-12">
-                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Contratos</h6></div></div>
+                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Paquetes</h6></div></div>
                                             <div class="d-flex justify-content-between align-items-center mx-0 row">
                                                 <div class="col-sm-12 col-lg-6">
                                                     <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -159,106 +199,10 @@
                                             </div>
                                             <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                                 <thead>
-                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nro</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Inversión</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cantidad de TH</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
                                                 </thead>
-                                                <tbody>
-                                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                                        <td class=" dt-checkboxes-cell">
-                                                            <div class="form-check"> 
-                                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                                <label class="form-check-label" for="checkbox100"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>001</td>
-
-                                                        <td>1</td>
-
-                                                        <td>2020/05/03</td>
-
-                                                        <td>2020/05/04</td>
-                                                        
-                                                        <td>
-                                                            2020/07/04
-                                                        </td>
-
-                                                        <td>2 Meses</td>
-
-                                                        <td>
-                                                            1000$
-                                                        </td>
-
-                                                        <td>$1437</td>
-                                                        
-                                                        <td>
-                                                            <span class="badge rounded-pill  badge-light-success">Activo</span>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                                        <td class=" dt-checkboxes-cell">
-                                                            <div class="form-check"> 
-                                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                                <label class="form-check-label" for="checkbox100"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>002</td>
-
-                                                        <td>2</td>
-
-                                                        <td>2020/05/03</td>
-
-                                                        <td>2020/05/04</td>
-                                                        
-                                                        <td>
-                                                            2020/07/04
-                                                        </td>
-
-                                                        <td>2 Meses</td>
-
-                                                        <td>
-                                                            1000$
-                                                        </td>
-
-                                                        <td>$1437</td>
-                                                        
-                                                        <td>
-                                                            <span class="badge rounded-pill  badge-light-warning">Por terminar</span>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="odd" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
-                                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                                        <td class=" dt-checkboxes-cell">
-                                                            <div class="form-check"> 
-                                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                                <label class="form-check-label" for="checkbox100"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>003</td>
-
-                                                        <td>3</td>
-
-                                                        <td>2020/05/03</td>
-
-                                                        <td>-</td>
-                                                        
-                                                        <td>-</td>
-
-                                                        <td>1 Meses</td>
-
-                                                        <td>
-                                                            100$
-                                                        </td>
-
-                                                        <td>$600</td>
-                                                        
-                                                        <td>
-                                                            <span class="badge rounded-pill  badge-light-danger">Inactivo</span>
-                                                        </td>
-                                                    </tr>
-
+                                                <tbody id="tbody">
+                                           
                                                 </tbody>
                                             </table>
 
@@ -296,17 +240,21 @@
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Verificación de cuenta</h1>
                             <p class="text-center">Datos suministrados por el cliente</p>
-                            <div class="card-body">
-                                <p class="card-text mb-0">Parte frontal</p>
+                            <form action="" method="POST" class="card-body">
+                                <input type="text" name="id" id="iduser" class="d-none" required>
+                                <p class="card-text mb-0">DNI Parte frontal</p>
+                                <a target="_blank" id="link1">
+                                    <img src="" class="img-fluid" id="dni_front">
+                                </a>
                                 
-                                <input type="file" class="form-control mb-1" name="" id="">
-                                <p class="card-text mb-0">Parte posterior</p>
-                                <input type="file" class="form-control mb-1" name="" id="">
+                                <p class="card-text mb-0">DNI Parte posterior</p>
+                                <a target="_blank" id="link2">
+                                    <img src="" class="img-fluid" id="dni_back">
+                                </a>
                                 
                                 <input type="submit" class="btn btn-primary" value="Validar verificación">
-                                <button class="btn btn-outline-secondary">Denegar</button>
-
-                            </div>
+                                <button type="reset" class="btn btn-outline-secondary">Denegar</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -315,4 +263,93 @@
         </div>
     </div>  
 </div>
-               
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>      
+<script>
+    let btnVerify = document.querySelectorAll('.btn-verify');
+
+    btnVerify.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            let current = event.target
+            SetVerifyModal(current);
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.btn-paquetes').click(function(e) {
+            let iduser = e.target.getAttribute('data-id');
+            let form = document.getElementById(`form${iduser}`);
+            let tbodyModal = document.getElementById('tbody');
+            let btnModalP = $('#btnModalPaquetes');
+            const data = new FormData(form);
+            console.log(data)
+            $.ajax({
+                url: '/getdeposits',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (resp, textStatus, jqXHR) {
+                    let arr = resp.AllRes;
+                    tbody.innerHTML = '';
+                    arr.forEach(item => {
+                        console.log(item)
+                        let name, status, created, activated, culmination;
+                        if(item.status === 'No verificado') {
+                            status = `<span class="badge rounded-pill badge-light-warning">${item.status}</span>`
+                        } else {
+                            status = `<span class="badge rounded-pill badge-light-success">${item.status}</span>`
+                        }
+                        if(!item.paquete.name) {
+                            name = 'Paquete Personalizado';
+                        } else {
+                            name = item.paquete.name;
+                        }
+                        if(!item.createdAt) {
+                            created = '-';
+                        } else {
+                            created = item.createdAt.slice(0,10)
+                        }
+                        if(!item.activatedAt) {
+                            activated = '-';
+                        } else {
+                            activated = item.activatedAt.slice(0,10)
+                        }
+                        if(!item.culmination) {
+                            culmination = '-';
+                        } else {
+                            culmination = item.culmination.slice(0,10)
+                        }
+                        let tr = document.createElement('tr')
+                        tr.innerHTML = `
+                            <td class=" control" tabindex="0" style="display: none;"></td>
+                            <td class=" dt-checkboxes-cell">
+                                <div class="form-check"> 
+                                    <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                                    <label class="form-check-label" for="checkbox100"></label>
+                                </div>
+                            </td>
+                            <td style="white-space: nowrap">${name}</td>
+                            <td style="white-space: nowrap">${created}</td>
+                            <td style="white-space: nowrap">${activated}</td>
+                            <td style="white-space: nowrap">${culmination}</td>
+                            <td>${item.paquete.duration} Meses</td>
+                            <td>${item.paquete.amount_th} TH</td>
+                            <td>${item.paquete.price}$</td>
+                            <td>
+                                ${status}
+                            </td>
+                        `;
+                        tbodyModal.appendChild(tr)
+                        btnModalP.click();
+                    });
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
+            });
+        });
+    });
+</script>
