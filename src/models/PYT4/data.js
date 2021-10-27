@@ -527,7 +527,9 @@ console.log(hoy)
     return new Promise((resolve, reject) => {
       Last_p.findAll({where:{sucursaleId:id},
         include:[
-        {association:Last_p.Clientes },
+        {association:Last_p.Clientes, include:[
+          {association:Clientes.CoP}
+        ] },
     ]
       },)
         .then((data) => {
