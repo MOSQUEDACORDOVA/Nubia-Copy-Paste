@@ -509,10 +509,70 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS DE USUARIOS
-    GetDeposits(id){
+    // OBTENER DEPOSITOS DE USUARIOS TRANSFERENCIAS
+    GetDepositsTransf(id){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{usuarioId: id},
+        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL
+    GetDepositsPaym(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BTC
+    GetDepositsBTC(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
+    GetDepositsWallet(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
           include:[
           {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },

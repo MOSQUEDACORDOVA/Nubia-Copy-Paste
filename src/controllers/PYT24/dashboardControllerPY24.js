@@ -1372,10 +1372,22 @@ exports.depositpresale = (req, res) => {
 
   let idUser = res.locals.user.id
 
-  DataBase.GetDeposits(idUser).then((response) => {
-    let AllRes = JSON.parse(response);
-    console.log(AllRes)
-  
+  DataBase.GetDepositsTransf(idUser).then((response) => {
+    let transf = JSON.parse(response);
+    console.log(transf)
+
+    DataBase.GetDepositsPaym(idUser).then((response) => {
+      let paym = JSON.parse(response);
+      console.log(paym)
+
+      DataBase.GetDepositsBTC(idUser).then((response) => {
+        let btc = JSON.parse(response);
+        console.log(btc)
+
+        DataBase.GetDepositsWallet(idUser).then((response) => {
+          let wallet = JSON.parse(response);
+          console.log(wallet)
+    
     res.render(proyecto+"/depositpresale", {
       pageName: "Minner - Depositos",
       dashboardPage: true,
@@ -1389,8 +1401,26 @@ exports.depositpresale = (req, res) => {
       roleSeller,
       presale,
       dep: true,
-      AllRes
+      transf,
+      paym,
+      btc,
+      wallet
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1426,8 +1456,8 @@ exports.createdeposits = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
-  let idUser = res.locals.user.id
+  let proyecto = req.params.id;
+  let idUser = res.locals.user.id;
   console.log(proyecto)
   console.log(req.body)
 
