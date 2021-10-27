@@ -33,7 +33,7 @@ const MetodosPago = db24.define('metodos_pago', {
         allowNull: true,
     },
     num_account: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(255),
         allowNull: true,
     },
     phone: {

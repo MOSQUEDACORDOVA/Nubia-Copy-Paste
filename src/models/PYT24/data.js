@@ -469,10 +469,10 @@ module.exports = {
             });
         });
     },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES
-    GetAllPendingDeposits(){
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES TRANSFERENCIAS
+    GetAllPendingDepositsTransf(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: 'No verificado'},
+        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -489,10 +489,10 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS
-    GetAllCompleteDeposits(){
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES PAGO MOVIL
+    GetAllPendingDepositsPaym(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: 'Aprobado'},
+        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -509,7 +509,127 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS DE USUARIOS TRANSFERENCIAS
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
+    GetAllPendingDepositsBTC(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BILLETERA DIGITAL
+    GetAllPendingDepositsWallet(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS TRANSFERENCIAS
+    GetAllCompleteDepositsTransf(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS PAGO MOVIL
+    GetAllCompleteDepositsPaym(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC
+    GetAllCompleteDepositsBTC(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BILLETERA DIGITAL
+    GetAllCompleteDepositsWallet(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
     GetDepositsTransf(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
@@ -573,6 +693,86 @@ module.exports = {
     GetDepositsWallet(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS TRANSFERENCIAS ADMIN
+    GetDepositsTransfAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL ADMIN
+    GetDepositsPaymAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Pago Movil'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BTC ADMIN
+    GetDepositsBTCAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'BTC'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL ADMIN
+    GetDepositsWalletAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Billetera Digital'},
           include:[
           {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },

@@ -706,15 +706,41 @@ exports.depositsadmin = (req, res) => {
   else {
     roleAdmin = true;
   }
+  // TRANSFERENCIAS
+  DataBase.GetAllCompleteDepositsTransf().then((res1) => {
+    let completeTransf = JSON.parse(res1);
+    console.log(completeTransf)
 
+  DataBase.GetAllPendingDepositsTransf().then((pres1) => {
+    let pendingTransf = JSON.parse(pres1);
+    console.log(pendingTransf)
 
-  DataBase.GetAllPendingDeposits().then((response) => {
-    let AllRes = JSON.parse(response);
-    console.log(AllRes)
+    // PAGO MOVIL
+    DataBase.GetAllCompleteDepositsPaym().then((res2) => {
+      let completePaym = JSON.parse(res2);
+      console.log(completePaym)
 
-    DataBase.GetAllCompleteDeposits().then((respuesta) => {
-      let AllCompletes = JSON.parse(respuesta);
-      console.log(AllCompletes)
+    DataBase.GetAllPendingDepositsPaym().then((pres2) => {
+      let pendingPaym = JSON.parse(pres2);
+      console.log(pendingPaym)
+
+      //BTC
+      DataBase.GetAllCompleteDepositsBTC().then((res3) => {
+        let completeBTC = JSON.parse(res3);
+        console.log(completeBTC)
+
+      DataBase.GetAllPendingDepositsBTC().then((pres4) => {
+        let pendingBTC = JSON.parse(pres4);
+        console.log(pendingBTC)
+
+        // BILLETERA DIGITAL
+        DataBase.GetAllCompleteDepositsWallet().then((res5) => {
+          let completeWallet = JSON.parse(res5);
+          console.log(completeWallet)
+  
+        DataBase.GetAllPendingDepositsWallet().then((pres5) => {
+          let pendingWallet = JSON.parse(pres5);
+          console.log(pendingWallet)
 
     res.render(proyecto+"/deposits", {
       pageName: "Depositos",
@@ -728,12 +754,42 @@ exports.depositsadmin = (req, res) => {
       roleAdmin,
       roleClient,
       roleSeller,
-      AllRes,
-      AllCompletes
+      completeTransf, completePaym, completeBTC, completeWallet,
+      pendingTransf, pendingPaym, pendingBTC, pendingWallet
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
   }).catch((err) => {
