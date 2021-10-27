@@ -192,6 +192,10 @@ maxDate2 = new DateTime($('#max1'), {
             // let Garrafon19LCanje = (JSON.parse(full['garrafon19L']))['canje_cant']
             // let Garrafon19LObsequio = (JSON.parse(full['garrafon19L']))['enobsequio_cant_garrafon']
             // let Garrafon19LNuevo = (JSON.parse(full['garrafon19L']))['nuevo_cant']
+
+            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
+            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
+            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
             let asentamiento = ""
 for (let i = 0; i < codigosP_arr.length; i++) {
   if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
@@ -210,11 +214,11 @@ for (let i = 0; i < codigosP_arr.length; i++) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-             `<p id="CopyPedido" class="d-none">#Pedido:${full['id']} -
+             `<p id="CopyPedido${full['id']}" class="d-none">#Pedido:${full['id']} -
 Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']};
 Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']};
 Referencia:${full['cliente']['referencia']}
-Botellones pedidos:${full['total_garrafones_pedido']}</p>`
+Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         // Botella 1L: ${botella1Ltotal}
         //   Botella 1L Refill: ${botella1LRefill}
         //   Botella 1L Canje: ${botella1LCanje}
@@ -684,7 +688,7 @@ Botellones pedidos:${full['total_garrafones_pedido']}</p>`
     }
     /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
     $('#p1').text(direction_copy)*/
-    copyToClipboard('#CopyPedido')
+    copyToClipboard(`#CopyPedido${id_edit}`)
 
   });
 
