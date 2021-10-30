@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const Clientes = require("../../models/PYT4/Clientes");
 const Usuarios = require("../../models/PYT4/Usuarios");
 const Personal = require("../../models/PYT4/Personal");
+const Etiquetas = require("../../models/PYT4/Etiquetas");
 const Pedidos = db.define('pedidos', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -86,6 +87,7 @@ const Pedidos = db.define('pedidos', {
 Pedidos.Usuarios= Pedidos.belongsTo(Usuarios);
 Pedidos.Clientes= Pedidos.belongsTo(Clientes);
 Pedidos.Personal= Pedidos.belongsTo(Personal);
+Pedidos.Etiquetas= Pedidos.belongsTo(Etiquetas);
 //Pedidos.hasMany(Productos_pedidos, {as: 'Productos_'})
 
 module.exports = Pedidos;
