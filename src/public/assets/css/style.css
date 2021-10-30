@@ -740,4 +740,7 @@ table tbody td button {
     color: #D9A443 !important;
 }
 
+.py24 .dt-bootstrap5 {
+    overflow: hidden;
+}
 /*--------------------------- PY-24 ---------------------------*/
