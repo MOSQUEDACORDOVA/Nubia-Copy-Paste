@@ -7,6 +7,7 @@ const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
 const Depositos = require("../../models/PYT24/Depositos");
+const MetodosRetiros = require("../../models/PYT24/Retreats");
 const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
 
 module.exports = {
@@ -803,6 +804,82 @@ module.exports = {
             let data_s = JSON.stringify(data)[0];
             console.log(data_s)
             resolve('DEPOSITO APROBADO !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS TRANSFERENCIAS
+    GetMRetreatsTransf(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS PAGO MOVIL
+    GetMRetreatsPaym(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BTC
+    GetMRetreatsBTC(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BILLETERA DIGITAL
+    GetMRetreatsWallet(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
           })
           .catch((err) => {
             reject(err)

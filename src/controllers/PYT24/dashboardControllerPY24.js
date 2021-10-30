@@ -315,10 +315,11 @@ exports.retreats = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-
+ 
   let roleAdmin;
   let roleClient;
   let roleSeller;
+  let presale = true;
   if (req.user.type_user === 'Inversionista') {
     roleClient = true;
   } else if(req.user.type_user === 'Vendedor') {
@@ -329,19 +330,62 @@ exports.retreats = (req, res) => {
     roleAdmin = true;
   }
 
-    res.render(proyecto+"/retreats", {
-      pageName: "Retiros",
+  let idUser = res.locals.user.id
+
+  DataBase.GetMRetreatsTransf(idUser).then((response) => {
+    let transf = JSON.parse(response);
+    console.log(transf)
+
+    DataBase.GetMRetreatsPaym(idUser).then((response) => {
+      let paym = JSON.parse(response);
+      console.log(paym)
+
+      DataBase.GetMRetreatsBTC(idUser).then((response) => {
+        let btc = JSON.parse(response);
+        console.log(btc)
+
+        DataBase.GetMRetreatsWallet(idUser).then((response) => {
+          let wallet = JSON.parse(response);
+          console.log(wallet)
+    
+    res.render(proyecto+"/depositpresale", {
+      pageName: "Minner - Depositos",
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: false,
-      ret: true,
+      login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      presale,
+      ret: true,
+      transf,
+      paym,
+      btc,
+      wallet
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.users = (req, res) => {
