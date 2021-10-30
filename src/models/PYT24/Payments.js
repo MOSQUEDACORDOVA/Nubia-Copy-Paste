@@ -4,7 +4,7 @@ const Usuarios = require('../../models/PYT24/Usuarios');
 const Paquetes = require('../../models/PYT24/Packages');
 const MetodosRetiros = require('../../models/PYT24/Retreats');
 // PAGOS
-const Pagos = db24.define('pagos', {
+const Pays = db24.define('pagar_usuario', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -16,7 +16,7 @@ const Pagos = db24.define('pagos', {
     },
 });
 
-Pagos.Usuarios = Pagos.belongsTo(Usuarios);
-Pagos.Paquetes = Pagos.belongsTo(Paquetes);
-Pagos.MetodosRetiros = Pagos.belongsTo(MetodosRetiros);
-module.exports = Pagos;
+Pays.Usuarios = Pays.belongsTo(Usuarios);
+Pays.Paquetes = Pays.belongsTo(Paquetes);
+Pays.MetodosRetiros = Pays.belongsTo(MetodosRetiros);
+module.exports = Pays;

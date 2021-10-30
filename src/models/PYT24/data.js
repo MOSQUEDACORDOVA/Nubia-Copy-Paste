@@ -6,6 +6,7 @@ const TH = require("../../models/PYT24/th");
 const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
+const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
 const MetodosRetiros = require("../../models/PYT24/Retreats");
 const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
@@ -804,6 +805,153 @@ module.exports = {
             let data_s = JSON.stringify(data)[0];
             console.log(data_s)
             resolve('DEPOSITO APROBADO !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO TRANSFERENCIA BANCARIA
+    AddRetreatsBank(fullname, dni, bank_name, type_account, num_account, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Transferencia Bancaria', full_name: fullname, dni: dni, bank_name: bank_name, type_account: type_account, num_account: num_account, usuarioId: uId})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (trasnferencia Bancaria) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, PAGO MOVIL
+    AddRetreatsPaym(fullname, dni, bank_name, phone, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Pago Movil', full_name: fullname, dni: dni, bank_name: bank_name, phone: phone, usuarioId: uId})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Nuevo metodo de retiro (Pago Movil) registrado con éxito');
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // CREAR METODO DE RETIRO, RETIRO EN BTC
+    AddRetreatsBTC(code_wallet, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'BTC', code_wallet: code_wallet, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (RETIRO EN BTC) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, BILLETERA DIGITAL
+    AddRetreatsDigitalWallet(email, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Billetera Digital', digital_wallet_email: email, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (BILLETERA DIGITAL) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ELIMINAR METODOS DE RETIRO
+    DeleteMRetreats(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve('data_p');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO TRASNFERENCIAS
+    UpdateRetreatsTransf(id, name, dni, bank_name, type_account, num_account){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          type_account: type_account,
+          num_account: num_account,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO PAGO MOVIL
+    UpdateRetreatsPaym(id, name, dni, bank_name, phone,){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          phone: phone,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO BTC
+    UpdateRetreatsBTC(id, code_wallet){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          code_wallet: code_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE PAGO BILLETERA
+    UpdateRetreatsDWallet(id, email_wallet){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          digital_wallet_email: email_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
           })
           .catch((err) => {
             reject(err)

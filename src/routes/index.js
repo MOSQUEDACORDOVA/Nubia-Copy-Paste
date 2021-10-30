@@ -232,10 +232,24 @@ router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControlle
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 // HABILITAR / DESHABILITAR METODOS DE PAGO
 router.post('/updatestatuspaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatestatuspaymethod);
-// ACTUALIZAR METODOS DE PAGO TRANSFERENCIAS
+// ACTUALIZAR METODOS DE PAGO
 router.post('/updatepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepaymethod);
 // ELIMINAR METODOS DE PAGO
 router.post('/deletepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepaymethod);
+
+
+// ELIMINAR METODOS DE RETIRO
+router.post('/deletemretreats', authControllerPY24.authenticatedUser, dashboardControllerPY24.deletemretreats);
+// ACTUALIZAR METODOS DE RETIROS
+router.post('/updatemretreats', authControllerPY24.authenticatedUser, dashboardControllerPY24.updatemretreats);
+// METODOS DE PAGO, TRANSFERENCIA BANCARIA
+router.post('/addretreatsbank', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbank);
+// METODOS DE PAGO, PAGO MOVIL
+router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatspaym);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
+// METODOS DE PAGO, BILLETERA DIGITAL
+router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);

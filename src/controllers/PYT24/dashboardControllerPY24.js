@@ -348,7 +348,7 @@ exports.retreats = (req, res) => {
           let wallet = JSON.parse(response);
           console.log(wallet)
     
-    res.render(proyecto+"/depositpresale", {
+    res.render(proyecto+"/retreats", {
       pageName: "Minner - Depositos",
       dashboardPage: true,
       dashboard: true,
@@ -1228,6 +1228,149 @@ exports.addwallet = (req, res) => {
   };
 }
 
+// CREAR METODO DE RETIRO TRANSFERENCIA BANCARIA
+exports.addretreatsbank = (req, res) => {
+  const { fullname, dni, bank_name, type_account, num_account } = req.body;
+  let msg = false;
+  let userid = res.locals.user.id;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || type_account.trim() === '' || num_account.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/retreats24/PYT-24');
+  } else {
+    DataBase.AddRetreatsBank(fullname, dni, bank_name, type_account, num_account, userid).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE RETIRO (PAGO MOVIL)
+exports.addretreatspaym = (req, res) => {
+  const { fullname, dni, bank_name, phone } = req.body;
+  let msg = false;
+  let userid = res.locals.user.id;
+  if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || phone.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/retreats24/PYT-24');
+  } else {
+    DataBase.AddRetreatsPaym(fullname, dni, bank_name, phone, userid).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE RETIRO RETIRO EN BTC
+exports.addretreatsbtc = (req, res) => {
+  const { code_wallet } = req.body;
+  let msg = false;
+  let userid = res.locals.user.id;
+  if (code_wallet.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/retreats24/PYT-24');
+  } else {
+    DataBase.AddRetreatsBTC(code_wallet, userid).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// CREAR METODO DE RETIRO BILLETERA DIGITAL
+exports.addretreatswallet = (req, res) => {
+  const { email } = req.body;
+  let msg = false;
+  let userid = res.locals.user.id;
+  if (email.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/retreats24/PYT-24');
+  } else {
+    DataBase.AddRetreatsDigitalWallet(email, userid).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  };
+}
+
+// ELIMINAR METODOS DE RETIRO
+exports.deletemretreats = (req, res) => {
+  const { id } = req.body;
+  console.log(req.body)
+  console.log("ID")
+  let msg = false;
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/retreats24/PYT-24');
+  } else {
+    DataBase.DeleteMRetreats(id).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  };
+}
+
+
+// ACTUALIZAR METODOS DE RETIRO
+exports.updatemretreats = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  let {id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet} = req.body;
+
+  if(req.body.ttype === 'Transferencia Bancaria') {
+    DataBase.UpdateRetreatsTransf(id, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'Pago Movil') {
+    DataBase.UpdateRetreatsPaym(id, name, dni, bank, phone).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'BTC') {
+    DataBase.UpdateRetreatsBTC(id, code_wallet).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'Billetera Digital') {
+    DataBase.UpdateRetreatsDWallet(id, email_wallet).then((respuesta) =>{
+      res.redirect('/retreats24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }
+}; 
+
+//
 exports.plans = (req, res) => {
   let msg = false;
   if (req.query.msg) {
