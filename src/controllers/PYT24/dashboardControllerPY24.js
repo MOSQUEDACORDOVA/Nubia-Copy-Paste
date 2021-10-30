@@ -62,7 +62,7 @@ exports.reguserpy24 = (req, res) => {
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error404/PYT-24");
     });
   }
 };
@@ -430,6 +430,26 @@ exports.users = (req, res) => {
     return res.redirect("/error24/PYT-24");
   });
 };
+// VERIFICAR CUENTA DE USUARIOS
+exports.verifyuser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id;
+  const {id} = req.body;
+  console.log(proyecto)
+
+  let roleAdmin = true;
+  DataBase.VerifyUser(id).then((users)=>{
+    return res.redirect('users24/PYT-24');
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
 
 exports.seller = (req, res) => {
   let msg = false;
@@ -1671,7 +1691,7 @@ exports.depositpresale = (req, res) => {
   });
 };
 
-// OBTENER TODOS LOS DEPOSITOS DE USURIOS ADMIN
+// OBTENER TODOS LOS DEPOSITOS DE USUARIOS ADMIN
 exports.getdeposits = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1683,15 +1703,45 @@ exports.getdeposits = (req, res) => {
   const { id } = req.body;
   console.log(id)
 
-  DataBase.GetDeposits(id).then((response) => {
-    let AllRes = JSON.parse(response);
-    console.log(AllRes)
-    res.send({AllRes})
+  DataBase.GetDepositsTransf(id).then((res1) => {
+    let transf = JSON.parse(res1);
+    console.log(transf)
+    
+
+    DataBase.GetDepositsPaym(id).then((res2) => {
+      let paym = JSON.parse(res2);
+      console.log(paym)
+      
+      DataBase.GetDepositsBTC(id).then((res3) => {
+        let btc = JSON.parse(res3);
+        console.log(btc)
+        
+        DataBase.GetDepositsWallet(id).then((res4) => {
+          let wallet = JSON.parse(res4);
+          console.log(wallet)
+          res.send({transf, paym, btc, wallet})
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error24/PYT-24");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error24/PYT-24");
+      });
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
+
 };
 
 exports.createdeposits = (req, res) => {

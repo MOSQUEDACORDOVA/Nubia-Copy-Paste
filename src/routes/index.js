@@ -208,6 +208,8 @@ router.post('/updateearnings', authControllerPY24.authenticatedAdmin, dashboardC
 // ACTUALIZAR MINIMO DE RETIRO
 router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateminwithd);
 
+// VERIFICAR USUARIO
+router.post('/verifyuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.verifyuser);
 // CONVERTIR INVERSIONISTA EN VENDEDOR
 router.post('/usertoseller', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.usertoseller);
 // CONVERTIR VENDEDOR EN USUARIO

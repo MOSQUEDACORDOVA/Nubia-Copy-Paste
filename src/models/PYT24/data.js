@@ -45,21 +45,39 @@ module.exports = {
     },
     // CONVERITR VENDEDOR A USUARIO
     SellerToUser(id) {
-        return new Promise((resolve, reject) => {
-          Usuarios.update({
-            type_user: 'Inversionista'
-          }, { where: {
-            id: id
-          }})
-            .then((data) => {
-              let data_s = JSON.stringify(data);
-              console.log(data_s)
-              resolve('Permisos de vendedor removidos a usuario satisfactoriamente');
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          type_user: 'Inversionista'
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Permisos de vendedor removidos a usuario satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // VEERIFICAR CUENTA DE USUARIO
+    VerifyUser(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          account_verified: 'Verificado'
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Cuenta de usuario verificada satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
     },
     // OBTENER CLIENTES VERIFICADOS
     GetAllVerifiedUsers() {

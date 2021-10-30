@@ -128,7 +128,7 @@
                                             <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
 
                                             <td>
-                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}"  data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Verificar</a>
+                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Verificar</a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -240,7 +240,7 @@
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Verificación de cuenta</h1>
                             <p class="text-center">Datos suministrados por el cliente</p>
-                            <form action="" method="POST" class="card-body">
+                            <form action="/verifyuser" method="POST" class="card-body">
                                 <input type="text" name="id" id="iduser" class="d-none" required>
                                 <p class="card-text mb-0">DNI Parte frontal</p>
                                 <a target="_blank" id="link1">
@@ -273,15 +273,29 @@
             SetVerifyModal(current);
         });
     });
+
+    const SetVerifyModal = (target) => {
+        const id = document.getElementById('iduser'), 
+        link1 = document.getElementById('link1'), 
+        dni1 = document.getElementById('dni_front'), 
+        link2 = document.getElementById('link2'), 
+        dni2 = document.getElementById('dni_back'); 
+
+        id.value = target.getAttribute('data-id');
+        link1.href = `/assets/img_up/${target.getAttribute('data-dni-front')}`;
+        dni1.src = `/assets/img_up/${target.getAttribute('data-dni-front')}`;
+        link2.href = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
+        dni2.src = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
+    }
 </script>
 
 <script>
     $(document).ready(function() {
+        let tbodyModal = document.getElementById('tbody');
+        let btnModalP = $('#btnModalPaquetes');
         $('.btn-paquetes').click(function(e) {
             let iduser = e.target.getAttribute('data-id');
             let form = document.getElementById(`form${iduser}`);
-            let tbodyModal = document.getElementById('tbody');
-            let btnModalP = $('#btnModalPaquetes');
             const data = new FormData(form);
             console.log(data)
             $.ajax({
@@ -292,64 +306,104 @@
                 contentType: false,
                 processData: false,
                 success: function (resp, textStatus, jqXHR) {
-                    let arr = resp.AllRes;
+                    let arr = resp;
+                    let newArr = [];
+                    console.log(resp)
                     tbody.innerHTML = '';
-                    arr.forEach(item => {
-                        console.log(item)
-                        let name, status, created, activated, culmination;
-                        if(item.status === 'No verificado') {
-                            status = `<span class="badge rounded-pill badge-light-warning">${item.status}</span>`
-                        } else {
-                            status = `<span class="badge rounded-pill badge-light-success">${item.status}</span>`
-                        }
-                        if(!item.paquete.name) {
-                            name = 'Paquete Personalizado';
-                        } else {
-                            name = item.paquete.name;
-                        }
-                        if(!item.createdAt) {
-                            created = '-';
-                        } else {
-                            created = item.createdAt.slice(0,10)
-                        }
-                        if(!item.activatedAt) {
-                            activated = '-';
-                        } else {
-                            activated = item.activatedAt.slice(0,10)
-                        }
-                        if(!item.culmination) {
-                            culmination = '-';
-                        } else {
-                            culmination = item.culmination.slice(0,10)
-                        }
-                        let tr = document.createElement('tr')
-                        tr.innerHTML = `
-                            <td class=" control" tabindex="0" style="display: none;"></td>
-                            <td class=" dt-checkboxes-cell">
-                                <div class="form-check"> 
-                                    <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                    <label class="form-check-label" for="checkbox100"></label>
-                                </div>
-                            </td>
-                            <td style="white-space: nowrap">${name}</td>
-                            <td style="white-space: nowrap">${created}</td>
-                            <td style="white-space: nowrap">${activated}</td>
-                            <td style="white-space: nowrap">${culmination}</td>
-                            <td>${item.paquete.duration} Meses</td>
-                            <td>${item.paquete.amount_th} TH</td>
-                            <td>${item.paquete.price}$</td>
-                            <td>
-                                ${status}
-                            </td>
-                        `;
-                        tbodyModal.appendChild(tr)
-                        btnModalP.click();
-                    });
+                    if(arr.transf.length) {
+                        newArr.push(arr.transf)
+                    }
+                    if(arr.paym.length) {
+                        newArr.push(arr.paym)
+                    }
+                    if(arr.btc.length) {
+                        newArr.push(arr.btc)
+                    }
+                    if(arr.wallet.length) {
+                        newArr.push(arr.wallet)
+                    }
+                    SetPackagesUser(newArr);
                 },
                 error: function (jqXHR, textStatus) {
                     console.log('error:' + jqXHR);
                 }
             });
         });
+
+        function SetPackagesUser (item) {
+            console.log(item)
+            if(item[0]) {
+                item[0].forEach(el => {
+                    SetModalValues(el);
+                })
+            }
+            if(item[1]) {
+                item[1].forEach(el => {
+                    SetModalValues(el);
+                })
+            }
+            if(item[2]) {
+                item[2].forEach(el => {
+                    SetModalValues(el);
+                })
+            }
+            if(item[3]) {
+                item[3].forEach(el => {
+                    SetModalValues(el);
+                })
+            }
+        }
+
+        function SetModalValues (item) {
+            console.log(item)
+            let name, status, created, activated, culmination;
+            if(item.status === 'No verificado') {
+                status = `<span class="badge rounded-pill badge-light-warning">${item.status}</span>`
+            } else {
+                status = `<span class="badge rounded-pill badge-light-success">${item.status}</span>`
+            }
+            if(!item.paquete.name) {
+                name = 'Paquete Personalizado';
+            } else {
+                name = item.paquete.name;
+            }
+            if(!item.createdAt) {
+                created = '-';
+            } else {
+                created = item.createdAt.slice(0,10)
+            }
+            if(!item.activatedAt) {
+                activated = '-';
+            } else {
+                activated = item.activatedAt.slice(0,10)
+            }
+            if(!item.culmination) {
+                culmination = '-';
+            } else {
+                culmination = item.culmination.slice(0,10)
+            }
+            let tr = document.createElement('tr')
+            tr.innerHTML = `
+                <td class=" control" tabindex="0" style="display: none;"></td>
+                <td class=" dt-checkboxes-cell">
+                    <div class="form-check"> 
+                        <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
+                        <label class="form-check-label" for="checkbox100"></label>
+                    </div>
+                </td>
+                <td style="white-space: nowrap">${name}</td>
+                <td style="white-space: nowrap">${created}</td>
+                <td style="white-space: nowrap">${activated}</td>
+                <td style="white-space: nowrap">${culmination}</td>
+                <td>${item.paquete.duration} Meses</td>
+                <td>${item.paquete.amount_th} TH</td>
+                <td>${item.paquete.price}$</td>
+                <td>
+                    ${status}
+                </td>
+            `;
+            tbodyModal.appendChild(tr)
+            btnModalP.click();
+        }
     });
 </script>
