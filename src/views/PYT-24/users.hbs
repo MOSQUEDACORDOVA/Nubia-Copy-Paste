@@ -114,7 +114,7 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
                                     </thead>
                                     <tbody>
                                         {{#if allunverif}}
@@ -131,9 +131,15 @@
                                             </td>
                                             <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
 
+                                            {{#if user.front_img_dni}}
                                             <td>
                                                 <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Verificar</a>
                                             </td>
+                                            {{else}}
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-danger">Sin datos de verificación</span>
+                                            </td>
+                                            {{/if}}
                                         </tr>
                                         {{/each}}
                                         {{else}}
@@ -248,12 +254,12 @@
                                 <input type="text" name="id" id="iduser" class="d-none" required>
                                 <p class="card-text mb-0">DNI Parte frontal</p>
                                 <a target="_blank" id="link1">
-                                    <img src="" class="img-fluid" id="dni_front">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_front">
                                 </a>
                                 
                                 <p class="card-text mb-0">DNI Parte posterior</p>
                                 <a target="_blank" id="link2">
-                                    <img src="" class="img-fluid" id="dni_back">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_back">
                                 </a>
                                 
                                 <input type="submit" class="btn btn-primary" value="Validar verificación">

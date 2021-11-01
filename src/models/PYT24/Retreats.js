@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const Usuarios = require('../../models/PYT24/Usuarios');
+const Depositos = require('../../models/PYT24/Depositos');
 // METODOS DE RETIRO USUARIOS
 const MetodosRetiros = db24.define('metodos_retiros', {
     id: {

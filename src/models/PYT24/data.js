@@ -9,6 +9,7 @@ const MPagos = require("../../models/PYT24/MetodosPago");
 const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
 const MetodosRetiros = require("../../models/PYT24/Retreats");
+const Referidos = require("../../models/PYT24/Referidos");
 const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
 
 module.exports = {
@@ -26,10 +27,11 @@ module.exports = {
         });
     },
     // CONVERITR USUARIO A VENDEDOR
-    UserToSeller(id) {
+    UserToSeller(id, refcode) {
         return new Promise((resolve, reject) => {
           Usuarios.update({
-            type_user: 'Vendedor'
+            type_user: 'Vendedor',
+            refer_code: refcode
           }, { where: {
             id: id
           }})
@@ -47,7 +49,8 @@ module.exports = {
     SellerToUser(id) {
       return new Promise((resolve, reject) => {
         Usuarios.update({
-          type_user: 'Inversionista'
+          type_user: 'Inversionista',
+          refer_code: null
         }, { where: {
           id: id
         }})
@@ -55,6 +58,25 @@ module.exports = {
             let data_s = JSON.stringify(data);
             console.log(data_s)
             resolve('Permisos de vendedor removidos a usuario satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // SOLICITAR VERIFICACION DE CUENTA
+    SolicitVerify(id, dni1, dni2) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          front_img_dni: dni1,
+          back_img_dni: dni2,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Datos de verificación agregados satisfactoriamente');
           })
           .catch((err) => {
             reject(err)
@@ -482,7 +504,7 @@ module.exports = {
           Depositos.create({ transaction_type: ttype, name: name, dni: dni, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference, paqueteId: id_pack, metodosPagoId: id_method, usuarioId: id_user })
             .then((data) => {
                 let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
+                resolve(data_set);
             })
             .catch((err) => {
                 reject(err);
@@ -897,7 +919,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO TRASNFERENCIAS
+    // ACTUALIZAR METODOS DE RETIRO TRASNFERENCIAS
     UpdateRetreatsTransf(id, name, dni, bank_name, type_account, num_account){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
@@ -919,7 +941,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO PAGO MOVIL
+    // ACTUALIZAR METODOS DE RETIRO PAGO MOVIL
     UpdateRetreatsPaym(id, name, dni, bank_name, phone,){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
@@ -940,7 +962,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO BTC
+    // ACTUALIZAR METODOS DE RETIRO BTC
     UpdateRetreatsBTC(id, code_wallet){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
@@ -958,7 +980,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO BILLETERA
+    // ACTUALIZAR METODOS DE RETIRO BILLETERA
     UpdateRetreatsDWallet(id, email_wallet){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
@@ -1046,6 +1068,105 @@ module.exports = {
           .then((data) => {
             let data_p = JSON.stringify(data);
             resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR PAGO (RETIRO) PARA USUARIO ADMIN
+    CreatePaymenthsUser(id, price, paqid, depid) {
+      return new Promise((resolve, reject) => {
+        Pays.create({ amount: price, usuarioId: id, paqueteId: paqid, depositoId: depid })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      });
+    },
+    // OBTENER RETIROS COMPLETADOS DE USUARIOS
+    GetPaymenthsUser(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: {
+          [Op.ne]: 'Pendiente'
+        }, usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER RETIROS SOLICITADOS DE USUARIOS
+    GetPendingPaymenthsUser(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Pendiente', usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos, where: {
+            status: 'Terminado'
+          }},
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
+    GetPendingPaymenthsAdmin(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Solicitado', usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR PRECIO TH
+    SolicitPay(id) {
+      return new Promise((resolve, reject) => {
+        Pays.update(
+          {
+            status: 'Solicitado'
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Pago solicitado con éxito');
           })
           .catch((err) => {
             reject(err)

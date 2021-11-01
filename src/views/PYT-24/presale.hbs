@@ -7,7 +7,7 @@
 </style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <div id="loading3" style="width: 200px;border-radius: 10px;">
-    <div id='progressBar3' class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;'>0%
+    <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;'>0%
     </div>
 </div>
 
@@ -98,7 +98,11 @@
                                                     </div>
 
                                                     <div class="col-sm-9 offset-sm-3">
+                                                        {{#if verify}}
                                                         <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" id="personalizado">Comprar</button>
+                                                        {{else}}
+                                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#verificar">Comprar</button>
+                                                        {{/if}}
                                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Cancelar</button>
                                                     </div>
                                                 </div>
@@ -111,6 +115,7 @@
 
                             <div class="col-12"></div>
                             <!-- PLANS -->
+                            {{#if verify}}
                             {{#each data as |item i|}}       
                             <div class="col-12 col-md-4">
                                 <div class="card {{#planesclasepy24 item.amount_th}} {{/planesclasepy24}} text-center">
@@ -137,6 +142,35 @@
                                 </div>
                             </div>
                             {{/each}}
+                            {{else}}
+                            {{#each data as |item i|}} 
+                            <div class="col-12 col-md-4">
+                                <div class="card {{#planesclasepy24 item.amount_th}} {{/planesclasepy24}} text-center">
+                                    <div class="card-body paquetes">
+
+                                        {{#planesinfopy24 item.amount_th item.name}}
+                                        {{/planesinfopy24}}
+
+                                        <!-- NOMBRE DEL PLAN -->
+                                        <div class="annual-plan">
+                                            <div class="plan-price mt-2">
+                                                <sup class="font-medium-1 fw-bold text-primary">$</sup>
+                                                <span class="pricing-basic-value fw-bolder text-primary">{{item.price}}</span>
+                                            </div>
+                                            <small class="annual-pricing d-none text-muted"></small>
+                                        </div>
+                                        <ul class="list-group list-group-circle text-start">
+                                            <li class="list-group-item">{{item.duration}} meses Minería</li>
+                                            <li class="list-group-item">Cantidad de TH: {{item.amount_th}} </li>
+                                            <li class="list-group-item">Coste de mantenimiento: {{item.maintance_charge}}%</li>
+                                        </ul>
+                                        <button class="btn w-100 btn-primary mt-2 waves-effect waves-float waves-light" role="button" role="button" data-bs-toggle="modal" data-bs-target="#verificar">Comprar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            {{/if}}
+
                             {{#if data}} {{else}}
                             <div class="alert alert-warning my-1 alert-validation-msg" role="alert">
                                 <div class="alert-body d-flex align-items-center">
@@ -168,7 +202,7 @@
                                 <section class="vertical-wizard">
                                     <div class="bs-stepper vertical vertical-wizard-example">
                                         <div class="bs-stepper-header">
-                                            <h4>Elige un metodo de retiro</h4>
+                                            <h4>Elige un metodo de pago</h4>
                                             <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="true">
                                                     <span class="bs-stepper-box">1</span>
@@ -189,7 +223,7 @@
                                                 <button type="button" class="step-trigger" aria-selected="false">
                                                     <span class="bs-stepper-box">3</span>
                                                     <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                                        <span class="bs-stepper-title">Pago en Criptomonendas</span>
                                                     </span>
                                                 </button>
                                             </div>
@@ -197,7 +231,7 @@
                                                 <button type="button" class="step-trigger" aria-selected="false">
                                                     <span class="bs-stepper-box">4</span>
                                                     <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                                        <span class="bs-stepper-title">Pago en Billetera digital</span>
                                                     </span>
                                                 </button>
                                             </div>
@@ -249,7 +283,7 @@
                                                         <input type="file" id="img1" class="form-control" placeholder="" required>
                                                     </div>
                                                     <div class="mb-1">
-                                                        <label class="form-label" for="">Monto</label>
+                                                        <label class="form-label" for="">Monto $</label>
                                                         <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1">
@@ -286,8 +320,8 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Monto</label>
-                                                        <input type="number" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <label class="form-label" for="">Monto $</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                 </div>
 
@@ -320,8 +354,8 @@
                                                         <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Monto</label>
-                                                        <input type="number" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <label class="form-label" for="">Monto $</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                 </div>
 
@@ -370,8 +404,8 @@
                                                         <input type="file" id="img2" class="form-control" placeholder="" required>
                                                     </div>
                                                     <div class="mb-1">
-                                                        <label class="form-label" for="">Monto</label>
-                                                        <input type="text" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <label class="form-label" for="">Monto $</label>
+                                                        <input type="text" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1">
                                                         <label class="form-label" for="">Nro de referencia</label>
@@ -580,6 +614,37 @@
                 </div>
                 {{!-- END MODAL PAGAR --}}
                 {{/if}}
+
+                <!--- MODAL VERIFICAR --->
+                <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1 class="text-center mb-1">Su cuenta no ah sido verificada!</h1>
+                                <p class="text-center">Para disfrutar de todos nuestros servicios, Ingrese una foto de su documento de identidad, legible, con ambas caras.</p>
+                                <form action="/solicitverify" method="POST" class="card-body">
+                                    <p class="card-text mb-0">Parte frontal</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                        
+                                    <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                    <p class="card-text mb-0">Parte posterior</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                        
+                                    <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                    
+                                    <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- END MODAL --->
             </section>
         </div>
     </div>

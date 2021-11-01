@@ -743,4 +743,7 @@ table tbody td button {
 .py24 .dt-bootstrap5 {
     overflow: hidden;
 }
+.py24 table thead th, .py24 table tbody td {
+    white-space: nowrap;
+}
 /*--------------------------- PY-24 ---------------------------*/

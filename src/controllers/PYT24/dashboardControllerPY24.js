@@ -347,9 +347,24 @@ exports.retreats = (req, res) => {
         DataBase.GetMRetreatsWallet(idUser).then((response) => {
           let wallet = JSON.parse(response);
           console.log(wallet)
+        
+          // BALANCE MINIMO DE RETIRO
+        DataBase.GetControlTH().then((response_th)=>{
+          let data_th = JSON.parse(response_th)[0];
+          console.log(data_th)
+
+        // HISTORIAL DE RETIROS (PAGOS) PENDIENTES
+        DataBase.GetPendingPaymenthsUser(idUser).then((response) => {
+          let retreats = JSON.parse(response);
+          console.log(retreats)
+
+        // HISTORIAL DE RETIROS (PAGOS) COMPLETADOS
+        DataBase.GetPaymenthsUser(idUser).then((response) => {
+          let retreatsCompletes = JSON.parse(response);
+          console.log(retreatsCompletes)
     
     res.render(proyecto+"/retreats", {
-      pageName: "Minner - Depositos",
+      pageName: "Minner - Retiros",
       dashboardPage: true,
       dashboard: true,
       py24:true,
@@ -364,7 +379,10 @@ exports.retreats = (req, res) => {
       transf,
       paym,
       btc,
-      wallet
+      retreats,
+      retreatsCompletes,
+      wallet,
+      data_th
     });
   }).catch((err) => {
     console.log(err)
@@ -381,6 +399,41 @@ exports.retreats = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// SOLICITAR PAGO USUARIO
+exports.solicitpay = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id;
+  const {id} = req.body;
+  console.log(proyecto)
+
+  let roleAdmin = true;
+  DataBase.SolicitPay(id).then((resp)=>{
+    return res.redirect('users24/PYT-24');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -450,6 +503,31 @@ exports.verifyuser = (req, res) => {
   });
 };
 
+// SOLICITAR VERIFICAR CUENTA
+exports.solicitverify = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id;
+  const id = req.user.id;
+  console.log(id)
+  const {voucher1, voucher2} = req.body;
+  console.log(voucher1)
+  console.log(voucher2)
+  console.log(req.body)
+  console.log(proyecto)
+
+  let roleAdmin = true;
+  DataBase.SolicitVerify(id, voucher1, voucher2).then((users)=>{
+    return res.redirect('boardpresale/PYT-24');
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
 
 exports.seller = (req, res) => {
   let msg = false;
@@ -462,12 +540,14 @@ exports.seller = (req, res) => {
   let roleAdmin;
   let roleClient;
   let roleSeller;
+  let ref;
   let presale = true;
   if (req.user.type_user === 'Inversionista') {
     roleClient = true;
   } else if(req.user.type_user === 'Vendedor') {
     roleClient = true;
     roleSeller = true;
+    ref = req.user.refer_code;
   }
   else {
     roleAdmin = true;
@@ -485,6 +565,7 @@ exports.seller = (req, res) => {
       roleAdmin,
       roleClient,
       roleSeller,
+      ref,
       presale
     });
 };
@@ -503,7 +584,21 @@ exports.usertoseller = (req, res) => {
     console.log('complete todos los campos')
     res.redirect('/users24/PYT-24');
   } else {
-    DataBase.UserToSeller(id).then((respuesta) =>{
+    let code = "";
+    let refcode = '/ref=';
+    let caracteres = "0123456789abcdefABCDEF?¿¡!:;";
+    let longitud = 20;
+
+    function rand_code(chars, lon){
+      for (x=0; x < lon; x++) {
+        rand = Math.floor(Math.random()*chars.length);
+        code += chars.substr(rand, 1);
+      }
+      refcode += code;
+    }
+    rand_code(caracteres, longitud);
+  
+    DataBase.UserToSeller(id, refcode).then((respuesta) =>{
       res.redirect('/users24/PYT-24')
     }).catch((err) => {
       console.log(err)
@@ -888,7 +983,10 @@ exports.startdeposit = (req, res) => {
   
   DataBase.UpdateDeposits(id, activated, culminated).then((response) => {
     console.log(response)
-    console.log("RESPUESTA CONTROLADOR")
+
+    let price = req.body.price,
+    paqid = req.body.paqueteId;
+
     res.redirect('deposits24/PYT-24');
   }).catch((err) => {
     console.log(err)
@@ -1472,6 +1570,18 @@ exports.presale = (req, res) => {
     roleAdmin = true;
   }
 
+  let verify, unverify, pendingverify;
+
+  if (req.user.account_verified === 'No verificado') {
+    if(req.user.front_img_dni === null || req.user.back_img_dni === null) {
+      unverify = true;
+    } else {
+      pendingverify = true;
+    }
+  } else {
+    verify = true;
+  }
+
   DataBase.GetPackages().then((response)=>{
     let data = JSON.parse(response);
     DataBase.GetControlTH().then((response_th)=>{
@@ -1515,6 +1625,7 @@ exports.presale = (req, res) => {
       data, 
       data_th,
       allpays, allbanks, allpaym, allbtc, allwallet,
+      verify, unverify, pendingverify,
       buy: true
     });
   }).catch((err) => {
@@ -1595,6 +1706,20 @@ exports.boardpresale = (req, res) => {
     roleAdmin = true;
   }
 
+  console.log(req.user)
+
+  let verify, unverify, pendingverify;
+
+  if (req.user.account_verified === 'No verificado') {
+    if(req.user.front_img_dni === null || req.user.back_img_dni === null) {
+      unverify = true;
+    } else {
+      pendingverify = true;
+    }
+  } else {
+    verify = true;
+  }
+
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -1607,6 +1732,7 @@ exports.boardpresale = (req, res) => {
       roleClient,
       roleSeller,
       presale,
+      verify, unverify, pendingverify,
       board: true,
     })
 };
@@ -1760,12 +1886,27 @@ exports.createdeposits = (req, res) => {
   dni = res.locals.user.dni;
   email = res.locals.user.email;
 
+  let depositid;
+
   DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, methodid, idUser).then((response) => {
     console.log(response)
-    res.redirect('/depositpresale/PYT-24');
+    depositid = JSON.parse(response)
+    console.log("DEPOSITO-------ID")
+  }).then((data) => {
+    let data_set = JSON.stringify(data);
+
+    DataBase.CreatePaymenthsUser(idUser, amount, id, depositid.id).then((response2) => {
+      console.log(response2)
+      console.log("RESPUESTA CONTROLADOR")
+      res.redirect('/depositpresale/PYT-24');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    })
+    resolve('Depostio creado con exito');
   }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
+    reject(err)
     return res.redirect("/error24/PYT-24");
   });
 };

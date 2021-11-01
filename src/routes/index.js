@@ -224,6 +224,8 @@ router.post('/updatepackages', authControllerPY24.authenticatedAdmin, dashboardC
 // ELIMINAR PAQUETES
 router.post('/deletepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepackages);
 
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/solicitverify', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitverify);
 // METODOS DE PAGO, TRANSFERENCIA BANCARIA
 router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbank);
 // METODOS DE PAGO, PAGO MOVIL
@@ -238,7 +240,6 @@ router.post('/updatestatuspaymethod', authControllerPY24.authenticatedAdmin, das
 router.post('/updatepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepaymethod);
 // ELIMINAR METODOS DE PAGO
 router.post('/deletepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepaymethod);
-
 
 // ELIMINAR METODOS DE RETIRO
 router.post('/deletemretreats', authControllerPY24.authenticatedUser, dashboardControllerPY24.deletemretreats);
@@ -255,6 +256,8 @@ router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboar
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
+// APROBAR
+router.post('/solicitpay', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitpay);
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);

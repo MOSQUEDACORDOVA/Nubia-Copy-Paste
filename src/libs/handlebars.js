@@ -52,9 +52,16 @@ module.exports = {
 			return 'basic-pricing';
 		}
 	},
+	statusretreatspy24: (status) => {
+		if (status === 'Solicitado') {
+			return `<span class="badge rounded-pill badge-light-info">${status}</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
+		}
+	},
 	paqueteNombrepy24: (name) => {
 		if(name) {
-			return name
+			return name;
 		} else {
 			return 'Personalizado'
 		}
