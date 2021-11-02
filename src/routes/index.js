@@ -99,11 +99,17 @@ router.get('/ver_pedido/:id', dashboardControllerPY4.ver_pedido);
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
 router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
+router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
 
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+// Etiquetas
+router.post('/save_etiqueta', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_etiquetas);
+router.get('/delete_etiqueta/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_etiqueta);
 
 router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', authControllerPY4.authenticatedUser,dashboardControllerPY4.corte_prestados_table);
 
@@ -117,7 +123,7 @@ router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
-
+router.post('/ad_tag_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_tag);
 
 
 

@@ -86,9 +86,7 @@ if (pedidos_letG[i].status_pedido == "Entregado") {
         }
   }
   }
-  console.log(notif1_2)
 let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
-
        DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
@@ -126,6 +124,8 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                   
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
+                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                    let etiquetas_let = JSON.parse(etiquetas_)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -139,7 +139,7 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
       choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
       devueltos_del_dia,cp_,
       notif1_2,cont_not,notif3_5,
-      notif6_12,
+      notif6_12,etiquetas_let,
       msg
     }) 
   }).catch((err) => {
@@ -147,6 +147,11 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -258,8 +263,11 @@ exports.usuariosTable = (req, res) => {
        let count = pedidos_let.length
        DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
-        DataBase.Sucursales_ALl().then((sucursales_)=>{
+        DataBase.Sucursales_ALl().then(async(sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
+       DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+            let etiquetas_let = JSON.parse(etiquetas_)
+             console.log(clientes_arr)
      res.render("PYT-4/usersTable", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -272,6 +280,7 @@ exports.usuariosTable = (req, res) => {
       choferes_,
       clientes_arr,
       count,sucursales_let,
+      etiquetas_let,etiquetas_,
       msg
     })
   }).catch((err) => {
@@ -279,6 +288,12 @@ exports.usuariosTable = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -385,6 +400,30 @@ return res.redirect("/errorpy4/" + msg);
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}
+exports.save_cliente_edit_tag = (req, res) => {
+     
+  const {id,color} = req.body
+  let msg = false;
+
+  DataBase.update_cliente_tag(id,color).then((respuesta) =>{
+    console.log(respuesta)
+    let id_sucursal = req.session.sucursal_select
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+    res.send({clientes_arr})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }
 
 
@@ -569,15 +608,24 @@ disabled_chofer: true
 exports.cambiaS_pedido = (req, res) => {
   
   const user = res.locals.user
-  const id_pedido = req.params.id
-  const status = req.params.status
+  // const id_pedido = req.params.id
+  // const status = req.params.status
   
-
+  const id_pedido = req.body.id
+  const status = req.body.status
+  let id_sucursal = req.session.sucursal_select
   DataBase.CambiaStatus(id_pedido,status).then((respuesta) =>{
-    
+    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
-    res.redirect('/homepy4/'+msg)
+    return res.send({msg:msg, pedidos_let})
+    // res.redirect('/homepy4/'+msg)
 
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -587,20 +635,25 @@ exports.cambiaS_pedido = (req, res) => {
 exports.cambia_S_pago = (req, res) => {
   
   const user = res.locals.user
-  const id_pedido = req.params.id
-  const status = req.params.status
-  
+  const id_pedido = req.body.id
+  const status = req.body.status
+  let id_sucursal = req.session.sucursal_select
 
   DataBase.CambiaStatusPago(id_pedido,status).then((respuesta) =>{
-    
+    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
-    res.redirect('/homepy4/'+msg)
-
+    return res.send({msg:msg, pedidos_let})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 
@@ -1445,3 +1498,52 @@ exports.save_carga_inicial = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 };
+
+
+
+//ETIQUETAS
+
+exports.save_etiquetas = (req, res) => {
+  
+  const { nombre, color} = req.body
+  let msg = false;
+  let id_sucursal = req.session.sucursal_select
+  DataBase.Etiquetas_save(nombre, color,id_sucursal).then((respuesta) =>{
+    let respuesta_let = JSON.parse(respuesta)
+DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+            let etiquetas_let = JSON.parse(etiquetas_)
+    console.log(respuesta)
+    res.send({respuesta_let})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  }); 
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
+
+exports.delete_etiqueta = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id
+  let id_sucursal = req.session.sucursal_select
+  DataBase.delete_etiqueta(id_).then((respuesta) =>{
+    
+  let msg = "Etiqueta Eliminada con éxito"
+  DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+    let etiquetas_let = JSON.parse(etiquetas_)
+console.log(respuesta)
+res.send({etiquetas_let})
+
+}).catch((err) => {
+console.log(err)
+let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+});
+   })   
+ };

@@ -7,6 +7,12 @@
 <script>
 
 $(document).ready(function() {
+    $('.modal_hover').hover(function() {
+        console.log('modal')
+    var modalId = $(this).data('target');
+    $(modalId).modal('show');
+
+  });
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -142,6 +148,27 @@ $(document).ready(function() {
                             </div>
                         </form>
                     </div>
+                                        <div class="card-body">
+                      
+                                <div class="col-md-4">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                       <select class="select2 form-select select_chofer_pedidos">
+                                           <option >Filtrar choferes</option>
+                                           {{#each choferes_ as |chofer i|}}
+                                           <option >{{name}}</option>
+                                           {{/each}}
+                                       </select>
+                                        <select class="select2 form-select select_etiqueta_pedidos">
+                                           <option >Filtrar etiquetas</option>
+                                           {{#each etiquetas_let as |etiqueta i|}}
+                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                           {{/each}}
+                                       </select>
+                                    </div>
+                                </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -151,11 +178,16 @@ $(document).ready(function() {
                                             <tr>
                                                 <th>Nº Pedido</th>
                                                 <th>Cliente</th>
+                                                <th>Total garrafones</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
                                             </tr>
                                         </thead>
                                     </table>
@@ -250,22 +282,44 @@ $(document).ready(function() {
 
                 <section id="column-search-datatable">
                     <div class="card-body">
-                                
+                            <div class="col-md-4">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                       <select class="select2 form-select select_chofer_ventas" style="margin-right: 15px;">
+                                           <option value="">Filtrar choferes</option>
+                                           {{#each choferes_ as |chofer i|}}
+                                           <option >{{name}}</option>
+                                           {{/each}}
+                                       </select>
+                                       <select class="select2 form-select select_etiqueta_ventas">
+                                           <option value="">Filtrar etiquetas</option>
+                                           {{#each etiquetas_let as |etiqueta i|}}
+                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                           {{/each}}
+                                       </select>
+                                    </div>
+                                </div>    
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
                                     <table class="datatables-basic2 table dt-column-search2">
-                                        <thead>
+                                          <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
                                                 <th>Cliente</th>
+                                                <th>Total garrafones</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
                                             </tr>
                                         </thead>
                                     </table>
@@ -288,6 +342,23 @@ $(document).ready(function() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id='home_modalBody'>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
+            style="display: none;" aria-hidden="modal_detail_garrafones">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal_detail_garrafonesTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id='modal_detail_garrafonesBody'>
                         
                         </div>
                         <div class="modal-footer">

@@ -1,23 +1,23 @@
 /**
  * DataTables Basic
  */
-
- $(function () {
-  'use strict';
+function cargaTabla(rechar) {
   let valor = $('#array').val()
-  let array = JSON.parse(valor.replace(/&quot;/g,'"'))
-console.log(array)  
+  console.log(valor)
+  let array =""
+  if (rechar) {
+    console.log(rechar)
+    console.log(valor)
+    array = JSON.parse(valor)
+
+  }else{
+   array = JSON.parse(valor.replace(/&quot;/g,'"')) 
+  }
+  
+  
 
   var dt_basic_table = $('.datatables-basic'),
-    dt_date_table = $('.dt-date'),
-    dt_complex_header_table = $('.dt-complex-header'),
-    dt_row_grouping_table = $('.dt-row-grouping'),
-    dt_multilingual_table = $('.dt-multilingual'),
-    assetPath = '../../dataPY4/';
-
-  if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
+    dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -34,6 +34,7 @@ console.log(array)
         }
       });
     });
+    // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
       data: array,
       columns: [
@@ -52,7 +53,10 @@ console.log(array)
               '</a>' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
+              '</a>'  +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' 
             );
           }  },
       ],
@@ -82,6 +86,13 @@ console.log(array)
 
             var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
             // Creates full output for row
+            var color_tag ="", color_text=""
+            if (full['etiqueta'] ==null) {
+              color_tag =0
+            }else{
+              color_tag =full['etiqueta']['color']
+              color_text="white"
+            }
             var $row_output =
               '<div class="d-flex justify-content-left align-items-center">' +
               '<div class="avatar ' +
@@ -90,7 +101,7 @@ console.log(array)
               $output +
               '</div>' +
               '<div class="d-flex flex-column">' +
-              '<span class="emp_name text-truncate fw-bold">' +
+              '<span class="emp_name text-truncate fw-bold rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
               $name +
               '</span>' +
               '<small class="emp_post text-truncate text-muted">' +
@@ -154,13 +165,11 @@ console.log(array)
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
 
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
-    });
-  }
+}
+
+ $(function () {
+  'use strict';
+  cargaTabla()
 
   // Add New record
   // ? Remove/Update this code as per your requirements ?
@@ -222,4 +231,58 @@ console.log(array)
 
   });
 
+  $('.datatables-basic tbody').on('click', '.edit_tag', function (e) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = e.target.classList[0]
+    console.log(id_edit)
+    
+  });
+
+  $("#ad_tag_cliente").on('show.bs.modal', function (e) {
+    var triggerLink = $(e.relatedTarget);
+    var id_cliente = triggerLink.data("id");
+    var title = triggerLink.data("title");
+    $("#modal_detail_garrafonesTitle").text(title); 
+  //  $("#home_modalBody").append(txt2);
+  $("#modal_detail_garrafonesBody").empty() 
+ $("#id_ad_tag_cliente").val(id_cliente);
+});
+
+$('#btn_asignar_tag').on('click', async (e)=>{
+  if ($('#color_tag').val() =="default") {
+    Swal.fire('Debe seleccionar una etiqueta')
+    return
+  }
+  const data_C = new FormData();
+  data_C.append("id", $("#id_ad_tag_cliente").val());
+  data_C.append("color", $('#color_tag').val());
+  $.ajax({
+    url: `/ad_tag_cliente`,
+    type: 'POST',
+    data: data_C,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data, textStatus, jqXHR) {
+$('#array').val(JSON.stringify(data.clientes_arr))
+$('#exampleClientes').dataTable().fnDestroy();
+$('#exampleClientes').empty();
+$('#exampleClientes').append(` <thead>
+<tr>
+
+  <th>Usuario</th>
+  <th>Correo</th>
+  <th>Teléfono</th>   
+  <th>Opciones</th>
+</tr>
+</thead>`);
+cargaTabla('si')
+$('.modal').modal('hide');
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+  
+})
 });
