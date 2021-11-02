@@ -7,6 +7,12 @@
 <script>
 
 $(document).ready(function() {
+    $('.modal_hover').hover(function() {
+        console.log('modal')
+    var modalId = $(this).data('target');
+    $(modalId).modal('show');
+
+  });
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -151,11 +157,15 @@ $(document).ready(function() {
                                             <tr>
                                                 <th>Nº Pedido</th>
                                                 <th>Cliente</th>
+                                                <th>Total garrafones</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
                                             </tr>
                                         </thead>
                                     </table>
@@ -288,6 +298,23 @@ $(document).ready(function() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id='home_modalBody'>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
+            style="display: none;" aria-hidden="modal_detail_garrafones">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal_detail_garrafonesTitle"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id='modal_detail_garrafonesBody'>
                         
                         </div>
                         <div class="modal-footer">

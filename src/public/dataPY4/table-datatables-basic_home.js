@@ -4,7 +4,6 @@
 
  'use strict';
 
-
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
@@ -101,18 +100,16 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- // Advanced Search Functions Ends
- $(function () {
-  'use strict';
-  
+ function cargaTablas(rechar) {
+    
   let valor = $('#array_pedido').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
+  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
   let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
-
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),
     dt_basic_table2 = $('.datatables-basic2'),
@@ -139,7 +136,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
- 
+  var groupColumn = 8;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -157,6 +154,7 @@ maxDate2 = new DateTime($('#max1'), {
       columns: [
         { data: 'id' },
         { data: 'cliente.firstName' },
+        { data: 'total_garrafones_pedido' },
         { data: 'monto_total',
         render: function ( data, type, row ) {
           return '$'+ data;
@@ -169,30 +167,6 @@ maxDate2 = new DateTime($('#max1'), {
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
-            // let botella1Ltotal = (JSON.parse(full['botella1L']))['total_cant']
-            // let botella1LRefill = (JSON.parse(full['botella1L']))['refill_cant']
-            // let botella1LCanje = (JSON.parse(full['botella1L']))['canje_cant']
-            // let botella1LObsequio = (JSON.parse(full['botella1L']))['enobsequio_cant_botella']
-            // let botella1LNuevo = (JSON.parse(full['botella1L']))['nuevo_cant']
-
-            // let botella5Ltotal = (JSON.parse(full['botella5L']))['total_cant']
-            // let botella5LRefill = (JSON.parse(full['botella5L']))['refill_cant']
-            // let botella5LCanje = (JSON.parse(full['botella5L']))['canje_cant']
-            // let botella5LObsequio = (JSON.parse(full['botella5L']))['enobsequio_cant_botella5l']
-            // let botella5LNuevo = (JSON.parse(full['botella5L']))['nuevo_cant']
-
-            // let garrafon11Ltotal = (JSON.parse(full['garrafon11L']))['total_cant']
-            // let garrafon11LRefill = (JSON.parse(full['garrafon11L']))['refill_cant']
-            // let garrafon11LCanje = (JSON.parse(full['garrafon11L']))['canje_cant']
-            // let garrafon11LObsequio = (JSON.parse(full['garrafon11L']))['enobsequio_cant_garrafon11l']
-            // let garrafon11LNuevo = (JSON.parse(full['garrafon11L']))['nuevo_cant']
-
-            // let garrafon19Ltotal = (JSON.parse(full['garrafon19L']))['total_cant']
-            // let Garrafon19LRefill = (JSON.parse(full['garrafon19L']))['refill_cant']
-            // let Garrafon19LCanje = (JSON.parse(full['garrafon19L']))['canje_cant']
-            // let Garrafon19LObsequio = (JSON.parse(full['garrafon19L']))['enobsequio_cant_garrafon']
-            // let Garrafon19LNuevo = (JSON.parse(full['garrafon19L']))['nuevo_cant']
-
             let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
             let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
             let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
@@ -218,35 +192,16 @@ for (let i = 0; i < codigosP_arr.length; i++) {
 Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']};
 Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']};
 Referencia:${full['cliente']['referencia']}
-Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
-        // Botella 1L: ${botella1Ltotal}
-        //   Botella 1L Refill: ${botella1LRefill}
-        //   Botella 1L Canje: ${botella1LCanje}
-        //   Botella 1L Obsequio: ${botella1LObsequio}
-        //   Botella 1L Nuevo: ${botella1LNuevo}
-        // -----------------------------------
-        // Botella 5L: ${botella5Ltotal}
-        //   Botella 5L Refill: ${botella5LRefill}
-        //   Botella 5L Canje: ${botella5LCanje}
-        //   Botella 5L Obsequio: ${botella5LObsequio}
-        //   Botella 5L Nuevo: ${botella5LNuevo}
-        // ----------------------------------
-        // Garrafon 11L: ${garrafon11Ltotal}
-        //   Garrafon 11L Refill: ${garrafon11LRefill}
-        //   Garrafon 11L Canje: ${garrafon11LCanje}
-        //   Garrafon 11L Obsequio: ${garrafon11LObsequio}
-        //   Garrafon 11L Nuevo: ${garrafon11LNuevo}
-        // ---------------------------------
-        // Garrafon 19L: ${garrafon19Ltotal}
-        //   Garrafon 19L Refill: ${Garrafon19LRefill}
-        //   Garrafon 19L Canje: ${Garrafon19LCanje}
-        //   Garrafon 19L Obsequio: ${Garrafon19LObsequio}
-        //   Garrafon 19L Nuevo: ${Garrafon19LNuevo}
-        // ---------------------------------
-             
+Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`  
             );
-          } },
+          }, 
+        },
+        { data: 'personal.name' },
       ], columnDefs: [
+        { visible: false, targets: groupColumn,
+         
+        },
+
         {
           // Label
           targets: 0,
@@ -280,18 +235,43 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               return data;
             }
         var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+        var color_tag ="", color_text=""
+        console.log(full['cliente']['etiqueta'])
+        if (full['cliente']['etiqueta'] ==null) {
+          color_tag =0
+        }else{
+          color_tag =full['cliente']['etiqueta']['color']
+          color_text="white"
+        }
             return (
               '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;">' +
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
               $status[$status_number].title +
               '</span>'
             );
           }
         },
+         {
+          // Label
+          targets: 2,
+          render: function (data, type, full, meta) {
+            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
+            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
+            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
+
+            return (
+              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+rf+'" data-total="'+data+'" data-canje="'+CJ+'" data-env="'+Env+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;">' +
+              data +
+              '</span>'
+            );
+          }
+
+        
+        },
+        
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -305,9 +285,9 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               return data;
             }
             return (
-              '<span class="badge rounded-pill ' +
+              '<span class="badge rounded-pill cambia_status ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -315,7 +295,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -335,7 +315,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           }
         },
         {
-          targets: 5,
+          targets: 6,
           render:function(data){
            // return moment.tz(data, 'America/Mexico_City').format('L');
             return moment(data).format('L');
@@ -343,12 +323,29 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[5, 'desc']],
+      order: [[6, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
-  
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+
+        api
+          .column(groupColumn, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');
+
+              last = group;
+            }
+          });
+      },
      
       language: {
       "decimal": "",
@@ -556,6 +553,88 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     });
 
   }
+}
+
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+  cargaTablas()
+
+
+  $('.cambia_status').on('click',async (e)=>{
+    console.log(e['currentTarget']['dataset'])
+   let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
+    const { value: estado } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Entregado: 'Entregado',
+          Cancelado: 'Cancelado',
+          'Por entregar': 'Por entregar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (estado) {
+      console.log(estado)
+        
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", estado);
+      $.ajax({
+        url: `/cambiaS_pedido`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+  console.log(data)
+  $('#array_pedido').val(data.pedidos_let)
+  console.log($('#array_pedido').val())
+  $('.datatables-basic').DataTable().ajax.reload();
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+  
+  
+  // window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+    }
+  })
+
+
+  $("#modal_detail_garrafones").on('show.bs.modal', function (e) {
+
+    var triggerLink = $(e.relatedTarget);
+    var Total_total = triggerLink.data("id");
+    var title = triggerLink.data("title");
+    var rfeill = triggerLink.data("rfeill");
+    var canje = triggerLink.data("canje");
+   var Env = triggerLink.data("env"); 
+   var total = triggerLink.data("total"); 
+    $("#modal_detail_garrafonesTitle").text(title); 
+  //  $("#home_modalBody").append(txt2);
+  $("#modal_detail_garrafonesBody").empty() 
+ 
+        $("#modal_detail_garrafonesBody").append(`<ul class='list-group list-group-flush'>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Refill: <span class='badge bg-primary rounded-pill'>${rfeill}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Canje: <span class='badge bg-primary rounded-pill'>${canje}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Envase Nuevo: <span class='badge bg-primary rounded-pill'>${Env}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Total: <span class='badge bg-primary rounded-pill'>${total}</span></li>
+        </ul>`);
+});
 
   $("#home_modal").on('show.bs.modal', function (e) {
     var triggerLink = $(e.relatedTarget);
@@ -585,13 +664,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         <li class='list-group-item d-flex justify-content-between align-items-center'>Teléfono: <span class='badge bg-primary rounded-pill'>${my_object['telefono']}</span></li>
         </ul>`);
 });
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
-    });
-  }
+ 
 
   // Add New record
   // ? Remove/Update this code as per your requirements ?
@@ -814,7 +887,31 @@ async function cambioSP(id, status) {
   })
   
   if (estado) {
-window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+    console.log(estado)
+      
+    const data_C = new FormData();
+    data_C.append("id", id);
+    data_C.append("status", estado);
+    $.ajax({
+      url: `/cambiaS_pedido`,
+      type: 'POST',
+      data: data_C,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#array_pedido').val(data.pedidos_let)
+console.log($('#array_pedido').val())
+$('.datatables-basic').DataTable().ajax.reload();
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+
+
+// window.location.href = `/cambiaS_pedido/${id}/${estado}`;
   }
 }
 
