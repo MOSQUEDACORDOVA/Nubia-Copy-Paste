@@ -332,20 +332,20 @@ exports.retreats = (req, res) => {
 
   let idUser = res.locals.user.id
 
-  DataBase.GetMRetreatsTransf(idUser).then((response) => {
-    let transf = JSON.parse(response);
+  DataBase.GetMRetreatsTransf(idUser).then((res1) => {
+    let transf = JSON.parse(res1);
     console.log(transf)
 
-    DataBase.GetMRetreatsPaym(idUser).then((response) => {
-      let paym = JSON.parse(response);
+    DataBase.GetMRetreatsPaym(idUser).then((res2) => {
+      let paym = JSON.parse(res2);
       console.log(paym)
 
-      DataBase.GetMRetreatsBTC(idUser).then((response) => {
-        let btc = JSON.parse(response);
+      DataBase.GetMRetreatsBTC(idUser).then((res3) => {
+        let btc = JSON.parse(res3);
         console.log(btc)
 
-        DataBase.GetMRetreatsWallet(idUser).then((response) => {
-          let wallet = JSON.parse(response);
+        DataBase.GetMRetreatsWallet(idUser).then((res4) => {
+          let wallet = JSON.parse(res4);
           console.log(wallet)
         
           // BALANCE MINIMO DE RETIRO
@@ -354,13 +354,14 @@ exports.retreats = (req, res) => {
           console.log(data_th)
 
         // HISTORIAL DE RETIROS (PAGOS) PENDIENTES
-        DataBase.GetPendingPaymenthsUser(idUser).then((response) => {
-          let retreats = JSON.parse(response);
+        DataBase.GetPendingPaymenthsUser(idUser).then((res5) => {
+          let retreats = JSON.parse(res5);
           console.log(retreats)
-
+          console.log("RETREATS---------REATASF")
+          
         // HISTORIAL DE RETIROS (PAGOS) COMPLETADOS
-        DataBase.GetPaymenthsUser(idUser).then((response) => {
-          let retreatsCompletes = JSON.parse(response);
+        DataBase.GetPaymenthsUser(idUser).then((resp) => {
+          let retreatsCompletes = JSON.parse(resp);
           console.log(retreatsCompletes)
     
     res.render(proyecto+"/retreats", {
@@ -829,19 +830,38 @@ exports.paymanag = (req, res) => {
     roleAdmin = true;
   }
 
-    res.render(proyecto+"/pay-managment", {
-      pageName: "Gestión de Pagos",
-      dashboardPage: true,
-      dashboard: true,
-      py24:true,
-      login: false,
-      paym: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      roleClient,
-      roleSeller
-    })
+
+  //let currentdate = moment('');
+  //let culmination = moment('2021-11-01');
+  //console.log(culmination.diff(currentdate, 'days'), ' dias de diferencia');
+
+  DataBase.GetPendingPaymenthsAdmin().then((resp) => {
+    let pendindPays = JSON.parse(resp);
+    console.log(pendindPays)
+
+    //pendindPays.forEach(element.deposito => {
+      
+   //});
+
+  res.render(proyecto+"/pay-managment", {
+    pageName: "Gestión de Pagos",
+    dashboardPage: true,
+    dashboard: true,
+    py24: true,
+    login: false,
+    paym: true,
+    username: req.user.username,
+    typeUser: req.user.type_user,
+    roleAdmin,
+    roleClient,
+    roleSeller
+  });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 // VER TODOS LOS DEPOSITOS
@@ -1720,6 +1740,18 @@ exports.boardpresale = (req, res) => {
     verify = true;
   }
 
+  let idUser = res.locals.user.id
+  // SALDO DISPONIBLE
+  let avalibleBalance = res.locals.user.avalible_balance
+
+  DataBase.GetAllDepositsBoardUser(idUser).then((response) => {
+    let capital = JSON.parse(response);
+    console.log(capital)
+
+    DataBase.GetAllDepositsUser(idUser).then((resp) => {
+      let depositos = JSON.parse(resp);
+      console.log(depositos)
+
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -1733,8 +1765,21 @@ exports.boardpresale = (req, res) => {
       roleSeller,
       presale,
       verify, unverify, pendingverify,
+      capital,
+      depositos,
+      avalibleBalance,
       board: true,
-    })
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.depositpresale = (req, res) => {

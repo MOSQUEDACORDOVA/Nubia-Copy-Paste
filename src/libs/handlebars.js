@@ -88,6 +88,20 @@ module.exports = {
 			</form>`;
 		}
 	},
+	capitalinvertidopy24: (capital) => {
+		let total = 0;
+		capital.forEach(element => {
+			total += parseInt(element.amount); 
+		})
+		return total;
+	},
+	gananciasgeneralespy24: (earnings) => {
+		let total = 0;
+		earnings.forEach(element => {
+			total += parseInt(element.earnings); 
+		})
+		return total;
+	},
 	statususerpy24: (status) => {
 		if(status === 'activo') {
 			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;

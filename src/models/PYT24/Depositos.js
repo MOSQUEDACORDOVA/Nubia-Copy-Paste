@@ -81,6 +81,11 @@ const Depositos = db24.define('depositos', {
 		allowNull: true,
 		defaultValue: null
 	},
+	earnings: {
+		type: DataTypes.INTEGER(255),
+		allowNull: true,
+		defaultValue: 0
+	}
 });
 
 Depositos.Paquetes = Depositos.belongsTo(Paquetes);
