@@ -124,6 +124,8 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                   
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
+                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                    let etiquetas_let = JSON.parse(etiquetas_)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -137,7 +139,7 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
       choferes_,prestamos_byday,prestamos_,sucursales_let,prestamos_del_dia,
       devueltos_del_dia,cp_,
       notif1_2,cont_not,notif3_5,
-      notif6_12,
+      notif6_12,etiquetas_let,
       msg
     }) 
   }).catch((err) => {
@@ -145,6 +147,11 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -610,14 +617,8 @@ exports.cambiaS_pedido = (req, res) => {
   DataBase.CambiaStatus(id_pedido,status).then((respuesta) =>{
     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
-      fs.writeFile('./pedidos.txt', pedidos_, error => {
-        if (error)
-          console.log(error);
-        else
-          console.log('El archivo fue creado');
-      });
     let msg=respuesta
-    return res.send({msg:msg, pedidos_let:pedidos_})
+    return res.send({msg:msg, pedidos_let})
     // res.redirect('/homepy4/'+msg)
 
   }).catch((err) => {
@@ -634,20 +635,25 @@ exports.cambiaS_pedido = (req, res) => {
 exports.cambia_S_pago = (req, res) => {
   
   const user = res.locals.user
-  const id_pedido = req.params.id
-  const status = req.params.status
-  
+  const id_pedido = req.body.id
+  const status = req.body.status
+  let id_sucursal = req.session.sucursal_select
 
   DataBase.CambiaStatusPago(id_pedido,status).then((respuesta) =>{
-    
+    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
-    res.redirect('/homepy4/'+msg)
-
+    return res.send({msg:msg, pedidos_let})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 

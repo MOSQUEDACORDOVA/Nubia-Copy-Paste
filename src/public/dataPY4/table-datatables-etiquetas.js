@@ -93,6 +93,7 @@ function cargaTablaEtiquetas(rechar) {
   // Flat Date picker
   // Add New record
   // ? Remove/Update this code as per your requirements ?
+
   var count = 101;
   $('.data-submit').on('click', function () {
     var $new_name = $('.add-new-record .dt-full-name').val(),

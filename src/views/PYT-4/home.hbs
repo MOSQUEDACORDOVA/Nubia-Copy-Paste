@@ -148,6 +148,27 @@ $(document).ready(function() {
                             </div>
                         </form>
                     </div>
+                                        <div class="card-body">
+                      
+                                <div class="col-md-4">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                       <select class="select2 form-select select_chofer_pedidos">
+                                           <option >Filtrar choferes</option>
+                                           {{#each choferes_ as |chofer i|}}
+                                           <option >{{name}}</option>
+                                           {{/each}}
+                                       </select>
+                                        <select class="select2 form-select select_etiqueta_pedidos">
+                                           <option >Filtrar etiquetas</option>
+                                           {{#each etiquetas_let as |etiqueta i|}}
+                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                           {{/each}}
+                                       </select>
+                                    </div>
+                                </div>
+                    </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -166,6 +187,7 @@ $(document).ready(function() {
                                                 
                                             
                                             <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
                                             </tr>
                                         </thead>
                                     </table>
@@ -260,22 +282,44 @@ $(document).ready(function() {
 
                 <section id="column-search-datatable">
                     <div class="card-body">
-                                
+                            <div class="col-md-4">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                       <select class="select2 form-select select_chofer_ventas" style="margin-right: 15px;">
+                                           <option value="">Filtrar choferes</option>
+                                           {{#each choferes_ as |chofer i|}}
+                                           <option >{{name}}</option>
+                                           {{/each}}
+                                       </select>
+                                       <select class="select2 form-select select_etiqueta_ventas">
+                                           <option value="">Filtrar etiquetas</option>
+                                           {{#each etiquetas_let as |etiqueta i|}}
+                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                           {{/each}}
+                                       </select>
+                                    </div>
+                                </div>    
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
                                     <table class="datatables-basic2 table dt-column-search2">
-                                        <thead>
+                                          <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
                                                 <th>Cliente</th>
+                                                <th>Total garrafones</th>
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
                                             </tr>
                                         </thead>
                                     </table>

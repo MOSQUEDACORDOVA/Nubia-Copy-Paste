@@ -103,8 +103,14 @@
  function cargaTablas(rechar) {
     
   let valor = $('#array_pedido').val()
-  let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
-  
+  let array2 = ""
+  if (rechar) {
+    
+    array2 = JSON.parse(valor)
+
+  }else{
+    array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
+  }
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
@@ -149,6 +155,14 @@ maxDate2 = new DateTime($('#max1'), {
         }
       });
     });
+    $('.select_chofer_pedidos').on('change', function(){
+      console.log(this.value)
+      dt_basic.search(this.value).draw();   
+   });
+   $('.select_etiqueta_pedidos').on('change', function(){
+    console.log(this.value)
+    dt_basic.search(this.value).draw();   
+ });
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
@@ -197,11 +211,14 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           }, 
         },
         { data: 'personal.name' },
+        { data: 'cliente.etiqueta.etiquetas' },
       ], columnDefs: [
         { visible: false, targets: groupColumn,
          
         },
-
+        { visible: false, targets: 9,
+         
+        },
         {
           // Label
           targets: 0,
@@ -236,7 +253,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             }
         var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
         var color_tag ="", color_text=""
-        console.log(full['cliente']['etiqueta'])
         if (full['cliente']['etiqueta'] ==null) {
           color_tag =0
         }else{
@@ -285,9 +301,9 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               return data;
             }
             return (
-              '<span class="badge rounded-pill cambia_status ' +
+              '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'">' +
+              '" style="cursor:pointer"   onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\' data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -392,15 +408,24 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         }
       });
     });
+    $('.select_chofer_ventas').on('change', function(){
+      console.log(this.value)
+      dt_basic2.search(this.value).draw();   
+   });  
+    $('.select_etiqueta_ventas').on('change', function(){
+      console.log(this.value)
+      dt_basic2.search(this.value).draw();   
+   });
     var dt_basic2 = dt_basic_table2.DataTable({
       data: status_pedido2,
       columns: [
         { data: 'id' },
         { data: 'cliente.firstName' },
+        { data: 'total_garrafones_pedido' },
         { data: 'monto_total',
         render: function ( data, type, row ) {
           return '$'+ data;
-      }  }, // used for sorting so will hide this column
+      } }, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
         { data: 'createdAt'},
@@ -419,7 +444,15 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               '</a>'              
             );
           } },
-      ],columnDefs: [
+          { data: 'personal.name' },
+          { data: 'cliente.etiqueta.etiquetas' },
+        ], columnDefs: [
+          { visible: false, targets: groupColumn,
+           
+          },
+          { visible: false, targets: 9,
+           
+          },
         {
           // Label
           targets: 0,
@@ -454,10 +487,17 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               return data;
             }
             var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+            var color_tag ="", color_text=""
+        console.log(full['cliente']['etiqueta'])
+        if (full['cliente']['etiqueta'] ==null) {
+          color_tag =0
+        }else{
+          color_tag =full['cliente']['etiqueta']['color']
+          color_text="white"
+        }
             return (
               '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;">' +
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -465,7 +505,25 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 3,
+          targets: 2,
+          render: function (data, type, full, meta) {
+            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
+            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
+            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
+        
+            return (
+              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+rf+'" data-total="'+data+'" data-canje="'+CJ+'" data-env="'+Env+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;">' +
+              data +
+              '</span>'
+            );
+          }
+        
+        
+        },
+        
+        {
+          // Label
+          targets: 4,
           render: function (data, type, full, meta) {
             
             var $status_number = full['status_pedido'];
@@ -480,7 +538,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -488,7 +546,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -507,7 +565,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             );
           }
         },{
-          targets: 5,
+          targets: 6,
           render:function(data){
            // return moment(data).format('L');
             return moment(data).format('L');
@@ -515,12 +573,29 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[5, 'desc']],
+      order: [[6, 'desc'],[5, 'desc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
-     
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+
+        api
+          .column(groupColumn, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');
+
+              last = group;
+            }
+          });
+      },
       language: {
         "decimal": "",
       "emptyTable": "No hay información",
@@ -559,59 +634,13 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
  $(function () {
   'use strict';
   cargaTablas()
-
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
   $('.cambia_status').on('click',async (e)=>{
     console.log(e['currentTarget']['dataset'])
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
-    const { value: estado } = await Swal.fire({
-      title: 'Seleccione un nuevo Status',
-      input: 'select',
-      inputOptions: {
-          Entregado: 'Entregado',
-          Cancelado: 'Cancelado',
-          'Por entregar': 'Por entregar',
-      },
-      inputPlaceholder: 'Seleccione un nuevo Status',
-      showCancelButton: true,
-      inputValidator: (value) => {
-        return new Promise((resolve) => {
-          if (value === status) {
-            resolve('Debe seleccionar un estado diferente')
-          } else {
-             resolve()
-          }
-        })
-      }
-    })
     
-    if (estado) {
-      console.log(estado)
-        
-      const data_C = new FormData();
-      data_C.append("id", id);
-      data_C.append("status", estado);
-      $.ajax({
-        url: `/cambiaS_pedido`,
-        type: 'POST',
-        data: data_C,
-        cache: false,
-        contentType: false,
-        processData: false,
-        success: function (data, textStatus, jqXHR) {
-  console.log(data)
-  $('#array_pedido').val(data.pedidos_let)
-  console.log($('#array_pedido').val())
-  $('.datatables-basic').DataTable().ajax.reload();
-        },
-        error: function (jqXHR, textStatus) {
-          console.log('error:' + jqXHR)
-        }
-      });
-  
-  
-  // window.location.href = `/cambiaS_pedido/${id}/${estado}`;
-    }
   })
 
 
@@ -864,56 +893,91 @@ function filterColumn2(i, val) {
   }
 }
 // Filter column wise function
-async function cambioSP(id, status) {
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Entregado: 'Entregado',
-        Cancelado: 'Cancelado',
-        'Por entregar': 'Por entregar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
-    showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
-        }
-      })
-    }
-  })
-  
-  if (estado) {
-    console.log(estado)
-      
-    const data_C = new FormData();
-    data_C.append("id", id);
-    data_C.append("status", estado);
-    $.ajax({
-      url: `/cambiaS_pedido`,
-      type: 'POST',
-      data: data_C,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-console.log(data)
-$('#array_pedido').val(data.pedidos_let)
-console.log($('#array_pedido').val())
-$('.datatables-basic').DataTable().ajax.reload();
-      },
-      error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
+ async function cambioSP(id, status) {
+ const { value: estado } = await Swal.fire({
+  title: 'Seleccione un nuevo Status',
+  input: 'select',
+  inputOptions: {
+      Entregado: 'Entregado',
+      Cancelado: 'Cancelado',
+      'Por entregar': 'Por entregar',
+  },
+  inputPlaceholder: 'Seleccione un nuevo Status',
+  showCancelButton: true,
+  inputValidator: (value) => {
+    return new Promise((resolve) => {
+      if (value === status) {
+        resolve('Debe seleccionar un estado diferente')
+      } else {
+         resolve()
       }
-    });
+    })
+  }
+})
+
+if (estado) {
+  console.log(estado)   
+  const data_C = new FormData();
+  data_C.append("id", id);
+  data_C.append("status", estado);
+  $.ajax({
+    url: `/cambiaS_pedido`,
+    type: 'POST',
+    data: data_C,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#array_pedido').val(JSON.stringify(data.pedidos_let))
+console.log($('#array_pedido').val())
+
+$('.datatables-basic').dataTable().fnDestroy();
+// $('.datatables-basic').empty();
+$('.datatables-basic').html(` <thead>
+<tr>
+ <th>Nº Pedido</th>
+ <th>Cliente</th>
+ <th>Total garrafones</th>
+ <th>Monto Total</th>
+ <th>Status del Pedido</th>
+ <th>Status de Pago</th>
+ <th>Fecha</th>
+ <th>Opciones</th>
+
+
+<th>oculto choferes </th> 
+</tr>
+</thead>`);
+$('.datatables-basic2').dataTable().fnDestroy();
+// $('.datatables-basic2').empty();
+$('.datatables-basic2').html(` <thead>
+<tr>
+ <th>Nº Pedido</th>
+ <th>Cliente</th>
+ <th>Total garrafones</th>
+ <th>Monto Total</th>
+ <th>Status del Pedido</th>
+ <th>Status de Pago</th>
+ <th>Fecha</th>
+ <th>Opciones</th>
+
+
+<th>oculto choferes </th> 
+</tr>
+</thead>`);
+
+cargaTablas('si')
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
 
 
 // window.location.href = `/cambiaS_pedido/${id}/${estado}`;
-  }
 }
+ }
 
 async function cambioPago(id, status) {
   const { value: estado } = await Swal.fire({
@@ -937,6 +1001,66 @@ async function cambioPago(id, status) {
   })
   
   if (estado) {
-    window.location.href = `/cambia_S_pago/${id}/${estado}`;
+    //window.location.href = `/cambia_S_pago/${id}/${estado}`;
+    console.log(estado)   
+    const data_C = new FormData();
+    data_C.append("id", id);
+    data_C.append("status", estado);
+    $.ajax({
+      url: `/cambia_S_pago`,
+      type: 'POST',
+      data: data_C,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (data, textStatus, jqXHR) {
+  console.log(data)
+  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+  console.log($('#array_pedido').val())
+  
+  $('.datatables-basic').dataTable().fnDestroy();
+  // $('.datatables-basic').empty();
+  $('.datatables-basic').html(` <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Total garrafones</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
+                                            </tr>
+                                        </thead>`);
+  $('.datatables-basic2').dataTable().fnDestroy();
+  // $('.datatables-basic2').empty();
+  $('.datatables-basic2').html(` <thead>
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Total garrafones</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
+                                            </tr>
+                                        </thead>`);
+  
+  cargaTablas('si')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  
   }
 }

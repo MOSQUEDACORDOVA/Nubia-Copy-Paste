@@ -491,7 +491,7 @@ console.log(hoy)
         .then((data) => {
           Last_p.update({ status_pago: status, deuda_anterior:0},{where:{pedidoId:id_pedido}})
           let data_set = JSON.stringify(data);
-                       resolve("Se actualizó correctamente el status del pago");
+                       resolve(data_set);
             
           //console.log(planes);
         })
@@ -607,6 +607,27 @@ console.log(hoy)
   PedidoById(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
+        id: id
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidoById2(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findOne({where: {
         id: id
       },include:[
         {association:Pedidos.Usuarios },

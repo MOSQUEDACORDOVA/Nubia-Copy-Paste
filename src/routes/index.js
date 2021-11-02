@@ -100,6 +100,7 @@ router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,da
 router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
+router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
 
 
