@@ -101,11 +101,11 @@
                     {{!-- <a class="dropdown-item" href="/profile/PYT-21">
                         <i class="me-50" data-feather="user"></i> 
                         Perfil
-                    </a> --}}
+                    </a> 
                     <a class="dropdown-item" href="/config24/PYT-24">
                         <i class="me-50" data-feather="settings"></i>
                         Configuración
-                    </a>
+                    </a>--}}
                     <a class="dropdown-item" href="/logout/PYT-24">
                         <i class="me-50" data-feather="power"></i> 
                         Cerrar sesión
@@ -156,7 +156,21 @@
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
                 </a>
+            </li> 
+            <li class="{{#if ret}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/retreats24/PYT-24">
+                    <i data-feather='check'></i>
+                    <span class="menu-title text-truncate">Retiros</span>
+                </a>
             </li>
+            {{#if roleSeller}}
+            <li class="{{#if sell}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/seller24/PYT-24">
+                    <i data-feather='users'></i>
+                    <span class="menu-title text-truncate">Referidos</span>
+                </a>
+            </li>
+            {{/if}}
             <br><br>
         {{else}}
 
@@ -188,16 +202,16 @@
                 </a>
             </li>--->
 
-            {{#if roleSeller}}
+            <!--{{#if roleSeller}}
             <li class="{{#if sell}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/seller24/PYT-24">
-                    <i data-feather='user-plus'></i>
+                    <i data-feather='users'></i>
                     <span class="menu-title text-truncate">Referidos</span>
                 </a>
             </li>
             {{/if}}
 
-            <!--<li class=" nav-item">
+            <li class=" nav-item">
                 <a class="d-flex align-items-center" href="/web/PYT-24" target="_blank">
                     <i data-feather='layout'></i>
                     <span class="menu-title text-truncate">Sitio Web</span>
@@ -205,7 +219,7 @@
             </li>-->
 
             {{/if}}
-
+            
             {{#if roleAdmin}}
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
@@ -234,19 +248,20 @@
                     <span class="menu-title text-truncate">Depositos</span>
                 </a>
             </li>
-            <!--<li class="{{#if paym}}active{{/if}} nav-item">
+            <li class="{{#if paym}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/paym/PYT-24">
                     <i data-feather='dollar-sign'></i>
                     <span class="menu-title text-truncate">Gestión de Pagos</span>
                 </a>
-            </li>--->
+            </li>
             <li class="{{#if pay}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/paymethods24/PYT-24">
                     <i data-feather='star'></i>
                     <span class="menu-title text-truncate">Formas de Pago</span>
                 </a>
             </li>
-            <!--<li class="{{#if users}}active{{/if}} nav-item">
+           
+            <li class="{{#if users}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/users24/PYT-24">
                     <i data-feather='users'></i>
                     <span class="menu-title text-truncate">Usuarios</span>
@@ -257,7 +272,7 @@
                     <i data-feather='user-plus'></i>
                     <span class="menu-title text-truncate">Vendedores</span>
                 </a>
-            </li>-->
+            </li>
             {{/if}}
         {{/if}}
         </ul>

@@ -1,7 +1,9 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
-// PAQUETES
-const MetodosPago = db24.define('metodos_pago', {
+const Usuarios = require('../../models/PYT24/Usuarios');
+const Depositos = require('../../models/PYT24/Depositos');
+// METODOS DE RETIRO USUARIOS
+const MetodosRetiros = db24.define('metodos_retiros', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -41,7 +43,7 @@ const MetodosPago = db24.define('metodos_pago', {
         allowNull: true,
     },
     code_wallet: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(255),
         allowNull: true,
     },
     digital_wallet_email: {
@@ -53,11 +55,7 @@ const MetodosPago = db24.define('metodos_pago', {
 			},
         }
     },
-    status: {
-        type: DataTypes.STRING(50),
-        allowNull: false,
-        defaultValue: 'Habilitado'
-    }
 });
 
-module.exports = MetodosPago;
+MetodosRetiros.Usuarios = MetodosRetiros.belongsTo(Usuarios);
+module.exports = MetodosRetiros;

@@ -6,7 +6,11 @@ const TH = require("../../models/PYT24/th");
 const Maquinas = require("../../models/PYT24/Maquinasth");
 const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
+const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
+const MetodosRetiros = require("../../models/PYT24/Retreats");
+const Referidos = require("../../models/PYT24/Referidos");
+const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
 
 module.exports = {
     //USUARIO
@@ -21,6 +25,135 @@ module.exports = {
               reject(err)
           });
         });
+    },
+    // CONVERITR USUARIO A VENDEDOR
+    UserToSeller(id, refcode) {
+        return new Promise((resolve, reject) => {
+          Usuarios.update({
+            type_user: 'Vendedor',
+            refer_code: refcode
+          }, { where: {
+            id: id
+          }})
+            .then((data) => {
+              let data_s = JSON.stringify(data);
+              console.log(data_s)
+              resolve('Permisos de vendedor añadidos a usuario satisfactoriamente');
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        });
+    },
+    // CONVERITR VENDEDOR A USUARIO
+    SellerToUser(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          type_user: 'Inversionista',
+          refer_code: null
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Permisos de vendedor removidos a usuario satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // SOLICITAR VERIFICACION DE CUENTA
+    SolicitVerify(id, dni1, dni2) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          front_img_dni: dni1,
+          back_img_dni: dni2,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Datos de verificación agregados satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // VEERIFICAR CUENTA DE USUARIO
+    VerifyUser(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          account_verified: 'Verificado'
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Cuenta de usuario verificada satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CLIENTES VERIFICADOS
+    GetAllVerifiedUsers() {
+      return new Promise((resolve, reject) => {   
+        Usuarios.findAll({ where: {
+          account_verified: {
+            [Op.eq]: 'Verificado',
+          },
+          type_user: {
+            [Op.ne]: 'Administrador',
+          },
+        },
+        include:[
+          {association:Usuarios.Depositos},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("USUARIOS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // OBTENER CLIENTES NO VERIFICADOS
+    GetAllUnVerifiedUsers() {
+      return new Promise((resolve, reject) => {   
+        Usuarios.findAll({ where: {
+          account_verified: {
+            [Op.eq]: 'No verificado',
+          },
+          type_user: {
+            [Op.ne]: 'Administrador',
+          },
+        },
+        include:[
+          {association:Usuarios.Depositos},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("USUARIOS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
     },
     // CREAR METODO DE PAGO TRANSFERENCIA BANCARIA
     AddBank(fullname, dni, bank_name, type_account, num_account) {
@@ -97,9 +230,6 @@ module.exports = {
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log("TRANSFERENCIASSSSS")
-            console.log(data)
-            console.log("TRANSFERENCIASSSSS")
             resolve(data_p);
           })
           .catch((err) => {
@@ -115,9 +245,6 @@ module.exports = {
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log("TRANSFERENCIASSSSS")
-            console.log(data)
-            console.log("TRANSFERENCIASSSSS")
             resolve(data_p);
           })
           .catch((err) => {
@@ -179,7 +306,6 @@ module.exports = {
     GetBTCAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
-          status: 'Habilitado',
           transaction_type: 'BTC'
         }})
           .then((data) => {
@@ -213,7 +339,6 @@ module.exports = {
     GetDigWalletAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
-          status: 'Habilitado',
           transaction_type: 'Billetera Digital'
         }})
           .then((data) => {
@@ -379,17 +504,17 @@ module.exports = {
           Depositos.create({ transaction_type: ttype, name: name, dni: dni, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference, paqueteId: id_pack, metodosPagoId: id_method, usuarioId: id_user })
             .then((data) => {
                 let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
+                resolve(data_set);
             })
             .catch((err) => {
                 reject(err);
             });
         });
     },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES
-    GetAllPendingDeposits(){
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES TRANSFERENCIAS
+    GetAllPendingDepositsTransf(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: 'No verificado'},
+        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -406,10 +531,10 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS
-    GetAllCompleteDeposits(){
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES PAGO MOVIL
+    GetAllPendingDepositsPaym(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: 'Aprobado'},
+        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -426,10 +551,270 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS DE USUARIOS
-    GetDeposits(id){
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
+    GetAllPendingDepositsBTC(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{usuarioId: id},
+        Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BILLETERA DIGITAL
+    GetAllPendingDepositsWallet(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS TRANSFERENCIAS
+    GetAllCompleteDepositsTransf(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS PAGO MOVIL
+    GetAllCompleteDepositsPaym(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC
+    GetAllCompleteDepositsBTC(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BILLETERA DIGITAL
+    GetAllCompleteDepositsWallet(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
+    GetDepositsTransf(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL
+    GetDepositsPaym(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BTC
+    GetDepositsBTC(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
+    GetDepositsWallet(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS TRANSFERENCIAS ADMIN
+    GetDepositsTransfAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL ADMIN
+    GetDepositsPaymAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Pago Movil'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BTC ADMIN
+    GetDepositsBTCAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'BTC'},
+          include:[
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL ADMIN
+    GetDepositsWalletAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{transaction_type: 'Billetera Digital'},
           include:[
           {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
@@ -460,6 +845,328 @@ module.exports = {
             let data_s = JSON.stringify(data)[0];
             console.log(data_s)
             resolve('DEPOSITO APROBADO !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO TRANSFERENCIA BANCARIA
+    AddRetreatsBank(fullname, dni, bank_name, type_account, num_account, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Transferencia Bancaria', full_name: fullname, dni: dni, bank_name: bank_name, type_account: type_account, num_account: num_account, usuarioId: uId})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (trasnferencia Bancaria) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, PAGO MOVIL
+    AddRetreatsPaym(fullname, dni, bank_name, phone, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Pago Movil', full_name: fullname, dni: dni, bank_name: bank_name, phone: phone, usuarioId: uId})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Nuevo metodo de retiro (Pago Movil) registrado con éxito');
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // CREAR METODO DE RETIRO, RETIRO EN BTC
+    AddRetreatsBTC(code_wallet, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'BTC', code_wallet: code_wallet, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (RETIRO EN BTC) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, BILLETERA DIGITAL
+    AddRetreatsDigitalWallet(email, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'Billetera Digital', digital_wallet_email: email, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (BILLETERA DIGITAL) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ELIMINAR METODOS DE RETIRO
+    DeleteMRetreats(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve('data_p');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE RETIRO TRASNFERENCIAS
+    UpdateRetreatsTransf(id, name, dni, bank_name, type_account, num_account){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          type_account: type_account,
+          num_account: num_account,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE RETIRO PAGO MOVIL
+    UpdateRetreatsPaym(id, name, dni, bank_name, phone,){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          full_name: name,
+          dni: dni,
+          bank_name: bank_name,
+          phone: phone,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE RETIRO BTC
+    UpdateRetreatsBTC(id, code_wallet){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          code_wallet: code_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR METODOS DE RETIRO BILLETERA
+    UpdateRetreatsDWallet(id, email_wallet){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.update({
+          digital_wallet_email: email_wallet
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('Metodo actualizado');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS TRANSFERENCIAS
+    GetMRetreatsTransf(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS PAGO MOVIL
+    GetMRetreatsPaym(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BTC
+    GetMRetreatsBTC(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BILLETERA DIGITAL
+    GetMRetreatsWallet(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR PAGO (RETIRO) PARA USUARIO ADMIN
+    CreatePaymenthsUser(id, price, paqid, depid) {
+      return new Promise((resolve, reject) => {
+        Pays.create({ amount: price, usuarioId: id, paqueteId: paqid, depositoId: depid })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      });
+    },
+    // OBTENER RETIROS COMPLETADOS DE USUARIOS
+    GetPaymenthsUser(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: {
+          [Op.ne]: 'Pendiente'
+        }, usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER RETIROS SOLICITADOS DE USUARIOS
+    GetPendingPaymenthsUser(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Pendiente', usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos, where: {
+            status: 'Terminado'
+          }},
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
+    GetPendingPaymenthsAdmin(id) {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Solicitado', usuarioId: id, },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR PRECIO TH
+    SolicitPay(id) {
+      return new Promise((resolve, reject) => {
+        Pays.update(
+          {
+            status: 'Solicitado'
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Pago solicitado con éxito');
           })
           .catch((err) => {
             reject(err)

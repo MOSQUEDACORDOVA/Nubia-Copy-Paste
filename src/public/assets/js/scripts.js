@@ -44,8 +44,7 @@ $(document).ready(function () {
           $("#progressBar1").removeClass("progress-bar-success");
           $("#progressBar1").addClass("progress-bar-danger");
       }
-  });
-
+    });
   };
 
   const img1 = document.getElementById("img1");
@@ -63,6 +62,26 @@ $(document).ready(function () {
 
       const reader = new FileReader();
      // reader.addEventListener("load", displayFileInfo);
+      reader.readAsDataURL(file);
+      console.log(file);
+      subirImagen(event);
+  });
+
+  const img2 = document.getElementById("img2");
+  img2.addEventListener("change", (event) => {
+      const file = img2.files[0];
+
+      if (
+        file.type !== "image/jpeg" &&
+        file.type !== "image/png" &&
+        file.type !== "image/jpg"
+      ) {
+        alert("Elige un archivo válido (.png, .jpg, .jpeg)");
+        return;
+      }
+
+      const reader = new FileReader();
+      // reader.addEventListener("load", displayFileInfo);
       reader.readAsDataURL(file);
       console.log(file);
       subirImagen(event);

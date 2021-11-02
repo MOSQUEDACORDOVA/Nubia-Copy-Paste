@@ -1,3 +1,5 @@
+const express = require('express')
+const app = express()
 const router = require('express').Router();
 const userController = require('../controllers/userController');
 const authController = require('../controllers/authController');
@@ -177,9 +179,10 @@ router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControlle
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
 router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
-router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin,  dashboardControllerPY24.depositsadmin);
+router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
-
+// MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
+router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
 router.get('/seller24/:id', authControllerPY24.authenticatedAdminOrSeller, dashboardControllerPY24.seller);
 router.get('/users24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.users);
@@ -211,6 +214,13 @@ router.post('/updateearnings', authControllerPY24.authenticatedAdmin, dashboardC
 // ACTUALIZAR MINIMO DE RETIRO
 router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateminwithd);
 
+// VERIFICAR USUARIO
+router.post('/verifyuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.verifyuser);
+// CONVERTIR INVERSIONISTA EN VENDEDOR
+router.post('/usertoseller', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.usertoseller);
+// CONVERTIR VENDEDOR EN USUARIO
+router.post('/sellertouser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.sellertouser);
+
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
 // CREAR PAQUETES PERSONALIZADOS
@@ -220,6 +230,8 @@ router.post('/updatepackages', authControllerPY24.authenticatedAdmin, dashboardC
 // ELIMINAR PAQUETES
 router.post('/deletepackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepackages);
 
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/solicitverify', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitverify);
 // METODOS DE PAGO, TRANSFERENCIA BANCARIA
 router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbank);
 // METODOS DE PAGO, PAGO MOVIL
@@ -230,14 +242,28 @@ router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControlle
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 // HABILITAR / DESHABILITAR METODOS DE PAGO
 router.post('/updatestatuspaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatestatuspaymethod);
-// ACTUALIZAR METODOS DE PAGO TRANSFERENCIAS
+// ACTUALIZAR METODOS DE PAGO
 router.post('/updatepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updatepaymethod);
 // ELIMINAR METODOS DE PAGO
 router.post('/deletepaymethod', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletepaymethod);
 
+// ELIMINAR METODOS DE RETIRO
+router.post('/deletemretreats', authControllerPY24.authenticatedUser, dashboardControllerPY24.deletemretreats);
+// ACTUALIZAR METODOS DE RETIROS
+router.post('/updatemretreats', authControllerPY24.authenticatedUser, dashboardControllerPY24.updatemretreats);
+// METODOS DE PAGO, TRANSFERENCIA BANCARIA
+router.post('/addretreatsbank', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbank);
+// METODOS DE PAGO, PAGO MOVIL
+router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatspaym);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
+// METODOS DE PAGO, BILLETERA DIGITAL
+router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
+// APROBAR
+router.post('/solicitpay', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitpay);
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);
@@ -249,6 +275,10 @@ router.post('/upload', fileController.subirArchivo);
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 // 404
+router.use((req, res, next) => {
+    res.status(404).redirect('/error24/PYT-24')
+})
+
 
 
 //PYT-27

@@ -44,15 +44,37 @@ const Usuarios = db24.define('usuarios', {
         type: DataTypes.STRING(15),
         allowNull: false,
     },
-	available_balance: {
-		type: DataTypes.INTEGER,
+	avalible_balance: {
+		type: DataTypes.INTEGER(255),
         allowNull: true,
 		defaultValue: 0
 	},
 	earnings: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.INTEGER(255),
 		allowNull: true,
 		defaultValue: 0
+	},
+	front_img_dni: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	back_img_dni: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	account_verified: {
+		type: DataTypes.STRING(50),
+		allowNull: false,
+		defaultValue: 'No verificado'
+	},
+	refer_code: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	status: {
+		type: DataTypes.STRING(50),
+		allowNull: false,
+		defaultValue: 'activo'
 	}
 }, {
 	hooks: {
@@ -66,5 +88,6 @@ const Usuarios = db24.define('usuarios', {
 Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
+
 Usuarios.Depositos = Usuarios.hasMany(Depositos);
 module.exports = Usuarios;

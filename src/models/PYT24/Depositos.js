@@ -37,7 +37,7 @@ const Depositos = db24.define('depositos', {
 		allowNull: true,
 	},
 	num_account: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.STRING(255),
 		allowNull: true,
 		defaultValue: 0
 	},

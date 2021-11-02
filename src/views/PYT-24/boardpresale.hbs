@@ -1,8 +1,46 @@
+<style>
+    #loading3 {
+		border-radius: 100%;
+		visibility: hidden;
+        display: none;
+	}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div id="loading3" style="width: 200px;border-radius: 10px;">
+    <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;'>0%
+    </div>
+</div>
+
 <div class="app-content content">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <section id="pricing-plan">
-                
+                {{#if unverify}}
+                <div class="alert alert-warning" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta no verificada! Para poder disfrutar de todos nuestros servicios debes <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#verificar">verificar tu cuenta</a>.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if pendingverify}}
+                <div class="alert alert-info" role="alert">
+                    <div class="alert-body">
+                        ¡Su verificación se ah enviado a revisión correctamente, este proceso puede demorar un poco, por favor mantente atento!.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if verify}}
+                <div class="alert alert-success" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta Verificada!
+                    </div>
+                </div>
+                {{/if}}
+
                 <div class="row">
                     <div class="col-12">
                         <div class="alert alert-primary" role="alert">
@@ -27,6 +65,37 @@
                     </div>
                 </section>
             </section>
+
+            <!--- MODAL --->
+            <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Verificación de cuenta</h1>
+                            <p class="text-center">Ingrese una foto de su documento de identidad, legible, con ambas caras. Los datos suministrados deben coincidir con los datos de identificación registrados.</p>
+                            <form action="/solicitverify" method="POST" class="card-body">
+                                <p class="card-text mb-0">Parte frontal</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                     
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                <p class="card-text mb-0">Parte posterior</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                     
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                
+                                <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
         </div>
     </div>
 </div>
