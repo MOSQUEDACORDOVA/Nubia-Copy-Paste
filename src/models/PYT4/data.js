@@ -11,6 +11,7 @@ const CoP = require("../../models/PYT4/CP");
 const Sucursales = require("../../models/PYT4/Sucursales");
 const Carga_init = require("../../models/PYT4/Carga_init");
 const Last_p = require("../../models/PYT4/Last_pedido");
+const Etiquetas = require("../../models/PYT4/Etiquetas");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -218,7 +219,26 @@ module.exports = {
         });
     });
   },
-
+  update_cliente_tag(id,color) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          etiquetaId:color},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   ClientesAll(){
     return new Promise((resolve, reject) => {
       Clientes.findAll({include:[
@@ -243,6 +263,7 @@ module.exports = {
       Clientes.findAll({where:{sucursaleId:id},
         include:[
         {association:Clientes.CoP },
+        {association:Clientes.Etiquetas },
       ],order: [
         // Will escape title and validate DESC against a list of valid direction parameters
         ["updatedAt", "DESC"],
@@ -470,7 +491,7 @@ console.log(hoy)
         .then((data) => {
           Last_p.update({ status_pago: status, deuda_anterior:0},{where:{pedidoId:id_pedido}})
           let data_set = JSON.stringify(data);
-                       resolve("Se actualizó correctamente el status del pago");
+                       resolve(data_set);
             
           //console.log(planes);
         })
@@ -567,8 +588,9 @@ console.log(hoy)
       Pedidos.findAll({where:{sucursaleId:id},
         include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       },)
         .then((data) => {
@@ -585,6 +607,27 @@ console.log(hoy)
   PedidoById(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
+        id: id
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidoById2(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findOne({where: {
         id: id
       },include:[
         {association:Pedidos.Usuarios },
@@ -1171,4 +1214,65 @@ PersonalAllS(id){
           });
       });
     },
+
+        //Etiquetas
+        Etiquetas(id){
+          return new Promise((resolve, reject) => {
+            Etiquetas.findAll({where:{sucursaleId:id}})
+              .then((data) => {
+                let data_p = JSON.stringify(data);
+                //console.log(data)
+                resolve(data_p);
+                ////console.log(id_usuario);
+              })
+              .catch((err) => {
+                reject(err)
+              });
+          });
+        },
+        EtiquetasAll(){
+          return new Promise((resolve, reject) => {
+            Etiquetas.findAll()
+              .then((data) => {
+                let data_p = JSON.stringify(data);
+                //console.log(data)
+                resolve(data_p);
+                ////console.log(id_usuario);
+              })
+              .catch((err) => {
+                reject(err)
+              });
+          });
+        },
+        Etiquetas_save(nombre,  color,id_sucursal) {
+          return new Promise((resolve, reject) => {
+            Etiquetas.create(
+              {etiquetas: nombre, color: color, sucursaleId:id_sucursal})
+              .then((data) => {
+                let data_set = JSON.stringify(data);
+                resolve(data_set);
+                //console.log(planes);
+              })
+              .catch((err) => {
+                reject(err)
+              });
+          });
+        },
+        delete_etiqueta(id){
+          return new Promise((resolve, reject) => {
+            Etiquetas.destroy({where:{
+              id: id
+            }
+            },)
+              .then((data) => {
+                let data_p = JSON.stringify(data);
+                //console.log(data)
+                resolve('data_p');
+                ////console.log(id_usuario);
+              })
+              .catch((err) => {
+                reject(err)
+              });
+          });
+        },
 };
