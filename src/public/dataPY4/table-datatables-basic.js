@@ -54,8 +54,8 @@ function cargaTabla(rechar) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
+              feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' 
             );
           }  },
