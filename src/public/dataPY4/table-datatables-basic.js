@@ -101,7 +101,7 @@ function cargaTabla(rechar) {
               $output +
               '</div>' +
               '<div class="d-flex flex-column">' +
-              '<span class="emp_name text-truncate fw-bold rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
+              '<span class="emp_name text-truncate fw-bold badge rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
               $name +
               '</span>' +
               '<small class="emp_post text-truncate text-muted">' +

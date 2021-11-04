@@ -70,13 +70,12 @@
                     <div class="row match-height">                     
                         <div class="col-lg-6 col-12">
                             <div class="card">
-                                <div class="card-header d-flex justify-content-between align-items-sm-center align-items-start flex-sm-row flex-column">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <div class="header-left">
                                         <h4 class="card-title">Ganancias diarias</h4>
                                     </div>
-                                    <div class="header-right d-flex align-items-center mt-sm-0 mt-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
-                                        <input type="text" class="form-control flat-picker border-0 shadow-none bg-transparent pe-0 flatpickr-input" placeholder="2019-5-1 a 2019-5-10" readonly="readonly">
+                                    <div class="header-right">
+                                        <a href="#" role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser">Calcular Ganancias</a>
                                     </div>
                                 </div>
                                 <div class="card-body">
@@ -105,7 +104,6 @@
                                                     <p class="card-text font-small-3 mb-0">Saldo disponible</p>
                                                 </div>
                                             </div>
-                                        
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +183,7 @@
                                 <!--/ REFERIDOS -->
 
                                 <!-- HISTORICO -->
-                                <div class="col-lg-12 col-md-6 col-12 collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-lg-12 col-md-8 col-12 collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="card card-statistics">
                                         <div class="card-body statistics-body">
                                             <div class="d-flex align-items-start">
@@ -209,6 +207,7 @@
                     </div>
                 </section>
 
+                <!--- TABLA HISTORICO --->
                 <section class="collapse" id="collapseExample">
                     <div class="row">
                         <div class="col-12">
@@ -313,6 +312,121 @@
                 </div>
             </div>
             <!--- END MODAL --->
+
+            <!--- MODAL --->
+            <div class="modal fade" id="editUser" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-5 px-sm-5 pt-50">
+                            <div class="text-center mb-2">
+                                <h1 class="mb-1">Calculadora de Minería Bitcoin</h1>
+                                <p>¿Se pregunta cuándo dará sus frutos? Si ingresa su tasa de hash a continuación, aqui vera sus ganancias esperadas tanto en Bitcoins como en dólares durante varios períodos de tiempo.</p>
+                            </div>
+                            <form id="editUserForm" class="row gy-1 pt-75">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalEditUserFirstName">Factor de Dificultad	</label>
+                                    <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="" value="2.16593448333e+13" readonly required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalEditUserLastName">Tasa de Hash</label>
+                                    <input type="number" id="hash" class="form-control" placeholder="" value="0" min="0">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label mb-1" for="modalEditUserName">Esta Dificultad</label>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Datos</p>
+                                            <input type="text" class="form-control mb-1" value="Por Día" readonly>
+                                            <input type="text" class="form-control mb-1" value="Por Semana" readonly>
+                                            <input type="text" class="form-control" value="Por Mes" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Moneda</p>
+                                            <input type="number" class="form-control mb-1" id="dayCoin" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekCoin" value="" readonly>
+                                            <input type="number" class="form-control" id="monthCoin" value="" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Dólares</p>
+                                            <input type="number" class="form-control mb-1" id="dayDollars" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekDollars" value="" readonly>
+                                            <input type="number" class="form-control" id="monthDollars" value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12">
+                                    <label class="form-label mb-1" for="modalEditUserName">Siguiente Dificultad (Estimado)</label>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Datos</p>
+                                            <input type="text" class="form-control mb-1" value="Por Día" readonly>
+                                            <input type="text" class="form-control mb-1" value="Por Semana" readonly>
+                                            <input type="text" class="form-control" value="Por Mes" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Moneda</p>
+                                            <input type="number" class="form-control mb-1" id="dayCoinNext" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekCoinNext" value="" readonly>
+                                            <input type="number" class="form-control" id="monthCoinNext" value="" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Dólares</p>
+                                            <input type="number" class="form-control mb-1" id="dayDollarsNext" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekDollarsNext" value="" readonly>
+                                            <input type="number" class="form-control" id="monthDollarsNext" value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center mt-2 pt-50">
+                                    <button class="btn btn-primary me-1 waves-effect waves-float waves-light" id="calcular">Calcular</button>
+                                    <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cerrar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>      
+<script>
+    const day = document.getElementById('dayCoin'),
+    week = document.getElementById('weekCoin'),
+    month = document.getElementById('monthCoin'),
+    dayDollars = document.getElementById('dayDollars'),
+    weekDollars = document.getElementById('weekDollars'),
+    monthDollars = document.getElementById('monthDollars'),
+    dayNext = document.getElementById('dayCoinNext'),
+    weekNext = document.getElementById('weekCoinNext'),
+    monthNext = document.getElementById('monthCoinNext'),
+    dayNextDollars = document.getElementById('dayDollarsNext'),
+    weekNextDollars = document.getElementById('weekDollarsNext'),
+    monthNextDollars = document.getElementById('monthDollarsNext'),
+    form = document.getElementById('editUserForm'),
+    calcularBtn = document.getElementById('calcular');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    });
+
+    calcularBtn.addEventListener('click', () => {
+        let hash = document.getElementById('hash').value,
+        url = `https://alloscomp.com/bitcoin/calculator/json?hashrate=${hash}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data));
+    });
+
+
+</script>

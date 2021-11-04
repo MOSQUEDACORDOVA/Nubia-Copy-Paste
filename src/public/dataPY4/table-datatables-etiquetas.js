@@ -38,9 +38,6 @@ function cargaTablaEtiquetas(rechar) {
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
             );
           }  },

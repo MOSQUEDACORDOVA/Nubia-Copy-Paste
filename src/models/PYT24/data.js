@@ -671,7 +671,7 @@ module.exports = {
           });
       });
     },
-    /// OBTENER CAPITAL INVERTIDO DE TODOS LOS DEPOSITOS
+    // OBTENER CAPITAL INVERTIDO DE TODOS LOS DEPOSITOS
     GetAllDepositsBoardUser(id) {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {status: {
@@ -690,6 +690,27 @@ module.exports = {
     GetAllDepositsUser(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{usuarioId: id},
+          include:[
+            {association:Depositos.Paquetes },
+          ],order: [
+            ["id", "DESC"],
+          ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    GetAllDepositsAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{status: {
+          [Op.ne]: 'No verificado'
+        }},
           include:[
             {association:Depositos.Paquetes },
           ],order: [

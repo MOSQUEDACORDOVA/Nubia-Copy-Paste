@@ -75,18 +75,15 @@ exports.dashboard = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin;
-  let roleClient;
-  let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
+  let roleAdmin = true;
+
+  let idUser = res.locals.user.id
+  // SALDO DISPONIBLE
+  let avalibleBalance = res.locals.user.avalible_balance
+
+    DataBase.GetAllDepositsAdmin().then((resp) => {
+      let depositos = JSON.parse(resp);
+      console.log(depositos)
 
     res.render(proyecto+"/board", {
       pageName: "Dashboard",
@@ -97,9 +94,14 @@ exports.dashboard = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      roleClient,
-      roleSeller
-    })
+      depositos,
+      avalibleBalance,
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.login = (req, res) => {
