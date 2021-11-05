@@ -145,10 +145,9 @@ corte2.forEach( x => {
   if( !Newcorte2.hasOwnProperty(x.data.clienteId)){
     Newcorte2[x.data.clienteId] =[]
   }
-    Newcorte2[x.data.clienteId].push({data:x, tipo: x.data.cliente.tipo})  
+    Newcorte2[x.data.clienteId].push({data:x, tipo: x.data.cliente.tipo, nombre:x.data.cliente.firstName, apellido: x.data.cliente.lastName})  
 })
 let ArrayGral = Object.entries(Newcorte2);
-console.log(ArrayGral)
   // DataTable with buttons
   // --------------------------------------------------------------------
  
@@ -165,28 +164,31 @@ console.log(ArrayGral)
       });
     });
     var dt_Gral_t = dt_Gral.DataTable({
-      data: corte2,
+      data: ArrayGral,
      columns: [
-      { data: 'data.cliente.tipo'},
-        { data: 'data.cliente'},
-        { data: 'data'},
-      { data: 'data'},        
-        { data: 'data' },
-        { data: 'data' },
-        { data: 'data' },
-        { data: 'data'},
-        { data: 'data'},
-        { data: 'data'},
+      { data: '1.0.tipo',},
+        { data: '1'},
+        { data: '1'},
+      { data: '1'},        
+        { data: '1' },
+        { data: '1' },
+        { data: '1' },
+        { data: '1'},
+        { data: '1'},
+        { data: '1'},
       ], columnDefs: [
         {
           // Label
-          targets:0,visible: false
+          targets:0,visible: false, render: function (data, type, full, meta) {
+            console.log(data)            
+            return (full[0])
+          }
       },
       {
         // Label
         targets: 1,
         render: function (data, type, full, meta) {
-          console.log(data['firstName'])
+          console.log(data)
           let asentamiento = ""
           for (let i = 0; i < codigosP_arr.length; i++) {
             if (codigosP_arr[i]['id'] == data['cpId']) {
@@ -194,6 +196,8 @@ console.log(ArrayGral)
             }
             
           }
+
+
       var cliente_arr = encodeURIComponent(JSON.stringify(data));
       var color_tag ="", color_text=""
       if (data['etiqueta'] ==null) {
@@ -211,382 +215,7 @@ console.log(ArrayGral)
           );
         }
     },
-      {
-        // Label
-        targets:2,render: function (data, type, full, meta) {
-          console.log(data)
-          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
-          let Tbotella1LR=0, Tbotella5LR =0, Tgarrafon11LR=0, Tgarrafon19LR =0;       
-          let danados = 0, garrafones_prestamos=0;
-              botella1L = JSON.parse(data['botella1L'])
-              botella5L = JSON.parse(data['botella5L'])
-              garrafon11L = JSON.parse(data['garrafon11L'])
-              garrafon19L = JSON.parse(data['garrafon19L'])
-              console.log(botella1L)
-              if (Array.isArray(botella1L)) {
-                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
-                Tbotella1LR += countArray(parseInt(botella1L['refill_cant']));  
-            } else {
-              Tbotella1L += parseInt(botella1L['total_cant']);
-              Tbotella1LR += parseInt(botella1L['refill_cant']);
-            }
-  
-            if (Array.isArray(botella5L)) {
-              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
-               Tbotella5LR += countArray(parseInt(botella5L['refill_cant']));
-          } else {
-            Tbotella5L += parseInt(botella5L['total_cant']);
-             Tbotella5LR += parseInt(botella5L['refill_cant']);
-          }
-  
-          if (Array.isArray(garrafon11L)) {
-            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
-             Tgarrafon11LR += countArray(parseInt(garrafon11L['refill_cant']));
-        } else {
-          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
-           Tgarrafon11LR += parseInt(garrafon11L['refill_cant']);
-        }
-  
-              if (Array.isArray(garrafon19L)) {
-              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));              
-           Tgarrafon19LR += countArray(parseInt(garrafon19L['refill_cant']));
-          } else {
-            Tgarrafon19L += parseInt(garrafon19L['total_cant']);            
-           Tgarrafon19LR += parseInt(garrafon19L['refill_cant']);
-          }
-                if (Array.isArray(data['danados'])) {
-                danados += countArray(parseInt(data['danados']));
-            } else {
-                danados += parseInt(data['danados']);
-            }
-  
-            if (Array.isArray(data['garrafones_prestamos'])) {
-              garrafones_prestamos += countArray(parseInt(data['garrafones_prestamos']));
-          } else {
-              garrafones_prestamos += parseInt(data['garrafones_prestamos']);
-          }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
-          let totalRefill = parseInt(Tbotella1LR)+parseInt(Tbotella5LR)+parseInt(Tgarrafon11LR)+parseInt(Tgarrafon19LR)
-          return '<span >'+totalRefill+'</span>'}  
-    },  
-    {
-        // Label
-        targets:3,render: function (data, type, full, meta) {
-          console.log(data)
-          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
-          let Tbotella1LC=0, Tbotella5LC =0, Tgarrafon11LC=0, Tgarrafon19LC =0;     
-          let danados = 0, garrafones_prestamos=0;
-              botella1L = JSON.parse(data['botella1L'])
-              botella5L = JSON.parse(data['botella5L'])
-              garrafon11L = JSON.parse(data['garrafon11L'])
-              garrafon19L = JSON.parse(data['garrafon19L'])
-              console.log(botella1L)
-              if (Array.isArray(botella1L)) {
-                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
-                Tbotella1LC += countArray(parseInt(botella1L['canje_cant']));  
-            } else {
-              Tbotella1L += parseInt(botella1L['total_cant']);
-              Tbotella1LC += parseInt(botella1L['canje_cant']);
-            }
-  
-            if (Array.isArray(botella5L)) {
-              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
-               Tbotella5LC += countArray(parseInt(botella5L['canje_cant']));
-          } else {
-            Tbotella5L += parseInt(botella5L['total_cant']);
-             Tbotella5LC += parseInt(botella5L['canje_cant']);
-          }
-  
-          if (Array.isArray(garrafon11L)) {
-            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
-             Tgarrafon11LC += countArray(parseInt(garrafon11L['canje_cant']));
-        } else {
-          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
-           Tgarrafon11LC += parseInt(garrafon11L['canje_cant']);
-        }
-  
-              if (Array.isArray(garrafon19L)) {
-              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));              
-           Tgarrafon19LC += countArray(parseInt(garrafon19L['canje_cant']));
-          } else {
-            Tgarrafon19L += parseInt(garrafon19L['total_cant']);            
-           Tgarrafon19LC += parseInt(garrafon19L['canje_cant']);
-          }
-                if (Array.isArray(data['danados'])) {
-                danados += countArray(parseInt(data['danados']));
-            } else {
-                danados += parseInt(data['danados']);
-            }
-  
-            if (Array.isArray(data['garrafones_prestamos'])) {
-              garrafones_prestamos += countArray(parseInt(data['garrafones_prestamos']));
-          } else {
-              garrafones_prestamos += parseInt(data['garrafones_prestamos']);
-          }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)//+parseInt(garrafones_prestamos)
-          let totalcanje = parseInt(Tbotella1LC)+parseInt(Tbotella5LC)+parseInt(Tgarrafon11LC)+parseInt(Tgarrafon19LC)
-          return '<span >'+totalcanje+'</span>'}  
-    },
-    {
-      // Label
-      targets:4,render: function (data, type, full, meta) {
-        console.log(data)
-        let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-        let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0;
-        let Tbotella1LN=0, Tbotella5LN =0, Tgarrafon11LN=0, Tgarrafon19LN =0;    
-        let danados = 0, garrafones_prestamos=0;
-            botella1L = JSON.parse(data['botella1L'])
-            botella5L = JSON.parse(data['botella5L'])
-            garrafon11L = JSON.parse(data['garrafon11L'])
-            garrafon19L = JSON.parse(data['garrafon19L'])
-            console.log(botella1L)
-            if (Array.isArray(botella1L)) {
-              Tbotella1L += countArray(parseInt(botella1L['total_cant']));
-              Tbotella1LN += countArray(parseInt(botella1L['nuevo_cant']));  
-          } else {
-            Tbotella1L += parseInt(botella1L['total_cant']);
-            Tbotella1LN += parseInt(botella1L['nuevo_cant']);
-          }
-
-          if (Array.isArray(botella5L)) {
-            Tbotella5L += countArray(parseInt(botella5L['total_cant']));
-             Tbotella5LN += countArray(parseInt(botella5L['nuevo_cant']));
-        } else {
-          Tbotella5L += parseInt(botella5L['total_cant']);
-           Tbotella5LN += parseInt(botella5L['nuevo_cant']);
-        }
-
-        if (Array.isArray(garrafon11L)) {
-          Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
-           Tgarrafon11LN += countArray(parseInt(garrafon11L['nuevo_cant']));
-      } else {
-        Tgarrafon11L += parseInt(garrafon11L['total_cant']);
-         Tgarrafon11LN += parseInt(garrafon11L['nuevo_cant']);
-      }
-
-            if (Array.isArray(garrafon19L)) {
-            Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));              
-         Tgarrafon19LN += countArray(parseInt(garrafon19L['nuevo_cant']));
-        } else {
-          Tgarrafon19L += parseInt(garrafon19L['total_cant']);            
-         Tgarrafon19LN += parseInt(garrafon19L['nuevo_cant']);
-        }
-        let totalnuevo = parseInt(Tbotella1LN)+parseInt(Tbotella5LN)+parseInt(Tgarrafon11LN)+parseInt(Tgarrafon19LN)
-        return '<span >'+totalnuevo+'</span>'}  
-  },
-  {
-    // Label
-    targets:5,render: function (data, type, full, meta) {
-      console.log(data)  
-      let danados = 0, garrafones_prestamos=0;
-      if (Array.isArray(data['danados'])) {
-        danados += countArray(parseInt(data['danados']));
-    } else {
-        danados += parseInt(data['danados']);
-    }
-      return '<span >'+danados+'</span>'}  
-},
-{
-  // Label
-  targets:6,render: function (data, type, full, meta) {
-    console.log(data)  
-    let danados = 0, garrafones_prestamos=0;
-    if (Array.isArray(data['danados'])) {
-      danados += countArray(parseInt(data['danados']));
-  } else {
-      danados += parseInt(data['danados']);
-  }
-    return '<span >'+danados+'</span>'}  
-},
-{
-  // Label
-  targets:7,render: function (data, type, full, meta) {
-    console.log(data)  
-    let danados = 0, garrafones_prestamos=0;
-    if (Array.isArray(data['garrafones_prestamos'])) {
-      garrafones_prestamos += countArray(parseInt(data['garrafones_prestamos']));
-  } else {
-      garrafones_prestamos += parseInt(data['garrafones_prestamos']);
-  }
-    return '<span >'+garrafones_prestamos+'</span>'}  
-},
-        {
-          // Label
-          targets: 6,
-          render: function (data, type, full, meta) {
-            let marca="", modelo ="", matricula="", vehiculo ="";
-              for (let i = 0; i < full.length; i++) {
-                marca = full[i]['personal']['vehiculo']['marca']
-                modelo = full[i]['personal']['vehiculo']['modelo']
-                matricula = full[i]['personal']['vehiculo']['matricula']
-            }
-            vehiculo = marca +" "+ modelo+" "+ matricula
-            return vehiculo;
-          }
-      },
-      {
-        // Label
-        targets: 2,
-        render: function (data, type, full, meta) {
-          let botella1L="", botella5L ="", garrafon11L="", garrafon19L ="";
-          let Tbotella1L=0, Tbotella5L =0, Tgarrafon11L=0, Tgarrafon19L =0, danados=0,garrafones_prestamos=0;
-            for (let i = 0; i < full.length; i++) {
-              botella1L = JSON.parse(full[i]['botella1L'])
-              botella5L = JSON.parse(full[i]['botella5L'])
-              garrafon11L = JSON.parse(full[i]['garrafon11L'])
-              garrafon19L = JSON.parse(full[i]['garrafon19L'])
-              if (Array.isArray(botella1L)) {
-                Tbotella1L += countArray(parseInt(botella1L['total_cant']));
-            } else {
-              Tbotella1L += parseInt(botella1L['total_cant']);
-            }
-
-            if (Array.isArray(botella5L)) {
-              Tbotella5L += countArray(parseInt(botella5L['total_cant']));
-          } else {
-            Tbotella5L += parseInt(botella5L['total_cant']);
-          }
-
-          if (Array.isArray(garrafon11L)) {
-            Tgarrafon11L += countArray(parseInt(garrafon11L['total_cant']));
-        } else {
-          Tgarrafon11L += parseInt(garrafon11L['total_cant']);
-        }
-
-
-            if (Array.isArray(garrafon19L)) {
-              Tgarrafon19L += countArray(parseInt(garrafon19L['total_cant']));
-          } else {
-            Tgarrafon19L += parseInt(garrafon19L['total_cant']);
-          }
-
-          if (Array.isArray(full[i]['danados'])) {
-            danados += countArray(parseInt(full[i]['danados']));
-        } else {
-          danados += parseInt(full[i]['danados']);
-        }
-
-        if (Array.isArray(full[i]['garrafones_prestamos'])) {
-          garrafones_prestamos += countArray(parseInt(full[i]['garrafones_prestamos']));
-      } else {
-        garrafones_prestamos += parseInt(full[i]['garrafones_prestamos']);
-      }
-
-          }
-          let total_garrafones=parseInt(Tbotella1L)+parseInt(Tbotella5L)+parseInt(Tgarrafon11L)+parseInt(Tgarrafon19L)+parseInt(danados)+parseInt(garrafones_prestamos)
-          return total_garrafones;
-        }
-    },
-          {
-            // Label
-            targets: 7,
-            render: function (data, type, full, meta) {
-              var suma = 0, deuda =0
-                for (let i = 0; i < full.length; i++) {
-                  if (full[i]['metodo_pago'] == "Efectivo") {
-                    console.log(full[i]['deuda_anterior'])
-                    if (full[i]['deuda_anterior'] != "0") {
-                      if (Array.isArray(full[i]['deuda_anterior'])) {
-                        deuda += countArray(parseInt(full[i]['deuda_anterior']));
-                    } else {
-                        deuda += parseInt(full[i]['deuda_anterior']);
-                    }
-                    }
-                    if (Array.isArray(full[i]['monto_total'])) {
-                      suma += countArray(parseInt(full[i]['monto_total']));
-                  } else {
-                      suma += parseInt(full[i]['monto_total']);
-                  }
-
-                  }
-                  
-              }
-              let total = parseInt(suma) + parseInt(deuda)
-                  console.log(total)
-              return '$ '+ total;
-            }
-        },{
-          
-          // Label
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var suma = 0, deuda = 0
-              for (let i = 0; i < full.length; i++) {
-                if (full[i]['metodo_pago'] == "Transferencia") {
-                  console.log(full[i]['deuda_anterior'])
-                  if (full[i]['deuda_anterior'] != "0") {
-                    if (Array.isArray(full[i]['deuda_anterior'])) {
-                      deuda += countArray(parseInt(full[i]['deuda_anterior']));
-                  } else {
-                      deuda += parseInt(full[i]['deuda_anterior']);
-                  }
-                  }
-                  if (Array.isArray(full[i]['monto_total'])) {
-                    suma += countArray(parseInt(full[i]['monto_total']));
-                } else {
-                    suma += parseInt(full[i]['monto_total']);
-                }
-
-                }
-                
-            }
-            let total = parseInt(suma) + parseInt(deuda)
-                console.log(total)
-            return '$ '+ total;
-          }
-        },
-        {
-          
-          // Label
-          targets: 5,
-          render: function (data, type, full, meta) {
-            var suma = 0, deuda = 0
-              for (let i = 0; i < full.length; i++) {
-                if (full[i]['metodo_pago'] == "Tarjeta") {
-                  console.log(full[i]['deuda_anterior'])
-                  if (full[i]['deuda_anterior'] != "0") {
-                    if (Array.isArray(full[i]['deuda_anterior'])) {
-                      deuda += countArray(parseInt(full[i]['deuda_anterior']));
-                  } else {
-                      deuda += parseInt(full[i]['deuda_anterior']);
-                  }
-                  }
-                  if (Array.isArray(full[i]['monto_total'])) {
-                    suma += countArray(parseInt(full[i]['monto_total']));
-                } else {
-                    suma += parseInt(full[i]['monto_total']);
-                }
-
-                }
-                
-            }
-            let total = parseInt(suma) + parseInt(deuda)
-                console.log(total)
-            return '$ '+ total;
-          }
-        },
-        {
-          
-          // Label
-          targets: 6,
-          render: function (data, type, full, meta) {
-            var deuda_ant = 0
-              for (let i = 0; i < full.length; i++) {
-                  console.log(full[i]['deuda_anterior'])
-                  if (full[i]['deuda_anterior'] != "0") {
-                    if (Array.isArray(full[i]['deuda_anterior'])) {
-                      deuda_ant += countArray(parseInt(full[i]['deuda_anterior']));
-                  } else {
-                      deuda_ant += parseInt(full[i]['deuda_anterior']);
-                  }
-                  }
-                
-            }
-            return '$ '+ deuda_ant;
-          }
-        },
+     
       ],
       order: [[2, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -602,6 +231,7 @@ console.log(ArrayGral)
           .column(0, { page: 'current' })
           .data()
           .each(function (group, i) {
+            console.log(group)
             if (last !== group) {
               $(rows)
                 .eq(i)
