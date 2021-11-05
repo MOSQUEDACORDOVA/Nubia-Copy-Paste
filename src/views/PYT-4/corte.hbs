@@ -175,16 +175,38 @@ case 4:
                                         <div class="card-header p-1">
                                             <div class="head-label"><h6 class="mb-0">General</h6></div>
                                         </div>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">{{name}} {{lastName}}</button>
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card py4table collapse" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">General</h6></div>
+                                        </div>
                                         <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
                                             <thead>
                                                 <tr>
-                                                    <th>Nombre del Chofer</th>
-                                                    <th>Unidad</th>
-                                                    <th>Total Garrafones</th>
-                                                    <th>Total Efectivo</th>
-                                                    <th>Total transferencias</th>
-                                                    <th>Total pagos tarjetas</th>
-                                                    <th>Deuda Anterior</th>
+                                                    <th>Tipo oculto</th>
+                                                    <th>-</th>
+                                                    <th>Refil</th>
+                                                    <th>Canje</th>
+                                                    <th>Nuevo Envase</th>
+                                                    <th>Dañados</th>
+                                                    <th>Prestados</th>
+                                                    <th>Depositos</th>
+                                                    <th>Adeudo</th>
+                                                    <th>Subtotal</th>
                                                 </tr>
                                             </thead>
                                         </table>

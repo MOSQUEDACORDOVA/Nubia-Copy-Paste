@@ -955,6 +955,8 @@ exports.corte_table = (req, res) => {
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
+  DataBase.CodigosP().then((cp_)=>{
+    let cp_arr = JSON.parse(cp_)
   DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
@@ -987,7 +989,7 @@ exports.corte_table = (req, res) => {
                 carga_inicial = JSON.parse(await DataBase.carga_init_corte(id_sucursal,pedidos_let[i].personalId))
                 arr_carga.push(carga_inicial)
                 //
-                pedidos_byday.push(pedidos_let[i])
+                pedidos_byday.push({data:pedidos_let[i]})
 
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
@@ -1012,13 +1014,13 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-            console.log(pedidos_byday) 
-            console.log(arr_carga) 
+            console.log(pedidos_byday)
                pedidos_byday =JSON.stringify(pedidos_byday) 
                arr_carga = JSON.stringify(arr_carga)
                total_garrafones= parseInt(residencial_cont_garrafones) +parseInt(negocio_cont_garrafones) +parseInt(ptoventa_cont_garrafones)
                DataBase.Sucursales_ALl().then((sucursales_)=>{
-                let sucursales_let = JSON.parse(sucursales_)         
+                let sucursales_let = JSON.parse(sucursales_)  
+                       
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1031,8 +1033,13 @@ exports.corte_table = (req, res) => {
       ptoventa_cont_garrafones,
 choferes,chofer_pedido,
 choferes_,sucursales_let,arr_carga,
-      msg
+      msg,cp_,
     }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
