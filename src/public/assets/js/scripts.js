@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     console.log(archivos)
     data.append("archivo", archivos[0]);
-    //$("#loading").show()
+    $("#loading3").show()
     //$("#info-drop").hide()
     
     $.ajax({
@@ -33,8 +33,9 @@ $(document).ready(function () {
       },
       success: function (data, textStatus, jqXHR)
       {      
-        //$("#loading").hide()
-        $("#progressBar1").addClass("progress-bar-success");
+        setInterval(() => {
+          $("#loading3").hide()
+        }, 2000);
         $("#progressBar1").text('100% - Carga realizada');
         console.log(data)
         $('#voucher').val(archivos[0].name);
@@ -70,7 +71,8 @@ $(document).ready(function () {
   const img2 = document.getElementById("img2");
   img2.addEventListener("change", (event) => {
       const file = img2.files[0];
-
+      console.log(event)
+      console.log("safasfasf")
       if (
         file.type !== "image/jpeg" &&
         file.type !== "image/png" &&

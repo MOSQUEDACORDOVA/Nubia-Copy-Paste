@@ -81,9 +81,15 @@ exports.dashboard = (req, res) => {
   // SALDO DISPONIBLE
   let avalibleBalance = res.locals.user.avalible_balance
 
-    DataBase.GetAllDepositsAdmin().then((resp) => {
-      let depositos = JSON.parse(resp);
-      console.log(depositos)
+  DataBase.GetAllDepositsAdmin().then((resp) => {
+    let depositos = JSON.parse(resp);
+    console.log(depositos)
+    let date = moment().format('');
+    //depositos.forEach(element => {
+      //if(element.activatedAt ) {
+        
+      //}
+    //});
 
     res.render(proyecto+"/board", {
       pageName: "Dashboard",
@@ -1698,7 +1704,7 @@ exports.controlroles = (req, res) => {
   console.log("ROLE")
   console.log(req.user.type_user)
   if (req.user.type_user === 'Administrador') {
-    return res.redirect('../th/PYT-24')
+    return res.redirect('../py24/PYT-24')
   } else {
     return res.redirect('../boardpresale/PYT-24')
   }
