@@ -730,8 +730,8 @@ console.log(hoy)
   PedidosAllGroupByChoferesS(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where:{sucursaleId:id},include:[
-        {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
+        
+        {association:Pedidos.Clientes, include:[{association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal, include:[
           {association: Personal.Vehiculos}] },        
     ]

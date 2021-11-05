@@ -356,7 +356,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');
+                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }

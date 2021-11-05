@@ -26,12 +26,7 @@ console.log(valor_sucursales)
       columns: [
         { data: 'id' },
         { data: 'nombre' },
-        { data: 'direccion' }, // used for sorting so will hide this column
-        { data: 'logitud' },
-        { data: 'latitud'  },
         { data: 'telefono'  },
-        { data: 'gerente'  },
-        { data: 'telefono_gerente' },
         {   // Actions
           targets: -1,
           title: 'Opciones',

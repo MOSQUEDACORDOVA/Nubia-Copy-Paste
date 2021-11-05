@@ -62,13 +62,8 @@ $('#select_gerente').on('change', (e)=>{
                           <thead>
                             <tr>
                               <th>id</th>
-                              <th>Nombre</th>
-                              <th>Dirección</th>
-                              <th>Longitud</th>
-                              <th>Latitud</th>
+                              <th>Nombre</th>                              
                               <th>Teléfono</th>
-                              <th>Gerente</th>
-                              <th>Tlf Gerente</th>
                               <th>Opciones</th>
                             </tr>
                           </thead>
@@ -101,7 +96,7 @@ $('#select_gerente').on('change', (e)=>{
                 <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2" required>
               </div>
-              <div class="form-group"><label for="register-direccion" class="form-label">Dirección</label><input
+              <div class="form-group d-none"><label for="register-direccion" class="form-label">Dirección</label><input
                   type="text" name="direccion" placeholder="Dirección" aria-describedby="register-direccion"
                   tabindex="5" class="form-control mb-2"></div>
 
@@ -122,7 +117,7 @@ $('#select_gerente').on('change', (e)=>{
                     aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
                 </div>
               </div>
-              <div class="form-group"><label for="register-sucursal" class="form-label">Gerente</label><select
+              <div class="form-group d-none"><label for="register-sucursal" class="form-label">Gerente</label><select
                   aria-describedby="register-sucursal" tabindex="24" name="gerente" class="form-control mb-2" id="select_gerente">
                   <option selected="" >Seleccione un gerente</option>
                   {{#each gerentes_let as |gerente i|}}
@@ -132,7 +127,7 @@ $('#select_gerente').on('change', (e)=>{
                 <input type="text" name="id_gerente" tabindex="5" class="form-control mb-2" hidden>
                 </div>
 
-                <div class="form-group"><label for="register-telefono" class="form-label">Teléfono Gerente</label>
+                <div class="form-group d-none"><label for="register-telefono" class="form-label">Teléfono Gerente</label>
                 <div class="input-group">
                   <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
                   <input type="number" name="telefono_gerente" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
