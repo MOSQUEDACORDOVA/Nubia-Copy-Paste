@@ -175,7 +175,9 @@ router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/error24/:id', dashboardControllerPY24.error);
 
 // Auth user
-router.get('/py24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.dashboard);
+router.get('/py24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.dashboard);
+router.get('/verifypackges/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.verifypackges);
+router.get('/verifypackgesuser/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.verifypackgesuser);
 router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
 router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);

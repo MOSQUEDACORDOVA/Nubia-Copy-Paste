@@ -119,6 +119,8 @@ module.exports = {
 	estadodepositospy24: (status) => {
 		if(status === 'No verificado') {
 			return `<span class="badge rounded-pill badge-light-warning">${status}</span>`;
+		} else if (status === 'Finalizado') {
+			return `<span class="badge rounded-pill badge-light-info">${status}</span>`;
 		} else {
 			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
 		}

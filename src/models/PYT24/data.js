@@ -887,6 +887,24 @@ module.exports = {
       });
     },
     // APROBAR DEPOSITOS
+    CulminateDeposits(id){
+      return new Promise((resolve, reject) => {
+        Depositos.update({
+          status: 'Finalizado',
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data)[0];
+            console.log(data_s)
+            resolve('DEPOSITO FINALIZADO !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // APROBAR DEPOSITOS
     UpdateDeposits(id, activated, culminated){
       return new Promise((resolve, reject) => {
         Depositos.update({
@@ -1173,7 +1191,7 @@ module.exports = {
           {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos, where: {
-            status: 'Aprobado'
+            status: 'Finalizado'
           }},
         ],order: [
           ["id", "DESC"],

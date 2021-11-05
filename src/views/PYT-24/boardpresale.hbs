@@ -34,7 +34,7 @@
                 </div>
                 {{/if}}
 
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-12">
                         <div class="alert alert-primary" role="alert">
                             <div class="alert-body text-primary"><strong>Te encuentras en una fase de pre-venta</strong>, mantente atento al lanzamiento de la plataforma !!!</div>
@@ -56,7 +56,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section> --->
 
                 <!-- Dashboard Ecommerce Starts -->
                 <section id="dashboard-ecommerce">
@@ -352,6 +352,7 @@
                                     </div>
                                 </div>
 
+                                <!---
                                 <div class="col-12">
                                     <label class="form-label mb-1" for="modalEditUserName">Siguiente Dificultad (Estimado)</label>
                                     <div class="row justify-content-md-center align-items-center">
@@ -375,6 +376,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                --->
 
                                 <div class="col-12 text-center mt-2 pt-50">
                                     <button class="btn btn-primary me-1 waves-effect waves-float waves-light" id="calcular">Calcular</button>
@@ -398,12 +400,6 @@
     dayDollars = document.getElementById('dayDollars'),
     weekDollars = document.getElementById('weekDollars'),
     monthDollars = document.getElementById('monthDollars'),
-    dayNext = document.getElementById('dayCoinNext'),
-    weekNext = document.getElementById('weekCoinNext'),
-    monthNext = document.getElementById('monthCoinNext'),
-    dayNextDollars = document.getElementById('dayDollarsNext'),
-    weekNextDollars = document.getElementById('weekDollarsNext'),
-    monthNextDollars = document.getElementById('monthDollarsNext'),
     form = document.getElementById('editUserForm'),
     calcularBtn = document.getElementById('calcular');
 
@@ -419,6 +415,4 @@
             .then(response => response.json())
             .then(data => console.log(data));
     });
-
-
 </script>
