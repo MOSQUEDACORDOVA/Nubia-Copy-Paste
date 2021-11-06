@@ -671,6 +671,61 @@ module.exports = {
           });
       });
     },
+    // OBTENER CAPITAL INVERTIDO DE TODOS LOS DEPOSITOS
+    GetAllDepositsBoardUser(id) {
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {status: {
+          [Op.ne]: 'No verificado'
+        }, usuarioId: id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    GetAllDepositsUser(id){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{usuarioId: id},
+          include:[
+            {association:Depositos.Paquetes },
+          ],order: [
+            ["id", "DESC"],
+          ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    GetAllDepositsAdmin(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where:{status: {
+          [Op.ne]: 'No verificado'
+        }},
+          include:[
+            {association:Depositos.Paquetes },
+          ],order: [
+            ["id", "DESC"],
+          ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
     GetDepositsTransf(id){
       return new Promise((resolve, reject) => {
@@ -825,6 +880,24 @@ module.exports = {
           .then((data) => {
             let data_p = JSON.stringify(data);
             resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // APROBAR DEPOSITOS
+    CulminateDeposits(id){
+      return new Promise((resolve, reject) => {
+        Depositos.update({
+          status: 'Finalizado',
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data)[0];
+            console.log(data_s)
+            resolve('DEPOSITO FINALIZADO !!');
           })
           .catch((err) => {
             reject(err)
@@ -1074,7 +1147,7 @@ module.exports = {
           });
       });
     },
-    // CREAR PAGO (RETIRO) PARA USUARIO ADMIN
+    // CREAR PAGO (RETIRO) PARA USUARIO
     CreatePaymenthsUser(id, price, paqid, depid) {
       return new Promise((resolve, reject) => {
         Pays.create({ amount: price, usuarioId: id, paqueteId: paqid, depositoId: depid })
@@ -1090,13 +1163,12 @@ module.exports = {
     // OBTENER RETIROS COMPLETADOS DE USUARIOS
     GetPaymenthsUser(id) {
       return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: {
-          [Op.ne]: 'Pendiente'
-        }, usuarioId: id, },
+        Pays.findAll({where:{status: 'Pagado', usuarioId: id},
           include:[
           {association:Pays.Usuarios },
           {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -1113,13 +1185,13 @@ module.exports = {
     // OBTENER RETIROS SOLICITADOS DE USUARIOS
     GetPendingPaymenthsUser(id) {
       return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Pendiente', usuarioId: id, },
+        Pays.findAll({where:{ status: 'Pendiente', usuarioId: id },
           include:[
           {association:Pays.Usuarios },
           {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos, where: {
-            status: 'Terminado'
+            status: 'Finalizado'
           }},
         ],order: [
           ["id", "DESC"],
@@ -1137,11 +1209,12 @@ module.exports = {
     // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
     GetPendingPaymenthsAdmin(id) {
       return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Solicitado', usuarioId: id, },
+        Pays.findAll({where:{status: 'Solicitado' },
           include:[
           {association:Pays.Usuarios },
           {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos },
         ],order: [
           ["id", "DESC"],
         ],

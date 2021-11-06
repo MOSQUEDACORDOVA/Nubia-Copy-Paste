@@ -1,19 +1,14 @@
-<style>
-    #loading3 {
-		border-radius: 100%;
-		visibility: hidden;
-        display: none;
-	}
-</style>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-<div id="loading3" style="width: 200px;border-radius: 10px;">
-    <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;'>0%
-    </div>
-</div>
 
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
             <section id="pricing-plan">    
                 {{#if roleClient}}
                 <!-- title text and switch button -->
@@ -185,6 +180,7 @@
                 </div>
                 {{/if}}
 
+            {{#if verify}}
                 {{#if allpays}}
                 {{!-- MODAL PAGAR --}}
                 <div class="modal fade" id="addNewCard2" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
@@ -426,7 +422,8 @@
                         </div>
                     </div>
                 </div>
-                {{else}}
+                {{/if}}
+            {{else}}
                 <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
                         <div class="modal-content">
@@ -613,7 +610,7 @@
                     </div>
                 </div>
                 {{!-- END MODAL PAGAR --}}
-                {{/if}}
+            {{/if}}
 
                 <!--- MODAL VERIFICAR --->
                 <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">

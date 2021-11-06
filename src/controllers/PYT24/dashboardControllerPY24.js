@@ -75,18 +75,31 @@ exports.dashboard = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin;
-  let roleClient;
-  let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
+  let roleAdmin = true;
+
+  let idUser = res.locals.user.id
+  // SALDO DISPONIBLE
+  let avalibleBalance = res.locals.user.avalible_balance
+
+  DataBase.GetAllDepositsAdmin().then((resp) => {
+    let depositos = JSON.parse(resp);
+    console.log(depositos)
+
+    let date = moment().format('YYYY-MM-DD');
+    depositos.forEach(element => {
+      let culmination = moment(element.culmination);
+      let date2 = moment('2021-11-06');
+
+      if(culmination.diff(date, 'days') <= 0) {
+        DataBase.CulminateDeposits(element.id).then((resp) => {
+          console.log(resp)
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error24/PYT-24");
+        });
+      } 
+    });
 
     res.render(proyecto+"/board", {
       pageName: "Dashboard",
@@ -97,9 +110,86 @@ exports.dashboard = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      roleClient,
-      roleSeller
-    })
+      depositos,
+      avalibleBalance,
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+// VERIFICAR PAQUETES ADMIN
+exports.verifypackges = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  DataBase.GetAllDepositsAdmin().then((resp) => {
+    let depositos = JSON.parse(resp);
+    console.log(depositos)
+
+    let date = moment().format('YYYY-MM-DD');
+    depositos.forEach(element => {
+      let culmination = moment(element.culmination);
+      let date2 = moment('2021-11-06');
+
+      if(culmination.diff(date, 'days') <= 0) {
+        DataBase.CulminateDeposits(element.id).then((resp) => {
+          console.log(resp)
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error24/PYT-24");
+        });
+      } 
+    });
+    return res.redirect("/py24/PYT-24");
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
+// VERIFICAR PAQUETES USUARIO
+exports.verifypackgesuser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id 
+  let idUser = res.locals.user.id 
+  console.log(proyecto)
+
+  DataBase.GetAllDepositsUser(idUser).then((resp) => {
+    let depositos = JSON.parse(resp);
+    console.log(depositos)
+
+    let date = moment().format('YYYY-MM-DD');
+    depositos.forEach(element => {
+      let culmination = moment(element.culmination);
+      let date2 = moment('2021-11-06');
+
+      if(culmination.diff(date, 'days') <= 0) {
+        DataBase.CulminateDeposits(element.id).then((resp) => {
+          console.log(resp)
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error24/PYT-24");
+        });
+      } 
+    });
+    return res.redirect("/boardpresale/PYT-24");
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.login = (req, res) => {
@@ -332,20 +422,20 @@ exports.retreats = (req, res) => {
 
   let idUser = res.locals.user.id
 
-  DataBase.GetMRetreatsTransf(idUser).then((response) => {
-    let transf = JSON.parse(response);
+  DataBase.GetMRetreatsTransf(idUser).then((res1) => {
+    let transf = JSON.parse(res1);
     console.log(transf)
 
-    DataBase.GetMRetreatsPaym(idUser).then((response) => {
-      let paym = JSON.parse(response);
+    DataBase.GetMRetreatsPaym(idUser).then((res2) => {
+      let paym = JSON.parse(res2);
       console.log(paym)
 
-      DataBase.GetMRetreatsBTC(idUser).then((response) => {
-        let btc = JSON.parse(response);
+      DataBase.GetMRetreatsBTC(idUser).then((res3) => {
+        let btc = JSON.parse(res3);
         console.log(btc)
 
-        DataBase.GetMRetreatsWallet(idUser).then((response) => {
-          let wallet = JSON.parse(response);
+        DataBase.GetMRetreatsWallet(idUser).then((res4) => {
+          let wallet = JSON.parse(res4);
           console.log(wallet)
         
           // BALANCE MINIMO DE RETIRO
@@ -354,13 +444,13 @@ exports.retreats = (req, res) => {
           console.log(data_th)
 
         // HISTORIAL DE RETIROS (PAGOS) PENDIENTES
-        DataBase.GetPendingPaymenthsUser(idUser).then((response) => {
-          let retreats = JSON.parse(response);
+        DataBase.GetPendingPaymenthsUser(idUser).then((res5) => {
+          let retreats = JSON.parse(res5);
           console.log(retreats)
-
+          
         // HISTORIAL DE RETIROS (PAGOS) COMPLETADOS
-        DataBase.GetPaymenthsUser(idUser).then((response) => {
-          let retreatsCompletes = JSON.parse(response);
+        DataBase.GetPaymenthsUser(idUser).then((resp) => {
+          let retreatsCompletes = JSON.parse(resp);
           console.log(retreatsCompletes)
     
     res.render(proyecto+"/retreats", {
@@ -829,19 +919,38 @@ exports.paymanag = (req, res) => {
     roleAdmin = true;
   }
 
-    res.render(proyecto+"/pay-managment", {
-      pageName: "Gestión de Pagos",
-      dashboardPage: true,
-      dashboard: true,
-      py24:true,
-      login: false,
-      paym: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      roleClient,
-      roleSeller
-    })
+
+  //let currentdate = moment('');
+  //let culmination = moment('2021-11-01');
+  //console.log(culmination.diff(currentdate, 'days'), ' dias de diferencia');
+
+  DataBase.GetPendingPaymenthsAdmin().then((resp) => {
+    let pendindPays = JSON.parse(resp);
+    console.log(pendindPays)
+
+    //pendindPays.forEach(element.deposito => {
+      
+   //});
+
+  res.render(proyecto+"/pay-managment", {
+    pageName: "Gestión de Pagos",
+    dashboardPage: true,
+    dashboard: true,
+    py24: true,
+    login: false,
+    paym: true,
+    username: req.user.username,
+    typeUser: req.user.type_user,
+    roleAdmin,
+    roleClient,
+    roleSeller
+  });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 // VER TODOS LOS DEPOSITOS
@@ -1676,11 +1785,59 @@ exports.controlroles = (req, res) => {
   console.log("ROLE")
   console.log(req.user.type_user)
   if (req.user.type_user === 'Administrador') {
-    return res.redirect('../th/PYT-24')
+    DataBase.GetAllDepositsAdmin().then((resp) => {
+      let depositos = JSON.parse(resp);
+      console.log(depositos)
+  
+      let date = moment().format('YYYY-MM-DD');
+      depositos.forEach(element => {
+        let culmination = moment(element.culmination);
+        let date2 = moment('2021-11-06');
+  
+        if(culmination.diff(date, 'days') <= 0) {
+          DataBase.CulminateDeposits(element.id).then((resp) => {
+            console.log(resp)
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error24/PYT-24");
+          });
+        } 
+      });
+      return res.redirect("../py24/PYT-24");
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
   } else {
+    let idUser = res.locals.user.id
+    DataBase.GetAllDepositsUser(idUser).then((resp) => {
+      let depositos = JSON.parse(resp);
+      console.log(depositos)
+      let date = moment().format('YYYY-MM-DD');
+      depositos.forEach(element => {
+        let culmination = moment(element.culmination);
+        let date2 = moment('2021-11-06');
+  
+        if(culmination.diff(date, 'days') <= 0) {
+          DataBase.CulminateDeposits(element.id).then((resp) => {
+            console.log(resp)
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error24/PYT-24");
+          });
+        } 
+      });
+      return res.redirect("../py24/PYT-24");
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
     return res.redirect('../boardpresale/PYT-24')
   }
-  
 };
 
 exports.boardpresale = (req, res) => {
@@ -1720,6 +1877,18 @@ exports.boardpresale = (req, res) => {
     verify = true;
   }
 
+  let idUser = res.locals.user.id
+  // SALDO DISPONIBLE
+  let avalibleBalance = res.locals.user.avalible_balance
+
+  DataBase.GetAllDepositsBoardUser(idUser).then((response) => {
+    let capital = JSON.parse(response);
+    console.log(capital)
+
+    DataBase.GetAllDepositsUser(idUser).then((resp) => {
+      let depositos = JSON.parse(resp);
+      console.log(depositos)
+
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -1733,8 +1902,21 @@ exports.boardpresale = (req, res) => {
       roleSeller,
       presale,
       verify, unverify, pendingverify,
+      capital,
+      depositos,
+      avalibleBalance,
       board: true,
-    })
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
 };
 
 exports.depositpresale = (req, res) => {

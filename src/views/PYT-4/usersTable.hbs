@@ -8,10 +8,8 @@
 <label id="msgs">{{msg}}</label>
 {{/if}}
 <!-- BEGIN: Content-->
-<div class="app-content content ">
-  <div class="content-overlay"></div>
-  <div class="header-navbar-shadow"></div>
-  <div class="content-wrapper">
+<div class="app-content content py4">
+    <div class="content-wrapper container-xxl p-0">
     <div class="content-header row">
     </div>
     <div class="content-body">
@@ -106,75 +104,69 @@
             </div>
           </div>
         </div>
+      </section>
 
+      <!-- Modal to add new record -->
+      <div class="modal fade" id="ad_tag_cliente" tabindex="-1" aria-labelledby="ad_tag_clienteTitle" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="ad_tag_clienteTitle">Crear Etiqueta</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/ad_tag_cliente" method="post" id="post_save_cliente_edit_tag">
+                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName" tabindex="1" id="id_ad_tag_cliente" class="form-control mb-2" hidden>
+                <div class="form-group">
+                  <label for="register-lastName" class="form-label">Color</label>
+                  <select class="select2 form-select" id="color_tag" name="color" >
+                    <option selected="" value="default"> Seleccione una etiqueta </option>
+                    {{#each etiquetas_let as |cliente i|}}
+                    <option value="{{id}}"> {{etiquetas}}</option>
+                    {{/each}}
+                  </select>                
+                </div>
+              </form>
+
+              <div class="modal-footer">
+                <button type="button" tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light" id="btn_asignar_tag">Asignar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+        style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalScrollableTitle">Crear Etiqueta</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form class="needs-validation was-validated" action="/save_etiqueta" method="post" id="form_crear_tag">
+                <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input
+                    type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
+                    tabindex="1" autofocus="" class="form-control mb-2"  id="nombre_color_tag_crear"
+                    ></div>
+                <div class="form-group"><label for="register-lastName" class="form-label">Color</label><input
+                    type="color" style="height: 30px;" name="color" placeholder="color" aria-describedby="register-lastName"
+                    tabindex="2" class="form-control mb-2 px-1" id="id_color_tag_crear"
+                  ></div>
+              
+              </form>
+              <div class="modal-footer">
+                <button type="button" tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light" id="btn_crear_tag">Crear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     
-    <!-- Modal to add new record -->
-        <div class="modal fade" id="ad_tag_cliente" tabindex="-1" aria-labelledby="ad_tag_clienteTitle"
-      style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="ad_tag_clienteTitle">Crear Etiqueta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="needs-validation was-validated" action="/ad_tag_cliente" method="post" id="post_save_cliente_edit_tag">
-              <input
-                  type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
-                  tabindex="1" id="id_ad_tag_cliente" class="form-control mb-2"
-                  hidden>
-              <div class="form-group"><label for="register-lastName" class="form-label">Color</label>
-                 <select class="select2 form-select" id="color_tag" name="color" >
-                            <option selected="" value="default"> Seleccione una etiqueta </option>
-                            {{#each etiquetas_let as |cliente i|}}
-                            <option value="{{id}}"> {{etiquetas}}</option>
-                            {{/each}}
-                        </select>
-                 
-                 </div>
-
-
-            
-          </div>
-          <div class="modal-footer">
-             <button type="button" tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light" id="btn_asignar_tag">Asignar</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
-      style="display: none;" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalScrollableTitle">Crear Etiqueta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="needs-validation was-validated" action="/save_etiqueta" method="post" id="form_crear_tag">
-              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
-              <input
-                  type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
-                  tabindex="1" autofocus="" class="form-control mb-2"  id="nombre_color_tag_crear"
-                  ></div>
-              <div class="form-group"><label for="register-lastName" class="form-label">Color</label><input
-                  type="color" name="color" placeholder="color" aria-describedby="register-lastName"
-                  tabindex="2" class="form-control mb-2" id="id_color_tag_crear"
-                 ></div>
-            
-          </div>
-          <div class="modal-footer">
-             <button type="button" tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light" id="btn_crear_tag">Crear</button>
-          </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    </section>
   </div>
 </div>
 </div>

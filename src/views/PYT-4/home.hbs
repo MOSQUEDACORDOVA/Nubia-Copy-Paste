@@ -2,6 +2,9 @@
     .none {
         display: none;
     }
+    .select2 {
+        width: 160px !important;
+    }
 </style>
 
 <script>
@@ -154,12 +157,13 @@ $(document).ready(function() {
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
                                         <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                       <select class="select2 form-select select_chofer_pedidos">
+                                        <select class="select2 form-select select_chofer_pedidos">
                                            <option >Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
                                            <option >{{name}}</option>
                                            {{/each}}
-                                       </select>
+                                        </select>
+                                        <span class="me-md-1"></span>
                                         <select class="select2 form-select select_etiqueta_pedidos">
                                            <option >Filtrar etiquetas</option>
                                            {{#each etiquetas_let as |etiqueta i|}}
@@ -286,12 +290,13 @@ $(document).ready(function() {
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
                                         <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                       <select class="select2 form-select select_chofer_ventas" style="margin-right: 15px;">
+                                       <select class="select2 form-select select_chofer_ventas">
                                            <option value="">Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
                                            <option >{{name}}</option>
                                            {{/each}}
                                        </select>
+                                       <span class="me-md-1"></span>
                                        <select class="select2 form-select select_etiqueta_ventas">
                                            <option value="">Filtrar etiquetas</option>
                                            {{#each etiquetas_let as |etiqueta i|}}

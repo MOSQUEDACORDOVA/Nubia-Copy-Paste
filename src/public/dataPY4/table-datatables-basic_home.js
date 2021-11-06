@@ -356,7 +356,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
@@ -591,7 +591,9 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8">' +icono+ group + '</td></tr>');
+
+                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+
 
               last = group;
             }
