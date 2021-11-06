@@ -29,6 +29,19 @@
          return false;
      }
  );
+   // SUM PLUGIN
+   jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+    return this.flatten().reduce( function ( a, b ) {
+        if ( typeof a === 'string' ) {
+            a = a.replace(/[^\d.-]/g, '') * 1;
+        }
+        if ( typeof b === 'string' ) {
+            b = b.replace(/[^\d.-]/g, '') * 1;
+        }
+
+        return a + b;
+    }, 0 );
+} );
  
  
  // Datepicker for advanced filter
@@ -106,15 +119,15 @@
   
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
   console.log('aaa')
-console.log(corte2)
+
   let carga = $('#array_carga').val()
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
     //let stproductos = JSON.parse(corte.productos)
-  let Residencial = corte2.filter(status => status.data.cliente.tipo == 'Residencial'); // return implicito
-  let Negocio = corte2.filter(status => status.data.cliente.tipo == 'Negocio'); // return implicito
-  let PuntoVenta = corte2.filter(status => status.data.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
+  let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
+  let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
+  let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
 
   var dt_basic_table = $('.datatables-basic'),
   dt_negocio = $('.datatables-basicNegocio'),
@@ -142,15 +155,16 @@ maxDate2 = new DateTime($('#max1'), {
 let Newcorte2 = {}
 //Recorremos el arreglo 
 corte2.forEach( x => {
-  if( !Newcorte2.hasOwnProperty(x.data.clienteId)){
-    Newcorte2[x.data.clienteId] =[]
+  if( !Newcorte2.hasOwnProperty(x.clienteId)){
+    Newcorte2[x.clienteId] =[]
   }
-    Newcorte2[x.data.clienteId].push({data:x, tipo: x.data.cliente.tipo, nombre:x.data.cliente.firstName, apellido: x.data.cliente.lastName})  
+    Newcorte2[x.clienteId].push({data:x, tipo: x.cliente.tipo, nombre:x.cliente.firstName +" "+ x.cliente.lastName,})  
 })
 let ArrayGral = Object.entries(Newcorte2);
   // DataTable with buttons
   // --------------------------------------------------------------------
- 
+  console.log(ArrayGral)
+  console.log(corte2)
   if (dt_Gral.length) {
     $('.dt-column-searchGral thead tr').clone(true).appendTo('.dt-column-searchGral thead');
     $('.dt-column-searchGral thead tr:eq(1) th').each(function (i) {
@@ -167,7 +181,7 @@ let ArrayGral = Object.entries(Newcorte2);
       data: ArrayGral,
      columns: [
       { data: '1.0.tipo',},
-        { data: '1'},
+        { data: '1.0.nombre'},
         { data: '1'},
       { data: '1'},        
         { data: '1' },
@@ -179,45 +193,164 @@ let ArrayGral = Object.entries(Newcorte2);
       ], columnDefs: [
         {
           // Label
-          targets:0,visible: false, render: function (data, type, full, meta) {
-            console.log(data)            
-            return (full[0])
+          targets:0,visible: false, render: function (data, type, full, meta) {        
+            return (data)
           }
       },
       {
-        // Label
+        // nombre
         targets: 1,
         render: function (data, type, full, meta) {
-          console.log(data)
           let asentamiento = ""
           for (let i = 0; i < codigosP_arr.length; i++) {
-            if (codigosP_arr[i]['id'] == data['cpId']) {
+            if (codigosP_arr[i]['id'] == full[1][0]['data']['cliente']['cpId']) {
               asentamiento = codigosP_arr[i]['asentamiento']
-            }
-            
+            }            
           }
-
-
       var cliente_arr = encodeURIComponent(JSON.stringify(data));
-      var color_tag ="", color_text=""
-      if (data['etiqueta'] ==null) {
+      var color_tag ="", color_text=""     
+      if (full[1][0]['data']['cliente']['etiqueta'] ==null) {
         color_tag =0
       }else{
-        color_tag =data['etiqueta']['color']
+        color_tag =full[1][0]['data']['cliente']['etiqueta']['color']
         color_text="white"
       }
-      let nombre= data['firstName'] + " "+data['lastName'] +" / "+ asentamiento
+      let nombre= data +" / "+ asentamiento
           return (
             '<span class="badge rounded-pill ' +
-            '" data-bs-toggle="modal" data-id="'+data['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+nombre+'"  data-bs-target="#home_modal" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
+            '" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
             nombre+
             '</span>'
           );
         }
     },
-     
+    {
+      // REFILL
+      targets:2,render: function (data, type, full, meta) {
+        let total=0;
+        for (let i = 0; i < data.length; i++) {
+          total += parseInt(data[i]['data']['total_refill_pedido']);
+          
+        }
+        if (total == 0) {
+          total = "-"
+        }
+        return total}  
+  },
+  {
+    // canje
+    targets:3,render: function (data, type, full, meta) {
+      let total=0;
+      for (let i = 0; i < data.length; i++) {
+        total += parseInt(data[i]['data']['total_canje_pedido']);
+        
+      }
+      if (total == 0) {
+        total = "-"
+      }
+      return total}  
+},
+{
+  // nuevo
+  targets:4,render: function (data, type, full, meta) {
+    let total=0;
+      for (let i = 0; i < data.length; i++) {
+        total += parseInt(data[i]['data']['total_nv_pedido']);
+        
+      }
+      if (total == 0) {
+        total = "-"
+      }
+      return total}  
+},
+{
+  // dañados
+  targets:5,render: function (data, type, full, meta) {
+          let danados = 0, garrafones_prestamos=0;
+    for (let i = 0; i < data.length; i++) {
+      danados += parseInt(data[i]['data']['danados']);
+  }
+  if (danados == 0) {
+    danados = "-"
+  }
+    return '<span >'+danados+'</span>'}  
+  },
+  {
+    // prestados
+    targets:6,render: function (data, type, full, meta) {
+      
+    let danados = 0, garrafones_prestamos=0;
+    for (let i = 0; i < data.length; i++) {
+    garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+  }
+  if (garrafones_prestamos == 0) {
+    garrafones_prestamos = "-"
+  }
+    return '<span >'+garrafones_prestamos+'</span>'}  
+    },
+
+    {          
+      // Label
+      targets: 7,
+      render: function (data, type, full, meta) {
+        var suma = 0, deuda = 0
+          for (let i = 0; i < data.length; i++) {
+            if (data[i]['data']['metodo_pago'] == "Transferencia") {
+              if (Array.isArray(data[i]['data']['monto_total'])) {
+                suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
+            } else {
+                suma += parseInt(data[i]['data']['monto_total']);
+            }
+
+            }
+            
+        }
+        let total = parseInt(suma)
+        return '$'+ total;
+      }
+    },
+    {          
+      // Label
+      targets: 8,
+      render: function (data, type, full, meta) {
+        var suma = 0, deuda = 0
+          for (let i = 0; i < data.length; i++) {
+              if (data[i]['data']['deuda_anterior'] != "0") {
+                if (Array.isArray(data[i]['data']['deuda_anterior'])) {
+                  deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+              } else {
+                  deuda += parseInt(data[i]['data']['deuda_anterior']);
+              }
+              }
+            
+        }
+        let total = parseInt(deuda)
+        return '$'+ deuda;
+      }
+    },
+
+    {          
+      // Label
+      targets: 9,
+      render: function (data, type, full, meta) {
+        var suma = 0, deuda = 0
+          for (let i = 0; i < data.length; i++) {
+            if (data[i]['data']['metodo_pago'] == "Efectivo") {
+              if (Array.isArray(data[i]['data']['monto_total'])) {
+                suma += countArray(parseInt(data[i]['data']['monto_total']));
+            } else {
+                suma += parseInt(data[i]['data']['monto_total']);
+            }
+
+            }
+            
+        }
+        let total = parseInt(suma)
+        return '$'+ total;
+      }
+    },
       ],
-      order: [[2, 'desc']],
+      order: [[0, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -231,7 +364,7 @@ let ArrayGral = Object.entries(Newcorte2);
           .column(0, { page: 'current' })
           .data()
           .each(function (group, i) {
-            console.log(group)
+            console.log(i)
             if (last !== group) {
               $(rows)
                 .eq(i)
@@ -241,6 +374,47 @@ let ArrayGral = Object.entries(Newcorte2);
             }
           });
       },
+      footerCallback: function ( row, data, start, end, display ) {
+        var api = this.api(), data;
+
+        // Remove the formatting to get integer data for summation
+        var intVal = function ( i ) {
+            return typeof i === 'string' ?
+                i.replace(/[\$,]/g, '')*1 :
+                typeof i === 'number' ?
+                    i : 0;
+        };
+
+        // Total over all pages
+        var total = api
+            .column( 2 )
+            .data()
+            .reduce( function (a, b) {
+              console.log(a)
+              console.log(b)
+              let suma =0
+              b.forEach(function (c, i) {      
+                 console.log(c)
+                 suma += parseInt((b[i]['data']['total_refill_pedido'] || 0));
+            });
+            console.log(suma)
+
+                return intVal(a) + intVal(b);
+            }, 0 );
+
+        // Total over this page
+      var   pageTotal = api
+            .column( 2, { page: 'current'} )
+            .data()
+            .reduce( function (a, b) {
+                return intVal(a) + intVal(b);
+            }, 0 );
+
+        // Update footer
+        $( api.column( 2 ).footer() ).html(
+            '$'+pageTotal +' ( $'+ total +' total)'
+        );
+    },
       language: {
       "decimal": "",
       "emptyTable": "No hay información",
