@@ -445,7 +445,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             );
           } },
           { data: 'personal.name' },
-          { data: 'cliente.etiqueta.etiquetas' },
+          { data: 'cliente.etiqueta' },
         ], columnDefs: [
           { visible: false, targets: groupColumn,
            
@@ -491,6 +491,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         console.log(full['cliente']['etiqueta'])
         if (full['cliente']['etiqueta'] ==null) {
           color_tag =0
+          color_text="black"
         }else{
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
