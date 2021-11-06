@@ -587,10 +587,13 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           .column(groupColumn, { page: 'current' })
           .data()
           .each(function (group, i) {
+            let icono =`<i class="fas fa-truck"></i>`
             if (last !== group) {
               $(rows)
                 .eq(i)
+
                 .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+
 
               last = group;
             }
@@ -1023,21 +1026,21 @@ async function cambioPago(id, status) {
   $('.datatables-basic').dataTable().fnDestroy();
   $('.datatables-basic').empty();
   $('.datatables-basic').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-</thead>`);
+                                            <tr>
+                                                <th>Nº Pedido</th>
+                                                <th>Cliente</th>
+                                                <th>Total garrafones</th>
+                                                <th>Monto Total</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                            <th>oculto choferes </th> 
+                                            <th>oculto etiqueta </th> 
+                                            </tr>
+                                        </thead>`);
   $('.datatables-basic2').dataTable().fnDestroy();
   $('.datatables-basic2').empty();
   $('.datatables-basic2').html(`<thead>

@@ -81,6 +81,31 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: 0
 	},
+	total_refill_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
+	total_canje_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
+	total_nv_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
+	total_obsequio_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
+	descuento: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
 
 });
 

@@ -463,9 +463,12 @@ exports.regPedidoPy4 = (req, res) => {
   const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal, deuda_anterior} = req.body
 
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
-console.log(total_garrafones_pedido)
+  let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
+  let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
+  let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
+  let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
 
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido).then((respuesta) =>{
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
     res.redirect('/homepy4/'+respuesta)
 
   }).catch((err) => {
@@ -590,9 +593,12 @@ disabled_chofer: true
   const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
 
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
-  console.log(total_garrafones_pedido)
+  let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
+  let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
+  let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
+  let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
 
-  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido).then((respuesta) =>{
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
 
     
     let msg=respuesta
@@ -981,6 +987,7 @@ exports.corte_table = (req, res) => {
             let ptoVenta_cont = 0
             let ptoVenta_mont= 0,ptoventa_cont_garrafones=0
             var chofer_pedido = []
+            let garrafon19Larray, botella1Larr, garrafon11Larr, botella5Larr;
             let carga_inicial ="", arr_carga=[]
             for (let i = 0; i < pedidos_let.length; i++) {
               fecha_created = pedidos_let[i].createdAt
@@ -988,8 +995,12 @@ exports.corte_table = (req, res) => {
               if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
                 carga_inicial = JSON.parse(await DataBase.carga_init_corte(id_sucursal,pedidos_let[i].personalId))
                 arr_carga.push(carga_inicial)
-                //
-                pedidos_byday.push({data:pedidos_let[i]})
+                garrafon19Larray = JSON.parse(pedidos_let[i].garrafon19L)
+                botella1Larr = JSON.parse(pedidos_let[i].botella1L)
+                garrafon11Larr = JSON.parse(pedidos_let[i].garrafon11L)
+                botella5Larr = JSON.parse(pedidos_let[i].botella5L)
+
+                pedidos_byday.push(pedidos_let[i])
 
                ventas_del_dia = parseInt(ventas_del_dia) + parseInt(pedidos_let[i].monto_total)
                 cont_ventas_del_dia++
