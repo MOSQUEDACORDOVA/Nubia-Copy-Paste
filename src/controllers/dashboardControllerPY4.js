@@ -1012,12 +1012,12 @@ exports.corte_table = (req, res) => {
                     break;
                     case 'Negocio':
                        negocio_mont= parseInt(negocio_mont) + parseInt(pedidos_let[i].monto_total)
-                       negocio_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
+                       negocio_cont_garrafones= parseInt(negocio_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
                        negocio_cont++
                       break;
                       case 'Punto de venta':
                         ptoVenta_mont = parseInt(ptoVenta_mont) + parseInt(pedidos_let[i].monto_total)
-                        ptoventa_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
+                        ptoventa_cont_garrafones = parseInt(ptoventa_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
                         ptoVenta_cont++
                         break;
                   default:
