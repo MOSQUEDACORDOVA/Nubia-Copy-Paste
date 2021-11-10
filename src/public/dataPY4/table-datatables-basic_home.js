@@ -169,10 +169,7 @@ maxDate2 = new DateTime($('#max1'), {
         { data: 'id' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
-        { data: 'monto_total',
-        render: function ( data, type, row ) {
-          return '$'+ data;
-      } }, // used for sorting so will hide this column
+        { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
         { data: 'createdAt'},
