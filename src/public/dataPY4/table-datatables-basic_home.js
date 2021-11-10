@@ -272,20 +272,33 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 2,
           render: function (data, type, full, meta) {
-            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
-            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
-            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
-
+            let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+rf+'" data-total="'+data+'" data-canje="'+CJ+'" data-env="'+Env+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;">' +
-              data +
+              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;" data-toggle="modal">' +
+              total +
               '</span>'
             );
           }
 
         
         },
-        
+        {
+          // Label
+          targets: 3,
+          render: function (data, type, full, meta) {
+            
+           console.log(full)
+           let detailRefill = 0, detailCanje = 0, detailNuevo=0
+           detailRefill = parseFloat(full['total_refill_pedido'])*35
+           detailCanje = parseFloat(full['total_canje_pedido'])*55
+           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+           return (
+            '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  data-bs-target="#detail_monto" style="cursor:pointer;" data-toggle="modal">$' +
+            data +
+            '</span>'
+          );
+        }
+      },
         {
           // Label
           targets: 4,
@@ -423,10 +436,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         { data: 'id' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
-        { data: 'monto_total',
-        render: function ( data, type, row ) {
-          return '$'+ data;
-      } }, // used for sorting so will hide this column
+        { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
         { data: 'createdAt'},
@@ -489,7 +499,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             }
             var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
             var color_tag ="", color_text=""
-        console.log(full['cliente']['etiqueta'])
         if (full['cliente']['etiqueta'] ==null) {
           color_tag =0
           color_text="black"
@@ -509,20 +518,33 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 2,
           render: function (data, type, full, meta) {
-            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
-            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
-            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
-        
+            let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+rf+'" data-total="'+data+'" data-canje="'+CJ+'" data-env="'+Env+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;">' +
-              data +
+              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;" data-toggle="modal">' +
+              total +
               '</span>'
             );
           }
         
         
         },
-        
+        {
+          // Label
+          targets: 3,
+          render: function (data, type, full, meta) {
+            
+           console.log(full)
+           let detailRefill = 0, detailCanje = 0, detailNuevo=0
+           detailRefill = parseFloat(full['total_refill_pedido'])*35
+           detailCanje = parseFloat(full['total_canje_pedido'])*55
+           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+           return (
+            '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  data-bs-target="#detail_monto" style="cursor:pointer;">$' +
+            data +
+            '</span>'
+          );
+        }
+      },
         {
           // Label
           targets: 4,
@@ -647,21 +669,24 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
     
   })
-
+  $('[data-bs-toggle="modal"]').hover(function(e) {
+    $(this).click();
+});
 
   $("#modal_detail_garrafones").on('show.bs.modal', function (e) {
-
+  console.log( $(e))
     var triggerLink = $(e.relatedTarget);
     var Total_total = triggerLink.data("id");
     var title = triggerLink.data("title");
     var rfeill = triggerLink.data("rfeill");
     var canje = triggerLink.data("canje");
    var Env = triggerLink.data("env"); 
+   var obsequio = triggerLink.data("obsequio");
    var total = triggerLink.data("total"); 
     $("#modal_detail_garrafonesTitle").text(title); 
   //  $("#home_modalBody").append(txt2);
   $("#modal_detail_garrafonesBody").empty() 
- 
+ total = parseInt(total) - parseInt(obsequio)
         $("#modal_detail_garrafonesBody").append(`<ul class='list-group list-group-flush'>
         <li class='list-group-item d-flex justify-content-between align-items-center'>Refill: <span class='badge bg-primary rounded-pill'>${rfeill}</span></li>
         <li class='list-group-item d-flex justify-content-between align-items-center'>Canje: <span class='badge bg-primary rounded-pill'>${canje}</span></li>
@@ -669,7 +694,27 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         <li class='list-group-item d-flex justify-content-between align-items-center'>Total: <span class='badge bg-primary rounded-pill'>${total}</span></li>
         </ul>`);
 });
+  $("#detail_monto").on('show.bs.modal', function (e) {
 
+    var triggerLink = $(e.relatedTarget);
+    var Total_total = triggerLink.data("id");
+    var title = triggerLink.data("title");
+    var rfeill = triggerLink.data("rfeill");
+    var canje = triggerLink.data("canje");
+   var Env = triggerLink.data("env"); 
+   var obsequio = triggerLink.data("obsequio");
+   var total = triggerLink.data("total"); 
+    $("#detail_monto_title").text(title); 
+  //  $("#home_modalBody").append(txt2);
+  $("#detail_monto_body").empty() 
+ total = parseInt(total) - parseInt(obsequio)
+        $("#detail_monto_body").append(`<ul class='list-group list-group-flush'>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Refill: <span class='badge bg-primary rounded-pill'>$${rfeill}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Canje: <span class='badge bg-primary rounded-pill'>$${canje}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Envase Nuevo: <span class='badge bg-primary rounded-pill'>$${Env}</span></li>
+        <li class='list-group-item d-flex justify-content-between align-items-center'>Total: <span class='badge bg-primary rounded-pill'>$${total}</span></li>
+        </ul>`);
+});
   $("#home_modal").on('show.bs.modal', function (e) {
     var triggerLink = $(e.relatedTarget);
     var Total_total = triggerLink.data("id");

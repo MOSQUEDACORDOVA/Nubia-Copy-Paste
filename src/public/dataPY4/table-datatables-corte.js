@@ -3,8 +3,6 @@
  */
 
  'use strict';
-
-
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
@@ -114,7 +112,7 @@
    return normalized;
  };
  function cargaTablas(id_chofer) {
-    
+    console.log(id_chofer)
   let corte = $('#array_corte').val()
   
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
@@ -125,11 +123,13 @@
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
     //let stproductos = JSON.parse(corte.productos)
-  let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
+   let corte3 = corte2.filter(status => status.personalId == id_chofer); // return implicito
+
+  let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial' && status.personalId == id_chofer); // return implicito
   let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
   let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
 
-  var dt_basic_table = $('.datatables-basic'),
+  var dt_residencial = $('.datatables-basic'),
   dt_negocio = $('.datatables-basicNegocio'),
   dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
   dt_Gral = $('.datatables-basicGral'),
@@ -154,13 +154,14 @@ maxDate2 = new DateTime($('#max1'), {
 //TABLA GRAL
 let Newcorte2 = {}
 //Recorremos el arreglo 
-corte2.forEach( x => {
+corte3.forEach( x => {
   if( !Newcorte2.hasOwnProperty(x.clienteId)){
     Newcorte2[x.clienteId] =[]
   }
     Newcorte2[x.clienteId].push({data:x, tipo: x.cliente.tipo, nombre:x.cliente.firstName +" "+ x.cliente.lastName,})  
 })
 let ArrayGral = Object.entries(Newcorte2);
+
   // DataTable with buttons
   // --------------------------------------------------------------------
   console.log(ArrayGral)
@@ -178,7 +179,7 @@ let ArrayGral = Object.entries(Newcorte2);
       });
     });
     var dt_Gral_t = dt_Gral.DataTable({
-      data: ArrayGral,
+      data: ArrayGral,rowId: 'staffId',
      columns: [
       { data: '1.0.tipo',},
         { data: '1.0.nombre'},
@@ -199,7 +200,7 @@ let ArrayGral = Object.entries(Newcorte2);
       },
       {
         // nombre
-        targets: 1,
+        targets: 1,className: "my_class",
         render: function (data, type, full, meta) {
           let asentamiento = ""
           for (let i = 0; i < codigosP_arr.length; i++) {
@@ -211,11 +212,16 @@ let ArrayGral = Object.entries(Newcorte2);
       var color_tag ="", color_text=""     
       if (full[1][0]['data']['cliente']['etiqueta'] ==null) {
         color_tag =0
+        color_text="black"
       }else{
         color_tag =full[1][0]['data']['cliente']['etiqueta']['color']
         color_text="white"
       }
       let nombre= data +" / "+ asentamiento
+      if (full[1][0]['data']['cliente']['tipo']=="Residencial") {
+        
+
+      }
           return (
             '<span class="badge rounded-pill ' +
             '" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
@@ -235,7 +241,8 @@ let ArrayGral = Object.entries(Newcorte2);
         if (total == 0) {
           total = "-"
         }
-        return total}  
+        return (`<span class="refill">${total}</span>`)
+        }  
   },
   {
     // canje
@@ -248,7 +255,7 @@ let ArrayGral = Object.entries(Newcorte2);
       if (total == 0) {
         total = "-"
       }
-      return total}  
+      return (`<span class="canje">${total}</span>`)}  
 },
 {
   // nuevo
@@ -261,7 +268,7 @@ let ArrayGral = Object.entries(Newcorte2);
       if (total == 0) {
         total = "-"
       }
-      return total}  
+      return (`<span class="nuevo">${total}</span>`)}  
 },
 {
   // dañados
@@ -273,7 +280,7 @@ let ArrayGral = Object.entries(Newcorte2);
   if (danados == 0) {
     danados = "-"
   }
-    return '<span >'+danados+'</span>'}  
+    return (`<span class="danados">${danados}</span>`)}  
   },
   {
     // prestados
@@ -286,7 +293,7 @@ let ArrayGral = Object.entries(Newcorte2);
   if (garrafones_prestamos == 0) {
     garrafones_prestamos = "-"
   }
-    return '<span >'+garrafones_prestamos+'</span>'}  
+    return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
     },
 
     {          
@@ -306,7 +313,7 @@ let ArrayGral = Object.entries(Newcorte2);
             
         }
         let total = parseInt(suma)
-        return '$'+ total;
+        return `$<span style="color:red" class="depositos">${total}</span>`;
       }
     },
     {          
@@ -325,7 +332,7 @@ let ArrayGral = Object.entries(Newcorte2);
             
         }
         let total = parseInt(deuda)
-        return '$'+ deuda;
+        return `$<span class="deuda">${total}</span>`;
       }
     },
 
@@ -346,7 +353,7 @@ let ArrayGral = Object.entries(Newcorte2);
             
         }
         let total = parseInt(suma)
-        return '$'+ total;
+        return `$<span class="efectivo">${total}</span>`;;
       }
     },
       ],
@@ -355,6 +362,18 @@ let ArrayGral = Object.entries(Newcorte2);
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],  
+      rowCallback: function (row, data) {
+        let totalrefill=0;
+        for (let i = 0; i < data[1].length; i++) {
+          if (data[1][i]['tipo'] == "Residencial") {
+            console.log(data)
+        console.log(row)
+       $(row).addClass('d-none');       
+       
+    }         
+        }
+
+    },
       drawCallback: function (settings) {
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
@@ -363,58 +382,26 @@ let ArrayGral = Object.entries(Newcorte2);
         api
           .column(0, { page: 'current' })
           .data()
-          .each(function (group, i) {
-            console.log(i)
+          .each(function (group, i,full) {
+            console.log(full)
+              console.log(group)
+              console.log(last)
             if (last !== group) {
-              $(rows)
+              if (group =="Residencial") {
+                $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8">' + group + '</td></tr>');
+                .before('<tr class="group"><td >' + group + '</td><td class="refill_gral"></td><td class="canje_gral"></td><td class="nuevo_gral"></td><td class="danados_gral"></td><td class="prestados_gral"></td><td class="depositos_gral"></td><td class="adeudo_gral"></td><td class="subtotal"></td></tr>');
+              }else{
+                $(rows)
+                .eq(i)
+                .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+              }
+              
 
               last = group;
             }
           });
       },
-      footerCallback: function ( row, data, start, end, display ) {
-        var api = this.api(), data;
-
-        // Remove the formatting to get integer data for summation
-        var intVal = function ( i ) {
-            return typeof i === 'string' ?
-                i.replace(/[\$,]/g, '')*1 :
-                typeof i === 'number' ?
-                    i : 0;
-        };
-
-        // Total over all pages
-        var total = api
-            .column( 2 )
-            .data()
-            .reduce( function (a, b) {
-              console.log(a)
-              console.log(b)
-              let suma =0
-              b.forEach(function (c, i) {      
-                 console.log(c)
-                 suma += parseInt((b[i]['data']['total_refill_pedido'] || 0));
-            });
-            console.log(suma)
-
-                return intVal(a) + intVal(b);
-            }, 0 );
-
-        // Total over this page
-      var   pageTotal = api
-            .column( 2, { page: 'current'} )
-            .data()
-            .reduce( function (a, b) {
-                return intVal(a) + intVal(b);
-            }, 0 );
-
-        // Update footer
-        $( api.column( 2 ).footer() ).html(
-            '$'+pageTotal +' ( $'+ total +' total)'
-        );
-    },
       language: {
       "decimal": "",
       "emptyTable": "No hay información",
@@ -440,20 +427,1308 @@ let ArrayGral = Object.entries(Newcorte2);
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
+  var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
+  $('.depositos').each(function(){
+    if ($(this).text() == "-" || $(this).text() == "0") {
+      subDepositos;
+      cantDepositos
+    }else{
+      subDepositos += parseFloat($(this).text());;
+      cantDepositos++
+    }    
+});
+  $('.efectivo').each(function(){
+    if ($(this).text() == "-") {
+      subefectivo
+    }else{
+      subefectivo += parseFloat($(this).text());
+    }    
+});
+$('.deuda').each(function(){
+  if ($(this).text() == "-") {
+    subadeudo
+  }else{
+        subadeudo += parseFloat($(this).text());
+  }    
+});
+let resDpositos = 0, resEfectivo = 0, resDeuda = 0, rescantDepositos=0
+$('tr.d-none .depositos').each(function(){
+  if ($(this).text() == "-" || $(this).text() == "0") {
+    resDpositos;
+    rescantDepositos
+  }else{
+    resDpositos += parseFloat($(this).text());;
+    rescantDepositos++
+  }    
+});
+$('tr.d-none .efectivo').each(function(){
+  if ($(this).text() == "-") {
+    resEfectivo
+  }else{
+    resEfectivo += parseFloat($(this).text());
+  }    
+});
+$('tr.d-none .deuda').each(function(){
+if ($(this).text() == "-") {
+  resDeuda
+}else{
+      resDeuda += parseFloat($(this).text());
+}    
+});
+$('.depositos_gral').html(`<span style="color:red">$${resDpositos}</span>`)
+$('.adeudo_gral').html(`<span >$${resDeuda}</span>`)
+$('.subtotal').html(`<span >$${resEfectivo}</span>`)
 
-  
+console.log(subefectivo)
+efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+  $('.refill').each(function(){
+    if ($(this).text() == "-") {
+      sumaRefill
+    }else{
+          sumaRefill += parseFloat($(this).text());
+    }    
+});
+$('.canje').each(function(){
+  if ($(this).text() == "-") {
+    sumacanje 
+  }else{
+  sumacanje += parseFloat($(this).text());
+  }     
+});
+$('.nuevo').each(function(){
+  if ($(this).text() == "-") {
+    sumanuevo
+  }else{
+  sumanuevo += parseFloat($(this).text());
+  }   
+});
+
+$('.danados').each(function(){
+  if ($(this).text() == "-") {
+    sumadanados
+  }else{
+  sumadanados += parseFloat($(this).text());
+  }    
+});
+$('.prestados').each(function(){
+  if ($(this).text() == "-") {
+    sumaprestados
+  }else{
+    sumaprestados += parseFloat($(this).text());
+  }
+     
+});
+  $( dt_Gral_t.column(2 ).footer() ).html(sumaRefill);
+  $( dt_Gral_t.column(3 ).footer() ).html(sumacanje);
+  $( dt_Gral_t.column(4 ).footer() ).html(sumanuevo);
+  $( dt_Gral_t.column(5 ).footer() ).html(sumadanados);
+  $( dt_Gral_t.column(6 ).footer() ).html(sumaprestados);
+  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+
+  let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
+  $('tr.d-none .refill').each(function(){
+    if ($(this).text() == "-") {
+      sumaRefillres
+    }else{
+      sumaRefillres += parseFloat($(this).text());
+    }    
+});
+
+$('tr.d-none .canje').each(function(){
+  if ($(this).text() == "-") {
+    resCanje 
+  }else{
+  resCanje += parseFloat($(this).text());
+  }     
+});
+$('tr.d-none .nuevo').each(function(){
+  if ($(this).text() == "-") {
+    resNuevos
+  }else{
+  resNuevos += parseFloat($(this).text());
+  }   
+});
+
+$('tr.d-none .danados').each(function(){
+  if ($(this).text() == "-") {
+    resdanados
+  }else{
+  resdanados += parseFloat($(this).text());
+  }    
+});
+$('tr.d-none .prestados').each(function(){
+  if ($(this).text() == "-") {
+    resprestados
+  }else{
+    resprestados += parseFloat($(this).text());
+  }
+     
+});
+
+  $('.refill_gral').html(sumaRefillres)
+  $('.canje_gral').html(resCanje)
+  $('.nuevo_gral').html(resNuevos)
+  $('.danados_gral').html(resdanados)
+$('.prestados_gral').html(resprestados)
+
+$('.adeudoF').text(subadeudo)
+$('.subtotalF').text(efectivoPre)
+$('.depositosF').text(subDepositos)
+$('.cantdepositosF').text(cantDepositos)
+$('.totalefectivoF').text(total)
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
       dt_basic.draw();
       });
   }
-   
  }
+ function cargaTablaResidencial(id_chofer) {
+  console.log(id_chofer)
+let corte = $('#array_corte').val()
+
+let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
+console.log('aaa')
+
+let carga = $('#array_carga').val()
+let codigosP = $('#array_cp').val()
+let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
+  //let stproductos = JSON.parse(corte.productos)
+
+let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial' && status.personalId == id_chofer); // return implicito
+
+var dt_residencial = $('.datatables-basic'),
+dt_negocio = $('.datatables-basicNegocio'),
+dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
+dt_Gral = $('.datatables-basicGral'),
+  assetPath = '../../dataPY4/';
+
+if ($('body').attr('data-framework') === 'laravel') {
+  assetPath = $('body').attr('data-asset-path');
+}
+minDate = new DateTime($('#min'), {
+  format: 'DD/MM/YYYY'
+});
+maxDate = new DateTime($('#max'), {
+  format: 'DD/MM/YYYY'
+});
+
+minDate2 = new DateTime($('#min1'), {
+format: 'DD/MM/YYYY'
+});
+maxDate2 = new DateTime($('#max1'), {
+format: 'DD/MM/YYYY'
+});
+
+
+let Residencial_arr = {}
+//Recorremos el arreglo 
+Residencial.forEach( x => {
+if( !Residencial_arr.hasOwnProperty(x.clienteId)){
+  Residencial_arr[x.clienteId] =[]
+}
+  Residencial_arr[x.clienteId].push({data:x, tipo: x.cliente.tipo, nombre:x.cliente.firstName +" "+ x.cliente.lastName,})  
+})
+let ArrayRes = Object.entries(Residencial_arr);
+
+ console.log(ArrayRes)
+console.log(corte2)
+if (dt_residencial.length) {
+  $('.dt-column-searchRes thead tr').clone(true).appendTo('.dt-column-searchRes thead');
+  $('.dt-column-searchRes thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text();
+    $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+
+    $('input', this).on('keyup change', function () {
+      if (dt_residencial_t.column(i).search() !== this.value) {
+        dt_residencial_t.column(i).search(this.value).draw();
+      }
+    });
+  });
+  var dt_residencial_t = dt_residencial.DataTable({
+    data: ArrayRes,
+   columns: [
+    { data: '1.0.tipo',},
+      { data: '1.0.nombre'},
+      { data: '1'},
+    { data: '1'},        
+      { data: '1' },
+      { data: '1' },
+      { data: '1' },
+      { data: '1'},
+      { data: '1'},
+      { data: '1'},
+    ], columnDefs: [
+      {
+        // Label
+        targets:0,visible: false, render: function (data, type, full, meta) {        
+          return (data)
+        }
+    },
+    {
+      // nombre
+      targets: 1,className: "my_class",
+      render: function (data, type, full, meta) {
+        let asentamiento = ""
+        for (let i = 0; i < codigosP_arr.length; i++) {
+          if (codigosP_arr[i]['id'] == full[1][0]['data']['cliente']['cpId']) {
+            asentamiento = codigosP_arr[i]['asentamiento']
+          }            
+        }
+    var cliente_arr = encodeURIComponent(JSON.stringify(data));
+    var color_tag ="", color_text=""     
+    if (full[1][0]['data']['cliente']['etiqueta'] ==null) {
+      color_tag =0
+      color_text="black"
+    }else{
+      color_tag =full[1][0]['data']['cliente']['etiqueta']['color']
+      color_text="white"
+    }
+    let nombre= data +" / "+ asentamiento
+    if (full[1][0]['data']['cliente']['tipo']=="Residencial") {
+      
+
+    }
+        return (
+          '<span class="badge rounded-pill ' +
+          '" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
+          nombre+
+          '</span>'
+        );
+      }
+  },
+  {
+    // REFILL
+    targets:2,render: function (data, type, full, meta) {
+      let total=0;
+      for (let i = 0; i < data.length; i++) {
+        total += parseInt(data[i]['data']['total_refill_pedido']);
+        
+      }
+      if (total == 0) {
+        total = "-"
+      }
+      return (`<span class="refill">${total}</span>`)
+      }  
+},
+{
+  // canje
+  targets:3,render: function (data, type, full, meta) {
+    let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_canje_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="canje">${total}</span>`)}  
+},
+{
+// nuevo
+targets:4,render: function (data, type, full, meta) {
+  let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_nv_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="nuevo">${total}</span>`)}  
+},
+{
+// dañados
+targets:5,render: function (data, type, full, meta) {
+        let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+    danados += parseInt(data[i]['data']['danados']);
+}
+if (danados == 0) {
+  danados = "-"
+}
+  return (`<span class="danados">${danados}</span>`)}  
+},
+{
+  // prestados
+  targets:6,render: function (data, type, full, meta) {
+    
+  let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+  garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+}
+if (garrafones_prestamos == 0) {
+  garrafones_prestamos = "-"
+}
+  return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+  },
+
+  {          
+    // Label
+    targets: 7,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span style="color:red" class="depositos">${total}</span>`;
+    }
+  },
+  {          
+    // Label
+    targets: 8,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]['data']['deuda_anterior'] != "0") {
+              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
+                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+            } else {
+                deuda += parseInt(data[i]['data']['deuda_anterior']);
+            }
+            }
+          
+      }
+      let total = parseInt(deuda)
+      return `$<span class="deuda">${total}</span>`;
+    }
+  },
+
+  {          
+    // Label
+    targets: 9,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Efectivo") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="efectivo">${total}</span>`;;
+    }
+  },
+    ],
+    order: [[0, 'desc']],
+    dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+    orderCellsTop: true,
+    displayLength: 10,
+    lengthMenu: [7, 10, 25, 50, 75, 100],  
+    rowCallback: function (row, data) {
+      
+      for (let i = 0; i < data[1].length; i++) {
+        if (data[1][i]['tipo'] == "Residencial") {
+          console.log(data)
+      console.log(row)
+     // $(row).addClass('d-none');
+
+        }
+        
+      }
+  },
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: 'current' }).nodes();
+      var last = null;
+
+      api
+        .column(0, { page: 'current' })
+        .data()
+        .each(function (group, i) {
+          console.log(group)
+          if (last !== group) {
+            $(rows)
+              .eq(i)
+              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+
+            last = group;
+          }
+        });
+    },
+    language: {
+    "decimal": "",
+    "emptyTable": "No hay información",
+    "info": "Total _TOTAL_ registros",
+    "infoEmpty": "Total _TOTAL_ registros",
+    "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+    "infoPostFix": "",
+    "thousands": ",",
+    "lengthMenu": "Mostrar _MENU_ Entradas",
+    "loadingRecords": "Cargando...",
+    "processing": "Procesando...",
+    "search": "Buscar:",
+    "zeroRecords": "Sin resultados encontrados",
+      paginate: {
+        // remove previous & next text from pagination
+        previous: '&nbsp;',
+        next: '&nbsp;'
+      }
+    }
+  });
+  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
+    // on key up from input field
+/* $('input.dt-input').on('keyup change', function () {
+  filterColumn($(this).attr('data-column'), $(this).val());
+});**/
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
+$('.depositos').each(function(){
+  if ($(this).text() == "-" || $(this).text() == "0") {
+    subDepositos;
+    cantDepositos
+  }else{
+    subDepositos += parseFloat($(this).text());;
+    cantDepositos++
+  }    
+});
+$('.efectivo').each(function(){
+  if ($(this).text() == "-") {
+    subefectivo
+  }else{
+    subefectivo += parseFloat($(this).text());
+  }    
+});
+$('.deuda').each(function(){
+if ($(this).text() == "-") {
+  subadeudo
+}else{
+      subadeudo += parseFloat($(this).text());
+}    
+});
+console.log(subefectivo)
+efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+$('.refill').each(function(){
+  if ($(this).text() == "-") {
+    sumaRefill
+  }else{
+        sumaRefill += parseFloat($(this).text());
+  }    
+});
+$('.canje').each(function(){
+if ($(this).text() == "-") {
+  sumacanje 
+}else{
+sumacanje += parseFloat($(this).text());
+}     
+});
+$('.nuevo').each(function(){
+if ($(this).text() == "-") {
+  sumanuevo
+}else{
+sumanuevo += parseFloat($(this).text());
+}   
+});
+
+$('.danados').each(function(){
+if ($(this).text() == "-") {
+  sumadanados
+}else{
+sumadanados += parseFloat($(this).text());
+}    
+});
+$('.prestados').each(function(){
+if ($(this).text() == "-") {
+  sumaprestados
+}else{
+  sumaprestados += parseFloat($(this).text());
+}
+   
+});
+$( dt_residencial_t.column(2 ).footer() ).html(sumaRefill);
+$( dt_residencial_t.column(3 ).footer() ).html(sumacanje);
+$( dt_residencial_t.column(4 ).footer() ).html(sumanuevo);
+$( dt_residencial_t.column(5 ).footer() ).html(sumadanados);
+$( dt_residencial_t.column(6 ).footer() ).html(sumaprestados);
+total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+$('.adeudoF').text(subadeudo)
+$('.subtotalF').text(efectivoPre)
+$('.depositosF').text(subDepositos)
+$('.cantdepositosF').text(cantDepositos)
+$('.totalefectivoF').text(total)
+  // Refilter the table
+  $('#min1, #max1').on('change', function () {
+    filterByDate(5); // We call our filter function
+    dt_basic.draw();
+    });
+}  
+}
+function cargaTablaNegocio(id_chofer) {
+  console.log(id_chofer)
+let corte = $('#array_corte').val()
+
+let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
+console.log('aaa')
+
+let carga = $('#array_carga').val()
+let codigosP = $('#array_cp').val()
+let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
+  //let stproductos = JSON.parse(corte.productos)
+
+let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'&& status.personalId == id_chofer); // return implicito
+var dt_negocio = $('.datatables-basicnegocio'),
+dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
+dt_Gral = $('.datatables-basicGral'),
+  assetPath = '../../dataPY4/';
+
+if ($('body').attr('data-framework') === 'laravel') {
+  assetPath = $('body').attr('data-asset-path');
+}
+minDate = new DateTime($('#min'), {
+  format: 'DD/MM/YYYY'
+});
+maxDate = new DateTime($('#max'), {
+  format: 'DD/MM/YYYY'
+});
+
+minDate2 = new DateTime($('#min1'), {
+format: 'DD/MM/YYYY'
+});
+maxDate2 = new DateTime($('#max1'), {
+format: 'DD/MM/YYYY'
+});
+
+
+let Negocio_arr = {}
+//Recorremos el arreglo 
+Negocio.forEach( x => {
+if( !Negocio_arr.hasOwnProperty(x.clienteId)){
+  Negocio_arr[x.clienteId] =[]
+}
+  Negocio_arr[x.clienteId].push({data:x, tipo: x.cliente.tipo, nombre:x.cliente.firstName +" "+ x.cliente.lastName,})  
+})
+let ArrayNeg = Object.entries(Negocio_arr);
+
+ console.log(ArrayNeg)
+if (dt_negocio.length) {
+  $('.dt-column-searchnegocio thead tr').clone(true).appendTo('.dt-column-searchnegocio thead');
+  $('.dt-column-searchnegocio thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text();
+    $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+
+    $('input', this).on('keyup change', function () {
+      if (dt_negocio_t.column(i).search() !== this.value) {
+        dt_negocio_t.column(i).search(this.value).draw();
+      }
+    });
+  });
+  var dt_negocio_t = dt_negocio.DataTable({
+    data: ArrayNeg,
+   columns: [
+    { data: '1.0.tipo',},
+      { data: '1.0.nombre'},
+      { data: '1'},
+    { data: '1'},        
+      { data: '1' },
+      { data: '1' },
+      { data: '1' },
+      { data: '1'},
+      { data: '1'},
+      { data: '1'},
+    ], columnDefs: [
+      {
+        // Label
+        targets:0,visible: false, render: function (data, type, full, meta) {        
+          return (data)
+        }
+    },
+    {
+      // nombre
+      targets: 1,className: "my_class",
+      render: function (data, type, full, meta) {
+        let asentamiento = ""
+        for (let i = 0; i < codigosP_arr.length; i++) {
+          if (codigosP_arr[i]['id'] == full[1][0]['data']['cliente']['cpId']) {
+            asentamiento = codigosP_arr[i]['asentamiento']
+          }            
+        }
+    var cliente_arr = encodeURIComponent(JSON.stringify(data));
+    var color_tag ="", color_text=""     
+    if (full[1][0]['data']['cliente']['etiqueta'] ==null) {
+      color_tag =0
+      color_text="black"
+    }else{
+      color_tag =full[1][0]['data']['cliente']['etiqueta']['color']
+      color_text="white"
+    }
+    let nombre= data +" / "+ asentamiento
+    if (full[1][0]['data']['cliente']['tipo']=="Residencial") {
+      
+
+    }
+        return (
+          '<span class="badge rounded-pill ' +
+          '" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
+          nombre+
+          '</span>'
+        );
+      }
+  },
+  {
+    // REFILL
+    targets:2,render: function (data, type, full, meta) {
+      let total=0;
+      for (let i = 0; i < data.length; i++) {
+        total += parseInt(data[i]['data']['total_refill_pedido']);
+        
+      }
+      if (total == 0) {
+        total = "-"
+      }
+      return (`<span class="refill">${total}</span>`)
+      }  
+},
+{
+  // canje
+  targets:3,render: function (data, type, full, meta) {
+    let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_canje_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="canje">${total}</span>`)}  
+},
+{
+// nuevo
+targets:4,render: function (data, type, full, meta) {
+  let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_nv_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="nuevo">${total}</span>`)}  
+},
+{
+// dañados
+targets:5,render: function (data, type, full, meta) {
+        let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+    danados += parseInt(data[i]['data']['danados']);
+}
+if (danados == 0) {
+  danados = "-"
+}
+  return (`<span class="danados">${danados}</span>`)}  
+},
+{
+  // prestados
+  targets:6,render: function (data, type, full, meta) {
+    
+  let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+  garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+}
+if (garrafones_prestamos == 0) {
+  garrafones_prestamos = "-"
+}
+  return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+  },
+
+  {          
+    // Label
+    targets: 7,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span style="color:red" class="depositos">${total}</span>`;
+    }
+  },
+  {          
+    // Label
+    targets: 8,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]['data']['deuda_anterior'] != "0") {
+              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
+                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+            } else {
+                deuda += parseInt(data[i]['data']['deuda_anterior']);
+            }
+            }
+          
+      }
+      let total = parseInt(deuda)
+      return `$<span class="deuda">${total}</span>`;
+    }
+  },
+
+  {          
+    // Label
+    targets: 9,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Efectivo") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="efectivo">${total}</span>`;;
+    }
+  },
+    ],
+    order: [[0, 'desc']],
+    dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+    orderCellsTop: true,
+    displayLength: 10,
+    lengthMenu: [7, 10, 25, 50, 75, 100],  
+    rowCallback: function (row, data) {
+      
+      for (let i = 0; i < data[1].length; i++) {
+        if (data[1][i]['tipo'] == "Residencial") {
+          console.log(data)
+      console.log(row)
+     // $(row).addClass('d-none');
+
+        }
+        
+      }
+  },
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: 'current' }).nodes();
+      var last = null;
+
+      api
+        .column(0, { page: 'current' })
+        .data()
+        .each(function (group, i) {
+          console.log(group)
+          if (last !== group) {
+            $(rows)
+              .eq(i)
+              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+
+            last = group;
+          }
+        });
+    },
+    language: {
+    "decimal": "",
+    "emptyTable": "No hay información",
+    "info": "Total _TOTAL_ registros",
+    "infoEmpty": "Total _TOTAL_ registros",
+    "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+    "infoPostFix": "",
+    "thousands": ",",
+    "lengthMenu": "Mostrar _MENU_ Entradas",
+    "loadingRecords": "Cargando...",
+    "processing": "Procesando...",
+    "search": "Buscar:",
+    "zeroRecords": "Sin resultados encontrados",
+      paginate: {
+        // remove previous & next text from pagination
+        previous: '&nbsp;',
+        next: '&nbsp;'
+      }
+    }
+  });
+  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
+    // on key up from input field
+/* $('input.dt-input').on('keyup change', function () {
+  filterColumn($(this).attr('data-column'), $(this).val());
+});**/
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
+$('.depositos').each(function(){
+  if ($(this).text() == "-" || $(this).text() == "0") {
+    subDepositos;
+    cantDepositos
+  }else{
+    subDepositos += parseFloat($(this).text());;
+    cantDepositos++
+  }    
+});
+$('.efectivo').each(function(){
+  if ($(this).text() == "-") {
+    subefectivo
+  }else{
+    subefectivo += parseFloat($(this).text());
+  }    
+});
+$('.deuda').each(function(){
+if ($(this).text() == "-") {
+  subadeudo
+}else{
+      subadeudo += parseFloat($(this).text());
+}    
+});
+console.log(subefectivo)
+efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+$('.refill').each(function(){
+  if ($(this).text() == "-") {
+    sumaRefill
+  }else{
+        sumaRefill += parseFloat($(this).text());
+  }    
+});
+$('.canje').each(function(){
+if ($(this).text() == "-") {
+  sumacanje 
+}else{
+sumacanje += parseFloat($(this).text());
+}     
+});
+$('.nuevo').each(function(){
+if ($(this).text() == "-") {
+  sumanuevo
+}else{
+sumanuevo += parseFloat($(this).text());
+}   
+});
+
+$('.danados').each(function(){
+if ($(this).text() == "-") {
+  sumadanados
+}else{
+sumadanados += parseFloat($(this).text());
+}    
+});
+$('.prestados').each(function(){
+if ($(this).text() == "-") {
+  sumaprestados
+}else{
+  sumaprestados += parseFloat($(this).text());
+}
+   
+});
+$( dt_negocio_t.column(2 ).footer() ).html(sumaRefill);
+$( dt_negocio_t.column(3 ).footer() ).html(sumacanje);
+$( dt_negocio_t.column(4 ).footer() ).html(sumanuevo);
+$( dt_negocio_t.column(5 ).footer() ).html(sumadanados);
+$( dt_negocio_t.column(6 ).footer() ).html(sumaprestados);
+total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+$('.adeudoF').text(subadeudo)
+$('.subtotalF').text(efectivoPre)
+$('.depositosF').text(subDepositos)
+$('.cantdepositosF').text(cantDepositos)
+$('.totalefectivoF').text(total)
+  // Refilter the table
+  $('#min1, #max1').on('change', function () {
+    filterByDate(5); // We call our filter function
+    dt_basic.draw();
+    });
+}  
+}
+function cargaTablaPto(id_chofer) {
+  console.log(id_chofer)
+let corte = $('#array_corte').val()
+
+let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
+console.log('aaa')
+
+let carga = $('#array_carga').val()
+let codigosP = $('#array_cp').val()
+let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
+  //let stproductos = JSON.parse(corte.productos)
+let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta' && status.personalId == id_chofer); // return implicitoreturn implicito
+var dt_PuntoVenta = $('.datatables-basicPto'),
+  assetPath = '../../dataPY4/';
+
+if ($('body').attr('data-framework') === 'laravel') {
+  assetPath = $('body').attr('data-asset-path');
+}
+minDate = new DateTime($('#min'), {
+  format: 'DD/MM/YYYY'
+});
+maxDate = new DateTime($('#max'), {
+  format: 'DD/MM/YYYY'
+});
+
+minDate2 = new DateTime($('#min1'), {
+format: 'DD/MM/YYYY'
+});
+maxDate2 = new DateTime($('#max1'), {
+format: 'DD/MM/YYYY'
+});
+
+
+let PuntoVenta_arr = {}
+//Recorremos el arreglo 
+PuntoVenta.forEach( x => {
+if( !PuntoVenta_arr.hasOwnProperty(x.clienteId)){
+  PuntoVenta_arr[x.clienteId] =[]
+}
+  PuntoVenta_arr[x.clienteId].push({data:x, tipo: x.cliente.tipo, nombre:x.cliente.firstName +" "+ x.cliente.lastName,})  
+})
+let ArrayPto = Object.entries(PuntoVenta_arr);
+
+ console.log(ArrayPto)
+if (dt_PuntoVenta.length) {
+  $('.dt-column-searchPto thead tr').clone(true).appendTo('.dt-column-searchPto thead');
+  $('.dt-column-searchPto thead tr:eq(1) th').each(function (i) {
+    var title = $(this).text();
+    $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+
+    $('input', this).on('keyup change', function () {
+      if (dt_PuntoVenta_t.column(i).search() !== this.value) {
+        dt_PuntoVenta_t.column(i).search(this.value).draw();
+      }
+    });
+  });
+  var dt_PuntoVenta_t = dt_PuntoVenta.DataTable({
+    data: ArrayPto,
+   columns: [
+    { data: '1.0.tipo',},
+      { data: '1.0.nombre'},
+      { data: '1'},
+    { data: '1'},        
+      { data: '1' },
+      { data: '1' },
+      { data: '1' },
+      { data: '1'},
+      { data: '1'},
+      { data: '1'},
+    ], columnDefs: [
+      {
+        // Label
+        targets:0,visible: false, render: function (data, type, full, meta) {        
+          return (data)
+        }
+    },
+    {
+      // nombre
+      targets: 1,className: "my_class",
+      render: function (data, type, full, meta) {
+        let asentamiento = ""
+        for (let i = 0; i < codigosP_arr.length; i++) {
+          if (codigosP_arr[i]['id'] == full[1][0]['data']['cliente']['cpId']) {
+            asentamiento = codigosP_arr[i]['asentamiento']
+          }            
+        }
+    var cliente_arr = encodeURIComponent(JSON.stringify(data));
+    var color_tag ="", color_text=""     
+    if (full[1][0]['data']['cliente']['etiqueta'] ==null) {
+      color_tag =0
+      color_text="black"
+    }else{
+      color_tag =full[1][0]['data']['cliente']['etiqueta']['color']
+      color_text="white"
+    }
+    let nombre= data +" / "+ asentamiento
+    if (full[1][0]['data']['cliente']['tipo']=="Residencial") {
+      
+
+    }
+        return (
+          '<span class="badge rounded-pill ' +
+          '" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
+          nombre+
+          '</span>'
+        );
+      }
+  },
+  {
+    // REFILL
+    targets:2,render: function (data, type, full, meta) {
+      let total=0;
+      for (let i = 0; i < data.length; i++) {
+        total += parseInt(data[i]['data']['total_refill_pedido']);
+        
+      }
+      if (total == 0) {
+        total = "-"
+      }
+      return (`<span class="refill">${total}</span>`)
+      }  
+},
+{
+  // canje
+  targets:3,render: function (data, type, full, meta) {
+    let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_canje_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="canje">${total}</span>`)}  
+},
+{
+// nuevo
+targets:4,render: function (data, type, full, meta) {
+  let total=0;
+    for (let i = 0; i < data.length; i++) {
+      total += parseInt(data[i]['data']['total_nv_pedido']);
+      
+    }
+    if (total == 0) {
+      total = "-"
+    }
+    return (`<span class="nuevo">${total}</span>`)}  
+},
+{
+// dañados
+targets:5,render: function (data, type, full, meta) {
+        let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+    danados += parseInt(data[i]['data']['danados']);
+}
+if (danados == 0) {
+  danados = "-"
+}
+  return (`<span class="danados">${danados}</span>`)}  
+},
+{
+  // prestados
+  targets:6,render: function (data, type, full, meta) {
+    
+  let danados = 0, garrafones_prestamos=0;
+  for (let i = 0; i < data.length; i++) {
+  garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+}
+if (garrafones_prestamos == 0) {
+  garrafones_prestamos = "-"
+}
+  return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+  },
+
+  {          
+    // Label
+    targets: 7,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span style="color:red" class="depositos">${total}</span>`;
+    }
+  },
+  {          
+    // Label
+    targets: 8,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (data[i]['data']['deuda_anterior'] != "0") {
+              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
+                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+            } else {
+                deuda += parseInt(data[i]['data']['deuda_anterior']);
+            }
+            }
+          
+      }
+      let total = parseInt(deuda)
+      return `$<span class="deuda">${total}</span>`;
+    }
+  },
+
+  {          
+    // Label
+    targets: 9,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+          if (data[i]['data']['metodo_pago'] == "Efectivo") {
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              suma += countArray(parseInt(data[i]['data']['monto_total']));
+          } else {
+              suma += parseInt(data[i]['data']['monto_total']);
+          }
+
+          }
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="efectivo">${total}</span>`;;
+    }
+  },
+    ],
+    order: [[0, 'desc']],
+    dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+    orderCellsTop: true,
+    displayLength: 10,
+    lengthMenu: [7, 10, 25, 50, 75, 100],  
+    rowCallback: function (row, data) {
+      
+      for (let i = 0; i < data[1].length; i++) {
+        if (data[1][i]['tipo'] == "Residencial") {
+          console.log(data)
+      console.log(row)
+     // $(row).addClass('d-none');
+
+        }
+        
+      }
+  },
+    drawCallback: function (settings) {
+      var api = this.api();
+      var rows = api.rows({ page: 'current' }).nodes();
+      var last = null;
+
+      api
+        .column(0, { page: 'current' })
+        .data()
+        .each(function (group, i) {
+          console.log(group)
+          if (last !== group) {
+            $(rows)
+              .eq(i)
+              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+
+            last = group;
+          }
+        });
+    },
+    language: {
+    "decimal": "",
+    "emptyTable": "No hay información",
+    "info": "Total _TOTAL_ registros",
+    "infoEmpty": "Total _TOTAL_ registros",
+    "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+    "infoPostFix": "",
+    "thousands": ",",
+    "lengthMenu": "Mostrar _MENU_ Entradas",
+    "loadingRecords": "Cargando...",
+    "processing": "Procesando...",
+    "search": "Buscar:",
+    "zeroRecords": "Sin resultados encontrados",
+      paginate: {
+        // remove previous & next text from pagination
+        previous: '&nbsp;',
+        next: '&nbsp;'
+      }
+    }
+  });
+  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
+    // on key up from input field
+/* $('input.dt-input').on('keyup change', function () {
+  filterColumn($(this).attr('data-column'), $(this).val());
+});**/
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
+$('.depositos').each(function(){
+  if ($(this).text() == "-" || $(this).text() == "0") {
+    subDepositos;
+    cantDepositos
+  }else{
+    subDepositos += parseFloat($(this).text());;
+    cantDepositos++
+  }    
+});
+$('.efectivo').each(function(){
+  if ($(this).text() == "-") {
+    subefectivo
+  }else{
+    subefectivo += parseFloat($(this).text());
+  }    
+});
+$('.deuda').each(function(){
+if ($(this).text() == "-") {
+  subadeudo
+}else{
+      subadeudo += parseFloat($(this).text());
+}    
+});
+console.log(subefectivo)
+efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+$('.refill').each(function(){
+  if ($(this).text() == "-") {
+    sumaRefill
+  }else{
+        sumaRefill += parseFloat($(this).text());
+  }    
+});
+$('.canje').each(function(){
+if ($(this).text() == "-") {
+  sumacanje 
+}else{
+sumacanje += parseFloat($(this).text());
+}     
+});
+$('.nuevo').each(function(){
+if ($(this).text() == "-") {
+  sumanuevo
+}else{
+sumanuevo += parseFloat($(this).text());
+}   
+});
+
+$('.danados').each(function(){
+if ($(this).text() == "-") {
+  sumadanados
+}else{
+sumadanados += parseFloat($(this).text());
+}    
+});
+$('.prestados').each(function(){
+if ($(this).text() == "-") {
+  sumaprestados
+}else{
+  sumaprestados += parseFloat($(this).text());
+}
+   
+});
+$( dt_PuntoVenta_t.column(2 ).footer() ).html(sumaRefill);
+$( dt_PuntoVenta_t.column(3 ).footer() ).html(sumacanje);
+$( dt_PuntoVenta_t.column(4 ).footer() ).html(sumanuevo);
+$( dt_PuntoVenta_t.column(5 ).footer() ).html(sumadanados);
+$( dt_PuntoVenta_t.column(6 ).footer() ).html(sumaprestados);
+total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+$('.adeudoF').text(subadeudo)
+$('.subtotalF').text(efectivoPre)
+$('.depositosF').text(subDepositos)
+$('.cantdepositosF').text(cantDepositos)
+$('.totalefectivoF').text(total)
+  // Refilter the table
+  $('#min1, #max1').on('change', function () {
+    filterByDate(5); // We call our filter function
+    dt_basic.draw();
+    });
+}  
+}
  // Advanced Search Functions Ends
  $(function () {
   'use strict';
-  cargaTablas()
 
   $("#corte_modal").on('show.bs.modal', function (e) {
     var triggerLink = $(e.relatedTarget);
@@ -557,7 +1832,166 @@ let ArrayGral = Object.entries(Newcorte2);
 
   });
 
+  $("#corte_modal_general_tabla").on('show.bs.modal', function (e) {
+    var triggerLink = $(e.relatedTarget);
+    var id = triggerLink.data("id");
+    var nombre = triggerLink.data("nombre");
+    var fecha = triggerLink.data("fecha");
+console.log(id)
+$('.fechaF').text(fecha);
+$('.choferF').text(nombre);
+$('#pedidos_corteGral').dataTable().fnDestroy();
+ $('#pedidos_corteGral').empty();
+$('#pedidos_corteGral').html(`<thead>
+<tr>
+    <th>Tipo oculto</th>
+    <th>-</th>
+    <th>Refil</th>
+    <th>Canje</th>
+    <th>Nuevo Envase</th>
+    <th>Dañados</th>
+    <th>Prestados</th>
+    <th>Depositos</th>
+    <th>Adeudo</th>
+    <th>Subtotal</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot`);
 
+cargaTablas(id)
+});
+  $("#corte_modal_residencial_tabla").on('show.bs.modal', function (e) {
+    var triggerLink = $(e.relatedTarget);
+    var id = triggerLink.data("id");
+    var nombre = triggerLink.data("nombre");
+    var fecha = triggerLink.data("fecha");
+console.log(id)
+$('.fechaF').text(fecha);
+$('.choferF').text(nombre);
+$('#residencial_table').dataTable().fnDestroy();
+ $('#residencial_table').empty();
+$('#residencial_table').html(`<thead>
+<tr>
+    <th>Tipo oculto</th>
+    <th>-</th>
+    <th>Refil</th>
+    <th>Canje</th>
+    <th>Nuevo Envase</th>
+    <th>Dañados</th>
+    <th>Prestados</th>
+    <th>Depositos</th>
+    <th>Adeudo</th>
+    <th>Subtotal</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot`);
+
+cargaTablaResidencial(id)
+});
+$("#corte_modal_negocio").on('show.bs.modal', function (e) {
+  var triggerLink = $(e.relatedTarget);
+  var id = triggerLink.data("id");
+  var nombre = triggerLink.data("nombre");
+  var fecha = triggerLink.data("fecha");
+console.log(id)
+$('.fechaF').text(fecha);
+$('.choferF').text(nombre);
+$('#negocio_table').dataTable().fnDestroy();
+$('#negocio_table').empty();
+$('#negocio_table').html(`<thead>
+<tr>
+  <th>Tipo oculto</th>
+  <th>-</th>
+  <th>Refil</th>
+  <th>Canje</th>
+  <th>Nuevo Envase</th>
+  <th>Dañados</th>
+  <th>Prestados</th>
+  <th>Depositos</th>
+  <th>Adeudo</th>
+  <th>Subtotal</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot`);
+
+cargaTablaNegocio(id)
+});
+$("#corte_modal_ptovta").on('show.bs.modal', function (e) {
+  var triggerLink = $(e.relatedTarget);
+  var id = triggerLink.data("id");
+  var nombre = triggerLink.data("nombre");
+  var fecha = triggerLink.data("fecha");
+console.log(id)
+$('.fechaF').text(fecha);
+$('.choferF').text(nombre);
+$('#Pto_table').dataTable().fnDestroy();
+$('#Pto_table').empty();
+$('#Pto_table').html(`<thead>
+<tr>
+  <th>Tipo oculto</th>
+  <th>-</th>
+  <th>Refil</th>
+  <th>Canje</th>
+  <th>Nuevo Envase</th>
+  <th>Dañados</th>
+  <th>Prestados</th>
+  <th>Depositos</th>
+  <th>Adeudo</th>
+  <th>Subtotal</th>
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot`);
+
+cargaTablaPto(id)
+});
 });
 // Filter column wise function
 function filterColumn(i, val) {

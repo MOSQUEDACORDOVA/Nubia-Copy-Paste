@@ -89,6 +89,7 @@ function cargaTabla(rechar) {
             var color_tag ="", color_text=""
             if (full['etiqueta'] ==null) {
               color_tag =0
+              color_text="black"
             }else{
               color_tag =full['etiqueta']['color']
               color_text="white"
