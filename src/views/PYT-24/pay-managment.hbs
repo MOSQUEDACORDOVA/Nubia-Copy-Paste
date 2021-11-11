@@ -1,9 +1,10 @@
-<div class="app-content content py21">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>   
+
+<div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-
             <div class="row">
-
+                {{!--- PAGOS PENDIENTES ---}}
                 <div class="col-12">
                     <div class="card">
                         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pagos a realizar</h6></div></div>
@@ -28,122 +29,42 @@
                             </div>
                             <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                 <thead>
-                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquete finalizado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Referido</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Monto</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquete finalizado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Monto</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
                                 </thead>
                                 <tbody>
-
-                                    <tr class="odd">
-                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                        <td class=" dt-checkboxes-cell">
-                                            <div class="form-check"> 
-                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                <label class="form-check-label" for="checkbox100"></label>
-                                            </div>
-                                        </td>
-
-                                        <td>Mosqueda</td>
-
+                                    {{#if pendindPays}}
+                                    {{#each pendindPays as |user i|}}      
+                                    <tr class="even">
+                                        <td class="control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                        <td style="white-space: nowrap;">{{usuario.username}}</td>
+                                        <td style="white-space: nowrap;">{{usuario.email}}</td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCard3">Ver</a>
+                                            <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{deposito.status}}" data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}" data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 deposito.createdAt}}{{/formatDatapy24}}" data-activated="{{#formatDatapy24 deposito.activatedAt}}{{/formatDatapy24}}" data-culmination="{{deposito.culmination}}" data-earnings="{{deposito.earnings}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Ver</a>
                                         </td>
-
-                                        <td class="text-center">
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCard">2</a>
-                                        </td>
-
-                                        <td>200$</td>
-                                        
-                                        <td>07/08/2021</td>
-
                                         <td>
-                                            <span class="badge rounded-pill  badge-light-warning">Pendiente</span>
+                                            {{deposito.earnings}}  
                                         </td>
-
                                         <td>
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCard2">Pagar</a>
+                                            {{#formatDatapy24 deposito.createdAt}}{{/formatDatapy24}} 
                                         </td>
-                                        
+                                        <td style="white-space: nowrap;">{{#statususerpy24 status}}{{/statususerpy24}}</td>
+                                        <td>
+                                            <form id="form{{usuario.id}}">
+                                                <input class="d-none" name="id" value="{{usuario.id}}">
+                                                <a href="#" class="btn btn-primary payBtn" data-amount="{{deposito.earnings}}" data-id="{{usuario.id}}" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2">Pagar</a>
+                                            </form>
+                                        </td>
                                     </tr>
-
+                                    {{/each}}
+                                    {{else}}
+                                    <tr>
+                                        <td>
+                                            <p>No existen pagos realizados.</p>
+                                        </td>
+                                    </tr>
+                                    {{/if}}
                                 </tbody>
                             </table>
-
-                            <div class="d-flex justify-content-between mx-0 row">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                        <ul class="pagination">
-                                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
-                                            <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="card">
-                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Historial de Pagos</h6></div></div>
-                            <div class="d-flex justify-content-between align-items-center mx-0 row">
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="dataTables_length" id="DataTables_Table_0_length">
-                                        <label class="d-flex align-items-center">Mostrar 
-                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
-                                                <option value="7">7</option>
-                                                <option value="10">10</option><option value="25">25</option>
-                                                <option value="50">50</option><option value="75">75</option>
-                                                <option value="100">100</option>
-                                            </select> entradas
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                        <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
-                                <thead>
-                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Contrato finalizado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Referido</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Monto</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr class="odd">
-                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                        <td class=" dt-checkboxes-cell">
-                                            <div class="form-check"> 
-                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                <label class="form-check-label" for="checkbox100"></label>
-                                            </div>
-                                        </td>
-
-                                        <td>Mosqueda</td>
-
-                                        <td>
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCard3">Ver</a>
-                                        </td>
-
-                                        <td>
-                                            <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addNewCard">2</a>
-                                        </td>
-
-                                        <td>200$</td>
-                                        
-                                        <td>07/08/2021</td>
-
-                                        <td>
-                                            <span class="badge rounded-pill  badge-light-info">Realizado</span>
-                                        </td>
-                                        
-                                    </tr>              
-                                </tbody>
-                            </table>
-
                             <div class="d-flex justify-content-between mx-0 row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
@@ -164,7 +85,7 @@
                 {{!--- REALIZADOS ---}}
                 <div class="col-12">
                     <div class="card">
-                        <div id="" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Historial de Pagos</h6></div></div>
+                        <div id="" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pagos Realizados</h6></div></div>
                             <div class="d-flex justify-content-between align-items-center mx-0 row">
                                 <div class="col-sm-12 col-md-6">
                                     <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -181,32 +102,31 @@
                             </div>
                             <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                 <thead>
-                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquete Finalizado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Referidos</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquete Finalizado</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Fecha</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
                                 </thead>
-                                <tbody id="table-user">
-                                    {{#if allusers}}
-                                    {{#each allusers as |user i|}}      
+                                <tbody>
+                                    {{#if pays}}
+                                    {{#each pays as |user i|}}      
                                     <tr class="even">
                                         <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
-                                        <td style="white-space: nowrap;">{{user.username}}</td>
-                                        <td style="white-space: nowrap;">{{user.email}}</td>
-                                        <td class="type_user">
-                                            {{#roleuserpy24 user.type_user}}{{/roleuserpy24}}
+                                        <td style="white-space: nowrap;">{{usuario.username}}</td>
+                                        <td style="white-space: nowrap;">{{usuario.email}}</td>
+                                        <td>
+                                            <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}" data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}" data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 paquete.createdAt}}{{/formatDatapy24}}" data-activated="{{#formatDatapy24 paquete.activatedAt}}{{/formatDatapy24}}" data-culmination="{{paquete.culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Ver</a>
+                                        </td>
+                                        <td>
+                                            {{#roleuserpy24 usuario.type_user}}{{/roleuserpy24}}
                                         </td>
                                         <td>
                                             <form id="form{{user.id}}">
                                                 <input type="text" class="d-none" name="id" value="{{user.id}}" readonly required>
-                                                {{#userdepositspy24 user.id user.depositos}}{{/userdepositspy24}}
+                                                {{#userdepositspy24 user.id user.deposito}}{{/userdepositspy24}}
                                             </form>
                                         </td>
                                         <td>
-                                            {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
+                                           
                                         </td>
                                         <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
-
-                                        <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
-                                            {{#usertosellerpy24 user.id user.type_user}}{{/usertosellerpy24}}
-                                        </td>
                                     </tr>
                                     {{/each}}
                                     {{else}}
@@ -236,133 +156,11 @@
                     </div>
                 </div>
 
-                <button class="d-none" id="btnModalPaquetes" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2"></button>
-
+                <a class="btn btn-dark" id="btnModalPaquetes" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2">sdgdsg</a>
             </div>
-
-            {{!-- MODAL REFERIDOS --}}
-            <div class="modal fade" id="addNewCard" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body px-sm-5 mx-50 pb-5">
-                            <div id="pricing-plan">
-                                <!-- title text and switch button -->
-                                <div class="text-center">
-                                    <h1 id="pricingModalTitle">Contratos Finalizados</h1>
-                                    <p class="mb-3"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
-                                            <div class="d-flex justify-content-between align-items-center mx-0 row">
-                                                <div class="col-sm-12 col-md-8 col-lg-6">
-                                                    <div class="dataTables_length" id="DataTables_Table_0_length">
-                                                        <label class="d-flex align-items-center">Mostrar 
-                                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
-                                                                <option value="7">7</option>
-                                                                <option value="10">10</option><option value="25">25</option>
-                                                                <option value="50">50</option><option value="75">75</option>
-                                                                <option value="100">100</option>
-                                                            </select> entradas
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-8 col-lg-6">
-                                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                        <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
-                                                <thead>
-                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Nro</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Referido</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Inversión</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias por referir</th></tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr class="odd" role="button">
-                                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                                        <td class=" dt-checkboxes-cell">
-                                                            <div class="form-check"> 
-                                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                                <label class="form-check-label" for="checkbox100"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>001</td>
-
-                                                        <td>mosquedac</td>
-
-                                                        <td>mosquedac@gmail.com</td>
-
-                                                        <td>2020/05/04</td>
-                                                        
-                                                        <td>
-                                                            2020/07/04
-                                                        </td>
-
-                                                        <td>2 Meses</td>
-
-                                                        <td>
-                                                            1000$
-                                                        </td>
-
-                                                        <td>$1437</td>
-                                                        
-                                                        <td>
-                                                            <span class="badge rounded-pill  badge-light-success">$100</span>
-                                                        </td>
-                                                    </tr>
-
-                                                    <tr class="odd" role="button">
-                                                        <td class=" control" tabindex="0" style="display: none;"></td>
-                                                        <td class=" dt-checkboxes-cell">
-                                                            <div class="form-check"> 
-                                                                <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                                                                <label class="form-check-label" for="checkbox100"></label>
-                                                            </div>
-                                                        </td>
-                                                        <td>002</td>
-
-                                                        <td>mosquedac</td>
-
-                                                        <td>mosquedac@gmail.com</td>
-
-                                                        <td>2020/05/04</td>
-                                                        
-                                                        <td>
-                                                            2020/07/04
-                                                        </td>
-
-                                                        <td>2 Meses</td>
-
-                                                        <td>
-                                                            1000$
-                                                        </td>
-
-                                                        <td>$1437</td>
-                                                        
-                                                        <td>
-                                                            <span class="badge rounded-pill  badge-light-success">$100</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-
-                                        </div>
-                                    </div>
-                                </div>
-    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{!-- END MODAL REFERIDOS --}}
-
  
             {{!-- MODAL PAGAR --}}
-            <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
+            <div class="modal fade" id="addNewCard2" aria-labelledby="" tabindex="-1" style="padding-left: 0px;" aria-modal="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
@@ -377,7 +175,7 @@
                             <section class="vertical-wizard">
                                 <div class="bs-stepper vertical vertical-wizard-example">
                                     <div class="bs-stepper-header">
-                                        <h4>Elige un metodo de retiro</h4>
+                                        <h4>Elige un metodo de pago</h4>
                                         <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
                                             <button type="button" class="step-trigger" aria-selected="true">
                                                 <span class="bs-stepper-box">1</span>
@@ -398,7 +196,7 @@
                                             <button type="button" class="step-trigger" aria-selected="false">
                                                 <span class="bs-stepper-box">3</span>
                                                 <span class="bs-stepper-label">
-                                                    <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                                    <span class="bs-stepper-title">Pago en Criptomonendas</span>
                                                 </span>
                                             </button>
                                         </div>
@@ -406,175 +204,251 @@
                                             <button type="button" class="step-trigger" aria-selected="false">
                                                 <span class="bs-stepper-box">4</span>
                                                 <span class="bs-stepper-label">
-                                                    <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                                    <span class="bs-stepper-title">Pago en Billetera digital</span>
                                                 </span>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="bs-stepper-content">
-                                        <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                        <!--- TRANSFERENCIAS BANCARIAS -->
+                                        <form id="account-details-vertical" method="POST" action="/deposits" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
                                             <div class="content-header">
                                                 <h5 class="mb-0">Transferencia Bancaria</h5>
                                             </div>
                                             <div class="row">
                                                 <div class="mb-1 col-12">
+                                                    <select class="form-select" id="selectBanks" tabindex="-1" aria-hidden="true" required>
+                                                        <option value="" selected>Cuentas disponibles</option>
+                                                        {{#each allbanks as |item i|}}
+                                                        <option data-bank-name="{{item.bank_name}}" data-bank-num-account="{{item.num_account}}" data-bank-type-account="{{item.type_account}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" data-id="{{item.id}}" value="{{item.id}}">{{item.bank_name}} - {{item.num_account}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Nombre Completo</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" value="Mosqueda Cordova">
+                                                    <input type="text" name="ttype" class="d-none" value="Transferencia Bancaria" required readonly>
+                                                    <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                    <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                    <input type="text" id="fullname1" class="form-control" placeholder="" name="name" value="" required readonly>
                                                 </div>
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Documento de identificación</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" value="20.705.025">
+                                                    <input type="text" id="dni1" class="form-control" placeholder="" name="dni" value="" required readonly>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Tipo de Banco</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" value="Banesco">
+                                                    <input type="text" id="bank_name1" class="form-control" placeholder="" name="bank_name" value="" required readonly>
                                                 </div>
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Tipo de Cuenta</label>
-                                                    <select name="" id="" class="form-select">
-                                                        <option value="" selected="">Corriente</option>
-                                                        <option value="">Ahorro</option>
-                                                    </select>
+                                                    <input type="text" name="type_account" id="type_account" class="form-control" placeholder="" value="" required readonly>
                                                 </div>
                                                 <div class="mb-1">
                                                     <label class="form-label" for="">Nro de Cuenta Bancaria</label>
-                                                    <input type="text" id="" class="form-control" placeholder="" value="0116 0552 0855 5995">
+                                                    <input type="text" id="num_account" class="form-control" placeholder="" name="num_account" value="" required readonly>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Monto $</label>
+                                                    <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Nro de referencia</label>
+                                                    <input type="text" name="ref" id="ref" class="form-control" placeholder="" required>
                                                 </div>
                                             </div>
                                             <div class="d-flex">
-                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
-                                                    Realizar Pago
+                                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                    Enviar pago a verificación
                                                 </button>
                                             </div>
-                                        </div>
-                                        <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                        </form>
+
+                                        <!--- BTC -->
+                                        <form action="/deposits" method="POST" id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                             <div class="content-header">
                                                 <h5 class="mb-0">Retiro en BTC</h5>
                                             </div>
+                                            <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                <option value="" selected>Cuentas disponibles</option>
+                                                {{#each allbtc as |item i|}}
+                                                <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                {{/each}}
+                                            </select>
                                             <div class="row">
                                                 <div class="mb-1 col-12">
-                                                    <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
-                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                    <label class="form-label" for="">Codigo de la Billetera</label>
+                                                    <input type="text" name="ttype" class="d-none" value="BTC" required readonly>
+                                                    <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                    <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                    <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Monto $</label>
+                                                    <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex">
-                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                                     Realizar Pago
                                                 </button>
                                             </div>
-                                        </div>
-                                        <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                        </form>
+
+                                        <!--- BILLETERA DIGITAL -->
+                                        <form action="/deposits" method="POST" id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
                                             <div class="content-header">
                                                 <h5 class="mb-0">Retiro en Billetera digital</h5>
                                             </div>
                                             <div class="row">
                                                 <div class="mb-1 col-12">
-                                                    <label class="form-label" for="vertical-first-name">Email</label>
-                                                    <input type="email" id="" class="form-control" placeholder="">
+                                                    <select class="form-select" id="digWallet" tabindex="-1" aria-hidden="true" required>
+                                                        <option value="" selected>Cuentas disponibles</option>
+                                                        {{#each allwallet as |item i|}}
+                                                        <option data-id="{{item.id}}" data-email="{{item.digital_wallet_email}}" value="{{item.id}}">{{item.digital_wallet_email}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Email</label>
+                                                    <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                                                    
+                                                    <input type="text" name="ttype" class="d-none" value="Billetera Digital" required readonly>
+                                                    <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                    <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
+                                                </div>
+                                                <div class="mb-1 col-12">
+                                                    <label class="form-label" for="">Monto $</label>
+                                                    <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex">
-                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                                     Realizar Pago
                                                 </button>
                                             </div>
-                                        </div>
-                                        <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                        </form>
+
+                                        <!--- PAGO MOVIL -->
+                                        <form action="/deposits" method="POST" id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
                                             <div class="content-header">
                                                 <h5 class="mb-0">Pago Móvil</h5>
                                             </div>
                                             <div class="row">
                                                 <div class="mb-1 col-12">
+                                                    <select class="form-select" id="selectPaym" tabindex="-1" aria-hidden="true" required>
+                                                        <option value="" selected>Cuentas disponibles</option>
+                                                        {{#each allpaym as |item i|}}
+                                                        <option data-bank-name="{{item.bank_name}}" data-phone="{{item.phone}}" data-id="{{item.id}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.phone}}</option>
+                                                        {{/each}}
+                                                    </select>
+                                                </div>
+                                                <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Nombre Completo</label>
-                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                    <input type="text" name="ttype" class="d-none" value="Pago Movil" required readonly>
+                                                    <input type="text" name="id" class="d-none id" value="" required readonly>  
+                                                    <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                         
+                                                    <input type="text" id="fullname2" class="form-control" placeholder="" required readonly>
                                                 </div>
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Documento de identicicación</label>
-                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                    <input type="text" id="dni2" class="form-control" placeholder="" required readonly>
                                                 </div>
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Banco</label>
-                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                    <input type="text" id="bank_name2" class="form-control" placeholder="" required readonly>
                                                 </div>
                                                 <div class="mb-1 col-12">
                                                     <label class="form-label" for="">Telefono</label>
-                                                    <input type="text" id="" class="form-control" placeholder="">
+                                                    <input type="text" id="phone" class="form-control" placeholder="" required>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Monto $</label>
+                                                    <input type="text" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                </div>
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Nro de referencia</label>
+                                                    <input type="text" id="ref2" name="ref" class="form-control" placeholder="" required>
                                                 </div>
                                             </div>
 
                                             <div class="d-flex">
-                                                <button class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
                                                     Realizar Pago
                                                 </button>
                                             </div>
-                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </section>
-
                         </div>
                     </div>
                 </div>
             </div>
             {{!-- END MODAL PAGAR --}}
 
-           {{!-- MODAL FINALIZADOS --}}
-           <div class="modal fade" id="addNewCard3" tabindex="-1" aria-labelledby="addNewCardTitle" style="display: none;" aria-hidden="true">
+            {{!-- MODAL FINALIZADOS --}}
+            <div class="modal fade" id="addNewCard3" tabindex="-1" aria-labelledby="" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1" id="">Código del Contrato: 001</h1>
+                            <h1 class="text-center mb-1" id="pname"></h1>
                             <div class="card-body row">
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Número del Contrato</label>
-                                    <input id="" name="" class="form-control" type="text" value="1356 3215 6548 7898" readonly>
+                                    <label class="form-label" for="">Nombre del Paquete</label>
+                                    <input id="name2" class="form-control" type="text" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="capital">Capital Invertido</label>
-                                    <input id="capital" name="" class="form-control" type="text" value="1000$" readonly>
+                                    <label class="form-label" for="">Total de TH</label>
+                                    <input id="amount_th2" class="form-control" type="text" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Duración</label>
-                                    <input type="text" id="" class="form-control" value="3 Meses" readonly>
+                                    <label class="form-label" for="">Duración de Minado / Meses</label>
+                                    <input type="text" id="duration2" class="form-control" value="" readonly>
+                                </div>
+
+                                <div class="col-md-6 mb-2">
+                                    <label class="form-label" for="">Fecha de Creación</label>
+                                    <input type="text" id="date2" class="form-control" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Fecha de Activación</label>
-                                    <input type="text" id="" class="form-control" value="20/9/2021" readonly>
+                                    <input type="text" id="activated" class="form-control" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
                                     <label class="form-label" for="">Fecha de Culminación</label>
-                                    <input type="text" id="" class="form-control" value="20/10/2021" readonly>
+                                    <input type="text" id="culmination" class="form-control" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Mínima</label>
-                                    <input type="text" id="" class="form-control" value="100$" readonly>
+                                    <label class="form-label" for="">Cobro por mantenimiento</label>
+                                    <input type="text" id="maintance" class="form-control" value="" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Máxima</label>
-                                    <input type="text" id="" class="form-control" value="300$" readonly>
+                                    <label class="form-label" for="">Precio del Paquete $</label>
+                                    <input type="text" id="amount2" class="form-control" value="400$" readonly>
                                 </div>
 
                                 <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Ganancias Alcanzadas</label>
-                                    <input type="text" id="m" class="form-control" value="300$" readonly>
+                                    <label class="form-label" for="">Ganancias $</label>
+                                    <input type="text" id="earnings" class="form-control" value="" readonly>
                                 </div>
 
-                                <div class="col-12 mb-2">
+                                <div class="col-12 col-md-6 mb-2">
                                     <label class="form-label" for="">Estado</label>
-                                    <input type="text" id="" class="form-control" value="Terminado" readonly>
+                                    <input type="text" id="state2" class="form-control" value="Terminado" readonly>
                                 </div>
                                 
                                 <div class="col-12">
@@ -586,77 +460,157 @@
                 </div>
             </div>
             {{!-- END MODAL FINALIZADOS --}}
+
+            {{!-- MODAL USUARIO SIN METODOS DE RETIRO --}}
+            <div class="modal fade" id="addNewCard4" tabindex="-1" aria-labelledby="" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h1 class="mb-1">Lo Sentimos!</h1>
+                            <div class="card-body row">
+                                <p>El usuario actualmente no cuenta con ningun metodo de retiro añadido a la plataforma.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- END MODAL FINALIZADOS --}}
         </div>
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>   
 <script>
-    $(document).ready(function() {
-        let tbodyModal = document.getElementById('tbody');
-        let btnModalP = $('#btnModalPaquetes');
-        $('.btn-paquetes').click(function(e) {
-            let iduser = e.target.getAttribute('data-id');
-            let form = document.getElementById(`form${iduser}`);
+    let btn = document.querySelectorAll('.showModalBtn'),
+    payBtn = document.querySelectorAll('.payBtn'),
+    amountInp = document.querySelectorAll('.amount')
+
+    btn.forEach(e => {
+        e.addEventListener('click', (event) => {
+            let current = event.target
+            SetModal(current);
+        });
+    });
+
+    payBtn.forEach(e => {
+        e.addEventListener('click', (event) => {
+            let current = event.target
+            SetPayModal(current);
+            amountInp.forEach(item =>  {
+                item.value = current.getAttribute('data-amount');
+            });
+        });
+    });
+
+    const SetModal = (target) => {
+        const packName = document.getElementById('pname'),
+        name = document.getElementById('name2'),
+        amount_th = document.getElementById('amount_th2'),
+        duration = document.getElementById('duration2'),
+        date = document.getElementById('date2'),
+        maintance = document.getElementById('maintance'),
+        activated = document.getElementById('activated'),
+        culmination = document.getElementById('culmination'),
+        earnings = document.getElementById('earnings'),
+        amount = document.getElementById('amount2'),
+        state = document.getElementById('state2');
+
+        packName.innerText = target.getAttribute('data-name')
+        name.value = target.getAttribute('data-name')
+        amount_th.value = target.getAttribute('data-amount_th')
+        duration.value = target.getAttribute('data-duration')
+        amount.value = target.getAttribute('data-price')
+        earnings.value = target.getAttribute('data-earnings')
+        date.value = target.getAttribute('data-date')
+        state.value = target.getAttribute('data-status')
+        activated.value = target.getAttribute('data-activated')
+        culmination.value = target.getAttribute('data-culmination')
+        maintance.value = target.getAttribute('data-maintance')
+        console.log(target.getAttribute('data-activated'))
+        console.log(target.getAttribute('data-culmination'))
+    }
+
+    const SetPayModal = (target) => {
+        let idUser = target.getAttribute('data-id')
+    }
+</script>
+<script> 
+    $(window).ready(()=>{
+        $('.payBtn').click(function(e) {
+            let id = e.target.getAttribute('data-id')
+            let form = document.getElementById(`form${id}`);
             const data = new FormData(form);
-            console.log(data)
+            console.log(form)
             $.ajax({
-                url: '/getdeposits',
+                url: '/getretreatsusers',
                 type: 'POST',
                 data: data,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (resp, textStatus, jqXHR) {
+                    console.log(resp)
                     let arr = resp;
                     let newArr = [];
-                    console.log(resp)
-                    tbody.innerHTML = '';
+                    
                     if(arr.transf.length) {
                         newArr.push(arr.transf)
+                    } else {
+                        newArr.push([])
                     }
                     if(arr.paym.length) {
                         newArr.push(arr.paym)
+                    } else {
+                        newArr.push([])
                     }
                     if(arr.btc.length) {
                         newArr.push(arr.btc)
+                    } else {
+                        newArr.push([])
                     }
                     if(arr.wallet.length) {
                         newArr.push(arr.wallet)
+                    } else {
+                        newArr.push([])
                     }
-                    SetPackagesUser(newArr);
+
+                    SetPaymenthUser(newArr);
                 },
                 error: function (jqXHR, textStatus) {
-                    console.log('error:' + jqXHR);
+                    console.log('error:' + jqXHR + textStatus);
                 }
             });
         });
 
-        function SetPackagesUser (item) {
+        function SetPaymenthUser (item) {
             console.log(item)
-            if(item[0]) {
+            console.log("DATOS")
+
+            if(item[0] != []) {
                 item[0].forEach(el => {
-                    SetModalValues(el);
-                })
+                    //SetModalValues(el);
+                });
             }
-            if(item[1]) {
+            if(item[1] != []) {
                 item[1].forEach(el => {
-                    SetModalValues(el);
-                })
+                    //SetModalValues(el);
+                });
             }
-            if(item[2]) {
+            if(item[2] != []) {
                 item[2].forEach(el => {
-                    SetModalValues(el);
-                })
+                    //SetModalValues(el);
+                });
             }
-            if(item[3]) {
+            if(item[3] != []) {
                 item[3].forEach(el => {
-                    SetModalValues(el);
-                })
+                    //SetModalValues(el);
+                });
             }
         }
 
-        function SetModalValues (item) {
+        /*function SetModalValues (item) {
             console.log(item)
             let name, status, created, activated, culmination;
             if(item.status === 'No verificado') {
@@ -706,6 +660,6 @@
             `;
             tbodyModal.appendChild(tr)
             btnModalP.click();
-        }
+        }*/
     });
 </script>

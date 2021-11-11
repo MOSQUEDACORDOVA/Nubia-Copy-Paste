@@ -10,7 +10,6 @@ exports.authenticatedUser = (req, res, next) => {
 }
 
 exports.authenticatedAdminOrSeller = (req, res, next) => {
-	console.log(req.user.type_user);
 	// Autenticado
 	if(req.isAuthenticated() && req.user.type_user === 'Administrador' || req.user.type_user === 'Vendedor') {
 		res.locals.user = req.user || {};
@@ -21,12 +20,11 @@ exports.authenticatedAdminOrSeller = (req, res, next) => {
 }
 
 exports.authenticatedAdmin = (req, res, next) => {
-	console.log(req.user.type_user);
 	// Autenticado
 	if(req.isAuthenticated() && req.user.type_user === 'Administrador') {
 		res.locals.user = req.user || {};
 		return next();
-	}  
+	}
 	// Si no esta autenticado
 	return res.redirect('/login24/PYT-24');
 }

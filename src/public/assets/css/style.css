@@ -309,7 +309,9 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
     box-shadow: unset;
     border-radius: 0.5rem;
 }
-
+.py21 table thead th, .py21 table tbody td {
+    white-space: nowrap;
+}
 /*--------------------------- PYT-24 ---------------------------*/
 body {
     position: relative;
@@ -347,7 +349,19 @@ body {
     background-color: #D9A443 !important;
     color: #fff !important;
 }
-
+.py24 .pricing-card .docemeses, .py24 .pricing-card .veinticuatromeses {
+    animation: showCards .4s ease alternate both;
+}
+@keyframes showCards {
+    0% {
+        opacity: 0;
+        transform: scale(0) translateY(60px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0px);
+    }
+}
 .py24 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
     border-color: #D9A443 !important;
     outline: 0;

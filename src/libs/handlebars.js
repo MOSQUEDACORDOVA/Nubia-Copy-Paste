@@ -45,6 +45,13 @@ module.exports = {
 			return false;
 		}
 	},
+	duracionplanespy24: (item) => {
+		if (item === 12) {
+			return 'docemeses';
+		} else {
+			return 'veinticuatromeses';
+		}
+	},
 	planesclasepy24: (item) => {
 		if (item > 6 && item <= 13) {
 			return 'standard-pricing popular';
@@ -73,15 +80,15 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">${role}</span>`;
 		}
 	},
-	usertosellerpy24: (id, role) => {
+	usertosellerpy21: (id, role) => {
 		if(role === 'Inversionista') {
-			return `<form action="/usertoseller" method="POST">
+			return `<form action="/usertosellerpy21" method="POST">
 			<input type="text" name="id" value="${id}" class="d-none">
 			<input type="text" name="status" value="{{item.status}}" class="d-none">
 			<button type="submit" class="dropdown-item w-100 d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Dar permisos de Vendedor</button>
 			</form>`;
 		} else {
-			return `<form action="/sellertouser" method="POST">
+			return `<form action="/sellertouserpy21" method="POST">
 			<input type="text" name="id" value="${id}" class="d-none">
 			<input type="text" name="status" value="{{item.status}}" class="d-none">
 			<button type="submit" class="dropdown-item w-100 d-flex align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Remover permisos de Vendedor</button>
