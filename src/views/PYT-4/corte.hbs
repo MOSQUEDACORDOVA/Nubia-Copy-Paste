@@ -176,7 +176,7 @@ case 4:
                                             <div class="head-label"><h6 class="mb-0">General</h6></div>
                                         </div>
                                         {{#each choferes_ as |chofer i|}}
-                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="'+total_garrafones+'" data-totalRefill="'+totalRefill+'" data-totalCanje="'+totalCanje+'" data-totalObsequio="'+totalObsequio+'" data-totalNuevo="'+totalNuevo+'" data-totaldanados="'+danados+'" data-id_personal="'+full[1][0]['personalId']+'" data-garrafones_prestamos="'+garrafones_prestamos+'"data-title="Total Garrafones Detallado de '+data+'"  data-bs-target="#corte_modal">{{name}} {{lastName}}</button>
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_general_tabla">{{name}} {{lastName}}</button>
                                         {{/each}}
                                     </div>
                                 </div>
@@ -184,7 +184,7 @@ case 4:
                         </div>
                     </div>
                 </div>
-                <div class="card py4table collapse" id="total">
+                {{!-- <div class="card py4table collapse" id="total">
                     <!-- List DataTable -->
                     <div class="row">
                         <div class="col-12">
@@ -209,16 +209,25 @@ case 4:
                                                     <th>Subtotal</th>
                                                 </tr>
                                             </thead>
+                                                    <tfoot>
+            <tr>
+                <th colspan="2" style="text-align:right"> Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
                                         </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card py4table collapse" id="residenciales">
-                    <!-- List DataTable -->
-                    <div class="row">
+                                        <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card invoice-list-wrapper" >
@@ -226,48 +235,31 @@ case 4:
                                         <div class="card-header p-1">
                                             <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
                                         </div>
-                                        <table class="datatables-basic table dt-column-search" id="pedidos_corte" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre del Chofer</th>
-                                                    <th>Unidad</th>
-                                                    <th>Total Garrafones</th>
-                                                    <th>Total Efectivo</th>
-                                                    <th>Total transferencias</th>
-                                                    <th>Total pagos tarjetas</th>
-                                                    <th>Deuda Anterior</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_residencial_tabla">{{name}} {{lastName}}</button>
+                                        {{/each}}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <!-- List DataTable -->
                 </div>
                 
                 <div class="card py4table collapse" id="negocio">
                     <!-- List DataTable -->
-                    <div class="row">
+                                        <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card invoice-list-wrapper" >
-                                    <div class="card-header p-1">
-                                        <div class="head-label"><h6 class="mb-0">Negocios</h6></div>
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Negocio</h6></div>
+                                        </div>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_negocio">{{name}} {{lastName}}</button>
+                                        {{/each}}
                                     </div>
-                                    <table class="datatables-basicNegocio table dt-column-searchNegocio" id="pedidos_corteNegocio" >
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del Chofer</th>
-                                                <th>Unidad</th>
-                                                <th>Total Garrafones</th>
-                                                <th>Total Efectivo</th>
-                                                <th>Total transferencias</th>
-                                                <th>Total pagos tarjetas</th>
-                                                <th>Deuda Anterior</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -276,30 +268,22 @@ case 4:
 
                 <div class="card py4table collapse" id="puntoVenta">
                     <!-- List DataTable -->
-                    <div class="row">
+                                                         <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card invoice-list-wrapper" >
-                                    <div class="card-header p-1">
-                                        <div class="head-label"><h6 class="mb-0">Puntos de Venta</h6></div>
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Punto de Venta</h6></div>
+                                        </div>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <button class="btn btn-primary" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_ptovta">{{name}} {{lastName}}</button>
+                                        {{/each}}
                                     </div>
-                                    <table class="datatables-basicPuntoVenta table dt-column-searchPuntoVenta" id="pedidos_cortePuntoVenta" >
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre del Chofer</th>
-                                                <th>Unidad</th>
-                                                <th>Total Garrafones</th>
-                                                <th>Total Efectivo</th>
-                                                <th>Total transferencias</th>
-                                                <th>Total pagos tarjetas</th>
-                                                <th>Deuda Anterior</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> 
                 </div>  
                  
                 <!-- Dashboard Analytics end -->
@@ -326,6 +310,364 @@ case 4:
       </div>
     </div>
 
+ <div class="modal fade" id="corte_modal_general_tabla" tabindex="-1" aria-labelledby="corte_modal_general_tabla"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable" style="    max-width: fit-content;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"><button class="btn btn-primary" id="printButtonGral">Imprimir</button></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="corte_modalBody">
+        <div class="card mb-4">       
+           <p class="list-group-item">BWater</p> 
+           <p class="list-group-item">CORTE GENERAL</p>
+      </div>
+              <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Fecha: <span class="fechaF"></span></li> 
+           <li class="list-group-item">Chofer: <span class="choferF"></span></li>
+        </ul>
+      </div>
+          <div class="card py4table" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">General</h6></div>
+                                        </div>
+                                        <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo oculto</th>
+                                                    <th>-</th>
+                                                    <th>Refil</th>
+                                                    <th>Canje</th>
+                                                    <th>Nuevo Envase</th>
+                                                    <th>Dañados</th>
+                                                    <th>Prestados</th>
+                                                    <th>Depositos</th>
+                                                    <th>Adeudo</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                                    <tfoot>
+            <tr>
+                <th colspan="2" style="text-align:right"> Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
+           <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
+
+          <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
+          
+          <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
+          <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
+        </ul>
+      </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+        </div>
+      </div>
+    </div>
+ <div class="modal fade" id="corte_modal_residencial_tabla" tabindex="-1" aria-labelledby="corte_modal_residencial_tabla"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable" style="    max-width: fit-content;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"><button class="btn btn-primary" id="printButtonRes">Imprimir</button></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="corte_modalBody">
+        <div class="card mb-4">       
+           <p class="list-group-item">BWater</p> 
+           <p class="list-group-item">CORTE Residenciales</p>
+      </div>
+              <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Fecha: <span class="fechaF"></span></li> 
+           <li class="list-group-item">Chofer: <span class="choferF"></span></li>
+        </ul>
+      </div>
+          <div class="card py4table" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
+                                        </div>
+                                        <table class="datatables-basic table dt-column-searchRes" id="residencial_table" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo oculto</th>
+                                                    <th>-</th>
+                                                    <th>Refil</th>
+                                                    <th>Canje</th>
+                                                    <th>Nuevo Envase</th>
+                                                    <th>Dañados</th>
+                                                    <th>Prestados</th>
+                                                    <th>Depositos</th>
+                                                    <th>Adeudo</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                                    <tfoot>
+            <tr>
+                <th colspan="2" style="text-align:right"> Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
+           <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
+
+          <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
+          
+          <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
+          <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
+        </ul>
+      </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+        </div>
+      </div>
+    </div>
+ <div class="modal fade" id="corte_modal_negocio" tabindex="-1" aria-labelledby="corte_modal_residencial_tabla"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable" style="    max-width: fit-content;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"><button class="btn btn-primary" id="printButtonnegocio">Imprimir</button></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="corte_modalBody">
+        <div class="card mb-4">       
+           <p class="list-group-item">BWater</p> 
+           <p class="list-group-item">CORTE Residenciales</p>
+      </div>
+              <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Fecha: <span class="fechaF"></span></li> 
+           <li class="list-group-item">Chofer: <span class="choferF"></span></li>
+        </ul>
+      </div>
+          <div class="card py4table" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
+                                        </div>
+                                        <table class="datatables-basicnegocio table dt-column-searchnegocio" id="negocio_table" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo oculto</th>
+                                                    <th>-</th>
+                                                    <th>Refil</th>
+                                                    <th>Canje</th>
+                                                    <th>Nuevo Envase</th>
+                                                    <th>Dañados</th>
+                                                    <th>Prestados</th>
+                                                    <th>Depositos</th>
+                                                    <th>Adeudo</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                                    <tfoot>
+            <tr>
+                <th colspan="2" style="text-align:right"> Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
+           <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
+
+          <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
+          
+          <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
+          <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
+        </ul>
+      </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+        </div>
+      </div>
+    </div>
+ <div class="modal fade" id="corte_modal_ptovta" tabindex="-1" aria-labelledby="corte_modal_residencial_tabla"
+      style="display: none;" aria-hidden="corte_modal">
+      <div class="modal-dialog modal-dialog-scrollable" style="    max-width: fit-content;">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="corte_modalTitle"><button class="btn btn-primary" id="printButtonptovta">Imprimir</button></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" id="corte_modalBody">
+        <div class="card mb-4">       
+           <p class="list-group-item">BWater</p> 
+           <p class="list-group-item">CORTE PUNTO DE VENTA</p>
+      </div>
+              <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Fecha: <span class="fechaF"></span></li> 
+           <li class="list-group-item">Chofer: <span class="choferF"></span></li>
+        </ul>
+      </div>
+          <div class="card py4table" id="total">
+                    <!-- List DataTable -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card invoice-list-wrapper" >
+                                    <div class="card-datatable ">
+                                        <div class="card-header p-1">
+                                            <div class="head-label"><h6 class="mb-0">Punto de Venta</h6></div>
+                                        </div>
+                                        <table class="datatables-basicPto table dt-column-searchPto" id="Pto_table" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Tipo oculto</th>
+                                                    <th>-</th>
+                                                    <th>Refil</th>
+                                                    <th>Canje</th>
+                                                    <th>Nuevo Envase</th>
+                                                    <th>Dañados</th>
+                                                    <th>Prestados</th>
+                                                    <th>Depositos</th>
+                                                    <th>Adeudo</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                                    <tfoot>
+            <tr>
+                <th colspan="2" style="text-align:right"> Total</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4" style="width: 350px;left: 889px;">
+        <ul class="list-group list-group-flush">
+           <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
+           <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
+
+          <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
+          
+          <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
+          <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
+        </ul>
+      </div>
+                </div>
+          </div>
+          <div class="modal-footer">
+             
+          </div>
+        </div>
+      </div>
+    </div>
 
 
+
+
+<script type="text/javascript">
+$('#printButtonRes').on('click', function () {
+if ($('.modal').is(':visible')) {
+var modalId = $(event.target).closest('.modal').attr('id');
+$('body').css('visibility', 'hidden');
+$("#" + modalId).css('visibility', 'visible');
+$('#' + modalId).removeClass('modal');
+window.print();
+$('body').css('visibility', 'visible');
+$('#' + modalId).addClass('modal');
+} else {
+window.print();
+}
+});
+$('#printButtonGral').on('click', function () {
+if ($('.modal').is(':visible')) {
+var modalId = $(event.target).closest('.modal').attr('id');
+$('body').css('visibility', 'hidden');
+$("#" + modalId).css('visibility', 'visible');
+$('#' + modalId).removeClass('modal');
+window.print();
+$('body').css('visibility', 'visible');
+$('#' + modalId).addClass('modal');
+} else {
+window.print();
+}
+});
+</script>
 <!-- END: Content-->

@@ -10,12 +10,6 @@
 <script>
 
 $(document).ready(function() {
-    $('.modal_hover').hover(function() {
-        console.log('modal')
-    var modalId = $(this).data('target');
-    $(modalId).modal('show');
-
-  });
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -90,7 +84,7 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0">Pedidos</h4>
+                                            <h4 class="fw-bolder mb-0" data-bs-toggle="modal">Pedidos</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +97,7 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0">Prestados</h4>
+                                            <h4 class="fw-bolder mb-0" >Prestados</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -116,7 +110,7 @@ $(document).ready(function() {
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0">Ventas</h4>
+                                            <h4 class="fw-bolder mb-0" >Ventas</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -364,6 +358,23 @@ $(document).ready(function() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id='modal_detail_garrafonesBody'>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                    <div class="modal fade" id="detail_monto" tabindex="-1" aria-labelledby="detail_monto"
+            style="display: none;" aria-hidden="detail_monto">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detail_monto_title"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id='detail_monto_body'>
                         
                         </div>
                         <div class="modal-footer">
