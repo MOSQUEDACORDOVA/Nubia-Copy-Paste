@@ -188,12 +188,27 @@ for (let i = 0; i < codigosP_arr.length; i++) {
   }
   
 }
+if ($('#otro_rol').length>0) {
+  console.log(full['createdAt'])
+    console.log($(this).html())
+let Hoy = moment().format('DD/MM/YYYY'); 
+console.log(Hoy)
+let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
+console.log(fecha)
+    var fecha_final= moment(Hoy).isAfter(fecha); // true
+        
+} 
+let modif = ""
+console.log(fecha_final)
+if (fecha_final == true) {
+  modif = "d-none"
+}
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record '+modif+'">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
@@ -214,18 +229,38 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
          
         },
         { visible: false, targets: 9,
+          render: function (data, type, full) {
+            
+            if (full['cliente']['etiqueta'] == null) {
+          return data
+            }else{
+              
+              console.log(data['etiquetas'])
+              return data['etiquetas']
+            }
+            
+          }
          
         },
         {
           // Label
           targets: 0,
           render: function (data, type, full, meta) {
-           let fecha_creado = full['createdAt'], modificado = full['updatedAt']
-           let modificacion = moment(fecha_creado).isSame(modificado)
-            if (modificacion == false) {
-              return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+          //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+          //  let modificacion = moment(fecha_creado).isSame(modificado)
+          //   if (modificacion == false) {
+          //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+          //   }
+            var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+            var color_tag ="", color_text=""
+            if (full['cliente']['etiqueta'] ==null) {
+              color_tag =0
+              color_text="black"
+            }else{
+              color_tag =full['cliente']['etiqueta']['color']
+              color_text="white"
             }
-            return (`<span class="badge rounded-pill badge-light-info"> ${full['id']}</span>`);
+            return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
           }
         },
         {
@@ -258,8 +293,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           color_text="white"
         }
             return (
-              '<span class="badge rounded-pill ' +
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
+              '<span class="badge rounded-pill ' +$status[$status_number].class+
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -283,8 +318,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 3,
           render: function (data, type, full, meta) {
-            
-           console.log(full)
            let detailRefill = 0, detailCanje = 0, detailNuevo=0
            detailRefill = parseFloat(full['total_refill_pedido'])*35
            detailCanje = parseFloat(full['total_canje_pedido'])*55
@@ -342,15 +375,17 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           }
         },
         {
-          targets: 6,
-          render:function(data){
+          targets: 6,className:'fecha_pedido',
+          render:function(data, type, full){
+            console.log(full['id'])
            // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment(data).format('L');
+         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
+           return moment(data).format('L');
           }
         },
       ],
      
-      order: [[6, 'desc']],
+      order: [[6, 'desc'],[9,'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -399,8 +434,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
+ 
 
-  
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
@@ -442,12 +477,27 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
+            if ($('#otro_rol').length>0) {
+              console.log(full['createdAt'])
+                console.log($(this).html())
+            let Hoy = moment().format('DD/MM/YYYY'); 
+            console.log(Hoy)
+            let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
+            console.log(fecha)
+                var fecha_final= moment(Hoy).isAfter(fecha); // true
+                    
+            } 
+            let modif = ""
+            console.log(fecha_final)
+            if (fecha_final == true) {
+              modif = "d-none"
+            }
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record '+modif+'">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'              
             );
@@ -461,56 +511,64 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           { visible: false, targets: 9,
            
           },
-        {
-          // Label
-          targets: 0,
-          render: function (data, type, full, meta) {
-            
-           let fecha_creado = full['createdAt'], modificado = full['updatedAt']
-           let modificacion = moment(fecha_creado).isSame(modificado)
-            if (modificacion == false) {
-              return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
-            }
-            return (`<span class="badge rounded-pill badge-light-info"> ${full['id']}</span>`);
-          }
-        },
-        {
-          // Label
-          targets: 1,
-          render: function (data, type, full, meta) {
-            let asentamiento = ""
-            for (let i = 0; i < codigosP_arr.length; i++) {
-              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
-                asentamiento = codigosP_arr[i]['asentamiento']
+          {
+            // Label
+            targets: 0,
+            render: function (data, type, full, meta) {
+            //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+            //  let modificacion = moment(fecha_creado).isSame(modificado)
+            //   if (modificacion == false) {
+            //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            //   }
+              var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+              var color_tag ="", color_text=""
+              if (full['cliente']['etiqueta'] ==null) {
+                color_tag =0
+                color_text="black"
+              }else{
+                color_tag =full['cliente']['etiqueta']['color']
+                color_text="white"
               }
-              
+              return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
             }
-            var $status_number = full['cliente']['tipo'];
-            var $status = {
-              "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
-              "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
-              "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
-            };
-            if (typeof $status[$status_number] === 'undefined') {
-              return data;
-            }
-            var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-            var color_tag ="", color_text=""
-        if (full['cliente']['etiqueta'] ==null) {
-          color_tag =0
-          color_text="black"
-        }else{
-          color_tag =full['cliente']['etiqueta']['color']
-          color_text="white"
-        }
-            return (
-              '<span class="badge rounded-pill ' +
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" style="cursor:pointer;background-color: ' +color_tag  + '; color:'+color_text+'">' +
-              $status[$status_number].title +
-              '</span>'
-            );
+          },
+          {
+            // Label
+            targets: 1,
+            render: function (data, type, full, meta) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              var $status_number = full['cliente']['tipo'];
+              var $status = {
+                "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+                "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+                "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+              };
+              if (typeof $status[$status_number] === 'undefined') {
+                return data;
+              }
+          var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+          var color_tag ="", color_text=""
+          if (full['cliente']['etiqueta'] ==null) {
+            color_tag =0
+            color_text="black"
+          }else{
+            color_tag =full['cliente']['etiqueta']['color']
+            color_text="white"
           }
-        },
+              return (
+                '<span class="badge rounded-pill ' +$status[$status_number].class+
+                '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal">' +
+                $status[$status_number].title +
+                '</span>'
+              );
+            }
+          },
         {
           // Label
           targets: 2,
@@ -530,7 +588,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           targets: 3,
           render: function (data, type, full, meta) {
             
-           console.log(full)
            let detailRefill = 0, detailCanje = 0, detailNuevo=0
            detailRefill = parseFloat(full['total_refill_pedido'])*35
            detailCanje = parseFloat(full['total_canje_pedido'])*55
@@ -666,9 +723,10 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
     
   })
-  $('[data-bs-toggle="modal"]').hover(function(e) {
+  $('[data-bs-toggle="modal"]').mouseenter(function(e) {
     $(this).click();
 });
+
 
   $("#modal_detail_garrafones").on('show.bs.modal', function (e) {
   console.log( $(e))
@@ -847,8 +905,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     if (typeof id_edit2 =="undefined") {
       return console.log(id_edit2)
     }
-  window.location.href = `/editar_pedido/${id_edit2}`;
-
+  //window.location.href = `/editar_pedido/${id_edit2}`;
+$('#edit_pedido').modal('show')
   });
 
   $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {

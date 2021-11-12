@@ -99,7 +99,7 @@ case 4:
                                          <p class="card-text mb-1">Garrafones: <strong> {{total_garrafones}}</strong></p>
                                         <p class="card-text"> Ingreso: <strong>$ {{ventas_del_dia}}</strong></p>
                                     </div>
-                                    
+                                    {{#if admin}}
                                     <div class="col">
                                         <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
                                         <div class="mb-0 d-flex">
@@ -107,6 +107,7 @@ case 4:
                                             <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
                                         </div>
                                     </div>
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>
