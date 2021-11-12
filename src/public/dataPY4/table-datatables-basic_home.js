@@ -292,9 +292,10 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
         }
+        //aqui activa el modal info del cliente
             return (
               '<span class="badge rounded-pill ' +$status[$status_number].class+
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal">' +
+              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" title="Hola mundo">' +
               $status[$status_number].title +
               '</span>'
             );
@@ -723,6 +724,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
     
   })
+  //ACA SE ACTIVA EL HOVER DEL MODAL 
   $('[data-bs-toggle="modal"]').mouseenter(function(e) {
     $(this).click();
 });
@@ -785,6 +787,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     asentamiento = codigosP_arr[i]['asentamiento']
   }
   }
+  //ACA RELLENA EL MODAL DE LA INFO DEL CLIENTE
         $("#home_modalBody").append(`<ul class='list-group list-group-flush'>
         <li class='list-group-item d-flex justify-content-between align-items-center'>Tipo: <span class='badge bg-primary rounded-pill'>${my_object['tipo']}</span></li>
         <li class='list-group-item d-flex justify-content-between align-items-center'>Código postal: <span class='badge bg-primary rounded-pill'>${my_object['estado']}</span></li>
