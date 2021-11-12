@@ -10,16 +10,43 @@ const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
 const MetodosRetiros = require("../../models/PYT24/Retreats");
 const Referidos = require("../../models/PYT24/Referidos");
-const { save_usuarios_py4 } = require("../../controllers/dashboardControllerPY4");
 
 module.exports = {
-    //USUARIO
+    // REGISTRO DE USUARIOS
     RegUser(username, email, password) {
         return new Promise((resolve, reject) => {
         Usuarios.create({ username: username, email: email, password: password, type_user: 'Inversionista' })
           .then((data) => {
               let data_set = JSON.stringify(data);
               resolve('Usuario registrado con éxito');
+          })
+          .catch((err) => {
+              reject(err)
+          });
+        });
+    },
+    // REGISTRO DE REFERIDOS
+    RegReferUser(username, email, password) {
+        return new Promise((resolve, reject) => {
+        Usuarios.create({ username: username, email: email, password: password, type_user: 'Inversionista' })
+          .then((data) => {
+              let data_set = JSON.stringify(data);
+              resolve(data_set);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+        });
+    },
+    // REFERIDOS USUARIO
+    SearchUserRefer(code) {
+        return new Promise((resolve, reject) => {
+        Usuarios.findAll({ where: {
+          refer_code: code
+        }})
+          .then((data) => {
+              let data_set = JSON.stringify(data);
+              resolve(data_set);
           })
           .catch((err) => {
               reject(err)
@@ -1206,8 +1233,30 @@ module.exports = {
           });
       });
     },
+    // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+    GetPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Pagado' },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
-    GetPendingPaymenthsAdmin(id) {
+    GetPendingPaymenthsAdmin() {
       return new Promise((resolve, reject) => {
         Pays.findAll({where:{status: 'Solicitado' },
           include:[

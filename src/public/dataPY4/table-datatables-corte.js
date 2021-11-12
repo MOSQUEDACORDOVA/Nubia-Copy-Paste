@@ -523,7 +523,12 @@ $('.prestados').each(function(){
   $( dt_Gral_t.column(4 ).footer() ).html(sumanuevo);
   $( dt_Gral_t.column(5 ).footer() ).html(sumadanados);
   $( dt_Gral_t.column(6 ).footer() ).html(sumaprestados);
-  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+  if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
+    total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+  }else{
+total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+  }
+  
 
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
   $('tr.d-none .refill').each(function(){
@@ -954,7 +959,11 @@ $( dt_residencial_t.column(3 ).footer() ).html(sumacanje);
 $( dt_residencial_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_residencial_t.column(5 ).footer() ).html(sumadanados);
 $( dt_residencial_t.column(6 ).footer() ).html(sumaprestados);
+if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
+  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+}else{
 total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+}
 $('.adeudoF').text(subadeudo)
 $('.subtotalF').text(efectivoPre)
 $('.depositosF').text(subDepositos)
@@ -1335,7 +1344,11 @@ $( dt_negocio_t.column(3 ).footer() ).html(sumacanje);
 $( dt_negocio_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_negocio_t.column(5 ).footer() ).html(sumadanados);
 $( dt_negocio_t.column(6 ).footer() ).html(sumaprestados);
+if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
+  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+}else{
 total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+}
 $('.adeudoF').text(subadeudo)
 $('.subtotalF').text(efectivoPre)
 $('.depositosF').text(subDepositos)
@@ -1713,7 +1726,11 @@ $( dt_PuntoVenta_t.column(3 ).footer() ).html(sumacanje);
 $( dt_PuntoVenta_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_PuntoVenta_t.column(5 ).footer() ).html(sumadanados);
 $( dt_PuntoVenta_t.column(6 ).footer() ).html(sumaprestados);
+if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
+  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
+}else{
 total =parseFloat(efectivoPre)-parseFloat(subDepositos)
+}
 $('.adeudoF').text(subadeudo)
 $('.subtotalF').text(efectivoPre)
 $('.depositosF').text(subDepositos)

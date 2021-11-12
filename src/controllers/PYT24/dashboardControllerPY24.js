@@ -5,6 +5,7 @@ const DataBase = require("../../models/PYT24/data");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
+const { truncate } = require("../../models/PYT4/Usuarios");
 
 exports.web = (req, res) => {
   let msg = false;
@@ -58,7 +59,26 @@ exports.reguserpy24 = (req, res) => {
     res.redirect('/register24/PYT-24');
   } else {
     DataBase.RegUser(username, email, password).then((respuesta) =>{
-      res.redirect('/py24/PYT-24'+respuesta)
+      res.redirect("/login24/PYT-24")
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error404/PYT-24");
+    });
+  }
+};
+
+// REGISTRO DE REFERIDOS
+exports.reguserreferpy24 = (req, res) => {
+  console.log(req.body);
+  const { username, email, password, refcode } = req.body;
+  let msg = false;
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '' || refcode.trim() === '') {
+    console.log("complete todos los campos")
+    res.redirect("/register24/PYT-24");
+  } else {
+    DataBase.RegReferUser(username, email, password, refcode).then((respuesta) =>{
+      res.redirect("/login24/PYT-24")
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -119,6 +139,7 @@ exports.dashboard = (req, res) => {
     return res.redirect("/error24/PYT-24");
   });
 };
+
 // VERIFICAR PAQUETES ADMIN
 exports.verifypackges = (req, res) => {
   let msg = false;
@@ -215,13 +236,33 @@ exports.register = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-    res.render(proyecto+"/auth/register", {
-      pageName: "Registro",
-      dashboardPage: true,
-      dashboard: true,
-      py24: true,
-      login: true
-    })
+
+  res.render(proyecto+"/auth/register", {
+    pageName: "Registro",
+    dashboardPage: true,
+    dashboard: true,
+    py24: true,
+    login: true
+  })
+};
+
+exports.referregister = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let ref = req.params.ref
+  console.log(ref)
+  console.log(req.params)
+
+  res.render("PYT-24/auth/registerrefer", {
+    pageName: "Registro",
+    dashboardPage: true,
+    dashboard: true,
+    py24: true,
+    login: true,
+    ref
+  })
 };
 
 exports.error = (req, res) => {
@@ -511,6 +552,55 @@ exports.retreats = (req, res) => {
   });
 };
 
+// OBTENER TODOS LOS METODOS DE RETIROS DE USUARIO
+exports.getretreatsuser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id;
+  const {id} = req.body;
+  console.log(proyecto)
+
+  DataBase.GetMRetreatsTransf(id).then((res1) => {
+    let transf = JSON.parse(res1);
+    console.log(transf)
+    
+    DataBase.GetMRetreatsPaym(id).then((res2) => {
+      let paym = JSON.parse(res2);
+      console.log(paym)
+      
+      DataBase.GetMRetreatsBTC(id).then((res3) => {
+        let btc = JSON.parse(res3);
+        console.log(btc)
+        
+        DataBase.GetMRetreatsWallet(id).then((res4) => {
+          let wallet = JSON.parse(res4);
+          console.log(wallet)
+
+           res.send({transf, paym, btc, wallet})
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error24/PYT-24");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error24/PYT-24");
+      });
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
 // SOLICITAR PAGO USUARIO
 exports.solicitpay = (req, res) => {
   let msg = false;
@@ -523,7 +613,7 @@ exports.solicitpay = (req, res) => {
 
   let roleAdmin = true;
   DataBase.SolicitPay(id).then((resp)=>{
-    return res.redirect('users24/PYT-24');
+    return res.redirect('retreats24/PYT-24');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -660,68 +750,6 @@ exports.seller = (req, res) => {
     });
 };
 
-// CONVERTIR USUARIO EN VENDEDOR
-exports.usertoseller = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-  const {id} = req.body;
-
-  if (id.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/users24/PYT-24');
-  } else {
-    let code = "";
-    let refcode = '/ref=';
-    let caracteres = "0123456789abcdefABCDEF?¿¡!:;";
-    let longitud = 20;
-
-    function rand_code(chars, lon){
-      for (x=0; x < lon; x++) {
-        rand = Math.floor(Math.random()*chars.length);
-        code += chars.substr(rand, 1);
-      }
-      refcode += code;
-    }
-    rand_code(caracteres, longitud);
-  
-    DataBase.UserToSeller(id, refcode).then((respuesta) =>{
-      res.redirect('/users24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-  }; 
-};
-
-// CONVERTIR VENDEDOR EN USUARIO
-exports.sellertouser = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-  const {id} = req.body;
-
-  if (id.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/users24/PYT-24');
-  } else {
-    DataBase.SellerToUser(id).then((respuesta) =>{
-      res.redirect('/users24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-  }; 
-};
-
 exports.paymethods = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -776,6 +804,7 @@ exports.paymethods = (req, res) => {
       allbtc,
       allwallet
     });
+
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -843,7 +872,6 @@ exports.updatepaymethod = (req, res) => {
   }
 }; 
 
-
 // HABILITAR / DESHABILITAR METODOS DE PAGO
 exports.updatestatuspaymethod = (req, res) => {
   let msg = false;
@@ -897,7 +925,7 @@ exports.deletepaymethod = (req, res) => {
   }; 
 };
 
-
+// GESTION DE PAGOS ADMIN
 exports.paymanag = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -906,46 +934,35 @@ exports.paymanag = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin;
-  let roleClient;
-  let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
+  let roleAdmin = true;
 
+  DataBase.GetPaymenthsAdmin().then((resp2) => {
+    let pays = JSON.parse(resp2);
+    console.log(pays)
 
-  //let currentdate = moment('');
-  //let culmination = moment('2021-11-01');
-  //console.log(culmination.diff(currentdate, 'days'), ' dias de diferencia');
+    DataBase.GetPendingPaymenthsAdmin().then((resp) => {
+      let pendindPays = JSON.parse(resp);
+      console.log(pendindPays)
 
-  DataBase.GetPendingPaymenthsAdmin().then((resp) => {
-    let pendindPays = JSON.parse(resp);
-    console.log(pendindPays)
+    res.render(proyecto+"/pay-managment", {
+      pageName: "Gestión de Pagos",
+      dashboardPage: true,
+      dashboard: true,
+      py24: true,
+      login: false,
+      paym: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      pendindPays,
+      pays
+    });
 
-    //pendindPays.forEach(element.deposito => {
-      
-   //});
-
-  res.render(proyecto+"/pay-managment", {
-    pageName: "Gestión de Pagos",
-    dashboardPage: true,
-    dashboard: true,
-    py24: true,
-    login: false,
-    paym: true,
-    username: req.user.username,
-    typeUser: req.user.type_user,
-    roleAdmin,
-    roleClient,
-    roleSeller
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error24/PYT-24");
   });
-
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
@@ -1189,41 +1206,32 @@ exports.th = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin;
+  let roleAdmin = true;
   let roleClient;
   let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
-
+    
   // CONTROL TH PRECIOS, COSTOS ETC
   DataBase.GetControlTH().then((response)=>{
-    let data = JSON.parse(response)[0];
+  let data = JSON.parse(response)[0];
     // OBTENER MAQUINAS DE MINADO
     DataBase.GetMachineTH().then((resp)=> {
       machine = JSON.parse(resp);
-      
-      res.render(proyecto+"/th", {
-        pageName: "Administrar TH",
-        dashboardPage: true,
-        dashboard: true,
-        py24:true,
-        login:false,
-        th: true,
-        username: req.user.username,
-        typeUser: req.user.type_user,
-        roleAdmin,
-        roleClient,
-        roleSeller,
-        data,
-        machine
-      });
+
+    res.render(proyecto+"/th", {
+      pageName: "Administrar TH",
+      dashboardPage: true,
+      dashboard: true,
+      py24:true,
+      login:false,
+      th: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleAdmin,
+      roleClient,
+      roleSeller,
+      data,
+      machine
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
@@ -1550,7 +1558,6 @@ exports.deletemretreats = (req, res) => {
     });
   };
 }
-
 
 // ACTUALIZAR METODOS DE RETIRO
 exports.updatemretreats = (req, res) => {
@@ -1928,18 +1935,8 @@ exports.depositpresale = (req, res) => {
   console.log(proyecto)
  
   let roleAdmin;
-  let roleClient;
-  let roleSeller;
+  let roleClient = true;
   let presale = true;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
 
   let idUser = res.locals.user.id
 
@@ -1969,7 +1966,6 @@ exports.depositpresale = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       roleClient,
-      roleSeller,
       presale,
       dep: true,
       transf,
@@ -2015,7 +2011,6 @@ exports.getdeposits = (req, res) => {
     let transf = JSON.parse(res1);
     console.log(transf)
     
-
     DataBase.GetDepositsPaym(id).then((res2) => {
       let paym = JSON.parse(res2);
       console.log(paym)

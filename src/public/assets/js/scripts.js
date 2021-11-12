@@ -49,43 +49,47 @@ $(document).ready(function () {
   };
 
   const img1 = document.getElementById("img1");
-  img1.addEventListener("change", (event) => {
-      const file = img1.files[0];
-
-      if (
-        file.type !== "image/jpeg" &&
-        file.type !== "image/png" &&
-        file.type !== "image/jpg"
-      ) {
-        alert("Elige un archivo válido (.png, .jpg, .jpeg)");
-        return;
-      }
-
-      const reader = new FileReader();
-     // reader.addEventListener("load", displayFileInfo);
-      reader.readAsDataURL(file);
-      console.log(file);
-      subirImagen(event);
-  });
+  if(img1) {
+    img1.addEventListener("change", (event) => {
+        const file = img1.files[0];
+  
+        if (
+          file.type !== "image/jpeg" &&
+          file.type !== "image/png" &&
+          file.type !== "image/jpg"
+        ) {
+          alert("Elige un archivo válido (.png, .jpg, .jpeg)");
+          return;
+        }
+  
+        const reader = new FileReader();
+       // reader.addEventListener("load", displayFileInfo);
+        reader.readAsDataURL(file);
+        console.log(file);
+        subirImagen(event);
+    });
+  }
 
   const img2 = document.getElementById("img2");
-  img2.addEventListener("change", (event) => {
-      const file = img2.files[0];
-      console.log(event)
-      console.log("safasfasf")
-      if (
-        file.type !== "image/jpeg" &&
-        file.type !== "image/png" &&
-        file.type !== "image/jpg"
-      ) {
-        alert("Elige un archivo válido (.png, .jpg, .jpeg)");
-        return;
-      }
-
-      const reader = new FileReader();
-      // reader.addEventListener("load", displayFileInfo);
-      reader.readAsDataURL(file);
-      console.log(file);
-      subirImagen(event);
-  });
+  if(img2) {
+    img2.addEventListener("change", (event) => {
+        const file = img2.files[0];
+        console.log(event)
+        console.log("safasfasf")
+        if (
+          file.type !== "image/jpeg" &&
+          file.type !== "image/png" &&
+          file.type !== "image/jpg"
+        ) {
+          alert("Elige un archivo válido (.png, .jpg, .jpeg)");
+          return;
+        }
+  
+        const reader = new FileReader();
+        // reader.addEventListener("load", displayFileInfo);
+        reader.readAsDataURL(file);
+        console.log(file);
+        subirImagen(event);
+    });
+  }
 });

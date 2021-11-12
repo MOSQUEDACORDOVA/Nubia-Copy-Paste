@@ -70,6 +70,10 @@ const Usuarios = db24.define('usuarios', {
 	refer_code: {
 		type: DataTypes.STRING(255),
 		allowNull: true,
+		unique: {
+			args: true,
+			msg: 'El código ya existe'
+		}
 	},
 	status: {
 		type: DataTypes.STRING(50),

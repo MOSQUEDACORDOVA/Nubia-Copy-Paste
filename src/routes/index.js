@@ -142,10 +142,13 @@ router.get('/config/:id', authControllerPY21.authenticatedUser, dashboardControl
 router.get('/contracts/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.contracts);
 router.get('/retreats/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.retreats);
 router.get('/deposits/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.deposits);
+router.get('/controlrolespy21/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.controlroles);
 // router.get('/earnings/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.earnings);
 // router.get('/profile/:id', authControllerPY21.authenticatedUser, dashboardControllerPY21.profile);
 
 // Auth admin
+router.get('/adminpy21/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.dashboardAdmin);
+router.get('/depositsadmin/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.depositsAdmin);
 router.get('/seller/:id', authControllerPY21.authenticatedAdminOrSeller, dashboardControllerPY21.seller);
 router.get('/users/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.users);
 router.get('/pay/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.pay);
@@ -155,6 +158,45 @@ router.get('/duration/:id', authControllerPY21.authenticatedAdmin, dashboardCont
 //POST
 router.post('/loginpy21', dashboardControllerPY21.sesionstart);
 router.post('/reguserpy21', dashboardControllerPY21.reguserpy21);
+
+// MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
+router.post('/getdepositspy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.getdeposits);
+
+router.post('/addbankpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.addbank);
+// METODOS DE PAGO, PAGO MOVIL
+router.post('/addpaympy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.addpaym);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addbtcpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.addbtc);
+// METODOS DE PAGO, BILLETERA DIGITAL
+router.post('/addwalletpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.addwallet);
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+router.post('/updatestatuspaymethodpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.updatestatuspaymethod);
+// ACTUALIZAR METODOS DE PAGO
+router.post('/updatepaymethodpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.updatepaymethod);
+// ELIMINAR METODOS DE PAGO
+router.post('/deletepaymethodpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.deletepaymethod);
+
+// ELIMINAR METODOS DE RETIRO
+router.post('/deletemretreatspy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.deletemretreatspy21);
+// ACTUALIZAR METODOS DE RETIROS
+router.post('/updatemretreatspy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.updatemretreatspy21);
+// METODOS DE PAGO, TRANSFERENCIA BANCARIA
+router.post('/addretreatsbankpy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.addretreatsbankpy21);
+// METODOS DE PAGO, PAGO MOVIL
+router.post('/addretreatspaympy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.addretreatspaympy21);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addretreatsbtcpy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.addretreatsbtcpy21);
+// METODOS DE PAGO, BILLETERA DIGITAL
+router.post('/addretreatswalletpy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.addretreatswalletpy21);
+
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/solicitverifypy21', authControllerPY21.authenticatedUser, dashboardControllerPY21.solicitverify);
+// VERIFICAR USUARIO
+router.post('/verifyuserpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.verifyuser);
+// CONVERTIR INVERSIONISTA EN VENDEDOR
+router.post('/usertosellerpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.usertoseller);
+// CONVERTIR VENDEDOR EN USUARIO
+router.post('/sellertouserpy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.sellertouser);
 
 // Cerrar Sesión
 router.get('/logout/PYT-21', userControllerPY21.closeSesion);
@@ -173,6 +215,7 @@ router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboar
 
 router.get('/web/:id', dashboardControllerPY24.web);
 router.get('/register24/:id', dashboardControllerPY24.register);
+router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
 router.get('/error24/:id', dashboardControllerPY24.error);
 
@@ -199,9 +242,10 @@ router.get('/paym/:id', authControllerPY24.authenticatedAdmin, dashboardControll
 // router.get('/earnings24/:id', dashboardControllerPY24.earnings);
 // router.get('/duration24/:id', dashboardControllerPY24.duration);
 
-//POST
+// POST
 router.post('/loginpy24', dashboardControllerPY24.sesionstart);
 router.post('/reguserpy24', dashboardControllerPY24.reguserpy24);
+router.post('/regreferpy24', dashboardControllerPY24.reguserreferpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
@@ -220,10 +264,6 @@ router.post('/minwithd', authControllerPY24.authenticatedAdmin, dashboardControl
 
 // VERIFICAR USUARIO
 router.post('/verifyuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.verifyuser);
-// CONVERTIR INVERSIONISTA EN VENDEDOR
-router.post('/usertoseller', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.usertoseller);
-// CONVERTIR VENDEDOR EN USUARIO
-router.post('/sellertouser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.sellertouser);
 
 // CREAR PAQUETES
 router.post('/createpackages', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.createpackages);
@@ -263,6 +303,7 @@ router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardC
 router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
+router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getretreatsuser);
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);

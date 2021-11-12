@@ -11,14 +11,14 @@ const Referidos = db24.define('referidos', {
 		autoIncrement: true
 	},
 	level: {
-		type: DataTypes.STRING(30),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	earnings: {
-		type: DataTypes.STRING(250),
+		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
 });
 
-Referidos.Usuarios = Referidos.belongsTo(Usuarios);
+Referidos.Usuarios = Referidos.hasOne(Usuarios);
 module.exports = Referidos;
