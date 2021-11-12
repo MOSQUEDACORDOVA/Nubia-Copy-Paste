@@ -50,7 +50,7 @@
                                             <form id="form{{usuario.id}}">
                                                 <input class="d-none" name="id" value="{{usuario.id}}">
                                             </form>
-                                            <a class="btn btn-primary" data-amount="{{deposito.earnings}}" data-id="{{usuario.id}}" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Pagar</a>
+                                            <a class="btn btn-primary payBtn" data-amount="{{deposito.earnings}}" data-id="{{usuario.id}}" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Pagar</a>
                                         </td>
                                     </tr>
                                     {{/each}}
@@ -156,7 +156,7 @@
             </div>
  
             {{!-- MODAL PAGAR --}}
-            <div class="modal fade" id="addNewCard2" aria-labelledby="" tabindex="-1" style="padding-left: 0px;" aria-modal="true">
+            <div class="modal fade" id="addNewCard2" aria-labelledby="" tabindex="-1" style="padding-left: 0px;">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
@@ -481,8 +481,8 @@
 
 <script>
     let btn = document.querySelectorAll('.showModalBtn'),
-    //payBtn = document.querySelectorAll('.payBtn'),
-    amountInp = document.querySelectorAll('.amount')
+    payBtn = document.querySelectorAll('.payBtn'),
+    amountInp = document.querySelectorAll('.amount');
 
     btn.forEach(e => {
         e.addEventListener('click', (event) => {
@@ -491,7 +491,7 @@
         });
     });
 
-    /*payBtn.forEach(e => {
+    payBtn.forEach(e => {
         e.addEventListener('click', (event) => {
             let current = event.target
             SetPayModal(current);
@@ -499,7 +499,7 @@
                 item.value = current.getAttribute('data-amount');
             });
         });
-    });*/
+    });
 
     const SetModal = (target) => {
         const packName = document.getElementById('pname'),

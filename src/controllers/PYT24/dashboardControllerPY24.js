@@ -960,12 +960,10 @@ exports.paymanag = (req, res) => {
 
   }).catch((err) => {
     console.log(err)
-    let msg = "Error obteniendo depositos realizados";
     return res.redirect("/error24/PYT-24");
   });
   }).catch((err) => {
     console.log(err)
-    let msg = "Error obteniendo depositos realizados";
     return res.redirect("/error24/PYT-24");
   });
 };
