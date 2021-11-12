@@ -105,9 +105,6 @@ function cargaTabla(rechar) {
               '<span class="emp_name text-truncate fw-bold badge rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
               $name +
               '</span>' +
-              '<small class="emp_post text-truncate text-muted">' +
-              $post +
-              '</small>' +
               '</div>' +
               '</div>';
             return $row_output;

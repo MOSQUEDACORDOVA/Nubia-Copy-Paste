@@ -168,13 +168,15 @@ $('#bell_not').on('click', ()=>{
               <!--<li class="dropdown-menu-footer"><a class="btn btn-primary w-100 waves-effect waves-float waves-light" href="#">Read all notifications</a></li>-->
             </ul>
           </li>
+          {{#if admin}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">
                     <i data-feather='layers' class="ficon me-1"></i>
-                    <span class="menu-title text-truncate añadir">Cambiar<br><span id="suc_actual">Sucursal</span></span>
+                    <span class="menu-title text-truncate añadir">Cambiar<br><span id="suc_actual">zona</span></span>
                 </a>
             </li>
+    {{/if}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#add_cliente">
@@ -981,14 +983,24 @@ $('#bell_not').on('click', ()=>{
                             garrafones
                             en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
                             aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-sucursal" class="form-label">Sucursal</label><select
+
+                    <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                             aria-describedby="register-sucursal" tabindex="24" name="sucursal"
                             class="form-control mb-2">
-                            <option selected=""> Seleccione una sucursal </option>
+                            <option selected=""> Seleccione una zona </option>
                             {{#each sucursales_let as |sucursal i|}}
                             <option value={{id}}> {{nombre}} </option>
                             {{/each}}
                         </select></div>
+                                        <div class="form-group">
+                  <label for="register-lastName" class="form-label">Etiqueta</label>
+                  <select class="select2 form-select" id="color_tag" name="color" >
+                    <option selected="" value="default"> Seleccione una etiqueta </option>
+                    {{#each etiquetas_let as |cliente i|}}
+                    <option value="{{id}}"> {{etiquetas}}</option>
+                    {{/each}}
+                  </select>                
+                </div>
                     <!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
 }-->
@@ -1013,7 +1025,7 @@ $('#bell_not').on('click', ()=>{
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Cambiar Sucursal</h5>
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Cambiar Zona</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -1021,7 +1033,7 @@ $('#bell_not').on('click', ()=>{
                 <form novalidate class="needs-validation was-validated repeater" action="/cambiar_sucursal"
                     method="post">
                     <div class="mb-1">
-                        <label class="form-label" >Selecciona el proyecto</label>
+                        <label class="form-label" >Selecciona la zona</label>
                         <select class="form-select" name="cambia_sucursal">
                             <option value="default">Default</option>
                             {{#each sucursales_let as |sucursal i|}}

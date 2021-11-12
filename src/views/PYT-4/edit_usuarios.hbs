@@ -35,6 +35,14 @@ $("#tipo_usuario option[value='{{usuarios_let.tipo}}']").attr("selected", true);
                                         <label for="register-email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="register-email" name="email" placeholder="john@example.com" aria-describedby="register-email" tabindex="2" value="{{usuarios_let.email}}"/>
                                     </div>
+                                        <div class="mb-1">
+                                        <label for="register-username" class="form-label">Zona</label>
+                                        <select class="form-control  w-100" name="zona" id="zona" >
+                                            {{#each sucursales_let as |zona i|}}
+                                                            <option value="{{id}}">{{nombre}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                    </div>
             <div class="modal-footer">
                 <button tabindex="26" rippleeffect=""
                     class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>

@@ -506,14 +506,53 @@ exports.delete_pedido = (req, res) => {
 
  exports.editar_pedido = (req, res) => {
   const user = res.locals.user;
-  console.log(req.body)
-  let id_ = req.body.id
+  let id_ = req.params.id
   
-DataBase.PedidoById2(id_).then((pedidos_)=>{
-  let pedido_let = JSON.parse(pedidos_)
+DataBase.PedidoById(id_).then((pedidos_)=>{
+  let pedido_let = JSON.parse(pedidos_)[0]
+
   let id_sucursal = req.session.sucursal_select
-  console.log("ver edit id_pedido y cliente")
-  return res.status(200).send(pedido_let);
+  //DATA-COMUNES
+  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+  
+ let garrafon19L = JSON.parse(pedido_let.garrafon19L);
+ let botella1L = JSON.parse(pedido_let.botella1L)
+ let garrafon11L = JSON.parse(pedido_let.garrafon11L)
+ let botella5L = JSON.parse(pedido_let.botella5L)
+ DataBase.Sucursales_ALl().then((sucursales_)=>{
+  let sucursales_let = JSON.parse(sucursales_)
+res.render("PYT-4/edit_pedido", {
+  pageName: "Bwater",
+  dashboardPage: true,
+  dashboard: true,
+  py4:true,
+  dash:true,
+  pedidos_,
+  pedido_let,
+  garrafon19L,choferes_,
+botella1L,
+garrafon11L,
+botella5L,sucursales_let
+}) 
+}).catch((err) => {
+console.log(err)
+let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+  });
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -552,7 +591,7 @@ disabled_chofer: true
  };
 
  exports.Save_editPedidoPy4 = (req, res) => {
-  console.log(req.body)
+  
   let garrafon19L ={refill_cant: req.body.refill_cant_garrafon, refill_mont: req.body.refill_garrafon_mont, canje_cant: req.body.canje_cant_garrafon, canje_mont:req.body.canje_garrafon_mont, nuevo_cant:req.body.enNew_cant_garrafon, nuevo_mont: req.body.nuevo_garrafon_mont, total_cant: req.body.total_garrafon_cant, total_cost: req.body.total_garrafon, enobsequio_cant_garrafon: req.body.enobsequio_cant_garrafon}
 
   let botella1L ={refill_cant: req.body.refill_cant_botella, refill_mont: req.body.refill_botella_mont, canje_cant: req.body.canje_cant_botella, canje_mont:req.body.canje_botella_mont, nuevo_cant:req.body.enNew_cant_botella, nuevo_mont: req.body.nuevo_botella_mont, total_cant: req.body.total_botella_cant, total_cost: req.body.total_botella, enobsequio_cant_botella: req.body.enobsequio_cant_botella}
@@ -562,28 +601,20 @@ disabled_chofer: true
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
-  console.log("id_pedido y cliente"+ id_pedido + "-"+id_cliente)
+  const { id_pedido,id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
+
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
   let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
   let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
   let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
   let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
-console.log(total_obsequio_pedido)
- 
-  DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
-    let id_sucursal = req.session.sucursal_select
-    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
-      let pedidos_let = JSON.parse(pedidos_)
-    let msg=respuesta
-    return res.send({msg:msg, pedidos_let})
-    // res.redirect('/homepy4/'+msg)
 
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/errorpy4/" + msg);
-  });
+  DataBase.PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
+
+    
+    let msg=respuesta
+    res.redirect('/homepy4/'+msg)
+
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
