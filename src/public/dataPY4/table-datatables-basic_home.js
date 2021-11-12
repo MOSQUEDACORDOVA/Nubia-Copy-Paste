@@ -208,7 +208,7 @@ if (fecha_final == true) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record '+modif+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
@@ -497,7 +497,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record '+modif+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'              
             );
@@ -877,16 +877,63 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     })
 
   });
-  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
-    var id_edit = e.target.classList[0]
-    if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
-    }
-  window.location.href = `/editar_pedido/${id_edit}`;
 
+  $('#form_edit_pedido').submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+      url: `/editar_pedido_save`,
+      type: 'POST',
+      data:$("#form_edit_pedido").serialize(),
+      success: function (data, textStatus, jqXHR) {
+  console.log(data)
+  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+  console.log($('#array_pedido').val())
+  
+  $('.datatables-basic').dataTable().fnDestroy();
+   $('.datatables-basic').empty();
+  $('.datatables-basic').html(`<thead>
+  <tr>
+      <th>Nº Pedido</th>
+      <th>Cliente</th>
+      <th>Total garrafones</th>
+      <th>Monto Total</th>
+      <th>Status del Pedido</th>
+      <th>Status de Pago</th>
+      <th>Fecha</th>
+      <th>Opciones</th>
+      
+  
+  <th>oculto choferes </th> 
+  <th>oculto etiqueta </th> 
+  </tr>
+  </thead>`);
+  $('.datatables-basic2').dataTable().fnDestroy();
+  $('.datatables-basic2').empty();
+  $('.datatables-basic2').html(`<thead>
+  <tr>
+      <th>Nº Pedido</th>
+      <th>Cliente</th>
+      <th>Total garrafones</th>
+      <th>Monto Total</th>
+      <th>Status del Pedido</th>
+      <th>Status de Pago</th>
+      <th>Fecha</th>
+      <th>Opciones</th>
+      
+  
+  <th>oculto choferes </th> 
+  <th>oculto etiqueta </th> 
+  </tr>
+  </thead>`);
+  
+  cargaTablas('si')
+  $('#edit_pedido').modal('hide')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });   
   });
-
   $('.datatables-basic tbody').on('click', '.share_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
@@ -907,6 +954,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     }
   //window.location.href = `/editar_pedido/${id_edit2}`;
 $('#edit_pedido').modal('show')
+
   });
 
   $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
@@ -1170,4 +1218,108 @@ async function cambioPago(id, status) {
     });
   
   }
+}
+function edit_pedido(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_pedido`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+if ( $(".chofer option[value='" + data['chofer'] + "']").length == 0 ){
+$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
+}else{
+  //$('.chofer').find('option:selected').remove().end();
+  $(".chofer option[value='" + data['chofer'] + "']").attr("selected", true);
+}
+$('#id_chofer_edit').val(data['personalId'])
+$('#edit_pedido_id').val(data['id'])
+$('#edit_pedido_id_cliente').val(data['clienteId'])
+let garrafon19L = JSON.parse(data['garrafon19L'])
+let garrafon11L = JSON.parse(data['garrafon11L'])
+let botella1L = JSON.parse(data['botella1L'])
+let botella5L = JSON.parse(data['botella5L'])
+console.log(garrafon11L)
+console.log(botella1L)
+console.log(botella5L)
+$('.count_refill_garrafon').val(garrafon19L['refill_cant'])
+$('.refill_garrafon_mont').val(garrafon19L['refill_mont'])
+$('.count_canje_garrafon').val(garrafon19L['canje_cant'])
+$('.canje_garrafon_mont').val(garrafon19L['canje_mont'])
+$('.count_enNew_garrafon').val(garrafon19L['nuevo_cant'])
+$('.enNew_garrafon_mont').val(garrafon19L['nuevo_mont'])
+$('.count_enobsequio_garrafon').val(garrafon19L['enobsequio_cant_garrafon'])
+$('.total_garrafon').val(garrafon19L['total_cant'])
+$('.cant_garrafon').text(garrafon19L['total_cant'])
+$('.monto_garrafon_input').val(garrafon19L['total_cost'])
+$('.monto_garrafon').text(garrafon19L['total_cost'])
+
+$('.count_refill_botella').val(botella1L['refill_cant'])
+$('.refill_botella_mont').val(botella1L['refill_mont'])
+$('.count_canje_botella').val(botella1L['canje_cant'])
+$('.canje_botella_mont').val(botella1L['canje_mont'])
+$('.count_enNew_botella').val(botella1L['nuevo_cant'])
+$('.enNew_botella_mont').val(botella1L['nuevo_mont'])
+$('.count_enobsequio_botella').val(botella1L['enobsequio_cant_botella'])
+$('.total_botella').val(botella1L['total_cant'])
+$('.cant_botella').text(botella1L['total_cant'])
+$('.monto_botella_input').val(botella1L['total_cost'])
+$('.monto_botella').text(botella1L['total_cost'])
+
+$('.count_refill_garrafon11l').val(garrafon11L['refill_cant'])
+$('.refill_garrafon11l_mont').val(garrafon11L['refill_mont'])
+$('.count_canje_garrafon11l').val(garrafon11L['canje_cant'])
+$('.canje_garrafon11l_mont').val(garrafon11L['canje_mont'])
+$('.count_enNew_garrafon11l').val(garrafon11L['nuevo_cant'])
+$('.enNew_garrafon11l_mont').val(garrafon11L['nuevo_mont'])
+$('.count_enobsequio_garrafon11l').val(garrafon11L['enobsequio_cant_garrafon11l'])
+$('.total_garrafon11l').val(garrafon11L['total_cant'])
+$('.cant_garrafon11l').text(garrafon11L['total_cant'])
+$('.monto_garrafon11l_input').val(garrafon11L['total_cost'])
+$('.monto_garrafon11l').text(garrafon11L['total_cost'])
+
+$('.count_refill_botella5l').val(botella5L['refill_cant'])
+$('.refill_botella5l_mont').val(botella5L['refill_mont'])
+$('.count_canje_botella5l').val(botella5L['canje_cant'])
+$('.canje_botella5l_mont').val(botella5L['canje_mont'])
+$('.count_enNew_botella5l').val(botella5L['nuevo_cant'])
+$('.enNew_botella5l_mont').val(botella5L['nuevo_mont'])
+$('.count_enobsequio_botella5l').val(botella5L['enobsequio_cant_botella5l'])
+$('.total_botella5l').val(botella5L['total_cant'])
+$('.cant_botella5l').text(botella5L['total_cant'])
+$('.monto_botella5l_input').val(botella5L['total_cost'])
+$('.monto_botella5l').text(botella5L['total_cost'])
+
+$('.total_total_inp').val(data['monto_total'])
+$('.total_total').text(data['monto_total'])
+
+if ( $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").length == 0 ){
+console.log(data['metodo_pago'])
+$('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] + '">' + data['metodo_pago'] + '</option>');  
+}else{
+//  $('#metodo_pago_edit').find('option:selected').remove().end();
+  $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").attr("selected", true);
+}
+$('.status_pago').val(data['status_pago'])
+$('#status_pedido_edit').val(data['status_pedido'])
+$('#prestados_edit').val(data['garrafones_prestamos'])
+$('#danados_edit').val(data['danados'])
+$('#descuento_edit').val(data['descuento'])
+$('#observacion_edit').val(data['observacion'])
+$('#edit_pedido').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
 }

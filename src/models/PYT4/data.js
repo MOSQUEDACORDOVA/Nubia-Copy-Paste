@@ -388,7 +388,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido,id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido,total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido) {
+ PedidosUpd(id_pedido,id_cliente,  chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido,total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -415,17 +415,7 @@ module.exports = {
             total_canje_pedido:total_canje_cant_pedido,
             total_nv_pedido:total_nuevo_cant_pedido,
             total_obsequio_pedido:total_obsequio_pedido  },{where:{pedidoId:id_pedido}})
-          Clientes.update(
-            {
-              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
-                  id: id_cliente
-              }}) .then((data_cli) => {
-                resolve("Se actualizó correctamente el pedido");
-                //console.log(planes);
-              })          
-            .catch((err) => {                      
-              reject(err)
-            });         
+            resolve("Se actualizó correctamente el pedido");     
 
     })
     .catch((err) => {
