@@ -508,6 +508,22 @@ module.exports = {
           });
       });
     },
+    // ELIMINAR MAQUINA DE MINADO
+    DeleteMachineTH(id) {
+      return new Promise((resolve, reject) => {
+        Maquinas.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve('data_p');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER TODAS LAS MAQUINAS DE MINADO
     GetMachineTH() {
       return new Promise((resolve, reject) => {
@@ -1296,9 +1312,9 @@ module.exports = {
       });
     },
     // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
-    ControlTH(price, maintance, error, earnings, minwithd) {
+    ControlTH(price, maintance, error, minwithd) {
         return new Promise((resolve, reject) => {
-        TH.create({ price: price, percentage_maintance: maintance, percentage_error: error, ref_earnings: earnings, min_withdrawal: minwithd })
+        TH.create({ price: price, percentage_maintance: maintance, percentage_error: error, min_withdrawal: minwithd })
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');
@@ -1308,7 +1324,7 @@ module.exports = {
             });
         });
     },
-    // MOSTRAR DATOS GUARDADOS, CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
+    // MOSTRAR DATOS GUARDADOS, CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, SALDO MINIMO DE RETIRO
     GetControlTH(){
         return new Promise((resolve, reject) => {
           TH.findAll()

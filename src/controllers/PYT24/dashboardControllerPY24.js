@@ -1175,22 +1175,41 @@ exports.addth = (req, res) => {
   }
 };
 
-// CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
-exports.controlth = (req, res) => {
+// ELIMINAR MAQUINA DE MINADO
+exports.deletemachine = (req, res) => {
   console.log(req.body);
-  const { price, maintance, error, earnings, minwithd } = req.body;
+  const { id } = req.body;
   let msg = false;
-  if (price.trim() === '' || maintance.trim() === '' || error.trim() === '' || earnings.trim() === '' || minwithd.trim() === '') {
+  if (id.trim() === '') {
     console.log('Complete todos los campos')
     res.redirect('/th/PYT-24');
   } else {
-    DataBase.ControlTH(price, maintance, error, earnings, minwithd).then((respuesta) =>{
-      console.log("Datos agregados satisfactoriamente");
+    DataBase.DeleteMachineTH(id).then((respuesta) =>{
+      console.log("Datos eliminados satisfactoriamente");
       res.redirect('/th/PYT-24');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error24/PYT-24");
+    });
+  }
+};
+
+// CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
+exports.controlth = (req, res) => {
+  console.log(req.body);
+  const { price, maintance, error, minwithd } = req.body;
+  let msg = false;
+  if (price.trim() === '' || maintance.trim() === '' || error.trim() === '' || minwithd.trim() === '') {
+    console.log('Complete todos los campos')
+    res.redirect('/th/PYT-24');
+  } else {
+    DataBase.ControlTH(price, maintance, error, minwithd).then((respuesta) =>{
+      console.log("Datos agregados satisfactoriamente");
+      res.redirect('/th/PYT-24');
+    }).catch((err) => {
+      console.log(err)
+      return res.redirect("/error404/PYT-24");
     });
   }
 };

@@ -21,7 +21,7 @@ const TH = db24.define('ths', {
 	},
     ref_earnings: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
     },
 	min_withdrawal: {
 		type: DataTypes.INTEGER,

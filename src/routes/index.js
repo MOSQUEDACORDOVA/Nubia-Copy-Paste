@@ -249,6 +249,8 @@ router.post('/regreferpy24', dashboardControllerPY24.reguserreferpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
+// ELIMINAR MAQUINA DE MINADO 
+router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
 // ACTUALIZAR PRECIO TH
