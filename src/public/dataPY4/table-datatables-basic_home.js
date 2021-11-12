@@ -727,7 +727,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
   //ACA SE ACTIVA EL HOVER DEL MODAL 
   $('[data-bs-toggle="modal"]').mouseenter(function(e) {
     $(this).click();
-});
+  });
+  
 
 
   $("#modal_detail_garrafones").on('show.bs.modal', function (e) {
@@ -789,16 +790,22 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
   }
   //ACA RELLENA EL MODAL DE LA INFO DEL CLIENTE
         $("#home_modalBody").append(`<ul class='list-group list-group-flush'>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Tipo: <span class='badge bg-primary rounded-pill'>${my_object['tipo']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Código postal: <span class='badge bg-primary rounded-pill'>${my_object['estado']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Estado: <span class='badge bg-primary rounded-pill'>Jalisco</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Municipio: <span class='badge bg-primary rounded-pill'>${my_object['municipio']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Asentamiento: <span class='badge bg-primary rounded-pill'>${asentamiento}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Coto: <span class='badge bg-primary rounded-pill'>${my_object['coto']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Casa: <span class='badge bg-primary rounded-pill'>${my_object['casa']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Avenida: <span class='badge bg-primary rounded-pill'>${my_object['avenida']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Referencia: <span class='badge bg-primary rounded-pill'>${my_object['referencia']}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Teléfono: <span class='badge bg-primary rounded-pill'>${my_object['telefono']}</span></li>
+        <div class='row'>
+          <div class='col-12 col-lg-6 p-0'>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Tipo: <span class='badge bg-primary rounded-pill'>${my_object['tipo']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Código postal: <span class='badge bg-primary rounded-pill'>${my_object['estado']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Estado: <span class='badge bg-primary rounded-pill'>Jalisco</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Municipio: <span class='badge bg-primary rounded-pill'>${my_object['municipio']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Asentamiento: <span class='badge bg-primary rounded-pill'>${asentamiento}</span></li>
+          </div>
+          <div class='col-12 col-lg-6 p-0'>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Coto: <span class='badge bg-primary rounded-pill'>${my_object['coto']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Casa: <span class='badge bg-primary rounded-pill'>${my_object['casa']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Avenida: <span class='badge bg-primary rounded-pill'>${my_object['avenida']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Referencia: <span class='badge bg-primary rounded-pill'>${my_object['referencia']}</span></li>
+            <li class='list-group-item d-flex justify-content-between align-items-center'>Teléfono: <span class='badge bg-primary rounded-pill'>${my_object['telefono']}</span></li>
+          </div>
+        </div>
         </ul>`);
 });
  
