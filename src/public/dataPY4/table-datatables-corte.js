@@ -892,7 +892,7 @@ if (garrafones_prestamos == 0) {
   filterColumn($(this).attr('data-column'), $(this).val());
 });**/
 var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
-$('.depositos').each(function(){
+$('#residencial_table .depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     subDepositos;
     cantDepositos
@@ -901,14 +901,14 @@ $('.depositos').each(function(){
     cantDepositos++
   }    
 });
-$('.efectivo').each(function(){
+$('#residencial_table .efectivo').each(function(){
   if ($(this).text() == "-") {
     subefectivo
   }else{
     subefectivo += parseFloat($(this).text());
   }    
 });
-$('.deuda').each(function(){
+$('#residencial_table .deuda').each(function(){
 if ($(this).text() == "-") {
   subadeudo
 }else{
@@ -917,21 +917,21 @@ if ($(this).text() == "-") {
 });
 console.log(subefectivo)
 efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-$('.refill').each(function(){
+$('#residencial_table .refill').each(function(){
   if ($(this).text() == "-") {
     sumaRefill
   }else{
         sumaRefill += parseFloat($(this).text());
   }    
 });
-$('.canje').each(function(){
+$('#residencial_table .canje').each(function(){
 if ($(this).text() == "-") {
   sumacanje 
 }else{
 sumacanje += parseFloat($(this).text());
 }     
 });
-$('.nuevo').each(function(){
+$('#residencial_table .nuevo').each(function(){
 if ($(this).text() == "-") {
   sumanuevo
 }else{
@@ -939,14 +939,14 @@ sumanuevo += parseFloat($(this).text());
 }   
 });
 
-$('.danados').each(function(){
+$('#residencial_table .danados').each(function(){
 if ($(this).text() == "-") {
   sumadanados
 }else{
 sumadanados += parseFloat($(this).text());
 }    
 });
-$('.prestados').each(function(){
+$('#residencial_table .prestados').each(function(){
 if ($(this).text() == "-") {
   sumaprestados
 }else{
