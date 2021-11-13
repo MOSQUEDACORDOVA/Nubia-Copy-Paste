@@ -2,14 +2,46 @@
     .none {
         display: none;
     }
-    .select2 {
-        width: 160px !important;
+    .d-flex .select2 {
+        max-width: 160px !important;
+    }
+    #home_modal .modal-dialog .list-group-item {
+        border: none;
+        border-bottom: 1px solid rgba(34, 41, 47, 0.125);
+    }
+    @media(min-width: 768px) {
+        #home_modal .modal-dialog {
+           max-width: 600px; 
+        }
     }
 </style>
 
 <script>
 
 $(document).ready(function() {
+    $('#home_modal .modal-dialog').mouseleave(function(e) {
+        $('#home_modal').removeClass('show');
+        $('#home_modal').addClass('fade');
+        $('#home_modal .btn-close').click();
+    });
+
+    $('#modal_detail_garrafones .modal-dialog').mouseleave(function(e) {
+        $('#modal_detail_garrafones').removeClass('show');
+        $('#modal_detail_garrafones').addClass('fade');
+        $('#modal_detail_garrafones .btn-close').click();
+    });
+
+    $('#detail_monto .modal-dialog').mouseleave(function(e) {
+        $('#detail_monto').removeClass('show');
+        $('#detail_monto').addClass('fade');
+        $('#detail_monto .btn-close').click();
+    });
+
+    $('#edit_pedido .modal-dialog').mouseleave(function(e) {
+        $('#edit_pedido').removeClass('show');
+        $('#edit_pedido').addClass('fade');
+        $('#edit_pedido .btn-close').click();
+    });
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -336,22 +368,19 @@ $(document).ready(function() {
 
             <div class="modal fade" id="home_modal" tabindex="-1" aria-labelledby="home_modal"
             style="display: none;" aria-hidden="home_modal">
-                <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="home_modalTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnModalHome" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id='home_modalBody'>
                         
                         </div>
-                        <div class="modal-footer">
-                            
-                        </div>
                     </div>
                 </div>
             </div>
-                        <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
+            <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
             style="display: none;" aria-hidden="modal_detail_garrafones">
                 <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
@@ -736,7 +765,6 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-            
 <script>
    
 </script>
