@@ -189,12 +189,9 @@ for (let i = 0; i < codigosP_arr.length; i++) {
   
 }
 if ($('#otro_rol').length>0) {
-  console.log(full['createdAt'])
     console.log($(this).html())
 let Hoy = moment().format('DD/MM/YYYY'); 
-console.log(Hoy)
 let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
-console.log(fecha)
     var fecha_final= moment(Hoy).isAfter(fecha); // true
         
 } 
@@ -274,6 +271,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               }
               
             }
+       
             var $status_number = full['cliente']['tipo'];
             var $status = {
               "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
@@ -292,10 +290,11 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
         }
+        console.log(full['cliente'])
         //aqui activa el modal info del cliente
             return (
-              '<span class="badge rounded-pill ' +$status[$status_number].class+
-              '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal" title="Hola mundo">' +
+              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
+              '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
               $status[$status_number].title +
               '</span>'
             );
@@ -307,7 +306,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;" data-toggle="modal">' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -324,7 +323,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
            detailCanje = parseFloat(full['total_canje_pedido'])*55
            detailNuevo = parseFloat(full['total_nv_pedido'])*105
            return (
-            '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  data-bs-target="#detail_monto" style="cursor:pointer;" data-toggle="modal">$' +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"   style="cursor:pointer;" >$' +
             data +
             '</span>'
           );
@@ -435,7 +434,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
- 
+
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
@@ -563,8 +562,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             color_text="white"
           }
               return (
-                '<span class="badge rounded-pill ' +$status[$status_number].class+
-                '" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'"  data-bs-target="#home_modal">' +
+                '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
+                '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
                 $status[$status_number].title +
                 '</span>'
               );
@@ -576,7 +575,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  data-bs-target="#modal_detail_garrafones" style="cursor:pointer;" data-toggle="modal">' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -594,7 +593,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
            detailCanje = parseFloat(full['total_canje_pedido'])*55
            detailNuevo = parseFloat(full['total_nv_pedido'])*105
            return (
-            '<span class="badge rounded-pill badge-light-info modal_hover" data-bs-toggle="modal" data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  data-bs-target="#detail_monto" style="cursor:pointer;">$' +
+            '<span class="badge rounded-pill badge-light-info detail_monto"  data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  style="cursor:pointer;">$' +
             data +
             '</span>'
           );
@@ -724,89 +723,89 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
     
   })
-  //ACA SE ACTIVA EL HOVER DEL MODAL 
-  $('[data-bs-toggle="modal"]').mouseenter(function(e) {
-    $(this).click();
-  });
+  //ACA SE ACTIVAS LOS CONTEXT MENU
   
+  $.contextMenu({
+    selector: '.modal_detail_garrafones',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      console.log(e)
+      var title = e.currentTarget['dataset']["title"];
+      var rfeill = e.currentTarget['dataset']["rfeill"];
+      var canje = e.currentTarget['dataset']["canje"];
+     var Env = e.currentTarget['dataset']["env"] 
+     var obsequio = e.currentTarget['dataset']["obsequio"];
+     var total = e.currentTarget['dataset']["total"] 
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                console.log(m);
+            },
+            items: {
+                "Refill": { name: `Refill: ${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Canje": { name: `Canje: ${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Envase Nuevo": { name: `Envase Nuevo: ${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Total": { name: `Total: ${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+            }
+        };
+    }
+  });
 
-
-  $("#modal_detail_garrafones").on('show.bs.modal', function (e) {
-  console.log( $(e))
-    var triggerLink = $(e.relatedTarget);
-    var Total_total = triggerLink.data("id");
-    var title = triggerLink.data("title");
-    var rfeill = triggerLink.data("rfeill");
-    var canje = triggerLink.data("canje");
-   var Env = triggerLink.data("env"); 
-   var obsequio = triggerLink.data("obsequio");
-   var total = triggerLink.data("total"); 
-    $("#modal_detail_garrafonesTitle").text(title); 
-  //  $("#home_modalBody").append(txt2);
-  $("#modal_detail_garrafonesBody").empty() 
- total = parseInt(total) - parseInt(obsequio)
-        $("#modal_detail_garrafonesBody").append(`<ul class='list-group list-group-flush'>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Refill: <span class='badge bg-primary rounded-pill'>${rfeill}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Canje: <span class='badge bg-primary rounded-pill'>${canje}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Envase Nuevo: <span class='badge bg-primary rounded-pill'>${Env}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Total: <span class='badge bg-primary rounded-pill'>${total}</span></li>
-        </ul>`);
-});
-  $("#detail_monto").on('show.bs.modal', function (e) {
-
-    var triggerLink = $(e.relatedTarget);
-    var Total_total = triggerLink.data("id");
-    var title = triggerLink.data("title");
-    var rfeill = triggerLink.data("rfeill");
-    var canje = triggerLink.data("canje");
-   var Env = triggerLink.data("env"); 
-   var obsequio = triggerLink.data("obsequio");
-   var total = triggerLink.data("total"); 
-    $("#detail_monto_title").text(title); 
-  //  $("#home_modalBody").append(txt2);
-  $("#detail_monto_body").empty() 
- total = parseInt(total) - parseInt(obsequio)
-        $("#detail_monto_body").append(`<ul class='list-group list-group-flush'>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Refill: <span class='badge bg-primary rounded-pill'>$${rfeill}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Canje: <span class='badge bg-primary rounded-pill'>$${canje}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Envase Nuevo: <span class='badge bg-primary rounded-pill'>$${Env}</span></li>
-        <li class='list-group-item d-flex justify-content-between align-items-center'>Total: <span class='badge bg-primary rounded-pill'>$${total}</span></li>
-        </ul>`);
-});
-  $("#home_modal").on('show.bs.modal', function (e) {
-    var triggerLink = $(e.relatedTarget);
-    var Total_total = triggerLink.data("id");
-    var title = triggerLink.data("title");
-   var Array = triggerLink.data("arraycliente");
-    var my_object = JSON.parse(decodeURIComponent(Array));
-    $("#home_modalTitle").text(title); 
-  //  $("#home_modalBody").append(txt2);
-  $("#home_modalBody").empty() 
-  let asentamiento =""
-  for (let i = 0; i < codigosP_arr.length; i++) {
-  if (my_object['cpId'] == codigosP_arr[i]['id']) {
-    asentamiento = codigosP_arr[i]['asentamiento']
+$.contextMenu({
+  selector: '.detail_monto',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    console.log(e)
+    var title = e.currentTarget['dataset']["title"];
+    var rfeill = e.currentTarget['dataset']["rfeill"];
+    var canje = e.currentTarget['dataset']["canje"];
+   var Env = e.currentTarget['dataset']["env"] 
+   var obsequio = e.currentTarget['dataset']["obsequio"];
+   var total = e.currentTarget['dataset']["total"] 
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+              console.log(m);
+          },
+          items: {
+              "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
   }
+});
+$.contextMenu({
+  selector: '.hover_cliente',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var title = e.currentTarget['dataset']["title"];
+    var Array = e.currentTarget['dataset']["arraycliente"];
+     var my_object = JSON.parse(decodeURIComponent(Array));
+   //  $("#home_modalBody").append(txt2);
+   let asentamiento =""
+   for (let i = 0; i < codigosP_arr.length; i++) {
+   if (my_object['cpId'] == codigosP_arr[i]['id']) {
+     asentamiento = codigosP_arr[i]['asentamiento']
+   }
+   }
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+              console.log(m);
+          },
+          items: {
+              "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tlf": { name: `Tlf: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
   }
-  //ACA RELLENA EL MODAL DE LA INFO DEL CLIENTE
-        $("#home_modalBody").append(`<ul class='list-group list-group-flush'>
-        <div class='row'>
-          <div class='col-12 col-lg-6 p-0'>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Tipo: <span class='badge bg-primary rounded-pill'>${my_object['tipo']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Código postal: <span class='badge bg-primary rounded-pill'>${my_object['estado']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Estado: <span class='badge bg-primary rounded-pill'>Jalisco</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Municipio: <span class='badge bg-primary rounded-pill'>${my_object['municipio']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Asentamiento: <span class='badge bg-primary rounded-pill'>${asentamiento}</span></li>
-          </div>
-          <div class='col-12 col-lg-6 p-0'>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Coto: <span class='badge bg-primary rounded-pill'>${my_object['coto']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Casa: <span class='badge bg-primary rounded-pill'>${my_object['casa']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Avenida: <span class='badge bg-primary rounded-pill'>${my_object['avenida']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Referencia: <span class='badge bg-primary rounded-pill'>${my_object['referencia']}</span></li>
-            <li class='list-group-item d-flex justify-content-between align-items-center'>Teléfono: <span class='badge bg-primary rounded-pill'>${my_object['telefono']}</span></li>
-          </div>
-        </div>
-        </ul>`);
 });
  
 

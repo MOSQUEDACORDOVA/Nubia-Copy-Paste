@@ -16,14 +16,14 @@ var moment = require('moment-timezone');
 
 module.exports = {
   //USUARIO
-  RegUser(tipo, nombre, email, password) {
+  RegUser(tipo, nombre, email, password, zona) {
     return new Promise((resolve, reject) => {
       Usuarios.create(
         {
-         name: nombre, tipo: tipo, email: email, password: password})
+         name: nombre, tipo: tipo, email: email, password: password, sucursaleId:zona})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          resolve('Usuario registrado con éxito');
+          resolve(data_set);
           //console.log(planes);
         })
         .catch((err) => {
@@ -33,7 +33,7 @@ module.exports = {
   },
   UsuariobyId(id){
     return new Promise((resolve, reject) => {
-      Usuarios.findAll({
+      Usuarios.findOne({
         where: {
           id: id,
         },

@@ -9,7 +9,11 @@
 
 let usuarios = $('#array_usuarios').val()
 let usuarios_array = JSON.parse(usuarios.replace(/&quot;/g,'"'))
-console.log(usuarios)  
+console.log(usuarios_array) 
+
+let sucursales = $('#array_sucursales').val()
+let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
+console.log(array_sucursales)  
 
   var dt_basic_table_personal = $('.datatables-basic_personal'),
   basic_usuarios = $('.datatables-basic_usuarios'),
@@ -61,7 +65,6 @@ console.log(usuarios)
           // Avatar image/badge, Name and post
           targets: 1,
           render: function (data, type, full, meta) {
-                        console.log(full)
             var $user_img = "-",
               $name = full['name'] + " " + full['lastName'],
               $post = full['cargo'];
@@ -155,7 +158,7 @@ console.log(usuarios)
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
- if (dt_basic_table_personal.length) {
+ if (basic_usuarios.length) {
     
     var dt_basic_users= basic_usuarios.DataTable({
       data: usuarios_array,
@@ -164,6 +167,7 @@ console.log(usuarios)
         { data: 'name' },
         { data: 'email' }, // used for sorting so will hide this column
         { data: 'tipo' },
+        { data: 'sucursaleId' },
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -171,9 +175,9 @@ console.log(usuarios)
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
+              // '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              // feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              // '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
@@ -224,7 +228,20 @@ console.log(usuarios)
             return $row_output;
           }
         },
-        
+        {
+          // Avatar image/badge, Name and post
+          targets: 4,
+          render: function (data, type, full, meta) {
+                  let sucursal_name=""
+for (let i = 0; i < array_sucursales.length; i++) {
+  if (array_sucursales[i]['id']==data) {
+    sucursal_name =array_sucursales[i]['nombre']  
+  }
+  
+}
+            return sucursal_name;
+          }
+        },
         {
           // Label
           targets: -2,
@@ -355,13 +372,37 @@ console.log(usuarios)
       text: "Seguro desea eliminar al Usuario indicado",
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
+      confirmButtonText: 'Eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return fetch(`/delete_usuario/${id}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        window.location.href = `/delete_usuario/${id}`;
+        console.log(result.value.etiquetas_let)
+        var opts = result.value.etiquetas_let;
+        $('#exampleEtiquetas').DataTable().row($(this).parents('tr')).remove().draw();
+        $("#color_tag").find('option').not(':first').remove();
+        $.each(opts, function(i, d) {
+          console.log(d)
+          // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+          $('#color_tag').append('<option value="' + d.id + '">' + d.etiquetas + '</option>');
+      });
+        Swal.fire({
+          title: `Etiqueta ${id} borrada con éxito`,
+        })
       }
     })
    });
@@ -373,7 +414,101 @@ console.log(usuarios)
      if (typeof id_edit =="undefined") {
        return console.log(id_edit)
      }
-   window.location.href = `/editar_usuario/${id_edit}`;
- 
+   //window.location.href = `/editar_usuario/${id_edit}`;
+   edit_usuario(id_edit)
    });
+   $('#reg_personal').on('click', async (e)=>{
+    if ($('#tipo_reg_per').val() =="") {
+      Swal.fire('Debe seleccionar un tipo')
+      return
+    }
+    if ($('#reg_per_nombre').val() =="") {
+      Swal.fire('Debe colocar nombre')
+      return
+    }
+    if ($('#register_email_pers').val() =="") {
+      Swal.fire('Debe colocar un email')
+      return
+    }
+    if ($('#reg_perspassword').val() =="") {
+      Swal.fire('Debe colocar un password')
+      return
+    }
+    if ($('#reg_pers_zona').val() =="Seleccione una Zona") {
+      Swal.fire('Debe seleccionar una Zona')
+      return
+    }
+    console.log('yuju')
+    $.ajax({
+      url: `/registrar_usuario`,
+      type: 'POST',
+      data: $('#reguserPy4').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+$('.datatables-basic_usuarios').DataTable().row.add({
+  id: data.respuesta_let.id,
+  name: data.respuesta_let.name,
+  email: data.respuesta_let.email,
+tipo: data.respuesta_let.tipo,
+sucursaleId: data.respuesta_let.sucursaleId,
+  
+})
+.draw();
+var opts = data;
+$.each(opts, function(i, d) {
+        console.log(d)
+        // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
+        $('#color_tag').append('<option value="' + d.id + '">' + d.etiquetas + '</option>');
+    });
+//cargaTablaEtiquetas('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });
+function edit_usuario(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_usuario`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+
+if ( $("#tipo_edit_per option[value='" + data['usuarios_let']['tipo'] + "']").length == 0 ){
+console.log(data['usuarios_let']['tipo'])
+$('#tipo_edit_per').prepend('<option selected value="' + data['usuarios_let']['tipo'] + '">' + data['usuarios_let']['tipo'] + '</option>');  
+}else{
+//  $('#tipo_edit').find('option:selected').remove().end();
+  $("#tipo_edit_per option[value='" + data['usuarios_let']['tipo'] + "']").attr("selected", true);
+}
+$('#edit_per_nombre').val(data['usuarios_let']['name'])
+$('#edit_email_pers').val(data['usuarios_let']['email'])
+// $('#edit_perspassword').val(data['usuarios_let']['garrafones_prestamos'])
+if ( $("#edit_pers_zona option[value='" + data['usuarios_let']['sucursaleId'] + "']").length == 0 ){
+  console.log(data['usuarios_let']['metodo_pago'])
+  $('#edit_pers_zona').prepend('<option selected value="' + data['usuarios_let']['sucursaleId'] + '">' + data['usuarios_let']['sucursaleId'] + '</option>');  
+  }else{
+  //  $('#metodo_pago_edit').find('option:selected').remove().end();
+    $("#edit_pers_zona option[value='" + data['usuarios_let']['sucursaleId'] + "']").attr("selected", true);
+  }
+$('#edit_user').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}

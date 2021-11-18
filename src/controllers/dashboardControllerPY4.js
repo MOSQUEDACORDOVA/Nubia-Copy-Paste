@@ -438,19 +438,20 @@ exports.save_cliente_edit_tag = (req, res) => {
 }
 
 
-  exports.reguserPy4 = (req, res) => {
-    
-    const { tipo, nombre, email, password} = req.body
-    let msg = false;
-  
-    DataBase.RegUser(tipo, nombre, email, password).then((respuesta) =>{
-      res.redirect('/homepy4/'+respuesta)
-  
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
+exports.reguserPy4 = (req, res) => {
+  const { tipo, nombre, email, password,zona} = req.body
+  let msg = false;
+
+  DataBase.RegUser(tipo, nombre, email, password,zona).then((respuesta) =>{
+      let respuesta_let = JSON.parse(respuesta)
+console.log(respuesta)
+res.send({respuesta_let})
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+
 };
 
 
@@ -845,65 +846,18 @@ exports.delete_users = (req, res) => {
 
  exports.editar_usuarios = (req, res) => {
   const user = res.locals.user;
-  let id_ = req.params.id
+  let id_ = req.body.id
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
-    let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
-      let pedidos_let = JSON.parse(pedidos_)
-       let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
-        let choferes_ = JSON.parse(choferes)
+
 DataBase.UsuariobyId(id_).then((usuarios_)=>{
-  let usuarios_let = JSON.parse(usuarios_)[0]
-  
- DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
-  let vehiculos_let = JSON.parse(vehiculos_)
-   let count = vehiculos_let.length
-   DataBase.Sucursales_ALl().then((sucursales_)=>{
-    let sucursales_let = JSON.parse(sucursales_)
-res.render("PYT-4/edit_usuarios", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  personal:true,
-  usuarios_,  usuarios_let,vehiculos_let,sucursales_let,choferes_
-}) 
+  let usuarios_let = JSON.parse(usuarios_)
+res.send({usuarios_let})
 }).catch((err) => {
 console.log(err)
 let msg = "Error en sistema";
 return res.redirect("/errorpy4/" + msg);
 });
-}).catch((err) => {
-console.log(err)
-let msg = "Error en sistema";
-return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-
-
 
  };
 

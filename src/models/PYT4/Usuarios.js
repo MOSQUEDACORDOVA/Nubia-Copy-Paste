@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
-
+//const Sucursales = require("../../models/PYT4/Sucursales");
 const Usuarios = db.define('usuarios', {
 	id: {
 		type: DataTypes.INTEGER,
@@ -15,18 +15,6 @@ const Usuarios = db.define('usuarios', {
 	email: {
 		type: DataTypes.STRING(60),
 		allowNull: false,
-		validate: {
-			isEmail: {
-				msg: 'Agrega un correo válido'
-			},
-			notEmpty: {
-				msg: 'El email es obligatorio'
-			}
-		},
-		unique: {
-			args: true,
-			msg: 'Usuario ya registrado'
-		}
 	},
 	password: {
 		type: DataTypes.STRING(60),
@@ -40,11 +28,6 @@ const Usuarios = db.define('usuarios', {
 	name: {
 		type: DataTypes.STRING(60),
 		allowNull: false,
-		validate: {
-			notEmpty: {
-				msg: 'El nombre es obligatorio'
-			}
-		}
 	},
 	lastName: {
 		type: DataTypes.TEXT,
@@ -77,6 +60,7 @@ Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
 
+///Usuarios.Sucursales= Usuarios.belongsTo(Sucursales);
 
 
 module.exports = Usuarios;
