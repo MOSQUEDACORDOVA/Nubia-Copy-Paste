@@ -249,6 +249,8 @@ router.post('/regreferpy24', dashboardControllerPY24.reguserreferpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
+// OBTENER MAQUINAS DE MINADO 
+router.get('/getmachines', authControllerPY24.authenticatedUser, dashboardControllerPY24.getmachines);
 // ELIMINAR MAQUINA DE MINADO 
 router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
@@ -309,8 +311,10 @@ router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboar
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
-// APROBAR
+// SOLICITAR PAGO USUARIO
 router.post('/solicitpay', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitpay);
+// PAGAR A USUARIO ADMIN
+router.post('/payuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.payuser);
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);

@@ -60,7 +60,59 @@
 
                 <!-- Dashboard Ecommerce Starts -->
                 <section id="dashboard-ecommerce">
-                    <div class="row match-height">                     
+                    <div class="row match-height">  
+                        <!-- SALDO -->
+                        <div class="col-lg-6 d-none d-lg-block">
+                            <div class="card card-statistics">
+                                <div class="card-header pb-0">
+                                    <h4 class="card-title">Retiros Pendientes</h4>
+                                </div>
+                                <div class="card-body statistics-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <!--<h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>-->
+                                            <h4 class="fw-bolder mb-0">150 USD</h4>
+                                            <p class="card-text font-small-3 mb-0">Retiros Pendientes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/SALDO -->
+
+                        <!-- PODER DE THL -->
+                        <div class="col-lg-6 d-none d-lg-block">
+                            <div class="card card-statistics">
+                                <div class="card-header pb-0">
+                                    <h4 class="card-title">Poder de TH</h4>
+                                </div>
+                                <div class="card-body statistics-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar bg-light-info me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='box' style="width: 20px; height: 20px;"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <!--{{#if capital}}
+                                            <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 capital}}{{/capitalinvertidopy24}}</h4>
+                                            {{else}}
+                                            <h4 class="fw-bolder mb-0">$0</h4>
+                                            {{/if}}-->
+                                            <h4 class="fw-bolder mb-0">13 TH</h4>
+                                            <p class="card-text font-small-3 mb-0">Capacidad Total</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- PODER DE THL -->  
+
                         <div class="col-lg-6 col-12">
                             <div class="card">
                                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -72,7 +124,7 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div style="height:400px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="bar-chart-ex chartjs chartjs-render-monitor" data-height="400" width="1328" height="800" style="display: block; height: 400px; width: 664px;"></canvas></div>
+                                    <div id="prueba"></div>
                                 </div>
                             </div>
                         </div>  
@@ -80,21 +132,22 @@
                         <div class="col-lg-6 col-12">
                             <div class="row match-height">
                                 <!-- SALDO -->
-                                <div class="col-lg-12 col-md-4 col-6">
+                                <div class="col-lg-12 col-sm-6 d-lg-none">
                                     <div class="card card-statistics">
                                         <div class="card-header pb-0">
-                                            <h4 class="card-title">Saldo Disponible</h4>
+                                            <h4 class="card-title">Retiros Pendientes</h4>
                                         </div>
                                         <div class="card-body statistics-body">
                                             <div class="d-flex align-items-start">
-                                                <div class="avatar bg-light-success me-2">
+                                                <div class="avatar bg-light-warning me-2">
                                                     <div class="avatar-content">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>
-                                                    <p class="card-text font-small-3 mb-0">Saldo disponible</p>
+                                                    <!--<h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>-->
+                                                    <h4 class="fw-bolder mb-0">150 USD</h4>
+                                                    <p class="card-text font-small-3 mb-0">Retiros Pendientes</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,11 +155,11 @@
                                 </div>
                                 <!--/SALDO -->
 
-                                <!-- CAPITAL -->
-                                <div class="col-lg-12 col-md-4 col-6">
+                                <!-- PODER DE THL -->
+                                <div class="col-lg-12 col-sm-6 d-lg-none">
                                     <div class="card card-statistics">
                                         <div class="card-header pb-0">
-                                            <h4 class="card-title">Capital</h4>
+                                            <h4 class="card-title">Poder de TH</h4>
                                         </div>
                                         <div class="card-body statistics-body">
                                             <div class="d-flex align-items-start">
@@ -116,35 +169,61 @@
                                                     </div>
                                                 </div>
                                                 <div class="my-auto">
-                                                    {{#if capital}}
+                                                    <!--{{#if capital}}
                                                     <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 capital}}{{/capitalinvertidopy24}}</h4>
                                                     {{else}}
                                                     <h4 class="fw-bolder mb-0">$0</h4>
-                                                    {{/if}}
-                                                    <p class="card-text font-small-3 mb-0">Capital invertido</p>
+                                                    {{/if}}-->
+                                                    <h4 class="fw-bolder mb-0">13 TH</h4>
+                                                    <p class="card-text font-small-3 mb-0">Capacidad Total</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!--/ CAPITAL -->
+                                <!-- PODER DE THL -->
 
                                 <!-- GANANCIAS -->
-                                <div class="col-lg-12 col-md-4 col-12">
+                                <div class="col-12">
                                     <div class="card card-statistics">
                                         <div class="card-header pb-0">
-                                            <h4 class="card-title">Ganancias</h4>
+                                            <h4 class="card-title">Ganancias de Minado</h4>
                                         </div>
                                         <div class="card-body statistics-body">
-                                            <div class="d-flex align-items-start">
-                                                <div class="avatar bg-light-warning me-2">
-                                                    <div class="avatar-content">
-                                                        <i data-feather='trending-up' style="width: 20px; height: 20px;"></i>
+                                            <div class="d-flex flex-column flex-md-row justify-content-md-between flex-lg-column">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='activity' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <!--<h4 class="fw-bolder mb-0">${{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}}</h4>-->
+                                                        <h4 class="fw-bolder mb-0">0.75 BTC</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias generales</p>
                                                     </div>
                                                 </div>
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">${{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}}</h4>
-                                                    <p class="card-text font-small-3 mb-0">Ganancias generales</p>
+                                                <div class="d-flex align-items-start my-1 my-md-0 my-lg-1">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='trending-up' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h4 class="fw-bolder mb-0">15 USD</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias en USD</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='hash' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h4 class="fw-bolder mb-0">16 €</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias en Euros</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -153,7 +232,7 @@
                                 <!--/ GANANCIAS -->
 
                                 <!-- HISTORICO -->
-                                <div class="col-12 d-lg-none" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-12" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="card card-statistics">
                                         <div class="card-body statistics-body">
                                             <div class="d-flex align-items-start">
@@ -174,26 +253,6 @@
                                 <!--/ HISTORICO -->
                             </div>
                         </div>
-                        <!-- HISTORICO -->
-                        <div class="col-12 d-none d-lg-block" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-                            <div class="card card-statistics">
-                                <div class="card-body statistics-body">
-                                    <div class="d-flex align-items-start">
-                                        <div class="avatar bg-light-info me-2">
-                                            <div class="avatar-content">
-                                                <i data-feather='book' style="width: 20px; height: 20px;"></i>
-                                            </div>
-                                        </div>
-        
-                                        <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0">Histórico</h4>
-                                            <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--/ HISTORICO -->
                     </div>
                 </section>
 
@@ -412,4 +471,45 @@
             .then(response => response.json())
             .then(data => console.log(data));
     });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    let options = {
+        chart: {
+            height: 280,
+            type: "area"
+        },
+        dataLabels: {
+            enabled: false
+        },
+        series: [
+            {
+            name: "Ganancias",
+            data: [45, 52, 38, 45, 19, 23, 2]
+            }
+        ],
+        fill: {
+            type: "gradient",
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 90, 100]
+            }
+        },
+        xaxis: {
+            categories: [
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sabado",
+            "Domingo"
+            ]
+        }
+    };
+    let chart = new ApexCharts(document.querySelector("#prueba"), options);
+
+    chart.render();
 </script>

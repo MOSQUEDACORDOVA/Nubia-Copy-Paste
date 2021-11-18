@@ -621,6 +621,36 @@ exports.solicitpay = (req, res) => {
   });
 };
 
+// SOLICITAR PAGO USUARIO
+exports.payuser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  const {id, methodid, depid} = req.body;
+  console.log(id + ' - ' + methodid + ' - ' + depid)
+  console.log("ID - METHODID - DEPID")
+
+  DataBase.PayUser(id, methodid).then((resp)=> {
+    console.log(resp)
+    console.log("RESPUESTA DE PAGOS")
+    DataBase.CulminateDeposits(depid).then((resp2) => {
+      console.log(resp2)
+      console.log("DEPOSITO CULMINADO")
+      return res.redirect('paym/PYT-24');
+    }).catch((err) => {
+      
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+};
+
 exports.users = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1261,6 +1291,32 @@ exports.th = (req, res) => {
   })
 };
 
+// OBTENER MAQUINAS DE MINADO
+exports.getmachines = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+  // TH DISPONIBLES
+  DataBase.GetMachineTH().then((resp)=>{
+    let machine = JSON.parse(resp);
+    console.log(machine)
+    let thavalible = 0;
+    machine.forEach(element => {
+      thavalible += element.avalible;
+    });
+
+    res.send({thavalible});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo maquinas de minado en el sistema";
+    return res.redirect("/error24/PYT-24");
+  })
+};
+
 // ACTUALIZAR PRECIO TH
 exports.updateth = (req, res) => {
   const {id, price} = req.body
@@ -1688,20 +1744,9 @@ exports.presale = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
   
-  let roleAdmin;
   let roleClient = true;
-  let roleSeller;
   let presale = true;
 
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
 
   let verify, unverify, pendingverify;
 
@@ -1742,7 +1787,12 @@ exports.presale = (req, res) => {
             DataBase.GetDigWallet().then((wallet)=>{
               let allwallet = JSON.parse(wallet);
               console.log(allwallet)
-            
+
+              // TH DISPONIBLES
+              DataBase.GetMachineTH().then((resp)=>{
+                let machine = JSON.parse(resp);
+                console.log(machine)
+
     res.render(proyecto+"/presale", { 
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
@@ -1751,16 +1801,20 @@ exports.presale = (req, res) => {
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
-      roleAdmin,
       roleClient,
-      roleSeller,
       presale,
       data, 
       data_th,
+      machine,
       allpays, allbanks, allpaym, allbtc, allwallet,
       verify, unverify, pendingverify,
       buy: true
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2074,25 +2128,84 @@ exports.createdeposits = (req, res) => {
   console.log(proyecto)
   console.log(req.body)
 
-  let {id, methodid, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref} = req.body;
+  let {id, methodid, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, th} = req.body;
 
   name = res.locals.user.username;
   dni = res.locals.user.dni;
   email = res.locals.user.email;
 
   let depositid;
-
+  
   DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, methodid, idUser).then((response) => {
     console.log(response)
     depositid = JSON.parse(response)
     console.log("DEPOSITO-------ID")
   }).then((data) => {
     let data_set = JSON.stringify(data);
-
+    
     DataBase.CreatePaymenthsUser(idUser, amount, id, depositid.id).then((response2) => {
       console.log(response2)
       console.log("RESPUESTA CONTROLADOR")
-      res.redirect('/depositpresale/PYT-24');
+
+      // RESTAR TH DISPONIBLES A LAS MAQUINAS
+      DataBase.GetMachineTH().then((resp)=> { 
+        let machine = JSON.parse(resp);
+        console.log(th)
+        console.log("CANTIDAD DE TH A RESTAR")
+        let count = th;
+        let idM, aval, sold;
+        console.log(count)
+        console.log(machine)
+        console.log("DATA CONTROLLER")
+        if(machine.length >= 2) {
+          machine.forEach(element => {
+            console.log(element.avalible)
+            console.log("MAQUINAS DISPONIBLES")
+            idM = element.id;
+            sold = element.sold;
+            aval = element.aval;
+            
+            while (count != 0) {   
+              if(count != 0 && aval <= count) {
+                DataBase.UpdateMachineTH(idM, sold, aval).then((resp3)=> { 
+                  count = (count - sold);
+                }).catch((err) => {
+                  console.log(err)
+                  let msg = "Error actualizando maquinas del sistema";
+                  return res.redirect("/error24/PYT-24");
+                });
+              } else {
+                DataBase.UpdateMachineTH(idM, sold, aval).then((resp3)=> { 
+                  count = (count - sold);
+                  res.redirect('/depositpresale/PYT-24');
+                }).catch((err) => {
+                  console.log(err)
+                  let msg = "Error actualizando maquinas del sistema";
+                  return res.redirect("/error24/PYT-24");
+                });
+              }
+            }
+          });
+        } else {
+          sold = parseInt(th);
+          aval = parseInt(machine[0].avalible) - parseInt(th);
+          console.log("TH DISPONIBLE DE MAQUINA" + aval)
+          console.log("TH VENDIDOS DE MAQUINA" + sold)
+          idM = machine[0].id;
+          DataBase.UpdateMachineTH(idM, sold, aval).then((resp2)=> { 
+            res.redirect('/depositpresale/PYT-24');
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error obteniendo maquinas de minado en el sistema";
+            return res.redirect("/error24/PYT-24");
+          });
+        }
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error obteniendo maquinas de minado en el sistema";
+        return res.redirect("/error24/PYT-24");
+      })
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

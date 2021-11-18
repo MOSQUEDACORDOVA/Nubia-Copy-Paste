@@ -538,6 +538,25 @@ module.exports = {
             });
       });
     },
+    // ACTUALIZAR MAQUINAS DE MINADO
+    UpdateMachineTH(id, sold, aval) {
+      return new Promise((resolve, reject) => {
+        Maquinas.update({
+          sold_out: sold,
+          avalible: aval,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data)[0];
+            console.log(data_s)
+            resolve('DATOS DE MAQUINA ACTUALIZADOS !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // CREAR DEPOSITO
     CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_method, id_user) {
       console.log(id_pack)
@@ -929,7 +948,7 @@ module.exports = {
           });
       });
     },
-    // APROBAR DEPOSITOS
+    // CULMINAR DEPOSITOS
     CulminateDeposits(id){
       return new Promise((resolve, reject) => {
         Depositos.update({
@@ -1293,7 +1312,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR PRECIO TH
+    // SOLICITAR PAGO USUARIO
     SolicitPay(id) {
       return new Promise((resolve, reject) => {
         Pays.update(
@@ -1305,6 +1324,25 @@ module.exports = {
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Pago solicitado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // PAGAR A USUARIO
+    PayUser(id, idMethod) {
+      return new Promise((resolve, reject) => {
+        Pays.update(
+          {
+            status: 'Pagado',
+            metodosRetiroId: idMethod,
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Pago realizado con éxito');
           })
           .catch((err) => {
             reject(err)

@@ -108,7 +108,6 @@
                             <div class="col-12 col-md-4 {{#duracionplanespy24 item.duration}}{{/duracionplanespy24}}">
                                 <div class="card {{#planesclasepy24 item.amount_th}}{{/planesclasepy24}} text-center">
                                     <div class="card-body paquetes">
-
                                         {{#planesinfopy24 item.amount_th item.name}}
                                         {{/planesinfopy24}}
 
@@ -125,10 +124,15 @@
                                             <li class="list-group-item">Cantidad de TH: {{item.amount_th}} </li>
                                             <li class="list-group-item">Coste de mantenimiento: {{item.maintance_charge}}%</li>
                                         </ul>
-                                        <button class="btn w-100 btn-primary mt-2 waves-effect waves-float waves-light" role="button" data-id="{{item.id}}" data-bs-toggle="modal" data-bs-target="#addNewCard2">Comprar</button>
+                                        <button class="btn w-100 btn-primary comprarBtn mt-2 waves-effect waves-float waves-light" role="button" data-id="{{item.id}}" data-amount-th="{{item.amount_th}}">Comprar</button>
                                     </div>
                                 </div>
                             </div>
+                            <!--- MODAL VERIFICACION DISPONIBLES -->
+                            <button class="d-none" data-bs-toggle="modal" id="btnDis" data-bs-target="#addNewCard2" role="button"></button>
+
+                            <button class="d-none" data-bs-toggle="modal" id="btnNoDis" data-bs-target="#addNewCard3" role="button" aria-controls="addNewCard2"></button>
+                            <!-- MODAL VERIFICACION DISPONIBLES -->
                             {{/each}}
                             {{else}}
                             {{#each data as |item i|}} 
@@ -182,7 +186,7 @@
                             <div class="modal-header bg-transparent">
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <div class="modal-body px-sm-5 mx-50 pb-0">
                                 <div class="text-center">
                                     <h1>Pago a realizar</h1>
                                     <p class="mb-3"></p>
@@ -192,7 +196,7 @@
                                     <div class="bs-stepper vertical vertical-wizard-example">
                                         <div class="bs-stepper-header">
                                             <h4>Elige un metodo de pago</h4>
-                                            <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                            <!--<div class="step" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="true">
                                                     <span class="bs-stepper-box">1</span>
                                                     <span class="bs-stepper-label">
@@ -207,27 +211,27 @@
                                                         <span class="bs-stepper-title">Pago Móvil</span>
                                                     </span>
                                                 </button>
-                                            </div>
-                                            <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                            </div>-->
+                                            <div class="step active" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="false">
-                                                    <span class="bs-stepper-box">3</span>
+                                                    <span class="bs-stepper-box">1</span>
                                                     <span class="bs-stepper-label">
                                                         <span class="bs-stepper-title">Pago en Criptomonendas</span>
                                                     </span>
                                                 </button>
                                             </div>
-                                            <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                            <!--<div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="false">
                                                     <span class="bs-stepper-box">4</span>
                                                     <span class="bs-stepper-label">
                                                         <span class="bs-stepper-title">Pago en Billetera digital</span>
                                                     </span>
                                                 </button>
-                                            </div>
+                                            </div>-->
                                         </div>
                                         <div class="bs-stepper-content">
                                             <!--- TRANSFERENCIAS BANCARIAS -->
-                                            <form id="account-details-vertical" method="POST" action="/deposits" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                            <form id="account-details-vertical" method="POST" action="/deposits" class="content dstepper-block" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
                                                 <div class="content-header">
                                                     <h5 class="mb-0">Transferencia Bancaria</h5>
                                                 </div>
@@ -245,6 +249,7 @@
                                                         <input type="text" name="ttype" class="d-none" value="Transferencia Bancaria" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                         <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
                                                         <input type="text" id="fullname1" class="form-control" placeholder="" name="name" value="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -288,7 +293,7 @@
                                             </form>
 
                                             <!--- BTC -->
-                                            <form action="/deposits" method="POST" id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                            <form action="/deposits" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
                                                     <h5 class="mb-0">Retiro en BTC</h5>
                                                 </div>
@@ -304,6 +309,7 @@
                                                         <input type="text" name="ttype" class="d-none" value="BTC" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                         <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
                                                         <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                 </div>
@@ -340,6 +346,7 @@
                                                         <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                                                    
                                                         <input type="text" name="ttype" class="d-none" value="Billetera Digital" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
                                                         <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -373,7 +380,8 @@
                                                         <label class="form-label" for="">Nombre Completo</label>
                                                         <input type="text" name="ttype" class="d-none" value="Pago Movil" required readonly>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>  
-                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                         
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>     
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>                    
                                                         <input type="text" id="fullname2" class="form-control" placeholder="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -412,10 +420,54 @@
                                     </div>
                                 </section>
                             </div>
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <h1>Proyección de Ganancias</h1>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height:450px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="line-area-chart-ex chartjs chartjs-render-monitor" data-height="450" width="991" height="450" style="display: block; width: 991px; height: 450px;"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- END MODAL PAGAR --}}
+                {{/if}}
+                {{!-- MODAL TH DISPONIBLE --}}
+                {{#if machine}}
+                <div class="modal fade" id="addNewCard3" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Lo sentimos !</h1>
+                                    <p>No contamos con la capacidad de th deseada, puedes comprar en un rango de <span class="text-primary">{{#totalthdisponibles machine}}{{/totalthdisponibles}} TH disponibles</span>, o mantente atento a que aumentemos la capacidad de minado. Muchas gracias!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="modal fade" id="addNewCard3" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Lo sentimos !</h1>
+                                    <p>No contamos con maquinas de minado, mantente atento. Muchas gracias!</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 {{/if}}
+                {{!-- END MODAL TH DISPONIBLE --}}
             {{else}}
                 <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
                     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -654,6 +706,10 @@
         e.classList.add('d-none');
     });
 
+    AnualP2.forEach(e => {
+        e.classList.add('d-none');
+    });
+
     selectorPlanes.addEventListener('change', (e) => {
         if(selectorPlanes.checked) {
             Set24Meses();
@@ -846,7 +902,61 @@
             });
         });
 
+        let btnComp = $('.comprarBtn');
+        let inTh = $('.amountth');
+
+        btnComp.on('click', (e) => {
+            console.log(e.target)
+            let cantidad = parseInt(e.target.getAttribute('data-amount-th'));
+            inTh.each(function (index) {
+                $(this).val(cantidad);
+            });
+            GetDatos(cantidad);
+        })
+
+        const GetDatos = (num) => {
+            $.ajax({
+                url: '/getmachines',
+                type: 'GET',
+                data: '',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data.thavalible);
+                    console.log("DISPONIBLE");
+
+                    let disponible = parseInt(data.thavalible);
+                    if(num <= disponible) {
+                        $('#btnDis').click();
+                    } else {
+                        console.log("MAYOR")
+                        $('#btnNoDis').click();
+                    }
+                    return disponible;
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
+            });
+        }
+
         let form = document.getElementById('personalizadosform');
+
+        $('#personalizado').on('click', (e) => {
+            console.log(e.target)
+            console.log("TH")
+            let value = document.getElementById('amountth').value;
+            let cantidad = parseInt(value);
+            console.log(value)
+            console.log(cantidad)
+            if(cantidad) {
+                inTh.each(function (index) {
+                    $(this).val(cantidad);
+                });
+                GetDatos(cantidad);
+            }
+        });
     
         $('#personalizado').on('click', () => {
             const data = new FormData(form);
@@ -859,11 +969,15 @@
                 processData: false,
                 success: function (data, textStatus, jqXHR) {
                     console.log(data.response);
-                    $('#btnmodal').click();
+                    console.log("RESPUESTA");
 
-                    $('.d-none.id').each(function (index) {
-                        $(this).val(data.response.id);
-                    });
+                    try {
+                        $('.d-none.id').each(function (index) {
+                            $(this).val(data.response.id);
+                        });
+                    } catch (err) {
+                        console.log(err)
+                    }
                 },
                 error: function (jqXHR, textStatus) {
                     console.log('error:' + jqXHR);
