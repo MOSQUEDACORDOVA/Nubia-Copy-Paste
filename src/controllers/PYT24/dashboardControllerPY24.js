@@ -98,12 +98,41 @@ exports.dashboard = (req, res) => {
   let roleAdmin = true;
 
   let idUser = res.locals.user.id
-  // SALDO DISPONIBLE
-  let avalibleBalance = res.locals.user.avalible_balance
+  // RETIROS PENDIENTES
+  DataBase.GetPendingPaymenthsAdmin().then((resp) => {
+    let pendPays = JSON.parse(resp);
+    let retreatsBalance = 0;
+    console.log(pendPays)
+    console.log("PAGOS SOLICITADOS")
+    pendPays.forEach(element => {
+      retreatsBalance += (parseInt(element.deposito.earnings) + parseInt(element.deposito.amount));
+    });
 
-  DataBase.GetAllDepositsAdmin().then((resp) => {
-    let depositos = JSON.parse(resp);
+  // DEPOSITOS
+  DataBase.GetAllDepositsAdmin().then((resp2) => {
+    let depositos = JSON.parse(resp2);
     console.log(depositos)
+
+    // BALANCE MINIMO DE RETIRO
+    DataBase.GetMachineTH().then((response_th)=>{
+      let data_th = JSON.parse(response_th);
+      let total = 0, vendidos = 0, disponibles = 0;
+      console.log(data_th)
+      console.log("MAQUINAS")
+      console.log("MAQUINAS")
+      console.log("MAQUINAS")
+      // TOTAL TH
+      data_th.forEach(element => {
+        total += parseInt(element.th_capacity);
+      });
+      // TH VENDIDOS
+      data_th.forEach(element => {
+        vendidos += parseInt(element.sold_out);
+      });
+      // TH DISPONIBLES
+      data_th.forEach(element => {
+        disponibles += parseInt(element.avalible);
+      });
 
     let date = moment().format('YYYY-MM-DD');
     depositos.forEach(element => {
@@ -131,8 +160,19 @@ exports.dashboard = (req, res) => {
       typeUser: req.user.type_user,
       roleAdmin,
       depositos,
-      avalibleBalance,
+      retreatsBalance,
+      total, vendidos, disponibles
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error24/PYT-24");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -479,7 +519,7 @@ exports.retreats = (req, res) => {
           let wallet = JSON.parse(res4);
           console.log(wallet)
         
-          // BALANCE MINIMO DE RETIRO
+        // BALANCE MINIMO DE RETIRO
         DataBase.GetControlTH().then((response_th)=>{
           let data_th = JSON.parse(response_th)[0];
           console.log(data_th)

@@ -5,8 +5,50 @@
             <!-- Analytics card section -->
             <section id="analytics-card">
                 <div class="row">
-                    {{#if data}}
+                    <!-- TOTAL DE TH GRAFICA GENERAL -->
+                    {{#if machine}}
+                    <div class="col-12 col-lg-6 col-xl-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Capacidad Total de TH</h4>
+                                <i data-feather='edit' class="feather feather-bell ficon text-primary" type="button" data-bs-toggle="modal" data-bs-target="#editth"></i>
+                            </div>
+                            <div class="card-body graficas p-0" style="position: relative;">
+                                <div id="goal-overview-radial-bar-chart" class="my-2 d-none" style="min-height: 205.633px;">
+                                    <div class="circle">
+                                        <p class="mb-0" id="total">{{#totalth machine}}{{/totalth}}</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="row border-top text-center mx-0 d-none">
+                                    <div class="col-6 border-end py-1">
+                                        <p class="card-text text-muted mb-0">Vendidos</p>
+                                        <h3 class="fw-bolder mb-0" id="vendidos">{{#totalthvendidos machine}}{{/totalthvendidos}}</h3>
+                                    </div>
+                                    <div class="col-6 py-1">
+                                        <p class="card-text text-muted mb-0">Disponible</p>
+                                        <h3 class="fw-bolder mb-0" id="disponibles">{{#totalthdisponibles machine}}{{/totalthdisponibles}}</h3>
+                                    </div>
+                                </div>
+                                <div class="my-2 mx-auto" style="display: block; max-width: 350px;">
+                                    <canvas id="chart"  class="d-block img-fluid"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
                     <div class="col-12">
+                        <div class="alert alert-warning my-1 alert-validation-msg" role="alert">
+                            <div class="alert-body d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info me-50"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                <span>No existen maquinas registradas actualmente !</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    
+                    {{#if data}}
+                    <div class="col-12 col-lg-6 col-xl-5">
                         <div class="card card-statistics">
                             <div class="card-header">
                                 <h4 class="card-title">Actualizar datos</h4>
@@ -14,7 +56,7 @@
                             <div class="card-body statistics-body">
                                 <div class="row">
                                     {{!-- Precio TH --}}
-                                    <div class="col-xl-4 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-primary me-2">
                                                 <div class="avatar-content">
@@ -29,7 +71,7 @@
                                     </div>
                                     {{!-- PRECIO TH --}}
                                     {{!-- PORCENTAJE MANTENIMIENTO --}}
-                                    <div class="col-xl-4 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#mantenimiento">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#mantenimiento">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-info me-2">
                                                 <div class="avatar-content">
@@ -44,7 +86,7 @@
                                     </div>
                                     {{!-- PORCENTAJE MANTENIMIENTO --}}
                                     {{!-- PORCENTAJE DE ERROR --}}
-                                    <div class="col-xl-4 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#error">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#error">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-danger me-2">
                                                 <div class="avatar-content">
@@ -59,8 +101,8 @@
                                         </div>
                                     </div>
                                     {{!-- PORCENTAJE DE ERROR --}}
-                                    {{!-- REFERIDOS
-                                    <div class="col-xl-4 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#referidos">
+                                    {{!-- REFERIDOS --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#referidos">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-success me-2">
                                                 <div class="avatar-content">
@@ -73,9 +115,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    REFERIDOS --}}
+                                    {{!-- REFERIDOS --}}
                                     {{!-- SALDO MINIMO RETIRO --}}
-                                    <div class="col-xl-4 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#retiro">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#retiro">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-success me-2">
                                                 <div class="avatar-content">
@@ -89,19 +131,6 @@
                                         </div>
                                     </div>
                                     {{!-- SALDO MINIMO RETIRO --}}
-                                    {{!-- <div class="col-xl-4 col-sm-6 col-12">
-                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
-                                            <div class="avatar bg-light-success me-2">
-                                                <div class="avatar-content">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                                                </div>
-                                            </div>
-                                            <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0">3$</h4>
-                                                <p class="card-text font-small-3 mb-0">Ganancias Referido</p>
-                                            </div>
-                                        </div>
-                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -133,12 +162,12 @@
                                                 <input type="number" id="" class="form-control" name="error" placeholder="5%" required>
                                             </div>
                                         </div>
-                                        <!----<div class="col-12">
+                                        <!--<div class="col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="">Ganancias por cada Referido</label>
                                                 <input type="number" id="" class="form-control" name="earnings" placeholder="3$" required>
                                             </div>
-                                        </div>----->
+                                        </div>--->
                                         <div class="col-12">
                                             <div class="mb-1">
                                                 <label class="form-label" for="">Saldo Mínimo de Retiro</label>
@@ -155,63 +184,8 @@
                             </div>
                         </div>
                     </div>
-                    {{/if}}
-
-                    {{#if machine}}
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Capacidad Total de TH</h4>
-                                <i data-feather='edit' class="feather feather-bell ficon text-primary" type="button" data-bs-toggle="modal" data-bs-target="#editth"></i>
-                            </div>
-                            <div class="card-body graficas p-0" style="position: relative;">
-                                <div id="goal-overview-radial-bar-chart" class="my-2" style="min-height: 205.633px;">
-                                    <div class="circle">
-                                        <p class="mb-0">{{#totalth machine}}{{/totalth}} TH</p>
-                                        <span></span>
-                                    </div>
-                                </div>
-                                <div class="row border-top text-center mx-0">
-                                    <div class="col-6 border-end py-1">
-                                        <p class="card-text text-muted mb-0">Vendidos</p>
-                                        <h3 class="fw-bolder mb-0">{{#totalthvendidos machine}}{{/totalthvendidos}} TH</h3>
-                                    </div>
-                                    <div class="col-6 py-1">
-                                        <p class="card-text text-muted mb-0">Disponible</p>
-                                        <h3 class="fw-bolder mb-0">{{#totalthdisponibles machine}}{{/totalthdisponibles}} TH</h3>
-                                    </div>
-                                </div>
-                            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 360px; height: 324px;"></div></div><div class="contract-trigger"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                    {{else}}
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Capacidad Total de TH</h4>
-                                <i data-feather='edit' class="feather feather-bell ficon text-primary" type="button" data-bs-toggle="modal" data-bs-target="#editth"></i>
-                            </div>
-                            <div class="card-body p-0" style="position: relative;">
-                                <div id="goal-overview-radial-bar-chart" class="my-2" style="min-height: 205.633px;">
-                                    <div id="apexchartsbas0qav5" class="apexcharts-canvas apexchartsbas0qav5 apexcharts-theme-light" style="width: 359px; height: 205.633px; margin: auto;"><svg id="SvgjsSvg3286" width="359" height="205.63333333333335" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG3288" class="apexcharts-inner apexcharts-graphical" transform="translate(57, -10)"><defs id="SvgjsDefs3287"><clipPath id="gridRectMaskbas0qav5"><rect id="SvgjsRect3290" width="251" height="217" x="-3" y="-1" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMaskbas0qav5"><rect id="SvgjsRect3291" width="249" height="219" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><linearGradient id="SvgjsLinearGradient3296" x1="0" y1="1" x2="1" y2="1"><stop id="SvgjsStop3297" stop-opacity="1" stop-color="rgba(40,199,111,1)" offset="0"></stop><stop id="SvgjsStop3298" stop-opacity="1" stop-color="rgba(235,233,241,1)" offset="1"></stop><stop id="SvgjsStop3299" stop-opacity="1" stop-color="rgba(235,233,241,1)" offset="1"></stop></linearGradient><linearGradient id="SvgjsLinearGradient3306" x1="0" y1="1" x2="1" y2="1"><stop id="SvgjsStop3307" stop-opacity="1" stop-color="rgba(40,199,111,1)" offset="0"></stop><stop id="SvgjsStop3308" stop-opacity="1" stop-color="rgba(81,229,168,1)" offset="1"></stop><stop id="SvgjsStop3309" stop-opacity="1" stop-color="rgba(81,229,168,1)" offset="1"></stop></linearGradient><filter id="SvgjsFilter3311" filterUnits="userSpaceOnUse" width="200%" height="200%" x="-50%" y="-50%"><feFlood id="SvgjsFeFlood3312" flood-color="#000000" flood-opacity="0.1" result="SvgjsFeFlood3312Out" in="SourceGraphic"></feFlood><feComposite id="SvgjsFeComposite3313" in="SvgjsFeFlood3312Out" in2="SourceAlpha" operator="in" result="SvgjsFeComposite3313Out"></feComposite><feOffset id="SvgjsFeOffset3314" dx="1" dy="1" result="SvgjsFeOffset3314Out" in="SvgjsFeComposite3313Out"></feOffset><feGaussianBlur id="SvgjsFeGaussianBlur3315" stdDeviation="3 " result="SvgjsFeGaussianBlur3315Out" in="SvgjsFeOffset3314Out"></feGaussianBlur><feMerge id="SvgjsFeMerge3316" result="SvgjsFeMerge3316Out" in="SourceGraphic"><feMergeNode id="SvgjsFeMergeNode3317" in="SvgjsFeGaussianBlur3315Out"></feMergeNode><feMergeNode id="SvgjsFeMergeNode3318" in="[object Arguments]"></feMergeNode></feMerge><feBlend id="SvgjsFeBlend3319" in="SourceGraphic" in2="SvgjsFeMerge3316Out" mode="normal" result="SvgjsFeBlend3319Out"></feBlend></filter></defs><g id="SvgjsG3292" class="apexcharts-radialbar"><g id="SvgjsG3293"><g id="SvgjsG3294" class="apexcharts-tracks"><g id="SvgjsG3295" class="apexcharts-radialbar-track apexcharts-track" rel="1"><path id="apexcharts-radialbarTrack-0" d="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 167.14329268292684 184.82445114399718" fill="none" fill-opacity="1" stroke="rgba(235,233,241,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="3.5304878048780495" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 167.14329268292684 184.82445114399718"></path></g></g><g id="SvgjsG3301"><g id="SvgjsG3305" class="apexcharts-series apexcharts-radial-series" seriesName="seriesx1" rel="1" data:realIndex="0"><path id="SvgjsPath3310" d="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 210.6873193374061 121.46749921697622" fill="none" fill-opacity="0.85" stroke="url(#SvgjsLinearGradient3306)" stroke-opacity="1" stroke-linecap="round" stroke-width="7.060975609756099" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="249" data:value="83" filter="url(#SvgjsFilter3311)" index="0" j="0" data:pathOrig="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 210.6873193374061 121.46749921697622"></path></g><circle id="SvgjsCircle3302" r="82.52134146341464" cx="122.5" cy="107.5" class="apexcharts-radialbar-hollow" fill="transparent"></circle><g id="SvgjsG3303" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)" style="opacity: 1;"><text id="SvgjsText3304" font-family="Helvetica, Arial, sans-serif" x="122.5" y="123.5" text-anchor="middle" dominant-baseline="auto" font-size="2.86rem" font-weight="600" fill="#5e5873" class="apexcharts-text apexcharts-datalabel-value" style="font-family: Helvetica, Arial, sans-serif;">0 TH</text></g></g></g></g><line id="SvgjsLine3320" x1="0" y1="0" x2="245" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine3321" x1="0" y1="0" x2="245" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line></g><g id="SvgjsG3289" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend"></div></div>
-                                </div>
-                                <div class="row border-top text-center mx-0">
-                                    <div class="col-6 border-end py-1">
-                                        <p class="card-text text-muted mb-0">Vendidos</p>
-                                        <h3 class="fw-bolder mb-0">0 TH</h3>
-                                    </div>
-                                    <div class="col-6 py-1">
-                                        <p class="card-text text-muted mb-0">Disponible</p>
-                                        <h3 class="fw-bolder mb-0">0 TH</h3>
-                                    </div>
-                                </div>
-                            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 360px; height: 324px;"></div></div><div class="contract-trigger"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                    {{/if}}
-                    
+                    {{/if}} 
+                              
                     <div class="col-12 mb-2">
                         <a href="#" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addth">Añadir Maquina</a>
                         <!--<div class="alert alert-warning my-1 alert-validation-msg" role="alert">
@@ -220,7 +194,7 @@
                                 <span>La capacidad de TH se encuentra en <strong>50%</strong>. Mantente atento !!!.</span>
                             </div>
                         </div>-->
-                    </div>
+                    </div> 
 
                     <!-- MACHINE INFO -->
                     {{#if machine}}
@@ -236,52 +210,32 @@
                                 </form>
                             </div>
                             <div class="card-body graficas p-0" style="position: relative;">
-                                <div id="goal-overview-radial-bar-chart" class="my-2" style="min-height: 205.633px;">
+                                <div id="goal-overview-radial-bar-chart" class="my-2 d-none" style="min-height: 205.633px;">
                                     <div class="circle">
                                         <p class="mb-0" id="machineGrap"></p>
                                         <span></span>
                                     </div>
                                 </div>
-                                <div class="row border-top text-center mx-0">
+                                <div class="row border-top text-center mx-0 d-none">
                                     <div class="col-6 border-end py-1">
                                         <p class="card-text text-muted mb-0">Vendidos</p>
-                                        <h3 class="fw-bolder mb-0 text-primary" id="machineSoldOut">6 TH</h3>
+                                        <h3 class="fw-bolder mb-0 text-primary" id="machineSoldOut">6</h3>
+                                        <h3 class="fw-bolder mb-0 text-primary" id="machineCapacity">6</h3>
                                     </div>
                                     <div class="col-6 py-1">
                                         <p class="card-text text-muted mb-0">Disponible</p>
-                                        <h3 class="fw-bolder mb-0" id="machineAvalible">7 TH</h3>
+                                        <h3 class="fw-bolder mb-0" id="machineAvalible">7</h3>
                                     </div>
                                 </div>
-                            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 360px; height: 324px;"></div></div><div class="contract-trigger"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                    {{else}}
-                    <div class="col-md-6 col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h4 class="card-title">Maquina 1</h4>
-                            </div>
-                            <div class="card-body p-0" style="position: relative;">
-                                <div id="goal-overview-radial-bar-chart" class="my-2" style="min-height: 205.633px;">
-                                    <div id="apexchartsbas0qav5" class="apexcharts-canvas apexchartsbas0qav5 apexcharts-theme-light" style="width: 359px; height: 205.633px; margin: auto;"><svg id="SvgjsSvg3286" width="359" height="205.63333333333335" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" class="apexcharts-svg" xmlns:data="ApexChartsNS" transform="translate(0, 0)" style="background: transparent;"><g id="SvgjsG3288" class="apexcharts-inner apexcharts-graphical" transform="translate(57, -10)"><defs id="SvgjsDefs3287"><clipPath id="gridRectMaskbas0qav5"><rect id="SvgjsRect3290" width="251" height="217" x="-3" y="-1" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><clipPath id="gridRectMarkerMaskbas0qav5"><rect id="SvgjsRect3291" width="249" height="219" x="-2" y="-2" rx="0" ry="0" opacity="1" stroke-width="0" stroke="none" stroke-dasharray="0" fill="#fff"></rect></clipPath><linearGradient id="SvgjsLinearGradient3296" x1="0" y1="1" x2="1" y2="1"><stop id="SvgjsStop3297" stop-opacity="1" stop-color="rgba(40,199,111,1)" offset="0"></stop><stop id="SvgjsStop3298" stop-opacity="1" stop-color="rgba(235,233,241,1)" offset="1"></stop><stop id="SvgjsStop3299" stop-opacity="1" stop-color="rgba(235,233,241,1)" offset="1"></stop></linearGradient><linearGradient id="SvgjsLinearGradient3306" x1="0" y1="1" x2="1" y2="1"><stop id="SvgjsStop3307" stop-opacity="1" stop-color="rgba(40,199,111,1)" offset="0"></stop><stop id="SvgjsStop3308" stop-opacity="1" stop-color="rgba(81,229,168,1)" offset="1"></stop><stop id="SvgjsStop3309" stop-opacity="1" stop-color="rgba(81,229,168,1)" offset="1"></stop></linearGradient><filter id="SvgjsFilter3311" filterUnits="userSpaceOnUse" width="200%" height="200%" x="-50%" y="-50%"><feFlood id="SvgjsFeFlood3312" flood-color="#000000" flood-opacity="0.1" result="SvgjsFeFlood3312Out" in="SourceGraphic"></feFlood><feComposite id="SvgjsFeComposite3313" in="SvgjsFeFlood3312Out" in2="SourceAlpha" operator="in" result="SvgjsFeComposite3313Out"></feComposite><feOffset id="SvgjsFeOffset3314" dx="1" dy="1" result="SvgjsFeOffset3314Out" in="SvgjsFeComposite3313Out"></feOffset><feGaussianBlur id="SvgjsFeGaussianBlur3315" stdDeviation="3 " result="SvgjsFeGaussianBlur3315Out" in="SvgjsFeOffset3314Out"></feGaussianBlur><feMerge id="SvgjsFeMerge3316" result="SvgjsFeMerge3316Out" in="SourceGraphic"><feMergeNode id="SvgjsFeMergeNode3317" in="SvgjsFeGaussianBlur3315Out"></feMergeNode><feMergeNode id="SvgjsFeMergeNode3318" in="[object Arguments]"></feMergeNode></feMerge><feBlend id="SvgjsFeBlend3319" in="SourceGraphic" in2="SvgjsFeMerge3316Out" mode="normal" result="SvgjsFeBlend3319Out"></feBlend></filter></defs><g id="SvgjsG3292" class="apexcharts-radialbar"><g id="SvgjsG3293"><g id="SvgjsG3294" class="apexcharts-tracks"><g id="SvgjsG3295" class="apexcharts-radialbar-track apexcharts-track" rel="1"><path id="apexcharts-radialbarTrack-0" d="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 167.14329268292684 184.82445114399718" fill="none" fill-opacity="1" stroke="rgba(235,233,241,0.85)" stroke-opacity="1" stroke-linecap="round" stroke-width="3.5304878048780495" stroke-dasharray="0" class="apexcharts-radialbar-area" data:pathOrig="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 167.14329268292684 184.82445114399718"></path></g></g><g id="SvgjsG3301"><g id="SvgjsG3305" class="apexcharts-series apexcharts-radial-series" seriesName="seriesx1" rel="1" data:realIndex="0"><path id="SvgjsPath3310" d="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 210.6873193374061 121.46749921697622" fill="none" fill-opacity="0.85" stroke="url(#SvgjsLinearGradient3306)" stroke-opacity="1" stroke-linecap="round" stroke-width="7.060975609756099" stroke-dasharray="0" class="apexcharts-radialbar-area apexcharts-radialbar-slice-0" data:angle="249" data:value="83" filter="url(#SvgjsFilter3311)" index="0" j="0" data:pathOrig="M 77.85670731707313 184.82445114399718 A 89.28658536585367 89.28658536585367 0 1 1 210.6873193374061 121.46749921697622"></path></g><circle id="SvgjsCircle3302" r="82.52134146341464" cx="122.5" cy="107.5" class="apexcharts-radialbar-hollow" fill="transparent"></circle><g id="SvgjsG3303" class="apexcharts-datalabels-group" transform="translate(0, 0) scale(1)" style="opacity: 1;"><text id="SvgjsText3304" font-family="Helvetica, Arial, sans-serif" x="122.5" y="123.5" text-anchor="middle" dominant-baseline="auto" font-size="2.86rem" font-weight="600" fill="#5e5873" class="apexcharts-text apexcharts-datalabel-value" style="font-family: Helvetica, Arial, sans-serif;">0%</text></g></g></g></g><line id="SvgjsLine3320" x1="0" y1="0" x2="245" y2="0" stroke="#b6b6b6" stroke-dasharray="0" stroke-width="1" class="apexcharts-ycrosshairs"></line><line id="SvgjsLine3321" x1="0" y1="0" x2="245" y2="0" stroke-dasharray="0" stroke-width="0" class="apexcharts-ycrosshairs-hidden"></line></g><g id="SvgjsG3289" class="apexcharts-annotations"></g></svg><div class="apexcharts-legend"></div></div>
+                                <div class="my-2 mx-auto" style="display: block; max-width: 350px;" id="grapContainer">
+                                    <canvas id="chart2" class="d-block img-fluid"></canvas>
                                 </div>
-                                <div class="row border-top text-center mx-0">
-                                    <div class="col-6 border-end py-1">
-                                        <p class="card-text text-muted mb-0">Vendidos</p>
-                                        <h3 class="fw-bolder mb-0">0 TH</h3>
-                                    </div>
-                                    <div class="col-6 py-1">
-                                        <p class="card-text text-muted mb-0">Disponible</p>
-                                        <h3 class="fw-bolder mb-0">0 TH</h3>
-                                    </div>
-                                </div>
-                            <div class="resize-triggers"><div class="expand-trigger"><div style="width: 360px; height: 324px;"></div></div><div class="contract-trigger"></div></div>
                             </div>
                         </div>
                     </div>
                     {{/if}}
-                    
+
+                    {{#if machine}}
                     <div class="col-md-6 col-12">
                         <div class="card card-browser-states">
                             <div class="card-header">
@@ -291,12 +245,12 @@
                             </div>
                             <div class="card-body">
                                 {{#if machine}}
-                                {{#each machine as |mach|}} 
+                                {{#each machine as |mach i|}} 
                                 <div class="browser-states machines" role="button" data-machine-id="{{mach.id}}" data-machine-capacity="{{mach.th_capacity}}" data-machine-sold="{{mach.sold_out}}" data-machine-avalible="{{mach.avalible}}">
                                     <div class="d-flex align-items-center justify-content-between w-100" style="pointer-events: none;">
                                         <div class="d-flex">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu text-primary font-medium-5 me-1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                                            <h6 class="align-self-center mb-0">Maquina {{mach.id}}</h6>
+                                            <h6 class="align-self-center mb-0">Maquina {{#contadormaquinas i}}{{/contadormaquinas}}</h6>
                                         </div>
                                         <div class="d-flex align-items-center" style="position: relative;">
                                             <span class="badge badge-pill-warning">
@@ -306,17 +260,11 @@
                                     </div>
                                 </div>
                                 {{/each}}
-                                {{else}}
-                                <div class="browser-states">
-                                    <div class="d-flex" role="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu text-primary font-medium-5 me-1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                                        <h6 class="align-self-center mb-0">No hay maquinas disponibles</h6>
-                                    </div>
-                                </div>
                                 {{/if}}
                             </div>
                         </div>
                     </div> 
+                    {{/if}}
                 </div>
             </section>
             <!--/ Analytics Card section -->
@@ -547,6 +495,40 @@
             </div>
             {{!-- ERROR MODAL --}}
 
+            {{!-- REFERIDOS MODAL --}}
+            <div class="modal fade" id="referidos" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Establecer ganancias por cada referido</p>
+
+                            <!-- form -->
+                            <form id="errorform" method="POST" action="/updateearnings" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Ganancias por referido</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="earnings" class="form-control" type="number" min="0" placeholder="3 USD" value="{{data.ref_earnings}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- REFERIDOS MODAL --}}
+
             {{!-- RETIRO MODAL --}}
             <div class="modal fade" id="retiro" tabindex="-1" aria-modal="true" role="dialog">
                 <div class="modal-dialog modal-dialog-centered">
@@ -584,7 +566,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let AllMachines = document.querySelectorAll('.machines');
     let idMach = document.getElementById('idMachine');
@@ -593,7 +575,8 @@
         let machModal = document.getElementById('machineInfo'),
         machineNum = document.getElementById('machineNum'),
         machineGrap = document.getElementById('machineGrap'),
-        machineSoldOut = document.getElementById('machinemachineSoldOutGrap'),
+        machineCapacity = document.getElementById('machineCapacity'),
+        machineSoldOut = document.getElementById('machineSoldOut'),
         machineAvalible = document.getElementById('machineAvalible');
 
         AllMachines.forEach(machine => {
@@ -607,33 +590,96 @@
 
     const SetMachineInfo = (mach) => {
         if(mach) {
-            let num = mach.getAttribute('data-machine-id'),
-            th = mach.getAttribute('data-machine-capacity'),
+            let num = mach.childNodes[1].childNodes[1].innerText,
+            total = parseInt(mach.getAttribute('data-machine-capacity')),
             sold = parseInt(mach.getAttribute('data-machine-sold')),
             aval = parseInt(mach.getAttribute('data-machine-avalible'));
 
-            let result;
-
             idMach.value = mach.getAttribute('data-machine-id')
-            machineNum.innerText = 'Maquina ' + num;
-            result = (sold/aval)*100;
-            Math.round(result)
-            machineGrap.innerHTML = result + '%';
-            machineSoldOut.innerText = sold + ' TH';
-            machineAvalible.innerText = aval + ' TH';
+            SetGrap(sold, total, aval);
         }
     }
 
     function SetInfo () {
-        let num = parseInt(AllMachines[0].getAttribute('data-machine-id')),
-        th = parseInt(AllMachines[0].getAttribute('data-machine-capacity')),
+        let num = AllMachines[0].childNodes[1].childNodes[1].innerText,
+        total = parseInt(AllMachines[0].getAttribute('data-machine-capacity')),
         sold = parseInt(AllMachines[0].getAttribute('data-machine-sold')),
         aval = parseInt(AllMachines[0].getAttribute('data-machine-avalible'));
 
-        idMach.value = parseInt(AllMachines[0].getAttribute('data-machine-id'))
-        machineNum.innerText = 'Maquina ' + num;
-        machineGrap.innerHTML = (Math.floor(sold*100)/100) + '%';
-        machineSoldOut.innerText = sold + ' TH';
-        machineAvalible.innerText = aval + ' TH';
+        idMach.value = parseInt(AllMachines[0].getAttribute('data-machine-id'));
+        machineNum.innerText = num;
+        SetGrap(sold, total, aval);
+    }
+
+    function SetGrap (sold, total, aval) {
+        const grapCont = document.getElementById('grapContainer');
+        let grap = document.getElementById('chart2'), clone = grap.cloneNode(true);
+        grap.remove();
+        grapCont.appendChild(clone);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [sold, total, aval],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart2'),
+            config
+        );
+
+    }
+</script>
+<script>
+    // GRAFICA GENERAL
+    let total = document.getElementById('total'),
+    disponibles = document.getElementById('disponibles'),
+    vendidos = document.getElementById('vendidos');
+
+    if(total && disponibles && vendidos) {
+        total = parseInt(total.innerText);
+        disponibles = parseInt(disponibles.innerText);
+        vendidos = parseInt(vendidos.innerText);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [vendidos, total, disponibles],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
     }
 </script>
