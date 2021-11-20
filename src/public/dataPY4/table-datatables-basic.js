@@ -35,6 +35,7 @@ console.log(array)
     var dt_basic = dt_basic_table.DataTable({
       data: array,
       columns: [
+        { data: 'id' },
         { data: 'firstName' },
         { data: 'email' }, 
         { data: 'telefono' },
@@ -53,16 +54,33 @@ console.log(array)
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
               feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' +
-              '<input type="checkbox" class="'+full['id']+'" value="'+full['id']+'" name="id_user_zone"/>' +
-               ''
+              '</a>' 
             );
           }  },
       ],
       columnDefs: [
         {
-          // Avatar image/badge, Name and post
+          // For Checkboxes
           targets: 0,
+          orderable: false,
+          responsivePriority: 3,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 1,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
             var $user_img = "-",
@@ -133,7 +151,7 @@ console.log(array)
           }
         },
       ],
-      order: [[2, 'desc']],
+      order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -240,17 +258,19 @@ console.log(array)
   //  $("#home_modalBody").append(txt2);
   $("#modal_detail_garrafonesBody").empty() 
  $("#id_ad_tag_cliente").val(id_cliente);
+ console.log($("#id_ad_tag_cliente").val())
 });
 
 
 $('#btn_asignar_tag').on('click', async (e)=>{
-  if ($('#color_tag').val() =="default") {
+  console.log($('#color_tag_cliente').val())
+  if ($('#color_tag_cliente').val() =="default") {
     Swal.fire('Debe seleccionar una etiqueta')
     return
   }
   const data_C = new FormData();
   data_C.append("id", $("#id_ad_tag_cliente").val());
-  data_C.append("color", $('#color_tag').val());
+  data_C.append("color", $('#color_tag_cliente').val());
   $.ajax({
     url: `/ad_tag_cliente`,
     type: 'POST',
@@ -259,18 +279,19 @@ $('#btn_asignar_tag').on('click', async (e)=>{
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
+      console.log(data)
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
 $('#exampleClientes').append(` <thead>
-<tr>
- 
-    <th>Cliente</th>
-    <th>Correo</th>
-    <th>Teléfono</th>   
-    <th>Opciones</th>
-</tr>
-</thead>`);
+                                        <tr>
+                                            <th> </th>
+                                            <th>Cliente</th>
+                                            <th>Correo</th>
+                                            <th>Teléfono</th>   
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>`);
 cargaTabla('si')
 $('.modal').modal('hide');
     },
@@ -297,37 +318,37 @@ $("#button_change_zone").on('click', function (e) {
   }
 $("#ids_cli").val(valoresCheck);
 });
-$('#change_zone_btn').on('click', async (e)=>{
-  if ($('#zona_clientes').val() =="Seleccione una Zona") {
-    Swal.fire('Debe seleccionar una zona')
-    return
-  }
-
-  $.ajax({
-    url: `/change_zone_client`,
-    type: 'POST',
-    data: $('#change_zone_form').serialize(),
-    success: function (data, textStatus, jqXHR) {
-      console.log(data)
-$('#array').val(JSON.stringify(data.clientes_arr))
-$('#exampleClientes').dataTable().fnDestroy();
-$('#exampleClientes').empty();
-$('#exampleClientes').append(` <thead>
-<tr>
- 
-    <th>Cliente</th>
-    <th>Correo</th>
-    <th>Teléfono</th>   
-    <th>Opciones</th>
-</tr>
-</thead>`);
-cargaTabla('si')
-$('.modal').modal('hide');
-    },
-    error: function (jqXHR, textStatus) {
-      console.log('error:' + jqXHR)
+  $('#change_zone_btn').on('click', async (e)=>{
+    if ($('#zona_clientes').val() =="Seleccione una Zona") {
+      Swal.fire('Debe seleccionar una zona')
+      return
     }
-  });
-  
-})
+
+    $.ajax({
+      url: `/change_zone_client`,
+      type: 'POST',
+      data: $('#change_zone_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array').val(JSON.stringify(data.clientes_arr))
+  $('#exampleClientes').dataTable().fnDestroy();
+  $('#exampleClientes').empty();
+  $('#exampleClientes').append(` <thead>
+                                          <tr>
+                                              <th> </th>
+                                              <th>Cliente</th>
+                                              <th>Correo</th>
+                                              <th>Teléfono</th>   
+                                              <th>Opciones</th>
+                                          </tr>
+                                      </thead>`);
+  cargaTabla('si')
+  $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });

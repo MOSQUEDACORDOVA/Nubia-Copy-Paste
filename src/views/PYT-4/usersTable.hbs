@@ -52,7 +52,7 @@
                                 <table class="datatables-basic dt-column-searchClientes table" id="exampleClientes">
                                     <thead>
                                         <tr>
-                                         
+                                            <th> </th>
                                             <th>Cliente</th>
                                             <th>Correo</th>
                                             <th>Teléfono</th>   
@@ -124,8 +124,8 @@
                 <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName" tabindex="1" id="id_ad_tag_cliente" class="form-control mb-2" hidden>
                 <div class="form-group">
                   <label for="register-lastName" class="form-label">Color</label>
-                  <select class="select2 form-select" id="color_tag" name="color" >
-                    <option selected="" value="default"> Seleccione una etiqueta </option>
+                  <select class="select2 form-select" id="color_tag_cliente" name="color" >
+                    <option value="default"> Seleccione una etiqueta </option>
                     {{#each etiquetas_let as |cliente i|}}
                     <option value="{{id}}"> {{etiquetas}}</option>
                     {{/each}}
@@ -174,12 +174,12 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="change_zoneTitle">Agregar Usuario</h5>
+            <h5 class="modal-title" id="change_zoneTitle">Cambiar zona de cliente(s)</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="needs-validation was-validated" id="change_zone_form">
-              <input type="text" class="form-control" id="ids_cli" name="ids_cli"/>
+              <input type="hidden" class="form-control" id="ids_cli" name="ids_cli"/>
               
               <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                   aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="zona_clientes">
