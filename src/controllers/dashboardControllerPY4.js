@@ -410,7 +410,17 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
 
   DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
-    DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    let ClientesDB = ""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+      break;
+  }
+  ClientesDB(id_sucursal).then((clientes_d)=>{
       let clientes_arr = JSON.parse(clientes_d)
       res.send({clientes_arr})
   
@@ -762,15 +772,31 @@ exports.save_personal = (req, res) => {
   
   const { firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo} = req.body
   let msg = false;
-
+  let id_sucursal = req.session.sucursal_select
   DataBase.savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo).then((respuesta) =>{
-    res.redirect('/personal_py4/'+respuesta)
-
+    let PersonalDB=""
+  switch (req.session.tipo) {
+    case "Director":
+    PersonalDB=DataBase.PersonalAll
+      break;
+  
+    default:
+    PersonalDB=DataBase.PersonalAllS
+      break;
+  }
+  PersonalDB(id_sucursal).then((personal_)=>{
+    let personal_let = JSON.parse(personal_)
+    res.send({personal_let})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 
@@ -788,58 +814,14 @@ exports.delete_personal = (req, res) => {
 
  exports.editar_personal = (req, res) => {
   const user = res.locals.user;
-  let id_ = req.params.id
+  let id_ = req.body.id
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
-    let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
-      let pedidos_let = JSON.parse(pedidos_)
-       let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
-        let choferes_ = JSON.parse(choferes)
+
 DataBase.PersonalById(id_).then((personal_)=>{
-  let personal_let = JSON.parse(personal_)[0]
+  let personal_let = JSON.parse(personal_)
   
- DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
-  let vehiculos_let = JSON.parse(vehiculos_)
-   let count = vehiculos_let.length
-   DataBase.Sucursales_ALl().then((sucursales_)=>{
-    let sucursales_let = JSON.parse(sucursales_)
-res.render("PYT-4/edit_personal", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  personal:true,
-  personal_,  personal_let,vehiculos_let,sucursales_let
-}) 
-}).catch((err) => {
-console.log(err)
-let msg = "Error en sistema";
-return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-console.log(err)
-let msg = "Error en sistema";
-return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
+res.send({personal_let})
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -857,10 +839,26 @@ return res.redirect("/errorpy4/" + msg);
 
   DataBase.updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo).then((respuesta) =>{
  
+    let id_sucursal = req.session.sucursal_select
+      let PersonalDB=""
+    switch (req.session.tipo) {
+      case "Director":
+      PersonalDB=DataBase.PersonalAll
+        break;
     
-    let msg=respuesta
-    res.redirect('/personal_py4/'+msg)
-
+      default:
+      PersonalDB=DataBase.PersonalAllS
+        break;
+    }
+    PersonalDB(id_sucursal).then((personal_)=>{
+      let personal_let = JSON.parse(personal_)
+      console.log(personal_let)
+      res.send({personal_let})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -932,7 +930,17 @@ exports.cambia_zona_client = async (req, res) => {
     await DataBase.actualizarZonaCliente(split_id[i],zona) 
   }
   let id_sucursal = req.session.sucursal_select
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  let ClientesAllS=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesAllS=DataBase.ClientesAll
+      break;
+  
+    default:
+      ClientesAllS=DataBase.ClientesAllS
+      break;
+  }
+  ClientesAllS(id_sucursal).then((clientes_d)=>{
       let clientes_arr = JSON.parse(clientes_d)
       res.send({clientes_arr})
 

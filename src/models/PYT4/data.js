@@ -919,7 +919,7 @@ PersonalAllS(id){
     
     PersonalById(id){
       return new Promise((resolve, reject) => {
-        Personal.findAll({where: {
+        Personal.findOne({where: {
           id: id
         },include:[
           {association: Personal.Vehiculos}

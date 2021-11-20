@@ -144,7 +144,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="needs-validation was-validated" action="/save_personal_py4" method="post">
+            <form class="needs-validation was-validated" id="save_personal_py4" method="post">
               <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                 <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2" required>
@@ -199,7 +199,7 @@
           </div>
           <div class="modal-footer">
             <button tabindex="26"
-              class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="save_personal_py4btn">Regístrate</button>
           </div>
           </form>
         </div>
@@ -308,6 +308,86 @@
           <div class="modal-footer">
             <button tabindex="26"
               class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_perso_user">Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+        <div class="modal fade" id="editar_personal" tabindex="-1" aria-labelledby="editar_personalTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editar_personalTitle">Agregar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="save_personal_py4_edit">
+              <input type="hidden" class="form-control" id="edit_pers_id" name="id_personal"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+             <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" id="edit_personal_firtname"></div>
+
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2" id="edit_personal_lastname"></div>
+              
+              <div class="form-group"><label for="register-direccion"
+                  class="form-label">Dirección</label><input type="text" name="direccion"
+                  placeholder="Dirección" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" id="edit_personal_direccion"></div>
+                 
+              <div class="form-group"><label for="register-ciudad" class="form-label">Cargo</label><select
+                  name="cargo" placeholder="cargo" aria-describedby="register-cargo" tabindex="3"
+                  class="form-control mb-2" id="edit_personal_cargo" >
+                  <option value="Chofer">Chofer</option>
+                  <option value="Logistica">Logistica</option>
+
+                </select></div>
+                <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Vehiculo Asignado</label>
+                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo_edit_personal" name="vehiculo">
+                    {{#each vehiculos_let as |vehiculo i|}}
+                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
+                        {{/each}}
+                        </select>
+                </select>
+                </div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
+                  placeholder="" aria-describedby="register-direccion" tabindex="5" id="edit_personal_ingreso"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-salario" class="form-label">Salario</label><input type="text"
+                  name="salario" placeholder="Salario" aria-describedby="register-salario" tabindex="6"
+                  class="form-control mb-2" id="edit_personal_salario"
+                 ></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" id="edit_personal_tlf"
+                    class="form-control mb-2">
+                </div>
+              </div>              
+               <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="edit_perso_zona">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+
+              <div class="form-group">
+                <label for="register-email" class="form-label">Correo</label>
+                <input type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email" tabindex="25" class="form-control mb-2" id="edit_personal_correo">
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_personal_save">Guardar</button>
           </div>
           </form>
         </div>

@@ -1,8 +1,7 @@
 /**
  * DataTables Basic
  */
- let valor_personal = $('#array_personal').val()
- let array_personal = JSON.parse(valor_personal.replace(/&quot;/g,'"'))
+ 
 
 
 
@@ -11,7 +10,16 @@
    dt_date_table = $('.dt-date'),
    assetPath = '../../dataPY4/';
 function cargaTablaPersonal(editada) {
-  
+
+  let valor_personal = $('#array_personal').val()
+  let array_personal = ""
+  if (editada) {
+    
+    array_personal = JSON.parse(valor_personal)
+
+  }else{
+    array_personal = JSON.parse(valor_personal.replace(/&quot;/g,'"'))
+  }
  if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
   }
@@ -46,7 +54,7 @@ function cargaTablaPersonal(editada) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_personal("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
             );
@@ -419,7 +427,38 @@ return (
       }
     })
    });
- 
+   $('#save_personal_py4btn').on('click', async (e)=>{
+    
+    console.log('entro')
+    $.ajax({
+      url: `/save_personal_py4`,
+      type: 'POST',
+      data: $('#save_personal_py4').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_personal').val(JSON.stringify(data.personal_let))
+        $('.datatables-basic_personal').dataTable().fnDestroy();
+         $('.datatables-basic_personal').empty();
+        $('.datatables-basic_personal').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Cargo</th>
+          <th>Salario</th>
+          <th>Teléfono</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+      cargaTablaPersonal('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
    $('#reg_personal').on('click', async (e)=>{
     if ($('#tipo_reg_per').val() =="") {
       Swal.fire('Debe seleccionar un tipo')
@@ -500,6 +539,39 @@ return (
         </tr>
       </thead>`);
 cargaTablaUsuarios('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+
+  $('#edit_personal_save').on('click', async (e)=>{
+    
+    console.log('entro')
+    $.ajax({
+      url: `/save_personal_py4_edit`,
+      type: 'POST',
+      data: $('#save_personal_py4_edit').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_personal').val(JSON.stringify(data.personal_let))
+        $('.datatables-basic_personal').dataTable().fnDestroy();
+         $('.datatables-basic_personal').empty();
+        $('.datatables-basic_personal').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Cargo</th>
+          <th>Salario</th>
+          <th>Teléfono</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+      cargaTablaPersonal('si')
  $('.modal').modal('hide');
       },
       error: function (jqXHR, textStatus) {
@@ -612,4 +684,63 @@ cargaTablaUsuarios('si')
  
  // window.location.href = `/cambiaS_pedido/${id}/${estado}`;
  }
+  }
+  function edit_personal(id_edit) {
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+   //window.location.href = `/editar_pedido/${id_edit2}`;
+   console.log(id_edit)
+  const data_C = new FormData();
+  data_C.append("id", id_edit);
+  $.ajax({
+    url: `/editar_personal_id`,
+    type: 'POST',
+    data: data_C,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data, textStatus, jqXHR) {
+  console.log(data)
+   $('#edit_pers_id').val(data['personal_let']['id'])
+    $('#edit_personal_firtname').val(data['personal_let']['name'])
+  $('#edit_personal_lastname').val(data['personal_let']['lastName'])
+ $('#edit_personal_direccion').val(data['personal_let']['direccion'])
+
+  if ( $("#edit_personal_cargo option[value='" + data['personal_let']['cargo'] + "']").length == 0 ){
+  console.log(data['personal_let']['cargo'])
+  $('#edit_personal_cargo').prepend('<option selected value="' + data['personal_let']['cargo'] + '">' + data['personal_let']['cargo'] + '</option>');  
+  }else{
+  //  $('#cargo_edit').find('option:selected').remove().end();
+    $("#edit_personal_cargo option[value='" + data['personal_let']['cargo'] + "']").attr("selected", true);
+  }
+
+  if ( $("#select_vehiculo_edit_personal option[value='" + data['personal_let']['vehiculoId'] + "']").length == 0 ){
+    console.log(data['personal_let']['vehiculoId'])
+    $('#select_vehiculo_edit_personal').prepend('<option selected value="' + data['personal_let']['vehiculoId'] + '">' + data['personal_let']['vehiculoId'] + '</option>');  
+    }else{
+    //  $('#vehiculoId_edit').find('option:selected').remove().end();
+      $("#select_vehiculo_edit_personal option[value='" + data['personal_let']['vehiculoId'] + "']").attr("selected", true);
+    }
+
+    $('#edit_personal_ingreso').val(data['personal_let']['fecha_ingreso'])
+    $('#edit_personal_salario').val(data['personal_let']['salario'])
+  $('#edit_personal_tlf').val(data['personal_let']['telefono'])
+ $('#edit_personal_correo').val(data['personal_let']['correo'])
+
+ 
+  if ( $("#edit_perso_zona option[value='" + data['personal_let']['sucursaleId'] + "']").length == 0 ){
+    console.log(data['personal_let']['metodo_pago'])
+    $('#edit_perso_zona').prepend('<option selected value="' + data['personal_let']['sucursaleId'] + '">' + data['personal_let']['sucursaleId'] + '</option>');  
+    }else{
+    //  $('#metodo_pago_edit').find('option:selected').remove().end();
+      $("#edit_perso_zona option[value='" + data['personal_let']['sucursaleId'] + "']").attr("selected", true);
+    }
+
+  $('#editar_personal').modal('show')
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
   }
