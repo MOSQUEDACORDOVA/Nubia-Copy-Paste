@@ -200,7 +200,7 @@ module.exports = {
     });
   },
 
-  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
+  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
     return new Promise((resolve, reject) => {
       Clientes.update(
         {
@@ -303,7 +303,7 @@ module.exports = {
   
   ClientebyId(id){
     return new Promise((resolve, reject) => {
-      Clientes.findAll({where:{
+      Clientes.findOne({where:{
         id: id
       },include:[
         {association:Clientes.CoP },

@@ -359,34 +359,14 @@ exports.delete_cliente = (req, res) => {
 
  exports.editar_cliente = (req, res) => {
   const user = res.locals.user;
-  let id_ = req.params.id
+  let id_ = req.body.id
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
-        let choferes_ = JSON.parse(choferes)
 DataBase.ClientebyId(id_).then((clientes_)=>{
-  let cliente_let = JSON.parse(clientes_)[0]
-  DataBase.Sucursales_ALl().then((sucursales_)=>{
-    let sucursales_let = JSON.parse(sucursales_)
-res.render("PYT-4/edit_cliente", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  users1:true,
-  clientes_,
-  cliente_let,sucursales_let
-}) 
-}).catch((err) => {
-console.log(err)
-let msg = "Error en sistema";
-return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
+  let cliente_let = JSON.parse(clientes_)
+
+  res.send({cliente_let})
+
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -396,16 +376,24 @@ return res.redirect("/errorpy4/" + msg);
  exports.save_cliente_edit = (req, res) => {
    
   
-  const {id_cliente,cp,asentamiento, firstName,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
+  const {id_cliente,cp,asentamiento, firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,zona, email,color} = req.body
   let msg = false;
   var modo_cliente ="SI"
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
 
-  DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then((respuesta) =>{
-    res.redirect('/usuarios/'+respuesta)
-
+  DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
+    let id_sucursal = req.session.sucursal_select
+    DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+      let clientes_arr = JSON.parse(clientes_d)
+      res.send({clientes_arr})
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
