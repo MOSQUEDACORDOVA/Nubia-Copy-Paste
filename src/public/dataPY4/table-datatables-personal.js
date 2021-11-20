@@ -1,26 +1,18 @@
 /**
  * DataTables Basic
  */
+ let valor_personal = $('#array_personal').val()
+ let array_personal = JSON.parse(valor_personal.replace(/&quot;/g,'"'))
 
- $(function () {
-  'use strict';
-  let valor_personal = $('#array_personal').val()
-  let array_personal = JSON.parse(valor_personal.replace(/&quot;/g,'"'))
 
-let usuarios = $('#array_usuarios').val()
-let usuarios_array = JSON.parse(usuarios.replace(/&quot;/g,'"'))
-console.log(usuarios_array) 
 
-let sucursales = $('#array_sucursales').val()
-let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
-console.log(array_sucursales)  
-
-  var dt_basic_table_personal = $('.datatables-basic_personal'),
-  basic_usuarios = $('.datatables-basic_usuarios'),
-    dt_date_table = $('.dt-date'),
-    assetPath = '../../dataPY4/';
-
-  if ($('body').attr('data-framework') === 'laravel') {
+ var dt_basic_table_personal = $('.datatables-basic_personal'),
+ basic_usuarios = $('.datatables-basic_usuarios'),
+   dt_date_table = $('.dt-date'),
+   assetPath = '../../dataPY4/';
+function cargaTablaPersonal(editada) {
+  
+ if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
   }
 
@@ -158,7 +150,25 @@ console.log(array_sucursales)
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
- if (basic_usuarios.length) {
+
+}
+
+function cargaTablaUsuarios(edit) {
+  let usuarios = $('#array_usuarios').val()
+  let usuarios_array = ""
+  if (edit) {
+    
+    usuarios_array = JSON.parse(usuarios)
+
+  }else{
+    usuarios_array = JSON.parse(usuarios.replace(/&quot;/g,'"'))
+  }
+console.log(usuarios_array) 
+
+let sucursales = $('#array_sucursales').val()
+let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
+console.log(array_sucursales)  
+  if (basic_usuarios.length) {
     
     var dt_basic_users= basic_usuarios.DataTable({
       data: usuarios_array,
@@ -178,7 +188,7 @@ console.log(array_sucursales)
               // '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               // feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               // '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_usuario("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
             );
@@ -189,7 +199,6 @@ console.log(array_sucursales)
           // Avatar image/badge, Name and post
           targets: 1,
           render: function (data, type, full, meta) {
-                        console.log(full)
             var $user_img = "-",
               $name = full['name'] ,
               $post = full['tipo'];
@@ -239,7 +248,12 @@ for (let i = 0; i < array_sucursales.length; i++) {
   }
   
 }
-            return sucursal_name;
+return (
+  '<span class="badge rounded-pill badge-light-success' +
+  '" >' +
+  sucursal_name +
+  '</span>'
+);
           }
         },
         {
@@ -296,13 +310,12 @@ for (let i = 0; i < array_sucursales.length; i++) {
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
-    });
-  }
+}
+ $(function () {
+  'use strict';
+  cargaTablaPersonal()
+  cargaTablaUsuarios()
+
 
   // Add New record
   // ? Remove/Update this code as per your requirements ?
@@ -407,16 +420,6 @@ for (let i = 0; i < array_sucursales.length; i++) {
     })
    });
  
-   $('.datatables-basic_usuarios tbody').on('click', '.edit_record', function (e) {
-     //dt_basic.row($(this).parents('tr')).remove().draw();
-     var id_edit = e.target.classList[0]
-     console.log(id_edit)
-     if (typeof id_edit =="undefined") {
-       return console.log(id_edit)
-     }
-   //window.location.href = `/editar_usuario/${id_edit}`;
-   edit_usuario(id_edit)
-   });
    $('#reg_personal').on('click', async (e)=>{
     if ($('#tipo_reg_per').val() =="") {
       Swal.fire('Debe seleccionar un tipo')
@@ -438,29 +441,65 @@ for (let i = 0; i < array_sucursales.length; i++) {
       Swal.fire('Debe seleccionar una Zona')
       return
     }
-    console.log('yuju')
     $.ajax({
       url: `/registrar_usuario`,
       type: 'POST',
       data: $('#reguserPy4').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-$('.datatables-basic_usuarios').DataTable().row.add({
-  id: data.respuesta_let.id,
-  name: data.respuesta_let.name,
-  email: data.respuesta_let.email,
-tipo: data.respuesta_let.tipo,
-sucursaleId: data.respuesta_let.sucursaleId,
-  
-})
-.draw();
-var opts = data;
-$.each(opts, function(i, d) {
-        console.log(d)
-        // You will need to alter the below to get the right values from your json object.  Guessing that d.id / d.modelName are columns in your carModels data
-        $('#color_tag').append('<option value="' + d.id + '">' + d.etiquetas + '</option>');
-    });
+
 //cargaTablaEtiquetas('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+  $('#edit_perso_user').on('click', async (e)=>{
+    
+    if ($('#tipo_edit_per').val() =="") {
+      Swal.fire('Debe seleccionar un tipo')
+      return
+    }
+    if ($('#edit_per_nombre').val() =="") {
+      Swal.fire('Debe colocar nombre')
+      return
+    }
+    if ($('#edit_email_pers').val() =="") {
+      Swal.fire('Debe colocar un email')
+      return
+    }
+    if ($('#edit_perspassword').val() =="") {
+      Swal.fire('Debe colocar un password')
+      return
+    }
+    if ($('#edit_pers_zona').val() =="Seleccione una Zona") {
+      Swal.fire('Debe seleccionar una Zona')
+      return
+    }
+    console.log('entro')
+    $.ajax({
+      url: `/save_usuarios_py4_edit`,
+      type: 'POST',
+      data: $('#edit_user_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_usuarios').val(JSON.stringify(data.usuarios_let))
+        $('.datatables-basic_usuarios').dataTable().fnDestroy();
+         $('.datatables-basic_usuarios').empty();
+        $('.datatables-basic_usuarios').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Zona</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+cargaTablaUsuarios('si')
  $('.modal').modal('hide');
       },
       error: function (jqXHR, textStatus) {
@@ -475,7 +514,7 @@ function edit_usuario(id_edit) {
     return console.log(id_edit)
   }
  //window.location.href = `/editar_pedido/${id_edit2}`;
-
+ console.log(id_edit)
 const data_C = new FormData();
 data_C.append("id", id_edit);
 $.ajax({
@@ -495,7 +534,9 @@ $('#tipo_edit_per').prepend('<option selected value="' + data['usuarios_let']['t
 //  $('#tipo_edit').find('option:selected').remove().end();
   $("#tipo_edit_per option[value='" + data['usuarios_let']['tipo'] + "']").attr("selected", true);
 }
+$('#edit_per_id').val(data['usuarios_let']['id'])
 $('#edit_per_nombre').val(data['usuarios_let']['name'])
+
 $('#edit_email_pers').val(data['usuarios_let']['email'])
 // $('#edit_perspassword').val(data['usuarios_let']['garrafones_prestamos'])
 if ( $("#edit_pers_zona option[value='" + data['usuarios_let']['sucursaleId'] + "']").length == 0 ){
@@ -512,3 +553,63 @@ $('#edit_user').modal('show')
   }
 });
 }
+async function cambioZona(id, zona) {
+  const { value: estado } = await Swal.fire({
+   title: 'Seleccione un nuevo Status',
+   input: 'select',
+   inputOptions: {
+       Entregado: 'Entregado',
+       Cancelado: 'Cancelado',
+       'Por entregar': 'Por entregar',
+   },
+   inputPlaceholder: 'Seleccione un nuevo Status',
+   showCancelButton: true,
+   inputValidator: (value) => {
+     return new Promise((resolve) => {
+       if (value === zona) {
+         resolve('Debe seleccionar un estado diferente')
+       } else {
+          resolve()
+       }
+     })
+   }
+ })
+ 
+ if (estado) {
+   console.log(estado)   
+   const data_C = new FormData();
+   data_C.append("id", id);
+   data_C.append("status", estado);
+   $.ajax({
+     url: `/cambia_zona_user`,
+     type: 'POST',
+     data: data_C,
+     cache: false,
+     contentType: false,
+     processData: false,
+     success: function (data, textStatus, jqXHR) {
+ console.log(data)
+ $('#array_usuarios').val(JSON.stringify(data.usuarios_let))
+ $('.datatables-basic_usuarios').dataTable().fnDestroy();
+  $('.datatables-basic_usuarios').empty();
+ $('.datatables-basic_usuarios').html(`<thead>
+ <tr>
+   <th>id</th>
+   <th>Usuario</th>
+   <th>Email</th>
+   <th>Tipo</th>
+   <th>Zona</th>
+   <th>Opciones</th>
+ </tr>
+</thead>`);
+cargaTablaUsuarios('si')
+     },
+     error: function (jqXHR, textStatus) {
+       console.log('error:' + jqXHR)
+     }
+   });
+ 
+ 
+ // window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+ }
+  }

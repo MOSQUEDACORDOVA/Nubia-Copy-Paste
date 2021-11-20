@@ -3,13 +3,10 @@
  */
 function cargaTabla(rechar) {
   let valor = $('#array').val()
-  console.log(valor)
   let array =""
   if (rechar) {
-    console.log(rechar)
-    console.log(valor)
     array = JSON.parse(valor)
-
+console.log(array)
   }else{
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
@@ -56,7 +53,9 @@ function cargaTabla(rechar) {
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
               feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+              '</a>' +
+              '<input type="checkbox" class="'+full['id']+'" value="'+full['id']+'" name="id_user_zone"/>' +
+               ''
             );
           }  },
       ],
@@ -66,7 +65,6 @@ function cargaTabla(rechar) {
           targets: 0,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            console.log("a"+full['firstName'])
             var $user_img = "-",
               $name = full['firstName'] + " " + full['lastName'],
               $post = "Cliente";
@@ -221,9 +219,8 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
+      return
     }
   window.location.href = `/editar_cliente/${id_edit}`;
 
@@ -232,7 +229,6 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_tag', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     
   });
 
@@ -245,6 +241,7 @@ function cargaTabla(rechar) {
   $("#modal_detail_garrafonesBody").empty() 
  $("#id_ad_tag_cliente").val(id_cliente);
 });
+
 
 $('#btn_asignar_tag').on('click', async (e)=>{
   if ($('#color_tag').val() =="default") {
@@ -267,11 +264,61 @@ $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
 $('#exampleClientes').append(` <thead>
 <tr>
+ 
+    <th>Cliente</th>
+    <th>Correo</th>
+    <th>Teléfono</th>   
+    <th>Opciones</th>
+</tr>
+</thead>`);
+cargaTabla('si')
+$('.modal').modal('hide');
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+  
+})
 
-  <th>Usuario</th>
-  <th>Correo</th>
-  <th>Teléfono</th>   
-  <th>Opciones</th>
+$("#button_change_zone").on('click', function (e) {
+  let valoresCheck = [];
+
+  $("input[type=checkbox]:checked").each(function(){
+      valoresCheck.push(this.value);
+  });
+  if (valoresCheck.length == 0) {    
+    
+    Swal.fire('Debe seleccionar por lo menos un cliente para hacer el cambio de zona')
+
+    return
+  }else{
+    $('#change_zone').modal('show')
+  }
+$("#ids_cli").val(valoresCheck);
+});
+$('#change_zone_btn').on('click', async (e)=>{
+  if ($('#zona_clientes').val() =="Seleccione una Zona") {
+    Swal.fire('Debe seleccionar una zona')
+    return
+  }
+
+  $.ajax({
+    url: `/change_zone_client`,
+    type: 'POST',
+    data: $('#change_zone_form').serialize(),
+    success: function (data, textStatus, jqXHR) {
+      console.log(data)
+$('#array').val(JSON.stringify(data.clientes_arr))
+$('#exampleClientes').dataTable().fnDestroy();
+$('#exampleClientes').empty();
+$('#exampleClientes').append(` <thead>
+<tr>
+ 
+    <th>Cliente</th>
+    <th>Correo</th>
+    <th>Teléfono</th>   
+    <th>Opciones</th>
 </tr>
 </thead>`);
 cargaTabla('si')

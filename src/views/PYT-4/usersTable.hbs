@@ -34,9 +34,12 @@
               </div>
               <div class="card-body">
                 <h4 class="card-title">Clientes</h4>
-                <p class="card-text"> Todos los usuarios de la plataforma están acá, pronto podrás filtrarlos y
-                  modificarlos rápidamente. </p>
+ <p class="card-text"><button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
+              Cambiar Zona
+            </button>  </p>
               </div>
+                                           
+               
               <div class="d-flex justify-content-between align-items-center mx-0 row">
 
               </div>
@@ -166,6 +169,34 @@
           </div>
         </div>
       </div>
+      <div class="modal fade" id="change_zone" tabindex="-1" aria-labelledby="change_zoneTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="change_zoneTitle">Agregar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="change_zone_form">
+              <input type="text" class="form-control" id="ids_cli" name="ids_cli"/>
+              
+              <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="zona_clientes">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="change_zone_btn">Cambiar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
     </div>
 
     

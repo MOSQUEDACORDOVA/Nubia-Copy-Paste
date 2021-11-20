@@ -118,7 +118,8 @@ module.exports = {
           //console.log(planes);
         })
         .catch((err) => {
-          //console.log(err);
+          console.log(err);
+          reject(err)
         });
     });
   },
@@ -224,6 +225,26 @@ module.exports = {
       Clientes.update(
         {
           etiquetaId:color},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  actualizarZonaCliente(id,id_sucursal) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          sucursaleId:id_sucursal},{
             where:
             {
               id: id
@@ -1102,7 +1123,7 @@ PersonalAllS(id){
             Usuarios.update({sucursaleId: data.id}, {where:{
               id: id_gerente
             }})
-            resolve('Sucursal registrada con éxito');
+            resolve('Zona registrada con éxito');
             //console.log(planes);
           })
           .catch((err) => {
@@ -1110,16 +1131,16 @@ PersonalAllS(id){
           });
       });
     },
-    updSucursal(id_Sucursales,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
+    updSucursal(id_Sucursales, nombre,telefono) {
       return new Promise((resolve, reject) => {
         Sucursales.update(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+            name: nombre, telefono: telefono}, {where:{
               id: id_Sucursales
             }})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Sucursal actualizada con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1146,7 +1167,7 @@ PersonalAllS(id){
     },
     Sucursales_id(id){
       return new Promise((resolve, reject) => {
-        Sucursales.findAll({where: {
+        Sucursales.findOne({where: {
           id: id
         }})
           .then((data) => {

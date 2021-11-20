@@ -894,9 +894,7 @@ $.contextMenu({
       type: 'POST',
       data:$("#form_edit_pedido").serialize(),
       success: function (data, textStatus, jqXHR) {
-  console.log(data)
   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  console.log($('#array_pedido').val())
   
   $('.datatables-basic').dataTable().fnDestroy();
    $('.datatables-basic').empty();
@@ -1054,7 +1052,7 @@ function filterColumn2(i, val) {
     $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
   }
 }
-// Filter column wise function
+// cambiar estados
  async function cambioSP(id, status) {
  const { value: estado } = await Swal.fire({
   title: 'Seleccione un nuevo Status',

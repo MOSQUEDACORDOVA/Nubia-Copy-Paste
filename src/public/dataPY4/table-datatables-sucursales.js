@@ -1,11 +1,17 @@
 /**
  * DataTables Basic
  */
-
- $(function () {
-  'use strict';
+function cargaZonas(editar) {
   let valor_sucursales = $('#array_sucursales').val()
-  let array_sucursales = JSON.parse(valor_sucursales.replace(/&quot;/g,'"'))
+  let array_sucursales =""
+  if (editar) {
+    
+    array_sucursales = JSON.parse(valor_sucursales)
+
+  }else{
+    array_sucursales = JSON.parse(valor_sucursales.replace(/&quot;/g,'"'))
+  }
+  
 console.log(valor_sucursales)  
 
   var dt_basic_table_sucursales = $('.datatables-basic_sucursales'),
@@ -37,7 +43,7 @@ console.log(valor_sucursales)
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item " onclick=\'edit_zona("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
             );
@@ -75,14 +81,12 @@ console.log(valor_sucursales)
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
+}
+ $(function () {
+  'use strict';
+  cargaZonas()
 
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
-    });
-  }
+
 
   // Add New record
   // ? Remove/Update this code as per your requirements ?
@@ -117,20 +121,37 @@ console.log(valor_sucursales)
   $('.datatables-basic_sucursales tbody').on('click', '.delete-record', function (e) {
    //dt_basic.row($(this).parents('tr')).remove().draw();
    var id = e.target.classList[0]
-   Swal.fire({
-     title: 'Eliminar',
-     text: "Seguro desea eliminar al sucursales indicado",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-     cancelButtonText: 'Cancelar',
-     confirmButtonText: 'Eliminar'
-   }).then((result) => {
-     if (result.isConfirmed) {
-       window.location.href = `/delete_sucursales/${id}`;
-     }
-   })
+    Swal.fire({
+      title: 'Eliminar',
+      text: "Seguro desea eliminar la zona indicada",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: (login) => {
+        return fetch(`/delete_sucursales/${id}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(result)
+        $('.datatables-basic_sucursales').DataTable().row($(this).parents('tr')).remove().draw();
+        Swal.fire({
+          title: `Zona ${id} borrado con éxito`,
+        })
+      }
+    })
   });
 
   $('.datatables-basic_sucursales tbody').on('click', '.edit_record', function (e) {
@@ -143,5 +164,69 @@ console.log(valor_sucursales)
   window.location.href = `/editar_sucursales/${id_edit}`;
 
   });
-
+  $('#edit_zona_save').on('click', async (e)=>{
+ 
+    if ($('#nombre_zona_edit').val() =="") {
+      Swal.fire('Debe colocar un nombre')
+      return
+    }
+    if ($('#tlf_zona_edit').val() =="") {
+      Swal.fire('Debe colocar un teléfono')
+      return
+    }
+    console.log('entro')
+    $.ajax({
+      url: `/editar_sucursales_save`,
+      type: 'POST',
+      data: $('#editar_zona').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_sucursales').val(JSON.stringify(data.sucursales_let))
+        $('.datatables-basic_sucursales').dataTable().fnDestroy();
+         $('.datatables-basic_sucursales').empty();
+        $('.datatables-basic_sucursales').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Nombre</th>                              
+          <th>Teléfono</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+      cargaZonas('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });
+function edit_zona(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_sucursales`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#edit_id_zona').val(data['sucursales_let']['id'])
+$('#nombre_zona_edit').val(data['sucursales_let']['nombre'])
+$('#tlf_zona_edit').val(data['sucursales_let']['telefono'])
+
+$('#edit_zone').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
