@@ -167,13 +167,13 @@ $('#bell_not').on('click', ()=>{
             </ul>
           </li>
           {{#if admin}}
-            <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
+           <div class="d-none"> <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">
                     <i data-feather='layers' class="ficon me-1"></i>
                     <span class="menu-title text-truncate añadir">Cambiar<br><span id="suc_actual">zona</span></span>
                 </a>
-            </li>
+            </li></div>
     {{/if}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
@@ -210,7 +210,7 @@ $('#bell_not').on('click', ()=>{
                     <i data-feather='more-vertical' class="ficon"></i>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-actions">
+                <li class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-actions">
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#add_cliente">
                         <i class="ficon me-1" data-feather='user-plus'></i>
@@ -221,12 +221,12 @@ $('#bell_not').on('click', ()=>{
                         <i class="ficon me-1" data-feather="shopping-cart"></i>
                         Añadir Pedido
                     </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">
                         <i data-feather='layers' class="ficon me-1"></i>
                         Cambiar Zona
                     </a>
-                </div>
+                    </li>
             </li>
         </ul>
     </div>
