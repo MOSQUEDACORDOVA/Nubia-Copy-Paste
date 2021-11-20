@@ -9,15 +9,12 @@ var moment = require('moment-timezone');
 const Push = require('push.js')
 
 exports.change_sucursal = (req, res) => {
-  console.log(req.session.sucursal_select)
 let nuevo_id = req.body.cambia_sucursal
   //DATA-COMUNES
   DataBase.Sucursales_id(nuevo_id).then((resp)=>{
     let resp_ = JSON.parse(resp)
-    console.log(resp_)
    let sucursal_select = resp_[0].id
    req.session.sucursal_select= sucursal_select
-   console.log(req.session.sucursal_select)
          return res.redirect('/homepy4')
      
   }).catch((err) => {
@@ -45,16 +42,35 @@ exports.dashboard = (req, res) => {
     dia = new Date()
   }
  let id_sucursal = req.session.sucursal_select
+ console.log(req.session.tipo)
   //DATA-COMUNES
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", LastPedidosAll="",PrestadosGroupByCliente=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    LastPedidosAll=DataBase.LastPedidosAll
+    PrestadosGroupByCliente=DataBase.PrestadosGroupByCliente
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+LastPedidosAll=DataBase.LastPedidosAllS
+PrestadosGroupByCliente=DataBase.PrestadosGroupByClienteS
+      break;
+  }
   DataBase.CodigosP().then((cp_)=>{
     let cp_arr = JSON.parse(cp_)
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
 
-DataBase.LastPedidosAllS(id_sucursal).then((pedidos_g)=>{
+LastPedidosAll(id_sucursal).then((pedidos_g)=>{
   let pedidos_letG = JSON.parse(pedidos_g)
    let notif1_2=[], notif3_5=[], notif6_12=[]
    let hoy = moment()
@@ -65,8 +81,7 @@ if (pedidos_letG[i].status_pedido == "Entregado") {
     let dia_pedido  = moment(pedidos_letG[i].createdAt)
     duration = hoy.diff(dia_pedido, 'days');
       if (duration >=10 && duration < 20) {
-        console.log(duration)
-        console.log(pedidos_letG[i])
+        
         notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
       }     
     }
@@ -74,8 +89,7 @@ if (pedidos_letG[i].status_pedido == "Entregado") {
       let dia_pedido  = moment(pedidos_letG[i].createdAt)
       duration = hoy.diff(dia_pedido, 'days');
         if (duration >=20 && duration < 30) {
-          console.log(duration)
-          console.log(pedidos_letG[i])
+ 
           notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
         }     
       }
@@ -83,19 +97,18 @@ if (pedidos_letG[i].status_pedido == "Entregado") {
         let dia_pedido  = moment(pedidos_letG[i].createdAt)
         duration = hoy.diff(dia_pedido, 'days');
           if (duration >=30) {
-            console.log(duration)
-            console.log(pedidos_letG[i])
+
             notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
           }     
         }
   }
   }
 let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
-        DataBase.PrestadosGroupByClienteS(id_sucursal).then((prestamos_)=>{
+          PrestadosGroupByCliente(id_sucursal).then((prestamos_)=>{
           let prestamos_let = JSON.parse(prestamos_)  
                 let prestamos_byday = []
                 let prestamos_del_dia = 0, devueltos_del_dia =0
@@ -240,11 +253,10 @@ exports.sesionstart = (req, res) => {
         console.log(err)
         return next(err);
       }
-      console.log(user.dataValues);
 
       req.session.sucursal_select= user.dataValues.sucursaleId
       req.session.tipo = user.dataValues.tipo
-      console.log(req.session.tipo)
+
       return res.redirect('/homepy4')
     });
   })(req, res);
@@ -262,22 +274,35 @@ exports.usuariosTable = (req, res) => {
   if (req.session.tipo == "Director") {
     admin = true
   }
-  let proyecto = "PYT-4"
   let id_sucursal = req.session.sucursal_select
+  let ClientesDB = "", PedidosDB="", ChoferesDB=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+      break;
+  }
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then(async(sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
        DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
             let etiquetas_let = JSON.parse(etiquetas_)
-             console.log(clientes_arr)
+
      res.render("PYT-4/usersTable", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -406,7 +431,7 @@ exports.save_cliente_edit_tag = (req, res) => {
   let msg = false;
 
   DataBase.update_cliente_tag(id,color).then((respuesta) =>{
-    console.log(respuesta)
+ 
     let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
   DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
@@ -432,7 +457,7 @@ exports.reguserPy4 = (req, res) => {
 
   DataBase.RegUser(tipo, nombre, email, password,zona).then((respuesta) =>{
       let respuesta_let = JSON.parse(respuesta)
-console.log(respuesta)
+
 res.send({respuesta_let})
   }).catch((err) => {
     console.log(err)
@@ -495,13 +520,14 @@ exports.delete_pedido = (req, res) => {
 
  exports.editar_pedido = (req, res) => {
   const user = res.locals.user;
-  console.log(req.body)
+
+
   let id_ = req.body.id
   
 DataBase.PedidoById2(id_).then((pedidos_)=>{
   let pedido_let = JSON.parse(pedidos_)
   let id_sucursal = req.session.sucursal_select
-  console.log("ver edit id_pedido y cliente")
+
   return res.status(200).send(pedido_let);
   }).catch((err) => {
   console.log(err)
@@ -541,7 +567,7 @@ disabled_chofer: true
  };
 
  exports.Save_editPedidoPy4 = (req, res) => {
-  console.log(req.body)
+
   let garrafon19L ={refill_cant: req.body.refill_cant_garrafon, refill_mont: req.body.refill_garrafon_mont, canje_cant: req.body.canje_cant_garrafon, canje_mont:req.body.canje_garrafon_mont, nuevo_cant:req.body.enNew_cant_garrafon, nuevo_mont: req.body.nuevo_garrafon_mont, total_cant: req.body.total_garrafon_cant, total_cost: req.body.total_garrafon, enobsequio_cant_garrafon: req.body.enobsequio_cant_garrafon}
 
   let botella1L ={refill_cant: req.body.refill_cant_botella, refill_mont: req.body.refill_botella_mont, canje_cant: req.body.canje_cant_botella, canje_mont:req.body.canje_botella_mont, nuevo_cant:req.body.enNew_cant_botella, nuevo_mont: req.body.nuevo_botella_mont, total_cant: req.body.total_botella_cant, total_cost: req.body.total_botella, enobsequio_cant_botella: req.body.enobsequio_cant_botella}
@@ -552,13 +578,13 @@ disabled_chofer: true
 
   const user = res.locals.user
   const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
-  console.log("id_pedido y cliente"+ id_pedido + "-"+id_cliente)
+
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
   let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
   let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
   let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
   let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
-console.log(total_obsequio_pedido)
+
  
   DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
@@ -638,18 +664,41 @@ exports.personal_table = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
   let id_sucursal = req.session.sucursal_select
+  console.log(req.session.tipo)
+  console.log(id_sucursal)
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", PersonalDB=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    PersonalDB=DataBase.PersonalAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    PersonalDB=DataBase.PersonalAllS
+      break;
+  }
+  //DATA-COMUNES
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
        
-      DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
+        PersonalDB(id_sucursal).then((personal_)=>{
         let personal_let = JSON.parse(personal_)
          let count = personal_let.length
             DataBase.vehiculosAll().then((vehiculos_)=>{
@@ -669,7 +718,7 @@ exports.personal_table = (req, res) => {
       personal:true,
       clientes_d, clientes_arr,  personal_let, personal_,  pedidos_,choferes,choferes_,
       vehiculos_let,  msg,sucursales_let,usuarios_let,
-      usuarios_,sucursales_
+      usuarios_,sucursales_,admin
     }) 
 }).catch((err) => {
   console.log(err)
@@ -855,10 +904,10 @@ return res.redirect("/errorpy4/" + msg);
   const {id_user, tipo, nombre, email, zona} = req.body
 
   DataBase.actualizarUser(id_user,nombre, email, tipo, zona).then((respuesta) =>{
-    console.log(respuesta)
+
     DataBase.UsuariobyAll().then((usuarios_)=>{
       let usuarios_let = JSON.parse(usuarios_)
-    console.log(usuarios_let)
+
       res.send({usuarios_let})
 
   }).catch((err) => {
@@ -880,8 +929,6 @@ exports.cambia_zona_client = async (req, res) => {
   let split_id = ids_cli.split(',')
 
   for (let i = 0; i < split_id.length; i++) {
-    console.log(split_id[i])
-    console.log(zona)
     await DataBase.actualizarZonaCliente(split_id[i],zona) 
   }
   let id_sucursal = req.session.sucursal_select
@@ -916,20 +963,38 @@ exports.corte_table = (req, res) => {
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", PersonalDB="", PedidosAllGroupByChoferes=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    PersonalDB=DataBase.PersonalAll
+    PedidosAllGroupByChoferes=DataBase.PedidosAllGroupByChoferes
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    PersonalDB=DataBase.PersonalAllS
+    PedidosAllGroupByChoferes=DataBase.PedidosAllGroupByChoferesS
+      break;
+  }
   DataBase.CodigosP().then((cp_)=>{
     let cp_arr = JSON.parse(cp_)
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+    ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
-        DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
+        PersonalDB(id_sucursal).then((personal_)=>{
           let personal_let = JSON.parse(personal_)
            let count = personal_let.length
-      DataBase.PedidosAllGroupByChoferesS(id_sucursal).then(async (pedidos_)=>{
+           PedidosAllGroupByChoferes(id_sucursal).then(async (pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
             let pedidos_byday = []
@@ -980,7 +1045,7 @@ exports.corte_table = (req, res) => {
                 }
               }
             }
-            console.log(pedidos_byday)
+
                pedidos_byday =JSON.stringify(pedidos_byday) 
                arr_carga = JSON.stringify(arr_carga)
                total_garrafones= parseInt(residencial_cont_garrafones) +parseInt(negocio_cont_garrafones) +parseInt(ptoventa_cont_garrafones)
@@ -1064,18 +1129,15 @@ exports.corte_prestados_table = (req, res) => {
   //DEUDA PEDIDO
   exports.verifica_deuda_pedido = (req, res) => {
     let id_cliente = req.body.id_cliente
-
-    console.log(req.session.sucursal_select)
     DataBase.Verf_deuda_pedido(id_cliente, req.session.sucursal_select).then((desc_)=>{
       let deuda = JSON.parse(desc_)
       let deuda_monto = 0, prestados = 0;
-      console.log(deuda)
       for (let i = 0; i < deuda.length; i++) {
         
         deuda_monto = parseFloat(deuda_monto) + parseFloat(deuda[i].monto_total)
         prestados = parseFloat(prestados) + parseFloat(deuda[i].garrafones_prestamos)
       } 
-        console.log(deuda_monto)
+
         return res.status(200).send({'deuda':deuda_monto,'prestados':prestados });
       })
   }
@@ -1103,19 +1165,34 @@ exports.vehiculos_table = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    vehiculosAll=DataBase.vehiculosAll
+      break;
   
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    vehiculosAll=DataBase.vehiculosAllS
+      break;
+  }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)       
        
-      DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
+        vehiculosAll(id_sucursal).then((vehiculos_)=>{
         let vehiculos_let = JSON.parse(vehiculos_)
          let count = vehiculos_let.length
             DataBase.Sucursales_ALl().then((sucursales_)=>{
@@ -1244,28 +1321,42 @@ exports.sucursales = (req, res) => {
     msg = req.params.msg;
   }
   let id_sucursal = req.session.sucursal_select
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    vehiculosAll=DataBase.vehiculosAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    vehiculosAll=DataBase.vehiculosAllS
+      break;
+  }
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
-            DataBase.vehiculosAllS(id_sucursal).then((vehiculos_)=>{
+        vehiculosAll(id_sucursal).then((vehiculos_)=>{
               let vehiculos_let = JSON.parse(vehiculos_)
                let count = vehiculos_let.length
  DataBase.Sucursales_ALl().then((sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)
                  let count = sucursales_let.length
-                 console.log(sucursales_let)
                //no comunes
               
                  DataBase.Gerentes().then((gerentes_)=>{
                   let gerentes_let = JSON.parse(gerentes_)
                    let count = gerentes_let.length
-                   console.log(gerentes_let)
     res.render("PYT-4/sucursales", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1342,7 +1433,6 @@ exports.delete_sucursales = (req, res) => {
   let id_ = req.body.id
   
 DataBase.Sucursales_id(id_).then((sucursales_)=>{
-  console.log(sucursales_)
   let sucursales_let = JSON.parse(sucursales_)
 res.send({sucursales_let})
 }).catch((err) => {
@@ -1361,7 +1451,7 @@ return res.redirect("/errorpy4/" + msg);
     DataBase.Sucursales_ALl().then((sucursales_)=>{
       let sucursales_let = JSON.parse(sucursales_)
        let count = sucursales_let.length
-       console.log(sucursales_let)
+
     res.send({sucursales_let})
   }).catch((err) => {
     console.log(err)
@@ -1391,22 +1481,40 @@ exports.carga_inicial = (req, res) => {
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", PersonalAll="",Carga_init=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    PersonalAll=DataBase.PersonalAll
+    Carga_init=DataBase.Carga_init
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    PersonalAll=DataBase.PersonalAllS
+    Carga_init=DataBase.Carga_initS
+      break;
+  }
+  ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
      let count = clientes_arr.length
-     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+     PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
-       DataBase.ChoferesAllS(id_sucursal).then((choferes)=>{
+       ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
-        DataBase.PersonalAllS(id_sucursal).then((personal_)=>{
+        PersonalAll(id_sucursal).then((personal_)=>{
           let personal_let = JSON.parse(personal_)
            let count = personal_let.length 
                DataBase.Sucursales_ALl().then((sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)  
-                    DataBase.Carga_initS(id_sucursal).then((carga_)=>{
+                Carga_init(id_sucursal).then((carga_)=>{
                 let carga_let = JSON.parse(carga_) 
-                console.log(carga_let)     
+                    
     res.render("PYT-4/carga_init", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1453,7 +1561,6 @@ exports.save_carga_inicial = (req, res) => {
   
   const { carga_init,  id_chofer_carga} = req.body
   let msg = false;
-  console.log(id_chofer_carga)
   DataBase.savecarga_inicial(carga_init,  id_chofer_carga, req.session.sucursal_select).then((respuesta) =>{
     res.redirect('/carga_inicial_py4/'+respuesta)
 
@@ -1477,7 +1584,6 @@ exports.save_etiquetas = (req, res) => {
     let respuesta_let = JSON.parse(respuesta)
 DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
             let etiquetas_let = JSON.parse(etiquetas_)
-    console.log(respuesta)
     res.send({respuesta_let})
 
   }).catch((err) => {
@@ -1502,7 +1608,6 @@ exports.delete_etiqueta = (req, res) => {
   let msg = "Etiqueta Eliminada con éxito"
   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
     let etiquetas_let = JSON.parse(etiquetas_)
-console.log(respuesta)
 res.send({etiquetas_let})
 
 }).catch((err) => {
