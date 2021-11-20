@@ -53,7 +53,7 @@ const Sucursales = db.define('sucursales', {
 Sucursales.hasMany(Vehiculos, {as: 'Vehiculos'})
 Sucursales.hasMany(Clientes, {as: 'Clientes'})
 Sucursales.hasMany(GPrestados, {as: 'GPrestados'})
-Sucursales.hasMany(Pedidos, {as: 'Pedidos'})
+Sucursales.hasMany(Pedidos, {as: 'pedidos'})
 Sucursales.hasMany(Personal, {as: 'Personal'})
 Sucursales.hasMany(Carga_init, {as: 'Carga_init'})
 Sucursales.hasMany(Usuarios, {as: 'Usuarios'})

@@ -3,13 +3,10 @@
  */
 function cargaTabla(rechar) {
   let valor = $('#array').val()
-  console.log(valor)
   let array =""
   if (rechar) {
-    console.log(rechar)
-    console.log(valor)
     array = JSON.parse(valor)
-
+console.log(array)
   }else{
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
@@ -38,6 +35,7 @@ function cargaTabla(rechar) {
     var dt_basic = dt_basic_table.DataTable({
       data: array,
       columns: [
+        { data: 'id' },
         { data: 'firstName' },
         { data: 'email' }, 
         { data: 'telefono' },
@@ -62,11 +60,29 @@ function cargaTabla(rechar) {
       ],
       columnDefs: [
         {
-          // Avatar image/badge, Name and post
+          // For Checkboxes
           targets: 0,
+          orderable: false,
+          responsivePriority: 3,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 1,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            console.log("a"+full['firstName'])
             var $user_img = "-",
               $name = full['firstName'] + " " + full['lastName'],
               $post = "Cliente";
@@ -135,7 +151,7 @@ function cargaTabla(rechar) {
           }
         },
       ],
-      order: [[2, 'desc']],
+      order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -221,9 +237,8 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
+      return
     }
   window.location.href = `/editar_cliente/${id_edit}`;
 
@@ -232,7 +247,6 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_tag', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     
   });
 
@@ -244,16 +258,19 @@ function cargaTabla(rechar) {
   //  $("#home_modalBody").append(txt2);
   $("#modal_detail_garrafonesBody").empty() 
  $("#id_ad_tag_cliente").val(id_cliente);
+ console.log($("#id_ad_tag_cliente").val())
 });
 
+
 $('#btn_asignar_tag').on('click', async (e)=>{
-  if ($('#color_tag').val() =="default") {
+  console.log($('#color_tag_cliente').val())
+  if ($('#color_tag_cliente').val() =="default") {
     Swal.fire('Debe seleccionar una etiqueta')
     return
   }
   const data_C = new FormData();
   data_C.append("id", $("#id_ad_tag_cliente").val());
-  data_C.append("color", $('#color_tag').val());
+  data_C.append("color", $('#color_tag_cliente').val());
   $.ajax({
     url: `/ad_tag_cliente`,
     type: 'POST',
@@ -262,18 +279,19 @@ $('#btn_asignar_tag').on('click', async (e)=>{
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
+      console.log(data)
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
 $('#exampleClientes').append(` <thead>
-<tr>
-
-  <th>Usuario</th>
-  <th>Correo</th>
-  <th>Teléfono</th>   
-  <th>Opciones</th>
-</tr>
-</thead>`);
+                                        <tr>
+                                            <th> </th>
+                                            <th>Cliente</th>
+                                            <th>Correo</th>
+                                            <th>Teléfono</th>   
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>`);
 cargaTabla('si')
 $('.modal').modal('hide');
     },
@@ -283,4 +301,54 @@ $('.modal').modal('hide');
   });
   
 })
+
+$("#button_change_zone").on('click', function (e) {
+  let valoresCheck = [];
+
+  $("input[type=checkbox]:checked").each(function(){
+      valoresCheck.push(this.value);
+  });
+  if (valoresCheck.length == 0) {    
+    
+    Swal.fire('Debe seleccionar por lo menos un cliente para hacer el cambio de zona')
+
+    return
+  }else{
+    $('#change_zone').modal('show')
+  }
+$("#ids_cli").val(valoresCheck);
+});
+  $('#change_zone_btn').on('click', async (e)=>{
+    if ($('#zona_clientes').val() =="Seleccione una Zona") {
+      Swal.fire('Debe seleccionar una zona')
+      return
+    }
+
+    $.ajax({
+      url: `/change_zone_client`,
+      type: 'POST',
+      data: $('#change_zone_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array').val(JSON.stringify(data.clientes_arr))
+  $('#exampleClientes').dataTable().fnDestroy();
+  $('#exampleClientes').empty();
+  $('#exampleClientes').append(` <thead>
+                                          <tr>
+                                              <th> </th>
+                                              <th>Cliente</th>
+                                              <th>Correo</th>
+                                              <th>Teléfono</th>   
+                                              <th>Opciones</th>
+                                          </tr>
+                                      </thead>`);
+  cargaTabla('si')
+  $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });

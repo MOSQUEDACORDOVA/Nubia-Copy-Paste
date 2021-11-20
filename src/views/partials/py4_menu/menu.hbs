@@ -1,6 +1,7 @@
 {{#if login}}{{else}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 
 
 
@@ -18,9 +19,6 @@
         var cp_value= ucwords($(this).val(),true) ; 
         $(this).val(cp_value ); 
         });
-
-Fuente: https://www.iteramos.com/pregunta/73739/con-jquery-como-puedo-poner-en-mayuscula-la-primera-letra-de-un-campo-de-texto-mientras-el-usuario-esta-editando-ese-campo
-//$('#sucursal_change').modal('show')
 $('#reg_pedido_modal1').on('submit', (e)=>{
 e.preventDefault()
 console.log('aqui')
@@ -226,7 +224,7 @@ $('#bell_not').on('click', ()=>{
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
                     data-bs-target="#sucursal_change" id="cambiar_sucursal">
                         <i data-feather='layers' class="ficon me-1"></i>
-                        Cambiar Sucursal
+                        Cambiar Zona
                     </a>
                 </div>
             </li>
@@ -963,28 +961,17 @@ $('#bell_not').on('click', ()=>{
                             <option selected=""> Residencial </option>
                             <option> Negocio </option>
                             <option> Punto de venta </option>
-                            <option> Sucursal </option>
-                            <option> Independiente </option>
                         </select></div>
                     <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                             cliente?</label>
+                            
                         <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
                                 name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
                                 class="custom-control-input me-1" value="SI"><label for="customCheck1"
                                 class="custom-control-label">Sí</label>
                         </div>
                     </div>
-                    <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
-                            último
-                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
-                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                            class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
-                            garrafones
-                            en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
-                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
-
-                    <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                                        <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                             aria-describedby="register-sucursal" tabindex="24" name="sucursal"
                             class="form-control mb-2">
                             <option selected=""> Seleccione una zona </option>
@@ -992,7 +979,7 @@ $('#bell_not').on('click', ()=>{
                             <option value={{id}}> {{nombre}} </option>
                             {{/each}}
                         </select></div>
-                                        <div class="form-group">
+                   <div class="form-group">
                   <label for="register-lastName" class="form-label">Etiqueta</label>
                   <select class="select2 form-select" id="color_tag" name="color" >
                     <option selected="" value="default"> Seleccione una etiqueta </option>
@@ -1001,6 +988,17 @@ $('#bell_not').on('click', ()=>{
                     {{/each}}
                   </select>                
                 </div>
+                    <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                            último
+                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
+                            garrafones
+                            en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0"
+                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
+
+
                     <!--bindings={
   "ng-reflect-ng-if-else": "[object Object]"
 }-->

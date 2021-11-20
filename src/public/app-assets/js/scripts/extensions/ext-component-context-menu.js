@@ -45,18 +45,11 @@ $.contextMenu({
 
 // Hover Trigger
 $.contextMenu({
-  selector: '#hover-context-menu',
+  selector: '.hover-context-menu',
   trigger: 'hover',
   autoHide: true,
-  callback: function (key, options) {
-    var r = 'clicked ' + key;
-    window.console &&
-      toastr['success']('', r, {
-        rtl: isRtl
-      });
-  },
   items: {
-    'Option 1': { name: 'Option 1' },
+    'Nombre': { name: 'Pedro Perez' },
     'Option 2': { name: 'Option 2' }
   }
 });
