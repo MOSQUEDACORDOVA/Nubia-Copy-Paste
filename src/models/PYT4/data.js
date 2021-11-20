@@ -591,12 +591,33 @@ console.log(hoy)
         });
     });
   },
+  LastPedidosAll(id){
+    return new Promise((resolve, reject) => {
+      Last_p.findAll({
+        include:[
+        {association:Last_p.Clientes, include:[
+          {association:Clientes.CoP}
+        ] },
+    ]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PedidosAll(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       },)
         .then((data) => {
@@ -736,11 +757,10 @@ console.log(hoy)
   PedidosAllGroupByChoferes(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[
-        {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
+        
+        {association:Pedidos.Clientes, include:[{association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal, include:[
-          {association: Personal.Vehiculos}
-        ] },        
+          {association: Personal.Vehiculos}] },        
     ]
       },{ group: ['chofer'] },)
         .then((data) => {
@@ -1202,6 +1222,20 @@ PersonalAllS(id){
     Carga_initS(id){
       return new Promise((resolve, reject) => {
         Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Carga_init(id){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({include:[{association: Carga_init.Personal}]})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
