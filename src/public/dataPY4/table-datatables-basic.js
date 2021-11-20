@@ -49,7 +49,7 @@ console.log(array)
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
@@ -351,4 +351,103 @@ $("#ids_cli").val(valoresCheck);
     });
     
   })
+  $('#btn_save_edit_cliente').on('click', async (e)=>{
+
+    $.ajax({
+      url: `/editar_cliente`,
+      type: 'POST',
+      data: $('#edit_cliente_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array').val(JSON.stringify(data.clientes_arr))
+  $('#exampleClientes').dataTable().fnDestroy();
+  $('#exampleClientes').empty();
+  $('#exampleClientes').append(` <thead>
+                                          <tr>
+                                              <th> </th>
+                                              <th>Cliente</th>
+                                              <th>Correo</th>
+                                              <th>Teléfono</th>   
+                                              <th>Opciones</th>
+                                          </tr>
+                                      </thead>`);
+  cargaTabla('si')
+  $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });
+function edit_cliente(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_cliente_id`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#id_cliente_edited').val(data['cliente_let']['id'])
+$('#firstName_edited').val(data['cliente_let']['firstName'])
+$('#lastName_edited').val(data['cliente_let']['lastName'])
+$('#cp_select_edited').val(data['cliente_let']['estado'])
+$('#municipio_edited').val(data['cliente_let']['municipio'])
+
+if ( $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id']+ "']").length == 0 ){
+console.log(data['cliente_let']['tipo'])
+$('#select_asentamiento_edited').prepend('<option selected value="' + data['cliente_let']['cp']['id'] + '">' + data['cliente_let']['cp']['asentamiento'] + '</option>');  
+}else{
+//  $('#tipo_edit').find('option:selected').remove().end();
+  $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id'] + "']").attr("selected", true);
+}
+
+$('#coto_edited').val(data['cliente_let']['coto'])
+$('#casa_edited').val(data['cliente_let']['casa'])
+$('#calle_edited').val(data['cliente_let']['calle'])
+$('#avenida_edited').val(data['cliente_let']['avenida'])
+$('#referencia_edited').val(data['cliente_let']['referencia'])
+$('#telefono_edited').val(data['cliente_let']['telefono'])
+
+$('#nombre_familiar_1_edited').val(data['cliente_let']['nombre_familiar_1'])
+$('#apellido_familiar_1_edited').val(data['cliente_let']['apellido_familiar_1'])
+$('#telefono_familiar_1_edited').val(data['cliente_let']['telefono_familiar_1'])
+$('#nombre_familiar_2_edited').val(data['cliente_let']['nombre_familiar_2'])
+$('#apellido_familiar_2_edited').val(data['cliente_let']['apellido_familiar_2'])
+$('#telefono_familiar_2_edited').val(data['cliente_let']['telefono_familiar_2'])
+
+if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").length == 0 ){
+  $('#tipo_cliente_edited').prepend('<option selected value="' + data['cliente_let']['tipo'] + '">' + data['cliente_let']['tipo'] + '</option>');  
+  }else{
+  //  $('#metodo_pago_edit').find('option:selected').remove().end();
+    $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
+  }
+
+$('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
+$('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
+
+if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").length == 0 ){
+  console.log(data['cliente_let']['metodo_pago'])
+  $('#zona_clientes_edited').prepend('<option selected value="' + data['cliente_let']['sucursaleId'] + '">' + data['cliente_let']['sucursaleId'] + '</option>');  
+  }else{
+  //  $('#metodo_pago_edit').find('option:selected').remove().end();
+    $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").attr("selected", true);
+  }
+  $('#correo_edit_cliente_edited').val(data['cliente_let']['email'])
+$('#edit_cliente').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
