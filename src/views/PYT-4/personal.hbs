@@ -404,15 +404,39 @@
             <form class="needs-validation was-validated" id="cambia_pass_form">
               <input type="hidden" class="form-control" id="cambia_pass_id" name="id_"/>
               <div class="form-group"><label for="register-firstName" class="form-label">Contraseña nueva</label>
-             <input
-                  type="pass" name="pass" placeholder="*" aria-describedby="register-firstName"
+             {{!-- <input
+                  type="password" name="pass" placeholder="*" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2" id="pass">
-              </div>
+              </div>                               --}}
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge" id="register-password"
+                                                type="password" name="pass" placeholder="············"
+                                                aria-describedby="register-password" tabindex="3" /><span
+                                                class="input-group-text cursor-pointer" id="pass"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-eye">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg></span>
+                                        </div>
 
-              <div class="form-group"><label for="register-lastName" class="form-label">Confirmar contraseña</label><input
-                  type="pass" name="pass_confirm" placeholder="*" aria-describedby="register-lastName"
-                  tabindex="2" class="form-control mb-2" id="pass_confirm">
+              <div class="form-group"><label for="register-lastName" class="form-label">Confirmar contraseña</label>
               </div>
+                                                      <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge" id="register-password"
+                                                type="password" name="pass_confirm" placeholder="············"
+                                                aria-describedby="register-password" tabindex="3" /><span
+                                                class="input-group-text cursor-pointer" id="pass_confirm"><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-eye">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg></span>
+                                        </div>
           </div>
           <div class="modal-footer">
             <button tabindex="26"
