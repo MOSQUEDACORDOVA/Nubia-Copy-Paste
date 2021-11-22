@@ -261,6 +261,11 @@ console.log(array)
   // Delete Record
   $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
    //dt_basic.row($(this).parents('tr')).remove().draw();
+   if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
    var id = e.target.classList[0]
    Swal.fire({
      title: 'Eliminar',

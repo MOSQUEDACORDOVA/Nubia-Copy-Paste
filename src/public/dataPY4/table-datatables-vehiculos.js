@@ -265,6 +265,11 @@ $('#edit_veh').modal('show')
 });
 }
 function delete_(id_edit) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
   if (typeof id_edit =="undefined") {
     return console.log(id_edit)
   }
