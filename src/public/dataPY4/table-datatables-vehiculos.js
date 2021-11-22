@@ -51,7 +51,7 @@ var sucursale_pa = JSON.parse(suc.replace(/&quot;/g,'"'))
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'" onclick=\'delete_("'+full['id']+'")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_("'+full['id']+'")\'>' +
@@ -147,34 +147,157 @@ cargaTabla()
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
   // Delete Record
-  $('.datatables-basic_vehiculos tbody').on('click', '.delete-record', function (e) {
-   //dt_basic.row($(this).parents('tr')).remove().draw();
-   var id = e.target.classList[0]
-   Swal.fire({
-     title: 'Eliminar',
-     text: "Seguro desea eliminar al vehiculos indicado",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-     cancelButtonText: 'Cancelar',
-     confirmButtonText: 'Eliminar'
-   }).then((result) => {
-     if (result.isConfirmed) {
-       window.location.href = `/delete_vehiculos/${id}`;
-     }
-   })
-  });
+  $('#reg_vehiculos').on('click', async (e)=>{
 
-  $('.datatables-basic_vehiculos tbody').on('click', '.edit_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
-    var id_edit = e.target.classList[0]
-    console.log(id_edit)
-    if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
-    }
-  window.location.href = `/editar_vehiculos/${id_edit}`;
 
-  });
+    $.ajax({
+      url: `/save_vehiculo_py4`,
+      type: 'POST',
+      data: $('#save_vehiculo_py4').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  //$('#etiquetas_').val(JSON.stringify(data.etiquetas_let))
+//   $('#exampleEtiquetas').dataTable().fnDestroy();
+//   $('#exampleEtiquetas').empty();
+//   $('#exampleEtiquetas').append(` <thead>
+//   <tr>
+//       <th>Id</th>
+//       <th>Nombre de etiqueta</th>
+//       <th>Color</th>
+//       <th>Opciones</th>
+//   </tr>
+// </thead>`);
+$('.datatables-basic_vehiculos').DataTable().row.add({
+  id: data.save_veh.id,
+createdAt: data.save_veh.createdAt,
+matricula: data.save_veh.matricula  ,
+marca: data.save_veh.marca  ,
+modelo: data.save_veh.modelo ,
+anio: data.save_veh.anio  ,
+tipo: data.save_veh.tipo  ,
+capacidad: data.save_veh.capacidad  ,
+status: data.save_veh.status  ,
+sucursal: data.save_veh.sucursaleId  ,
+})
+.draw();
+//cargaTablaEtiquetas('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+  $('#edit_vehiculosbtn').on('click', async (e)=>{
+    
+    console.log('entro')
+    $.ajax({
+      url: `/save_vehiculos_py4_edit`,
+      type: 'POST',
+      data: $('#save_vehiculos_py4_edit').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_vehiculos').val(JSON.stringify(data.vehiculos_let))
+        $('.datatables-basic_vehiculos').dataTable().fnDestroy();
+         $('.datatables-basic_vehiculos').empty();
+        $('.datatables-basic_vehiculos').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Fecha Registro</th>
+          <th>Matricula</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>Año</th>
+          <th>Tipo</th>
+          <th>Capacidad</th>
+          <th>Status</th>
+          <th>Sucursal</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+      cargaTabla('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 
 });
+function edit_(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_vehiculos`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#id_vehiculo').val(data['vehiculos_let']['id'])
+$('#edit_matricula').val(data['vehiculos_let']['matricula'])
+$('#edit_marca').val(data['vehiculos_let']['marca'])
+$('#edit_modelo').val(data['vehiculos_let']['modelo'])
+$('#edit_anio').val(data['vehiculos_let']['anio'])
+$('#edit_tipo').val(data['vehiculos_let']['tipo'])
+$('#edit_capacidad').val(data['vehiculos_let']['capacidad'])
+if ( $("#edit_zona option[value='" + data['vehiculos_let']['id'] + "']").length == 0 ){
+  console.log(data['vehiculos_let']['id'])
+  $('#edit_zona').prepend('<option selected value="' + data['vehiculos_let']['id'] + '">' + data['vehiculos_let']['id'] + '</option>');  
+  }else{
+    $("#edit_zona option[value='" + data['vehiculos_let']['id'] + "']").attr("selected", true);
+  }
+$('#edit_veh').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
+function delete_(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+  var id = id_edit
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar al vehiculo indicado",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_vehiculos/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic_vehiculos').DataTable().row($('.datatables-basic_vehiculos tbody .delete-record').parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Vehículo ${id} borrado con éxito`,
+      })
+    }
+  })
+}

@@ -86,7 +86,7 @@ router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardContro
 router.get('/vehiculos_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.vehiculos_table);
 router.post('/save_vehiculo_py4', dashboardControllerPY4.save_vehiculos);
 router.get('/delete_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_vehiculos);
-router.get('/editar_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
+router.post('/editar_vehiculos', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
 router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_vehiculos_py4);
 
 
