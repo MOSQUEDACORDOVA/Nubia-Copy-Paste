@@ -1,11 +1,16 @@
 /**
  * DataTables Basic
  */
-
- $(function () {
-  'use strict';
+function cargaTabla(edit) {
   let valor_vehiculos = $('#array_vehiculos').val()
-  let array_vehiculos = JSON.parse(valor_vehiculos.replace(/&quot;/g,'"'))
+  let array_vehiculos =""
+  if (edit) {
+    
+    array_vehiculos = JSON.parse(valor_vehiculos)
+
+  }else{
+    array_vehiculos = JSON.parse(valor_vehiculos.replace(/&quot;/g,'"'))
+  }
 
 
 let suc = $('#array_sucursales').val()
@@ -49,7 +54,7 @@ var sucursale_pa = JSON.parse(suc.replace(/&quot;/g,'"'))
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  
             );
@@ -106,14 +111,11 @@ var sucursale_pa = JSON.parse(suc.replace(/&quot;/g,'"'))
     });
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
   }
+}
+ $(function () {
+  'use strict';
+cargaTabla()
 
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
-    });
-  }
 
   // Add New record
   // ? Remove/Update this code as per your requirements ?
