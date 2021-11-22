@@ -105,6 +105,10 @@ function cargaTablaPersonal(editada) {
         },
         
         {
+          // Avatar image/badge, Name and post
+          targets: 2,visible:false
+        },
+        {
           // Label
           targets: -2,
           render: function (data, type, full, meta) {
@@ -198,7 +202,10 @@ console.log(array_sucursales)
               // '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_usuario("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
+              '</a>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'cambiapass("'+full['id']+'")\'>' +
+              feather.icons['key'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' 
             );
           }  },
       ],
@@ -359,19 +366,38 @@ return (
    //dt_basic.row($(this).parents('tr')).remove().draw();
    var id = e.target.classList[0]
    Swal.fire({
-     title: 'Eliminar',
-     text: "Seguro desea eliminar al personal indicado",
-     icon: 'warning',
-     showCancelButton: true,
-     confirmButtonColor: '#3085d6',
-     cancelButtonColor: '#d33',
-     cancelButtonText: 'Cancelar',
-     confirmButtonText: 'Eliminar'
-   }).then((result) => {
-     if (result.isConfirmed) {
-       window.location.href = `/delete_personal/${id}`;
-     }
-   })
+    title: 'Eliminar',
+    text: "Seguro desea eliminar al personal indicado",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_personal/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result.value.etiquetas_let)
+      var opts = result.value.etiquetas_let;
+      $('.datatables-basic_personal').DataTable().row($(this).parents('tr')).remove().draw();
+
+      Swal.fire({
+        title: `Personal ${id} borrado con éxito`,
+      })
+    }
+  })
   });
 
   $('.datatables-basic_personal tbody').on('click', '.edit_record', function (e) {
@@ -547,7 +573,52 @@ cargaTablaUsuarios('si')
     });
     
   })
+  $('#cambiapass_save').on('click', async (e)=>{
+    
+    if ($('#pass').val() =="") {
+      Swal.fire('Debe colocar una contraseña nueva')
+      return
+    }
+    if ($('#pass_confirm').val() =="") {
+      Swal.fire('Debe confirmar la contraseña')
+      return
+    }
 
+    if ($('#pass').val() != $('#pass_confirm').val()) {
+      Swal.fire('La nueva contraseña y su confirmación NO son iguales, verifique')
+      return
+    }
+    console.log('entro')
+    $.ajax({
+      url: `/cambia_pass`,
+      type: 'POST',
+      data: $('#cambia_pass_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+
+        $('#array_usuarios').val(JSON.stringify(data.usuarios_let))
+        $('.datatables-basic_usuarios').dataTable().fnDestroy();
+         $('.datatables-basic_usuarios').empty();
+        $('.datatables-basic_usuarios').html(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Usuario</th>
+          <th>Email</th>
+          <th>Tipo</th>
+          <th>Zona</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>`);
+cargaTablaUsuarios('si')
+ $('.modal').modal('hide');
+ Swal.fire('Se actualizó la nueva contraseña con éxito')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
   $('#edit_personal_save').on('click', async (e)=>{
     
     console.log('entro')
@@ -738,6 +809,32 @@ cargaTablaUsuarios('si')
     }
 
   $('#editar_personal').modal('show')
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+  }
+  function cambiapass(id_edit) {
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+   //window.location.href = `/editar_pedido/${id_edit2}`;
+   console.log(id_edit)
+  const data_C = new FormData();
+  data_C.append("id", id_edit);
+  $.ajax({
+    url: `/editar_usuario`,
+    type: 'POST',
+    data: data_C,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (data, textStatus, jqXHR) {
+  console.log(data)
+   $('#cambia_pass_id').val(data['usuarios_let']['id'])
+
+  $('#cambiapassmodal').modal('show')
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)

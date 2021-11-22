@@ -268,7 +268,7 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="edit_userTitle">Agregar Usuario</h5>
+            <h5 class="modal-title" id="edit_userTitle">Editar Usuario</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -388,6 +388,35 @@
           <div class="modal-footer">
             <button tabindex="26"
               class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_personal_save">Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div><div class="modal fade" id="cambiapassmodal" tabindex="-1" aria-labelledby="cambiapassTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cambiapassTitle">Cambiar clave de usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="cambia_pass_form">
+              <input type="hidden" class="form-control" id="cambia_pass_id" name="id_"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Contraseña nueva</label>
+             <input
+                  type="pass" name="pass" placeholder="*" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" id="pass">
+              </div>
+
+              <div class="form-group"><label for="register-lastName" class="form-label">Confirmar contraseña</label><input
+                  type="pass" name="pass_confirm" placeholder="*" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2" id="pass_confirm">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="cambiapass_save">Guardar</button>
           </div>
           </form>
         </div>

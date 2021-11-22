@@ -145,9 +145,10 @@ module.exports = {
 
   actualizarpassW(id, password) {
     //Actualizar clave
-   // password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     ////console.log(password);
     return new Promise((resolve, reject) => {
+
       Usuarios.update(
         {
           password:password
@@ -164,7 +165,7 @@ module.exports = {
           //console.log(planes);
         })
         .catch((err) => {
-          //console.log(err);
+          reject(err);
         });
     });
   },
@@ -264,6 +265,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.findAll({include:[
         {association:Clientes.CoP },
+        {association:Clientes.Etiquetas },
       ],order: [
         // Will escape title and validate DESC against a list of valid direction parameters
         ["updatedAt", "DESC"],

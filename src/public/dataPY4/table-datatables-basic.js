@@ -11,7 +11,8 @@ console.log(array)
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
   
-  
+  let sucursales = $('#array_sucursales').val()
+  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
 
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
@@ -37,8 +38,12 @@ console.log(array)
       columns: [
         { data: 'id' },
         { data: 'firstName' },
-        { data: 'email' }, 
+        { data: 'sucursaleId' },
+        { data: 'etiqueta' },
+        { data: 'id' },
         { data: 'telefono' },
+        { data: 'email' }, 
+        
         {   // Actions
           targets: -1,
           title: '',
@@ -124,6 +129,45 @@ console.log(array)
               '</div>' +
               '</div>';
             return $row_output;
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 2,
+          responsivePriority: 4,
+          render: function (data, type, full, meta) {
+            let sucursal_name=""
+            for (let i = 0; i < array_sucursales.length; i++) {
+              if (array_sucursales[i]['id']==data) {
+                sucursal_name =array_sucursales[i]['nombre']  
+              }
+              
+            }
+            return (
+              '<span class="badge rounded-pill badge-light-success' +
+              '" >' +
+              sucursal_name +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 3,
+          render: function (data, type, full, meta) {
+      if (data == null) {
+        return "Sin etiqueta"
+      }else{
+        return data['etiquetas']
+      }
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 3,
+          render: function (data, type, full, meta) {
+         
+        return "S/T"
           }
         },
         {
@@ -284,14 +328,17 @@ $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
 $('#exampleClientes').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Cliente</th>
-                                            <th>Correo</th>
-                                            <th>Teléfono</th>   
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
+<tr>
+    <th> </th>
+    <th>Nombre</th>
+    <th>Zona</th>
+    <th>Etiqueta</th>
+    <th>Titulo</th>
+    <th>Teléfono</th>
+    <th>Correo</th>  
+    <th>Opciones</th>
+</tr>
+</thead>`);
 cargaTabla('si')
 $('.modal').modal('hide');
     },
@@ -318,6 +365,24 @@ $("#button_change_zone").on('click', function (e) {
   }
 $("#ids_cli").val(valoresCheck);
 });
+
+$("#button_change_tags").on('click', function (e) {
+  let valoresCheck = [];
+
+  $("input[type=checkbox]:checked").each(function(){
+      valoresCheck.push(this.value);
+  });
+  if (valoresCheck.length == 0) {    
+    
+    Swal.fire('Debe seleccionar por lo menos un cliente para hacer el cambio de etiqueta')
+
+    return
+  }else{
+    $('#ad_tag_cliente').modal('show')
+  }
+$("#id_ad_tag_cliente").val(valoresCheck);
+});
+
   $('#change_zone_btn').on('click', async (e)=>{
     if ($('#zona_clientes').val() =="Seleccione una Zona") {
       Swal.fire('Debe seleccionar una zona')
@@ -334,14 +399,17 @@ $("#ids_cli").val(valoresCheck);
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(` <thead>
-                                          <tr>
-                                              <th> </th>
-                                              <th>Cliente</th>
-                                              <th>Correo</th>
-                                              <th>Teléfono</th>   
-                                              <th>Opciones</th>
-                                          </tr>
-                                      </thead>`);
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th>  
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
       },
@@ -363,14 +431,17 @@ $("#ids_cli").val(valoresCheck);
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(` <thead>
-                                          <tr>
-                                              <th> </th>
-                                              <th>Cliente</th>
-                                              <th>Correo</th>
-                                              <th>Teléfono</th>   
-                                              <th>Opciones</th>
-                                          </tr>
-                                      </thead>`);
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th>  
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
       },

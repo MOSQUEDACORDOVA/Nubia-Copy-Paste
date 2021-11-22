@@ -315,7 +315,7 @@ exports.usuariosTable = (req, res) => {
       choferes,
       choferes_,
       clientes_arr,
-      count,sucursales_let,
+      count,sucursales_let,sucursales_,
       etiquetas_let,etiquetas_,
       msg
     })
@@ -435,24 +435,38 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
     return res.redirect("/errorpy4/" + msg);
   });
 }
-exports.save_cliente_edit_tag = (req, res) => {
+exports.save_cliente_edit_tag = async (req, res) => {
      
   const {id,color} = req.body
   let msg = false;
+let ids =id.split(',')
 
-  DataBase.update_cliente_tag(id,color).then((respuesta) =>{
- 
-    let id_sucursal = req.session.sucursal_select
-  //DATA-COMUNES
-  DataBase.ClientesAllS(id_sucursal).then((clientes_d)=>{
-    let clientes_arr = JSON.parse(clientes_d)
-    res.send({clientes_arr})
-
-  }).catch((err) => {
+for (let i = 0; i < ids.length; i++) {
+  console.log(ids[i])
+  await DataBase.update_cliente_tag(ids[i],color).then((respuesta) =>{
+ }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}
+
+    let id_sucursal = req.session.sucursal_select
+    let ClientesDB = ""
+    switch (req.session.tipo) {
+      case "Director":
+        ClientesDB=DataBase.ClientesAll
+        break;
+    
+      default:
+         ClientesDB=DataBase.ClientesAllS
+        break;
+    }
+    ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+    res.send({clientes_arr})
+
+  
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -807,7 +821,7 @@ exports.delete_personal = (req, res) => {
   DataBase.Delete_Personal(id_).then((respuesta) =>{
     
   let msg = "Personal Eliminado con éxito"
-  res.redirect('/personal_py4/'+msg)
+  res.sed({msg})
 
    })   
  };
@@ -903,6 +917,29 @@ return res.redirect("/errorpy4/" + msg);
 
   DataBase.actualizarUser(id_user,nombre, email, tipo, zona).then((respuesta) =>{
 
+    DataBase.UsuariobyAll().then((usuarios_)=>{
+      let usuarios_let = JSON.parse(usuarios_)
+
+      res.send({usuarios_let})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+};
+exports.cambia_pass = (req, res) => {
+   
+  const user = res.locals.user
+  const {id_, pass} = req.body
+
+  DataBase.actualizarpassW(id_, pass).then((respuesta) =>{
+console.log(respuesta)
     DataBase.UsuariobyAll().then((usuarios_)=>{
       let usuarios_let = JSON.parse(usuarios_)
 

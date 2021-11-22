@@ -36,7 +36,12 @@
                 <h4 class="card-title">Clientes</h4>
            {{#if admin}} <p class="card-text"><button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
               Cambiar Zona
-            </button>  </p>{{/if}}
+            </button> 
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
+              Cambiar Etiquetas
+            </button>
+             
+            {{/if}}
               </div>
                                            
                
@@ -53,9 +58,12 @@
                                     <thead>
                                         <tr>
                                             <th> </th>
-                                            <th>Cliente</th>
-                                            <th>Correo</th>
-                                            <th>Teléfono</th>   
+                                            <th>Nombre</th>
+                                            <th>Zona</th>
+                                            <th>Etiqueta</th>
+                                            <th>Titulo</th>
+                                            <th>Teléfono</th>
+                                            <th>Correo</th>  
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
@@ -116,12 +124,12 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="ad_tag_clienteTitle">Crear Etiqueta</h5>
+              <h5 class="modal-title" id="ad_tag_clienteTitle">Asignar etiqueta</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <form action="/ad_tag_cliente" method="post" id="post_save_cliente_edit_tag">
-                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName" tabindex="1" id="id_ad_tag_cliente" class="form-control mb-2" hidden>
+                <input type="hidden" name="nombre" placeholder="Nombre" aria-describedby="register-firstName" tabindex="1" id="id_ad_tag_cliente" class="form-control mb-2" >
                 <div class="form-group">
                   <label for="register-lastName" class="form-label">Color</label>
                   <select class="select2 form-select" id="color_tag_cliente" name="color" >
@@ -169,7 +177,7 @@
           </div>
         </div>
       </div>
-      <div class="modal fade" id="change_zone" tabindex="-1" aria-labelledby="change_zoneTitle" style="display: none;"
+    <div class="modal fade" id="change_zone" tabindex="-1" aria-labelledby="change_zoneTitle" style="display: none;"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
@@ -197,6 +205,7 @@
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="edit_cliente" tabindex="-1" aria-labelledby="edit_clienteTitle" style="display: none;"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
