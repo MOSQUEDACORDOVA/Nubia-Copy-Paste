@@ -1157,7 +1157,7 @@ PersonalAllS(id){
       return new Promise((resolve, reject) => {
         Sucursales.update(
           {
-            name: nombre, telefono: telefono}, {where:{
+            nombre: nombre, telefono: telefono}, {where:{
               id: id_Sucursales
             }})
           .then((data) => {

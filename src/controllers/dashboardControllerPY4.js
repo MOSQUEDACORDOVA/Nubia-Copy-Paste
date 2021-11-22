@@ -1491,8 +1491,10 @@ return res.redirect("/errorpy4/" + msg);
    
   const user = res.locals.user
   const {id_, nombre, telefono} = req.body
-
+  console.log(id_)
+  console.log(nombre)
   DataBase.updSucursal(id_,nombre, telefono).then((respuesta) =>{
+    console.log(respuesta)
     DataBase.Sucursales_ALl().then((sucursales_)=>{
       let sucursales_let = JSON.parse(sucursales_)
        let count = sucursales_let.length

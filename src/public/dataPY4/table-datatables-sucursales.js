@@ -40,7 +40,7 @@ console.log(valor_sucursales)
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'" onclick=\'delete_zone("'+full['id']+'")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item " onclick=\'edit_zona("'+full['id']+'")\'>' +
@@ -174,13 +174,11 @@ console.log(valor_sucursales)
       Swal.fire('Debe colocar un teléfono')
       return
     }
-    console.log('entro')
     $.ajax({
       url: `/editar_sucursales_save`,
       type: 'POST',
       data: $('#editar_zona').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
         $('#array_sucursales').val(JSON.stringify(data.sucursales_let))
         $('.datatables-basic_sucursales').dataTable().fnDestroy();
          $('.datatables-basic_sucursales').empty();
@@ -229,4 +227,41 @@ $('#edit_zone').modal('show')
     console.log('error:' + jqXHR)
   }
 });
+}
+function delete_zone(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+  var id = id_edit
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar la zona indicada",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_sucursales/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic_sucursales').DataTable().row($('.datatables-basic_sucursales tbody .delete-record').parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Zona ${id} borrado con éxito`,
+      })
+    }
+  })
 }
