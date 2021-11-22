@@ -1024,7 +1024,7 @@ PersonalAllS(id){
             matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,sucursaleId: sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Vehículo registrado con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1041,7 +1041,7 @@ PersonalAllS(id){
             }})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Vehiculo actualizado con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1080,7 +1080,7 @@ PersonalAllS(id){
     },
     vehiculosById(id){
       return new Promise((resolve, reject) => {
-        Vehiculos.findAll({where: {
+        Vehiculos.findOne({where: {
           id: id
         }})
           .then((data) => {

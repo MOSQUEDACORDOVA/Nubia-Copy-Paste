@@ -1291,7 +1291,8 @@ exports.save_vehiculos = (req, res) => {
   let msg = false;
 
   DataBase.savevehiculos(matricula, marca, modelo, anio, status, sucursal,tipo,capacidad).then((respuesta) =>{
-    res.redirect('/vehiculos_py4/'+respuesta)
+    let save_veh = JSON.parse(respuesta)
+    res.send({save_veh})
 
   }).catch((err) => {
     console.log(err)
@@ -1308,33 +1309,18 @@ exports.delete_vehiculos = (req, res) => {
   DataBase.Delete_vehiculos(id_).then((respuesta) =>{
     
   let msg = "vehiculos Eliminado con éxito"
-  res.redirect('/vehiculos_py4/'+msg)
+  res.send({msg})
 
    })   
  };
 
  exports.editar_vehiculos = (req, res) => {
   const user = res.locals.user;
-  let id_ = req.params.id
+  let id_ = req.body.id
   
 DataBase.vehiculosById(id_).then((vehiculos_)=>{
-  let vehiculos_let = JSON.parse(vehiculos_)[0]
-  DataBase.Sucursales_ALl().then((sucursales_)=>{
-    let sucursales_let = JSON.parse(sucursales_)
-res.render("PYT-4/edit_vehiculos", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  vehiculos:true,
-  vehiculos_,
-  vehiculos_let,sucursales_let
-}) 
-}).catch((err) => {
-console.log(err)
-let msg = "Error en sistema";
-return res.redirect("/errorpy4/" + msg);
-});
+  let vehiculos_let = JSON.parse(vehiculos_)
+res.send({vehiculos_let})
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -1343,20 +1329,36 @@ return res.redirect("/errorpy4/" + msg);
  };
 
  exports.save_vehiculos_py4 = (req, res) => {
-   
+  let id_sucursal = req.session.sucursal_select
   const user = res.locals.user
   const {id_vehiculo,matricula, marca, modelo, anio, status, sucursal,tipo, capacidad} = req.body
 
   DataBase.updVehiculos(id_vehiculo,matricula, marca, modelo, anio, status, sucursal,tipo, capacidad).then((respuesta) =>{
     
-    let msg=respuesta
-    res.redirect('/vehiculos_py4/'+msg)
-
+    let vehiculosAll=""
+    switch (req.session.tipo) {
+      case "Director":
+      vehiculosAll=DataBase.vehiculosAll
+        break;
+    
+      default:
+      vehiculosAll=DataBase.vehiculosAllS
+        break;
+    }
+    vehiculosAll(id_sucursal).then((vehiculos_)=>{
+      let vehiculos_let = JSON.parse(vehiculos_)
+      console.log(vehiculos_let)
+      res.send({vehiculos_let})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 //SUCURSALES

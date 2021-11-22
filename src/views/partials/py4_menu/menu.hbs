@@ -88,6 +88,7 @@ $('#bell_not').on('click', ()=>{
 })
     })
 </script>
+{{#if admin}}{{else}}<span id="otro_rol">Admin</span>{{/if}}
 <input type="text" id="array" hidden value="{{clientes_d}}">
 <input type="text" id="array_pedido" hidden value="{{pedidos_}}">
 <input type="text" id="array_sucursales" hidden value="{{sucursales_}}">

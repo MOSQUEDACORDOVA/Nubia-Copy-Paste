@@ -3,7 +3,6 @@
  */
 
  'use strict';
-
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
@@ -852,6 +851,11 @@ $.contextMenu({
   $('.even').addClass('selector'); 
 
   $('.datatables-basic tbody').on('click', '.delete-record', function (e) {    
+    if ($('#otro_rol').length) {
+      console.log('no eres admin')
+      Swal.fire("Función valida solo para directores")
+      return
+    }
     var id = e.target.classList[0]
     Swal.fire({
       title: 'Eliminar',
@@ -965,8 +969,11 @@ $('#edit_pedido').modal('show')
   });
 
   $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
-   // var id2= e.target.classList[0]
+    if ($('#otro_rol').length) {
+      console.log('no eres admin')
+      Swal.fire("Función valida solo para directores")
+      return
+    }
     var id2= e.target.classList[0]
     Swal.fire({
       title: 'Eliminar',
