@@ -203,7 +203,15 @@ function cargaTablacupones(editada) {
   'use strict';
   cargaTablacupones()
 
+  // new QRCode(document.getElementById("qrcode"), "https://bwater.mosquedacordova.com/cuponera");
 
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://bwater.mosquedacordova.com/cuponera",
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+});
   // Add New record
   // ? Remove/Update this code as per your requirements ?
   var count = 101;

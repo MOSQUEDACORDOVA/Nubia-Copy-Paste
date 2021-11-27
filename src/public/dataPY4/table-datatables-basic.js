@@ -196,7 +196,7 @@ console.log(array)
         },
       ],
       order: [[1, 'desc']],
-      dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><""<"col-sm-12 col-md-6"l><"none"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
 
@@ -208,7 +208,7 @@ console.log(array)
       "infoFiltered": "(Filtrado de _MAX_ registros totales)",
       "infoPostFix": "",
       "thousands": ",",
-      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "lengthMenu": "Mostrar _MENU_ clientes",
       "loadingRecords": "Cargando...",
       "processing": "Procesando...",
       "search": "Buscar:",
