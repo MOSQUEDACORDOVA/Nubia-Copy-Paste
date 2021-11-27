@@ -44,9 +44,7 @@ $('#select_gerente').on('change', (e)=>{
               <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
               </div>
               <div class="card-body">
-                <h4 class="card-title">Sucursales</h4>
-                <p class="card-text"> Todo el Personal de la plataforma están acá, pronto podrás filtrarlos y
-                  modificarlos rápidamente. </p>
+                <h4 class="card-title">Zonas</h4>
               </div>
               <div class="d-flex justify-content-between align-items-center mx-0 row">
 
@@ -87,7 +85,7 @@ $('#select_gerente').on('change', (e)=>{
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="addEmployedTitle">Agregar Sucursal</h5>
+            <h5 class="modal-title" id="addEmployedTitle">Agregar zona</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -140,6 +138,39 @@ $('#select_gerente').on('change', (e)=>{
               class="btn btn-primary btn-block waves-effect waves-float waves-light">Registrar</button>
           </div>
           </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edit_zone" tabindex="-1" aria-labelledby="edit_userTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit_userTitle">Editar Zona</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="editar_zona">
+              <input type="hidden" class="form-control" id="edit_id_zona" name="id_"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" required id="nombre_zona_edit">
+              </div>        
+
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" id="tlf_zona_edit">
+                </div>
+              </div>
+              </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_zona_save">Guardar</button>
+          </div>
+          </form></div>
         </div>
       </div>
     </div>

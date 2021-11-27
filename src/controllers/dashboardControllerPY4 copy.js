@@ -439,18 +439,20 @@ exports.save_cliente_edit_tag = (req, res) => {
 
 
   exports.reguserPy4 = (req, res) => {
-    
+    console.log("ENTRO AQUI")
     const { tipo, nombre, email, password} = req.body
     let msg = false;
   
     DataBase.RegUser(tipo, nombre, email, password).then((respuesta) =>{
-      res.redirect('/homepy4/'+respuesta)
-  
+        let respuesta_let = JSON.parse(respuesta)
+console.log(respuesta)
+ res.send({respuesta_let})
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
+ 
 };
 
 

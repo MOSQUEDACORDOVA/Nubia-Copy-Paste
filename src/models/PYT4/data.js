@@ -16,14 +16,14 @@ var moment = require('moment-timezone');
 
 module.exports = {
   //USUARIO
-  RegUser(tipo, nombre, email, password) {
+  RegUser(tipo, nombre, email, password, zona) {
     return new Promise((resolve, reject) => {
       Usuarios.create(
         {
-         name: nombre, tipo: tipo, email: email, password: password})
+         name: nombre, tipo: tipo, email: email, password: password, sucursaleId:zona})
         .then((data) => {
           let data_set = JSON.stringify(data);
-          resolve('Usuario registrado con éxito');
+          resolve(data_set);
           //console.log(planes);
         })
         .catch((err) => {
@@ -33,7 +33,7 @@ module.exports = {
   },
   UsuariobyId(id){
     return new Promise((resolve, reject) => {
-      Usuarios.findAll({
+      Usuarios.findOne({
         where: {
           id: id,
         },
@@ -118,7 +118,8 @@ module.exports = {
           //console.log(planes);
         })
         .catch((err) => {
-          //console.log(err);
+          console.log(err);
+          reject(err)
         });
     });
   },
@@ -144,9 +145,10 @@ module.exports = {
 
   actualizarpassW(id, password) {
     //Actualizar clave
-   // password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     ////console.log(password);
     return new Promise((resolve, reject) => {
+
       Usuarios.update(
         {
           password:password
@@ -163,7 +165,7 @@ module.exports = {
           //console.log(planes);
         })
         .catch((err) => {
-          //console.log(err);
+          reject(err);
         });
     });
   },
@@ -199,7 +201,7 @@ module.exports = {
     });
   },
 
-  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
+  update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
     return new Promise((resolve, reject) => {
       Clientes.update(
         {
@@ -239,10 +241,31 @@ module.exports = {
         });
     });
   },
+  actualizarZonaCliente(id,id_sucursal) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          sucursaleId:id_sucursal},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   ClientesAll(){
     return new Promise((resolve, reject) => {
       Clientes.findAll({include:[
         {association:Clientes.CoP },
+        {association:Clientes.Etiquetas },
       ],order: [
         // Will escape title and validate DESC against a list of valid direction parameters
         ["updatedAt", "DESC"],
@@ -282,7 +305,7 @@ module.exports = {
   
   ClientebyId(id){
     return new Promise((resolve, reject) => {
-      Clientes.findAll({where:{
+      Clientes.findOne({where:{
         id: id
       },include:[
         {association:Clientes.CoP },
@@ -570,12 +593,33 @@ console.log(hoy)
         });
     });
   },
+  LastPedidosAll(id){
+    return new Promise((resolve, reject) => {
+      Last_p.findAll({
+        include:[
+        {association:Last_p.Clientes, include:[
+          {association:Clientes.CoP}
+        ] },
+    ]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PedidosAll(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       },)
         .then((data) => {
@@ -715,11 +759,10 @@ console.log(hoy)
   PedidosAllGroupByChoferes(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[
-        {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
+        
+        {association:Pedidos.Clientes, include:[{association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal, include:[
-          {association: Personal.Vehiculos}
-        ] },        
+          {association: Personal.Vehiculos}] },        
     ]
       },{ group: ['chofer'] },)
         .then((data) => {
@@ -878,7 +921,7 @@ PersonalAllS(id){
     
     PersonalById(id){
       return new Promise((resolve, reject) => {
-        Personal.findAll({where: {
+        Personal.findOne({where: {
           id: id
         },include:[
           {association: Personal.Vehiculos}
@@ -981,7 +1024,7 @@ PersonalAllS(id){
             matricula: matricula, marca: marca, modelo: modelo, anio: anio, status: status, sucursal: sucursal, tipo:tipo, capacidad:capacidad,sucursaleId: sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Vehículo registrado con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -998,7 +1041,7 @@ PersonalAllS(id){
             }})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Vehiculo actualizado con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1037,7 +1080,7 @@ PersonalAllS(id){
     },
     vehiculosById(id){
       return new Promise((resolve, reject) => {
-        Vehiculos.findAll({where: {
+        Vehiculos.findOne({where: {
           id: id
         }})
           .then((data) => {
@@ -1102,7 +1145,7 @@ PersonalAllS(id){
             Usuarios.update({sucursaleId: data.id}, {where:{
               id: id_gerente
             }})
-            resolve('Sucursal registrada con éxito');
+            resolve('Zona registrada con éxito');
             //console.log(planes);
           })
           .catch((err) => {
@@ -1110,16 +1153,16 @@ PersonalAllS(id){
           });
       });
     },
-    updSucursal(id_Sucursales,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
+    updSucursal(id_Sucursales, nombre,telefono) {
       return new Promise((resolve, reject) => {
         Sucursales.update(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo}, {where:{
+            nombre: nombre, telefono: telefono}, {where:{
               id: id_Sucursales
             }})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Sucursal actualizada con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1146,7 +1189,7 @@ PersonalAllS(id){
     },
     Sucursales_id(id){
       return new Promise((resolve, reject) => {
-        Sucursales.findAll({where: {
+        Sucursales.findOne({where: {
           id: id
         }})
           .then((data) => {
@@ -1181,6 +1224,20 @@ PersonalAllS(id){
     Carga_initS(id){
       return new Promise((resolve, reject) => {
         Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal}]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    Carga_init(id){
+      return new Promise((resolve, reject) => {
+        Carga_init.findAll({include:[{association: Carga_init.Personal}]})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)

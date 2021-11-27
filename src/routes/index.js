@@ -56,19 +56,24 @@ router.get('/personal_py4',authControllerPY4.authenticatedUser, dashboardControl
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.personal_table);
 router.post('/save_personal_py4', dashboardControllerPY4.save_personal);
 router.get('/delete_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_personal);
-router.get('/editar_personal/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_personal);
+router.post('/editar_personal_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_personal);
+
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_personal_py4);
 
 
 router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_usuarios);
-router.post('/save_usuarios_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_usuarios_py4);
+router.post('/editar_usuario', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_usuarios);
+router.post('/save_usuarios_py4_edit', dashboardControllerPY4.save_usuarios_py4);
+router.post('/cambia_pass', dashboardControllerPY4.cambia_pass);
+
 //sucursales
 router.get('/sucursales_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.sucursales);
 router.get('/sucursales_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.sucursales);
 router.post('/save_sucursal_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_sucursal);
 router.get('/delete_sucursales/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_sucursales);
 router.get('/editar_sucursales/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales);
-router.post('/editar_sucursales', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales_save);
+router.post('/editar_sucursales', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales);
+router.post('/editar_sucursales_save', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_sucursales_save);
 
 //carga inicial
 router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.carga_inicial);
@@ -81,7 +86,7 @@ router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardContro
 router.get('/vehiculos_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.vehiculos_table);
 router.post('/save_vehiculo_py4', dashboardControllerPY4.save_vehiculos);
 router.get('/delete_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_vehiculos);
-router.get('/editar_vehiculos/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
+router.post('/editar_vehiculos', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_vehiculos);
 router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_vehiculos_py4);
 
 
@@ -99,7 +104,7 @@ router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardContr
 
 router.get('/ver_pedido/:id', dashboardControllerPY4.ver_pedido);
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
-router.get('/editar_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
+router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
 router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
 
@@ -121,12 +126,12 @@ router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
 //post
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
-router.post('/reguserPy4', dashboardControllerPY4.reguserPy4);
+router.post('/registrar_usuario',dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido_save', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
 router.post('/ad_tag_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_tag);
-
+router.post('/change_zone_client', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_zona_client);
 
 
 

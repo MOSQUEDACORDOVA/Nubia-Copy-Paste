@@ -3,18 +3,16 @@
  */
 function cargaTabla(rechar) {
   let valor = $('#array').val()
-  console.log(valor)
   let array =""
   if (rechar) {
-    console.log(rechar)
-    console.log(valor)
     array = JSON.parse(valor)
-
+console.log(array)
   }else{
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
   
-  
+  let sucursales = $('#array_sucursales').val()
+  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
 
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
@@ -38,9 +36,14 @@ function cargaTabla(rechar) {
     var dt_basic = dt_basic_table.DataTable({
       data: array,
       columns: [
+        { data: 'id' },
         { data: 'firstName' },
-        { data: 'email' }, 
+        { data: 'sucursaleId' },
+        { data: 'etiqueta' },
+        { data: 'id' },
         { data: 'telefono' },
+        { data: 'email' }, 
+        
         {   // Actions
           targets: -1,
           title: '',
@@ -51,7 +54,7 @@ function cargaTabla(rechar) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
@@ -62,11 +65,29 @@ function cargaTabla(rechar) {
       ],
       columnDefs: [
         {
-          // Avatar image/badge, Name and post
+          // For Checkboxes
           targets: 0,
+          orderable: false,
+          responsivePriority: 3,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 1,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            console.log("a"+full['firstName'])
             var $user_img = "-",
               $name = full['firstName'] + " " + full['lastName'],
               $post = "Cliente";
@@ -111,6 +132,45 @@ function cargaTabla(rechar) {
           }
         },
         {
+          // Avatar image/badge, Name and post
+          targets: 2,
+          responsivePriority: 4,
+          render: function (data, type, full, meta) {
+            let sucursal_name=""
+            for (let i = 0; i < array_sucursales.length; i++) {
+              if (array_sucursales[i]['id']==data) {
+                sucursal_name =array_sucursales[i]['nombre']  
+              }
+              
+            }
+            return (
+              '<span class="badge rounded-pill badge-light-success' +
+              '" >' +
+              sucursal_name +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 3,
+          render: function (data, type, full, meta) {
+      if (data == null) {
+        return "Sin etiqueta"
+      }else{
+        return data['etiquetas']
+      }
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 3,
+          render: function (data, type, full, meta) {
+         
+        return "S/T"
+          }
+        },
+        {
           // Label
           targets: -2,
           render: function (data, type, full, meta) {
@@ -135,7 +195,7 @@ function cargaTabla(rechar) {
           }
         },
       ],
-      order: [[2, 'desc']],
+      order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -201,6 +261,11 @@ function cargaTabla(rechar) {
   // Delete Record
   $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
    //dt_basic.row($(this).parents('tr')).remove().draw();
+   if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
    var id = e.target.classList[0]
    Swal.fire({
      title: 'Eliminar',
@@ -221,9 +286,8 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
+      return
     }
   window.location.href = `/editar_cliente/${id_edit}`;
 
@@ -232,7 +296,6 @@ function cargaTabla(rechar) {
   $('.datatables-basic tbody').on('click', '.edit_tag', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     
   });
 
@@ -244,16 +307,19 @@ function cargaTabla(rechar) {
   //  $("#home_modalBody").append(txt2);
   $("#modal_detail_garrafonesBody").empty() 
  $("#id_ad_tag_cliente").val(id_cliente);
+ console.log($("#id_ad_tag_cliente").val())
 });
 
+
 $('#btn_asignar_tag').on('click', async (e)=>{
-  if ($('#color_tag').val() =="default") {
+  console.log($('#color_tag_cliente').val())
+  if ($('#color_tag_cliente').val() =="default") {
     Swal.fire('Debe seleccionar una etiqueta')
     return
   }
   const data_C = new FormData();
   data_C.append("id", $("#id_ad_tag_cliente").val());
-  data_C.append("color", $('#color_tag').val());
+  data_C.append("color", $('#color_tag_cliente').val());
   $.ajax({
     url: `/ad_tag_cliente`,
     type: 'POST',
@@ -262,16 +328,20 @@ $('#btn_asignar_tag').on('click', async (e)=>{
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
+      console.log(data)
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
 $('#exampleClientes').append(` <thead>
 <tr>
-
-  <th>Usuario</th>
-  <th>Correo</th>
-  <th>Teléfono</th>   
-  <th>Opciones</th>
+    <th> </th>
+    <th>Nombre</th>
+    <th>Zona</th>
+    <th>Etiqueta</th>
+    <th>Titulo</th>
+    <th>Teléfono</th>
+    <th>Correo</th>  
+    <th>Opciones</th>
 </tr>
 </thead>`);
 cargaTabla('si')
@@ -283,4 +353,177 @@ $('.modal').modal('hide');
   });
   
 })
+
+$("#button_change_zone").on('click', function (e) {
+  let valoresCheck = [];
+
+  $("input[type=checkbox]:checked").each(function(){
+      valoresCheck.push(this.value);
+  });
+  if (valoresCheck.length == 0) {    
+    
+    Swal.fire('Debe seleccionar por lo menos un cliente para hacer el cambio de zona')
+
+    return
+  }else{
+    $('#change_zone').modal('show')
+  }
+$("#ids_cli").val(valoresCheck);
 });
+
+$("#button_change_tags").on('click', function (e) {
+  let valoresCheck = [];
+
+  $("input[type=checkbox]:checked").each(function(){
+      valoresCheck.push(this.value);
+  });
+  if (valoresCheck.length == 0) {    
+    
+    Swal.fire('Debe seleccionar por lo menos un cliente para hacer el cambio de etiqueta')
+
+    return
+  }else{
+    $('#ad_tag_cliente').modal('show')
+  }
+$("#id_ad_tag_cliente").val(valoresCheck);
+});
+
+  $('#change_zone_btn').on('click', async (e)=>{
+    if ($('#zona_clientes').val() =="Seleccione una Zona") {
+      Swal.fire('Debe seleccionar una zona')
+      return
+    }
+
+    $.ajax({
+      url: `/change_zone_client`,
+      type: 'POST',
+      data: $('#change_zone_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array').val(JSON.stringify(data.clientes_arr))
+  $('#exampleClientes').dataTable().fnDestroy();
+  $('#exampleClientes').empty();
+  $('#exampleClientes').append(` <thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th>  
+      <th>Opciones</th>
+  </tr>
+</thead>`);
+  cargaTabla('si')
+  $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+  $('#btn_save_edit_cliente').on('click', async (e)=>{
+
+    $.ajax({
+      url: `/editar_cliente`,
+      type: 'POST',
+      data: $('#edit_cliente_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array').val(JSON.stringify(data.clientes_arr))
+  $('#exampleClientes').dataTable().fnDestroy();
+  $('#exampleClientes').empty();
+  $('#exampleClientes').append(` <thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th>  
+      <th>Opciones</th>
+  </tr>
+</thead>`);
+  cargaTabla('si')
+  $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+});
+function edit_cliente(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_cliente_id`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#id_cliente_edited').val(data['cliente_let']['id'])
+$('#firstName_edited').val(data['cliente_let']['firstName'])
+$('#lastName_edited').val(data['cliente_let']['lastName'])
+$('#cp_select_edited').val(data['cliente_let']['estado'])
+$('#municipio_edited').val(data['cliente_let']['municipio'])
+
+if ( $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id']+ "']").length == 0 ){
+console.log(data['cliente_let']['tipo'])
+$('#select_asentamiento_edited').prepend('<option selected value="' + data['cliente_let']['cp']['id'] + '">' + data['cliente_let']['cp']['asentamiento'] + '</option>');  
+}else{
+//  $('#tipo_edit').find('option:selected').remove().end();
+  $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id'] + "']").attr("selected", true);
+}
+
+$('#coto_edited').val(data['cliente_let']['coto'])
+$('#casa_edited').val(data['cliente_let']['casa'])
+$('#calle_edited').val(data['cliente_let']['calle'])
+$('#avenida_edited').val(data['cliente_let']['avenida'])
+$('#referencia_edited').val(data['cliente_let']['referencia'])
+$('#telefono_edited').val(data['cliente_let']['telefono'])
+
+$('#nombre_familiar_1_edited').val(data['cliente_let']['nombre_familiar_1'])
+$('#apellido_familiar_1_edited').val(data['cliente_let']['apellido_familiar_1'])
+$('#telefono_familiar_1_edited').val(data['cliente_let']['telefono_familiar_1'])
+$('#nombre_familiar_2_edited').val(data['cliente_let']['nombre_familiar_2'])
+$('#apellido_familiar_2_edited').val(data['cliente_let']['apellido_familiar_2'])
+$('#telefono_familiar_2_edited').val(data['cliente_let']['telefono_familiar_2'])
+
+if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").length == 0 ){
+  $('#tipo_cliente_edited').prepend('<option selected value="' + data['cliente_let']['tipo'] + '">' + data['cliente_let']['tipo'] + '</option>');  
+  }else{
+  //  $('#metodo_pago_edit').find('option:selected').remove().end();
+    $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
+  }
+
+$('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
+$('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
+
+if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").length == 0 ){
+  console.log(data['cliente_let']['metodo_pago'])
+  $('#zona_clientes_edited').prepend('<option selected value="' + data['cliente_let']['sucursaleId'] + '">' + data['cliente_let']['sucursaleId'] + '</option>');  
+  }else{
+  //  $('#metodo_pago_edit').find('option:selected').remove().end();
+    $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").attr("selected", true);
+  }
+  $('#correo_edit_cliente_edited').val(data['cliente_let']['email'])
+$('#edit_cliente').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
