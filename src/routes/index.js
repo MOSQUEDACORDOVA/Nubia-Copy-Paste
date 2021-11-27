@@ -24,6 +24,8 @@ const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControlle
 const FileController = require('../models/PYT24/upload');
 const fileController = new FileController();
 
+const FileController4 = require('../models/PYT4/upload');
+const fileController4 = new FileController4();
 
 // Landing Page
 router.get('/', landingController.showLandingPage);
@@ -43,6 +45,7 @@ router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
+router.post('/upload-file', fileController4.subirArchivo);
 router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
@@ -80,6 +83,14 @@ router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardCo
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
 
+//Cupones
+router.get('/promociones_bw',authControllerPY4.authenticatedUser, dashboardControllerPY4.getCupones);
+router.get('/promociones_bw/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.getCupones);
+router.post('/crear_cupones',authController.authenticatedUser, dashboardControllerPY4.save_cupon);
+router.post('/edit_cupon_id',authController.authenticatedUser, dashboardControllerPY4.editCupon);
+router.post('/editar_cupones',authController.authenticatedUser, dashboardControllerPY4.saveCuponEdited);
+router.get('/borrar_cupon/:id', authController.authenticatedUser, dashboardControllerPY4.deleteCupon);
+router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
 
 //vehiculos
 router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.vehiculos_table);

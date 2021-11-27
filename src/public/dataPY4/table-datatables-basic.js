@@ -346,6 +346,7 @@ $('#exampleClientes').append(` <thead>
 </thead>`);
 cargaTabla('si')
 $('.modal').modal('hide');
+Swal.fire('Se asignó con éxito la(s) etiqueta al cliente')
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)
@@ -417,6 +418,7 @@ $("#id_ad_tag_cliente").val(valoresCheck);
 </thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
+  Swal.fire('Se cambió con éxito la(s) Zona')
       },
       error: function (jqXHR, textStatus) {
         console.log('error:' + jqXHR)
@@ -425,7 +427,7 @@ $("#id_ad_tag_cliente").val(valoresCheck);
     
   })
   $('#btn_save_edit_cliente').on('click', async (e)=>{
-
+console.log('entro aqui')
     $.ajax({
       url: `/editar_cliente`,
       type: 'POST',
@@ -449,6 +451,7 @@ $("#id_ad_tag_cliente").val(valoresCheck);
 </thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
+  Swal.fire('Se editó con éxito la información del cliente')
       },
       error: function (jqXHR, textStatus) {
         console.log('error:' + jqXHR)
@@ -513,7 +516,6 @@ $('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
 $('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
 
 if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").length == 0 ){
-  console.log(data['cliente_let']['metodo_pago'])
   $('#zona_clientes_edited').prepend('<option selected value="' + data['cliente_let']['sucursaleId'] + '">' + data['cliente_let']['sucursaleId'] + '</option>');  
   }else{
   //  $('#metodo_pago_edit').find('option:selected').remove().end();

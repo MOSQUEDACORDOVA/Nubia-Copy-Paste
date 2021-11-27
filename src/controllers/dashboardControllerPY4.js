@@ -407,7 +407,7 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
-
+console.log(req.body)
   DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
     let ClientesDB = ""
@@ -1666,3 +1666,222 @@ return res.redirect("/errorpy4/" + msg);
 });
    })   
  };
+
+ // CUPONES
+exports.getCupones = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
+  let id_sucursal = req.session.sucursal_select
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    vehiculosAll=DataBase.vehiculosAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    vehiculosAll=DataBase.vehiculosAllS
+      break;
+  }
+  //DATA-COMUNES
+  ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       ChoferesDB(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        vehiculosAll(id_sucursal).then((vehiculos_)=>{
+              let vehiculos_let = JSON.parse(vehiculos_)
+               let count = vehiculos_let.length
+ DataBase.Sucursales_ALl().then((sucursales_)=>{
+                let sucursales_let = JSON.parse(sucursales_)
+                 let count = sucursales_let.length
+
+                 DataBase.totalcupones().then((total_cupones) => {
+    let cupones_act = JSON.parse(total_cupones);
+    let cont = cupones_act.length;
+    console.log(cupones_act);
+    res.render("PYT-4/cupones", {
+      pageName: "Cupones",
+      cupones: true,
+      cupones_act,total_cupones,
+      msg,
+      dashboardPage: true,admin,
+      dashboard: true,
+      py4:true,
+      clientes_d, clientes_arr,pedidos_,choferes,choferes_,
+      vehiculos_let,  msg,
+      //NO COMUNES
+      sucursales_let, sucursales_
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+};
+
+
+exports.save_cupon = async (req, res) => {
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img} = req.body;
+  var msg = "";
+  let especial =""
+  const user = res.locals.user.id
+  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img)
+    .then((result) => {
+      let cupones_let = JSON.parse(result)
+        res.send({cupones_let})
+  }).catch((err) => {
+      return res.status(500).send("Error actualizando" + err);
+    });
+};
+
+exports.editCupon = (req, res) => {
+  let id_buscar = req.body.id;
+
+  DataBase.obtenerCuponforedit(id_buscar).then((resultado) => {
+    let parsed_cupon = JSON.parse(resultado);
+res.send({parsed_cupon})
+  });
+};
+
+exports.saveCuponEdited = async (req, res) => {
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon} = req.body;
+  var msg = "";
+  let especial =""
+  const user = res.locals.user.id
+  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img)
+    .then((result) => {
+      DataBase.totalcupones().then((total_cupones) => {
+        let cupones_act = JSON.parse(total_cupones);
+        res.send({cupones_act})
+    })
+    .catch((err) => {
+      return res.status(500).send("Error actualizando" + err);
+    });
+  })
+  .catch((err) => {
+    return res.status(500).send("Error actualizando" + err);
+  })
+};
+exports.deleteCupon = async (req, res) => {
+  let parametro_buscar = req.params.id;
+
+  DataBase.deleteCupon(parametro_buscar).then((resultado) => {
+    
+    let msg = "Cupón eliminado con exito";
+    res.send({msg});
+  });
+};
+
+exports.usar_cupon = async (req, res) => {
+  const { cupon } = req.body;
+console.log(cupon);
+  Modulo_BD.consultarCupon(cupon).then(async (resultado) => {
+    let parsed = JSON.parse(resultado)[0];
+    console.log(parsed);
+
+    if (typeof parsed === "undefined") {
+      return res.send("El cupón no existe favor verificar");
+    } else { 
+      if (parsed.cantidad_actual == 0) {
+        return res.send("Cupon agotado");
+      } else {
+        Hoy = moment(); 
+        console.log(Hoy)
+            let fecha_final= moment(Hoy).isAfter(parsed.fecha_final); // true
+                console.log(fecha_final)
+                if (fecha_final == true) {
+                  return res.send("Cupon vencido");
+                  return;
+                } else {
+          console.log("Has introducido la fecha de Hoy");
+          var cantidad_act = parsed.cantidad_actual - 1;
+          var id_cupon = parsed.id;
+          var valor = parsed.valor;
+          var nombre_cupon = parsed.nombre_cupon;
+          var tipo = parsed.tipo;
+          var fecha_uso = Hoy.toISOString()
+          var especial =parsed.especial
+          let usuario_id =0
+          if (typeof res.locals.user.id != "undefined") {
+            usuario_id = res.locals.user.id
+            
+          }
+          if (especial == "SI") {
+            let cupon_s= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
+            console.log(res.locals.user.id)
+            if (typeof res.locals.user.id == "undefined") {
+              console.log('no ha iniciado sesion para aplicar cupon')
+              return res.send(cupon_s);
+            }
+            const usado = JSON.parse( await Modulo_BD.consultarCuponesUsados(usuario_id, nombre_cupon))
+            console.log(usado)
+            if (usado != null) {
+              let cupun_sU = {'mensaje':'USADO'}
+              console.log('usado')
+              return res.send(cupun_sU);
+            }
+          }
+
+          
+
+          Modulo_BD.UpdateUsedCupon(id_cupon, cantidad_act).then(
+            (resultado_used) => {
+              console.log(especial)
+              let parsed_used = JSON.parse(resultado_used)[0];
+              Modulo_BD.CuponUsado(
+                usuario_id,
+                nombre_cupon,
+                valor,
+                fecha_uso,
+                "Servicio",
+                tipo,especial
+              ).then((resultadoaqui) => {
+                let cupon_ap= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
+                return res.send(cupon_ap);
+              })
+          .catch((err) => {
+            console.log(err)
+            return res.status(500).send("Error actualizando" + err);
+          })
+          })
+        .catch((err) => {
+          console.log(err)
+          return res.status(500).send("Error actualizando" + err);
+        });
+        }
+      }
+    }
+      })
+      .catch((err) => {
+        console.log(err)
+        return res.status(500).send("Error actualizando" + err);
+      });
+};
