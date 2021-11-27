@@ -36,13 +36,16 @@
       <section id="basic-datatable">
         <div class="row">
           <div class="scrolling-inside-modal">
-<div id="qrcode"></div>
+
             <!-- Button trigger modal -->
             <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
               data-bs-target="#add_cupon">
               Agregar
             </button>
-
+<button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
+              data-bs-target="#ver_qr">
+              Ver QR
+            </button>
           </div>
           <div class="col-12">
 
@@ -210,6 +213,26 @@
                       </div>
               </div>
              </form> 
+          </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_btn_cupon">Registrar</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+      <div class="modal fade" id="ver_qr" tabindex="-1" aria-labelledby="ver_qrTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ver_qrTitle">QR</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+<div id="qrcode"></div>
           </div>
           
           <div class="modal-footer">
