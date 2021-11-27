@@ -8,44 +8,37 @@
                             <h4 class="card-title">Nuevo Contrato</h4>
                         </div>
                         <div class="card-body">
-                            <form class="form form-vertical">
+                            <form class="form form-vertical" action="/createcontract" method="POST">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Duración</label>
-                                            <input type="text" id="" class="form-control" name="" placeholder="6 Meses">
+                                            <input type="number" id="" min="0" class="form-control" name="duration" placeholder="6 Meses">
                                         </div>
                                     </div>
 
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label class="form-label" for="email-id-vertical">Ganancia del Vendedor</label>
-                                            <input type="text" class="form-control" name="" placeholder="10%">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="">Ganancia Máxima</label>
-                                            <input type="text" class="form-control" name="email-id" placeholder="600$">
+                                            <label class="form-label" for="">Ganancia Mínima USD</label>
+                                            <input type="text" class="form-control" name="min" placeholder="300 USD">
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label class="form-label" for="">Ganancia Mínima</label>
-                                            <input type="text" class="form-control" name="" placeholder="300$">
+                                            <label class="form-label" for="">Ganancia Máxima USD</label>
+                                            <input type="text" class="form-control" name="max" placeholder="600 USD">
                                         </div>
                                     </div>
 
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Bono</label>
-                                            <input type="text" class="form-control" name="" placeholder="5%">
+                                            <input type="number" min="0" class="form-control" name="bond" placeholder="5%">
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light">Crear Contrato</button>
+                                        <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Crear Contrato</button>
                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                     </div>
                                 </div>

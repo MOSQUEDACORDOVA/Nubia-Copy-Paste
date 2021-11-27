@@ -10,17 +10,17 @@
                             <div class="col-lg-6 col-md-4 col-6">
                                 <div class="card card-statistics">
                                     <div class="card-header pb-0">
-                                        <h4 class="card-title">Pagos Pendientes</h4>
+                                        <h4 class="card-title">Retiros Pendientes</h4>
                                     </div>
                                     <div class="card-body statistics-body">
                                         <div class="d-flex align-items-start">
                                             <div class="avatar bg-light-success me-2">
                                                 <div class="avatar-content">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>
+                                                <h4 class="fw-bolder mb-0">{{avalibleBalance}} USD</h4>
                                                 <p class="card-text font-small-3 mb-0">Saldo disponible</p>
                                             </div>
                                         </div>
@@ -45,9 +45,9 @@
                                             </div>
                                             <div class="my-auto">
                                                 {{#if depositos}}
-                                                <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 depositos}}{{/capitalinvertidopy24}}</h4>
+                                                <h4 class="fw-bolder mb-0">{{#capitalinvertidopy24 depositos}}{{/capitalinvertidopy24}} USD</h4>
                                                 {{else}}
-                                                <h4 class="fw-bolder mb-0">$0</h4>
+                                                <h4 class="fw-bolder mb-0">0 USD</h4>
                                                 {{/if}}
                                                 <p class="card-text font-small-3 mb-0">Capital invertido</p>
                                             </div>
@@ -65,16 +65,16 @@
                                     </div>
                                     <div class="card-body statistics-body">
                                         <div class="d-flex align-items-start">
-                                            <div class="avatar bg-light-success me-2">
+                                            <div class="avatar bg-light-warning me-2">
                                                 <div class="avatar-content">
                                                     <i data-feather='trending-up' style="width: 20px; height: 20px;"></i>
                                                 </div>
                                             </div>
                                             <div class="my-auto">
                                                 {{#if depositos}}
-                                                <h4 class="fw-bolder mb-0">${{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}}</h4>
+                                                <h4 class="fw-bolder mb-0">{{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}} USD</h4>
                                                 {{else}}
-                                                <h4 class="fw-bolder mb-0">$0</h4>
+                                                <h4 class="fw-bolder mb-0">0 USD</h4>
                                                 {{/if}}
                                                 <p class="card-text font-small-3 mb-0">Ganancias generales</p>
                                             </div>
@@ -98,8 +98,8 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0">$100</h4>
-                                                <p class="card-text font-small-3 mb-0">Pagos para referidos</p>
+                                                <h4 class="fw-bolder mb-0">100 USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Pagos para vendedores</p>
                                             </div>
                                         </div>
                                     </div>

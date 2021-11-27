@@ -2,7 +2,7 @@
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <div class="row justify-content-center justify-content-lg-start">
-                <div class="col-12 col-md-8 col-lg-6">
+                <div class="col-12 col-lg-6">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Nuevo Contrato</h4>
@@ -10,6 +10,16 @@
                         <div class="card-body">
                             <form class="form form-vertical">
                                 <div class="row">
+                                    <div class="col-12">
+                                        <div class="mb-1">
+                                            <label class="form-label" for="email-id-vertical">Tipo de Contrato</label>
+                                            <select name="" id="" class="form-select">
+                                                <option value="">Ganancia Mínima de 100 USD - 350 USD Máxima</option>
+                                                <option value="">Ganancia Mínima de 200 USD - 400 USD Máxima</option>
+                                                <option value="">Ganancia Mínima de 500 USD - 700 USD Máxima</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Inversión</label>
@@ -19,14 +29,10 @@
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Duración</label>
-                                            <select name="" id="" class="form-select">
-                                                <option value="">3 Meses</option>
-                                                <option value="">6 Meses</option>
-                                                <option value="">1 Año</option>
-                                            </select>
+                                            <input type="text" class="form-control" value="6 Meses" placeholder="6 Meses" readonly>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <!--<div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Ganancia Mínima</label>
                                             <select name="" id="" class="form-select">
@@ -45,7 +51,7 @@
                                                 <option value="">800$</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>-->
                                     <div class="col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Bono</label>
@@ -58,6 +64,19 @@
                                     </div>
                                 </div>
                             </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12 col-lg-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h4 class="card-title">Proyección de Contrato</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div style="height:350px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="line-chart-ex chartjs chartjs-render-monitor" data-height="450" width="1790" height="900" style="display: block; width: 895px; height: 350px;"></canvas></div>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY21');
 const Usuarios = require('../../models/PYT21/Usuarios');
-const Paquetes = require('../../models/PYT21/Packages');
+const Contratos = require('./Contratos');
 const MetodosPagos = require('../../models/PYT21/MetodosPago');
 // DEPOSITOS
 
@@ -27,8 +27,8 @@ const Depositos = db24.define('depositos', {
 		type: DataTypes.STRING(100),
 		allowNull: true,
 	},
-	amount: {
-		type: DataTypes.INTEGER,
+	investment_amount: {
+		type: DataTypes.INTEGER(255),
 		allowNull: false,
 		defaultValue: 0
 	},
@@ -88,6 +88,6 @@ const Depositos = db24.define('depositos', {
 	}
 });
 
-Depositos.Paquetes = Depositos.belongsTo(Paquetes);
+Depositos.Contratos = Depositos.belongsTo(Contratos);
 Depositos.MetodosPagos = Depositos.belongsTo(MetodosPagos);
 module.exports = Depositos;

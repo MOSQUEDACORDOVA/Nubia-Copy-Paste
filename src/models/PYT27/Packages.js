@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
-const db24 = require('../../config/dbPY21');
+const db27 = require('../../config/dbPY27');
 // PAQUETES
-const PAQUETES = db24.define('paquetes', {
+const PAQUETES = db27.define('paquetes', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,

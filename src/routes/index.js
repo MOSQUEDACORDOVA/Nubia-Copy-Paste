@@ -6,7 +6,6 @@ const authController = require('../controllers/authController');
 const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
-const dashboardControllerPY27 = require('../controllers/dashboardControllerPY27');
 const landingController = require('../controllers/landingController');
 const passport = require('passport');
 
@@ -19,6 +18,12 @@ const dashboardControllerPY21 = require('../controllers/PYT21/dashboardControlle
 const userControllerPY24 = require('../controllers/PYT24/userControllerPY24');
 const authControllerPY24 = require('../controllers/PYT24/authControllerPY24');
 const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControllerPY24');
+/*---------------------------------*/
+
+/*------------- PYT27 -------------*/
+const userControllerPY27 = require('../controllers/PYT27/userControllerPY27');
+const authControllerPY27 = require('../controllers/PYT27/authControllerPY27');
+const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControllerPY27');
 /*---------------------------------*/
 
 const FileController = require('../models/PYT24/upload');
@@ -171,9 +176,15 @@ router.get('/pay/:id', authControllerPY21.authenticatedAdmin, dashboardControlle
 router.get('/paymethods/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.paymethods);
 router.get('/duration/:id', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.duration);
 
-//POST
+// POST
+// * AUTH
 router.post('/loginpy21', dashboardControllerPY21.sesionstart);
 router.post('/reguserpy21', dashboardControllerPY21.reguserpy21);
+
+// TODO: --- CONTRATOS ADMIN
+router.post('/createcontract', dashboardControllerPY21.createcontract);
+
+
 
 // MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
 router.post('/getdepositspy21', authControllerPY21.authenticatedAdmin, dashboardControllerPY21.getdeposits);
@@ -230,6 +241,7 @@ router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardContro
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
 
 router.get('/web/:id', dashboardControllerPY24.web);
+router.get('/privacy/:id', dashboardControllerPY24.privacy);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
@@ -244,6 +256,7 @@ router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardContr
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
 router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
+
 // MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
 router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
@@ -265,10 +278,13 @@ router.post('/regreferpy24', dashboardControllerPY24.reguserreferpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
+// OBTENER MAQUINAS DE MINADO 
+router.get('/getmachines', authControllerPY24.authenticatedUser, dashboardControllerPY24.getmachines);
 // ELIMINAR MAQUINA DE MINADO 
 router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
+
 // ACTUALIZAR PRECIO TH
 router.post('/updateth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateth);
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
@@ -325,8 +341,10 @@ router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboar
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
-// APROBAR
+// SOLICITAR PAGO USUARIO
 router.post('/solicitpay', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitpay);
+// PAGAR A USUARIO ADMIN
+router.post('/payuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.payuser);
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);
@@ -337,17 +355,59 @@ router.post('/upload', fileController.subirArchivo);
 // Cerrar Sesión
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
-// 404
-router.use((req, res, next) => {
-    res.status(404).redirect('/error24/PYT-24')
-})
 
 
 
-//PYT-27
+// PYT-27 --- AEROCOINS
 router.get('/py27/:id', dashboardControllerPY27.dashboard);
 
+router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
+router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 
+router.get('/web/:id', dashboardControllerPY27.web);
+router.get('/privacy/:id', dashboardControllerPY27.privacy);
+router.get('/register27/:id', dashboardControllerPY27.register);
+
+router.get('/login27/:id', dashboardControllerPY27.login);
+router.get('/error27/:id', dashboardControllerPY27.error);
+// AEROCOIN PRESALE
+router.get('/aeropresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.aeropresale);
+router.get('/depositaero/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.depositaero);
+// CONTROL DE MONEDA AERO COIN
+router.get('/aero/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.aerocoin);
+router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
+
+
+// AUTH
+router.post('/loginpy27', dashboardControllerPY27.sesionstart);
+router.post('/reguserpy27', dashboardControllerPY27.reguserpy27);
+
+// APROBAR
+router.post('/startdepositaero', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.startdepositaero);
+
+// AÑADIR PRECIO DE AEROCOIN
+router.post('/addaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addaerocoin);
+// ACTUALIZAR PRECIO AEROCOIN
+router.post('/updateaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaerocoin);
+// COMPRAR AEROCOINS
+router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
+
+// Cerrar Sesión
+router.get('/logout/PYT-27', userControllerPY27.closeSesion);
+
+
+// 404
+/*
+router.use((req, res, next) => {
+  res.status(404).redirect('/error404/PYT-21')
+})
+router.use((req, res, next) => {
+  res.status(404).redirect('/error24/PYT-24')
+})
+*/
+router.use((req, res, next) => {
+  res.status(404).redirect('/error27/PYT-27')
+})
 
 //router.get('/micuenta',authController.authenticatedUser, dashboardController.micuenta);
 //router.get('/minegocio',authController.authenticatedUser, dashboardController.minegocio);

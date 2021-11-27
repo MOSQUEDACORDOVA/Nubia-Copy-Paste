@@ -1,0 +1,219 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<div class="app-content content">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <!-- Analytics card section -->
+            <section id="analytics-card">
+                <div class="row">          
+                    {{#if aerocoin}}
+                    <div class="col-12 col-lg-6 col-xl-5">
+                        <div class="card card-statistics">
+                            <div class="card-header">
+                                <h4 class="card-title">Actualizar Precio</h4>
+                            </div>
+                            <div class="card-body statistics-body">
+                                <div class="row">
+                                    {{!-- PRECIO AEROCOIN --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-primary me-2">
+                                                <div class="avatar-content">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up text-primary avatar-icon"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{aerocoin.price}} USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Precio AeroCoin</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- PRECIO AEROCOIN --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Establecer Precio de AeroCoin</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form form-vertical" method="POST" action="/addaerocoin">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Precio de AeroCoin</label>
+                                                <input type="number" class="form-control" name="price" placeholder="60$ c/u" min="0" step="0.1"  required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar</button>
+                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}} 
+
+                </div>
+            </section>
+            <!--/ Analytics Card section -->
+
+            {{#if aerocoin}}
+            {{!-- PRECIO AEROCOIN MODAL --}}
+            <div class="modal fade" id="addNewCard" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Precio</h1>
+                            <p class="text-center">Establecer precio de AeroCoin</p>
+
+                            <!-- form -->
+                            <form id="priceform" method="post" action="/updateaerocoin" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Precio de AeroCoin USD</label>
+                                    <input type="text" name="id" class="d-none" value="{{aerocoin.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="price" name="price" class="form-control" type="number" min="0" placeholder="5$" step="0.1" value="{{aerocoin.price}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- PRECIO AEROCOIN MODAL --}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let AllMachines = document.querySelectorAll('.machines');
+    let idMach = document.getElementById('idMachine');
+
+    if(AllMachines.length) {
+        let machModal = document.getElementById('machineInfo'),
+        machineNum = document.getElementById('machineNum'),
+        machineGrap = document.getElementById('machineGrap'),
+        machineCapacity = document.getElementById('machineCapacity'),
+        machineSoldOut = document.getElementById('machineSoldOut'),
+        machineAvalible = document.getElementById('machineAvalible');
+
+        AllMachines.forEach(machine => {
+            machine.addEventListener('click', (e) =>  {
+                SetMachineInfo(e.target);
+            });
+        });
+
+        SetInfo();
+    }
+
+    const SetMachineInfo = (mach) => {
+        if(mach) {
+            let num = mach.childNodes[1].childNodes[1].innerText,
+            total = parseInt(mach.getAttribute('data-machine-capacity')),
+            sold = parseInt(mach.getAttribute('data-machine-sold')),
+            aval = parseInt(mach.getAttribute('data-machine-avalible'));
+
+            idMach.value = mach.getAttribute('data-machine-id')
+            SetGrap(sold, total, aval);
+        }
+    }
+
+    function SetInfo () {
+        let num = AllMachines[0].childNodes[1].childNodes[1].innerText,
+        total = parseInt(AllMachines[0].getAttribute('data-machine-capacity')),
+        sold = parseInt(AllMachines[0].getAttribute('data-machine-sold')),
+        aval = parseInt(AllMachines[0].getAttribute('data-machine-avalible'));
+
+        idMach.value = parseInt(AllMachines[0].getAttribute('data-machine-id'));
+        machineNum.innerText = num;
+        SetGrap(sold, total, aval);
+    }
+
+    function SetGrap (sold, total, aval) {
+        const grapCont = document.getElementById('grapContainer');
+        let grap = document.getElementById('chart2'), clone = grap.cloneNode(true);
+        grap.remove();
+        grapCont.appendChild(clone);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [sold, total, aval],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart2'),
+            config
+        );
+
+    }
+</script>
+<script>
+    // GRAFICA GENERAL
+    let total = document.getElementById('total'),
+    disponibles = document.getElementById('disponibles'),
+    vendidos = document.getElementById('vendidos');
+
+    if(total && disponibles && vendidos) {
+        total = parseInt(total.innerText);
+        disponibles = parseInt(disponibles.innerText);
+        vendidos = parseInt(vendidos.innerText);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [vendidos, total, disponibles],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
+    }
+</script>

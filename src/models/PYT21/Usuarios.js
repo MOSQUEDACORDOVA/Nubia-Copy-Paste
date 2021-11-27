@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY21');
 const bcrypt = require('bcrypt-nodejs');
-const Paquetes = require('../PYT21/Packages');
 const Depositos = require('../PYT21/Depositos');
 
 // USUARIOS

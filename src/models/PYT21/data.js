@@ -2,12 +2,13 @@ const { Op, where } = require("sequelize");
 const db21 = require("../../config/dbPY21");
 const bcrypt = require("bcrypt-nodejs");
 const Usuarios = require("../../models/PYT21/Usuarios");
-const Paquetes = require("../../models/PYT21/Packages");
+const Contratos = require("./Contratos");
 const MPagos = require("../../models/PYT21/MetodosPago");
 const Pays = require("../../models/PYT21/Payments");
 const Depositos = require("../../models/PYT21/Depositos");
 const MetodosRetiros = require("../../models/PYT21/Retreats");
 const Referidos = require("../../models/PYT21/Referidos");
+const { max } = require("./Contratos");
 
 module.exports = {
     //USUARIO
@@ -528,7 +529,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'No verificado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -548,7 +549,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'No verificado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -568,7 +569,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -588,7 +589,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'No verificado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -608,7 +609,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'Aprobado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -628,7 +629,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'Aprobado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -648,7 +649,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -668,7 +669,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'Aprobado'},
           include:[
-          {association:Depositos.Paquetes},
+          {association:Depositos.Contratos},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -698,12 +699,12 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON CONTRATOS
     GetAllDepositsUser(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{usuarioId: id},
           include:[
-            {association:Depositos.Paquetes },
+            {association:Depositos.Contratos },
           ],order: [
             ["id", "DESC"],
           ],
@@ -717,14 +718,14 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON Contratos
     GetAllDepositsAdmin(){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{status: {
           [Op.ne]: 'No verificado'
         }},
           include:[
-            {association:Depositos.Paquetes },
+            {association:Depositos.Contratos },
           ],order: [
             ["id", "DESC"],
           ],
@@ -743,7 +744,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -763,7 +764,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -783,7 +784,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'BTC', usuarioId: id},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -803,7 +804,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -823,7 +824,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria'},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -843,7 +844,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Pago Movil'},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -863,7 +864,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'BTC'},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -883,7 +884,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Billetera Digital'},
           include:[
-          {association:Depositos.Paquetes },
+          {association:Depositos.Contratos },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -1178,7 +1179,7 @@ module.exports = {
         Pays.findAll({where:{status: 'Pagado', usuarioId: id},
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
+          {association:Pays.Contratos },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos },
         ],order: [
@@ -1200,7 +1201,7 @@ module.exports = {
         Pays.findAll({where:{ status: 'Pendiente', usuarioId: id },
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
+          {association:Pays.Contratos },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos, where: {
             status: 'Finalizado'
@@ -1224,7 +1225,7 @@ module.exports = {
         Pays.findAll({where:{status: 'Solicitado' },
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
+          {association:Pays.Contratos },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos },
         ],order: [
@@ -1375,10 +1376,10 @@ module.exports = {
           });
       });
     },
-    // CREAR PAQUETES
+    // CREAR CONTRATOS
     CreatePackages(name, price, duration, amount, maintance) {
       return new Promise((resolve, reject) => {
-        Paquetes.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
+        Contratos.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve('Datos agregados satisfactoriamente');
@@ -1388,23 +1389,24 @@ module.exports = {
         });
       });
     },
-    // CREAR PAQUETES PERSONALIZADOS
-    CreatePackagesPers(price, duration, amount, maintance) {
+    // * CONTRATOS
+    // CREAR CONTRATOS ADMIN
+    CreateContract(dur, min, max, bond) {
       return new Promise((resolve, reject) => {
-        Paquetes.create({ price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
+      Contratos.create({ duration: dur, min_earnings: min, max_earnings: max, bond: bond })
         .then((data) => {
-          let data_set = JSON.stringify(data);
-          resolve(data_set);
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
         })
         .catch((err) => {
-          reject(err);
+            reject(err)
         });
       });
     },
-    // ACTUALIZAR SALDO MINIMO DE RETIRO
+    // ACTUALIZAR PAQUETES
     UpdatePackages(id, name, price, duration, amount, maintance) {
       return new Promise((resolve, reject) => {
-      Paquetes.update(
+      Contratos.update(
           {
             name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance
           }, { where:{
@@ -1419,10 +1421,10 @@ module.exports = {
           });
       });
     },
-    // ELIMINAR PAQUETES
+    // ELIMINAR CONTRATOS
     DeletePackages(id){
       return new Promise((resolve, reject) => {
-        Paquetes.destroy({where:{
+        Contratos.destroy({where:{
           id: id
         }
         },)
@@ -1435,10 +1437,10 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS PAQUETES
+    // OBTENER TODOS LOS CONTRATOS
     GetPackages() {
       return new Promise((resolve, reject) => {
-        Paquetes.findAll({
+        Contratos.findAll({
           where: {
             name: {
               [Op.ne]: null
