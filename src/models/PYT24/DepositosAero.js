@@ -3,7 +3,7 @@ const db24 = require('../../config/dbPY24');
 const MetodosPagos = require('./MetodosPago');
 // DEPOSITOS
 
-const DepositosAero = db24.define('depositosAero', {
+const depositosaeros = db24.define('depositosaeros', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -46,5 +46,5 @@ const DepositosAero = db24.define('depositosAero', {
 	},
 });
 
-DepositosAero.MetodosPagos = DepositosAero.belongsTo(MetodosPagos);
-module.exports = DepositosAero;
+depositosaeros.MetodosPagos = depositosaeros.belongsTo(MetodosPagos);
+module.exports = depositosaeros;

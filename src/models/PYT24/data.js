@@ -8,7 +8,7 @@ const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
 const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
-const DepositosAero = require("../../models/PYT24/DepositosAero");
+const depositosaeros = require("../../models/PYT24/DepositosAero");
 const MetodosRetiros = require("../../models/PYT24/Retreats");
 const Referidos = require("../../models/PYT24/Referidos");
 const AeroCoin = require("../../models/PYT24/AeroCoin");
@@ -853,9 +853,9 @@ module.exports = {
     // OBTENER DEPOSITOS DE USUARIOS BTC AERO
     GetDepositsBTCAero(id){
       return new Promise((resolve, reject) => {
-        DepositosAero.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+        depositosaeros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
           include:[
-          {association:DepositosAero.MetodosPagos },
+          {association:depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -872,9 +872,9 @@ module.exports = {
     // OBTENER DEPOSITOS AEROCOINS DE USUARIOS
     GetDepositsAeroBTC(id){
       return new Promise((resolve, reject) => {
-        DepositosAero.findAll({where:{usuarioId: id},
+        depositosaeros.findAll({where:{usuarioId: id},
           include:[
-          {association: DepositosAero.MetodosPagos },
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -891,9 +891,9 @@ module.exports = {
     // OBTENER AEROCOINS DE USUARIOS
     GetCoinsAeroBTC(id){
       return new Promise((resolve, reject) => {
-        DepositosAero.findAll({where:{status: 'Aprobado', usuarioId: id},
+        depositosaeros.findAll({where:{status: 'Aprobado', usuarioId: id},
           include:[
-          {association: DepositosAero.MetodosPagos },
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -990,9 +990,9 @@ module.exports = {
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
     GetAllPendingDepositsBTCAero(){
       return new Promise((resolve, reject) => {
-        DepositosAero.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
+        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
           include:[
-          {association:DepositosAero.MetodosPagos },
+          {association:depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -1009,9 +1009,9 @@ module.exports = {
     // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC AEROCOINS
     GetAllCompleteDepositsBTCAero(){
       return new Promise((resolve, reject) => {
-        DepositosAero.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
+        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
           include:[
-          {association: DepositosAero.MetodosPagos },
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -1086,7 +1086,7 @@ module.exports = {
     // APROBAR DEPOSITOS
     UpdateDepositsAero(id, activated){
       return new Promise((resolve, reject) => {
-        DepositosAero.update({
+        depositosaeros.update({
           status: 'Aprobado',
           activatedAt: activated,
         }, { where: {
@@ -1513,7 +1513,7 @@ module.exports = {
     // COMPRAR AEROCOINS USUARIOS
     BuyAeroCoin(name, dni, email, amountCoin, amount, idmethod, userid) {
       return new Promise((resolve, reject) => {
-        DepositosAero.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, metodosPagoId: idmethod, usuarioId: userid })
+        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, metodosPagoId: idmethod, usuarioId: userid })
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve(data_set);
