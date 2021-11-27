@@ -212,8 +212,10 @@ router.get('/controlroles/:id', authControllerPY24.authenticatedUser, dashboardC
 router.get('/boardpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.boardpresale);
 router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.presale);
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
+router.get('/depositaero/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositaero);
 
 router.get('/web/:id', dashboardControllerPY24.web);
+router.get('/privacy/:id', dashboardControllerPY24.privacy);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
@@ -227,7 +229,10 @@ router.get('/notauthorized24/:id', dashboardControllerPY24.notauthorized);
 router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.config);
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
 router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
+router.get('/depositsaeroadmin/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsaeroadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
+// AEROCOIN PRESALE
+router.get('/aeropresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.aeropresale);
 // MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
 router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
@@ -236,6 +241,9 @@ router.get('/users24/:id', authControllerPY24.authenticatedAdmin, dashboardContr
 router.get('/paymethods24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.paymethods);
 router.get('/th/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.th);
 router.get('/paym/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.paymanag);
+
+// CONTROL DE MONEDA AERO COIN
+router.get('/aero/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.aerocoin);
 
 // router.get('/profile24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.profile);
 // router.get('/contracts24/:id', dashboardControllerPY24.contracts);
@@ -255,6 +263,14 @@ router.get('/getmachines', authControllerPY24.authenticatedUser, dashboardContro
 router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
+
+// AÑADIR PRECIO DE AEROCOIN
+router.post('/addaerocoin', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addaerocoin);
+// ACTUALIZAR PRECIO AEROCOIN
+router.post('/updateaerocoin', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateaerocoin);
+// COMPRAR AEROCOINS
+router.post('/buyaerocoins', authControllerPY24.authenticatedUser, dashboardControllerPY24.buyaerocoins);
+
 // ACTUALIZAR PRECIO TH
 router.post('/updateth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateth);
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
@@ -318,6 +334,8 @@ router.post('/payuser', authControllerPY24.authenticatedAdmin, dashboardControll
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);
+// APROBAR
+router.post('/startdepositaero', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdepositaero);
 // SUBIR IMAGEN
 router.post('/upload', fileController.subirArchivo);
 
