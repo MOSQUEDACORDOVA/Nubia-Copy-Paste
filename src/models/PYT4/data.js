@@ -12,6 +12,8 @@ const Sucursales = require("../../models/PYT4/Sucursales");
 const Carga_init = require("../../models/PYT4/Carga_init");
 const Last_p = require("../../models/PYT4/Last_pedido");
 const Etiquetas = require("../../models/PYT4/Etiquetas");
+const Cupones = require("../../models/PYT4/Cupones");
+const Used_cupons = require("../../models/PYT4/Used_cupons");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -1338,4 +1340,223 @@ PersonalAllS(id){
               });
           });
         },
+
+        
+  //CUPONES
+  totalcupones() {
+    return new Promise((resolve, reject) => {
+      Cupones.findAll()
+        .then((res) => {
+          let about = JSON.stringify(res);
+          resolve(about);
+          ////console.log(JSON.stringify(users));
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img) {
+    let now = new Date();
+    fecha = now.toString();
+    return new Promise((resolve, reject) => {
+          // Item not found, create a new one
+          Cupones.create({
+            nombre_cupon:nombre_cupon,
+nombre_proveedor:nombre_proveedor,
+ws_proveedor:ws_proveedor,
+fecha_inicio:fecha_inicio,
+fecha_final:fecha_final,
+cantidad:cantidad,
+cantidad_actual:cantidad,
+categoria:categoria,
+especial:especial,
+img:img,
+usuarioId:id_usuario
+          })
+            .then((res) => {
+              let about = JSON.stringify(res);
+              resolve(about);
+              //console.log(about);
+            })
+      }).catch((err) => {
+        //console.log(err);
+        reject(err)
+      });
+  },
+  obtenerCuponforedit(id) {
+    return new Promise((resolve, reject) => {
+      Cupones.findOne({
+        where: {
+          id: id,
+        },
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          //console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img) {
+    let now = new Date();
+    fecha = now.toString();
+    //console.log(fecha_inicio);
+    //console.log(fecha_final);
+    return new Promise((resolve, reject) => {
+      Cupones.update(
+        {nombre_cupon:nombre_cupon,
+          nombre_proveedor:nombre_proveedor,
+          ws_proveedor:ws_proveedor,
+          fecha_inicio:fecha_inicio,
+          fecha_final:fecha_final,
+          cantidad:cantidad,
+          cantidad_actual:cantidad,
+          categoria:categoria,
+          especial:especial,
+          img:img,
+          usuarioId:user
+        },
+        {
+          where: {
+            id: id_cupon,
+          },
+        }
+      )
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  deleteCupon(parametro_buscar) {
+    return new Promise((resolve, reject) => {
+      Cupones.destroy({
+        where: {
+          id: parametro_buscar,
+        },
+      }).then(() => {
+        //let gates= JSON.stringify(users)
+        resolve("respuesta exitosa");
+        ////console.log(JSON.stringify(users));
+      }).catch((err) => {
+        //console.log(err);
+        reject(err)
+      });
+    });
+  },
+  consultarCupon(consultar) {
+    return new Promise((resolve, reject) => {
+      Cupones.findOne({
+        where: {
+          [Op.or]: [{ nombre_cupon: consultar }],
+        },
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          //console.log(ress);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  UpdateUsedCupon(id, cantidad) {
+    let now = new Date();
+    fecha = now.toString();
+    return new Promise((resolve, reject) => {
+      Cupones.update(
+        { cantidad_actual: cantidad },
+        {
+          where: {
+            id: id,
+          },
+        }
+      )
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+          //console.log(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  CuponUsado(fecha_uso, usado_por, id_cupon, id_cliente) {
+    return new Promise((resolve, reject) => {
+      Used_cupons.create({
+        fecha_uso: fecha_uso,
+        usado_por: usado_por,
+        cuponeId: id_cupon,
+        clienteId: id_cliente
+      })
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+          // //console.log(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  obtenerCuponesUsados(id_usuario) {
+    return new Promise((resolve, reject) => {
+      Used_cupons.findAll({
+        where: {
+          clienteId: id_usuario,
+        },include:[{association: Used_cupons.Cupones}],
+        // order: [
+        //   ["updatedAt", "DESC"],
+        // ],
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          ////console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  consultarCuponesUsados(usuario_id, nombre_cupon) {
+    return new Promise((resolve, reject) => {
+      Used_cupons.findOne({
+        where: {
+          id_usuario: usuario_id,
+          nombre_cupon: nombre_cupon,
+          especial:'SI'
+        },
+        order: [
+          // Will escape title and validate DESC against a list of valid direction parameters
+          ["updatedAt", "DESC"],
+        ],
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          ////console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
 };
