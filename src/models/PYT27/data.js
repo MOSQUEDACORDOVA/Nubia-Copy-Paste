@@ -1,38 +1,23 @@
 const { Op, where } = require("sequelize");
-const db21 = require("../../config/dbPY21");
+const db27 = require("../../config/dbPY27");
 const bcrypt = require("bcrypt-nodejs");
-const Usuarios = require("../../models/PYT21/Usuarios");
-const Contratos = require("./Contratos");
-const MPagos = require("../../models/PYT21/MetodosPago");
-const Pays = require("../../models/PYT21/Payments");
-const Depositos = require("../../models/PYT21/Depositos");
-const MetodosRetiros = require("../../models/PYT21/Retreats");
-const Referidos = require("../../models/PYT21/Referidos");
-const { max } = require("./Contratos");
+const Usuarios = require("../../models/PYT27/Usuarios");
+const Paquetes = require("../../models/PYT27/Packages");
+const MPagos = require("../../models/PYT27/MetodosPago");
+const Pays = require("../../models/PYT27/Payments");
+const Depositos = require("../../models/PYT27/Depositos");
+const depositosaeros = require("../../models/PYT27/DepositosAero");
+const MetodosRetiros = require("../../models/PYT27/Retreats");
+const AeroCoin = require("../../models/PYT27/AeroCoin");
 
 module.exports = {
-    //USUARIO
-    RegUser(username, email, password) {
+    // REGISTRO DE USUARIOS
+    RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password) {
         return new Promise((resolve, reject) => {
-        Usuarios.create({ username: username, email: email, password: password, type_user: 'Inversionista' })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Usuario registrado con éxito');
-            })
-            .catch((err) => {
-                reject(err)
-            });
-        });
-    },
-      // REFERIDOS USUARIO
-      SearchUserRefer(code) {
-        return new Promise((resolve, reject) => {
-        Usuarios.findAll({ where: {
-          refer_code: code
-        }})
+        Usuarios.create({first_name: fname, last_name: lname, date_of_birth: bdate, gender: gender, doc_type: dtype, num_document: numdoc, nationality: nationality, country: country, city: city, phone: phone, address: address, username: username, email: email, password: password, type_user: 'Inversionista' })
           .then((data) => {
               let data_set = JSON.stringify(data);
-              resolve(data_set);
+              resolve('Usuario registrado con éxito');
           })
           .catch((err) => {
               reject(err)
@@ -481,33 +466,6 @@ module.exports = {
           });
       });
     },
-    // AÑADIR MAQUINA DE MINADO
-    AddMachineTH(amount) {
-      return new Promise((resolve, reject) => {
-        Maquinas.create({ th_capacity: amount, sold_out: 0, avalible: amount })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Maquina de minado registrada con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODAS LAS MAQUINAS DE MINADO
-    GetMachineTH() {
-      return new Promise((resolve, reject) => {
-        Maquinas.findAll()
-            .then((data) => {
-              let data_p = JSON.stringify(data);
-              console.log(data)
-              resolve(data_p);
-            })
-            .catch((err) => {
-              reject(err)
-            });
-      });
-    },
     // CREAR DEPOSITO
     CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_method, id_user) {
       console.log(id_pack)
@@ -529,7 +487,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'No verificado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -549,7 +507,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'No verificado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -569,7 +527,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -589,7 +547,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'No verificado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -609,7 +567,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'Aprobado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -629,7 +587,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'Aprobado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -649,7 +607,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -669,7 +627,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'Aprobado'},
           include:[
-          {association:Depositos.Contratos},
+          {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -699,12 +657,12 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON CONTRATOS
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
     GetAllDepositsUser(id){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{usuarioId: id},
           include:[
-            {association:Depositos.Contratos },
+            {association:Depositos.Paquetes },
           ],order: [
             ["id", "DESC"],
           ],
@@ -718,14 +676,14 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON Contratos
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
     GetAllDepositsAdmin(){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{status: {
           [Op.ne]: 'No verificado'
         }},
           include:[
-            {association:Depositos.Contratos },
+            {association:Depositos.Paquetes },
           ],order: [
             ["id", "DESC"],
           ],
@@ -744,7 +702,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -764,7 +722,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -784,8 +742,65 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'BTC', usuarioId: id},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS DE USUARIOS BTC AERO
+    GetDepositsBTCAero(id){
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:depositosaeros.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER DEPOSITOS AEROCOINS DE USUARIOS
+    GetDepositsAeroBTC(id){
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({where:{usuarioId: id},
+          include:[
+          {association: depositosaeros.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER AEROCOINS DE USUARIOS
+    GetCoinsAeroBTC(id){
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({where:{status: 'Aprobado', usuarioId: id},
+          include:[
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -804,7 +819,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -824,7 +839,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria'},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -844,7 +859,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Pago Movil'},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -864,8 +879,46 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'BTC'},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
+    GetAllPendingDepositsBTCAero(){
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
+          include:[
+          {association:depositosaeros.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC AEROCOINS
+    GetAllCompleteDepositsBTCAero(){
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
+          include:[
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -884,7 +937,7 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Depositos.findAll({where:{transaction_type: 'Billetera Digital'},
           include:[
-          {association:Depositos.Contratos },
+          {association:Depositos.Paquetes },
           {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
@@ -899,7 +952,7 @@ module.exports = {
           });
       });
     },
-    // APROBAR DEPOSITOS
+    // CULMINAR DEPOSITOS
     CulminateDeposits(id){
       return new Promise((resolve, reject) => {
         Depositos.update({
@@ -924,6 +977,25 @@ module.exports = {
           status: 'Aprobado',
           activatedAt: activated,
           culmination: culminated,
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data)[0];
+            console.log(data_s)
+            resolve('DEPOSITO APROBADO !!');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // APROBAR DEPOSITOS
+    UpdateDepositsAero(id, activated){
+      return new Promise((resolve, reject) => {
+        depositosaeros.update({
+          status: 'Aprobado',
+          activatedAt: activated,
         }, { where: {
           id: id
         }})
@@ -1179,7 +1251,7 @@ module.exports = {
         Pays.findAll({where:{status: 'Pagado', usuarioId: id},
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Contratos },
+          {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos },
         ],order: [
@@ -1201,7 +1273,7 @@ module.exports = {
         Pays.findAll({where:{ status: 'Pendiente', usuarioId: id },
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Contratos },
+          {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos, where: {
             status: 'Finalizado'
@@ -1219,13 +1291,13 @@ module.exports = {
           });
       });
     },
-    // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
-    GetPendingPaymenthsAdmin(id) {
+    // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+    GetPaymenthsAdmin() {
       return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Solicitado' },
+        Pays.findAll({where:{status: 'Pagado' },
           include:[
           {association:Pays.Usuarios },
-          {association:Pays.Contratos },
+          {association:Pays.Paquetes },
           {association:Pays.MetodosRetiros },
           {association:Pays.Depositos },
         ],order: [
@@ -1241,7 +1313,29 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR PRECIO TH
+    // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
+    GetPendingPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        Pays.findAll({where:{status: 'Solicitado' },
+          include:[
+          {association:Pays.Usuarios },
+          {association:Pays.Paquetes },
+          {association:Pays.MetodosRetiros },
+          {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // SOLICITAR PAGO USUARIO
     SolicitPay(id) {
       return new Promise((resolve, reject) => {
         Pays.update(
@@ -1259,10 +1353,43 @@ module.exports = {
           });
       });
     },
-    // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
-    ControlTH(price, maintance, error, earnings, minwithd) {
+    // PAGAR A USUARIO
+    PayUser(id, idMethod) {
+      return new Promise((resolve, reject) => {
+        Pays.update(
+          {
+            status: 'Pagado',
+            metodosRetiroId: idMethod,
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Pago realizado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
+    GetControlAeroCoin() {
         return new Promise((resolve, reject) => {
-        TH.create({ price: price, percentage_maintance: maintance, percentage_error: error, ref_earnings: earnings, min_withdrawal: minwithd })
+          AeroCoin.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+        });
+    },
+    // CONTROL AEROCOIN TH PRECIO ADMIN
+    ControlAeroCoin(price) {
+        return new Promise((resolve, reject) => {
+        AeroCoin.create({ price: price })
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');
@@ -1272,114 +1399,41 @@ module.exports = {
             });
         });
     },
-    // MOSTRAR DATOS GUARDADOS, CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
-    GetControlTH(){
-        return new Promise((resolve, reject) => {
-          TH.findAll()
-            .then((data) => {
-              let data_p = JSON.stringify(data);
-              console.log(data)
-              resolve(data_p);
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
-    },
-    // ACTUALIZAR PRECIO TH
-    UpdatePriceTH(id, price) {
-        return new Promise((resolve, reject) => {
-          TH.update(
-            {
-              price: price
-            }, { where:{
-                id: id
-            }})
-            .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Precio de TH actualizado con éxito');
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
-    },
-    // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
-    UpdateMaintance(id, maintance) {
-        return new Promise((resolve, reject) => {
-          TH.update(
-            {
-              percentage_maintance: maintance
-            }, { where:{
-                id: id
-            }})
-            .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Porcentaje de Mantenimiento actualizado con éxito');
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
-    },
-    // ACTUALIZAR PORCENTAJE DE ERROR
-    UpdateError(id, error) {
-        return new Promise((resolve, reject) => {
-          TH.update(
-            {
-              percentage_error: error
-            }, { where:{
-                id: id
-            }})
-            .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Porcentaje de Error actualizado con éxito');
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
-    },
-    // ACTUALIZAR GANANCIAS POR REFERIDOS
-    UpdateRefEarnings(id, earnings) {
-        return new Promise((resolve, reject) => {
-          TH.update(
-            {
-              ref_earnings: earnings
-            }, { where:{
-                id: id
-              }})
-              .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Ganancias por referidos actualizado con exito');
-            })
-            .catch((err) => {
-              reject(err)
-            });
-        });
-      },
-    // ACTUALIZAR SALDO MINIMO DE RETIRO
-    UpdateMinWithdrawal(id, minwithd) {
+    // ACTUALIZAR PRECIO AEROCOIN ADMIN
+    UpdatePriceAeroCoin(id, price) {
       return new Promise((resolve, reject) => {
-        TH.update(
+        AeroCoin.update(
           {
-            min_withdrawal: minwithd
+            price: price
           }, { where:{
-                id: id
+              id: id
           }})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Saldo Minimo de Retiro actualizado con exito');
+            resolve('Precio de AeroCoin actualizado con éxito');
           })
           .catch((err) => {
             reject(err)
           });
       });
     },
-    // CREAR CONTRATOS
+    // COMPRAR AEROCOINS USUARIOS
+    BuyAeroCoin(name, dni, email, amountCoin, amount, idmethod, userid) {
+      return new Promise((resolve, reject) => {
+        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, metodosPagoId: idmethod, usuarioId: userid })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+      });
+    },
+    // CREAR PAQUETES
     CreatePackages(name, price, duration, amount, maintance) {
       return new Promise((resolve, reject) => {
-        Contratos.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
+        Paquetes.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve('Datos agregados satisfactoriamente');
@@ -1389,24 +1443,23 @@ module.exports = {
         });
       });
     },
-    // * CONTRATOS
-    // CREAR CONTRATOS ADMIN
-    CreateContract(dur, min, max, bond) {
+    // CREAR PAQUETES PERSONALIZADOS
+    CreatePackagesPers(price, duration, amount, maintance) {
       return new Promise((resolve, reject) => {
-      Contratos.create({ duration: dur, min_earnings: min, max_earnings: max, bond: bond })
+        Paquetes.create({ price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
         .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve(data_set);
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
         })
         .catch((err) => {
-            reject(err)
+          reject(err);
         });
       });
     },
-    // ACTUALIZAR PAQUETES
+    // ACTUALIZAR SALDO MINIMO DE RETIRO
     UpdatePackages(id, name, price, duration, amount, maintance) {
       return new Promise((resolve, reject) => {
-      Contratos.update(
+      Paquetes.update(
           {
             name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance
           }, { where:{
@@ -1421,10 +1474,10 @@ module.exports = {
           });
       });
     },
-    // ELIMINAR CONTRATOS
+    // ELIMINAR PAQUETES
     DeletePackages(id){
       return new Promise((resolve, reject) => {
-        Contratos.destroy({where:{
+        Paquetes.destroy({where:{
           id: id
         }
         },)
@@ -1437,10 +1490,10 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS CONTRATOS
+    // OBTENER TODOS LOS PAQUETES
     GetPackages() {
       return new Promise((resolve, reject) => {
-        Contratos.findAll({
+        Paquetes.findAll({
           where: {
             name: {
               [Op.ne]: null

@@ -1,21 +1,67 @@
 const { DataTypes } = require('sequelize');
-const db24 = require('../../config/dbPY21');
+const db27 = require('../../config/dbPY27');
 const bcrypt = require('bcrypt-nodejs');
-const Depositos = require('../PYT21/Depositos');
+const Paquetes = require('../PYT27/Packages');
+const Depositos = require('../PYT27/Depositos');
+const DepositosAero = require('../PYT27/DepositosAero');
 
 // USUARIOS
-const Usuarios = db24.define('usuarios', {
-    id: {
+const Usuarios = db27.define('usuarios', {
+	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
 	},
+	first_name: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	last_name: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	date_of_birth: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+	},
+	gender: {
+		type: DataTypes.STRING(100),
+		allowNull: false,
+	},
+	doc_type: {
+		type: DataTypes.STRING(100),
+		allowNull: false,
+	},
+	num_document: {
+		type: DataTypes.STRING(100),
+		allowNull: false,
+	},
+	nationality: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	country: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	city: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	phone: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
+	address: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
 	username: {
-		type: DataTypes.STRING(30),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	email: {
-		type: DataTypes.STRING(60),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 		validate: {
 			isEmail: {
@@ -69,6 +115,10 @@ const Usuarios = db24.define('usuarios', {
 	refer_code: {
 		type: DataTypes.STRING(255),
 		allowNull: true,
+		unique: {
+			args: true,
+			msg: 'El código ya existe'
+		}
 	},
 	status: {
 		type: DataTypes.STRING(50),
@@ -89,4 +139,5 @@ Usuarios.prototype.verifyPassword = function(password) {
 }
 
 Usuarios.Depositos = Usuarios.hasMany(Depositos);
+Usuarios.DepositosAero = Usuarios.hasMany(DepositosAero);
 module.exports = Usuarios;

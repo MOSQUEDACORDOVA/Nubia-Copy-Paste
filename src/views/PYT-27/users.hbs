@@ -1,4 +1,4 @@
-<div class="app-content content py21">
+<div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <section id="basic-datatable">               
@@ -22,17 +22,13 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6 mb-1 mb-md-0">
                                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                            <select id="filter-users" class="form-select d-block w-50 me-0 ms-auto">
-                                                <option value="all">Todos</option>
-                                                <option value="invers">Inversionistas</option>
-                                                <option value="sellers">Vendedores</option>
-                                            </select>
+                                            <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Paquetes</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Paquetes</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
                                     </thead>
                                     <tbody id="table-user">
                                         {{#if allusers}}
@@ -54,18 +50,6 @@
                                                 {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
                                             </td>
                                             <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
-
-                                            <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
-                                                {{#usertosellerpy21 user.id user.type_user}}{{/usertosellerpy21}}
-                                                <a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard4">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                                    Asignar porcentaje de ganancias
-                                                </a>
-                                                <a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard5">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                                    Establecer sistema de referidos
-                                                </a>
-                                            </td>
                                         </tr>
                                         {{/each}}
                                         {{else}}
@@ -157,6 +141,7 @@
                                             </td>
                                         </tr>
                                         {{/if}}
+
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -216,7 +201,7 @@
                                             </div>
                                             <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                                 <thead>
-                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cantidad de TH</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cantidad de TH</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Ganancias $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
                                                 </thead>
                                                 <tbody id="tbody">
                                            
@@ -277,106 +262,12 @@
                 </div>
             </div>
             {{!-- END MODAL VERIFICACION --}}
-
-            {{!-- MODAL ASIGNAR GANANCIAS DE VENDEDOR --}}
-            <div class="modal fade" id="AddNewCard4" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h1 class="text-center mb-1">Establecer ganancias del vendedor</h1>
-                            <form action="/" method="POST" class="card-body">
-                                <p class="card-text mb-0">Porcentaje de Ganancias</p>
-                                <input type="number" name="" id="" class="form-control mb-1" placeholder="10%" value="0" min="0" required>
-                                
-                                <input type="submit" class="btn btn-primary" value="Establecer">
-                                <button type="reset" class="btn btn-outline-secondary">Denegar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{!-- END MODAL ASIGNAR GANANCIAS DE VENDEDOR --}}
-
-            {{!-- MODAL ESTABLECER SISTEMA DE REFERIDOS --}}
-            <div class="modal fade" id="AddNewCard5" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h1 class="text-center mb-1">Establecer sistema de referidos</h1>
-                            <form action="/verifyuserpy21" method="POST" class="card-body">
-                                <p class="card-text mb-0">DNI Parte frontal</p>
-                                <select class="form-select mb-1">
-                                    <option>Simple - Por venta directa</option>
-                                    <option>Avanzado - Multinivel</option>
-                                </select>
-                                
-                                
-                                <input type="submit" class="btn btn-primary" value="Establecer">
-                                <button type="reset" class="btn btn-outline-secondary">Denegar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{!-- END MODAL ESTABLECER SISTEMA DE REFERIDOS --}}
         </div>
     </div>  
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>      
 <script>
     let btnVerify = document.querySelectorAll('.btn-verify');
-
-    let filter = document.getElementById('filter-users');
-
-    filter.addEventListener('change', () => {
-        let selectedOption = filter.options[filter.selectedIndex];
-
-        if(selectedOption.value === 'all') {
-            let row = document.querySelectorAll('.type_user');
-            if (row.length) {
-                row.forEach(el => {
-                    el.parentElement.style.display = 'table-row';
-                })
-            }
-        } else if (selectedOption.value === 'invers') {
-            let row = document.querySelectorAll('.type_user');
-            ResetFilter();
-            if (row.length) {
-                row.forEach(el => {
-                    if (el.innerText === 'Inversionista') {
-                        el.parentElement.style.display = 'table-row';
-                    } else {
-                        el.parentElement.style.display = 'none';
-                    }
-                })
-            }
-        } else if (selectedOption.value === 'sellers') {
-            let row = document.querySelectorAll('.type_user');
-            ResetFilter();
-            if (row.length) {
-                row.forEach(el => {
-                    if (el.innerText === 'Vendedor') {
-                        el.parentElement.style.display = 'table-row';
-                    } else {
-                        el.parentElement.style.display = 'none';
-                    }
-                })
-            }
-        }
-    });
-
-    const ResetFilter = () => {
-        let row = document.querySelectorAll('.type_user');
-        row.forEach(el => {
-            el.parentElement.style.display = 'table-row';
-        })
-    } 
 
     btnVerify.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -410,7 +301,7 @@
             const data = new FormData(form);
             console.log(data)
             $.ajax({
-                url: '/getdepositspy21',
+                url: '/getdeposits',
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -509,6 +400,7 @@
                 <td>${item.paquete.duration} Meses</td>
                 <td>${item.paquete.amount_th} TH</td>
                 <td>${item.paquete.price}$</td>
+                <td>${item.earnings}$</td>
                 <td>
                     ${status}
                 </td>

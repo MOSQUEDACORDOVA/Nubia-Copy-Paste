@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const Swal = require("sweetalert2");
-const DataBase = require("../../models/PYT24/data");
+const DataBase = require("../../models/PYT27/data");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
@@ -17,7 +17,7 @@ exports.web = (req, res) => {
       pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: true
     })
 };
@@ -33,7 +33,7 @@ exports.privacy = (req, res) => {
       pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py27: true,
       login: true
     })
 };
@@ -51,7 +51,7 @@ exports.sesionstart = (req, res) => {
     }
     if (!user) {
       console.log("no existe usuario")
-      return res.redirect("/login24/PYT-24");
+      return res.redirect("/login27/PYT-27");
     }
     req.logIn(user, function (err) {
       if (err) {
@@ -59,45 +59,45 @@ exports.sesionstart = (req, res) => {
         return next(err);
       }
       console.log(user.dataValues.id);
-      return res.redirect('/controlroles/PYT-24')
+      return res.redirect('/controlrolespy27/PYT-27')
     });
   })(req, res);
 };
 
 // Registro de usuarios
-exports.reguserpy24 = (req, res) => {
+exports.reguserpy27 = (req, res) => {
   console.log(req.body);
   const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
   let msg = false;
   if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/register24/PYT-24');
+    res.redirect('/register27/PYT-27');
   } else {
     DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
-      res.redirect("/login24/PYT-24")
+      res.redirect("/login27/PYT-27")
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   }
 };
 
 // REGISTRO DE REFERIDOS
-exports.reguserreferpy24 = (req, res) => {
+exports.reguserreferpy27 = (req, res) => {
   console.log(req.body);
   const { username, email, password, refcode } = req.body;
   let msg = false;
   if (username.trim() === '' || email.trim() === '' || password.trim() === '' || refcode.trim() === '') {
     console.log("complete todos los campos")
-    res.redirect("/register24/PYT-24");
+    res.redirect("/register27/PYT-27");
   } else {
     DataBase.RegReferUser(username, email, password, refcode).then((respuesta) =>{
-      res.redirect("/login24/PYT-24")
+      res.redirect("/login27/PYT-27")
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   }
 };
@@ -160,7 +160,7 @@ exports.dashboard = (req, res) => {
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
-          return res.redirect("/error24/PYT-24");
+          return res.redirect("/error27/PYT-27");
         });
       } 
     });
@@ -169,7 +169,7 @@ exports.dashboard = (req, res) => {
       pageName: "Dashboard",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       dash: true,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -181,17 +181,17 @@ exports.dashboard = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -219,15 +219,15 @@ exports.verifypackges = (req, res) => {
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
-          return res.redirect("/error24/PYT-24");
+          return res.redirect("/error27/PYT-27");
         });
       } 
     });
-    return res.redirect("/py24/PYT-24");
+    return res.redirect("/py27/PYT-27");
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -256,15 +256,15 @@ exports.verifypackgesuser = (req, res) => {
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
-          return res.redirect("/error24/PYT-24");
+          return res.redirect("/error27/PYT-27");
         });
       } 
     });
-    return res.redirect("/boardpresale/PYT-24");
+    return res.redirect("/boardpresale/PYT-27");
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -279,7 +279,7 @@ exports.login = (req, res) => {
       pageName: "Login",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py27: true,
       login: true
     })
 };
@@ -296,7 +296,7 @@ exports.register = (req, res) => {
     pageName: "Registro",
     dashboardPage: true,
     dashboard: true,
-    py24: true,
+    py27: true,
     login: true
   })
 };
@@ -310,11 +310,11 @@ exports.referregister = (req, res) => {
   console.log(ref)
   console.log(req.params)
 
-  res.render("PYT-24/auth/registerrefer", {
+  res.render("PYT-27/auth/registerrefer", {
     pageName: "Registro",
     dashboardPage: true,
     dashboard: true,
-    py24: true,
+    py27: true,
     login: true,
     ref
   })
@@ -331,7 +331,7 @@ exports.error = (req, res) => {
       pageName: "Error 404",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: true
     })
 };
@@ -347,7 +347,7 @@ exports.notauthorized = (req, res) => {
       pageName: "No Autorizado",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: true
     })
 };
@@ -377,7 +377,7 @@ exports.config = (req, res) => {
       pageName: "Configuración de la cuenta",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       username: req.user.username,
       typeUser: req.user.type_user,
       roleClient,
@@ -411,7 +411,7 @@ exports.config = (req, res) => {
 //       pageName: "Mi Perfil",
 //       dashboardPage: true,
 //       dashboard: true,
-//       py24:true,
+//       py27:true,
 //       login: false,
 //       prof: true,
 //       username: req.user.username,
@@ -447,7 +447,7 @@ exports.contracts = (req, res) => {
       pageName: "Contratos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       contr: true,
       username: req.user.username,
@@ -483,7 +483,7 @@ exports.contracts = (req, res) => {
 //       pageName: "Ingresos",
 //       dashboardPage: true,
 //       dashboard: true,
-//       py24:true,
+//       py27:true,
 //       login: false,
 //       earn: true,
 //       username: req.user.username,
@@ -562,7 +562,7 @@ exports.retreats = (req, res) => {
       pageName: "Minner - Retiros",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -583,42 +583,42 @@ exports.retreats = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -652,22 +652,22 @@ exports.getretreatsuser = (req, res) => {
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
-          return res.redirect("/error24/PYT-24");
+          return res.redirect("/error27/PYT-27");
         });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
+        return res.redirect("/error27/PYT-27");
       });
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -683,11 +683,11 @@ exports.solicitpay = (req, res) => {
 
   let roleAdmin = true;
   DataBase.SolicitPay(id).then((resp)=>{
-    return res.redirect('retreats24/PYT-24');
+    return res.redirect('retreats27/PYT-27');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -707,17 +707,17 @@ exports.payuser = (req, res) => {
     DataBase.CulminateDeposits(depid).then((resp2) => {
       console.log(resp2)
       console.log("DEPOSITO CULMINADO")
-      return res.redirect('paym/PYT-24');
+      return res.redirect('paym/PYT-27');
     }).catch((err) => {
       
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -742,7 +742,7 @@ exports.users = (req, res) => {
       pageName: "Usuarios",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       users: true,
       username: req.user.username,
@@ -755,12 +755,12 @@ exports.users = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 // VERIFICAR CUENTA DE USUARIOS
@@ -775,11 +775,11 @@ exports.verifyuser = (req, res) => {
 
   let roleAdmin = true;
   DataBase.VerifyUser(id).then((users)=>{
-    return res.redirect('users24/PYT-24');
+    return res.redirect('users27/PYT-27');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -800,11 +800,11 @@ exports.solicitverify = (req, res) => {
 
   let roleAdmin = true;
   DataBase.SolicitVerify(id, voucher1, voucher2).then((users)=>{
-    return res.redirect('boardpresale/PYT-24');
+    return res.redirect('boardpresale/PYT-27');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -837,7 +837,7 @@ exports.seller = (req, res) => {
       pageName: "Referidos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       sell: true,
       username: req.user.username,
@@ -891,7 +891,7 @@ exports.paymethods = (req, res) => {
       pageName: "Formas de Pago",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       pay: true,
       username: req.user.username,
@@ -908,22 +908,22 @@ exports.paymethods = (req, res) => {
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
-  return res.redirect("/error24/PYT-24");
+  return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
-  return res.redirect("/error24/PYT-24");
+  return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
-  return res.redirect("/error24/PYT-24");
+  return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });  
 };
 
@@ -939,35 +939,35 @@ exports.updatepaymethod = (req, res) => {
 
   if(req.body.ttype === 'Transferencia Bancaria') {
     DataBase.UpdatePayMethodTransf(id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'Pago Movil') {
     DataBase.UpdatePayMethodPaym(id, ttype, name, dni, bank, phone).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'BTC') {
     DataBase.UpdatePayMethodBTC(id, ttype, code_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'Billetera Digital') {
     DataBase.UpdatePayMethodDWallet(id, ttype, email_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }
 }; 
@@ -984,7 +984,7 @@ exports.updatestatuspaymethod = (req, res) => {
 
   if (id.trim() === '' || status.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     if(status === 'Habilitado') {
       status = 'Deshabilitado';
@@ -992,11 +992,11 @@ exports.updatestatuspaymethod = (req, res) => {
       status = 'Habilitado';
     }
     DataBase.UpdateStatusPayMethod(id, status).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }; 
 };
@@ -1013,14 +1013,14 @@ exports.deletepaymethod = (req, res) => {
 
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     DataBase.DeletePayMethod(id).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }; 
 };
@@ -1048,7 +1048,7 @@ exports.paymanag = (req, res) => {
       pageName: "Gestión de Pagos",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py27: true,
       login: false,
       paym: true,
       username: req.user.username,
@@ -1060,11 +1060,11 @@ exports.paymanag = (req, res) => {
 
   }).catch((err) => {
     console.log(err)
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1118,7 +1118,7 @@ exports.depositsadmin = (req, res) => {
       pageName: "Depositos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       dep: true,
       username: req.user.username,
@@ -1130,42 +1130,42 @@ exports.depositsadmin = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1193,7 +1193,7 @@ exports.depositsaeroadmin = (req, res) => {
       pageName: "Depositos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login: false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -1204,12 +1204,12 @@ exports.depositsaeroadmin = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1242,11 +1242,11 @@ exports.startdeposit = (req, res) => {
     let price = req.body.price,
     paqid = req.body.paqueteId;
 
-    res.redirect('deposits24/PYT-24');
+    res.redirect('deposits27/PYT-27');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   })
 };
 
@@ -1268,11 +1268,11 @@ exports.startdepositaero = (req, res) => {
   DataBase.UpdateDepositsAero(id, activated).then((response) => {
     console.log(response)
 
-    res.redirect('depositsaeroadmin/PYT-24');
+    res.redirect('depositsaeroadmin/PYT-27');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   })
 };
 
@@ -1301,7 +1301,7 @@ exports.startdepositaero = (req, res) => {
 //       pageName: "Duración y Riesgo",
 //       dashboardPage: true,
 //       dashboard: true,
-//       py24:true,
+//       py27:true,
 //       login: false,
 //       dur: true,
 //       username: req.user.username,
@@ -1364,7 +1364,7 @@ exports.aeropresale = (req, res) => {
       pageName: "Comprar AercoCoin",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py27: true,
       login: false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -1380,22 +1380,22 @@ exports.aeropresale = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1410,17 +1410,17 @@ exports.buyaerocoins = (req, res) => {
 
   if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/aeropresale/PYT-24');
+    res.redirect('/aeropresale/PYT-27');
   } else {
     DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, methodid, userid).then((respuesta) =>{
       let response = JSON.parse(respuesta);
       console.log(response)
       console.log("SU PAGO A SIDO ENVIADO A VERIFICACION")
-      res.redirect('/depositaero/PYT-24');
+      res.redirect('/depositaero/PYT-27');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   };
 }
@@ -1432,15 +1432,15 @@ exports.addaerocoin = (req, res) => {
   let msg = false;
   if (price.trim() === '') {
     console.log('Complete todos los campos')
-    res.redirect('/aero/PYT-24');
+    res.redirect('/aero/PYT-27');
   } else {
     DataBase.ControlAeroCoin(price).then((respuesta) =>{
       console.log("Precio de AeroCoin establecido satisfactoriamente");
-      res.redirect('/aero/PYT-24');
+      res.redirect('/aero/PYT-27');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }
 };
@@ -1452,15 +1452,15 @@ exports.addth = (req, res) => {
   let msg = false;
   if (amount.trim() === '') {
     console.log('Complete todos los campos')
-    res.redirect('/th/PYT-24');
+    res.redirect('/th/PYT-27');
   } else {
     DataBase.AddMachineTH(amount).then((respuesta) =>{
       console.log("Datos agregados satisfactoriamente");
-      res.redirect('/th/PYT-24');
+      res.redirect('/th/PYT-27');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }
 };
@@ -1472,15 +1472,15 @@ exports.deletemachine = (req, res) => {
   let msg = false;
   if (id.trim() === '') {
     console.log('Complete todos los campos')
-    res.redirect('/th/PYT-24');
+    res.redirect('/th/PYT-27');
   } else {
     DataBase.DeleteMachineTH(id).then((respuesta) =>{
       console.log("Datos eliminados satisfactoriamente");
-      res.redirect('/th/PYT-24');
+      res.redirect('/th/PYT-27');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }
 };
@@ -1492,14 +1492,14 @@ exports.controlth = (req, res) => {
   let msg = false;
   if (price.trim() === '' || maintance.trim() === '' || error.trim() === '' || minwithd.trim() === '') {
     console.log('Complete todos los campos')
-    res.redirect('/th/PYT-24');
+    res.redirect('/th/PYT-27');
   } else {
     DataBase.ControlTH(price, maintance, error, minwithd).then((respuesta) =>{
       console.log("Datos agregados satisfactoriamente");
-      res.redirect('/th/PYT-24');
+      res.redirect('/th/PYT-27');
     }).catch((err) => {
       console.log(err)
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   }
 };
@@ -1528,7 +1528,7 @@ exports.th = (req, res) => {
       pageName: "Administrar TH",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       th: true,
       username: req.user.username,
@@ -1542,12 +1542,12 @@ exports.th = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo datos de control precios etc, en el sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   })
 };
 
@@ -1571,7 +1571,7 @@ exports.aerocoin = (req, res) => {
       pageName: "Administrar AeroCoin",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py27: true,
       login: false,
       aero: true,
       username: req.user.username,
@@ -1582,7 +1582,7 @@ exports.aerocoin = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1592,11 +1592,11 @@ exports.updateaerocoin = (req, res) => {
 
   DataBase.UpdatePriceAeroCoin(id, price).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/aero/PYT-24')
+    res.redirect('/aero/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
   
@@ -1622,7 +1622,7 @@ exports.getmachines = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   })
 };
 
@@ -1632,11 +1632,11 @@ exports.updateth = (req, res) => {
 
   DataBase.UpdatePriceTH(id, price).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/th/PYT-24')
+    res.redirect('/th/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1646,11 +1646,11 @@ exports.updatemaintance = (req, res) => {
 
   DataBase.UpdateMaintance(id, maintance).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/th/PYT-24')
+    res.redirect('/th/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1660,11 +1660,11 @@ exports.updateerror = (req, res) => {
 
   DataBase.UpdateError(id, error).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/th/PYT-24')
+    res.redirect('/th/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1674,11 +1674,11 @@ exports.updateearnings = (req, res) => {
 
   DataBase.UpdateRefEarnings(id, earnings).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/th/PYT-24')
+    res.redirect('/th/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1688,11 +1688,11 @@ exports.updateminwithd = (req, res) => {
 
   DataBase.UpdateMinWithdrawal(id, minwithd).then((respuesta) =>{
     let msg = respuesta
-    res.redirect('/th/PYT-24')
+    res.redirect('/th/PYT-27')
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -1702,14 +1702,14 @@ exports.createpackages = (req, res) => {
   let msg = false;
   if (name.trim() === '' || price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/plans/PYT-24');
+    res.redirect('/plans/PYT-27');
   } else {
     DataBase.CreatePackages(name, price, duration, amount, maintance).then((respuesta) =>{
-      res.redirect('/plans/PYT-24')
+      res.redirect('/plans/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error404/PYT-27" + msg);
     });
   };
 }
@@ -1720,7 +1720,7 @@ exports.createpackagespers = (req, res) => {
   let msg = false;
   if (price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/plans/PYT-24');
+    res.redirect('/plans/PYT-27');
   } else {
     DataBase.CreatePackagesPers(price, duration, amount, maintance).then((respuesta) =>{
       let response = JSON.parse(respuesta);
@@ -1730,7 +1730,7 @@ exports.createpackagespers = (req, res) => {
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   };
 }
@@ -1741,14 +1741,14 @@ exports.updatepackages = (req, res) => {
   let msg = false;
   if (id.trim() === '' || name.trim() === '' || price.trim() === '' || duration.trim() === '' || amount.trim() === '' || maintance.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/plans/PYT-24');
+    res.redirect('/plans/PYT-27');
   } else {
     DataBase.UpdatePackages(id, name, price, duration, amount, maintance).then((respuesta) =>{
-      res.redirect('/plans/PYT-24')
+      res.redirect('/plans/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   };
 }
@@ -1761,14 +1761,14 @@ exports.deletepackages = (req, res) => {
   let msg = false;
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/plans/PYT-24');
+    res.redirect('/plans/PYT-27');
   } else {
     DataBase.DeletePackages(id).then((respuesta) =>{
-      res.redirect('/plans/PYT-24')
+      res.redirect('/plans/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   };
 }
@@ -1779,14 +1779,14 @@ exports.addbank = (req, res) => {
   let msg = false;
   if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || type_account.trim() === '' || num_account.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     DataBase.AddBank(fullname, dni, bank_name, type_account, num_account).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1797,14 +1797,14 @@ exports.addpaym = (req, res) => {
   let msg = false;
   if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || phone.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     DataBase.AddPaym(fullname, dni, bank_name, phone).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1815,14 +1815,14 @@ exports.addbtc = (req, res) => {
   let msg = false;
   if (code_wallet.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     DataBase.AddBTC(code_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1833,14 +1833,14 @@ exports.addwallet = (req, res) => {
   let msg = false;
   if (email.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
+    res.redirect('/paymethods27/PYT-27');
   } else {
     DataBase.AddDigitalWallet(email).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
+      res.redirect('/paymethods27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1852,14 +1852,14 @@ exports.addretreatsbank = (req, res) => {
   let userid = res.locals.user.id;
   if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || type_account.trim() === '' || num_account.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
+    res.redirect('/retreats27/PYT-27');
   } else {
     DataBase.AddRetreatsBank(fullname, dni, bank_name, type_account, num_account, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1871,14 +1871,14 @@ exports.addretreatspaym = (req, res) => {
   let userid = res.locals.user.id;
   if (fullname.trim() === '' || dni.trim() === '' || bank_name.trim() === '' || phone.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
+    res.redirect('/retreats27/PYT-27');
   } else {
     DataBase.AddRetreatsPaym(fullname, dni, bank_name, phone, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1890,14 +1890,14 @@ exports.addretreatsbtc = (req, res) => {
   let userid = res.locals.user.id;
   if (code_wallet.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
+    res.redirect('/retreats27/PYT-27');
   } else {
     DataBase.AddRetreatsBTC(code_wallet, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1909,14 +1909,14 @@ exports.addretreatswallet = (req, res) => {
   let userid = res.locals.user.id;
   if (email.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
+    res.redirect('/retreats27/PYT-27');
   } else {
     DataBase.AddRetreatsDigitalWallet(email, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
+      return res.redirect("/error404/PYT-27");
     });
   };
 }
@@ -1929,14 +1929,14 @@ exports.deletemretreats = (req, res) => {
   let msg = false;
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
+    res.redirect('/retreats27/PYT-27');
   } else {
     DataBase.DeleteMRetreats(id).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   };
 }
@@ -1953,35 +1953,35 @@ exports.updatemretreats = (req, res) => {
 
   if(req.body.ttype === 'Transferencia Bancaria') {
     DataBase.UpdateRetreatsTransf(id, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'Pago Movil') {
     DataBase.UpdateRetreatsPaym(id, name, dni, bank, phone).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'BTC') {
     DataBase.UpdateRetreatsBTC(id, code_wallet).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else if(req.body.ttype === 'Billetera Digital') {
     DataBase.UpdateRetreatsDWallet(id, email_wallet).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
+      res.redirect('/retreats27/PYT-27')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }
 }; 
@@ -2021,7 +2021,7 @@ exports.plans = (req, res) => {
       pageName: "Paquetes",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       plans: true,
       username: req.user.username,
@@ -2035,12 +2035,12 @@ exports.plans = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo datos de control en el sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -2106,7 +2106,7 @@ exports.presale = (req, res) => {
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -2122,42 +2122,42 @@ exports.presale = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
   });  
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -2187,15 +2187,15 @@ exports.controlroles = (req, res) => {
           }).catch((err) => {
             console.log(err)
             let msg = "Error en sistema";
-            return res.redirect("/error24/PYT-24");
+            return res.redirect("/error27/PYT-27");
           });
         } 
       });
-      return res.redirect("../py24/PYT-24");
+      return res.redirect("../py27/PYT-27");
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   } else {
     let idUser = res.locals.user.id
@@ -2213,17 +2213,17 @@ exports.controlroles = (req, res) => {
           }).catch((err) => {
             console.log(err)
             let msg = "Error en sistema";
-            return res.redirect("/error24/PYT-24");
+            return res.redirect("/error27/PYT-27");
           });
         } 
       });
-      return res.redirect("../py24/PYT-24");
+      return res.redirect("../py27/PYT-27");
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
-    return res.redirect('../boardpresale/PYT-24')
+    return res.redirect('../boardpresale/PYT-27')
   }
 };
 
@@ -2288,7 +2288,7 @@ exports.boardpresale = (req, res) => {
       pageName: "Minner - Tablero",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -2306,17 +2306,17 @@ exports.boardpresale = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -2354,7 +2354,7 @@ exports.depositpresale = (req, res) => {
       pageName: "Minner - Depositos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -2370,22 +2370,22 @@ exports.depositpresale = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -2419,7 +2419,7 @@ exports.depositaero = (req, res) => {
       pageName: "Minner - Depositos",
       dashboardPage: true,
       dashboard: true,
-      py24:true,
+      py27:true,
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -2432,12 +2432,12 @@ exports.depositaero = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
 
@@ -2473,22 +2473,22 @@ exports.getdeposits = (req, res) => {
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
-          return res.redirect("/error24/PYT-24");
+          return res.redirect("/error27/PYT-27");
         });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
+        return res.redirect("/error27/PYT-27");
       });
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 
 };
@@ -2547,16 +2547,16 @@ exports.createdeposits = (req, res) => {
                 }).catch((err) => {
                   console.log(err)
                   let msg = "Error actualizando maquinas del sistema";
-                  return res.redirect("/error24/PYT-24");
+                  return res.redirect("/error27/PYT-27");
                 });
               } else {
                 DataBase.UpdateMachineTH(idM, sold, aval).then((resp3)=> { 
                   count = (count - sold);
-                  res.redirect('/depositpresale/PYT-24');
+                  res.redirect('/depositpresale/PYT-27');
                 }).catch((err) => {
                   console.log(err)
                   let msg = "Error actualizando maquinas del sistema";
-                  return res.redirect("/error24/PYT-24");
+                  return res.redirect("/error27/PYT-27");
                 });
               }
             }
@@ -2568,27 +2568,27 @@ exports.createdeposits = (req, res) => {
           console.log("TH VENDIDOS DE MAQUINA" + sold)
           idM = machine[0].id;
           DataBase.UpdateMachineTH(idM, sold, aval).then((resp2)=> { 
-            res.redirect('/depositpresale/PYT-24');
+            res.redirect('/depositpresale/PYT-27');
           }).catch((err) => {
             console.log(err)
             let msg = "Error obteniendo maquinas de minado en el sistema";
-            return res.redirect("/error24/PYT-24");
+            return res.redirect("/error27/PYT-27");
           });
         }
 
       }).catch((err) => {
         console.log(err)
         let msg = "Error obteniendo maquinas de minado en el sistema";
-        return res.redirect("/error24/PYT-24");
+        return res.redirect("/error27/PYT-27");
       })
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
+      return res.redirect("/error27/PYT-27");
     })
     resolve('Depostio creado con exito');
   }).catch((err) => {
     reject(err)
-    return res.redirect("/error24/PYT-24");
+    return res.redirect("/error27/PYT-27");
   });
 };
