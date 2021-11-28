@@ -540,25 +540,6 @@ module.exports = {
             });
       });
     },
-    // ACTUALIZAR MAQUINAS DE MINADO
-    UpdateMachineTH(id, sold, aval) {
-      return new Promise((resolve, reject) => {
-        Maquinas.update({
-          sold_out: sold,
-          avalible: aval,
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data)[0];
-            console.log(data_s)
-            resolve('DATOS DE MAQUINA ACTUALIZADOS !!');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // CREAR DEPOSITO
     CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_method, id_user) {
       console.log(id_pack)
@@ -1045,7 +1026,7 @@ module.exports = {
           });
       });
     },
-    // CULMINAR DEPOSITOS
+    // APROBAR DEPOSITOS
     CulminateDeposits(id){
       return new Promise((resolve, reject) => {
         Depositos.update({
@@ -1428,7 +1409,7 @@ module.exports = {
           });
       });
     },
-    // SOLICITAR PAGO USUARIO
+    // ACTUALIZAR PRECIO TH
     SolicitPay(id) {
       return new Promise((resolve, reject) => {
         Pays.update(
