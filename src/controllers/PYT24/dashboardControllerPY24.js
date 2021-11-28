@@ -1482,6 +1482,7 @@ exports.th = (req, res) => {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // OBTENER DATOS GENERALES DEL SISTEMA
 exports.aerocoin = (req, res) => {
   let msg = false;
@@ -1557,6 +1558,8 @@ exports.getmachines = (req, res) => {
   })
 };
 
+=======
+>>>>>>> parent of 65d7491... ajustes
 =======
 >>>>>>> parent of 65d7491... ajustes
 // ACTUALIZAR PRECIO TH
