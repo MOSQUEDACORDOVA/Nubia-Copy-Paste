@@ -1427,8 +1427,6 @@ module.exports = {
           });
       });
     },
-<<<<<<< HEAD
-<<<<<<< HEAD
     // PAGAR A USUARIO
     PayUser(id, idMethod) {
       return new Promise((resolve, reject) => {
@@ -1506,10 +1504,7 @@ module.exports = {
         });
       });
     },
-=======
->>>>>>> parent of 65d7491... ajustes
-=======
->>>>>>> parent of 65d7491... ajustes
+
     // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
     ControlTH(price, maintance, error, minwithd) {
         return new Promise((resolve, reject) => {

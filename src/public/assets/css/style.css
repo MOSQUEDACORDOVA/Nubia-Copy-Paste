@@ -324,6 +324,10 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 =======
 >>>>>>> parent of 65d7491... ajustes
 /*--------------------------- PYT-24 ---------------------------*/
+.py24 .auth-img {
+    object-fit: contain;
+    max-height: 500px;
+}
 body {
     position: relative;
 }
@@ -344,6 +348,7 @@ body {
     font-size: .9rem;
     font-weight: bold;
 }
+<<<<<<< HEAD
 .py24 .col-12 .card-body .card-text {
     color: #b4b7bd;
 }
@@ -369,6 +374,8 @@ body {
     background: #353d50;
 }
 
+=======
+>>>>>>> parent of 76e8910... tablero admin - administrar th Miner
 .py24 .progress-bar {
     background-color: #d9a543;
 }
