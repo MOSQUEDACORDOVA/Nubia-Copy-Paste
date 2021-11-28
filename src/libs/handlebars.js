@@ -213,10 +213,6 @@ module.exports = {
 		});
 		return total;
 	},
-	contadormaquinas: (num) => {
-		let total = num + 1;
-		return total;
-	},
 	// --------
 	empleados_disponibles: (sucursales, id_empleado) => {
 		//console.log(sucursales)
