@@ -312,17 +312,10 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 .py21 table thead th, .py21 table tbody td {
     white-space: nowrap;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-
 .py21 .auth-img {
     object-fit: contain;
     max-width: 500px;
 }
-=======
->>>>>>> parent of 65d7491... ajustes
-=======
->>>>>>> parent of 65d7491... ajustes
 /*--------------------------- PYT-24 ---------------------------*/
 .py24 .auth-img {
     object-fit: contain;
@@ -348,7 +341,7 @@ body {
     font-size: .9rem;
     font-weight: bold;
 }
-<<<<<<< HEAD
+
 .py24 .col-12 .card-body .card-text {
     color: #b4b7bd;
 }
@@ -373,9 +366,6 @@ body {
 .py24 .auth-login-form::-webkit-scrollbar:hover {
     background: #353d50;
 }
-
-=======
->>>>>>> parent of 76e8910... tablero admin - administrar th Miner
 .py24 .progress-bar {
     background-color: #d9a543;
 }
@@ -902,7 +892,7 @@ body {
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
     background-color: #D9A443;
     color: #fff;
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow:  0 8px 25px -8px #D9A443;
 }
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
     color: #D9A443;
