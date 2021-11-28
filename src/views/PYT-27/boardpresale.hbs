@@ -1,0 +1,569 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div class="app-content content">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
+            <section id="pricing-plan">
+                {{#if unverify}}
+                <div class="alert alert-warning" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta no verificada! Para poder disfrutar de todos nuestros servicios debes <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#verificar">verificar tu cuenta</a>.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if pendingverify}}
+                <div class="alert alert-info" role="alert">
+                    <div class="alert-body">
+                        ¡Su verificación se ah enviado a revisión correctamente, este proceso puede demorar un poco, por favor mantente atento!.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if verify}}
+                <div class="alert alert-success" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta Verificada!
+                    </div>
+                </div>
+                {{/if}}
+
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-primary" role="alert">
+                            <div class="alert-body text-primary"><strong>Te encuentras en una fase de pre-venta</strong>, mantente atento al lanzamiento de la plataforma !!!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="knowledge-base-search">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card knowledge-base-bg text-center" style="background-image: url('../../../app-assets/images/banner/banner.png')">
+                                <div class="card-body">
+                                    <h2 class="text-primary">Te encuentras en una fase de pre-venta</h2>
+                                    <p class="card-text mb-2">
+                                        <span>Mantente atento al </span><span class="fw-bolder">lanzamiento de la plataforma !!!</span>
+                                    </p>
+                                    <a href="/presale/PYT-24" class="btn btn-primary">Empieza a comprar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> --->
+
+                <!-- Dashboard Ecommerce Starts -->
+
+                <section id="dashboard-ecommerce">
+                    <div class="row match-height"> 
+                        <div class="col-12 col-lg-7">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div id="carousel-example-caption" class="carousel slide" data-bs-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-bs-target="#carousel-example-caption" data-bs-slide-to="0" class=""></li>
+                                            <li data-bs-target="#carousel-example-caption" data-bs-slide-to="1" class="active" aria-current="true"></li>
+                                            <li data-bs-target="#carousel-example-caption" data-bs-slide-to="2" class=""></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item">
+                                                <img class="img-fluid d-block w-100" src="../../../app-assets/images/py24/call.jpg" alt="First slide">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h3 class="text-white">First Slide Label</h3>
+                                                    <p class="text-white">
+                                                        Donut jujubes I love topping I love sweet. Jujubes I love brownie gummi bears I love donut sweet
+                                                        chocolate. Tart chocolate marshmallow.Tart carrot cake muffin.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item active">
+                                                <img class="img-fluid d-block w-100" src="../../../app-assets/images/py24/buy.jpg" alt="Second slide">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h3 class="" style="color: #000">Second Slide Label</h3>
+                                                    <p class="" style="color: #000" >
+                                                        Tart macaroon marzipan I love soufflé apple pie wafer. Chocolate bar jelly caramels jujubes
+                                                        chocolate cake gummies. Cupcake cake I love cake danish carrot cake.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img class="img-fluid d-block w-100" src="../../../app-assets/images/py24/private.jpg" alt="Third slide">
+                                                <div class="carousel-caption d-none d-md-block">
+                                                    <h3 class="text-white">Third Slide Label</h3>
+                                                    <p class="text-white">
+                                                        Pudding sweet pie gummies. Chocolate bar sweet tiramisu cheesecake chocolate cotton candy pastry
+                                                        muffin. Marshmallow cake powder icing.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev" data-bs-target="#carousel-example-caption" role="button" data-bs-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" data-bs-target="#carousel-example-caption" role="button" data-bs-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="visually-hidden">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- SALDO -->
+                        <!--<div class="col-lg-6 d-none d-lg-block">
+                            <div class="card card-statistics">
+                                <div class="card-header pb-0">
+                                    <h4 class="card-title">Retiros Pendientes</h4>
+                                </div>
+                                <div class="card-body statistics-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">-->
+                                            <!--<h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>-->
+                                            <!--<h4 class="fw-bolder mb-0">0 USD</h4>
+                                            <p class="card-text font-small-3 mb-0">Retiros Pendientes</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!--/SALDO -->
+
+                        <!-- PODER DE THL -->
+                        <!--<div class="col-lg-6 d-none d-lg-block">
+                            <div class="card card-statistics">
+                                <div class="card-header pb-0">
+                                    <h4 class="card-title">Poder de TH</h4>
+                                </div>
+                                <div class="card-body statistics-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar bg-light-info me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='box' style="width: 20px; height: 20px;"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto"> -->
+                                            <!--{{#if capital}}
+                                            <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 capital}}{{/capitalinvertidopy24}}</h4>
+                                            {{else}}
+                                            <h4 class="fw-bolder mb-0">$0</h4>
+                                            {{/if}}-->
+                                            <!--<h4 class="fw-bolder mb-0">0 TH</h4>
+                                            <p class="card-text font-small-3 mb-0">Capacidad Total</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!-- PODER DE THL -->  
+
+                        <!-- <div class="col-lg-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="header-left">
+                                        <h4 class="card-title">Ganancias diarias</h4>
+                                    </div>
+                                    <div class="header-right">
+                                        <a href="#" role="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editUser">Calcular Ganancias</a>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div id="prueba"></div>
+                                </div>
+                            </div>
+                        </div>   --> 
+
+                        <div class="col-lg-6 col-12">
+                            <div class="row match-height">
+                                <!-- SALDO -->
+                                <!-- <div class="col-lg-12 col-sm-6 d-lg-none">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Retiros Pendientes</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-warning me-2">
+                                                    <div class="avatar-content">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">-->
+                                                    <!--<h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>-->
+                                                    <!--<h4 class="fw-bolder mb-0">0 USD</h4>
+                                                    <p class="card-text font-small-3 mb-0">Retiros Pendientes</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                                <!--/SALDO -->
+
+                                <!-- PODER DE THL -->
+                                <!--<div class="col-lg-12 col-sm-6 d-lg-none">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Poder de TH</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-info me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather='box' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto"> -->
+                                                    <!--{{#if capital}}
+                                                    <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 capital}}{{/capitalinvertidopy24}}</h4>
+                                                    {{else}}
+                                                    <h4 class="fw-bolder mb-0">$0</h4>
+                                                    {{/if}}-->
+                                                    <!--<h4 class="fw-bolder mb-0">0 TH</h4>
+                                                    <p class="card-text font-small-3 mb-0">Capacidad Total</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- PODER DE THL -->
+
+                                <!-- GANANCIAS -->
+                                <!--<div class="col-12">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Ganancias de Minado</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex flex-column flex-md-row justify-content-md-between flex-lg-column">
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='activity' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto"> -->
+                                                        <!--<h4 class="fw-bolder mb-0">${{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}}</h4>-->
+                                                        <!--<h4 class="fw-bolder mb-0">0 BTC</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias generales</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-start my-1 my-md-0 my-lg-1">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='trending-up' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h4 class="fw-bolder mb-0">0 USD</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias en USD</p>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex align-items-start">
+                                                    <div class="avatar bg-light-success me-2">
+                                                        <div class="avatar-content">
+                                                            <i data-feather='hash' style="width: 20px; height: 20px;"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-auto">
+                                                        <h4 class="fw-bolder mb-0">0 €</h4>
+                                                        <p class="card-text font-small-3 mb-0">Ganancias en Euros</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!--/ GANANCIAS -->
+
+                                <!-- HISTORICO
+                                <div class="col-12" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="card card-statistics">
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-info me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather='book' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">Histórico</h4>
+                                                    <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                 HISTORICO -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!--- TABLA HISTORICO --->
+                <!--<section class="collapse" id="collapseExample">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Historico</h6></div></div>
+                                    <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_length" id="DataTables_Table_0_length">
+                                                <label class="d-flex align-items-center">Mostrar 
+                                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                        <option value="7">7</option>
+                                                        <option value="10">10</option><option value="25">25</option>
+                                                        <option value="50">50</option><option value="75">75</option>
+                                                        <option value="100">100</option>
+                                                    </select> entradas
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                        <thead>
+                                            <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Precio del paquete</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                        </thead>
+                                        <tbody>
+                                        {{#if depositos}}
+                                            {{#each depositos as |item i|}}
+                                            <tr>
+                                                <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                                <td style="white-space: nowrap;">{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}</td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#if activatedAt}}{{activatedAt}}{{else}}-{{/if}} </td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#if culmination}}{{culmination}}{{else}}-{{/if}}</td>
+                                                <td>{{paquete.duration}} Meses</td>
+                                                <td class="text-center">{{amount}}$</td>
+                                                <td>{{earnings}}$</td>
+                                                <td>
+                                                    {{#estadodepositospy24 status}}{{/estadodepositospy24}}
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap">No existen depositos</td>
+                                            </tr>
+                                        {{/if}}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-between mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>-->
+            </section>
+
+            <!--- MODAL --->
+            <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Verificación de cuenta</h1>
+                            <p class="text-center">Ingrese una foto de su documento de identidad, legible, con ambas caras. Los datos suministrados deben coincidir con los datos de identificación registrados.</p>
+                            <form action="/solicitverify" method="POST" class="card-body">
+                                <p class="card-text mb-0">Parte frontal</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                     
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                <p class="card-text mb-0">Parte posterior</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                     
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                
+                                <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+
+            <!--- MODAL --->
+            <div class="modal fade" id="editUser" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-5 px-sm-5 pt-50">
+                            <div class="text-center mb-2">
+                                <h1 class="mb-1">Calculadora de Minería Bitcoin</h1>
+                                <p>¿Se pregunta cuándo dará sus frutos? Si ingresa su tasa de hash a continuación, aqui vera sus ganancias esperadas tanto en Bitcoins como en dólares durante varios períodos de tiempo.</p>
+                            </div>
+                            <form id="editUserForm" class="row gy-1 pt-75">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalEditUserFirstName">Factor de Dificultad	</label>
+                                    <input type="text" id="modalEditUserFirstName" name="modalEditUserFirstName" class="form-control" placeholder="" value="2.16593448333e+13" readonly required>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalEditUserLastName">Tasa de Hash</label>
+                                    <input type="number" id="hash" class="form-control" placeholder="" value="0" min="0">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label mb-1" for="modalEditUserName">Esta Dificultad</label>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Datos</p>
+                                            <input type="text" class="form-control mb-1" value="Por Día" readonly>
+                                            <input type="text" class="form-control mb-1" value="Por Semana" readonly>
+                                            <input type="text" class="form-control" value="Por Mes" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Moneda</p>
+                                            <input type="number" class="form-control mb-1" id="dayCoin" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekCoin" value="" readonly>
+                                            <input type="number" class="form-control" id="monthCoin" value="" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Dólares</p>
+                                            <input type="number" class="form-control mb-1" id="dayDollars" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekDollars" value="" readonly>
+                                            <input type="number" class="form-control" id="monthDollars" value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!---
+                                <div class="col-12">
+                                    <label class="form-label mb-1" for="modalEditUserName">Siguiente Dificultad (Estimado)</label>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Datos</p>
+                                            <input type="text" class="form-control mb-1" value="Por Día" readonly>
+                                            <input type="text" class="form-control mb-1" value="Por Semana" readonly>
+                                            <input type="text" class="form-control" value="Por Mes" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Moneda</p>
+                                            <input type="number" class="form-control mb-1" id="dayCoinNext" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekCoinNext" value="" readonly>
+                                            <input type="number" class="form-control" id="monthCoinNext" value="" readonly>
+                                        </div>
+                                        <div class="col-6 col-md-4">
+                                            <p class="mb-0">Dólares</p>
+                                            <input type="number" class="form-control mb-1" id="dayDollarsNext" value="" readonly>
+                                            <input type="number" class="form-control mb-1" id="weekDollarsNext" value="" readonly>
+                                            <input type="number" class="form-control" id="monthDollarsNext" value="" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                --->
+
+                                <div class="col-12 text-center mt-2 pt-50">
+                                    <button class="btn btn-primary me-1 waves-effect waves-float waves-light" id="calcular">Calcular</button>
+                                    <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cerrar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+        </div>
+    </div>
+</div>
+<script>
+    const day = document.getElementById('dayCoin'),
+    week = document.getElementById('weekCoin'),
+    month = document.getElementById('monthCoin'),
+    dayDollars = document.getElementById('dayDollars'),
+    weekDollars = document.getElementById('weekDollars'),
+    monthDollars = document.getElementById('monthDollars'),
+    form = document.getElementById('editUserForm'),
+    calcularBtn = document.getElementById('calcular');
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+    });
+
+    calcularBtn.addEventListener('click', () => {
+        let hash = document.getElementById('hash').value,
+        url = `https://alloscomp.com/bitcoin/calculator/json?hashrate=${hash}`;
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => console.log(data));
+    });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    let options = {
+        chart: {
+            height: 280,
+            type: "area"
+        },
+        dataLabels: {
+            enabled: false
+        },
+        series: [
+            {
+            name: "Ganancias",
+            data: [45, 52, 38, 45, 19, 23, 2]
+            }
+        ],
+        fill: {
+            type: "gradient",
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 90, 100]
+            }
+        },
+        xaxis: {
+            categories: [
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sabado",
+            "Domingo"
+            ]
+        }
+    };
+    let chart = new ApexCharts(document.querySelector("#prueba"), options);
+
+    chart.render();
+</script>

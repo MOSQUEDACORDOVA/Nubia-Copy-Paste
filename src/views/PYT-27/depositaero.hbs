@@ -1,55 +1,13 @@
-<div class="app-content content py21">
+<div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-            
+        <div class="content-body">       
             <section id="basic-datatable">
                 <div class="row">
-                    {{#if roleClient}}
-                    
+                    {{#if roleClient}}        
                     <div class="col-12">
                         <div class="card card-statistics">
                             <div class="card-body statistics-body">
                                 <div class="row">
-                                    <!-- TRANSFERENCIAS -->
-                                    <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" data-bs-target="#transf" aria-expanded="true" id="transfbtn">
-                                        <div class="d-flex flex-row">
-                                            <div class="avatar bg-light-primary me-2">
-                                                <div class="avatar-content">
-                                                    <i data-feather='activity' class="feather feather-trending-up avatar-icon text-primary"></i>
-                                                </div>
-                                            </div>
-                                            <div class="my-auto">
-                                                <h5 class="fw-bolder mb-0">Transferencias Bancarias</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" data-bs-target="#pagom" aria-expanded="true" id="pagombtn">
-                                        <div class="d-flex flex-row">
-                                            <div class="avatar bg-light-primary me-2">
-                                                <div class="avatar-content">
-                                                    <i data-feather='smartphone' class="feather feather-trending-up avatar-icon text-primary"></i>
-                                                </div>
-                                            </div>
-                                            <div class="my-auto">
-                                                <h5 class="fw-bolder mb-0">Pago Móvil</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-xl-0" type="button" data-bs-toggle="collapse" data-bs-target="#billetera" aria-expanded="true" id="billeterabtn">
-                                        <div class="d-flex flex-row">
-                                            <div class="avatar bg-light-primary me-2">
-                                                <div class="avatar-content">
-                                                    <i data-feather='dollar-sign' class="feather feather-trending-up avatar-icon text-primary"></i>
-                                                </div>
-                                            </div>
-                                            <div class="my-auto">
-                                                <h5 class="fw-bolder mb-0">Billetera Digital</h5>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="col-xl-3 col-sm-6 col-12 mb-2 mb-sm-0" type="button" data-bs-toggle="collapse" data-bs-target="#btcw" aria-expanded="true" id="btcwbtn">
                                         <div class="d-flex flex-row">
                                             <div class="avatar bg-light-primary me-2">
@@ -92,34 +50,10 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px; white-space: nowrap" aria-label="Email: activate to sort column ascending">Tipo de Cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto $</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px; white-space: nowrap" aria-label="Email: activate to sort column ascending">Tipo de Cuenta</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
                                     </thead>
                                     <tbody>
-                                    {{#if transf}}
-                                        {{#each transf as |item i|}}
-                                        <tr>
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.transaction_type}}</td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.full_name}}</td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.dni}}</td>
-                                            <td>
-                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 createdAt}}{{/formatDatapy24}}" data-activated="{{activatedAt}}" data-culmination="{{culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
-                                            </td>
-                                            <td>{{amount}}</td>
-                                            <td>{{bank_name}}</td>
-                                            <td>{{metodos_pago.type_account}}</td>
-                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
-                                            <td>{{num_reference}}</td>
-                                            <td>
-                                                {{#estadodepositospy24 status}}{{/estadodepositospy24}}
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                    {{else}}
-                                        <tr>
-                                            <td style="white-space: nowrap">No existen depositos</td>
-                                        </tr>
-                                    {{/if}}
+                                 
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -164,35 +98,10 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Telefono</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Banco</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px;" aria-label="Salary: activate to sort column ascending">Telefono</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto $</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Comprobante</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
                                     </thead>
                                     <tbody>
-                                    {{#if paym}}
-                                        {{#each paym as |item i|}}
-                                        <tr>
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.transaction_type}}</td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.full_name}}</td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.dni}}</td>
-
-                                            <td>{{metodos_pago.bank_name}}</td>
-                                            <td>{{metodos_pago.phone}}</td>
-                                            <td>
-                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 createdAt}}{{/formatDatapy24}}" data-activated="{{activatedAt}}" data-culmination="{{culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
-                                            </td>
-                                            <td>{{paquete.price}}</td>
-                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
-                                            <td>{{num_reference}}</td>
-                                            <td>
-                                                {{#estadodepositospy24 status}}{{/estadodepositospy24}}
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                    {{else}}
-                                        <tr>
-                                            <td style="white-space: nowrap;">No existen depositos</td>
-                                        </tr>
-                                    {{/if}}
+                                   
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
@@ -237,7 +146,7 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Código de Billetera</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Código de Billetera</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">AeroCoins</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
                                     </thead>
                                     <tbody>
                                     {{#if btc}}
@@ -246,10 +155,9 @@
                                             <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
                                             <td style="white-space: nowrap;">{{metodos_pago.transaction_type}}</td>
                                             <td style="white-space: nowrap;">{{metodos_pago.code_wallet}}</td>
-                                            <td>
-                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 createdAt}}{{/formatDatapy24}}" data-activated="{{activatedAt}}" data-culmination="{{culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
-                                            </td>
-                                            <td style="white-space: nowrap;">{{paquete.price}}</td>
+    
+                                            <td style="white-space: nowrap;">{{amountAero}}</td>
+                                            <td style="white-space: nowrap;">{{price}} USD</td>
                                             <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
                                             <td>
                                                 {{#estadodepositospy24 status}}{{/estadodepositospy24}}
@@ -305,30 +213,10 @@
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Email Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Tipo de Transacción</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Email Beneficiario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Paquetes</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Monto $</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Fecha</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Estado</th></tr>
                                     </thead>
                                     <tbody>
-                                    {{#if wallet}}
-                                        {{#each wallet as |item i|}}
-                                        <tr>
-                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.transaction_type}}</td>
-                                            <td style="white-space: nowrap;">{{metodos_pago.digital_wallet_email}}</td>
-                                            <td>
-                                                <a class="btn btn-primary showModalBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-id="{{paquete.id}}" data-status="{{status}}"  data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-price="{{paquete.price}}"  data-duration="{{paquete.duration}}" data-amount_th="{{paquete.amount_th}}" data-maintance="{{paquete.maintance_charge}}" data-date="{{#formatDatapy24 createdAt}}{{/formatDatapy24}}" data-activated="{{activatedAt}}" data-culmination="{{culmination}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Ver</a>
-                                            </td>
-                                            <td style="white-space: nowrap;">{{paquete.price}}</td>
-                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
-                                            <td>
-                                                {{#estadodepositospy24 status}}{{/estadodepositospy24}}
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                    {{else}}
-                                        <tr>
-                                            <td style="white-space: nowrap;">No existen depositos</td>
-                                        </tr>
-                                    {{/if}}
+                                    
                                     </tbody>
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
