@@ -247,7 +247,7 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 .py21 .btn-primary:hover:not(.disabled):not(:disabled), .btn-primary:hover:not(.disabled):not(:disabled) {
     box-shadow: 0 8px 25px -8px #7367f0;
 }
-.py21 .text-primary {
+.py21 .text-primary { 
 	color: #6610f2 !important;
 }
 .py21 .input-group-append .input-group-text {
@@ -312,15 +312,12 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 .py21 table thead th, .py21 table tbody td {
     white-space: nowrap;
 }
+
 .py21 .auth-img {
     object-fit: contain;
-    max-height: 500px;
+    max-width: 500px;
 }
 /*--------------------------- PYT-24 ---------------------------*/
-.py24 .auth-img {
-    object-fit: contain;
-    max-height: 500px;
-}
 body {
     position: relative;
 }
@@ -341,13 +338,29 @@ body {
     font-size: .9rem;
     font-weight: bold;
 }
-
 .py24 .col-12 .card-body .card-text {
     color: #b4b7bd;
 }
 .py24 .auth-img {
-    object-fit: contain;
-    max-height: 500px;
+    object-fit: cover;
+    max-width: 600px;
+}
+.py24 .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+}
+.py24 .auth-login-form::-webkit-scrollbar {
+    background: #20293f;
+    width: 8px;
+}
+.py24 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+    background-color: #d9a543;
+}
+.py24 .auth-login-form::-webkit-scrollbar:hover {
+    background: #353d50;
 }
 .py24 .progress-bar {
     background-color: #d9a543;
@@ -376,6 +389,60 @@ body {
     100% {
         opacity: 1;
         transform: scale(1) translateY(0px);
+    }
+}
+.py24 .graficas .circle {
+    position: relative;
+    display: block;
+    margin: auto;
+    width: 220px;
+    height: 190px;
+    border-radius: 50%;
+    text-align: center;
+    border: 4px solid #D9A443;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.py24 .mini-circle {
+    position: relative;
+    display: block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 4px solid #D9A443;
+}
+.py24 .graficas .circle p {
+    position: relative;
+    z-index: 1;
+    font-size: 3rem;
+    color: white;
+}
+.py24 .graficas .circle span {
+    position: absolute;
+    left: -5px;
+    bottom: -5px;
+    z-index: 0;
+    width: 120%;
+    height: 90%;
+    background: #d9a54326;
+    animation: showGr 1s .5s alternate infinite;
+}
+@keyframes showGr {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(10px);
+    }
+}
+@keyframes showGr2 {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(10px);
     }
 }
 .py24 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
@@ -453,7 +520,7 @@ body {
     width: 100%;
     box-shadow: 0 3px 6px rgba(0,0,0,0.4);
 }
-/* .py24 .nav .nav-item .nav-link {
+/*.py24 .nav .nav-item .nav-link {
     transition: .3s ease all;
 }
 .py24 .nav .nav-item .nav-link:hover {
@@ -462,10 +529,39 @@ body {
 .py24.banner {
     display: block;
     margin-top: 80px;
+    background-image: url(../../../app-assets/images/py24/home.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py24.banner .img-fluid {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    max-width: 400px;
 }
 .py24.banner, .py24.acerca, .py24.inversion {
     position: relative;
     padding: 140px 0;
+}
+.py27 .auth-wrapper .logo, .py27.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+    font-size: 20px;
+    font-family: 'Qualy';
+}
+.py24 .box {
+    position: relative;
+}
+.py27 .box .d-flex .btn-secondary {
+    background: #fff !important;
+    color: #04246d !important;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Century Gothic';
+    font-size: 1.3rem;
+    transition: .3s ease all;
 }
 .py24.banner span {
     display: block;
@@ -514,6 +610,23 @@ body {
     .py24.banner h1 {
         font-size: 3rem; 
     }   
+    .py24 .auth-wrapper .logo, .py24.banner .logo {
+        font-size: 35px;
+    }
+    .py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
+        font-size: 25px;
+    }
+    .py24 .box .d-flex .btn-secondary {
+        font-size: 1.5rem;
+    }
+}
+@media (min-width: 1200px) {
+    .py24.banner .logo {
+        font-size: 45px;
+    }
+    .py24.banner .logo-text {
+        font-size: 35px;
+    }
 }
 .py24.acerca .col-md-6 {
     transition: .3s ease all;
@@ -524,11 +637,27 @@ body {
 .py24.pagos {
     position: relative;
     padding: 80px 0;
-    background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     background-repeat: no-repeat;
+    background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
+    background-attachment: fixed;
+}
+.py27.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/buynow.jpg);
+}
+.py27.pagos.roadmap {
+    position: relative;
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/line.jpg);
 }
 .py24.pagos::before {
     position: absolute;
@@ -544,8 +673,26 @@ body {
     position: relative;
     z-index: 3;
 }
+.py27.pagos .text-center, .py27.inversion .text-center {
+    position: relative;
+    z-index: 3;
+    font-family: 'Qualy';
+}
 .py24.pagos .text-center h2, .py24.inversion .text-center h2 {
     font-weight: bold;
+}
+.py27.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py27.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py27.pagos .btn-secondary {
+    background: #c6c6c6 !important;
+    color: #000 !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
 }
 .py24.inversion {
     position: relative;
@@ -658,17 +805,22 @@ body {
     text-align: center;
 }
 .py24.webfooter a img {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     object-fit: contain;
 }
 @media (min-width:992px) {
     .py24.webfooter {
         text-align: left;
     }
-
 }
 @media (min-width: 768px) {
+    .py27.pagos .text-center h2 {
+        font-size: 100px;
+    }
+    .py27.pagos .text-center h3 {
+        font-size: 60px;
+    }
     .py24.testimonios .carousel .carousel-item .col-12 .text {
         text-align: left;
     }
@@ -686,6 +838,9 @@ body {
     }
     .py24.testimonios2 .carousel .carousel-control-next {
         right: 130px;
+    }
+    .py27.pagos .btn-secondary {
+        font-size: 1.5rem;
     }
 }
 @media (min-width: 1100px) {
@@ -735,6 +890,9 @@ body {
 .py24 .nav-item.active a {
     background: #d9a5439d !important;
     box-shadow: 0 8px 25px -8px #D9A443 !important;
+}
+.py24 .nav-item.nav-info {
+    pointer-events: none;
 }
 .py24 .has.sub.active {
     background: #d9a5439d !important;
@@ -789,7 +947,7 @@ body {
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
     background-color: #D9A443;
     color: #fff;
-    box-shadow:  0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #D9A443;
 }
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
     color: #D9A443;

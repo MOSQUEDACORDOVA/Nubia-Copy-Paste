@@ -1,72 +1,40 @@
 <div class="app-content content py24">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
-<<<<<<< HEAD
-            
-=======
->>>>>>> parent of 24b7880... ajustes aerocoin
             <!-- Dashboard Ecommerce Starts -->
             <section id="dashboard-ecommerce">
                 <div class="row match-height">     
                     <div class="col-12">
                         <div class="row match-height">
                             <!-- SALDO -->
-                            <div class="col-md-4 col-6">
+                            <div class="col-sm-6 col-12">
                                 <div class="card card-statistics">
                                     <div class="card-header pb-0">
-                                        <h4 class="card-title">Pagos Pendientes</h4>
+                                        <h4 class="card-title">Retiros Pendientes</h4>
                                     </div>
                                     <div class="card-body statistics-body">
                                         <div class="d-flex align-items-start">
                                             <div class="avatar bg-light-success me-2">
                                                 <div class="avatar-content">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
                                                 </div>
                                             </div>
                                             <div class="my-auto">
                                                 <!--<h4 class="fw-bolder mb-0">{{avalibleBalance}} BTC</h4>-->
-                                                <h4 class="fw-bolder mb-0">140 USD</h4>
+                                                <h4 class="fw-bolder mb-0">{{retreatsBalance}} USD</h4>
                                                 <p class="card-text font-small-3 mb-0">Retiros pendientes</p>
                                             </div>
                                         </div>
-                                    
                                     </div>
                                 </div>
                             </div>
                             <!--/SALDO -->
 
-                            <!-- CAPITAL -->
-                            <div class="col-md-4 col-6">
-                                <div class="card card-statistics">
-                                    <div class="card-header pb-0">
-                                        <h4 class="card-title">Capital</h4>
-                                    </div>
-                                    <div class="card-body statistics-body">
-                                        <div class="d-flex align-items-start">
-                                            <div class="avatar bg-light-info me-2">
-                                                <div class="avatar-content">
-                                                    <i data-feather='box' style="width: 20px; height: 20px;"></i>
-                                                </div>
-                                            </div>
-                                            <div class="my-auto">
-                                                {{#if depositos}}
-                                                <h4 class="fw-bolder mb-0">${{#capitalinvertidopy24 depositos}}{{/capitalinvertidopy24}}</h4>
-                                                {{else}}
-                                                <h4 class="fw-bolder mb-0">$0</h4>
-                                                {{/if}}
-                                                <p class="card-text font-small-3 mb-0">Capital invertido</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--/ CAPITAL -->
-
                             <!-- GANANCIAS -->
-                            <div class="col-md-4 col-12">
+                            <div class="col-12 col-sm-6">
                                 <div class="card card-statistics">
                                     <div class="card-header pb-0">
-                                        <h4 class="card-title">Ganancias</h4>
+                                        <h4 class="card-title">Ganancias de Minado</h4>
                                     </div>
                                     <div class="card-body statistics-body">
                                         <div class="d-flex align-items-start">
@@ -76,11 +44,12 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                {{#if depositos}}
-                                                <h4 class="fw-bolder mb-0">${{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}}</h4>
+                                                <!--{{#if depositos}}
+                                                <h4 class="fw-bolder mb-0">{{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}} BTC</h4>
                                                 {{else}}
-                                                <h4 class="fw-bolder mb-0">$0</h4>
-                                                {{/if}}
+                                                <h4 class="fw-bolder mb-0">0 BTC</h4>
+                                                {{/if}}-->
+                                                <h4 class="fw-bolder mb-0">0.75 BTC</h4>
                                                 <p class="card-text font-small-3 mb-0">Ganancias generales</p>
                                             </div>
                                         </div>
@@ -89,8 +58,36 @@
                             </div>
                             <!--/ GANANCIAS -->
 
-                            <!-- HISTORICO -->
-                            <div class="col-12" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <!-- REFERIDOS -->
+                            <div class="col-12 col-lg-4">
+                                <div class="card card-statistics">
+                                    <div class="card-header pb-0">
+                                        <h4 class="card-title">Referidos</h4>
+                                    </div>
+                                    <div class="card-body statistics-body">
+                                        <div class="d-flex align-items-start">
+                                            <div class="avatar bg-light-danger me-2">
+                                                <div class="avatar-content">
+                                                    <i data-feather='users' style="width: 20px; height: 20px;"></i>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <!--{{#if depositos}}
+                                                <h4 class="fw-bolder mb-0">{{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}} BTC</h4>
+                                                {{else}}
+                                                <h4 class="fw-bolder mb-0">0 BTC</h4>
+                                                {{/if}}-->
+                                                <h4 class="fw-bolder mb-0">50 USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Pagos por referir</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--/ REFERIDOS -->
+
+                            <!-- PODER DE TH COMPRADO -->
+                            <div class="col-12 col-lg-8">
                                 <div class="card card-statistics">
                                     <div class="row m-0 p-0">
                                         <div class="col-12">
@@ -100,59 +97,79 @@
                                             <div class="card-body statistics-body">
                                                 <div class="row m-0 p-0">
                                                     <div class="col-12 col-md-4 p-0">
-                                                        <div class="d-flex align-items-start">
-                                                            <div class="avatar bg-light-info me-2">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather='activity' style="width: 20px; height: 20px;"></i>
+                                                        <a href="/th/PYT-24">
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="avatar bg-light-info me-2">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather='activity' style="width: 20px; height: 20px;"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="my-auto">
+                                                                    <h4 class="fw-bolder mb-0">{{total}} TH</h4>
+                                                                    <p class="card-text font-small-3 mb-0">Capacidad Total</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="my-auto">
-                                                                <h4 class="fw-bolder mb-0">30 TH</h4>
-                                                                <p class="card-text font-small-3 mb-0">Capacidad Total</p>
-                                                            </div>
-                                                        </div>
+                                                        </a>
                                                     </div>
                                                     <div class="col-12 col-md-4 my-1 my-md-0 p-0">
-                                                        <div class="d-flex align-items-start">
-                                                            <div class="avatar bg-light-success me-2">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather='clipboard' style="width: 20px; height: 20px;"></i>
+                                                        <a href="/th/PYT-24">
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="avatar bg-light-success me-2">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather='clipboard' style="width: 20px; height: 20px;"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="my-auto">
+                                                                    <h4 class="fw-bolder mb-0">{{disponibles}} TH</h4>
+                                                                    <p class="card-text font-small-3 mb-0">Disponibles</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="my-auto">
-                                                                <h4 class="fw-bolder mb-0">10 TH</h4>
-                                                                <p class="card-text font-small-3 mb-0">Disponibles</p>
-                                                            </div>
-                                                        </div>
+                                                        </a>
                                                     </div>
                                                     <div class="col-12 col-md-4 p-0">
-                                                        <div class="d-flex align-items-start">
-                                                            <div class="avatar bg-light-warning me-2">
-                                                                <div class="avatar-content">
-                                                                    <i data-feather='dollar-sign' style="width: 20px; height: 20px;"></i>
+                                                        <a href="/th/PYT-24">
+                                                            <div class="d-flex align-items-start">
+                                                                <div class="avatar bg-light-warning me-2">
+                                                                    <div class="avatar-content">
+                                                                        <i data-feather='dollar-sign' style="width: 20px; height: 20px;"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="my-auto">
+                                                                    <h4 class="fw-bolder mb-0">{{vendidos}} TH</h4>
+                                                                    <p class="card-text font-small-3 mb-0">Vendidos</p>
                                                                 </div>
                                                             </div>
-                                                            <div class="my-auto">
-                                                                <h4 class="fw-bolder mb-0">10 TH</h4>
-                                                                <p class="card-text font-small-3 mb-0">Vendidos</p>
-                                                            </div>
-                                                        </div>
+                                                        </a>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="my-auto">
-                                                    <h4 class="fw-bolder mb-0">Histórico</h4>
-                                                    <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!--/ HISTORICO -->
+                            <!--/ PODER DE TH COMPRADO -->                      
                         </div>
                     </div>
+                    <!-- HISTORICO -->
+                    <div class="col-12" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="card card-statistics">
+                            <div class="card-body statistics-body">
+                                <div class="d-flex align-items-start">
+                                    <div class="avatar bg-light-info me-2">
+                                        <div class="avatar-content">
+                                            <i data-feather='book' style="width: 20px; height: 20px;"></i>
+                                        </div>
+                                    </div>
+    
+                                    <div class="my-auto">
+                                        <h4 class="fw-bolder mb-0">Histórico</h4>
+                                        <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/ HISTORICO -->
                 </div>
             </section>
 

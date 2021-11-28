@@ -116,6 +116,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">${status}</span>`;
 		}
 	},
+	statususerpay: (status) => {
+		if(status === 'Pagado') {
+			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-warning">${status}</span>`;
+		}
+	},
 	accountverifiedpy24: (verify) => {
 		if(verify === 'No verificado') {
 			return `<span class="badge rounded-pill badge-light-danger">${verify}</span>`;
@@ -165,7 +172,7 @@ module.exports = {
 		console.log(name);
 		if (th <= 6) {
 			return `
-			<img src="../../../app-assets/images/illustration/Pot1.svg" class="mb-2 mt-5" alt="svg img">
+			<img src="../../../app-assets/images/illustration/btc.png" class="img-fluid mb-2 mt-5" style="max-width: 80px" alt="svg img">
 			<h3>${name}</h3>
 			<p class="card-text">Inicial</p>`;
 		} else if(th > 6 && th <= 15) {
@@ -173,19 +180,20 @@ module.exports = {
 			<div class="pricing-badge text-end">
 				<span class="badge rounded-pill bg-light-primary text-primary">Popular</span>
 			</div>
-			<img src="../../../app-assets/images/illustration/Pot2.svg" class="mb-1" alt="svg img">
+			<img src="../../../app-assets/images/illustration/btc.png" class="img-fluid mb-1" style="max-width: 80px" alt="svg img">
 			<h3>${name}</h3>
 			<p class="card-text">Mejor compra</p>
 			`
 		} else {
 			return `
-			<img src="../../../app-assets/images/illustration/Pot3.svg" class="mb-2" alt="svg img">
+			<img src="../../../app-assets/images/illustration/btc.png" class="img-fluid mb-2" style="max-width: 80px" alt="svg img">
 			<h3>${name}</h3>
 			<p class="card-text">Profesional</p>`;
 		}
 	},
 	totalth: (totalth) => {
 		let total = 0;
+		console.log(totalth)
 		totalth.forEach(element => {
 			total += parseInt(element.th_capacity);
 		});
@@ -203,6 +211,10 @@ module.exports = {
 		disponibles.forEach(element => {
 			total += parseInt(element.avalible);
 		});
+		return total;
+	},
+	contadormaquinas: (num) => {
+		let total = num + 1;
 		return total;
 	},
 	// --------

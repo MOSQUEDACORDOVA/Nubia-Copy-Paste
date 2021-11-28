@@ -29,8 +29,6 @@ const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControlle
 const FileController = require('../models/PYT24/upload');
 const fileController = new FileController();
 
-const FileController4 = require('../models/PYT4/upload');
-const fileController4 = new FileController4();
 
 // Landing Page
 router.get('/', landingController.showLandingPage);
@@ -50,7 +48,6 @@ router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
-router.post('/upload-file', fileController4.subirArchivo);
 router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
@@ -88,14 +85,6 @@ router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardCo
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
 
-//Cupones
-router.get('/promociones_bw',authControllerPY4.authenticatedUser, dashboardControllerPY4.getCupones);
-router.get('/promociones_bw/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.getCupones);
-router.post('/crear_cupones',authController.authenticatedUser, dashboardControllerPY4.save_cupon);
-router.post('/edit_cupon_id',authController.authenticatedUser, dashboardControllerPY4.editCupon);
-router.post('/editar_cupones',authController.authenticatedUser, dashboardControllerPY4.saveCuponEdited);
-router.get('/borrar_cupon/:id', authController.authenticatedUser, dashboardControllerPY4.deleteCupon);
-router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
 
 //vehiculos
 router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.vehiculos_table);
@@ -241,6 +230,7 @@ router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardContro
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
 
 router.get('/web/:id', dashboardControllerPY24.web);
+router.get('/privacy/:id', dashboardControllerPY24.privacy);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
@@ -255,6 +245,7 @@ router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardContr
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
 router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
+
 // MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
 router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
@@ -276,10 +267,13 @@ router.post('/regreferpy24', dashboardControllerPY24.reguserreferpy24);
 
 // AÑADIR MAQUINA DE MINADO 
 router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addth);
+// OBTENER MAQUINAS DE MINADO 
+router.get('/getmachines', authControllerPY24.authenticatedUser, dashboardControllerPY24.getmachines);
 // ELIMINAR MAQUINA DE MINADO 
 router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
+
 // ACTUALIZAR PRECIO TH
 router.post('/updateth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateth);
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO
@@ -336,8 +330,10 @@ router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboar
 
 // COMPRAR DE PAQUETE
 router.post('/deposits', authControllerPY24.authenticatedUser, dashboardControllerPY24.createdeposits);
-// APROBAR
+// SOLICITAR PAGO USUARIO
 router.post('/solicitpay', authControllerPY24.authenticatedUser, dashboardControllerPY24.solicitpay);
+// PAGAR A USUARIO ADMIN
+router.post('/payuser', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.payuser);
 
 // APROBAR
 router.post('/startdeposit', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.startdeposit);
