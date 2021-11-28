@@ -241,7 +241,6 @@ router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardContro
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
 
 router.get('/web/:id', dashboardControllerPY24.web);
-router.get('/privacy/:id', dashboardControllerPY24.privacy);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
@@ -256,7 +255,6 @@ router.get('/config24/:id', authControllerPY24.authenticatedUser, dashboardContr
 router.get('/retreats24/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.retreats);
 router.get('/deposits24/:id', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.depositsadmin);
 router.get('/plans/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.plans);
-
 // MOSTRAR TODOS LOS PAQUETES DE USUARIOS - ADMIN
 router.post('/getdeposits', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getdeposits);
 // Auth Admin
@@ -282,7 +280,6 @@ router.post('/addth', authControllerPY24.authenticatedAdmin, dashboardController
 router.post('/deletemachine', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.deletemachine);
 // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
 router.post('/th', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.controlth);
-
 // ACTUALIZAR PRECIO TH
 router.post('/updateth', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.updateth);
 // ACTUALIZAR PORCENTAJE DE MANTENIMIENTO

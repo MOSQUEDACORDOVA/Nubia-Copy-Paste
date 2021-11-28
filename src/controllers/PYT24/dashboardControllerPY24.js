@@ -14,26 +14,10 @@ exports.web = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/landing/web", {
-      pageName: "AeroCoin",
+      pageName: "Minner",
       dashboardPage: true,
       dashboard: true,
       py24:true,
-      login: true
-    })
-};
-
-exports.privacy = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-    res.render(proyecto+"/landing/privacy", {
-      pageName: "AeroCoin",
-      dashboardPage: true,
-      dashboard: true,
-      py24: true,
       login: true
     })
 };
@@ -67,13 +51,13 @@ exports.sesionstart = (req, res) => {
 // Registro de usuarios
 exports.reguserpy24 = (req, res) => {
   console.log(req.body);
-  const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
+  const { username, email, password } = req.body;
   let msg = false;
-  if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/register24/PYT-24');
   } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
+    DataBase.RegUser(username, email, password).then((respuesta) =>{
       res.redirect("/login24/PYT-24")
     }).catch((err) => {
       console.log(err)
@@ -508,15 +492,6 @@ exports.retreats = (req, res) => {
         DataBase.GetPaymenthsUser(idUser).then((resp) => {
           let retreatsCompletes = JSON.parse(resp);
           console.log(retreatsCompletes)
-
-          DataBase.GetCoinsAeroBTC(idUser).then((r) => {
-            let dep = JSON.parse(r);
-            console.log(dep)
-            let coins = 0;
-            dep.forEach(item => {
-              coins += parseInt(item.amountAero);
-            });
-          
     
     res.render(proyecto+"/retreats", {
       pageName: "Minner - Retiros",
@@ -537,14 +512,8 @@ exports.retreats = (req, res) => {
       retreats,
       retreatsCompletes,
       wallet,
-      data_th,
-      coins
+      data_th
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1007,7 +976,18 @@ exports.depositsadmin = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  let roleAdmin = true;
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
   // TRANSFERENCIAS
   DataBase.GetAllCompleteDepositsTransf().then((res1) => {
     let completeTransf = JSON.parse(res1);
@@ -1054,6 +1034,8 @@ exports.depositsadmin = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
+      roleClient,
+      roleSeller,
       completeTransf, completePaym, completeBTC, completeWallet,
       pendingTransf, pendingPaym, pendingBTC, pendingWallet
     });
@@ -1099,50 +1081,6 @@ exports.depositsadmin = (req, res) => {
   });
 };
 
-// VER TODOS LOS DEPOSITOS AEROCOIN ADMIN
-exports.depositsaeroadmin = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-
-  let roleAdmin = true;
-
-  // BTC
-  DataBase.GetAllPendingDepositsBTCAero().then((res1) => {
-    let pending = JSON.parse(res1);
-    console.log(pending)
-
-  DataBase.GetAllCompleteDepositsBTCAero().then((res2) => {
-    let completes = JSON.parse(res2);
-    console.log(completes)
-
-    res.render(proyecto+"/depositsad", {
-      pageName: "Depositos",
-      dashboardPage: true,
-      dashboard: true,
-      py24:true,
-      login: false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      pending, completes,
-      depaero: true
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
-  });
-};
-
 // APROBAR DEPOSITO
 exports.startdeposit = (req, res) => {
   let msg = false;
@@ -1173,32 +1111,6 @@ exports.startdeposit = (req, res) => {
     paqid = req.body.paqueteId;
 
     res.redirect('deposits24/PYT-24');
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  })
-};
-
-// APROBAR DEPOSITO
-exports.startdepositaero = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-
-  console.log(req.body)
-  console.log("PARAMS")
-
-  let id = req.body.id; 
-  let activated = moment().format('YYYY-MM-DD');
-  
-  DataBase.UpdateDepositsAero(id, activated).then((response) => {
-    console.log(response)
-
-    res.redirect('depositsaeroadmin/PYT-24');
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1241,139 +1153,6 @@ exports.startdepositaero = (req, res) => {
 //       roleSeller
 //     })
 // };
-
-// AEROCOIN PRESALE CLIENTE
-exports.aeropresale = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-  
-  let roleClient = true;
-  let presale = true;
-
-  let verify, unverify, pendingverify;
-
-  if (req.user.account_verified === 'No verificado') {
-    if(req.user.front_img_dni === null || req.user.back_img_dni === null) {
-      unverify = true;
-    } else {
-      pendingverify = true;
-    }
-  } else {
-    verify = true;
-  }
-
-  // TRAER TODOS LOS METODOS DE PAGO
-  DataBase.GetAllPaym().then((all)=>{
-    let allpays = JSON.parse(all);
-    console.log(allpays)
-
-    DataBase.GetControlAeroCoin().then((response)=>{
-      let aerocoin = JSON.parse(response)[0];
-      console.log(aerocoin)
-
-      // TRAER CUENTAS PARA RETIRO EN BTC
-      DataBase.GetBTC().then((btc)=>{
-        let allbtc = JSON.parse(btc);
-        console.log(allbtc)
-
-      let idUser = res.locals.user.id;
-
-      DataBase.GetCoinsAeroBTC(idUser).then((response) => {
-        let dep = JSON.parse(response);
-        console.log(dep)
-        let coins = 0;
-        dep.forEach(item => {
-          coins += parseInt(item.amountAero);
-        });
-
-    res.render(proyecto+"/aeropresale", { 
-      pageName: "Comprar AercoCoin",
-      dashboardPage: true,
-      dashboard: true,
-      py24: true,
-      login: false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleClient,
-      presale,
-      allpays,
-      aerocoin,
-      allbtc,
-      verify, unverify, pendingverify,
-      aero: true,
-      coins
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-};
-
-// COMPRAR AEROCOINS
-exports.buyaerocoins = (req, res) => {
-  const { amountCoin, amount, methodid } = req.body;
-  let msg = false;
-  let userid = res.locals.user.id,
-  name = res.locals.user.username,
-  dni = res.locals.user.num_document,
-  email = res.locals.user.email;
-
-  if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/aeropresale/PYT-24');
-  } else {
-    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, methodid, userid).then((respuesta) =>{
-      let response = JSON.parse(respuesta);
-      console.log(response)
-      console.log("SU PAGO A SIDO ENVIADO A VERIFICACION")
-      res.redirect('/depositaero/PYT-24');
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-  };
-}
-
-// AÑADIR PRECIO DE AEROCOIN ADMINISTRADOR
-exports.addaerocoin = (req, res) => {
-  console.log(req.body);
-  const { price } = req.body;
-  let msg = false;
-  if (price.trim() === '') {
-    console.log('Complete todos los campos')
-    res.redirect('/aero/PYT-24');
-  } else {
-    DataBase.ControlAeroCoin(price).then((respuesta) =>{
-      console.log("Precio de AeroCoin establecido satisfactoriamente");
-      res.redirect('/aero/PYT-24');
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error24/PYT-24");
-    });
-  }
-};
 
 // AÑADIR MAQUINA DE MINADO
 exports.addth = (req, res) => {
@@ -1481,55 +1260,6 @@ exports.th = (req, res) => {
   })
 };
 
-// OBTENER DATOS GENERALES DEL SISTEMA
-exports.aerocoin = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-  console.log("AEROCOIN")
-
-  let roleAdmin = true;
-
-  DataBase.GetControlAeroCoin().then((resp)=>{
-    let aerocoin = JSON.parse(resp)[0];
-    console.log(aerocoin)
-
-    res.render(proyecto+"/aerocoin", {
-      pageName: "Administrar AeroCoin",
-      dashboardPage: true,
-      dashboard: true,
-      py24: true,
-      login: false,
-      aero: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      aerocoin
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-};
-
-// ACTUALIZAR PRECIO TH
-exports.updateaerocoin = (req, res) => {
-  const {id, price} = req.body
-
-  DataBase.UpdatePriceAeroCoin(id, price).then((respuesta) =>{
-    let msg = respuesta
-    res.redirect('/aero/PYT-24')
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-};
-  
 // OBTENER MAQUINAS DE MINADO
 exports.getmachines = (req, res) => {
   let msg = false;
@@ -2209,14 +1939,6 @@ exports.boardpresale = (req, res) => {
       let depositos = JSON.parse(resp);
       console.log(depositos)
 
-      DataBase.GetCoinsAeroBTC(idUser).then((response) => {
-        let dep = JSON.parse(response);
-        console.log(dep)
-        let coins = 0;
-        dep.forEach(item => {
-          coins += parseInt(item.amountAero);
-        });
-
     res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -2234,13 +1956,7 @@ exports.boardpresale = (req, res) => {
       depositos,
       avalibleBalance,
       board: true,
-      coins,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2310,58 +2026,6 @@ exports.depositpresale = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-};
-
-// USUARIOS
-exports.depositaero = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
- 
-  let roleClient = true;
-  let presale = true;
-
-  let idUser = res.locals.user.id
-
-  DataBase.GetDepositsBTCAero(idUser).then((resp) => {
-    let btc = JSON.parse(resp);
-    console.log(btc)
-
-    DataBase.GetCoinsAeroBTC(idUser).then((response) => {
-      let dep = JSON.parse(response);
-      console.log(dep)
-      let coins = 0;
-      dep.forEach(item => {
-        coins += parseInt(item.amountAero);
-      });
-    
-    res.render(proyecto+"/depositaero", {
-      pageName: "Minner - Depositos",
-      dashboardPage: true,
-      dashboard: true,
-      py24:true,
-      login:false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleClient,
-      presale,
-      dep: true,
-      btc,
-      coins
-    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
