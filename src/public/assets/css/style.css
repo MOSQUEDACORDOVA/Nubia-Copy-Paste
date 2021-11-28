@@ -342,8 +342,6 @@ body {
     font-size: .9rem;
     font-weight: bold;
 }
-<<<<<<< HEAD
-<<<<<<< HEAD
 .py24 .col-12 .card-body .card-text {
     color: #b4b7bd;
 }
@@ -368,10 +366,7 @@ body {
 .py24 .auth-login-form::-webkit-scrollbar:hover {
     background: #353d50;
 }
-=======
->>>>>>> parent of 76e8910... tablero admin - administrar th Miner
-=======
->>>>>>> parent of 76e8910... tablero admin - administrar th Miner
+
 .py24 .progress-bar {
     background-color: #d9a543;
 }
