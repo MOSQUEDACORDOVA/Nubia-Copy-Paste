@@ -57,14 +57,6 @@
 
                                             <td class="text-nowrap" style=""><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end">
                                                 {{#usertosellerpy21 user.id user.type_user}}{{/usertosellerpy21}}
-                                                <a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard4">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                                    Asignar porcentaje de ganancias
-                                                </a>
-                                                <a class="dropdown-item" href="#" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard5">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                                    Establecer sistema de referidos
-                                                </a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -249,6 +241,7 @@
 
             {{!-- MODAL VERIFICACION --}}
             <div class="modal fade" id="AddNewCard3" tabindex="-1" style="display: none;" aria-hidden="true">
+<<<<<<< HEAD
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
@@ -280,51 +273,36 @@
 
             {{!-- MODAL ASIGNAR GANANCIAS DE VENDEDOR --}}
             <div class="modal fade" id="AddNewCard4" tabindex="-1" style="display: none;" aria-hidden="true">
+=======
+>>>>>>> parent of 65d7491... ajustes
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1">Establecer ganancias del vendedor</h1>
-                            <form action="/" method="POST" class="card-body">
-                                <p class="card-text mb-0">Porcentaje de Ganancias</p>
-                                <input type="number" name="" id="" class="form-control mb-1" placeholder="10%" value="0" min="0" required>
-                                
-                                <input type="submit" class="btn btn-primary" value="Establecer">
-                                <button type="reset" class="btn btn-outline-secondary">Denegar</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {{!-- END MODAL ASIGNAR GANANCIAS DE VENDEDOR --}}
-
-            {{!-- MODAL ESTABLECER SISTEMA DE REFERIDOS --}}
-            <div class="modal fade" id="AddNewCard5" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h1 class="text-center mb-1">Establecer sistema de referidos</h1>
+                            <h1 class="text-center mb-1">Verificación de cuenta</h1>
+                            <p class="text-center">Datos suministrados por el cliente</p>
                             <form action="/verifyuserpy21" method="POST" class="card-body">
+                                <input type="text" name="id" id="iduser" class="d-none" required>
                                 <p class="card-text mb-0">DNI Parte frontal</p>
-                                <select class="form-select mb-1">
-                                    <option>Simple - Por venta directa</option>
-                                    <option>Avanzado - Multinivel</option>
-                                </select>
+                                <a target="_blank" id="link1">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_front">
+                                </a>
                                 
+                                <p class="card-text mb-0">DNI Parte posterior</p>
+                                <a target="_blank" id="link2">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_back">
+                                </a>
                                 
-                                <input type="submit" class="btn btn-primary" value="Establecer">
+                                <input type="submit" class="btn btn-primary" value="Validar verificación">
                                 <button type="reset" class="btn btn-outline-secondary">Denegar</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            {{!-- END MODAL ESTABLECER SISTEMA DE REFERIDOS --}}
+            {{!-- END MODAL VERIFICACION --}}
         </div>
     </div>  
 </div>

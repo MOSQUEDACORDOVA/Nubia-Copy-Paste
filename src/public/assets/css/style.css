@@ -312,16 +312,15 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
 .py21 table thead th, .py21 table tbody td {
     white-space: nowrap;
 }
+<<<<<<< HEAD
 
 .py21 .auth-img {
     object-fit: contain;
     max-width: 500px;
 }
+=======
+>>>>>>> parent of 65d7491... ajustes
 /*--------------------------- PYT-24 ---------------------------*/
-.py24 .auth-img {
-    object-fit: contain;
-    max-height: 500px;
-}
 body {
     position: relative;
 }
@@ -394,60 +393,6 @@ body {
     100% {
         opacity: 1;
         transform: scale(1) translateY(0px);
-    }
-}
-.py24 .graficas .circle {
-    position: relative;
-    display: block;
-    margin: auto;
-    width: 220px;
-    height: 190px;
-    border-radius: 50%;
-    text-align: center;
-    border: 4px solid #D9A443;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-.py24 .mini-circle {
-    position: relative;
-    display: block;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 4px solid #D9A443;
-}
-.py24 .graficas .circle p {
-    position: relative;
-    z-index: 1;
-    font-size: 3rem;
-    color: white;
-}
-.py24 .graficas .circle span {
-    position: absolute;
-    left: -5px;
-    bottom: -5px;
-    z-index: 0;
-    width: 120%;
-    height: 90%;
-    background: #d9a54326;
-    animation: showGr 1s .5s alternate infinite;
-}
-@keyframes showGr {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(10px);
-    }
-}
-@keyframes showGr2 {
-    0% {
-        transform: translateY(0);
-    }
-    100% {
-        transform: translateY(10px);
     }
 }
 .py24 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
