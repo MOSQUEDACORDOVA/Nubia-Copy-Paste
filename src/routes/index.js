@@ -42,6 +42,17 @@ router.post('/login',passport.authenticate('local',{ failureRedirect: '/login',f
 // Cerrar Sesión
 router.get('/close-session', userController.closeSesion);
 
+//CUPONERA
+router.get('/intro_cuponera', dashboardControllerPY4.introCup);
+router.get('/intro_cuponera/:crea', dashboardControllerPY4.introCup);
+router.get('/log_cuponera/:registrado', dashboardControllerPY4.introCup);
+router.post('/session_cuponera', dashboardControllerPY4.sessionCuponera);
+router.get('/cuponera',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
+router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
+router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cuponera);
+
+//NOTIFICACIONES
+router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
 
 // Dashboard
 router.get('/dashboard', dashboardController.dashboard);
@@ -96,7 +107,7 @@ router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dash
 
 
 //CP
-router.post('/consultaCP',authControllerPY4.authenticatedUser, dashboardControllerPY4.consultaCP);
+router.post('/consultaCP', dashboardControllerPY4.consultaCP);
 //corte
 router.get('/corte_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
 router.get('/corteday_py4/:day',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
@@ -107,7 +118,7 @@ router.get('/delete_pedido/:id', authControllerPY4.authenticatedUser,dashboardCo
 router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
 
-router.get('/ver_pedido/:id', dashboardControllerPY4.ver_pedido);
+
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
 router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
@@ -127,10 +138,11 @@ router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', auth
 
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
-
+router.get('/logout_cuponera', dashboardControllerPY4.closeSesioncuponera);
 //post
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
+
 router.post('/registrar_usuario',dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido_save', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
