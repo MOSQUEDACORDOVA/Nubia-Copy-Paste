@@ -203,6 +203,36 @@ module.exports = {
     });
   },
 
+  registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color) {
+    return new Promise((resolve, reject) => {
+      Clientes.findOrCreate({
+        where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
+        defaults: {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,estado:cp, cpId: asentamiento
+        }
+      }).then((data)=>{
+        let data_set = JSON.stringify(data);
+        console.log(data_set);
+        resolve('Cliente registrado con éxito');
+        
+      })
+      .catch((err) => {
+        reject(err)
+      });
+    /*  Clientes.create(
+        {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Cliente registrado con éxito');
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });*/
+    });
+  },
+
   update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -347,6 +377,27 @@ module.exports = {
             .catch((err) => {
               reject(err)
             });
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  ClienteByTlf(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findOne({where:{
+        telefono: id
+      },include:[
+        {association:Clientes.CoP },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
         })
         .catch((err) => {
           reject(err)
@@ -1458,7 +1509,7 @@ usuarioId:id_usuario
     return new Promise((resolve, reject) => {
       Cupones.findOne({
         where: {
-          [Op.or]: [{ nombre_cupon: consultar }],
+          [Op.or]: [{ id: consultar }],
         },
       })
         .then((res) => {
@@ -1495,13 +1546,12 @@ usuarioId:id_usuario
         });
     });
   },
-  CuponUsado(fecha_uso, usado_por, id_cupon, id_cliente) {
+  CuponUsado(form_id_cliente, id_cupon_selected, fecha_selected) {
     return new Promise((resolve, reject) => {
       Used_cupons.create({
-        fecha_uso: fecha_uso,
-        usado_por: usado_por,
-        cuponeId: id_cupon,
-        clienteId: id_cliente
+        fecha_uso: fecha_selected,
+        cuponeId: id_cupon_selected,
+        clienteId: form_id_cliente
       })
         .then((about) => {
           let aboutes = JSON.stringify(about);
@@ -1535,13 +1585,12 @@ usuarioId:id_usuario
         });
     });
   },
-  consultarCuponesUsados(usuario_id, nombre_cupon) {
+  consultarCuponesUsados(id_cupon, id_cliente) {
     return new Promise((resolve, reject) => {
       Used_cupons.findOne({
         where: {
-          id_usuario: usuario_id,
-          nombre_cupon: nombre_cupon,
-          especial:'SI'
+          cuponeId: id_cupon,
+          clienteId: id_cliente
         },
         order: [
           // Will escape title and validate DESC against a list of valid direction parameters

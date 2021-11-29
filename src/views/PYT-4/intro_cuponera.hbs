@@ -1,0 +1,260 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+     {{#if crea}}
+    <script>
+    $(function(){
+        console.log('aja')
+        Swal.fire('Su teléfono no se encuentra en nuestra base datos, verificar o registrarse en la planilla que saldrá a continuación')
+        $('#add_cliente_cuponera').modal('show')
+
+
+ $('.cp_select').on('keyup', (e) => {
+            $(".select_asentamiento_me").empty();
+            let cp = e.target.value
+            const data = new FormData();
+            data.append("cp", cp);
+            $.ajax({
+                url: '/consultaCP',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                    var municipio = ""
+                    for (let i = 0; i < data.cp_let.length; i++) {
+
+                        municipio = data.cp_let[0].municipio
+                        $(".select_asentamiento_me").append('<option value="' + data.cp_let[i].id + '">' + data.cp_let[i].asentamiento + '</option>');
+                    }
+                    console.log(municipio)
+                    $('.municipio').val(municipio)
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR)
+                }
+            });
+        })
+        
+    })
+</script>{{/if}}
+{{#if msg}}
+<label id="msgs" hidden>{{msg}}</label>
+{{/if}}
+<div class="app-content content py4" style="transition:none">
+    <div class="content-overlay"></div>
+        <content class="ng-tns-c185-1 ng-star-inserted">
+        <div class="ng-tns-c185-1 ng-trigger ng-trigger-zoomIn">
+                <div class="auth-wrapper auth-v2">
+                    <div class="auth-inner row m-0">
+                        <div class="d-none d-lg-flex col-lg-8 align-items-center p-5"
+                            style="background: linear-gradient(rgb(0, 24, 103) 0%, rgb(1, 12, 112) 51%, rgb(0, 146, 174) 100%);">
+                            <app-login-brand-pyt4 style="margin: 0 auto;" class="ng-star-inserted">
+                                <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img
+                                        src="../../../dataPY4/images/pyt_4_logo_blanco.png" class="img-fluid" /></div>
+                            </app-login-brand-pyt4>
+                        </div>
+                        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto"><img
+                                    src="../../../dataPY4/images/logo.png"
+                                    class="d-lg-none img-fluid" />
+                                <form class="auth-login-form mt-2" action="/session_cuponera" method="POST"
+                                    novalidate="novalidate">
+                                    <div class="none">
+                                        <input class="form-control" id="register-username" type="text" name="proyect"
+                                            placeholder="johndoe" aria-describedby="register-username" value="PYT4"
+                                            tabindex="1" hidden />
+                                            <input class="form-control" value="12345" type="text" name="pass" hidden />
+                                    </div>                <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono</label>
+                  <div class="input-group mb-2">
+                    <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                    <input type="text" name="telefono" placeholder="(760) 123 00 00"
+                      mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                      class="form-control">
+                  </div>
+                </div>
+                                    <button class="btn btn-primary w-100 waves-effect waves-float waves-light"
+                                        tabindex="4">Ingresar</button>
+                                </form>
+
+  <div class="modal fade " id="add_cliente_cuponera" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation was-validated" action="/save_cliente_cuponera" method="post">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control mb-2" required>
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                            type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2" required></div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+
+                    <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
+                            Postal</label><input type="text" name="cp" placeholder="cp"
+                            aria-describedby="register-lastName" tabindex="2" class="form-control cp_select"
+                            id="cp_select" required>
+                    </div>
+
+                    <div class="form-group mb-2"><label for="register-lastName" class="form-label">Estado</label><input
+                            type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
+                    </div>
+
+
+                    <div class="form-group mb-2"><label for="register-lastName"
+                            class="form-label">Municipio</label><input type="text" name="municipio"
+                            placeholder="Municipio" aria-describedby="register-lastName" tabindex="2"
+                            class="form-control municipio" id="municipio" readonly>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento"
+                            name="asentamiento">
+
+                        </select>
+
+                    </div>
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" required>
+                        </div>
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">Familiares</div>
+                    </div>
+                    <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del
+                            familiar
+                            1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                            aria-describedby="register-nombre_familiar_1" tabindex="12" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del
+                            familiar
+                            1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                            aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del
+                            familiar
+                            1</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                                class="form-control mb-2">
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
+                            familiar
+                            2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                            aria-describedby="register-nombre_familiar_2" tabindex="15" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del
+                            familiar
+                            2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                            aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del
+                            familiar
+                            2</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                                class="form-control mb-2">
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                            cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                            name="tipo_cliente" class="form-control mb-2">
+                            <option selected=""> Residencial </option>
+                            <option> Negocio </option>
+                            <option> Punto de venta </option>
+                        </select></div>
+                    <div class="form-group d-none"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                            cliente?</label>
+                            
+                        <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
+                                name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                                class="custom-control-input me-1" value="SI"><label for="customCheck1"
+                                class="custom-control-label">Sí</label>
+                        </div>
+                    </div>
+                                        <div class="form-group d-none"><label for="register-sucursal" class="form-label">Zona</label><select
+                            aria-describedby="register-sucursal" tabindex="24" name="sucursal"
+                            class="form-control mb-2">
+                            <option selected="NULL">NULL</option>
+                            {{#each sucursales_let as |sucursal i|}}
+                            <option value={{id}}> {{nombre}} </option>
+                            {{/each}}
+                        </select></div>
+
+                   <div class="d-none">
+
+                  <label for="register-lastName" class="form-label">Etiqueta</label>
+                  <select class="select2 form-select" id="color_tag" name="color" >
+                    <option selected="" value="NULL">NULL</option>
+                    {{#each etiquetas_let as |cliente i|}}
+                    <option value="{{id}}"> {{etiquetas}}</option>
+                    {{/each}}
+                  </select>                
+                </div>
+                    <div class="form-group d-none"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                            último
+                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                            class="form-control mb-2"></div>
+                    <div class="form-group d-none"><label for="register-utimos_botellones" class="form-label">Cantidad de
+                            garrafones
+                            en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0"
+                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
+                    <div class="form-group"><label for="register-email" class="form-label">Correo</label><input
+                            type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                            tabindex="25" class="form-control mb-2"></div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26"
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--container-->
+        </div>
+    </content>
+</div>
+<!-- END: Content-->

@@ -368,6 +368,25 @@ exports.save_cliente_py4 = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 }
+exports.save_cliente_cuponera = (req, res) => {
+  
+  const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
+  let msg = false;
+  var modo_cliente ="SI"
+  if (cliente_nuevo == null){
+    modo_cliente = "NO"
+  }
+
+  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then((respuesta) =>{
+
+    res.redirect('/log_cuponera/'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}
 
 exports.delete_cliente = (req, res) => {
   const user = res.locals.user;
@@ -559,36 +578,7 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
   return res.redirect("/errorpy4/" + msg);
   });
  };
- exports.ver_pedido = (req, res) => {
-  const user = res.locals.user;
-  let id_ = req.params.id
-  
-DataBase.PedidoById(id_).then((pedidos_)=>{
-  let pedido_let = JSON.parse(pedidos_)[0]
  
- let garrafon19L = JSON.parse(pedido_let.garrafon19L);
- let botella1L = JSON.parse(pedido_let.botella1L)
- let garrafon11L = JSON.parse(pedido_let.garrafon11L)
- let botella5L = JSON.parse(pedido_let.botella5L)
-res.render("PYT-4/ver_pedido", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  dash:true,
-  pedido_let,
-  garrafon19L,
-botella1L,
-garrafon11L,
-botella5L,
-disabled_chofer: true
-}) 
-  }).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
- };
 
  exports.Save_editPedidoPy4 = (req, res) => {
 
@@ -1710,10 +1700,11 @@ exports.getCupones = (req, res) => {
                 let sucursales_let = JSON.parse(sucursales_)
                  let count = sucursales_let.length
 
-                 DataBase.totalcupones().then((total_cupones) => {
+                 DataBase.totalcupones().then( async(total_cupones) => {
     let cupones_act = JSON.parse(total_cupones);
     let cont = cupones_act.length;
     console.log(cupones_act);
+    
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
@@ -1801,87 +1792,160 @@ exports.deleteCupon = async (req, res) => {
 };
 
 exports.usar_cupon = async (req, res) => {
-  const { cupon } = req.body;
-console.log(cupon);
-  Modulo_BD.consultarCupon(cupon).then(async (resultado) => {
-    let parsed = JSON.parse(resultado)[0];
-    console.log(parsed);
-
-    if (typeof parsed === "undefined") {
-      return res.send("El cupón no existe favor verificar");
-    } else { 
-      if (parsed.cantidad_actual == 0) {
-        return res.send("Cupon agotado");
-      } else {
-        Hoy = moment(); 
-        console.log(Hoy)
-            let fecha_final= moment(Hoy).isAfter(parsed.fecha_final); // true
-                console.log(fecha_final)
-                if (fecha_final == true) {
-                  return res.send("Cupon vencido");
-                  return;
-                } else {
-          console.log("Has introducido la fecha de Hoy");
-          var cantidad_act = parsed.cantidad_actual - 1;
-          var id_cupon = parsed.id;
-          var valor = parsed.valor;
-          var nombre_cupon = parsed.nombre_cupon;
-          var tipo = parsed.tipo;
-          var fecha_uso = Hoy.toISOString()
-          var especial =parsed.especial
-          let usuario_id =0
-          if (typeof res.locals.user.id != "undefined") {
-            usuario_id = res.locals.user.id
+  const { form_id_cliente, id_cupon_selected, fecha_selected } = req.body;
+console.log(req.body);
+  const cupon = JSON.parse(await DataBase.consultarCupon(id_cupon_selected))
+  //   let parsed = JSON.parse(resultado)[0];
+  //   
+      var cantidad_act = cupon.cantidad_actual - 1;
+      console.log(cantidad_act);
+  //   if (typeof parsed === "undefined") {
+  //     return res.send("El cupón no existe favor verificar");
+  //   } else { 
+  //     if (parsed.cantidad_actual == 0) {
+  //       return res.send("Cupon agotado");
+  //     } else {
+  //       Hoy = moment(); 
+  //       console.log(Hoy)
+  //           let fecha_final= moment(Hoy).isAfter(parsed.fecha_final); // true
+  //               console.log(fecha_final)
+  //               if (fecha_final == true) {
+  //                 return res.send("Cupon vencido");
+  //                 return;
+  //               } else {
+  //         console.log("Has introducido la fecha de Hoy");
+  //         var cantidad_act = parsed.cantidad_actual - 1;
+  //         var id_cupon = parsed.id;
+  //         var valor = parsed.valor;
+  //         var nombre_cupon = parsed.nombre_cupon;
+  //         var tipo = parsed.tipo;
+  //         var fecha_uso = Hoy.toISOString()
+  //         var especial =parsed.especial
+  //         let usuario_id =0
+  //         if (typeof res.locals.user.id != "undefined") {
+  //           usuario_id = res.locals.user.id
             
-          }
-          if (especial == "SI") {
-            let cupon_s= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
-            console.log(res.locals.user.id)
-            if (typeof res.locals.user.id == "undefined") {
-              console.log('no ha iniciado sesion para aplicar cupon')
-              return res.send(cupon_s);
-            }
-            const usado = JSON.parse( await Modulo_BD.consultarCuponesUsados(usuario_id, nombre_cupon))
-            console.log(usado)
-            if (usado != null) {
-              let cupun_sU = {'mensaje':'USADO'}
-              console.log('usado')
-              return res.send(cupun_sU);
-            }
-          }
-
-          
-
-          Modulo_BD.UpdateUsedCupon(id_cupon, cantidad_act).then(
-            (resultado_used) => {
-              console.log(especial)
-              let parsed_used = JSON.parse(resultado_used)[0];
-              Modulo_BD.CuponUsado(
-                usuario_id,
-                nombre_cupon,
-                valor,
-                fecha_uso,
-                "Servicio",
-                tipo,especial
-              ).then((resultadoaqui) => {
-                let cupon_ap= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
-                return res.send(cupon_ap);
+  //         }
+  //         if (especial == "SI") {
+  //           let cupon_s= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
+  //           console.log(res.locals.user.id)
+  //           if (typeof res.locals.user.id == "undefined") {
+  //             console.log('no ha iniciado sesion para aplicar cupon')
+  //             return res.send(cupon_s);
+  //           }
+             const usado = JSON.parse( await DataBase.consultarCuponesUsados(id_cupon_selected, form_id_cliente))
+             console.log(usado)
+             if (usado != null) {
+               let cupun_sU = {'msg':'USADO'}
+               console.log('usado')
+               return res.send(cupun_sU);
+             }
+             const usar=  await DataBase.UpdateUsedCupon(id_cupon_selected, cantidad_act)
+             console.log(usar)
+  DataBase.CuponUsado(form_id_cliente, id_cupon_selected, fecha_selected).then((resultadoaqui) => {
+              
+                return res.send({msg: resultadoaqui});
               })
           .catch((err) => {
             console.log(err)
             return res.status(500).send("Error actualizando" + err);
           })
-          })
-        .catch((err) => {
-          console.log(err)
-          return res.status(500).send("Error actualizando" + err);
-        });
-        }
-      }
+};
+
+//INTRO CUPONERA
+exports.introCup = (req, res) => {
+  const { error } = res.locals.messages;
+  let crea=false, msg=false
+  if (req.params.crea) {
+    crea = true
+  }
+  if (req.params.registrado) {
+    msg="Se ha registrado con éxito, ingrese el télefono registrado, para ingresar a la cuponera"
+  }
+  res.render("PYT-4/intro_cuponera", {
+    pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      login:true,crea,msg,
+    error,
+  });
+};
+exports.sessionCuponera = (req, res) => {
+ console.log(req.body)
+  passport.authenticate("cuponera",  function (err, user, info) {
+    if (err) {
+      console.log(err)
+      return next(err);
     }
-      })
-      .catch((err) => {
+    console.log(err)
+    console.log(info)
+    if (!user) {
+      console.log("no existe usuario")
+      return res.redirect("/intro_cuponera/crea");
+    }
+    req.logIn(user, async function (err) {
+      if (err) {
         console.log(err)
-        return res.status(500).send("Error actualizando" + err);
-      });
+        return next(err);
+      }
+
+      return res.redirect('/cuponera')
+    });
+  })(req, res);
+};
+exports.introCupValidate = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let cliente = res.locals.user
+  let salud = [], belleza = [], fitness=[],comida=[], otros =[]
+
+  //DATA-COMUNES
+ DataBase.totalcupones().then(async(total_cupones) => {
+    let cupones_act = JSON.parse(total_cupones);
+    var usado
+    for (let i = 0; i < cupones_act.length; i++) {
+      usado = JSON.parse( await DataBase.consultarCuponesUsados(cupones_act[i].id,cliente.id ))
+      console.log('usado')
+      console.log(usado)
+    if (usado == null) {
+       switch (cupones_act[i].categoria) {
+      case 'Belleza':
+        belleza.push(cupones_act[i])
+        break;
+        case 'Fitness':
+          fitness.push(cupones_act[i])
+          break;
+          case 'Salud':
+            salud.push(cupones_act[i])
+        break;
+        case 'Comida':
+          comida.push(cupones_act[i])
+        break;
+        case 'Otros':
+          otros.push(cupones_act[i])
+        break;
+      default:
+        break;
+      }
+    }  
+  }
+    res.render("PYT-4/cuponera", {
+      pageName: "Cuponera",
+      cupones_act,total_cupones,
+      msg,
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      cliente,
+      salud, belleza, fitness, comida,  otros,  py4:true,
+  dash:true,
+disabled_chofer: true
+    });
+
+}).catch((err) => {
+  console.log(err);
+});
 };
