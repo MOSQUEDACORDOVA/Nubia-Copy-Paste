@@ -7,7 +7,6 @@ const passport = require("passport");
 //var moment = require('moment'); // require
 var moment = require('moment-timezone');
 const Push = require('push.js')
-
 exports.change_sucursal = (req, res) => {
 let nuevo_id = req.body.cambia_sucursal
   //DATA-COMUNES
@@ -426,7 +425,7 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
-console.log(req.body)
+
   DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
     let ClientesDB = ""
@@ -1660,6 +1659,7 @@ let msg = "Error en sistema";
 return res.redirect("/errorpy4/" + msg);
 });
    })   
+
  };
 
  // CUPONES
@@ -1960,5 +1960,112 @@ disabled_chofer: true
 
 }).catch((err) => {
   console.log(err);
+});
+};
+
+
+//NOTIFICACIONES
+exports.notificaciones_table = (req, res) => {
+  console.log(req.session.sucursal_select)
+  //Push.create('Hello World!')
+  let msg = false;
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  if (req.params.day) {
+    
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
+ let id_sucursal = req.session.sucursal_select
+ console.log(req.session.tipo)
+  //DATA-COMUNES
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="",PrestadosGroupByCliente=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    obtenernotificaciones=DataBase.obtenernotificaciones
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+obtenernotificaciones=DataBase.obtenernotificaciones
+      break;
+  }
+  DataBase.CodigosP().then((cp_)=>{
+    let cp_arr = JSON.parse(cp_)
+  ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+obtenernotificaciones().then((notif_)=>{
+  let notifi_g = JSON.parse(notif_)
+       ChoferesDB(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        DataBase.Sucursales_ALl().then((sucursales_)=>{
+          let sucursales_let = JSON.parse(sucursales_)
+                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                    let etiquetas_let = JSON.parse(etiquetas_)
+                    console.log(notifi_g)
+    res.render("PYT-4/notificaciones", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      notificaciones:true,
+      admin,
+      clientes_d,
+      clientes_arr,
+      pedidos_,
+      pedidos_let,
+      choferes_,sucursales_let,
+      cp_,notifi_g,etiquetas_let,
+      msg,notif_
+    }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
 });
 };
