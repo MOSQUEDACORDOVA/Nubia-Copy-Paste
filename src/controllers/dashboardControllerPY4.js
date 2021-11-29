@@ -2066,6 +2066,10 @@ obtenernotificaciones().then((notif_)=>{
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
 });
+<<<<<<< HEAD
 };
 =======
 >>>>>>> parent of 8f3d6e8 (notificaciones cupon)
+=======
+};
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)

@@ -14,6 +14,10 @@ const Last_p = require("../../models/PYT4/Last_pedido");
 const Etiquetas = require("../../models/PYT4/Etiquetas");
 const Cupones = require("../../models/PYT4/Cupones");
 const Used_cupons = require("../../models/PYT4/Used_cupons");
+<<<<<<< HEAD
+=======
+const Notificaciones = require("../../models/PYT4/Notificaciones");
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
 var moment = require('moment-timezone');
 
 module.exports = {
