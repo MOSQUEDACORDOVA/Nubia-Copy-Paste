@@ -362,6 +362,23 @@ body {
 .py24 .auth-login-form::-webkit-scrollbar:hover {
     background: #353d50;
 }
+.py24 .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+}
+.py24 .auth-login-form::-webkit-scrollbar {
+    background: #20293f;
+    width: 8px;
+}
+.py24 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+    background-color: #d9a543;
+}
+.py24 .auth-login-form::-webkit-scrollbar:hover {
+    background: #353d50;
+}
 .py24 .progress-bar {
     background-color: #d9a543;
 }
@@ -543,18 +560,30 @@ body {
     position: relative;
     padding: 140px 0;
 }
+<<<<<<< HEAD
 .py24 .auth-wrapper .logo, .py24.banner .logo {
     font-size: 30px;
     font-family: 'Conthrax Sb';
 }
 .py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
+=======
+.py27 .auth-wrapper .logo, .py27.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     font-size: 20px;
     font-family: 'Qualy';
 }
 .py24 .box {
     position: relative;
 }
+<<<<<<< HEAD
 .py24 .box .d-flex .btn-secondary {
+=======
+.py27 .box .d-flex .btn-secondary {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     background: #fff !important;
     color: #04246d !important;
     border: none;
@@ -563,8 +592,12 @@ body {
     font-size: 1.3rem;
     transition: .3s ease all;
 }
+<<<<<<< HEAD
 
 /* .py24.banner span {
+=======
+.py24.banner span {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     display: block;
     width: 120px;
     height: 3px;
@@ -648,17 +681,34 @@ body {
     /*background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
     background-attachment: fixed;*/
 }
+<<<<<<< HEAD
 .py24.pagos.roadmap {
+=======
+.py27.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/buynow.jpg);
+}
+.py27.pagos.roadmap {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     position: relative;
     padding: 60px 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-image: url(../../../app-assets/images/py24/line.jpg);
+<<<<<<< HEAD
     /*background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
     background-attachment: fixed;*/
 }
 /*.py24.pagos::before {
+=======
+}
+.py24.pagos::before {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     position: absolute;
     content: '';
     top: 0;
@@ -673,9 +723,15 @@ body {
     z-index: 3;
     font-family: 'Qualy';
 }
+.py27.pagos .text-center, .py27.inversion .text-center {
+    position: relative;
+    z-index: 3;
+    font-family: 'Qualy';
+}
 .py24.pagos .text-center h2, .py24.inversion .text-center h2 {
     font-weight: bold;
 }
+<<<<<<< HEAD
 .py24.pagos .text-center h2 {
     font-size: 80px;
 }
@@ -683,6 +739,15 @@ body {
     font-size: 50px;
 }
 .py24.pagos .btn-secondary {
+=======
+.py27.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py27.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py27.pagos .btn-secondary {
+>>>>>>> parent of b75f1ab (landings aerocoin)
     background: #c6c6c6 !important;
     color: #000 !important;
     border: none;
