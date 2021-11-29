@@ -145,7 +145,7 @@ router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', auth
 
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
-
+router.get('/logout_cuponera', dashboardControllerPY4.closeSesioncuponera);
 //post
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);

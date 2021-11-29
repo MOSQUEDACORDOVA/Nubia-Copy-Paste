@@ -516,6 +516,11 @@ exports.closeSesion = (req, res) => {
     res.redirect("/loginpy4");
   });
 };
+exports.closeSesioncuponera = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/intro_cuponera");
+  });
+};
 
 exports.regPedidoPy4 = (req, res) => {
   
@@ -1699,12 +1704,14 @@ exports.getCupones = (req, res) => {
  DataBase.Sucursales_ALl().then((sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)
                  let count = sucursales_let.length
-
+    DataBase.CodigosP().then((cp_)=>{
+                  let cp_arr = JSON.parse(cp_)
                  DataBase.totalcupones().then( async(total_cupones) => {
     let cupones_act = JSON.parse(total_cupones);
-    let cont = cupones_act.length;
-    console.log(cupones_act);
-    
+    DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
+      let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
+      
+    console.log(total_cupones_usados_cupones_act);
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
@@ -1714,13 +1721,19 @@ exports.getCupones = (req, res) => {
       dashboard: true,
       py4:true,
       clientes_d, clientes_arr,pedidos_,choferes,choferes_,
-      vehiculos_let,  msg,
+      vehiculos_let,  msg,total_cupones_usados,
       //NO COMUNES
-      sucursales_let, sucursales_
+      sucursales_let, sucursales_,cp_
     });
   }).catch((err) => {
     console.log(err);
   });
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
 }).catch((err) => {
   console.log(err);
 });

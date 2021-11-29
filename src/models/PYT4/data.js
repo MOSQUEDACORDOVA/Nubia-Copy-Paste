@@ -208,7 +208,7 @@ module.exports = {
       Clientes.findOrCreate({
         where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
         defaults: {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,estado:cp, cpId: asentamiento
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,estado:cp, cpId: asentamiento, cuponera:"SI"
         }
       }).then((data)=>{
         let data_set = JSON.stringify(data);
@@ -1564,12 +1564,9 @@ usuarioId:id_usuario
         });
     });
   },
-  obtenerCuponesUsados(id_usuario) {
+  obtenerCuponesUsados() {
     return new Promise((resolve, reject) => {
-      Used_cupons.findAll({
-        where: {
-          clienteId: id_usuario,
-        },include:[{association: Used_cupons.Cupones}],
+      Used_cupons.findAll({include:[{association: Used_cupons.Cupones},{association: Used_cupons.Clientes}],
         // order: [
         //   ["updatedAt", "DESC"],
         // ],
