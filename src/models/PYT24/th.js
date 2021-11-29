@@ -8,24 +8,23 @@ const TH = db24.define('ths', {
 		autoIncrement: true
 	},
 	price: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	percentage_maintance: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	percentage_error: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
     ref_earnings: {
-        type: DataTypes.INTEGER(255),
+        type: DataTypes.INTEGER,
         allowNull: true,
-		defaultValue: 0
     },
 	min_withdrawal: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER,
 		allowNull: false
 	}
 });

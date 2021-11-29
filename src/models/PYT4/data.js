@@ -1393,7 +1393,6 @@ PersonalAllS(id){
           });
         },
 
-
         
   //CUPONES
   totalcupones() {
