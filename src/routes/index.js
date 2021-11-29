@@ -52,6 +52,10 @@ router.post('/session_cuponera', dashboardControllerPY4.sessionCuponera);
 router.get('/cuponera',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
 router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
 router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cuponera);
+
+//NOTIFICACIONES
+router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
+
 // Dashboard
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
