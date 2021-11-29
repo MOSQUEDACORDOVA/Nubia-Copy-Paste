@@ -353,7 +353,8 @@ router.get('/py27/:id', dashboardControllerPY27.dashboard);
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
 router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 
-router.get('/web/:id', dashboardControllerPY27.web);
+router.get('/webpy27/:id', dashboardControllerPY27.web);
+router.get('/webespy27/:id', dashboardControllerPY27.webes);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
 

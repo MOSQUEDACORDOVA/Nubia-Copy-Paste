@@ -345,23 +345,6 @@ body {
     object-fit: cover;
     max-width: 600px;
 }
-.py24 .auth-login-form {
-    padding-right: 5px;
-    overflow: auto;
-    max-height: 300px;
-}
-.py24 .auth-login-form::-webkit-scrollbar {
-    background: #20293f;
-    width: 8px;
-}
-.py24 .auth-login-form::-webkit-scrollbar-thumb {
-    background: #000;
-    border-radius: 5px;
-    background-color: #d9a543;
-}
-.py24 .auth-login-form::-webkit-scrollbar:hover {
-    background: #353d50;
-}
 .py24 .progress-bar {
     background-color: #d9a543;
 }
@@ -482,10 +465,10 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
 @media (min-width: 992px) {
-    .py24.landheader .menu.nav .nav-item {
+    .py24.landheader .menu.nav .nav-item .nav-link {
         transition: .3s ease all;
     }
-    .py24.landheader .menu .nav-item:hover {
+    .py24.landheader .menu .nav-item .nav-link:hover {
         background: #d9a5439d !important;
         box-shadow: 0 8px 25px -8px #D9A443 !important;
     }
@@ -493,7 +476,27 @@ body {
         color: white !important;
         opacity: 1;
     }
-    .py24.landheader .menu .nav-item {
+    .py24.landheader .menu .nav-item .nav-link {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    .py27.landheader .menu.nav .nav-item .nav-link {
+        transition: .3s ease all;
+    }
+    .py27.landheader .menu .nav-item .nav-link:hover {
+        background: #0087f5 !important;
+        box-shadow: 0 8px 25px -8px #0087F5 !important;
+    }
+    .py27.es.landheader .menu .nav-item .nav-link:hover {
+        background: #ce0011 !important;
+        box-shadow: 0 8px 25px -8px #ce0011 !important;
+    }
+    .py27.landheader .menu .nav-item:hover .nav-link {
+        color: white !important;
+        opacity: 1;
+    }
+    .py27.landheader .menu .nav-item .nav-link {
         display: inline-block;
         padding: 10px;
         border-radius: 8px;
@@ -543,25 +546,8 @@ body {
     position: relative;
     padding: 140px 0;
 }
-.py27 .auth-wrapper .logo, .py27.banner .logo {
-    font-size: 30px;
-    font-family: 'Conthrax Sb';
-}
-.py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
-    font-size: 20px;
-    font-family: 'Qualy';
-}
 .py24 .box {
     position: relative;
-}
-.py27 .box .d-flex .btn-secondary {
-    background: #fff !important;
-    color: #04246d !important;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Century Gothic';
-    font-size: 1.3rem;
-    transition: .3s ease all;
 }
 .py24.banner span {
     display: block;
@@ -616,6 +602,12 @@ body {
     .py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
         font-size: 25px;
     }
+    .py27 .auth-wrapper .logo, .py27.banner .logo {
+        font-size: 35px;
+    }
+    .py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+        font-size: 25px;
+    }
     .py24 .box .d-flex .btn-secondary {
         font-size: 1.5rem;
     }
@@ -625,6 +617,12 @@ body {
         font-size: 45px;
     }
     .py24.banner .logo-text {
+        font-size: 35px;
+    }
+    .py27.banner .logo {
+        font-size: 45px;
+    }
+    .py27.banner .logo-text {
         font-size: 35px;
     }
 }
@@ -643,22 +641,6 @@ body {
     background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
     background-attachment: fixed;
 }
-.py27.pagos {
-    position: relative;
-    padding: 80px 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url(../../../app-assets/images/py24/buynow.jpg);
-}
-.py27.pagos.roadmap {
-    position: relative;
-    padding: 60px 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-image: url(../../../app-assets/images/py24/line.jpg);
-}
 .py24.pagos::before {
     position: absolute;
     content: '';
@@ -673,26 +655,8 @@ body {
     position: relative;
     z-index: 3;
 }
-.py27.pagos .text-center, .py27.inversion .text-center {
-    position: relative;
-    z-index: 3;
-    font-family: 'Qualy';
-}
 .py24.pagos .text-center h2, .py24.inversion .text-center h2 {
     font-weight: bold;
-}
-.py27.pagos .text-center h2 {
-    font-size: 80px;
-}
-.py27.pagos .text-center h3 {
-    font-size: 50px;
-}
-.py27.pagos .btn-secondary {
-    background: #c6c6c6 !important;
-    color: #000 !important;
-    border: none;
-    border-radius: 10px;
-    font-size: 1.3rem;
 }
 .py24.inversion {
     position: relative;
@@ -779,8 +743,7 @@ body {
 .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100:hover {
     transform: scale(1.1)
 }
-
-.py24.webfooter {
+.py24.webfooter, .py27.webfooter {
     margin-left: 0;
 } 
 .py24.webfooter .nav-link {
@@ -801,10 +764,10 @@ body {
 .py24.webfooter .btn-outline-primary:hover {
     color: #D9A443;
 }
-.py24.webfooter {
+.py24.webfooter, .py24.webfooter {
     text-align: center;
 }
-.py24.webfooter a img {
+.py24.webfooter a img, .py27.webfooter a img {
     width: 25px;
     height: 25px;
     object-fit: contain;
@@ -956,7 +919,6 @@ body {
     background-color: #d9a5433a;
     color: #D9A443 !important;
 }
-
 .py24 .dt-bootstrap5 {
     overflow: hidden;
 }
@@ -964,6 +926,335 @@ body {
     white-space: nowrap;
 }
 /*--------------------------- PY-24 ---------------------------*/
-/*--- py27 ---*/
+/*---------------------------- py27 ----------------------------*/
+.py27.es .navbar-brand .img-fluid {
+    max-width: 105px;
+    object-fit: cover;
+}
+.py27.landheader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+.py27.vertical.vertical-menu-modern .main-menu::after {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #0087F5;
+}
+.py27.landheader::after {
+    content: ' ';
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #0087F5;
+}
+.py27.landheader.es::after {
+    background: #ce0011;
+}
+.py27 .main-menu.menu-fixed {
+    top: 85px;
+}
+.py27 .horizontal-menu-wrapper .main-menu::after {
+    content: ' ';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #0087F5;
+}
+.py27 .horizontal-menu-wrapper.es .main-menu::after {
+    background: #ce0011;
+}
+.py27 .nav-item .nav-link {
+    font-family: 'Conthrax Sb';
+    color: #04246d !important;
+    font-weight: 700;
+    transition: rgb(73, 78, 82)e all;
+}
+.py27.es .nav-item .nav-link {
+    color: #ce0011 !important;
+}
+.py27.banner {
+    display: block;
+    background-image: url(../../../app-assets/images/py27/home.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py27.banner.es {
+    margin-top: 85px;
+    padding: 100px 0;
+    display: block;
+    background-attachment: fixed;
+    background-image: url(../../../app-assets/images/py27/nella/main.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py27.banner.es .btn-danger, .py27.acerca.es .btn-danger, .py27.bolivia .btn-danger {
+    font-family: 'Conthrax Sb';
+    text-transform: capitalize;
+    background: #ce0011 !important;
+    color: white;
+}
+.py27.bolivia {
+    position: relative;
+    padding: 80px 0;
+    display: block;
+    background-attachment: fixed;
+    background-image: url(../../../app-assets/images/py27/nella/ciudad.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py27.bolivia::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.609);
+}
+.py27.bolivia .box {
+    position: relative;
+}
+.py27.bolivia .text h3, .py27.compras.es h2 {
+    font-family: 'Conthrax Sb';
+}
+.py27.compras.es .btn-outline-light {
+    font-weight: 700;
+}
+.py27.compras.es .btn-outline-light:hover {
+    color: #ce0011;
+}
+.py27.bolivia .text h3, .py27.bolivia .text p {
+    color: #000;
+}
+.py27.bolivia .img-fluid {
+    width: 80%;
+    max-width: 500px;
+} 
+.py27.banner .img-fluid {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    max-width: 400px;
+}
+.py27 .btn.btn-primary {
+    text-transform: capitalize;
+    color: #000 !important;
+    background: #c6c6c6 !important;
+    border-color: #c6c6c6 !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py27 .btn.btn-outline-primary {
+    text-transform: capitalize;
+    color: #04246d !important;
+    border-color: #04246d !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py27 .btn.btn-outline-primary:hover {
+    color: white !important;
+    background: #04246d !important;
+}
+.py27 .btn.btn-outline-secondary {
+    text-transform: capitalize;
+    color: #8f9299!important;
+    border-color: #8f9299 !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py27 .btn.btn-outline-secondary:hover {
+    color: white !important;
+    background: #8f9299 !important;
+}
+.py27 .btn.btn-primary:hover {
+    color: white !important;
+    background: #04246d !important;
+    border-color: #04246d !important;
+}
+.py27.acerca .btn {
+    text-transform: capitalize;
+    font-family: 'Conthrax Sb';
+}
+.py27.acerca .card h4 {
+    font-family: 'Qualy';
+    color: #04246d;
+}
+.py27.acerca .card .img-fluid {
+    transition: .3s ease all;
+}
+.py27.acerca .card:hover .img-fluid {
+    transform: scale(0.9);
+}
+.py27.acerca.es .card h4 {
+    color: #ce0011;
+}
+.py27.acerca, .py27.inversion {
+    position: relative;
+    padding: 140px 0;
+}
+.py27 .auth-wrapper .logo, .py27.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+    font-size: 20px;
+    font-family: 'Qualy';
+}
+.py27 .box .d-flex .btn-secondary {
+    text-transform: capitalize;
+    background: #fff !important;
+    color: #04246d !important;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Qualy';
+    font-size: 1.3rem;
+    transition: .3s ease all;
+}
+.py27 .auth-wrapper .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+}
+.py27 .auth-login-form::-webkit-scrollbar {
+    background: #dedede;
+    width: 8px;
+    border-radius: 5px;
+}
+.py27 .text-primary {
+    color: #04246d !important;
+}
+.py27 .alert-primary {
+    background-color: #04246d !important;
+}
 
-/*--- py27 ---*/
+.py27 .form-control:focus, .py27 .form-select:focus, .py27 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #04246d;
+}
+.py27 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #dedede;
+    border-radius: 5px;
+    background-color: #04246d;
+}
+.py27 .auth-login-form::-webkit-scrollbar:hover {
+    background: #e7e7e7;
+}
+.py27.acerca .col-md-6 {
+    transition: .3s ease all;
+}
+.py27.acerca .col-md-6:hover {
+    transform: translateY(-10px);
+}
+.py27.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py27/buynow.jpg);
+}
+.py27.pagos.es {
+    position: relative;
+    padding: 80px 0;
+    background: #000;
+}
+.py27.compras.es {
+    position: relative;
+    padding: 80px 0;
+    background: #ce0011;
+}
+.py27.pagos.roadmap {
+    position: relative;
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py27/line.jpg);
+}
+.py27.pagos .text-center, .py27.inversion .text-center {
+    position: relative;
+    z-index: 3;
+    font-family: 'Qualy';
+}
+.py27.pagos .text-center h2, .py27.inversion .text-center h2 {
+    font-weight: bold;
+}
+.py27.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py27.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py27.pagos .btn-secondary {
+    background: #c6c6c6 !important;
+    color: #000 !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+.py27.webfooter h3 {
+    color: #003A69;
+    font-family: 'Qualy';
+}
+.py27.webfooter p {
+    color: #005DA8;
+}
+.py27.es.webfooter h3 {
+    color: #ce0011;
+    font-family: 'Qualy';
+}
+.py27.es.webfooter p {
+    color: #ce0011;
+}
+.py27 .btn.btn-outline-primary:hover {
+    color: #005DA8;
+    border: 1px solid #005DA8;
+}
+.py27.webfooter .nav-link:hover {
+    color: rgb(51, 82, 255);
+    border: 1px solid #0080E8;
+}
+.py27.es.webfooter .nav-link {
+    color: #ce0011;
+}
+.py27.es.webfooter .nav-link:hover {
+    color: white;
+    background: #ce0011;
+    border: 1px solid #ce0011;
+}
+.py27.es.webfooter .btn-outline-danger {
+    border-color: #ce0011 !important;
+    color: #ce0011 !important;
+    font-weight: 700;
+}
+.py27.es.webfooter .btn-outline-danger:hover {
+    background: #ce0011 !important;
+    color: white !important;
+}
+.py27.webfooter .nav-link {
+    color: #003A69;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Conthrax Sb';
+    font-weight: 700;
+    border: 1px solid rgba(0,0,0,0);
+    transition: .6s ease all;
+}
+.py27.webfooter .nav-link:hover {
+    background: #0080E8;
+    color: white;
+    box-shadow: 0 8px 25px -8px #0087f5 !important;
+}
+/*---------- py27 ----------*/
