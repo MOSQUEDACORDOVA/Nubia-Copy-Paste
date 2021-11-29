@@ -214,7 +214,7 @@ module.exports = {
       }).then((data)=>{
         let data_set = JSON.stringify(data);
         console.log(data_set);
-        resolve('Cliente registrado con éxito');
+        resolve(data_set);
         
       })
       .catch((err) => {
@@ -1606,4 +1606,124 @@ usuarioId:id_usuario
         });
     });
   },
+
+    //NOTIFICACIONES
+obtenernotificaciones() {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({where:{estado:'0'},include:[{association:Notificaciones.Clientes}],
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((rest) => {
+            let respuesta = JSON.stringify(rest);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+obtenernotificacionesbyLimit3() {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({include:[{association:Notificaciones.Cliente}],
+          limit: 2,
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((res) => {
+            let respuesta = JSON.stringify(res);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+saveCupNotificacionClientNew(tipo,estado, descripcion, id_cliente) {
+      return new Promise((resolve, reject) => {
+            Notificaciones.create({
+              tipo:tipo,
+estado:estado,
+descripcion:descripcion,
+clienteId:id_cliente
+            })
+              .then((res) => {
+                let respuesta = JSON.stringify(res);
+                resolve(respuesta);
+                ////console.log(respuesta);
+              })
+              .catch((err) => {
+                //console.log(err);
+                 reject(err)
+              });
+          
+      });
+    },
+  
+    obtenerNotificacionforedit(id) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({
+          where: {
+            id: id,
+          },
+        })
+          .then((res) => {
+            let ress = JSON.stringify(res);
+            resolve(ress);
+            //console.log(id);
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+    saveEditedNotificaciones(id, estado) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.update(
+          { estado: estado},
+          {
+            where: {
+              id: id,
+            },
+          }
+        )
+          .then((res) => {
+            let reses = JSON.stringify(res);
+            resolve(reses);
+            //console.log(reses);
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+    deleteNotificaciones(parametro_buscar) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.destroy({
+          where: {
+            id: parametro_buscar,
+          },
+        }).then(() => {
+          //let gates= JSON.stringify(users)
+          resolve("respuesta exitosa");
+          ////console.log(JSON.stringify(users));
+        }).catch((err) => {
+          //console.log(err);
+           reject(err)
+        });
+      });
+    },
 };
