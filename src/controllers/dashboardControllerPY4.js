@@ -1961,8 +1961,6 @@ disabled_chofer: true
   console.log(err);
 });
 };
-
-
 //NOTIFICACIONES
 exports.notificaciones_table = (req, res) => {
   console.log(req.session.sucursal_select)
