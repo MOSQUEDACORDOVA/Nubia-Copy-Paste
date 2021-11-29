@@ -15,6 +15,7 @@ const Etiquetas = require("../../models/PYT4/Etiquetas");
 const Cupones = require("../../models/PYT4/Cupones");
 const Used_cupons = require("../../models/PYT4/Used_cupons");
 const Notificaciones = require("../../models/PYT4/Notificaciones");
+
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -1392,6 +1393,7 @@ PersonalAllS(id){
               });
           });
         },
+
 
         
   //CUPONES
