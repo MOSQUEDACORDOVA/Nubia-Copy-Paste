@@ -88,15 +88,14 @@ $('#bell_not').on('click', ()=>{
 })
     })
 </script>
-{{#if admin}}{{else}}<span id="otro_rol">Admin</span>{{/if}}
+{{#if admin}}{{else}}<span id="otro_rol" hidden>Admin</span>{{/if}}
 <input type="text" id="array" hidden value="{{clientes_d}}">
 <input type="text" id="array_pedido" hidden value="{{pedidos_}}">
 <input type="text" id="array_sucursales" hidden value="{{sucursales_}}">
 <input type="text" id="array_cp" hidden value="{{cp_}}">
 <input type="text" id="etiquetas_" hidden value="{{etiquetas_}}">
 <!-- BEGIN: Header-->
-<nav
-    class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py4 {{#if disabled_chofer}}d-none{{/if}}" >
+<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py4 {{#if disabled_chofer}}d-none{{/if}}" >
     <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
             <ul class="nav navbar-nav d-xl-none">
@@ -381,22 +380,20 @@ $('#bell_not').on('click', ()=>{
             </li>
             <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
-                        data-i18n="Corte">Vehiculos</span></a>
+                        data-i18n="vehiculos">Vehiculos</span></a>
             </li>
             <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
-                        data-i18n="Corte">Zonas</span></a>
+                        data-i18n="Zonas">Zonas</span></a>
             </li>
                         <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/carga_inicial_py4"><i data-feather='package'></i><span class="menu-title text-truncate"
-
                         data-i18n="Carga">Carga Inicial</span></a>
             </li>
             
             <li class="{{#if promociones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/promociones_bw"><i data-feather='star'></i><span class="menu-title text-truncate"
                         data-i18n="Promociones ">Promociones</span></a>
-
             </li>
             <li class="{{#if notificaciones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
