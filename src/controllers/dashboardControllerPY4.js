@@ -1961,6 +1961,7 @@ disabled_chofer: true
   console.log(err);
 });
 };
+<<<<<<< HEAD
 //NOTIFICACIONES
 exports.notificaciones_table = (req, res) => {
   console.log(req.session.sucursal_select)
@@ -2066,3 +2067,5 @@ obtenernotificaciones().then((notif_)=>{
   return res.redirect("/errorpy4/" + msg);
 });
 };
+=======
+>>>>>>> parent of 8f3d6e8 (notificaciones cupon)
