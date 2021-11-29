@@ -7,6 +7,7 @@ const passport = require("passport");
 //var moment = require('moment'); // require
 var moment = require('moment-timezone');
 const Push = require('push.js')
+
 exports.change_sucursal = (req, res) => {
 let nuevo_id = req.body.cambia_sucursal
   //DATA-COMUNES
@@ -367,7 +368,7 @@ exports.save_cliente_py4 = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 }
-exports.save_cliente_cuponera = (req, res) => {
+exports.save_cliente_cuponera =  (req, res) => {
   
   const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
   let msg = false;
@@ -376,7 +377,10 @@ exports.save_cliente_cuponera = (req, res) => {
     modo_cliente = "NO"
   }
 
-  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then((respuesta) =>{
+  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then(async(respuesta) =>{
+    let cliente_created = JSON.parse(respuesta)[0]
+    console.log(cliente_created.id)
+await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
 
     res.redirect('/log_cuponera/'+respuesta)
 
@@ -438,9 +442,21 @@ console.log(req.body)
        ClientesDB=DataBase.ClientesAllS
       break;
   }
-  ClientesDB(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then(async (clientes_d)=>{
       let clientes_arr = JSON.parse(clientes_d)
-      res.send({clientes_arr})
+      if (req.body.id_notificacion) {
+        console.log(req.body.id_notificacion)
+     const save_not =   await DataBase.saveEditedNotificaciones(req.body.id_notificacion,'1')
+     console.log(save_not)
+     if (save_not) {
+      console.log('----')
+        let notif_ = JSON.parse(await DataBase.obtenernotificaciones())
+         return res.send({notif_})
+     }
+   
+      }
+
+      return res.send({clientes_arr})
   
     }).catch((err) => {
       console.log(err)
@@ -1961,7 +1977,8 @@ disabled_chofer: true
   console.log(err);
 });
 };
-<<<<<<< HEAD
+
+
 //NOTIFICACIONES
 exports.notificaciones_table = (req, res) => {
   console.log(req.session.sucursal_select)
@@ -2066,10 +2083,4 @@ obtenernotificaciones().then((notif_)=>{
   let msg = "Error en sistema";
   return res.redirect("/errorpy4/" + msg);
 });
-<<<<<<< HEAD
 };
-=======
->>>>>>> parent of 8f3d6e8 (notificaciones cupon)
-=======
-};
->>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
