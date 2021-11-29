@@ -429,7 +429,7 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
-console.log(req.body)
+
   DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
     let ClientesDB = ""
@@ -1675,6 +1675,7 @@ let msg = "Error en sistema";
 return res.redirect("/errorpy4/" + msg);
 });
    })   
+
  };
 
  // CUPONES
