@@ -370,14 +370,10 @@ exports.save_cliente_py4 = (req, res) => {
 }
 exports.save_cliente_cuponera =  (req, res) => {
   
-  const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
+  const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color} = req.body
   let msg = false;
-  var modo_cliente ="SI"
-  if (cliente_nuevo == null){
-    modo_cliente = "NO"
-  }
 
-  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then(async(respuesta) =>{
+  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color).then(async(respuesta) =>{
     let cliente_created = JSON.parse(respuesta)[0]
     console.log(cliente_created.id)
 await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
@@ -1768,11 +1764,10 @@ exports.getCupones = (req, res) => {
 
 
 exports.save_cupon = async (req, res) => {
-  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img} = req.body;
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,descripcion} = req.body;
   var msg = "";
-  let especial =""
   const user = res.locals.user.id
-  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img)
+  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
     .then((result) => {
       let cupones_let = JSON.parse(result)
         res.send({cupones_let})
@@ -1791,11 +1786,10 @@ res.send({parsed_cupon})
 };
 
 exports.saveCuponEdited = async (req, res) => {
-  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon} = req.body;
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon,descripcion} = req.body;
   var msg = "";
-  let especial =""
   const user = res.locals.user.id
-  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img)
+  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
     .then((result) => {
       DataBase.totalcupones().then((total_cupones) => {
         let cupones_act = JSON.parse(total_cupones);

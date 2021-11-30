@@ -204,12 +204,12 @@ module.exports = {
     });
   },
 
-  registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color) {
+  registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
       Clientes.findOrCreate({
         where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
         defaults: {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,estado:cp, cpId: asentamiento, cuponera:"SI"
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"SI"
         }
       }).then((data)=>{
         let data_set = JSON.stringify(data);
@@ -1409,7 +1409,7 @@ PersonalAllS(id){
         });
     });
   },
-  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img) {
+  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
     let now = new Date();
     fecha = now.toString();
     return new Promise((resolve, reject) => {
@@ -1423,7 +1423,7 @@ fecha_final:fecha_final,
 cantidad:cantidad,
 cantidad_actual:cantidad,
 categoria:categoria,
-especial:especial,
+especial:descripcion,
 img:img,
 usuarioId:id_usuario
           })
@@ -1455,7 +1455,7 @@ usuarioId:id_usuario
         });
     });
   },
-  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, especial,img) {
+  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
     let now = new Date();
     fecha = now.toString();
     //console.log(fecha_inicio);
@@ -1470,7 +1470,7 @@ usuarioId:id_usuario
           cantidad:cantidad,
           cantidad_actual:cantidad,
           categoria:categoria,
-          especial:especial,
+          especial:descripcion,
           img:img,
           usuarioId:user
         },
