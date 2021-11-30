@@ -305,6 +305,10 @@ router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControll
 router.post('/addpaym', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addpaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addbnb', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addusdt', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 // HABILITAR / DESHABILITAR METODOS DE PAGO
@@ -324,6 +328,10 @@ router.post('/addretreatsbank', authControllerPY24.authenticatedUser, dashboardC
 router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatspaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addretreatsbnb', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addretreatsusdt', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
 router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getretreatsuser);
@@ -351,9 +359,10 @@ router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 router.get('/py27/:id', dashboardControllerPY27.dashboard);
 
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
-router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
+router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 
-router.get('/web/:id', dashboardControllerPY27.web);
+router.get('/webpy27/:id', dashboardControllerPY27.web);
+router.get('/webespy27/:id', dashboardControllerPY27.webes);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
 

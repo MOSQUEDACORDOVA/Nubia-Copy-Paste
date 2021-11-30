@@ -1,0 +1,312 @@
+<style>
+  .none {
+    display: none;
+  }
+</style>
+
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  function ucwords(str, force) {
+    str = force ? str.toLowerCase() : str;
+    return str.replace(/(\b)([a-zA-Z])/g,
+      function (firstLetter) {
+        return firstLetter.toUpperCase();
+      });
+  }
+  $(document).ready(function () {
+    $('input[type="text"]').keyup(function (evt) { // force: true to lower case all letter except first 
+      // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
+      var cp_value = ucwords($(this).val(), true);
+      $(this).val(cp_value);
+    });
+  });
+</script>
+<input type="text" id="array_cupones" hidden value="{{total_cupones}}">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    <div class="content-body">
+      <section id="basic-datatable">
+        <div class="row">
+          <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+<button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
+              data-bs-target="#ver_qr">
+              Ver QR
+            </button>
+          </div>
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Cupones</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-basic_cupones">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Nombre</th>
+                              <th>Proveedor</th>
+                              <th>Cantidad total</th>
+                              <th>Cantidad disponible</th>
+                              <th>Categoria</th>
+                              <th>Estado Actual</th>
+                              <th>Opciones</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Modal to add new record -->
+    <!-- Modal -->
+    <div class="modal fade" id="add_cupon" tabindex="-1" aria-labelledby="add_cuponTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="add_cuponTitle">Agregar Cupón</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="form_add_cupon">
+              
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre del cupón</label>
+                <input type="text" class="form-control" id="" name="nombre_cupon" placeholder="Para identificar rápidamente el cupón creado"/>
+              </div>
+              
+              <div class="mb-1">
+                <label for="tipo_reg_per" class="form-label">Categoria</label>
+                <select class="select2 w-100" name="categoria" id="">
+                  <option value="" label="blank"></option>
+                  <option value="Salud">Salud</option>
+                  <option value="Belleza">Belleza</option>
+                  <option value="Fitness">Fitness</option>
+                  <option value="Comida">Comida</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre del Proveedor</label>
+                <input type="text" class="form-control" id="" name="nombre_proveedor" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
+                <input type="number" class="form-control" id="" name="ws_proveedor" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Fecha de inicio</label>
+                <input type="datetime-local" class="form-control" id="" name="fecha_inicio" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Fecha Final</label>
+                <input type="datetime-local" class="form-control" id="" name="fecha_final" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Cantidad disponible</label>
+                <input type="text" class="form-control" id="" name="cantidad" placeholder=""/>
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Imágen</label>
+                <input class="form-control"  id="cupon-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input type="text" id="cupon-img5_" class="" name='img' hidden>
+                <div id='cupon-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
+                      </div>
+              </div>
+             </form> 
+          </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="reg_cupon">Registrar</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edit_cupon" tabindex="-1" aria-labelledby="edit_cuponTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit_cuponTitle">Agregar Cupón</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="form_edit_cupon">
+              <input type="text" class="form-control" id="id_cupon" name="id_cupon" hidden/>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre del cupón</label>
+                <input type="text" class="form-control" id="nombre_cupon" name="nombre_cupon" placeholder="Para identificar rápidamente el cupón creado"/>
+              </div>
+              
+              <div class="mb-1">
+                <label for="tipo_reg_per" class="form-label">Categoria</label>
+                <select class="select2 w-100" name="categoria" id="categoria_edit">
+                  <option value="Salud">Salud</option>
+                  <option value="Belleza">Belleza</option>
+                  <option value="Fitness">Fitness</option>
+                  <option value="Comida">Comida</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre del Proveedor</label>
+                <input type="text" class="form-control" id="nombre_proveedor_edit" name="nombre_proveedor" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
+                <input type="number" class="form-control" id="ws_proveedor_edit" name="ws_proveedor" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Fecha de inicio</label>
+                <input type="datetime-local" class="form-control" id="fecha_inicio_edit" name="fecha_inicio" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Fecha Final</label>
+                <input type="datetime-local" class="form-control" id="fecha_final_edit" name="fecha_final" placeholder=""/>
+              </div>
+                <div class="mb-1">
+                <label for="register-email" class="form-label">Cantidad disponible</label>
+                <input type="text" class="form-control" id="cantidad_edit" name="cantidad" placeholder=""/>
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Imágen</label>
+                <input class="form-control"  id="edit-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input type="text" id="edit-img5_" class="" name='img' hidden>
+                <div id='edit-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
+                      </div>
+              </div>
+             </form> 
+          </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_btn_cupon">Registrar</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+      <div class="modal fade" id="ver_qr" tabindex="-1" aria-labelledby="ver_qrTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ver_qrTitle">QR</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+<div id="qrcode"></div>
+          </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_btn_cupon">Registrar</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    </section>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  $(function(){
+    $('#cupon-img5').on('change', (event)=>{
+      subirImagen(event)
+    })
+ $('#edit-img5').on('change', (event)=>{
+      subirImagen(event)
+    })
+    
+const subirImagen = (event) => {
+  console.log('aqui')
+    const archivos = event.target.files;
+    const data = new FormData();
+    let imagenX = event.target.id;
+    data.append("archivo", archivos[0]);
+    $.ajax({
+      url: '/upload-file',
+      type: 'POST',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      xhr: function () {        
+          var xhr = $.ajaxSettings.xhr();
+          xhr.upload.onprogress = function (event) {
+              var perc = Math.round((event.loaded / event.total) * 100);
+             // $("#nombreArchivoCalendario1").text(inputFile.name);
+             
+              $(`#${imagenX}_progressBar3`).text(perc + '%');
+              $(`#${imagenX}_progressBar3`).css('width', perc + '%');
+          };
+          return xhr;
+      },
+      beforeSend: function (xhr) {
+          $(`#${imagenX}_progressBar3`).text('0%');
+          $(`#${imagenX}_progressBar3`).css('width', '0%');
+        
+      },
+      success: function (data, textStatus, jqXHR)
+      {       
+        console.log(data)     
+          //$(`#progressBar3`).addClass("d-none");
+          $(`#${imagenX}_progressBar3`).text('Se cargó correctamente la imágen - 100%');
+        document.getElementById(imagenX+'_').value = archivos[0].name;
+
+         
+      },
+      error: function (jqXHR, textStatus) { 
+          $("#progressBar2").text('100% - Error al cargar el archivo');
+          $("#progressBar2").removeClass("progress-bar-success");
+          $("#progressBar2").addClass("progress-bar-danger");
+      }
+  });
+  };
+  })
+  
+</script>
+
+
+
+<!-- END: Content-->
