@@ -161,7 +161,7 @@ module.exports = {
 		}
 	},
 	userdepositspy24: (id, arr) => {
-		if(arr.length >= 1) {
+		if(arr.length) {
 			return `<a href="#" role="button" class="btn btn-primary btn-paquetes" data-id="${id}">Ver</a>`
 		} else {
 			return '<span class="badge rounded-pill bg-light-dark text-primary">Ninguno</span>'
