@@ -351,7 +351,7 @@ router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 router.get('/py27/:id', dashboardControllerPY27.dashboard);
 
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
-router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
+router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 
 router.get('/webpy27/:id', dashboardControllerPY27.web);
 router.get('/webespy27/:id', dashboardControllerPY27.webes);

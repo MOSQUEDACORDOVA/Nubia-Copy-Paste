@@ -960,9 +960,6 @@ body {
 .py27.landheader.es::after {
     background: #ce0011;
 }
-.py27 .main-menu.menu-fixed {
-    top: 85px;
-}
 .py27 .horizontal-menu-wrapper .main-menu::after {
     content: ' ';
     width: 2px;
