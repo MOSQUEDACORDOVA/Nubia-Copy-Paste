@@ -22,22 +22,6 @@ exports.web = (req, res) => {
     })
 };
 
-exports.privacy = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-    res.render(proyecto+"/landing/privacy", {
-      pageName: "",
-      dashboardPage: true,
-      dashboard: true,
-      py24: true,
-      login: true
-    })
-};
-
 exports.sesionstart = (req, res) => {
   console.log(req.body);
   let msg = false;
@@ -543,16 +527,7 @@ exports.retreats = (req, res) => {
           let data_th = JSON.parse(response_th)[0];
           console.log(data_th)
 
-        // HISTORIAL DE RETIROS (PAGOS) PENDIENTES
-        DataBase.GetPendingPaymenthsUser(idUser).then((res5) => {
-          let retreats = JSON.parse(res5);
-          console.log(retreats)
-          
-        // HISTORIAL DE RETIROS (PAGOS) COMPLETADOS
-        DataBase.GetPaymenthsUser(idUser).then((resp) => {
-          let retreatsCompletes = JSON.parse(resp);
-          console.log(retreatsCompletes)
-
+  
     res.render(proyecto+"/user/retreats", {
       pageName: "Minner - Retiros",
       dashboardPage: true,
@@ -570,16 +545,6 @@ exports.retreats = (req, res) => {
       retreatsCompletes,
       data_th,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1851,7 +1816,7 @@ exports.addbtc = (req, res) => {
   };
 }
 
-// CREAR METODO DE PAGO RETIRO EN USDT
+// CREAR METODO DE PAGO RETIRO EN BNB
 exports.addbnb = (req, res) => {
   const { code_wallet } = req.body;
   let msg = false;
@@ -2370,14 +2335,6 @@ exports.boardpresale = (req, res) => {
       let depositos = JSON.parse(resp);
       console.log(depositos)
 
-      DataBase.GetCoinsAeroBTC(idUser).then((response) => {
-        let dep = JSON.parse(response);
-        console.log(dep)
-        let coins = 0;
-        dep.forEach(item => {
-          coins += parseInt(item.amountAero);
-        });
-
     res.render(proyecto+"/user/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
@@ -2394,13 +2351,7 @@ exports.boardpresale = (req, res) => {
       depositos,
       avalibleBalance,
       board: true,
-      coins,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
