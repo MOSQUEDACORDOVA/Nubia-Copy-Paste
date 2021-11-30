@@ -201,6 +201,37 @@ module.exports = {
     });
   },
 
+
+  registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
+    return new Promise((resolve, reject) => {
+      Clientes.findOrCreate({
+        where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
+        defaults: {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"SI"
+        }
+      }).then((data)=>{
+        let data_set = JSON.stringify(data);
+        console.log(data_set);
+        resolve(data_set);
+        
+      })
+      .catch((err) => {
+        reject(err)
+      });
+    /*  Clientes.create(
+        {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Cliente registrado con éxito');
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });*/
+    });
+  },
+
   update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email, color) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -1338,4 +1369,338 @@ PersonalAllS(id){
               });
           });
         },
+
+        
+  //CUPONES
+  totalcupones() {
+    return new Promise((resolve, reject) => {
+      Cupones.findAll()
+        .then((res) => {
+          let about = JSON.stringify(res);
+          resolve(about);
+          ////console.log(JSON.stringify(users));
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
+    let now = new Date();
+    fecha = now.toString();
+    return new Promise((resolve, reject) => {
+          // Item not found, create a new one
+          Cupones.create({
+            nombre_cupon:nombre_cupon,
+nombre_proveedor:nombre_proveedor,
+ws_proveedor:ws_proveedor,
+fecha_inicio:fecha_inicio,
+fecha_final:fecha_final,
+cantidad:cantidad,
+cantidad_actual:cantidad,
+categoria:categoria,
+especial:descripcion,
+img:img,
+usuarioId:id_usuario
+          })
+            .then((res) => {
+              let about = JSON.stringify(res);
+              resolve(about);
+              //console.log(about);
+            })
+      }).catch((err) => {
+        //console.log(err);
+        reject(err)
+      });
+  },
+  obtenerCuponforedit(id) {
+    return new Promise((resolve, reject) => {
+      Cupones.findOne({
+        where: {
+          id: id,
+        },
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          //console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
+    let now = new Date();
+    fecha = now.toString();
+    //console.log(fecha_inicio);
+    //console.log(fecha_final);
+    return new Promise((resolve, reject) => {
+      Cupones.update(
+        {nombre_cupon:nombre_cupon,
+          nombre_proveedor:nombre_proveedor,
+          ws_proveedor:ws_proveedor,
+          fecha_inicio:fecha_inicio,
+          fecha_final:fecha_final,
+          cantidad:cantidad,
+          cantidad_actual:cantidad,
+          categoria:categoria,
+          especial:descripcion,
+          img:img,
+          usuarioId:user
+        },
+        {
+          where: {
+            id: id_cupon,
+          },
+        }
+      )
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  deleteCupon(parametro_buscar) {
+    return new Promise((resolve, reject) => {
+      Cupones.destroy({
+        where: {
+          id: parametro_buscar,
+        },
+      }).then(() => {
+        //let gates= JSON.stringify(users)
+        resolve("respuesta exitosa");
+        ////console.log(JSON.stringify(users));
+      }).catch((err) => {
+        //console.log(err);
+        reject(err)
+      });
+    });
+  },
+  consultarCupon(consultar) {
+    return new Promise((resolve, reject) => {
+      Cupones.findOne({
+        where: {
+          [Op.or]: [{ id: consultar }],
+        },
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          //console.log(ress);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  UpdateUsedCupon(id, cantidad) {
+    let now = new Date();
+    fecha = now.toString();
+    return new Promise((resolve, reject) => {
+      Cupones.update(
+        { cantidad_actual: cantidad },
+        {
+          where: {
+            id: id,
+          },
+        }
+      )
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+          //console.log(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  CuponUsado(form_id_cliente, id_cupon_selected, fecha_selected) {
+    return new Promise((resolve, reject) => {
+      Used_cupons.create({
+        fecha_uso: fecha_selected,
+        cuponeId: id_cupon_selected,
+        clienteId: form_id_cliente
+      })
+        .then((about) => {
+          let aboutes = JSON.stringify(about);
+          resolve(aboutes);
+          // //console.log(aboutes);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  obtenerCuponesUsados() {
+    return new Promise((resolve, reject) => {
+      Used_cupons.findAll({include:[{association: Used_cupons.Cupones},{association: Used_cupons.Clientes}],
+        // order: [
+        //   ["updatedAt", "DESC"],
+        // ],
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          ////console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+  consultarCuponesUsados(id_cupon, id_cliente) {
+    return new Promise((resolve, reject) => {
+      Used_cupons.findOne({
+        where: {
+          cuponeId: id_cupon,
+          clienteId: id_cliente
+        },
+        order: [
+          // Will escape title and validate DESC against a list of valid direction parameters
+          ["updatedAt", "DESC"],
+        ],
+      })
+        .then((res) => {
+          let ress = JSON.stringify(res);
+          resolve(ress);
+          ////console.log(id);
+        })
+        .catch((err) => {
+          //console.log(err);
+          reject(err)
+        });
+    });
+  },
+
+    //NOTIFICACIONES
+obtenernotificaciones() {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({where:{estado:'0'},include:[{association:Notificaciones.Clientes}],
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((rest) => {
+            let respuesta = JSON.stringify(rest);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+obtenernotificacionesbyLimit3() {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({include:[{association:Notificaciones.Cliente}],
+          limit: 2,
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((res) => {
+            let respuesta = JSON.stringify(res);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+saveCupNotificacionClientNew(tipo,estado, descripcion, id_cliente) {
+      return new Promise((resolve, reject) => {
+            Notificaciones.create({
+              tipo:tipo,
+estado:estado,
+descripcion:descripcion,
+clienteId:id_cliente
+            })
+              .then((res) => {
+                let respuesta = JSON.stringify(res);
+                resolve(respuesta);
+                ////console.log(respuesta);
+              })
+              .catch((err) => {
+                //console.log(err);
+                 reject(err)
+              });
+          
+      });
+    },
+  
+    obtenerNotificacionforedit(id) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.findAll({
+          where: {
+            id: id,
+          },
+        })
+          .then((res) => {
+            let ress = JSON.stringify(res);
+            resolve(ress);
+            //console.log(id);
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+    saveEditedNotificaciones(id, estado) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.update(
+          { estado: estado},
+          {
+            where: {
+              id: id,
+            },
+          }
+        )
+          .then((res) => {
+            let reses = JSON.stringify(res);
+            resolve(reses);
+            //console.log(reses);
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+  
+    deleteNotificaciones(parametro_buscar) {
+      return new Promise((resolve, reject) => {
+        Notificaciones.destroy({
+          where: {
+            id: parametro_buscar,
+          },
+        }).then(() => {
+          //let gates= JSON.stringify(users)
+          resolve("respuesta exitosa");
+          ////console.log(JSON.stringify(users));
+        }).catch((err) => {
+          //console.log(err);
+           reject(err)
+        });
+      });
+    },
 };

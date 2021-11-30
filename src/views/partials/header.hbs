@@ -115,6 +115,15 @@
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
      <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css">
     <!-- END: Page CSS-->
+
+    {{#if disabled_chofer}}
+       <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-sliders.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-ecommerce.css">
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+    <!-- END: Page CSS-->
+    {{/if}}
     {{/if}}
 </head>
 <body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py4}} py4 {{/if}} {{#if py24}} py24 {{/if}} {{#if py27}} py27 vertical {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"

@@ -368,6 +368,24 @@ exports.save_cliente_py4 = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 }
+exports.save_cliente_cuponera =  (req, res) => {
+  
+  const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color} = req.body
+  let msg = false;
+
+  DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color).then(async(respuesta) =>{
+    let cliente_created = JSON.parse(respuesta)[0]
+    console.log(cliente_created.id)
+await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
+
+    res.redirect('/log_cuponera/'+respuesta)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}
 
 exports.delete_cliente = (req, res) => {
   const user = res.locals.user;
@@ -407,7 +425,7 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
-
+console.log(req.body)
   DataBase.update_cliente(id_cliente,cp,asentamiento,firstName,lastName,ciudad,municipio,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,zona, email,color).then((respuesta) =>{
     let id_sucursal = req.session.sucursal_select
     let ClientesDB = ""
@@ -420,9 +438,21 @@ DataBase.ClientebyId(id_).then((clientes_)=>{
        ClientesDB=DataBase.ClientesAllS
       break;
   }
-  ClientesDB(id_sucursal).then((clientes_d)=>{
+  ClientesDB(id_sucursal).then(async (clientes_d)=>{
       let clientes_arr = JSON.parse(clientes_d)
-      res.send({clientes_arr})
+      if (req.body.id_notificacion) {
+        console.log(req.body.id_notificacion)
+     const save_not =   await DataBase.saveEditedNotificaciones(req.body.id_notificacion,'1')
+     console.log(save_not)
+     if (save_not) {
+      console.log('----')
+        let notif_ = JSON.parse(await DataBase.obtenernotificaciones())
+         return res.send({notif_})
+     }
+   
+      }
+
+      return res.send({clientes_arr})
   
     }).catch((err) => {
       console.log(err)
@@ -497,6 +527,11 @@ exports.closeSesion = (req, res) => {
     res.redirect("/loginpy4");
   });
 };
+exports.closeSesioncuponera = (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/intro_cuponera");
+  });
+};
 
 exports.regPedidoPy4 = (req, res) => {
   
@@ -559,36 +594,7 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
   return res.redirect("/errorpy4/" + msg);
   });
  };
- exports.ver_pedido = (req, res) => {
-  const user = res.locals.user;
-  let id_ = req.params.id
-  
-DataBase.PedidoById(id_).then((pedidos_)=>{
-  let pedido_let = JSON.parse(pedidos_)[0]
  
- let garrafon19L = JSON.parse(pedido_let.garrafon19L);
- let botella1L = JSON.parse(pedido_let.botella1L)
- let garrafon11L = JSON.parse(pedido_let.garrafon11L)
- let botella5L = JSON.parse(pedido_let.botella5L)
-res.render("PYT-4/ver_pedido", {
-  pageName: "Bwater",
-  dashboardPage: true,
-  dashboard: true,
-  py4:true,
-  dash:true,
-  pedido_let,
-  garrafon19L,
-botella1L,
-garrafon11L,
-botella5L,
-disabled_chofer: true
-}) 
-  }).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-  });
- };
 
  exports.Save_editPedidoPy4 = (req, res) => {
 
@@ -1666,3 +1672,409 @@ return res.redirect("/errorpy4/" + msg);
 });
    })   
  };
+
+ // CUPONES
+exports.getCupones = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
+  let id_sucursal = req.session.sucursal_select
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    vehiculosAll=DataBase.vehiculosAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+    vehiculosAll=DataBase.vehiculosAllS
+      break;
+  }
+  //DATA-COMUNES
+  ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+       let count = pedidos_let.length
+       ChoferesDB(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        vehiculosAll(id_sucursal).then((vehiculos_)=>{
+              let vehiculos_let = JSON.parse(vehiculos_)
+               let count = vehiculos_let.length
+ DataBase.Sucursales_ALl().then((sucursales_)=>{
+                let sucursales_let = JSON.parse(sucursales_)
+                 let count = sucursales_let.length
+    DataBase.CodigosP().then((cp_)=>{
+                  let cp_arr = JSON.parse(cp_)
+                 DataBase.totalcupones().then( async(total_cupones) => {
+    let cupones_act = JSON.parse(total_cupones);
+    DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
+      let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
+      
+    console.log(total_cupones_usados_cupones_act);
+    res.render("PYT-4/cupones", {
+      pageName: "Cupones",
+      cupones: true,
+      cupones_act,total_cupones,
+      msg,
+      dashboardPage: true,admin,
+      dashboard: true,
+      py4:true,
+      clientes_d, clientes_arr,pedidos_,choferes,choferes_,
+      vehiculos_let,  msg,total_cupones_usados,
+      //NO COMUNES
+      sucursales_let, sucursales_,cp_
+    });
+  }).catch((err) => {
+    console.log(err);
+  });
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+}).catch((err) => {
+  console.log(err);
+});
+};
+
+
+exports.save_cupon = async (req, res) => {
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,descripcion} = req.body;
+  var msg = "";
+  const user = res.locals.user.id
+  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
+    .then((result) => {
+      let cupones_let = JSON.parse(result)
+        res.send({cupones_let})
+  }).catch((err) => {
+      return res.status(500).send("Error actualizando" + err);
+    });
+};
+
+exports.editCupon = (req, res) => {
+  let id_buscar = req.body.id;
+
+  DataBase.obtenerCuponforedit(id_buscar).then((resultado) => {
+    let parsed_cupon = JSON.parse(resultado);
+res.send({parsed_cupon})
+  });
+};
+
+exports.saveCuponEdited = async (req, res) => {
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon,descripcion} = req.body;
+  var msg = "";
+  const user = res.locals.user.id
+  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
+    .then((result) => {
+      DataBase.totalcupones().then((total_cupones) => {
+        let cupones_act = JSON.parse(total_cupones);
+        res.send({cupones_act})
+    })
+    .catch((err) => {
+      return res.status(500).send("Error actualizando" + err);
+    });
+  })
+  .catch((err) => {
+    return res.status(500).send("Error actualizando" + err);
+  })
+};
+exports.deleteCupon = async (req, res) => {
+  let parametro_buscar = req.params.id;
+
+  DataBase.deleteCupon(parametro_buscar).then((resultado) => {
+    
+    let msg = "Cupón eliminado con exito";
+    res.send({msg});
+  });
+};
+
+exports.usar_cupon = async (req, res) => {
+  const { form_id_cliente, id_cupon_selected, fecha_selected } = req.body;
+console.log(req.body);
+  const cupon = JSON.parse(await DataBase.consultarCupon(id_cupon_selected))
+  //   let parsed = JSON.parse(resultado)[0];
+  //   
+      var cantidad_act = cupon.cantidad_actual - 1;
+      console.log(cantidad_act);
+  //   if (typeof parsed === "undefined") {
+  //     return res.send("El cupón no existe favor verificar");
+  //   } else { 
+  //     if (parsed.cantidad_actual == 0) {
+  //       return res.send("Cupon agotado");
+  //     } else {
+  //       Hoy = moment(); 
+  //       console.log(Hoy)
+  //           let fecha_final= moment(Hoy).isAfter(parsed.fecha_final); // true
+  //               console.log(fecha_final)
+  //               if (fecha_final == true) {
+  //                 return res.send("Cupon vencido");
+  //                 return;
+  //               } else {
+  //         console.log("Has introducido la fecha de Hoy");
+  //         var cantidad_act = parsed.cantidad_actual - 1;
+  //         var id_cupon = parsed.id;
+  //         var valor = parsed.valor;
+  //         var nombre_cupon = parsed.nombre_cupon;
+  //         var tipo = parsed.tipo;
+  //         var fecha_uso = Hoy.toISOString()
+  //         var especial =parsed.especial
+  //         let usuario_id =0
+  //         if (typeof res.locals.user.id != "undefined") {
+  //           usuario_id = res.locals.user.id
+            
+  //         }
+  //         if (especial == "SI") {
+  //           let cupon_s= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
+  //           console.log(res.locals.user.id)
+  //           if (typeof res.locals.user.id == "undefined") {
+  //             console.log('no ha iniciado sesion para aplicar cupon')
+  //             return res.send(cupon_s);
+  //           }
+             const usado = JSON.parse( await DataBase.consultarCuponesUsados(id_cupon_selected, form_id_cliente))
+             console.log(usado)
+             if (usado != null) {
+               let cupun_sU = {'msg':'USADO'}
+               console.log('usado')
+               return res.send(cupun_sU);
+             }
+             const usar=  await DataBase.UpdateUsedCupon(id_cupon_selected, cantidad_act)
+             console.log(usar)
+  DataBase.CuponUsado(form_id_cliente, id_cupon_selected, fecha_selected).then((resultadoaqui) => {
+              
+                return res.send({msg: resultadoaqui});
+              })
+          .catch((err) => {
+            console.log(err)
+            return res.status(500).send("Error actualizando" + err);
+          })
+};
+
+//INTRO CUPONERA
+exports.introCup = (req, res) => {
+  const { error } = res.locals.messages;
+  let crea=false, msg=false
+  if (req.params.crea) {
+    crea = true
+  }
+  if (req.params.registrado) {
+    msg="Se ha registrado con éxito, ingrese el télefono registrado, para ingresar a la cuponera"
+  }
+  res.render("PYT-4/intro_cuponera", {
+    pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      login:true,crea,msg,
+    error,
+  });
+};
+exports.sessionCuponera = (req, res) => {
+ console.log(req.body)
+  passport.authenticate("cuponera",  function (err, user, info) {
+    if (err) {
+      console.log(err)
+      return next(err);
+    }
+    console.log(err)
+    console.log(info)
+    if (!user) {
+      console.log("no existe usuario")
+      return res.redirect("/intro_cuponera/crea");
+    }
+    req.logIn(user, async function (err) {
+      if (err) {
+        console.log(err)
+        return next(err);
+      }
+
+      return res.redirect('/cuponera')
+    });
+  })(req, res);
+};
+exports.introCupValidate = (req, res) => {
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  let cliente = res.locals.user
+  let salud = [], belleza = [], fitness=[],comida=[], otros =[]
+
+  //DATA-COMUNES
+ DataBase.totalcupones().then(async(total_cupones) => {
+    let cupones_act = JSON.parse(total_cupones);
+    var usado
+    for (let i = 0; i < cupones_act.length; i++) {
+      usado = JSON.parse( await DataBase.consultarCuponesUsados(cupones_act[i].id,cliente.id ))
+      console.log('usado')
+      console.log(usado)
+    if (usado == null) {
+       switch (cupones_act[i].categoria) {
+      case 'Belleza':
+        belleza.push(cupones_act[i])
+        break;
+        case 'Fitness':
+          fitness.push(cupones_act[i])
+          break;
+          case 'Salud':
+            salud.push(cupones_act[i])
+        break;
+        case 'Comida':
+          comida.push(cupones_act[i])
+        break;
+        case 'Otros':
+          otros.push(cupones_act[i])
+        break;
+      default:
+        break;
+      }
+    }  
+  }
+    res.render("PYT-4/cuponera", {
+      pageName: "Cuponera",
+      cupones_act,total_cupones,
+      msg,
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      cliente,
+      salud, belleza, fitness, comida,  otros,  py4:true,
+  dash:true,
+disabled_chofer: true
+    });
+
+}).catch((err) => {
+  console.log(err);
+});
+};
+
+
+//NOTIFICACIONES
+exports.notificaciones_table = (req, res) => {
+  console.log(req.session.sucursal_select)
+  //Push.create('Hello World!')
+  let msg = false;
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  if (req.params.day) {
+    
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
+ let id_sucursal = req.session.sucursal_select
+ console.log(req.session.tipo)
+  //DATA-COMUNES
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="",PrestadosGroupByCliente=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    obtenernotificaciones=DataBase.obtenernotificaciones
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+obtenernotificaciones=DataBase.obtenernotificaciones
+      break;
+  }
+  DataBase.CodigosP().then((cp_)=>{
+    let cp_arr = JSON.parse(cp_)
+  ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+obtenernotificaciones().then((notif_)=>{
+  let notifi_g = JSON.parse(notif_)
+       ChoferesDB(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        DataBase.Sucursales_ALl().then((sucursales_)=>{
+          let sucursales_let = JSON.parse(sucursales_)
+                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                    let etiquetas_let = JSON.parse(etiquetas_)
+                    console.log(notifi_g)
+    res.render("PYT-4/notificaciones", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      notificaciones:true,
+      admin,
+      clientes_d,
+      clientes_arr,
+      pedidos_,
+      pedidos_let,
+      choferes_,sucursales_let,
+      cp_,notifi_g,etiquetas_let,
+      msg,notif_
+    }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+};
