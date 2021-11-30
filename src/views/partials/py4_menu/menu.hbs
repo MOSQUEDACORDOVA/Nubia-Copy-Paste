@@ -95,7 +95,7 @@ $('#bell_not').on('click', ()=>{
 <input type="text" id="array_cp" hidden value="{{cp_}}">
 <input type="text" id="etiquetas_" hidden value="{{etiquetas_}}">
 <!-- BEGIN: Header-->
-<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py4 {{#if disabled_chofer}}d-none{{/if}}" >
+<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxxl py4 {{#if disabled_chofer}}d-none{{/if}}" >
     <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
             <ul class="nav navbar-nav d-xl-none">
@@ -337,8 +337,13 @@ $('#bell_not').on('click', ()=>{
         background: linear-gradient(118deg, #001871, #0093B2) !important;
         box-shadow: 0 0 10px 1px rgb(0 147 178 / 70%) !important;
     }
-
-              
+    .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu:not(.expanded) .brand-logo img {
+    content:url('../../dataPY4/images/gotaSF.png');
+    max-width: 62px !important;
+}
+   .main-menu .navbar-header {
+padding-left: 0.7rem;
+}           
 </style>
 {{#if disabled_chofer}}
 <style>
@@ -346,9 +351,7 @@ $('#bell_not').on('click', ()=>{
     content:url('../../dataPY4/images/gotaSF.png');
     max-width: 62px !important;
 }
-.main-menu .navbar-header {
-padding-left: 0.7rem;
-}
+
 </style>
 {{/if}}
 <!-- BEGIN: Main Menu-->
