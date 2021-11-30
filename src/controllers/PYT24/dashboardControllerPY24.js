@@ -14,7 +14,7 @@ exports.web = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/landing/web", {
-      pageName: "Minner",
+      pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
       py24:true,
@@ -30,7 +30,7 @@ exports.privacy = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/landing/privacy", {
-      pageName: "",
+      pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
       py24: true,
