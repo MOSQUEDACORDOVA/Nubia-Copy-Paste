@@ -989,14 +989,21 @@ body {
 }
 .py27.banner.es {
     margin-top: 85px;
-    padding: 100px 0;
+    min-height: 350px;
     display: block;
-    background-attachment: fixed;
     background-image: url(../../../app-assets/images/py27/nella/main.jpg);
     background-size: cover;
     background-position: center;
 }
-.py27.banner.es .btn-danger, .py27.acerca.es .btn-danger, .py27.bolivia .btn-danger {
+.py27.compras.es .text-dark {
+    color: #000 !important;
+}
+@media (min-width: 768px) {
+    .py27.banner.es {
+        min-height: 450px;
+    }
+}
+.py27.banner.es .btn-danger, .py27.acerca.es .btn-danger, .py27.bolivia .btn-danger, .py27.compras.es .btn-danger {
     font-family: 'Conthrax Sb';
     text-transform: capitalize;
     background: #ce0011 !important;
@@ -1029,6 +1036,9 @@ body {
 }
 .py27.compras.es .btn-outline-light {
     font-weight: 700;
+}
+.py27.compras.es .text-center {
+    color: #ce0011 !important;
 }
 .py27.compras.es .btn-outline-light:hover {
     color: #ce0011;
@@ -1170,7 +1180,9 @@ body {
 .py27.compras.es {
     position: relative;
     padding: 80px 0;
-    background: #ce0011;
+    background-image: url(../../../app-assets/images/py27/nella/clean.jpg);
+    background-size: cover;
+    background-position: center;
 }
 .py27.pagos.roadmap {
     position: relative;

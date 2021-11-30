@@ -305,6 +305,10 @@ router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControll
 router.post('/addpaym', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addpaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addbnb', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addusdt', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 // HABILITAR / DESHABILITAR METODOS DE PAGO
@@ -324,6 +328,10 @@ router.post('/addretreatsbank', authControllerPY24.authenticatedUser, dashboardC
 router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatspaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addretreatsbnb', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addretreatsusdt', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
 router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getretreatsuser);
