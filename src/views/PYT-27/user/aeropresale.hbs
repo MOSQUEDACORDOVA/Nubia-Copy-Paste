@@ -1,0 +1,456 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div class="app-content content py27">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
+            <section id="pricing-plan">    
+                {{#if roleClient}}
+                <div class="row pricing-card">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Comprar AeroCoins</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex p-1">
+                                            <form class="form form-horizontal" id="personalizadosform">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3 col-lg-4">
+                                                                <label class="col-form-label" for="">Cantidad de AeroCoin</label>
+                                                            </div>
+                                                            <div class="col-sm-9 col-lg-8">
+                                                                <input type="number" id="amountth" class="form-control" name="amount" placeholder="13" value="0" min="0" autocomplete="off" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3 col-lg-4">
+                                                                <label class="col-form-label" for="">Costo USD</label>
+                                                            </div>
+                                                            <div class="col-sm-9 col-lg-8">
+                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
+                                                                <input type="number" id="price_" class="form-control" name="price" placeholder="600 USD" value="0" min="0" step="0.1" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-9 offset-sm-3">
+                                                        {{#if verify}}
+                                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" id="buybtn"  role="button" data-bs-toggle="modal" data-bs-target="#pagar">Comprar</button>
+                                                        {{else}}
+                                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#verificar">Comprar</button>
+                                                        {{/if}}
+                                                        <button type="reset" class="btn btn-outline-secondary waves-effect">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+            {{#if verify}}
+                {{#if allpays}}
+                {{!-- MODAL PAGAR --}}
+                <div class="modal fade" id="pagar" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-0">
+                                <div class="text-center">
+                                    <h1>Pago a realizar</h1>
+                                    <p class="mb-3"></p>
+                                </div>
+
+                                <section class="vertical-wizard">
+                                    <div class="bs-stepper vertical vertical-wizard-example">
+                                        <div class="bs-stepper-header">
+                                            <h4 style="white-space: nowrap;">Elige un metodo de pago</h4>
+                                            <!--<div class="step" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="true">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">2</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago Móvil</span>
+                                                    </span>
+                                                </button>
+                                            </div>-->
+                                            <div class="step active" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago en BTC</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
+                                            <div class="step" data-target="#address-step-vertical3" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">2</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en BNB</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="step" data-target="#address-step-vertical4" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">3</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en USDT</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
+                                            <!--<div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">4</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago en Billetera digital</span>
+                                                    </span>
+                                                </button>                                         
+                                            </div>-->
+                                        </div>
+                                        <div class="bs-stepper-content">
+                                            <!--- BTC -->
+                                            <form action="/buyaerocoins" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Pago en BTC</h5>
+                                                </div>
+                                                <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allbtc as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Cantidad de AeroCoin</label>
+                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>
+                    
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical3" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Pago en BNB</h5>
+                                                </div>
+                                                <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allbnb as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Cantidad de AeroCoin</label>
+                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical4" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Pago en USDT</h5>
+                                                </div>
+                                                 <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allusdt as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Cantidad de AeroCoin</label>
+                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>  
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-12 d-none">
+                                <div class="text-center">
+                                    <h1>Proyección de Ganancias</h1>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height:450px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="line-area-chart-ex chartjs chartjs-render-monitor" data-height="450" width="991" height="450" style="display: block; width: 991px; height: 450px;"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- END MODAL PAGAR --}}
+                {{else}}
+                <!--- MODAL SIN METODOS DE PAGO --->
+                <div class="modal fade" id="pagar" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1 class="text-center mb-1">¡Lo sentimos!</h1>
+                                <h3 class="text-center mb-1">No puedes realizar tu compra</h3>
+                                <p class="text-center">Actualmente no existe ningun método de pago disponible para completar su transacción, por favor mantente atento, el administrador puede añadirlos en cualquier momento!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- END MODAL --->
+                {{/if}}
+            {{else}}
+                <div class="modal fade" id="pagar" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Pago a realizar</h1>
+                                    <p class="mb-3"></p>
+                                </div>
+
+                                <section class="vertical-wizard">
+                                    <div class="bs-stepper vertical vertical-wizard-example">
+                                        <div class="bs-stepper-header">
+                                            <h4>Elige un metodo de retiro</h4>
+                                            <div class="step active" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="bs-stepper-content">
+                                            <!-- BTC -->
+                                            <div id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Retiro en BTC</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
+                                                        <input type="text" class="d-none" value="BTC">
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- END MODAL PAGAR --}}
+            {{/if}}
+                <!--- MODAL VERIFICAR --->
+                <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1 class="text-center mb-1">Su cuenta no ah sido verificada!</h1>
+                                <p class="text-center">Para disfrutar de todos nuestros servicios, Ingrese una foto de su documento de identidad, legible, con ambas caras.</p>
+                                <form action="/solicitverify" method="POST" class="card-body">
+                                    <p class="card-text mb-0">Parte frontal</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                        
+                                    <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                    <p class="card-text mb-0">Parte posterior</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                        
+                                    <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                    
+                                    <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- END MODAL --->
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectBanks = document.getElementById('selectBanks'),
+    selectPayms = document.getElementById('selectPaym'),
+    selectWallets = document.getElementById('digWallet'),
+    selectBtc = document.getElementById('btc');
+
+    let buyBtn = document.getElementById('buybtn');
+
+    buyBtn.addEventListener('click', () => {
+        let amountAero = document.getElementById('amountth');
+        let InCoin = document.querySelector('.amountCoin');
+        let amount = amountAero.value;
+        InCoin.value = amount;
+    });
+
+    // BTC
+    if(selectBtc) {
+        selectBtc.addEventListener('change', (e) => {
+            try {
+                let idx = e.target.value;
+                for(i = 0; i <= selectBtc.options.length; i++) {
+                    if(selectBtc[i].value === idx) {
+                        SetValuesBTCWalletSelected(selectBtc[i]);
+                    }
+                }
+            } catch(err) {
+                console.log(err)
+            }
+        });
+    }
+
+    // BTC
+    const SetValuesBTCWalletSelected = (index) => {
+        const code = document.getElementById('code_wallet')
+        code.value = index.getAttribute('data-code-wallet')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+              
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
+    }
+
+    $(function (){
+        let amountModal = $('.amount');
+        let idModal = $('.modal .d-none.id');
+        let idMethod = $('.modal .d-none.methodid');
+        let paq = $('.card-body.paquetes');
+
+        paq.each(function (index) {
+            $(this).on('click', (e) => {
+                let current = 0;    
+                if(e.target.classList.contains('btn')) {
+                    current = e.target.previousElementSibling.previousElementSibling.children[0].children[1].innerText;
+                    console.log(e.target.previousElementSibling.previousElementSibling.children[0].children[1].innerText)
+                    amountModal.each(function (index) {
+                        $(this).val(current);
+                    });
+                    idModal.each(function (index) {
+                        $(this).val(e.target.getAttribute('data-id'));
+                        console.log(e.target.getAttribute('data-id'))
+                    });
+                    idMethod.each(function (index) {
+                        $(this).val(e.target.getAttribute('data-id'));
+                        console.log("ID METODO")
+                        console.log(e.target.getAttribute('data-id'));
+                    });
+                }
+            });
+        });
+
+        $('input[name="amount"]').on('keyup', (e)=>{
+            let valor =  e.target.value;
+            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
+            $('#price_').val(price_)
+
+            amountModal.each(function (index) {
+                $(this).val(price_);
+            });
+        });
+
+        let inTh = $('.amountth');
+    });
+</script>

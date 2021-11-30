@@ -8,10 +8,8 @@ const Paquetes = require("../../models/PYT24/Packages");
 const MPagos = require("../../models/PYT24/MetodosPago");
 const Pays = require("../../models/PYT24/Payments");
 const Depositos = require("../../models/PYT24/Depositos");
-const depositosaeros = require("../../models/PYT24/DepositosAero");
 const MetodosRetiros = require("../../models/PYT24/Retreats");
 const Referidos = require("../../models/PYT24/Referidos");
-const AeroCoin = require("../../models/PYT24/AeroCoin");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -223,6 +221,32 @@ module.exports = {
           });
       });
     },
+    // CREAR METODO DE PAGO, RETIRO EN BNB
+    AddBNB(code_wallet) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'BNB', code_wallet: code_wallet })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (PAGO EN BNB) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE PAGO, RETIRO EN USDT
+    AddUSDT(code_wallet) {
+      return new Promise((resolve, reject) => {
+        MPagos.create({ transaction_type: 'USDT', code_wallet: code_wallet })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de pago (PAGO EN USDT) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // CREAR METODO DE PAGO, BILLETERA DIGITAL
     AddDigitalWallet(email) {
       return new Promise((resolve, reject) => {
@@ -347,6 +371,38 @@ module.exports = {
           });
       });
     },
+    // OBTENER CUENTAS PARA RETIRO EN BNB ADMIN
+    GetBNBAdmin() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'BNB'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER CUENTAS PARA RETIRO EN USDT ADMIN
+    GetUSDTAdmin() {
+      return new Promise((resolve, reject) => {
+        MPagos.findAll({where: {
+          transaction_type: 'USDT'
+        }})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER CUENTAS PARA RETIRO EN BTC PARA CLIENTES
     GetDigWallet() {
       return new Promise((resolve, reject) => {
@@ -425,7 +481,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO BTC
+    // ACTUALIZAR METODOS DE PAGO BTC, USDT, BNB
     UpdatePayMethodBTC(id, ttype, code_wallet){
       return new Promise((resolve, reject) => {
         MPagos.update({
@@ -540,25 +596,6 @@ module.exports = {
             });
       });
     },
-    // ACTUALIZAR MAQUINAS DE MINADO
-    UpdateMachineTH(id, sold, aval) {
-      return new Promise((resolve, reject) => {
-        Maquinas.update({
-          sold_out: sold,
-          avalible: aval,
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data)[0];
-            console.log(data_s)
-            resolve('DATOS DE MAQUINA ACTUALIZADOS !!');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // CREAR DEPOSITO
     CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_method, id_user) {
       console.log(id_pack)
@@ -619,6 +656,46 @@ module.exports = {
     GetAllPendingDepositsBTC(){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BNB
+    GetAllPendingDepositsBNB(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'BNB', status: 'No verificado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES USDT
+    GetAllPendingDepositsUSDT(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'USDT', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -699,6 +776,46 @@ module.exports = {
     GetAllCompleteDepositsBTC(){
       return new Promise((resolve, reject) => {
         Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BNB
+    GetAllCompleteDepositsBNB(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'BNB', status: 'Aprobado'},
+          include:[
+          {association:Depositos.Paquetes},
+          {association:Depositos.MetodosPagos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER TODOS LOS DEPOSITOS REALIZADOS USDT
+    GetAllCompleteDepositsUSDT(){
+      return new Promise((resolve, reject) => {
+        Depositos.findAll({where: {transaction_type: 'USDT', status: 'Aprobado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -850,12 +967,13 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS DE USUARIOS BTC AERO
-    GetDepositsBTCAero(id){
+    // OBTENER DEPOSITOS DE USUARIOS BNB
+    GetDepositsBNB(id){
       return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+        Depositos.findAll({where:{transaction_type: 'BNB', usuarioId: id},
           include:[
-          {association:depositosaeros.MetodosPagos },
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -869,31 +987,13 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS AEROCOINS DE USUARIOS
-    GetDepositsAeroBTC(id){
+    // OBTENER DEPOSITOS DE USUARIOS USDT
+    GetDepositsUSDT(id){
       return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where:{usuarioId: id},
+        Depositos.findAll({where:{transaction_type: 'USDT', usuarioId: id},
           include:[
-          {association: depositosaeros.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER AEROCOINS DE USUARIOS
-    GetCoinsAeroBTC(id){
-      return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where:{status: 'Aprobado', usuarioId: id},
-          include:[
-          {association: depositosaeros.MetodosPagos },
+          {association:Depositos.Paquetes },
+          {association:Depositos.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -987,44 +1087,6 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
-    GetAllPendingDepositsBTCAero(){
-      return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
-          include:[
-          {association:depositosaeros.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC AEROCOINS
-    GetAllCompleteDepositsBTCAero(){
-      return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
-          include:[
-          {association: depositosaeros.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL ADMIN
     GetDepositsWalletAdmin(){
       return new Promise((resolve, reject) => {
@@ -1045,7 +1107,7 @@ module.exports = {
           });
       });
     },
-    // CULMINAR DEPOSITOS
+    // APROBAR DEPOSITOS
     CulminateDeposits(id){
       return new Promise((resolve, reject) => {
         Depositos.update({
@@ -1070,25 +1132,6 @@ module.exports = {
           status: 'Aprobado',
           activatedAt: activated,
           culmination: culminated,
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data)[0];
-            console.log(data_s)
-            resolve('DEPOSITO APROBADO !!');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // APROBAR DEPOSITOS
-    UpdateDepositsAero(id, activated){
-      return new Promise((resolve, reject) => {
-        depositosaeros.update({
-          status: 'Aprobado',
-          activatedAt: activated,
         }, { where: {
           id: id
         }})
@@ -1135,6 +1178,32 @@ module.exports = {
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Nuevo metodo de retiro (RETIRO EN BTC) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, RETIRO EN BNB
+    AddRetreatsBNB(code_wallet, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'BNB', code_wallet: code_wallet, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (RETIRO EN BNB) registrado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // CREAR METODO DE RETIRO, RETIRO EN USDT
+    AddRetreatsUSDT(code_wallet, uId) {
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.create({ transaction_type: 'USDT', code_wallet: code_wallet, usuarioId: uId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Nuevo metodo de retiro (RETIRO EN USDT) registrado con éxito');
           })
           .catch((err) => {
             reject(err)
@@ -1214,9 +1283,10 @@ module.exports = {
       });
     },
     // ACTUALIZAR METODOS DE RETIRO BTC
-    UpdateRetreatsBTC(id, code_wallet){
+    UpdateRetreatsBTC(id, ttype, code_wallet){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
+          transaction_type: ttype,
           code_wallet: code_wallet
         }, { where: {
           id: id
@@ -1291,6 +1361,44 @@ module.exports = {
     GetMRetreatsBTC(id){
       return new Promise((resolve, reject) => {
         MetodosRetiros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BNB
+    GetMRetreatsBNB(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'BNB', usuarioId: id},
+          include:[
+          {association:MetodosRetiros.Usuarios },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER METODOS DE RETIROS DE USUARIOS BNB
+    GetMRetreatsUSDT(id){
+      return new Promise((resolve, reject) => {
+        MetodosRetiros.findAll({where:{transaction_type: 'USDT', usuarioId: id},
           include:[
           {association:MetodosRetiros.Usuarios },
         ],order: [
@@ -1428,7 +1536,7 @@ module.exports = {
           });
       });
     },
-    // SOLICITAR PAGO USUARIO
+    // ACTUALIZAR PRECIO TH
     SolicitPay(id) {
       return new Promise((resolve, reject) => {
         Pays.update(
@@ -1463,64 +1571,6 @@ module.exports = {
           .catch((err) => {
             reject(err)
           });
-      });
-    },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlAeroCoin() {
-        return new Promise((resolve, reject) => {
-          AeroCoin.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
-    // CONTROL AEROCOIN TH PRECIO ADMIN
-    ControlAeroCoin(price) {
-        return new Promise((resolve, reject) => {
-        AeroCoin.create({ price: price })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
-    // ACTUALIZAR PRECIO AEROCOIN ADMIN
-    UpdatePriceAeroCoin(id, price) {
-      return new Promise((resolve, reject) => {
-        AeroCoin.update(
-          {
-            price: price
-          }, { where:{
-              id: id
-          }})
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Precio de AeroCoin actualizado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // COMPRAR AEROCOINS USUARIOS
-    BuyAeroCoin(name, dni, email, amountCoin, amount, idmethod, userid) {
-      return new Promise((resolve, reject) => {
-        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, metodosPagoId: idmethod, usuarioId: userid })
-        .then((data) => {
-          let data_set = JSON.stringify(data);
-          resolve(data_set);
-        })
-        .catch((err) => {
-          reject(err);
-        });
       });
     },
     // CONTROL DE TH PRECIO, % DE MANTENIMIENTO, % DE ERROR, GANANCIAS POR REFERIDOS, SALDO MINIMO DE RETIRO
