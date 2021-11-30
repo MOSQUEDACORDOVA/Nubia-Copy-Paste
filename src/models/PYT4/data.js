@@ -12,6 +12,9 @@ const Sucursales = require("../../models/PYT4/Sucursales");
 const Carga_init = require("../../models/PYT4/Carga_init");
 const Last_p = require("../../models/PYT4/Last_pedido");
 const Etiquetas = require("../../models/PYT4/Etiquetas");
+const Cupones = require("../../models/PYT4/Cupones");
+const Used_cupons = require("../../models/PYT4/Used_cupons");
+const Notificaciones = require("../../models/PYT4/Notificaciones");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -201,7 +204,6 @@ module.exports = {
     });
   },
 
-
   registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
       Clientes.findOrCreate({
@@ -376,6 +378,27 @@ module.exports = {
             .catch((err) => {
               reject(err)
             });
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  ClienteByTlf(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findOne({where:{
+        telefono: id
+      },include:[
+        {association:Clientes.CoP },
+      ],order: [
+        // Will escape title and validate DESC against a list of valid direction parameters
+        ["updatedAt", "DESC"],
+      ],
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
         })
         .catch((err) => {
           reject(err)

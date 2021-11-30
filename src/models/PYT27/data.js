@@ -192,32 +192,6 @@ module.exports = {
           });
       });
     },
-    // CREAR METODO DE PAGO, RETIRO EN BNB
-    AddBNB(code_wallet) {
-      return new Promise((resolve, reject) => {
-        MPagos.create({ transaction_type: 'BNB', code_wallet: code_wallet })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Nuevo metodo de pago (PAGO EN BNB) registrado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // CREAR METODO DE PAGO, RETIRO EN USDT
-    AddUSDT(code_wallet) {
-      return new Promise((resolve, reject) => {
-        MPagos.create({ transaction_type: 'USDT', code_wallet: code_wallet })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Nuevo metodo de pago (PAGO EN USDT) registrado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // CREAR METODO DE PAGO, BILLETERA DIGITAL
     AddDigitalWallet(email) {
       return new Promise((resolve, reject) => {
@@ -326,77 +300,11 @@ module.exports = {
           });
       });
     },
-    // OBTENER CUENTAS PARA PAGAR EN BNB CLIENTES
-    GetBNB() {
-      return new Promise((resolve, reject) => {
-        MPagos.findAll({where: {
-          status: 'Habilitado',
-          transaction_type: 'BNB'
-        }})
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER CUENTAS PARA PAGAR EN USDT CLIENTES
-    GetUSDT() {
-      return new Promise((resolve, reject) => {
-        MPagos.findAll({where: {
-          status: 'Habilitado',
-          transaction_type: 'USDT'
-        }})
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // OBTENER CUENTAS PARA RETIRO EN BTC ADMIN
     GetBTCAdmin() {
       return new Promise((resolve, reject) => {
         MPagos.findAll({where: {
           transaction_type: 'BTC'
-        }})
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER CUENTAS PARA RETIRO EN BNB ADMIN
-    GetBNBAdmin() {
-      return new Promise((resolve, reject) => {
-        MPagos.findAll({where: {
-          transaction_type: 'BNB'
-        }})
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER CUENTAS PARA RETIRO EN USDT ADMIN
-    GetUSDTAdmin() {
-      return new Promise((resolve, reject) => {
-        MPagos.findAll({where: {
-          transaction_type: 'USDT'
         }})
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -486,7 +394,7 @@ module.exports = {
           });
       });
     },
-    // ACTUALIZAR METODOS DE PAGO BTC, USDT, BNB
+    // ACTUALIZAR METODOS DE PAGO BTC
     UpdatePayMethodBTC(id, ttype, code_wallet){
       return new Promise((resolve, reject) => {
         MPagos.update({
@@ -615,14 +523,9 @@ module.exports = {
       });
     },
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
-    GetAllPendingDepositsAero(){
+    GetAllPendingDepositsBTC(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {
-          transaction_type: {
-            [Op.ne]: 'Transferencia Bancaria',
-            [Op.ne]: 'Pago Movil',
-            [Op.ne]: 'Billetera Digital',
-          }, status: 'No verificado'},
+        Depositos.findAll({where: {transaction_type: 'BTC', status: 'No verificado'},
           include:[
           {association:Depositos.Paquetes},
           {association:Depositos.MetodosPagos },
@@ -1011,14 +914,9 @@ module.exports = {
       });
     },
     // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC AEROCOINS
-    GetAllCompleteDepositsAero(){
+    GetAllCompleteDepositsBTCAero(){
       return new Promise((resolve, reject) => {
-        depositosaeros.findAll({where: {
-          transaction_type: {
-            [Op.ne]: 'Transferencia Bancaria',
-            [Op.ne]: 'Pago Movil',
-            [Op.ne]: 'Billetera Digital',
-          }, status: 'Aprobado'},
+        depositosaeros.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
           include:[
           {association: depositosaeros.MetodosPagos },
         ],order: [
@@ -1150,32 +1048,6 @@ module.exports = {
           });
       });
     },
-    // CREAR METODO DE RETIRO, RETIRO EN BNB
-    AddRetreatsBNB(code_wallet, uId) {
-      return new Promise((resolve, reject) => {
-        MetodosRetiros.create({ transaction_type: 'BNB', code_wallet: code_wallet, usuarioId: uId })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Nuevo metodo de retiro (RETIRO EN BNB) registrado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // CREAR METODO DE RETIRO, RETIRO EN USDT
-    AddRetreatsUSDT(code_wallet, uId) {
-      return new Promise((resolve, reject) => {
-        MetodosRetiros.create({ transaction_type: 'USDT', code_wallet: code_wallet, usuarioId: uId })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Nuevo metodo de retiro (RETIRO EN USDT) registrado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // CREAR METODO DE RETIRO, BILLETERA DIGITAL
     AddRetreatsDigitalWallet(email, uId) {
       return new Promise((resolve, reject) => {
@@ -1249,10 +1121,9 @@ module.exports = {
       });
     },
     // ACTUALIZAR METODOS DE RETIRO BTC
-    UpdateRetreatsBTC(id, ttype, code_wallet){
+    UpdateRetreatsBTC(id, code_wallet){
       return new Promise((resolve, reject) => {
         MetodosRetiros.update({
-          transaction_type: ttype,
           code_wallet: code_wallet
         }, { where: {
           id: id
@@ -1327,44 +1198,6 @@ module.exports = {
     GetMRetreatsBTC(id){
       return new Promise((resolve, reject) => {
         MetodosRetiros.findAll({where:{transaction_type: 'BTC', usuarioId: id},
-          include:[
-          {association:MetodosRetiros.Usuarios },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER METODOS DE RETIROS DE USUARIOS BNB
-    GetMRetreatsBNB(id){
-      return new Promise((resolve, reject) => {
-        MetodosRetiros.findAll({where:{transaction_type: 'BNB', usuarioId: id},
-          include:[
-          {association:MetodosRetiros.Usuarios },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER METODOS DE RETIROS DE USUARIOS BNB
-    GetMRetreatsUSDT(id){
-      return new Promise((resolve, reject) => {
-        MetodosRetiros.findAll({where:{transaction_type: 'USDT', usuarioId: id},
           include:[
           {association:MetodosRetiros.Usuarios },
         ],order: [

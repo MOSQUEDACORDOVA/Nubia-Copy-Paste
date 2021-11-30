@@ -3,6 +3,7 @@ const db24 = require('../../config/dbPY24');
 const bcrypt = require('bcrypt-nodejs');
 const Paquetes = require('../../models/PYT24/Packages');
 const Depositos = require('../../models/PYT24/Depositos');
+const DepositosAero = require('../../models/PYT24/DepositosAero');
 
 // USUARIOS
 const Usuarios = db24.define('usuarios', {
@@ -138,4 +139,5 @@ Usuarios.prototype.verifyPassword = function(password) {
 }
 
 Usuarios.Depositos = Usuarios.hasMany(Depositos);
+Usuarios.DepositosAero = Usuarios.hasMany(DepositosAero);
 module.exports = Usuarios;
