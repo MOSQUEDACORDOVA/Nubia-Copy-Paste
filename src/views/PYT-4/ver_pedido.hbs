@@ -1,0 +1,435 @@
+<div class="app-content content" style="transition:none">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="card">
+                <div class="card-body">
+                    <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido"
+                        method="post">
+                        <input type="hidden" name="id_pedido" value="{{pedido_let.id}}">
+                        <input type="hidden" name="id_cliente" value="{{pedido_let.cliente.id}}">
+
+                        <div class="form-group">
+                            <label class="form-label" for="select2-basic">Cliente</label>
+                                <input value="{{pedido_let.cliente.firstName}}" class="form-control mb-2 status_pago"
+                                readonly/>
+
+
+                        </div>
+
+                     <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                            Ver Datos
+                        </button>
+<div class="form-group mt-2" style="display: none;" id="deuda_box">
+                          <label for="register-firstName" class="form-label">El cliente tiene una deuda por verificar de: $<span id="deuda_verf"></span></label>
+                         <input type="text" name="deuda_anterior" class="d-none" value="{{pedido_let.deuda_anterior}}">   
+                        </div>
+                         <div class="collapse" id="client-info">
+                            <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                                <input type="text" name="firstName" placeholder="Primer Nombre"
+                                    aria-describedby="register-firstName" tabindex="1" class="form-control mb-2"
+                                    autofocus required value="{{pedido_let.cliente.firstName}}" disabled>
+                            </div>
+                            <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
+                                <input type="text" name="lastName" placeholder="Apellido"
+                                    aria-describedby="register-lastName" tabindex="2" class="form-control mb-2"
+                                    value="{{pedido_let.cliente.lastName}}" disabled>
+                            </div>
+                            <div class="divider">
+                                <div class="divider-text">Dirección</div>
+                            </div>
+                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control cp_select" id="cp_select" value="{{pedido_let.cliente.cpId}}" disabled>
+                                </div>
+<div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly disabled>
+                                </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control municipio"  id="municipio" readonly value="{{cliente_let.municipio}}" disabled>
+                                </div>          
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                        <select class="select2 form-select select_asentamiento" id="select_asentamiento" name="asentamiento" disabled>
+                            <option value="{{pedido_let.cliente.cp.id}}">{{pedido_let.cliente.cp.asentamiento}}</option>
+                        </select>
+
+                        </div>
+                         <div class="form-group" hidden><label for="register-fraccionamiento"
+                                class="form-label">Sucursal</label><input type="text" name="sucursal"
+                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                                class="form-control mb-2" value="{{pedido_let.cliente.sucursaleId}}">
+                        </div>
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label>
+                            <input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2" value="{{cliente_let.fraccionamiento}}">
+                    </div>
+                            <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input
+                                    type="text" name="coto" placeholder="Coto" aria-describedby="register-coto"
+                                    tabindex="6" class="form-control mb-2" value="{{pedido_let.cliente.coto}}" disabled></div>
+
+                            <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input
+                                    type="text" name="casa" placeholder="Casa" aria-describedby="register-casa"
+                                    tabindex="7" class="form-control mb-2" value="{{pedido_let.cliente.casa}}" disabled></div>
+
+                            <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                                    type="text" name="calle" placeholder="Calle" aria-describedby="register-calle"
+                                    tabindex="8" class="form-control mb-2" value="{{pedido_let.cliente.calle}}" disabled></div>
+                            <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                                <input type="text" name="avenida" placeholder="Avenida"
+                                    aria-describedby="register-avenida" tabindex="9" class="form-control mb-2"
+                                    value="{{pedido_let.cliente.avenida}}" disabled>
+                            </div>
+
+                            <div class="form-group"><label for="register-referencia"
+                                    class="form-label">Referencia</label><input type="text" name="referencia"
+                                    placeholder="Referencia" aria-describedby="register-referencia" tabindex="9"
+                                    class="form-control mb-2" value="{{pedido_let.cliente.referencia}}" disabled></div>
+
+                            <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend"><span id="basic-addon1"
+                                            class="input-group-text">+52</span>
+                                    </div>
+                                    <input type="number" name="telefono" placeholder="(760) 123 00 00"
+                                        mask="(000) 000 00 00" aria-describedby="register-telefono" tabindex="11"
+                                        class="form-control mb-2" value="{{pedido_let.cliente.telefono}}" disabled>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="divider">
+                            <div class="divider-text">Chofer</div>
+                        </div>                     
+                        <div class="form-group">
+                        <input value="{{pedido_let.chofer}}" class="form-control mb-2 status_pago"
+                                readonly/>
+                    </div>
+
+                        <div class="divider">
+                            <div class="divider-text">Productos</div>
+                        </div>
+
+                        <div class="mb-1">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon2"
+                                        aria-expanded="true">Garrafon 19L</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella2"
+                                        aria-expanded="false">Botella 1L</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l2"
+                                        aria-expanded="false">Garrafon 11L</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l2"
+                                        aria-expanded="false">Botella 5L</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content mt-2">
+                                <div role="tabpanel" class="tab-pane active" id="garrafon2"
+                                    aria-labelledby="garrafon-tab" aria-expanded="true">
+
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Refil</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_refill_garrafon"
+                                                    id="count_refill_garrafon" name="refill_cant_garrafon"
+                                                    value="{{garrafon19L.refill_cant}}" disabled/>
+                                            </div>
+                                        </div>
+                                        <input type="text" class="form-control mb-1 w-50 refill_garrafon_mont"
+                                            id="refill_garrafon_mont" readonly="readonly" name="refill_garrafon_mont"
+                                            value="{{garrafon19L.refill_mont}}" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Canje</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_canje_garrafon"
+                                                    id="count_canje_garrafon" name="canje_cant_garrafon"
+                                                    value="{{garrafon19L.canje_cant}}" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 canje_garrafon_mont"
+                                            id="canje_garrafon_mont" readonly="readonly" name="canje_garrafon_mont"
+                                            value="{{garrafon19L.canje_mont}}" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Envase Nuevo</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_enNew_garrafon"
+                                                    value="{{garrafon19L.nuevo_cant}}" id="count_enNew_garrafon"
+                                                    name="enNew_cant_garrafon" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon_mont"
+                                            id="enNew_garrafon_mont" readonly="readonly"
+                                            value="{{garrafon19L.nuevo_mont}}" name="nuevo_garrafon_mont" hidden>
+                                    </div>
+                                     <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_garrafon" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" value="{{garrafon19L.enobsequio_cant_garrafon}}" disabled/>
+                                                </div>
+                                    </div>
+                                </div>
+                                    <input type="number" class=" total_garrafon" value="{{garrafon19L.total_cant}}"
+                                        id="total_garrafon" name="total_garrafon_cant" hidden />
+                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon"
+                                            class=" cant_garrafon">{{garrafon19L.total_cant}}</span></p>
+                                    <input type="number" class="monto_garrafon_input" value="{{garrafon19L.total_cost}}"
+                                        id="monto_garrafon_input" name="total_garrafon" hidden />
+                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon"
+                                            class=" monto_garrafon">{{garrafon19L.total_cost}}</span></p>
+                                </div>
+
+
+
+                                <div class="tab-pane" id="botella2" role="tabpanel" aria-labelledby="botella-tab"
+                                    aria-expanded="false">
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Refil</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_refill_botella"
+                                                    value="{{botella1L.refill_cant}}" id="count_refill_botella"
+                                                    name="refill_cant_botella" disabled/>
+                                            </div>
+
+                                        </div>
+                                        <input type="text" class="form-control mb-1 w-50 refill_botella_mont"
+                                            id="refill_botella_mont" readonly="readonly"
+                                            value="{{botella1L.refill_mont}}" name="refill_botella_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Canje</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_canje_botella"
+                                                    value="{{botella1L.canje_cant}}" id="count_canje_botella"
+                                                    name="canje_cant_botella" disabled/>
+                                            </div>
+
+                                        </div> <input type="text" class="form-control mb-1 w-50 canje_botella_mont"
+                                            id="canje_botella_mont" readonly="readonly" value="{{botella1L.canje_mont}}"
+                                            name="canje_botella_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Envase Nuevo</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_enNew_botella"
+                                                    value="{{botella1L.nuevo_cant}}" id="count_enNew_botella"
+                                                    name="enNew_cant_botella" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella_mont"
+                                            id="enNew_botella_mont" readonly="readonly" value="{{botella1L.nuevo_mont}}"
+                                            name="nuevo_botella_mont" hidden>
+                                    </div>
+                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_botella" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella" value="{{botella1L.enobsequio_cant_botella}}" disabled/>
+                                                </div>
+                                    </div>
+                                </div>
+                                    <input type="number" class=" total_botella" value="{{botella1L.total_cant}}"
+                                        id="total_botella" name="total_botella_cant" hidden />
+                                    <p class="mb-0">Cantidad Total: <span id="cant_botella"
+                                            class=" cant_botella">{{botella1L.total_cant}}</span></p>
+                                    <input type="number" class=" monto_botella_input" value="{{botella1L.total_cost}}"
+                                        id="monto_botella_input" name="total_botella" hidden />
+                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella"
+                                            class=" monto_botella">{{botella1L.total_cost}}</span></p>
+                                </div>
+
+                                <div class="tab-pane" id="garrafon11l2" role="tabpanel"
+                                    aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Refil</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_refill_garrafon11l"
+                                                    value="{{garrafon11L.refill_cant}}" id="count_refill_garrafon11l"
+                                                    name="refill_cant_garrafon11l" disabled/>
+                                            </div>
+                                        </div><input type="text" class="form-control mb-1 w-50 refill_garrafon11l_mont"
+                                            id="refill_garrafon11l_mont" readonly="readonly"
+                                            value="{{garrafon11L.refill_mont}}" name="refill_garrafon11l_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Canje</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_canje_garrafon11l"
+                                                    value="{{garrafon11L.canje_cant}}" id="count_canje_garrafon11l"
+                                                    name="canje_cant_garrafon11l" disabled/>
+                                            </div>
+                                        </div><input type="text" class="form-control mb-1 w-50 canje_garrafon11l_mont"
+                                            id="canje_garrafon11l_mont" readonly="readonly"
+                                            value="{{garrafon11L.canje_mont}}" name="canje_garrafon11l_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Envase Nuevo</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_enNew_garrafon11l"
+                                                    value="{{garrafon11L.nuevo_cant}}" id="count_enNew_garrafon11l"
+                                                    name="enNew_cant_garrafon11l" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon11l_mont"
+                                            id="enNew_garrafon11l_mont" readonly="readonly"
+                                            value="{{garrafon11L.nuevo_mont}}" name="nuevo_garrafon11l_mont" hidden>
+                                    </div>
+                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_garrafon11l" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l" value="{{garrafon11L.enobsequio_cant_garrafon11l}}" disabled/>
+                                                </div>
+                                    </div>
+                                </div>
+                                    <input type="number" class=" total_garrafon11l" value="{{garrafon11L.total_cant}}"
+                                        id="total_garrafon11l" name="total_garrafon11l_cant" hidden />
+                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l"
+                                            class=" cant_garrafon11l">{{garrafon11L.total_cant}}</span></p>
+                                    <input type="number" class=" monto_garrafon11l_input"
+                                        value="{{garrafon11L.total_cost}}" id="monto_garrafon11l_input"
+                                        name="total_garrafon11l" hidden />
+                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l"
+                                            class=" monto_garrafon11l">{{garrafon11L.total_cost}}</span></p>
+                                </div>
+
+                                <div class="tab-pane" id="botella5l2" role="tabpanel" aria-labelledby="botella5l-tab"
+                                    aria-expanded="false">
+
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Refil</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_refill_botella5l"
+                                                    value="{{botella5L.refill_cant}}" id="count_refill_botella5l"
+                                                    name="refill_cant_botella5l" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 refill_botella5l_mont"
+                                            id="refill_botella5l_mont" readonly="readonly"
+                                            value="{{botella5L.refill_mont}}" name="refill_botella5l_mont" hidden>
+
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Canje</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_canje_botella5l"
+                                                    value="{{botella5L.canje_cant}}" id="count_canje_botella5l"
+                                                    name="canje_cant_botella5l" disabled/>
+                                            </div>
+                                        </div><input type="text" class="form-control mb-1 w-50 canje_botella5l_mont"
+                                            id="canje_botella5l_mont" readonly="readonly"
+                                            value="{{botella5L.canje_mont}}" name="canje_botella5l_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                        <p class="m-0">Envase Nuevo</p>
+                                        <div class="input-group bootstrap-touchspin">
+                                            <div class="input-group input-group-sm">
+                                                <input type="number" class="touchspin count_enNew_botella5l"
+                                                    value="{{botella5L.nuevo_cant}}" id="count_enNew_botella5l"
+                                                    name="enNew_cant_botella5l" disabled/>
+                                            </div>
+                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella5l_mont"
+                                            id="enNew_botella5l_mont" readonly="readonly"
+                                            value="{{botella5L.nuevo_mont}}" name="nuevo_botella5l_mont" hidden>
+                                    </div>
+                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                                    <input type="number" class="touchspin count_enobsequio_botella5l" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" value="{{botella5L.enobsequio_cant_botella5l}}" disabled/>
+                                                </div>
+                                    </div>
+                                </div>
+                                    <input type="number" class=" total_botella5l" value="{{botella5L.total_cant}}"
+                                        id="total_botella5l" name="total_botella5l_cant" hidden />
+                                    <p class="mb-0">Cantidad Total: <span id="cant_botella5l"
+                                            class=" cant_botella5l">{{botella5L.total_cant}}</span></p>
+                                    <input type="number" class=" monto_botella5l_input" value="{{botella5L.total_cost}}"
+                                        id="monto_botella5l_input" name="total_botella5l" hidden />
+                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella5l"
+                                            class=" monto_botella5l">{{botella5L.total_cost}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex m-0">
+                            <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}"
+                                id="total_total_inp" name="total_total_inp" hidden />
+                            <b class="m-0">Monto Total: $<span id="total_total"
+                                    class="total_total">{{pedido_let.monto_total}}</span></b>
+                        </div>
+
+                        <div class="divider">
+                            <hr>
+                        </div>
+
+                        <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                            <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                                tabindex="3" class="form-control mb-2 metodo_pago" id="metodo_pago" disabled>
+                                <option selected=""> {{pedido_let.metodo_pago}} </option>
+                                <option> Efectivo </option>
+                                <option> Tarjeta </option>
+                                <option> Transferencia </option>
+                            </select>
+                        </div>
+                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
+                                Pago</label>
+                            <input type="text" name="status_pago" tabindex="1" class="form-control mb-2 status_pago"
+                                readonly id="status_pago" value="{{pedido_let.status_pago}}">
+                        </div>
+                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
+                                Pedido</label>
+                            <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
+                                value="Por entregar" value="{{pedido_let.status_pedido}}">
+                        </div>
+                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                                prestados(S/R)</label>
+                            <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
+                                value="{{pedido_let.garrafones_prestamos}}" disabled>
+                        </div>
+                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                               dañados</label>
+                            <input type="text" name="danados" placeholder="Garrafones Dañados"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
+                                value="{{pedido_let.danados}}" disabled>
+                        </div>
+
+                        <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                            <input type="text" name="observacion" placeholder="Observación"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
+                                value="{{pedido_let.observacion}}" disabled>
+                        </div>
+                        <!--<div class="modal-footer">
+                            <button tabindex="26" rippleeffect="" type="submit"
+                                class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+                        </div>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: Content-->
