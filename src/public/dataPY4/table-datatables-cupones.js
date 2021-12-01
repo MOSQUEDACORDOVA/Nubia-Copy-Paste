@@ -6,7 +6,7 @@
 
 
  var dt_basic_table_cupones = $('.datatables-basic_cupones'),
- basic_used_cupons = $('.datatables-basic_cupones_usados'),
+ basic_usuarios = $('.datatables-basic_usuarios'),
    dt_date_table = $('.dt-date'),
    assetPath = '../../dataPY4/';
 function cargaTablacupones(editada) {
@@ -26,7 +26,7 @@ function cargaTablacupones(editada) {
 
   // DataTable with buttons
   // --------------------------------------------------------------------
- 
+  console.log(array_cupones)
   if (dt_basic_table_cupones.length) {
     
     var dt_basic_cupones = dt_basic_table_cupones.DataTable({
@@ -63,6 +63,7 @@ function cargaTablacupones(editada) {
             var $user_img = full['img'],
               $name = full['nombre_cupon'],
               $post = full['nombre_proveedor'];
+              console.log($user_img)
             if ($user_img) {
               // For Avatar image
               var $output =
@@ -197,188 +198,15 @@ function cargaTablacupones(editada) {
 
 }
 
-function cargaTablacuponesUsed(editada) {
 
-  let valor_cupones_used = $('#array_cupones_usados').val()
-  let array_cupones_used = ""
-  if (editada) {
-    
-    array_cupones_used = JSON.parse(valor_cupones_used)
-
-  }else{
-    array_cupones_used = JSON.parse(valor_cupones_used.replace(/&quot;/g,'"'))
-  }
-  let codigosP = $('#array_cp').val()
-  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
- if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
-
-  // DataTable with buttons
-  // --------------------------------------------------------------------
-  console.log(array_cupones_used)
-  if (basic_used_cupons.length) {
-    
-    var dt_basic_cupones_used = basic_used_cupons.DataTable({
-      data: array_cupones_used,
-      columns: [
-        { data: 'id' },
-        { data: 'cupone.nombre_cupon' },
-        { data: 'cliente.firstName' }, // used for sorting so will hide this column
-        { data: 'fecha_uso' },
-        { data: 'cupone.categoria' },
-      ],
-      columnDefs: [
-        {
-          // Avatar image/badge, Name and post
-          targets: 1,
-          render: function (data, type, full, meta) {
-            var $user_img = full['cupone']['img'],
-              $name = full['cupone']['nombre_cupon'],
-              $post = full['cupone']['nombre_proveedor'];
-              console.log($user_img)
-            if ($user_img) {
-              // For Avatar image
-              var $output =
-                '<img src="' + assetPath + 'img_upload/'+full['cupone']['img']+'" alt="Avatar" width="32" height="32">';
-            } else {
-              // For Avatar badge
-              var stateNum = full['status'];
-              var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-              var $state = states[stateNum],
-                $initials = $name.match(/\b\w/g) || [];
-              $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-content">' + $initials + '</span>';
-            }
-
-            var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-left align-items-center">' +
-              '<div class="avatar ' +
-              colorClass +
-              ' me-1">' +
-              $output +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<span class="emp_name text-truncate fw-bold">' +
-              $name +
-              '</span>' +
-              '<small class="emp_post text-truncate text-muted">Proveedor: ' +
-              $post +
-              '</small>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
-          }
-        },
-        {
-          // Label
-          targets: 2,
-          render: function (data, type, full, meta) {
-            let asentamiento = ""
-            for (let i = 0; i < codigosP_arr.length; i++) {
-              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
-                asentamiento = codigosP_arr[i]['asentamiento']
-              }
-              
-            }
-       
-            var $status_number = full['cliente']['tipo'];
-            var $status = {
-              "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
-              "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
-              "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
-            };
-            if (typeof $status[$status_number] === 'undefined') {
-              return data;
-            }
-        var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-        var color_tag ="", color_text=""
-        if (full['cliente']['etiqueta'] ==null) {
-          color_tag =0
-          color_text="black"
-        }else{
-          color_tag =full['cliente']['etiqueta']['color']
-          color_text="white"
-        }
-        console.log(full['cliente'])
-        //aqui activa el modal info del cliente
-            return (
-              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-              '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
-              $status[$status_number].title +
-              '</span>'
-            );
-          }
-        },
-        {
-          targets: 3,
-          //className:'fecha_pedido',
-          render:function(data, type, full){
-            console.log(full['id'])
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
-           return moment(data).format('L');
-          }
-        },
-      ],
-      order: [[3, 'desc']],
-      dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-      orderCellsTop: true,
-      displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
-      // drawCallback: function (settings) {
-      //   var api = this.api();
-      //   var rows = api.rows({ page: 'current' }).nodes();
-      //   var last = null;
-
-      //   api
-      //     .column(4, { page: 'current' })
-      //     .data()
-      //     .each(function (group, i) {
-      //       if (last !== group) {
-      //         $(rows)
-      //           .eq(i)
-      //           .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
-
-      //         last = group;
-      //       }
-      //     });
-      // },
-    
-      language: {
-        "decimal": "",
-      "emptyTable": "No hay información",
-      "info": "Total _TOTAL_ registros",
-      "infoEmpty": "Total _TOTAL_ registros",
-      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
-      "infoPostFix": "",
-      "thousands": ",",
-      "lengthMenu": "Mostrar _MENU_ Entradas",
-      "loadingRecords": "Cargando...",
-      "processing": "Procesando...",
-      "search": "Buscar:",
-      "zeroRecords": "Sin resultados encontrados",
-        paginate: {
-          // remove previous & next text from pagination
-          previous: '&nbsp;',
-          next: '&nbsp;'
-        }
-      }
-    });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-  }
-
-}
  $(function () {
   'use strict';
   cargaTablacupones()
-  cargaTablacuponesUsed()
+
   // new QRCode(document.getElementById("qrcode"), "https://bwater.mosquedacordova.com/cuponera");
 
   new QRCode(document.getElementById("qrcode"), {
-    text: "https://bwater.mosquedacordova.com/intro_cuponera",
+    text: "https://bwater.mosquedacordova.com/cuponera",
     width: 128,
     height: 128,
     colorDark : "#000000",
