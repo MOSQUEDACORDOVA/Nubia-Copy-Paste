@@ -404,7 +404,7 @@ router.get('/webpy27/:id', dashboardControllerPY27.web);
 router.get('/webespy27/:id', dashboardControllerPY27.webes);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
-
+// prueba
 router.get('/login27/:id', dashboardControllerPY27.login);
 router.get('/error27/:id', dashboardControllerPY27.error);
 // AEROCOIN PRESALE
