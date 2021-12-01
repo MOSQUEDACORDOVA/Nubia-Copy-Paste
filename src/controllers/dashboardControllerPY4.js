@@ -1931,9 +1931,13 @@ exports.introCupValidate = (req, res) => {
     for (let i = 0; i < cupones_act.length; i++) {
       usado = JSON.parse( await DataBase.consultarCuponesUsados(cupones_act[i].id,cliente.id ))
       console.log('usado')
-      console.log(usado)
+      let hoy = moment()
+            let fecha_final= ""              
+              fecha_final= moment(hoy).isAfter(cupones_act[i].fecha_final); // true
+              console.log(fecha_final)
     if (usado == null) {
-       switch (cupones_act[i].categoria) {
+      if (fecha_final == false) {
+               switch (cupones_act[i].categoria) {
       case 'Belleza':
         belleza.push(cupones_act[i])
         break;
@@ -1952,6 +1956,8 @@ exports.introCupValidate = (req, res) => {
       default:
         break;
       }
+      }
+
     }  
   }
     res.render("PYT-4/cuponera", {
