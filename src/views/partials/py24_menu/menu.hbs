@@ -124,7 +124,7 @@
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
                 <a class="navbar-brand" href="/boardpresale/PYT-24">
-                    <h2 class="brand-text text-primary">Minner</h2>
+                    <img src="../../../app-assets/images/py24/logo-2.png" class="img-fluid">
                 </a>
             </li>
             <li class="nav-item nav-toggle">
@@ -142,57 +142,83 @@
             <li class="{{#if board}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/verifypackgesuser/PYT-24">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
+                    <span class="menu-title text-truncate" data-i18n="Tablero">Board</span>
                 </a>
             </li>
-            <li class="{{#if buy}}active{{/if}} nav-item">
+            <!--<li class="{{#if buy}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/presale/PYT-24">
                     <i data-feather='user-plus'></i>
                     <span class="menu-title text-truncate">Comprar TH</span>
                 </a>
+            </li>-->
+            <li class="{{#if aero}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/aeropresale/PYT-24">
+                    <i data-feather='activity'></i>
+                    <span class="menu-title text-truncate">Buy AeroCoin</span>
+                </a>
             </li>
-            <li class="{{#if dep}}active{{/if}} nav-item">
+            <!--<li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/depositpresale/PYT-24">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
+                </a>
+            </li>-->
+            <li class="{{#if dep}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/depositaero/PYT-24">
+                    <i data-feather='credit-card'></i>
+                    <span class="menu-title text-truncate" data-i18n="Depositos">Deposits</span>
                 </a>
             </li>
             <li class="{{#if ret}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/retreats24/PYT-24">
                     <i data-feather='check'></i>
-                    <span class="menu-title text-truncate">Retiros</span>
+                    <span class="menu-title text-truncate">Retreats</span>
+                </a>
+            </li>
+            <li class="nav-item nav-info text-white">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='dollar-sign'></i>
+                    <span class="menu-title text-truncate">Balance Aero: {{coins}}</span>
                 </a>
             </li>
             <br><br>
         {{else}}
 
             {{#if roleClient }}
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
+            <!--<li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
             <li class="{{#if dash}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/py24/PYT-24">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
                 </a>
-            </li>
-            <li class="{{#if plans}}active{{/if}} nav-item">
+            </li>--->
+            <!---<li class="{{#if plans}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/plans/PYT-24">
                     <i data-feather='shopping-cart'></i>
                     <span class="menu-title text-truncate" data-i18n="th">Paquetes</span>
                 </a>
-            </li>
+            </li>--->
             <li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/deposits24/PYT-24">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
                 </a>
             </li>
-            <li class="{{#if ret}}active{{/if}} nav-item">
+            <!---<li class="{{#if ret}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/retreats24/PYT-24">
                     <i data-feather='check'></i>
                     <span class="menu-title text-truncate">Retiros</span>
                 </a>
-            </li>
+            </li>--->
+
+            <li class=" nav-item">
+                <a class="d-flex align-items-center" href="/web/PYT-24" target="_blank">
+                    <i data-feather='layout'></i>
+                    <span class="menu-title text-truncate">Sitio Web</span>
+                </a>
+            </li>-->
+
             {{/if}}
             
             {{#if roleAdmin}}
@@ -204,13 +230,19 @@
                     <span class="menu-title text-truncate">Tablero</span>
                 </a>
             </li>
-            <li class="{{#if th}}active{{/if}} nav-item">
+            <!--<li class="{{#if th}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/th/PYT-24">
                     <i data-feather="cpu"></i>
                     <span class="menu-title text-truncate">Administrar TH</span>
                 </a>
+            </li>-->
+            <li class="{{#if aero}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/aero/PYT-24">
+                    <i data-feather="cpu"></i>
+                    <span class="menu-title text-truncate">AeroCoin</span>
+                </a>
             </li>
-            <li class="{{#if plans}}active{{/if}} nav-item">
+            <!--<li class="{{#if plans}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/plans/PYT-24">
                     <i data-feather='shopping-cart'></i>
                     <span class="menu-title text-truncate">Paquetes</span>
@@ -220,6 +252,12 @@
                 <a class="d-flex align-items-center" href="/deposits24/PYT-24">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate">Depositos</span>
+                </a>
+            </li>-->
+            <li class="{{#if depaero}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/depositsaeroadmin/PYT-24">
+                    <i data-feather='credit-card'></i>
+                    <span class="menu-title text-truncate">Depositos Aero</span>
                 </a>
             </li>
             <li class="{{#if paym}}active{{/if}} nav-item">

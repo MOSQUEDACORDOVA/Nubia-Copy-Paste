@@ -14,7 +14,7 @@ exports.web = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/landing/web", {
-      pageName: "Minner",
+      pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
       py24:true,
@@ -30,7 +30,7 @@ exports.privacy = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/landing/privacy", {
-      pageName: "",
+      pageName: "AeroCoin",
       dashboardPage: true,
       dashboard: true,
       py24: true,
@@ -502,6 +502,7 @@ exports.retreats = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
  
+  let roleAdmin;
   let roleClient;
   let roleSeller;
   let presale = true;
@@ -511,32 +512,27 @@ exports.retreats = (req, res) => {
     roleClient = true;
     roleSeller = true;
   }
+  else {
+    roleAdmin = true;
+  }
 
   let idUser = res.locals.user.id
 
-  /*DataBase.GetMRetreatsTransf(idUser).then((res1) => {
+  DataBase.GetMRetreatsTransf(idUser).then((res1) => {
     let transf = JSON.parse(res1);
     console.log(transf)
 
     DataBase.GetMRetreatsPaym(idUser).then((res2) => {
       let paym = JSON.parse(res2);
-      console.log(paym)*/
+      console.log(paym)
 
       DataBase.GetMRetreatsBTC(idUser).then((res3) => {
         let btc = JSON.parse(res3);
         console.log(btc)
 
-      DataBase.GetMRetreatsBNB(idUser).then((res4) => {
-        let bnb = JSON.parse(res4);
-        console.log(bnb)
-
-      DataBase.GetMRetreatsUSDT(idUser).then((res5) => {
-        let usdt = JSON.parse(res5);
-        console.log(usdt)
-
-        /*DataBase.GetMRetreatsWallet(idUser).then((res4) => {
+        DataBase.GetMRetreatsWallet(idUser).then((res4) => {
           let wallet = JSON.parse(res4);
-          console.log(wallet)*/
+          console.log(wallet)
         
         // BALANCE MINIMO DE RETIRO
         DataBase.GetControlTH().then((response_th)=>{
@@ -553,7 +549,16 @@ exports.retreats = (req, res) => {
           let retreatsCompletes = JSON.parse(resp);
           console.log(retreatsCompletes)
 
-    res.render(proyecto+"/user/retreats", {
+          DataBase.GetCoinsAeroBTC(idUser).then((r) => {
+            let dep = JSON.parse(r);
+            console.log(dep)
+            let coins = 0;
+            dep.forEach(item => {
+              coins += parseInt(item.amountAero);
+            });
+          
+    
+    res.render(proyecto+"/retreats", {
       pageName: "Minner - Retiros",
       dashboardPage: true,
       dashboard: true,
@@ -561,14 +566,19 @@ exports.retreats = (req, res) => {
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
+      roleAdmin,
       roleClient,
       roleSeller,
       presale,
       ret: true,
-      btc, bnb, usdt,
+      transf,
+      paym,
+      btc,
       retreats,
       retreatsCompletes,
+      wallet,
       data_th,
+      coins
     });
   }).catch((err) => {
     console.log(err)
@@ -600,11 +610,6 @@ exports.retreats = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
-  /*}).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error24/PYT-24");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -614,7 +619,7 @@ exports.retreats = (req, res) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
-  });*/
+  });
 };
 
 // OBTENER TODOS LOS METODOS DE RETIROS DE USUARIO
@@ -852,32 +857,37 @@ exports.paymethods = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-  /*
+
+  let roleAdmin;
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
+  }
+
   DataBase.GetBanksAdmin().then((banks)=>{
     let allbanks = JSON.parse(banks);
-    console.log(allbanks)*/
+    console.log(allbanks)
     // TRAER CUENTAS PARA PAGO MOVIL
-    /*DataBase.GetPaymAdmin().then((paym)=>{
+    DataBase.GetPaymAdmin().then((paym)=>{
       let allpaym = JSON.parse(paym);
-      console.log(allpaym)*/
+      console.log(allpaym)
       // TRAER CUENTAS PARA RETIRO EN BTC
       DataBase.GetBTCAdmin().then((btc)=>{
         let allbtc = JSON.parse(btc);
         console.log(allbtc)
-      // TRAER CUENTAS PARA RETIRO EN BNB
-      DataBase.GetBNBAdmin().then((bnb)=>{
-        let allbnb = JSON.parse(bnb);
-        console.log(allbnb)
-      // TRAER CUENTAS PARA RETIRO EN USDT
-      DataBase.GetUSDTAdmin().then((usdt)=>{
-        let allusdt = JSON.parse(usdt);
-        console.log(allusdt)
         // TRAER CUENTAS PARA RETIRO EN BTC
-        /*DataBase.GetDigWalletAdmin().then((wallet)=>{
+        DataBase.GetDigWalletAdmin().then((wallet)=>{
           let allwallet = JSON.parse(wallet);
-          console.log(allwallet)*/
+          console.log(allwallet)
         
-    res.render(proyecto+"/admin/paymethods", {
+    res.render(proyecto+"/paymethods", {
       pageName: "Formas de Pago",
       dashboardPage: true,
       dashboard: true,
@@ -886,8 +896,13 @@ exports.paymethods = (req, res) => {
       pay: true,
       username: req.user.username,
       typeUser: req.user.type_user,
-      roleAdmin: true,
-      allbtc, allbnb, allusdt,
+      roleAdmin,
+      roleClient,
+      roleSeller,
+      allbanks,
+      allpaym,
+      allbtc,
+      allwallet
     });
 
   }).catch((err) => {
@@ -905,11 +920,11 @@ exports.paymethods = (req, res) => {
   let msg = "Error en sistema";
   return res.redirect("/error24/PYT-24");
   });  
-  /*}).catch((err) => {
+  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
-  });*/ 
+  });  
 };
 
 // ACTUALIZAR METODOS DE PAGO
@@ -923,39 +938,39 @@ exports.updatepaymethod = (req, res) => {
   let {id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet} = req.body;
 
   if(req.body.ttype === 'Transferencia Bancaria') {
-      DataBase.UpdatePayMethodTransf(id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
-        res.redirect('/paymethods24/PYT-24')
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
-      });
+    DataBase.UpdatePayMethodTransf(id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
   } else if(req.body.ttype === 'Pago Movil') {
-      DataBase.UpdatePayMethodPaym(id, ttype, name, dni, bank, phone).then((respuesta) =>{
-        res.redirect('/paymethods24/PYT-24')
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
-      });
-  } else if(req.body.ttype === 'BTC' || req.body.ttype === 'BNB' || req.body.ttype === 'USDT') {
-      DataBase.UpdatePayMethodBTC(id, ttype, code_wallet).then((respuesta) =>{
-        res.redirect('/paymethods24/PYT-24')
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
-      });
+    DataBase.UpdatePayMethodPaym(id, ttype, name, dni, bank, phone).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  } else if(req.body.ttype === 'BTC') {
+    DataBase.UpdatePayMethodBTC(id, ttype, code_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
   } else if(req.body.ttype === 'Billetera Digital') {
-      DataBase.UpdatePayMethodDWallet(id, ttype, email_wallet).then((respuesta) =>{
-        res.redirect('/paymethods24/PYT-24')
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error24/PYT-24");
-      });
-    } 
-  }; 
+    DataBase.UpdatePayMethodDWallet(id, ttype, email_wallet).then((respuesta) =>{
+      res.redirect('/paymethods24/PYT-24')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error24/PYT-24");
+    });
+  }
+}; 
 
 // HABILITAR / DESHABILITAR METODOS DE PAGO
 exports.updatestatuspaymethod = (req, res) => {
@@ -1064,7 +1079,7 @@ exports.depositsadmin = (req, res) => {
 
   let roleAdmin = true;
   // TRANSFERENCIAS
-  /*DataBase.GetAllCompleteDepositsTransf().then((res1) => {
+  DataBase.GetAllCompleteDepositsTransf().then((res1) => {
     let completeTransf = JSON.parse(res1);
     console.log(completeTransf)
 
@@ -1079,67 +1094,38 @@ exports.depositsadmin = (req, res) => {
 
     DataBase.GetAllPendingDepositsPaym().then((pres2) => {
       let pendingPaym = JSON.parse(pres2);
-      console.log(pendingPaym)*/
+      console.log(pendingPaym)
 
       //BTC
       DataBase.GetAllCompleteDepositsBTC().then((res3) => {
         let completeBTC = JSON.parse(res3);
         console.log(completeBTC)
 
-      DataBase.GetAllPendingDepositsBTC().then((res4) => {
-        let pendingBTC = JSON.parse(res4);
+      DataBase.GetAllPendingDepositsBTC().then((pres4) => {
+        let pendingBTC = JSON.parse(pres4);
         console.log(pendingBTC)
 
-      // BNB
-      DataBase.GetAllCompleteDepositsBNB().then((res5) => {
-        let completeBNB = JSON.parse(res5);
-        console.log(completeBNB)
-
-      DataBase.GetAllPendingDepositsBNB().then((res6) => {
-        let pendingBNB = JSON.parse(res6);
-        console.log(pendingBNB)
-
-      // USDT
-      DataBase.GetAllCompleteDepositsUSDT().then((res7) => {
-        let completeUSDT = JSON.parse(res7);
-        console.log(completeUSDT)
-
-      DataBase.GetAllPendingDepositsUSDT().then((res8) => {
-        let pendingUSDT = JSON.parse(res8);
-        console.log(pendingUSDT)
-
         // BILLETERA DIGITAL
-        /*DataBase.GetAllCompleteDepositsWallet().then((res5) => {
+        DataBase.GetAllCompleteDepositsWallet().then((res5) => {
           let completeWallet = JSON.parse(res5);
           console.log(completeWallet)
   
         DataBase.GetAllPendingDepositsWallet().then((pres5) => {
           let pendingWallet = JSON.parse(pres5);
-          console.log(pendingWallet)*/
-        
-        let infoTable = false;
-        if (pendingBTC === [] && pendingBNB === [] && pendingUSDT === []) {
-          infoTable = true;
-        }
-        let infoTable2 = false;
-        if (completeBTC === [] && completeBNB === [] && completeUSDT === []) {
-          infoTable2 = true;
-        }
+          console.log(pendingWallet)
 
-    res.render(proyecto+"/admin/deposits", {
+    res.render(proyecto+"/deposits", {
       pageName: "Depositos",
       dashboardPage: true,
       dashboard: true,
-      py24: true,
+      py24:true,
       login: false,
       dep: true,
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      completeBTC, completeBNB, completeUSDT,
-      pendingBTC, pendingBNB, pendingUSDT,
-      infoTable,
-      infoTable2
+      completeTransf, completePaym, completeBTC, completeWallet,
+      pendingTransf, pendingPaym, pendingBTC, pendingWallet
     });
   }).catch((err) => {
     console.log(err)
@@ -1163,16 +1149,6 @@ exports.depositsadmin = (req, res) => {
   });
   }).catch((err) => {
     console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error24/PYT-24");
-  });
-  /*}).catch((err) => {
-    console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
@@ -1190,7 +1166,7 @@ exports.depositsadmin = (req, res) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
-  });*/
+  });
 };
 
 // VER TODOS LOS DEPOSITOS AEROCOIN ADMIN
@@ -1851,42 +1827,6 @@ exports.addbtc = (req, res) => {
   };
 }
 
-// CREAR METODO DE PAGO RETIRO EN USDT
-exports.addbnb = (req, res) => {
-  const { code_wallet } = req.body;
-  let msg = false;
-  if (code_wallet.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
-  } else {
-    DataBase.AddBNB(code_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
-    });
-  };
-}
-
-// CREAR METODO DE PAGO RETIRO EN USDT
-exports.addusdt = (req, res) => {
-  const { code_wallet } = req.body;
-  let msg = false;
-  if (code_wallet.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/paymethods24/PYT-24');
-  } else {
-    DataBase.AddUSDT(code_wallet).then((respuesta) =>{
-      res.redirect('/paymethods24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
-    });
-  };
-}
-
 // CREAR METODO DE PAGO BILLETERA DIGITAL
 exports.addwallet = (req, res) => {
   const { email } = req.body;
@@ -1962,44 +1902,6 @@ exports.addretreatsbtc = (req, res) => {
   };
 }
 
-// CREAR METODO DE RETIRO RETIRO EN BNB
-exports.addretreatsbnb = (req, res) => {
-  const { code_wallet } = req.body;
-  let msg = false;
-  let userid = res.locals.user.id;
-  if (code_wallet.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
-  } else {
-    DataBase.AddRetreatsBNB(code_wallet, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
-    });
-  };
-}
-
-// CREAR METODO DE RETIRO RETIRO EN USDT
-exports.addretreatsusdt = (req, res) => {
-  const { code_wallet } = req.body;
-  let msg = false;
-  let userid = res.locals.user.id;
-  if (code_wallet.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/retreats24/PYT-24');
-  } else {
-    DataBase.AddRetreatsUSDT(code_wallet, userid).then((respuesta) =>{
-      res.redirect('/retreats24/PYT-24')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24");
-    });
-  };
-}
-
 // CREAR METODO DE RETIRO BILLETERA DIGITAL
 exports.addretreatswallet = (req, res) => {
   const { email } = req.body;
@@ -2049,7 +1951,7 @@ exports.updatemretreats = (req, res) => {
   console.log(proyecto)
   let {id, ttype, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet} = req.body;
 
-  if(ttype === 'Transferencia Bancaria') {
+  if(req.body.ttype === 'Transferencia Bancaria') {
     DataBase.UpdateRetreatsTransf(id, name, dni, bank, type_account, num_account, phone, code_wallet, email_wallet).then((respuesta) =>{
       res.redirect('/retreats24/PYT-24')
     }).catch((err) => {
@@ -2057,7 +1959,7 @@ exports.updatemretreats = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/error24/PYT-24");
     });
-  } else if(ttype === 'Pago Movil') {
+  } else if(req.body.ttype === 'Pago Movil') {
     DataBase.UpdateRetreatsPaym(id, name, dni, bank, phone).then((respuesta) =>{
       res.redirect('/retreats24/PYT-24')
     }).catch((err) => {
@@ -2065,15 +1967,15 @@ exports.updatemretreats = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/error24/PYT-24");
     });
-  } else if(ttype === 'BTC' || ttype === 'BNB' || ttype === 'USDT') {
-    DataBase.UpdateRetreatsBTC(id, ttype, code_wallet).then((respuesta) =>{
+  } else if(req.body.ttype === 'BTC') {
+    DataBase.UpdateRetreatsBTC(id, code_wallet).then((respuesta) =>{
       res.redirect('/retreats24/PYT-24')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error24/PYT-24");
     });
-  } else if(ttype === 'Billetera Digital') {
+  } else if(req.body.ttype === 'Billetera Digital') {
     DataBase.UpdateRetreatsDWallet(id, email_wallet).then((respuesta) =>{
       res.redirect('/retreats24/PYT-24')
     }).catch((err) => {
@@ -2333,6 +2235,7 @@ exports.boardpresale = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
  
+  let roleAdmin;
   let roleClient = true;
   let roleSeller;
   let presale = true;
@@ -2342,6 +2245,9 @@ exports.boardpresale = (req, res) => {
   } else if(req.user.type_user === 'Vendedor') {
     roleClient = true;
     roleSeller = true;
+  }
+  else {
+    roleAdmin = true;
   }
 
   console.log(req.user)
@@ -2378,7 +2284,7 @@ exports.boardpresale = (req, res) => {
           coins += parseInt(item.amountAero);
         });
 
-    res.render(proyecto+"/user/boardpresale", {
+    res.render(proyecto+"/boardpresale", {
       pageName: "Minner - Tablero",
       dashboardPage: true,
       dashboard: true,
@@ -2386,6 +2292,7 @@ exports.boardpresale = (req, res) => {
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
+      roleAdmin,
       roleClient,
       roleSeller,
       presale,
@@ -2420,34 +2327,30 @@ exports.depositpresale = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+ 
+  let roleAdmin;
+  let roleClient = true;
+  let presale = true;
 
   let idUser = res.locals.user.id
 
-  /*DataBase.GetDepositsTransf(idUser).then((response) => {
+  DataBase.GetDepositsTransf(idUser).then((response) => {
     let transf = JSON.parse(response);
     console.log(transf)
 
     DataBase.GetDepositsPaym(idUser).then((response) => {
       let paym = JSON.parse(response);
-      console.log(paym)*/
+      console.log(paym)
 
       DataBase.GetDepositsBTC(idUser).then((response) => {
         let btc = JSON.parse(response);
         console.log(btc)
 
-      DataBase.GetDepositsBNB(idUser).then((resp) => {
-        let bnb = JSON.parse(resp);
-        console.log(bnb)
-
-      DataBase.GetDepositsUSDT(idUser).then((resp2) => {
-        let usdt = JSON.parse(resp2);
-        console.log(usdt)
-
-        /*DataBase.GetDepositsWallet(idUser).then((response) => {
+        DataBase.GetDepositsWallet(idUser).then((response) => {
           let wallet = JSON.parse(response);
-          console.log(wallet)*/
+          console.log(wallet)
     
-    res.render(proyecto+"/user/depositpresale", {
+    res.render(proyecto+"/depositpresale", {
       pageName: "Minner - Depositos",
       dashboardPage: true,
       dashboard: true,
@@ -2455,10 +2358,14 @@ exports.depositpresale = (req, res) => {
       login:false,
       username: req.user.username,
       typeUser: req.user.type_user,
-      roleClient: true,
-      presale: true,
+      roleAdmin,
+      roleClient,
+      presale,
       dep: true,
-      btc, bnb, usdt
+      transf,
+      paym,
+      btc,
+      wallet
     });
   }).catch((err) => {
     console.log(err)
@@ -2475,11 +2382,11 @@ exports.depositpresale = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
   });
-  /*}).catch((err) => {
+  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error24/PYT-24");
-  });*/
+  });
 };
 
 // USUARIOS
