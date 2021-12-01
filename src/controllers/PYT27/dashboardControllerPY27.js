@@ -22,6 +22,22 @@ exports.web = (req, res) => {
     })
 };
 
+exports.webes = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/landing/webes", {
+      pageName: "AeroCoin",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true
+    })
+};
+
 exports.privacy = (req, res) => {
   let msg = false;
   if (req.query.msg) {
