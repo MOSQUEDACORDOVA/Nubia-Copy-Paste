@@ -342,8 +342,45 @@ body {
     color: #b4b7bd;
 }
 .py24 .auth-img {
-    object-fit: cover;
-    max-width: 600px;
+    object-fit: contain;
+    max-width: 350px;
+}
+.py24 .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+}
+.py24 .auth-login-form::-webkit-scrollbar {
+    background: #20293f;
+    width: 8px;
+}
+.py24 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+    background-color: #d9a543;
+}
+.py24 .auth-login-form::-webkit-scrollbar:hover {
+    background: #353d50;
+<<<<<<< HEAD
+}
+.py24 .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+}
+.py24 .auth-login-form::-webkit-scrollbar {
+    background: #20293f;
+    width: 8px;
+}
+.py24 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #000;
+    border-radius: 5px;
+    background-color: #d9a543;
+}
+.py24 .auth-login-form::-webkit-scrollbar:hover {
+    background: #353d50;
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
 }
 .py24 .progress-bar {
     background-color: #d9a543;
@@ -465,10 +502,10 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
 @media (min-width: 992px) {
-    .py24.landheader .menu.nav .nav-item .nav-link {
+    .py24.landheader .menu.nav .nav-item {
         transition: .3s ease all;
     }
-    .py24.landheader .menu .nav-item .nav-link:hover {
+    .py24.landheader .menu .nav-item:hover {
         background: #d9a5439d !important;
         box-shadow: 0 8px 25px -8px #D9A443 !important;
     }
@@ -476,27 +513,7 @@ body {
         color: white !important;
         opacity: 1;
     }
-    .py24.landheader .menu .nav-item .nav-link {
-        display: inline-block;
-        padding: 10px;
-        border-radius: 8px;
-    }
-    .py27.landheader .menu.nav .nav-item .nav-link {
-        transition: .3s ease all;
-    }
-    .py27.landheader .menu .nav-item .nav-link:hover {
-        background: #0087f5 !important;
-        box-shadow: 0 8px 25px -8px #0087F5 !important;
-    }
-    .py27.es.landheader .menu .nav-item .nav-link:hover {
-        background: #ce0011 !important;
-        box-shadow: 0 8px 25px -8px #ce0011 !important;
-    }
-    .py27.landheader .menu .nav-item:hover .nav-link {
-        color: white !important;
-        opacity: 1;
-    }
-    .py27.landheader .menu .nav-item .nav-link {
+    .py24.landheader .menu .nav-item {
         display: inline-block;
         padding: 10px;
         border-radius: 8px;
@@ -523,7 +540,7 @@ body {
     width: 100%;
     box-shadow: 0 3px 6px rgba(0,0,0,0.4);
 }
-/*.py24 .nav .nav-item .nav-link {
+/* .py24 .nav .nav-item .nav-link {
     transition: .3s ease all;
 }
 .py24 .nav .nav-item .nav-link:hover {
@@ -542,25 +559,74 @@ body {
     object-fit: contain;
     max-width: 400px;
 }
-.py24.banner, .py24.acerca, .py24.inversion {
+.py24.acerca, .py24.inversion {
     position: relative;
     padding: 140px 0;
+}
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
+.py24 .auth-wrapper .logo, .py24.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
+<<<<<<< HEAD
+=======
+.py27 .auth-wrapper .logo, .py27.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
+    font-size: 20px;
+    font-family: 'Qualy';
 }
 .py24 .box {
     position: relative;
 }
+<<<<<<< HEAD
+<<<<<<< HEAD
+.py24 .box .d-flex .btn-secondary {
+=======
+.py27 .box .d-flex .btn-secondary {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+=======
+.py24 .box .d-flex .btn-secondary {
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
+    background: #fff !important;
+    color: #04246d !important;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Century Gothic';
+    font-size: 1.3rem;
+    transition: .3s ease all;
+}
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+/* .py24.banner span {
+=======
 .py24.banner span {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+=======
+
+/* .py24.banner span {
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
     display: block;
     width: 120px;
     height: 3px;
     background: white;
     margin: auto;
-}
+}*/
 /* BTN LIGHT */
 .py24.banner .btn-outline-light:hover, .py24.pagos .btn-outline-light:hover, .py24.inversion .btn-outline-light:hover {
     color: #D9A443 !important;
 }
-.py24.banner::before {
+/*.py24.banner::before {
     position: absolute;
     content: '';
     top: 0;
@@ -578,7 +644,7 @@ body {
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-}
+}*/
 
 .py24.banner .row {
     position: relative;
@@ -602,27 +668,18 @@ body {
     .py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
         font-size: 25px;
     }
-    .py27 .auth-wrapper .logo, .py27.banner .logo {
-        font-size: 35px;
-    }
-    .py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
-        font-size: 25px;
-    }
     .py24 .box .d-flex .btn-secondary {
         font-size: 1.5rem;
     }
 }
 @media (min-width: 1200px) {
+    .py24 .auth-img {
+        max-width: 450px;
+    }
     .py24.banner .logo {
         font-size: 45px;
     }
     .py24.banner .logo-text {
-        font-size: 35px;
-    }
-    .py27.banner .logo {
-        font-size: 45px;
-    }
-    .py27.banner .logo-text {
         font-size: 35px;
     }
 }
@@ -638,10 +695,53 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
-    background-attachment: fixed;
+    background-image: url(../../../app-assets/images/py24/buynow.jpg);
+    /*background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
+    background-attachment: fixed;*/
+<<<<<<< HEAD
+}
+<<<<<<< HEAD
+.py24.pagos.roadmap {
+=======
+.py27.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/buynow.jpg);
+}
+.py27.pagos.roadmap {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+    position: relative;
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/line.jpg);
+<<<<<<< HEAD
+    /*background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
+    background-attachment: fixed;*/
+}
+/*.py24.pagos::before {
+=======
 }
 .py24.pagos::before {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+=======
+}
+.py24.pagos.roadmap {
+    position: relative;
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py24/line.jpg);
+    /*background-image: url(https://redtributarialanzarote.es/wp-content/uploads/2017/03/pagos-linea.jpg);
+    background-attachment: fixed;*/
+}
+/*.py24.pagos::before {
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
     position: absolute;
     content: '';
     top: 0;
@@ -650,13 +750,51 @@ body {
     width: 100%;
     height: 100%;
     background: #795a219d;
-}
+}*/
 .py24.pagos .text-center, .py24.inversion .text-center {
     position: relative;
     z-index: 3;
+    font-family: 'Qualy';
+<<<<<<< HEAD
+}
+.py27.pagos .text-center, .py27.inversion .text-center {
+    position: relative;
+    z-index: 3;
+    font-family: 'Qualy';
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
 }
 .py24.pagos .text-center h2, .py24.inversion .text-center h2 {
     font-weight: bold;
+}
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
+.py24.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py24.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py24.pagos .btn-secondary {
+<<<<<<< HEAD
+=======
+.py27.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py27.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py27.pagos .btn-secondary {
+>>>>>>> parent of b75f1ab (landings aerocoin)
+=======
+>>>>>>> parent of 6066ea0 (Merge branch 'main' into jose)
+    background: #c6c6c6 !important;
+    color: #000 !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
 }
 .py24.inversion {
     position: relative;
@@ -743,7 +881,8 @@ body {
 .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100:hover {
     transform: scale(1.1)
 }
-.py24.webfooter, .py27.webfooter {
+
+.py24.webfooter {
     margin-left: 0;
 } 
 .py24.webfooter .nav-link {
@@ -764,10 +903,10 @@ body {
 .py24.webfooter .btn-outline-primary:hover {
     color: #D9A443;
 }
-.py24.webfooter, .py24.webfooter {
+.py24.webfooter {
     text-align: center;
 }
-.py24.webfooter a img, .py27.webfooter a img {
+.py24.webfooter a img {
     width: 25px;
     height: 25px;
     object-fit: contain;
@@ -778,10 +917,10 @@ body {
     }
 }
 @media (min-width: 768px) {
-    .py27.pagos .text-center h2 {
+    .py24.pagos .text-center h2 {
         font-size: 100px;
     }
-    .py27.pagos .text-center h3 {
+    .py24.pagos .text-center h3 {
         font-size: 60px;
     }
     .py24.testimonios .carousel .carousel-item .col-12 .text {
@@ -802,7 +941,7 @@ body {
     .py24.testimonios2 .carousel .carousel-control-next {
         right: 130px;
     }
-    .py27.pagos .btn-secondary {
+    .py24.pagos .btn-secondary {
         font-size: 1.5rem;
     }
 }
@@ -919,6 +1058,7 @@ body {
     background-color: #d9a5433a;
     color: #D9A443 !important;
 }
+
 .py24 .dt-bootstrap5 {
     overflow: hidden;
 }
@@ -926,6 +1066,7 @@ body {
     white-space: nowrap;
 }
 /*--------------------------- PY-24 ---------------------------*/
+<<<<<<< HEAD
 /*---------------------------- py27 ----------------------------*/
 .py27.es .navbar-brand .img-fluid {
     max-width: 105px;
@@ -989,21 +1130,14 @@ body {
 }
 .py27.banner.es {
     margin-top: 85px;
-    min-height: 350px;
+    padding: 100px 0;
     display: block;
+    background-attachment: fixed;
     background-image: url(../../../app-assets/images/py27/nella/main.jpg);
     background-size: cover;
     background-position: center;
 }
-.py27.compras.es .text-dark {
-    color: #000 !important;
-}
-@media (min-width: 768px) {
-    .py27.banner.es {
-        min-height: 450px;
-    }
-}
-.py27.banner.es .btn-danger, .py27.acerca.es .btn-danger, .py27.bolivia .btn-danger, .py27.compras.es .btn-danger {
+.py27.banner.es .btn-danger, .py27.acerca.es .btn-danger, .py27.bolivia .btn-danger {
     font-family: 'Conthrax Sb';
     text-transform: capitalize;
     background: #ce0011 !important;
@@ -1036,9 +1170,6 @@ body {
 }
 .py27.compras.es .btn-outline-light {
     font-weight: 700;
-}
-.py27.compras.es .text-center {
-    color: #ce0011 !important;
 }
 .py27.compras.es .btn-outline-light:hover {
     color: #ce0011;
@@ -1180,9 +1311,7 @@ body {
 .py27.compras.es {
     position: relative;
     padding: 80px 0;
-    background-image: url(../../../app-assets/images/py27/nella/clean.jpg);
-    background-size: cover;
-    background-position: center;
+    background: #ce0011;
 }
 .py27.pagos.roadmap {
     position: relative;
@@ -1267,3 +1396,8 @@ body {
     box-shadow: 0 8px 25px -8px #0087f5 !important;
 }
 /*---------- py27 ----------*/
+=======
+/*--- py27 ---*/
+
+/*--- py27 ---*/
+>>>>>>> a71fc44a0d017fdd6289b9ba05fd525cea4f06c8

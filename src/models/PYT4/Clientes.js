@@ -59,7 +59,7 @@ const Clientes = db.define('clientes', {
 		allowNull: true,
 		defaultValue: ""
 	},
-	codigo_postal: {
+	cuponera: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
