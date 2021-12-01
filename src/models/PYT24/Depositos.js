@@ -64,7 +64,11 @@ const Depositos = db24.define('depositos', {
 	},
 	num_reference: {
 		type: DataTypes.STRING(100),
-		allowNull: true,
+		allowNull: false,
+		unique: {
+			args: true,
+			msg: 'Identificador de transacción ya registrado'
+		}
 	},
 	status: {
 		type: DataTypes.STRING(100),

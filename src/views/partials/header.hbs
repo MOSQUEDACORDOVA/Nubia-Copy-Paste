@@ -73,13 +73,19 @@
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/modal-create-app.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-pricing.css">
         <!-- BEGIN: Custom CSS-->
-        <link rel="stylesheet" type="text/css" href="../../../app-assets/fonts/py24/stylesheet.css">
         <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
         <!-- END: Custom CSS-->
         <!-- BEGIN: PY21 Custom CSS-->
         <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
         {{!-- <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css"> --}}
         <!-- END: PY21 Custom CSS-->
+    {{/if}}
+
+    {{#if py27}}
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/fonts/py24/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     {{/if}}
 
 
@@ -109,7 +115,7 @@
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
      <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.1.1/css/dataTables.dateTime.min.css">
     <!-- END: Page CSS-->
-
+    
     {{#if disabled_chofer}}
        <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/vertical-menu.css">
@@ -120,7 +126,7 @@
     {{/if}}
     {{/if}}
 </head>
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py4}} py4 {{/if}} {{#if py24}} py24 {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py4}} py4 {{/if}} {{#if py24}} py24 {{/if}} {{#if py27}} py27 vertical {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
     data-menu="vertical-menu-modern" data-col="">
 
                               {{#if  modal_home}}

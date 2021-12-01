@@ -179,8 +179,8 @@
     {{/if}}
 
 
-    {{#if py24}}
-            <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+{{#if py24}}
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
         <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
@@ -198,8 +198,11 @@
         <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
         <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
         <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-        <script src="../../../assets/js/scripts.js"></script>
+    {{/if}}
+    {{#if py27}}
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
 
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
     {{/if}}
 
     <script>

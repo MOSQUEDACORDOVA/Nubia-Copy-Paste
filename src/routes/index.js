@@ -253,7 +253,6 @@ router.get('/presale/:id', authControllerPY24.authenticatedUser, dashboardContro
 router.get('/depositpresale/:id', authControllerPY24.authenticatedUser, dashboardControllerPY24.depositpresale);
 
 router.get('/web/:id', dashboardControllerPY24.web);
-router.get('/privacy/:id', dashboardControllerPY24.privacy);
 router.get('/register24/:id', dashboardControllerPY24.register);
 router.get('/register24/PYT-24/ref=:ref', dashboardControllerPY24.referregister);
 router.get('/login24/:id', dashboardControllerPY24.login);
@@ -328,6 +327,10 @@ router.post('/addbank', authControllerPY24.authenticatedAdmin, dashboardControll
 router.post('/addpaym', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addpaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtc', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addbnb', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addusdt', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addwallet', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.addwallet);
 // HABILITAR / DESHABILITAR METODOS DE PAGO
@@ -347,6 +350,10 @@ router.post('/addretreatsbank', authControllerPY24.authenticatedUser, dashboardC
 router.post('/addretreatspaym', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatspaym);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtc', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addretreatsbnb', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addretreatsusdt', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatsusdt);
 // METODOS DE PAGO, BILLETERA DIGITAL
 router.post('/addretreatswallet', authControllerPY24.authenticatedUser, dashboardControllerPY24.addretreatswallet);
 router.post('/getretreatsusers', authControllerPY24.authenticatedAdmin, dashboardControllerPY24.getretreatsuser);
@@ -371,15 +378,56 @@ router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 
 // PYT-27 --- AEROCOINS
-router.get('/py27/:id', dashboardControllerPY27.dashboard);
+// ! ADMIN
+router.get('/paympy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymanag);
+router.get('/paymethodspy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymethods);
+router.get('/userspy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.users);
+
+
+// ? POST ADMIN 
+// VERIFICAR USUARIO
+router.post('/verifyuserpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.verifyuser);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addbtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addbnbpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addusdtpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addusdt);
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+router.post('/updatestatuspaymethodpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updatestatuspaymethod);
+// ACTUALIZAR METODOS DE PAGO
+router.post('/updatepaymethodpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updatepaymethod);
+// ELIMINAR METODOS DE PAGO
+router.post('/deletepaymethodpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.deletepaymethod);
+
+router.get('/py27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.dashboard);
+
+// ! USUARIOS
+router.get('/retreats27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.retreats);
+
+// ? POST
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/solicitverifypy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.solicitverify);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addretreatsbtcpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addretreatsbnbpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addretreatsusdtpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsusdt);
+// ACTUALIZAR METODOS DE RETIROS
+router.post('/updatemretreatspy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.updatemretreats);
+// ELIMINAR METODOS DE RETIRO
+router.post('/deletemretreatspy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.deletemretreats);
 
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
-router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
+router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
+router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
 
-router.get('/web/:id', dashboardControllerPY27.web);
+router.get('/webpy27/:id', dashboardControllerPY27.web);
+router.get('/webespy27/:id', dashboardControllerPY27.webes);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
-
+// prueba
 router.get('/login27/:id', dashboardControllerPY27.login);
 router.get('/error27/:id', dashboardControllerPY27.error);
 // AEROCOIN PRESALE
@@ -387,7 +435,6 @@ router.get('/aeropresale/:id', authControllerPY27.authenticatedUser, dashboardCo
 router.get('/depositaero/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.depositaero);
 // CONTROL DE MONEDA AERO COIN
 router.get('/aero/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.aerocoin);
-router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
 
 
 // AUTH
