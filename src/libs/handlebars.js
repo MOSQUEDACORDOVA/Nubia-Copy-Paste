@@ -161,7 +161,7 @@ module.exports = {
 		}
 	},
 	userdepositspy24: (id, arr) => {
-		if(arr.length >= 1) {
+		if(arr.length) {
 			return `<a href="#" role="button" class="btn btn-primary btn-paquetes" data-id="${id}">Ver</a>`
 		} else {
 			return '<span class="badge rounded-pill bg-light-dark text-primary">Ninguno</span>'
@@ -358,8 +358,7 @@ module.exports = {
 				 return out;
 				},
 			formatoFecha2: (fecha, user) => {
-				console.log(fecha)
-				var fecha_dia =moment(fecha).format('L');
+				var fecha_dia =moment(fecha).locale('es').format("dddd, Do MMMM  YYYY, h:mm a");
 
 						//console.log(fecha_)
 					 return fecha_dia;
