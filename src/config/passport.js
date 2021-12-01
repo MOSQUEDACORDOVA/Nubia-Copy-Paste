@@ -8,7 +8,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
 // Loca strategy - Login con credenciales propios
-passport.use(
+passport.use('local',
 	new LocalStrategy(
 		{
 			usernameField: 'email',
@@ -49,6 +49,39 @@ switch (req.body.proyect) {
 					});
 				}
 				return done(null, usuario);
+			}catch(err) {
+				console.log(err)
+				return done(null, false, {
+					message: 'Esa cuenta no existe'
+				});
+			}
+		}
+	)
+);
+
+passport.use('cuponera',
+	new LocalStrategy({
+		usernameField: 'telefono',
+		passwordField: 'pass',
+		passReqToCallback : true
+	},
+		async (req,telefono, password, done) => {
+			console.log(req.body)
+// Modelo a auntenticar
+var Clientes = "";
+switch (req.body.proyect) {
+	case 'PYT4':
+		console.log("q")
+		Clientes = require('../models/PYT4/Clientes');	
+		break;
+	default:
+		break;
+}
+			try {
+				const cliente = await Clientes.findOne({
+					where: {telefono:telefono}
+				});
+				return done(null, cliente);
 			}catch(err) {
 				console.log(err)
 				return done(null, false, {
