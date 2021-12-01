@@ -379,7 +379,7 @@ router.get('/boardpresale/:id', authControllerPY27.authenticatedUser, dashboardC
 router.get('/web/:id', dashboardControllerPY27.web);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
-
+// prueba
 router.get('/login27/:id', dashboardControllerPY27.login);
 router.get('/error27/:id', dashboardControllerPY27.error);
 // AEROCOIN PRESALE
