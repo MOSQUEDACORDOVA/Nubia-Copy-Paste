@@ -1,6 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-<div class="app-content content py24">
+<div class="app-content content py27">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <div id="loading3">
@@ -81,7 +81,7 @@
                                 <section class="vertical-wizard">
                                     <div class="bs-stepper vertical vertical-wizard-example">
                                         <div class="bs-stepper-header">
-                                            <h4>Elige un metodo de pago</h4>
+                                            <h4 style="white-space: nowrap;">Elige un metodo de pago</h4>
                                             <!--<div class="step" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="true">
                                                     <span class="bs-stepper-box">1</span>
@@ -102,82 +102,39 @@
                                                 <button type="button" class="step-trigger" aria-selected="false">
                                                     <span class="bs-stepper-box">1</span>
                                                     <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Pago en Criptomonendas</span>
+                                                        <span class="bs-stepper-title">Pago en BTC</span>
                                                     </span>
                                                 </button>
                                             </div>
+
+                                            <div class="step" data-target="#address-step-vertical3" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">2</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en BNB</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="step" data-target="#address-step-vertical4" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">3</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en USDT</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+
                                             <!--<div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="false">
                                                     <span class="bs-stepper-box">4</span>
                                                     <span class="bs-stepper-label">
                                                         <span class="bs-stepper-title">Pago en Billetera digital</span>
                                                     </span>
-                                                </button>
+                                                </button>                                         
                                             </div>-->
                                         </div>
                                         <div class="bs-stepper-content">
-                                            <!--- TRANSFERENCIAS BANCARIAS -->
-                                            <form id="account-details-vertical" method="POST" action="/deposits" class="content dstepper-block" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
-                                                <div class="content-header">
-                                                    <h5 class="mb-0">Transferencia Bancaria</h5>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-12">
-                                                        <select class="form-select" id="selectBanks" tabindex="-1" aria-hidden="true" required>
-                                                            <option value="" selected>Cuentas disponibles</option>
-                                                            {{#each allbanks as |item i|}}
-                                                            <option data-bank-name="{{item.bank_name}}" data-bank-num-account="{{item.num_account}}" data-bank-type-account="{{item.type_account}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" data-id="{{item.id}}" value="{{item.id}}">{{item.bank_name}} - {{item.num_account}}</option>
-                                                            {{/each}}
-                                                        </select>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Nombre Completo</label>
-                                                        <input type="text" name="ttype" class="d-none" value="Transferencia Bancaria" required readonly>
-                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
-                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
-                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
-                                                        <input type="text" id="fullname1" class="form-control" placeholder="" name="name" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Documento de identificación</label>
-                                                        <input type="text" id="dni1" class="form-control" placeholder="" name="dni" value="" required readonly>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Tipo de Banco</label>
-                                                        <input type="text" id="bank_name1" class="form-control" placeholder="" name="bank_name" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Tipo de Cuenta</label>
-                                                        <input type="text" name="type_account" id="type_account" class="form-control" placeholder="" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Nro de Cuenta Bancaria</label>
-                                                        <input type="text" id="num_account" class="form-control" placeholder="" name="num_account" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Adjuntar imagen del comprobante</label>
-                                                        <input type="text" name="voucher" id="voucher" class="d-none">
-                                                        
-                                                        <input type="file" id="img1" class="form-control" placeholder="" required>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Monto $</label>
-                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Nro de referencia</label>
-                                                        <input type="text" name="ref" id="ref" class="form-control" placeholder="" required>
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
-                                                        Enviar pago a verificación
-                                                    </button>
-                                                </div>
-                                            </form>
-
                                             <!--- BTC -->
                                             <form action="/buyaerocoins" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
@@ -214,31 +171,32 @@
                                                     </button>
                                                 </div>
                                             </form>
-
-                                            <!--- BILLETERA DIGITAL -->
-                                            <form action="/deposits" method="POST" id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                    
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical3" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Retiro en Billetera digital</h5>
+                                                    <h5 class="mb-0">Pago en BNB</h5>
+                                                </div>
+                                                <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allbnb as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <select class="form-select" id="digWallet" tabindex="-1" aria-hidden="true" required>
-                                                            <option value="" selected>Cuentas disponibles</option>
-                                                            {{#each allwallet as |item i|}}
-                                                            <option data-id="{{item.id}}" data-email="{{item.digital_wallet_email}}" value="{{item.id}}">{{item.digital_wallet_email}}</option>
-                                                            {{/each}}
-                                                        </select>
+                                                        <label class="form-label" for="">Cantidad de AeroCoin</label>
+                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Email</label>
-                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                                                    
-                                                        <input type="text" name="ttype" class="d-none" value="Billetera Digital" required readonly>
-                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
-                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
-                                                        <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Monto $</label>
+                                                        <label class="form-label" for="">Monto USD</label>
                                                         <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                 </div>
@@ -250,51 +208,32 @@
                                                 </div>
                                             </form>
 
-                                            <!--- PAGO MOVIL -->
-                                            <form action="/deposits" method="POST" id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical4" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Pago Móvil</h5>
+                                                    <h5 class="mb-0">Pago en USDT</h5>
+                                                </div>
+                                                 <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allusdt as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <select class="form-select" id="selectPaym" tabindex="-1" aria-hidden="true" required>
-                                                            <option value="" selected>Cuentas disponibles</option>
-                                                            {{#each allpaym as |item i|}}
-                                                            <option data-bank-name="{{item.bank_name}}" data-phone="{{item.phone}}" data-id="{{item.id}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.phone}}</option>
-                                                            {{/each}}
-                                                        </select>
+                                                        <label class="form-label" for="">Cantidad de AeroCoin</label>
+                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Nombre Completo</label>
-                                                        <input type="text" name="ttype" class="d-none" value="Pago Movil" required readonly>
-                                                        <input type="text" name="id" class="d-none id" value="" required readonly>  
-                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>     
-                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>                    
-                                                        <input type="text" id="fullname2" class="form-control" placeholder="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Documento de identicicación</label>
-                                                        <input type="text" id="dni2" class="form-control" placeholder="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Banco</label>
-                                                        <input type="text" id="bank_name2" class="form-control" placeholder="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Telefono</label>
-                                                        <input type="text" id="phone" class="form-control" placeholder="" required>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Adjuntar imagen del comprobante</label>
-                                                        <input type="file" id="img2" class="form-control" placeholder="" required>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Monto $</label>
-                                                        <input type="text" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
-                                                    </div>
-                                                    <div class="mb-1">
-                                                        <label class="form-label" for="">Nro de referencia</label>
-                                                        <input type="text" id="ref2" name="ref" class="form-control" placeholder="" required>
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
                                                     </div>
                                                 </div>
 
@@ -303,7 +242,7 @@
                                                         Realizar Pago
                                                     </button>
                                                 </div>
-                                            </form>
+                                            </form>  
                                         </div>
                                     </div>
                                 </section>

@@ -108,7 +108,7 @@
                     </a>--}}
                     <a class="dropdown-item" href="/logout/PYT-27">
                         <i class="me-50" data-feather="power"></i> 
-                        Cerrar sesión
+                        Logout
                     </a>
                 </div>
             </li>
@@ -123,7 +123,7 @@
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-                <a class="navbar-brand" href="/boardpresale/PYT-27">
+                <a class="navbar-brand" href="/controlrolespy27/PYT-27">
                     <img src="../../../app-assets/images/py24/logo-2.png" class="img-fluid">
                 </a>
             </li>
@@ -140,7 +140,7 @@
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
         {{#if presale}}
             <li class="{{#if board}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="">
+                <a class="d-flex align-items-center" href="/controlrolespy27/PYT-27">
                     <i data-feather="home"></i>
                     <span class="menu-title text-truncate" data-i18n="Tablero">Board</span>
                 </a>
@@ -175,7 +175,7 @@
                     <span class="menu-title text-truncate">Retreats ACN</span>
                 </a>
             </li>
-            <li class="nav-item nav-info text-white">
+            <li class="nav-item nav-info text-white" style="pointer-events: none;">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='dollar-sign'></i>
                     <span class="menu-title text-truncate">Balance Aero: {{coins}}</span>
@@ -225,9 +225,9 @@
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
                     data-feather="more-horizontal"></i>
             <li class="{{#if dash}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/PYT-27">
+                <a class="d-flex align-items-center" href="/controlrolespy27/PYT-27">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate">Tablero</span>
+                    <span class="menu-title text-truncate">Board</span>
                 </a>
             </li>
             <!--<li class="{{#if th}}active{{/if}} nav-item">
@@ -257,26 +257,26 @@
             <li class="{{#if depaero}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/depositsaeroadmin/PYT-27">
                     <i data-feather='credit-card'></i>
-                    <span class="menu-title text-truncate">Depositos Aero</span>
+                    <span class="menu-title text-truncate">Deposits Aero</span>
                 </a>
             </li>
             <li class="{{#if paym}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/paym/PYT-27">
+                <a class="d-flex align-items-center" href="/paympy27/PYT-27">
                     <i data-feather='dollar-sign'></i>
-                    <span class="menu-title text-truncate">Gestión de Pagos</span>
+                    <span class="menu-title text-truncate">Pay Managment</span>
                 </a>
             </li>
             <li class="{{#if pay}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/paymethods27/PYT-27">
+                <a class="d-flex align-items-center" href="/paymethodspy27/PYT-27">
                     <i data-feather='star'></i>
-                    <span class="menu-title text-truncate">Formas de Pago</span>
+                    <span class="menu-title text-truncate">Payment Methods</span>
                 </a>
             </li>
            
             <li class="{{#if users}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/users27/PYT-27">
+                <a class="d-flex align-items-center" href="/userspy27/PYT-27">
                     <i data-feather='users'></i>
-                    <span class="menu-title text-truncate">Usuarios</span>
+                    <span class="menu-title text-truncate">Users</span>
                 </a>
             </li>
             <li class="nav-item">

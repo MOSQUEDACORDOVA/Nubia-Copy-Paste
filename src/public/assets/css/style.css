@@ -1140,6 +1140,39 @@ body {
     width: 8px;
     border-radius: 5px;
 }
+.py27 .main-menu.menu-light .navigation > li.active > a {
+    background: linear-gradient(118deg, #04246d, #2a58c3);
+    box-shadow: 0 0 10px 1px #04236dbc;
+    color: #fff;
+    font-weight: 400;
+    border-radius: 4px;
+}
+.py27 .dropdown-item:active {
+    color: #fff !important;
+    background-color: #04246d !important;
+}.py27 .dropdown-item:hover{
+    color: #fff !important;
+    background-color: #04246d !important;
+}
+.py27 .modal .bs-stepper {
+    box-shadow: none !important;
+}
+.py27 .dropdown-item:focus {
+    color: #04246d !important;
+    background-color: #0080e82a !important;
+}
+.py27 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
+    background: linear-gradient(118deg, #04246d, #2a58c3);
+    color: #fff;
+    box-shadow: 0 3px 6px 0 #04236dbc;
+}
+.py27 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
+    background-color: #0080e82a;
+    color: #04246d !important;
+}
+.py27 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
+    color: #04246d !important;
+}
 .py27 .text-primary {
     color: #04246d !important;
 }
