@@ -1,374 +1,468 @@
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
 <style>
-
-    .font-crece{
-        font-size: 1.5rem !important;
-        }
-        .ecommerce-application .list-view .ecommerce-card .card-body .item-wrapper {
-    order: 3 !important;
-    text-align: end !important;
-}
-  .listado_categoria  .list-view .ecommerce-card {
-    /* grid-template-columns: 1fr; */
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 2fr 2fr !important;
-}
-.listado_categoria .list-view .ecommerce-card .card-body {
-    justify-content: center;
-}
-.ecommerce-application .list-view .ecommerce-card .item-img {
-    max-height: 15rem;
-}
-.listado_categoria .list-view .ecommerce-card .item-img {
-    max-height: 20rem;
-}
-    @media (max-width: 767.98px){
- 
-    .ecommerce-application .list-view .ecommerce-card {
-    /* grid-template-columns: 1fr; */
-    overflow: hidden;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-}   
- .ecommerce-application .list-view .ecommerce-card .item-img {
-    padding-top: 0;
-    padding-bottom: 0;
-        display: inline-block;
-}
-.ws_link{
-    margin-top: 0;
-}
-.ecommerce-application .list-view .ecommerce-card .item-options {
-    padding: 0.15rem;
-}
-
-.font-crece{
-        font-size: 1rem !important;
-        }
-        .item-price{
-font-size: 1rem !important;
-        }
+    .font-crece {
+        font-size: 1.3rem !important;
     }
 
+    .ecommerce-application .list-view .ecommerce-card .card-body .item-wrapper {
+        order: 3 !important;
+        text-align: end !important;
+    }
+
+    .listado_categoria .list-view .ecommerce-card {
+        /* grid-template-columns: 1fr; */
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 2fr 2fr !important;
+    }
+
+    .listado_categoria .list-view .ecommerce-card .card-body {
+        justify-content: center;
+    }
+
+    .ecommerce-application .list-view .ecommerce-card .item-img {
+        max-height: 15rem;
+    }
+
+    .listado_categoria .list-view .ecommerce-card .item-img {
+        max-height: 20rem;
+    }
+
+    .descrip-card2 {
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+    }
+
+    .item-name a {
+        font-weight: 600;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 0.3rem;
+        color: #e34398;
+    }
+
+    .item-company {
+        display: inline-flex;
+        font-weight: 400;
+        margin: 0.3rem 0 0.5rem;
+        font-size: 0.875rem;
+    }
+
+    .img-scalable {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        max-height: 17rem;
+    }
+
+    .item-options {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    @media (max-width: 767.98px) {
+
+        .ecommerce-application .list-view .ecommerce-card {
+            /* grid-template-columns: 1fr; */
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+        }
+
+        .ecommerce-application .list-view .ecommerce-card .item-img {
+            padding-top: 0;
+            padding-bottom: 0;
+            display: inline-block;
+        }
+
+        .ws_link {
+            margin-top: 0;
+        }
+
+        .ecommerce-application .list-view .ecommerce-card .item-options {
+            padding: 0.15rem;
+        }
+
+        .font-crece {
+            font-size: 1rem !important;
+        }
+
+        .item-price {
+            font-size: 1rem !important;
+        }
+    }
 </style>
 <script>
 
-$(document).ready(function() {
-$('.ws_link').on('click', (e)=>{
-    console.log(e)
-    let ws_proveedor= e.target.dataset['tlf']
-    let hoy= moment().format('yyyy-MM-DDThh:mm')
-    $('#id_cupon_selected').val(e.target.id)
-    $('#fecha_selected').val(hoy)
+    $(document).ready(function () {
+        $('.ws_link').on('click', (e) => {
+            console.log(e)
+            let ws_proveedor = e.target.dataset['tlf']
+            let hoy = moment().format('yyyy-MM-DDThh:mm')
+            $('#id_cupon_selected').val(e.target.id)
+            $('#fecha_selected').val(hoy)
 
-    Swal.fire({
-  title: '¿Seguro desea usar este cupón?',
-  text: "Una vez confirmado, ya no podrá volver a usar este cupón!",
-  icon: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Sí, usar!'
-}).then((result) => {
-  if (result.isConfirmed) {
+            Swal.fire({
+                title: '¿Seguro desea usar este cupón?',
+                text: "Una vez confirmado, ya no podrá volver a usar este cupón!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, usar!'
+            }).then((result) => {
+                if (result.isConfirmed) {
 
 
-$.ajax({
-  url: `/usar_cupon`,
-  type: 'POST',
-  data: $('#form_cupon_used').serialize(),
-  cache: false,
-  success: function (data, textStatus, jqXHR) {
-console.log(data)
-if (data.msg =="USADO" ){
-Swal.fire('Cupon usado porfavor seleccione otro o actualice la página')
-    return
-}
-window.location.href= `https://wa.me/${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
-  },
-  error: function (jqXHR, textStatus) {
-    console.log('error:' + jqXHR)
-  }
-});
-  }
-})
+                    $.ajax({
+                        url: `/usar_cupon`,
+                        type: 'POST',
+                        data: $('#form_cupon_used').serialize(),
+                        cache: false,
+                        success: function (data, textStatus, jqXHR) {
+                            console.log(data)
+                            if (data.msg == "USADO") {
+                                Swal.fire('Cupon usado porfavor seleccione otro o actualice la página')
+                                return
+                            }
+                            window.location.href = `https://wa.me/${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
+                        },
+                        error: function (jqXHR, textStatus) {
+                            console.log('error:' + jqXHR)
+                        }
+                    });
+                }
+            })
 
-})
-    $('#Salud_btn').on('click', (e)=> {
-        Reset(1)
-    });
-    $('#fit_btn').on('click', (e)=> {
-        Reset(2);
-    });
-    $('#btn_belleza').on('click', (e)=> {
-        Reset(3);
-    });
-    $('#btn_comida').on('click', (e)=> {
-        Reset(4);
-    });
-    $('#btn_otros').on('click', (e)=> {
-        Reset(5);
-    });
-    $('#ver_btn_cup').on('click', (e)=> {
-        Reset(6)
-    });
+        })
+        $('#Salud_btn').on('click', (e) => {
+            Reset(1)
+        });
+        $('#fit_btn').on('click', (e) => {
+            Reset(2);
+        });
+        $('#btn_belleza').on('click', (e) => {
+            Reset(3);
+        });
+        $('#btn_comida').on('click', (e) => {
+            Reset(4);
+        });
+        $('#btn_otros').on('click', (e) => {
+            Reset(5);
+        });
+        $('#ver_btn_cup').on('click', (e) => {
+            Reset(6)
+        });
 
-    function Reset(num) {
-        $('#knowledge-base-content').fadeOut();
-      
-        $('#Salud_list').fadeOut();
-      
-        $('#fitness').fadeOut();
-        
-        $('#belleza').fadeOut();       
+        function Reset(num) {
+            $('#knowledge-base-content').fadeOut();
 
-        $('#comida').fadeOut();
+            $('#Salud_list').fadeOut();
 
-        $('#otros').fadeOut();       
+            $('#fitness').fadeOut();
 
-        $('#fitness').fadeOut();
-        switch (num){
-            case 1:
-                $('#Salud_list').fadeIn();
-            break;
-            case 2:
-                $('#fitness').fadeIn();
-            break;
-            case 3:
-$('#belleza').fadeIn();
-            break;
-             case 4:
-$('#comida').fadeIn();
-            break;
-             case 5:
-                $('#otros').fadeIn();
-            break;
-             case 6:
-                $('#knowledge-base-content').fadeIn();
-            break;
+            $('#belleza').fadeOut();
+
+            $('#comida').fadeOut();
+
+            $('#otros').fadeOut();
+
+            $('#fitness').fadeOut();
+            switch (num) {
+                case 1:
+                    $('#Salud_list').fadeIn();
+                    break;
+                case 2:
+                    $('#fitness').fadeIn();
+                    break;
+                case 3:
+                    $('#belleza').fadeIn();
+                    break;
+                case 4:
+                    $('#comida').fadeIn();
+                    break;
+                case 5:
+                    $('#otros').fadeIn();
+                    break;
+                case 6:
+                    $('#knowledge-base-content').fadeIn();
+                    break;
+            }
         }
-    }
-});
+    });
 
 </script>
 <div class="app-content content ecommerce-application" style="transition:none">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
-            
-     {{#if cliente}}           
-               <form method="post" id="form_cupon_used" hidden>
+
+            {{#if cliente}}
+            <form method="post" id="form_cupon_used" hidden>
                 <input type="text" id="form_id_cliente" value="{{cliente.id}}" name="form_id_cliente">
                 <input type="text" id="id_cupon_selected" name="id_cupon_selected">
                 <input type="datetime-local" id="fecha_selected" name="fecha_selected">
-               </form>
-                   <section id="knowledge-base-content" class="show listado_categoria">
-                    <div class="list-view">
-                        <!-- sales card -->
-                        <div class="card ecommerce-card" style=" background-color: #011769; cursor:pointer" id="Salud_btn">
-                            
-                            <div class="item-img text-center">
-                                       <img src="../../../app-assets/images/illustration/salud2.jpg" class="card-img-top"  />
-                            </div>
-                            <div class="card-body text-center">
-                                        <h4 class="display-1" style="color:white">Salud</h4>
-                                        {{!-- <p class="text-body mt-1 mb-0">
-                                            There is perhaps no better demonstration of the folly of image of our tiny world.
-                                        </p> --}}
-                                    </div>
-                            
+            </form>
+            <section id="knowledge-base-content" class="show listado_categoria">
+                <div class="list-view">
+                    <!-- sales card -->
+                    <div class="card ecommerce-card" style=" background-color: #011769; cursor:pointer" id="Salud_btn">
+
+                        <div class="item-img text-center">
+                            <img src="../../../app-assets/images/illustration/salud2.jpg" class="card-img-top" />
+                        </div>
+                        <div class="card-body text-center">
+                            <h4 class="display-1" style="color:white">Salud</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">
+                                There is perhaps no better demonstration of the folly of image of our tiny world.
+                            </p> --}}
                         </div>
 
-                        <!-- marketing -->
-                        <div class="card ecommerce-card" style=" background-color: #c94095; cursor:pointer"  id="btn_belleza">
-                            <div class="card-body text-center" for="#btn_belleza">
-                                        <h4 class="display-1" style="color:white">Belleza</h4>
-                                        {{!-- <p class="text-body mt-1 mb-0">
-                                            Look again at that dot. That’s here. That’s home. That’s us. On it everyone you love.
-                                        </p> --}}
-                                    </div> 
-                            <div class="item-img text-center">                                
-                                    <img src="../../../app-assets/images/illustration/belleza.svg" class="card-img-top" />
-                            </div>
-                            
-                        </div>
-
-                        <!-- api -->
-                        
-
-                        <!-- personalization -->
-                        <div class="card ecommerce-card" style=" background-color: #0cad64;" id="btn_comida">
-                            
-                            <div class="item-img text-center">
-                                
-                                    <img src="../../../app-assets/images/illustration/comida.svg" class="card-img-top"  />
-                             </div>
-                              <div class="card-body text-center">
-                                        <h4 class="display-1" style="color:white">Comida</h4>
-                                        {{!-- <p class="text-body mt-1 mb-0">It has been said that astronomy is a humbling and character experience.</p> --}}
-                                    </div>
-                             
-                        </div>
-
-                        <div class="card ecommerce-card" style=" background-color: #2cf2fc;" id="fit_btn">
-                           <div class="card-body text-center">
-                                        <h4 class="display-1" style="color:white">Fitness</h4>
-                                        {{!-- <p class="text-body mt-1 mb-0">every hero and coward, every creator and destroyer of civilization.</p> --}}
-                                    </div>
-                            <div class="item-img text-center">
-                                
-                                    <img src="../../../app-assets/images/illustration/fit.jpg" class="card-img-top"   />                               
-                            </div>
-                            
-                            
-                        </div>
-
-                        <!-- email -->
-                        <div class="card ecommerce-card" style=" background-color: #a80b62;" id="btn_otros">
-                            
-                            <div class="item-img text-center">
-                                
-                                    <img src="../../../app-assets/images/illustration/otros.jpg" class="card-img-top"   />
-                                                                   
-                            </div>
-                            <div class="card-body text-center">
-                                        <h4 class="display-1" style="color:white">Otros</h4>
-                                        {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly of human conceits.</p> --}}
-                                    </div>
-                            
-                        </div>
                     </div>
-                </section>
-        
-           
-                <section id="Salud_list" class="collapse">
-                    <div class="list-view">
-                        <!-- sales card -->
-                        {{#each salud as | sal i|}}
-    <div class="card ecommerce-card">
-        <input class="bell{{id}}" value="{{id}}" hidden>
-    <div class="item-img text-center">
-        <img class="img-fluid card-img-top" src="../../../dataPY4/img_upload/{{img}}" alt="img-placeholder">
-    </div>
-    <div class="card-body">
-      <h6 class="item-name font-crece">
-        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
-        <span class="card-text item-company">By <a href="#" class="company-name">{{nombre_proveedor}}</a></span>
-      </h6>
-      <p class="card-text item-description font-crece">
-        {{especial}}
-      </p>
-      
-           <div class="item-wrapper">
-               <div class="item-cost">
-                                        <h4 class="item-price" style="display: block;text-transform: capitalize;">Vence: {{#formatoFecha2 fecha_final}}{{/formatoFecha2}}</h4>
-                                    </div>
-                                </div>                          
-    </div>
-    <div class="item-options text-center">
-        
-      <a  id="{{id}}" data-tlf="{{ws_proveedor}}" class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light">
-        <span class="add-to-cart">Usar</span>
-      </a>
-    </div>
-  </div>
-                        {{/each}}
-                    </div>
-                </section>
-                <section id="fitness" class="collapse">
-                    <div class="row kb-search-content-info match-height">
-                        <!-- sales card -->
-                        {{#each fitness as | fit i|}}
-                        <div class="col-md-4 col-sm-6 col-12 kb-search-content">
-                            <input class="bell{{id}}" value="{{id}}" hidden>
-                            <div class="card">
-                                <a href="#">
-                                    <img src="../../../dataPY4/img_upload/{{img}}" class="card-img-top"  style="height: 250px;"/>
 
-                                    <div class="card-body text-center">
-                                        <h4>Fitness</h4>
-                                         <p class="text-body mt-1 mb-0">
-                                            <a  class="ws_link" id="{{id}}" data-tlf="{{ws_proveedor}}">Usar este cupón </a>
-                                        </p> 
-                                    </div>
-                                </a>
-                            </div>
+                    <!-- marketing -->
+                    <div class="card ecommerce-card" style=" background-color: #c94095; cursor:pointer"
+                        id="btn_belleza">
+                        <div class="card-body text-center" for="#btn_belleza">
+                            <h4 class="display-1" style="color:white">Belleza</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">
+                                Look again at that dot. That’s here. That’s home. That’s us. On it everyone you love.
+                            </p> --}}
                         </div>
-                        {{/each}}
-                    </div>
-                </section>
-                <section id="belleza" class="collapse">
-                    <div class="row kb-search-content-info match-height">
-                        <!-- sales card -->
-                        {{#each belleza as | bel i|}}
-                        <div class="col-md-4 col-sm-6 col-12 kb-search-content">
-                            <input class="bell{{id}}" value="{{id}}" hidden>
-                            <div class="card">
-                                <a href="#">
-                                    <img src="../../../dataPY4/img_upload/{{img}}" class="card-img-top"  style="height: 250px;"/>
+                        <div class="item-img text-center">
+                            <img src="../../../app-assets/images/illustration/belleza.svg" class="card-img-top" />
+                        </div>
 
-                                    <div class="card-body text-center">
-                                        <h4>Belleza</h4>
-                                        <p class="text-body mt-1 mb-0">
-                                            <a  class="ws_link" id="{{id}}" data-tlf="{{ws_proveedor}}">Usar este cupón </a>
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        {{/each}}
                     </div>
-                </section>
-                 <section id="comida" class="collapse">
-                    <div class="row kb-search-content-info match-height">
-                        <!-- sales card -->
-                        {{#each comida as | com i|}}
-                        <div class="col-md-4 col-sm-6 col-12 kb-search-content">
-                            <input class="bell{{id}}" value="{{id}}" hidden>
-                            <div class="card">
-                                <a href="#">
-                                    <img src="../../../dataPY4/img_upload/{{img}}" class="card-img-top"  style="height: 250px;"/>
 
-                                    <div class="card-body text-center">
-                                        <h4>Comida</h4>
-                                        <p class="text-body mt-1 mb-0">
-                                            <a  class="ws_link" id="{{id}}" data-tlf="{{ws_proveedor}}">Usar este cupón </a>
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        {{/each}}
-                    </div>
-                </section>
-                 <section id="otros" class="collapse">
-                    <div class="row kb-search-content-info match-height">
-                        <!-- sales card -->
-                        {{#each otros as | otr i|}}
-                        <div class="col-md-4 col-sm-6 col-12 kb-search-content">
-                            <input class="bell{{id}}" value="{{id}}" hidden>
-                            <div class="card">
-                                <a href="#">
-                                    <img src="../../../dataPY4/img_upload/{{img}}" class="card-img-top"  style="height: 250px;"/>
+                    <!-- api -->
 
-                                    <div class="card-body text-center">
-                                        <h4>Otros</h4>
-                                        <p class="text-body mt-1 mb-0">
-                                            <a  class="ws_link" id="{{id}}" data-tlf="{{ws_proveedor}}">Usar este cupón </a>
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
+
+                    <!-- personalization -->
+                    <div class="card ecommerce-card" style=" background-color: #0cad64;" id="btn_comida">
+
+                        <div class="item-img text-center">
+
+                            <img src="../../../app-assets/images/illustration/comida.svg" class="card-img-top" />
                         </div>
-                        {{/each}}
+                        <div class="card-body text-center">
+                            <h4 class="display-1" style="color:white">Comida</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">It has been said that astronomy is a humbling and
+                                character experience.</p> --}}
+                        </div>
+
                     </div>
-                </section>
-                {{else}}
-                <div class="card-body">
-                    no
+
+                    <div class="card ecommerce-card" style=" background-color: #2cf2fc;" id="fit_btn">
+                        <div class="card-body text-center">
+                            <h4 class="display-1" style="color:white">Fitness</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">every hero and coward, every creator and destroyer of
+                                civilization.</p> --}}
+                        </div>
+                        <div class="item-img text-center">
+
+                            <img src="../../../app-assets/images/illustration/fit.jpg" class="card-img-top" />
+                        </div>
+
+
+                    </div>
+
+                    <!-- email -->
+                    <div class="card ecommerce-card" style=" background-color: #a80b62;" id="btn_otros">
+
+                        <div class="item-img text-center">
+
+                            <img src="../../../app-assets/images/illustration/otros.jpg" class="card-img-top" />
+
+                        </div>
+                        <div class="card-body text-center">
+                            <h4 class="display-1" style="color:white">Otros</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly
+                                of human conceits.</p> --}}
+                        </div>
+
+                    </div>
                 </div>
-                {{/if}}
-            
+            </section>
+
+
+            <section id="Salud_list" class="collapse">
+                <div class="list-view">
+                    <!-- sales card -->
+                    {{#each salud as | sal i|}}
+                    <div class="col-md-3 col-sm-6 col-12 kb-search-content">
+                        <input class="bell{{id}}" value="{{id}}" hidden>
+                        <div class="card">
+                            <div class="item-img text-center img-scalable">
+                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" />
+                            </div>
+
+                            <div class="card-body descrip-card2">
+                                <div>
+                                    <h6 class="item-name font-crece">
+                                        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
+                                        <span class="card-text item-company">By <a href="#" class="company-name">
+                                                {{nombre_proveedor}}</a></span>
+                                    </h6>
+                                    <p class="card-text item-description font-crece">
+                                        {{especial}}
+                                    </p>
+                                </div>
+                                <div class="item-options text-center">
+                                    <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
+                                        id="{{id}}" data-tlf="{{ws_proveedor}}">Usar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            <section id="fitness" class="collapse">
+                <div class="row kb-search-content-info match-height">
+                    <!-- sales card -->
+                    {{#each fitness as | fit i|}}
+                    <div class="col-md-3 col-sm-6 col-12 kb-search-content">
+                        <input class="bell{{id}}" value="{{id}}" hidden>
+                        <div class="card">
+                            <div class="item-img text-center img-scalable">
+                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" />
+                            </div>
+
+                            <div class="card-body descrip-card2">
+                                <div>
+                                    <h6 class="item-name font-crece">
+                                        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
+                                        <span class="card-text item-company">By <a href="#" class="company-name">
+                                                {{nombre_proveedor}}</a></span>
+                                    </h6>
+                                    <p class="card-text item-description font-crece">
+                                        {{especial}}
+                                    </p>
+                                </div>
+                                <div class="item-options text-center">
+                                    <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
+                                        id="{{id}}" data-tlf="{{ws_proveedor}}">Usar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            <section id="belleza" class="collapse">
+                <div class="row kb-search-content-info match-height">
+                    <!-- sales card -->
+                    {{#each belleza as | bel i|}}
+                    <div class="col-md-3 col-sm-6 col-12 kb-search-content">
+                        <input class="bell{{id}}" value="{{id}}" hidden>
+                        <div class="card">
+                            <div class="item-img text-center img-scalable">
+                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" />
+                            </div>
+
+                            <div class="card-body descrip-card2">
+                                <div>
+                                    <h6 class="item-name font-crece">
+                                        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
+                                        <span class="card-text item-company">By <a href="#" class="company-name">
+                                                {{nombre_proveedor}}</a></span>
+                                    </h6>
+                                    <p class="card-text item-description font-crece">
+                                        {{especial}}
+                                    </p>
+                                </div>
+                                <div class="item-options text-center">
+                                    <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
+                                        id="{{id}}" data-tlf="{{ws_proveedor}}">Usar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            <section id="comida" class="collapse">
+                <div class="row kb-search-content-info match-height">
+                    <!-- sales card -->
+                    {{#each comida as | com i|}}
+                    <div class="col-md-3 col-sm-6 col-12 kb-search-content">
+                        <input class="bell{{id}}" value="{{id}}" hidden>
+                        <div class="card">
+                            <div class="item-img text-center img-scalable">
+                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" />
+                            </div>
+
+                            <div class="card-body descrip-card2">
+                                <div>
+                                    <h6 class="item-name font-crece">
+                                        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
+                                        <span class="card-text item-company">By <a href="#" class="company-name">
+                                                {{nombre_proveedor}}</a></span>
+                                    </h6>
+                                    <p class="card-text item-description font-crece">
+                                        {{especial}}
+                                    </p>
+                                </div>
+                                <div class="item-options text-center">
+                                    <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
+                                        id="{{id}}" data-tlf="{{ws_proveedor}}">Usar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            <section id="otros" class="collapse">
+                <div class="row kb-search-content-info match-height">
+                    <!-- sales card -->
+                    {{#each otros as | otr i|}}
+                    <div class="col-md-3 col-sm-6 col-12 kb-search-content">
+                        <input class="bell{{id}}" value="{{id}}" hidden>
+                        <div class="card">
+                            <div class="item-img text-center img-scalable">
+                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" />
+                            </div>
+
+                            <div class="card-body descrip-card2">
+                                <div>
+                                    <h6 class="item-name font-crece">
+                                        <a class="text-body" href="app-ecommerce-details.html">{{nombre_cupon}}</a>
+                                        <span class="card-text item-company">By <a href="#" class="company-name">
+                                                {{nombre_proveedor}}</a></span>
+                                    </h6>
+                                    <p class="card-text item-description font-crece">
+                                        {{especial}}
+                                    </p>
+                                </div>
+                                <div class="item-options text-center">
+                                    <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
+                                        id="{{id}}" data-tlf="{{ws_proveedor}}">Usar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </section>
+            {{else}}
+            <div class="card-body">
+                no
+            </div>
+            {{/if}}
+
         </div>
     </div>
 </div>
