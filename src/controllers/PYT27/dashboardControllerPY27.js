@@ -1179,12 +1179,36 @@ exports.startdepositaero = (req, res) => {
   console.log("PARAMS")
 
   let id = req.body.id; 
+  let idUser = res.locals.user.id; 
   let activated = moment().format('YYYY-MM-DD');
   
   DataBase.UpdateDepositsAero(id, activated).then((response) => {
     console.log(response)
-
+    console.log("DEPOSITO APROBADO POR ADMIN")
+    
     res.redirect('depositsaeroadmin/PYT-27');
+
+    /*DataBase.GetDepositApproveUser(idUser).then((res) => {
+        let dep = JSON.parse(res)[0];
+        let balance = dep.amountAero;
+        console.log(dep)
+        console.log(balance)
+        console.log("DEPOSITO APROBADO")
+        
+        DataBase.GiveCoinsToUser(idUser, balance).then((res) => {
+          console.log("MONEDAS AÑADIDAS A USUARIO")
+      
+        res.redirect('depositsaeroadmin/PYT-27');
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error27/PYT-27");
+      })
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    })*/
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
