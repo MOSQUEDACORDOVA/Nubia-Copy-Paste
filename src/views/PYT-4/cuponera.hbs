@@ -1,5 +1,19 @@
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
 <style>
+    .encabezado{
+    background: linear-gradient(rgb(0, 24, 103) 0%, rgb(1, 12, 112) 51%, rgb(0, 146, 174) 100%);
+    cursor:pointer;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 2fr !important;
+}
+.otros-img{
+max-width: 14rem !important;
+}
+
+.encabezadoh4{
+    font-size: 3rem !important;
+}
     .font-crece {
         font-size: 1.3rem !important;
     }
@@ -18,6 +32,8 @@
 
     .listado_categoria .list-view .ecommerce-card .card-body {
         justify-content: center;
+        align-items: center;
+    display: flex;
     }
 
     .ecommerce-application .list-view .ecommerce-card .item-img {
@@ -66,9 +82,31 @@
         justify-content: center;
         align-items: flex-end;
     }
+.item-img img{
+    width: fit-content;
+    display: flex;
+}
 
     @media (max-width: 767.98px) {
-
+.item-img img{
+    width: 100% !important;
+    
+}
+.encabezado .text-center{
+    padding: 1rem;
+    display: grid;
+    align-content: space-around;
+    justify-items: center;
+}
+.encabezado{
+    grid-template-columns: 1.2fr 2fr !important;
+}
+.encabezadoh4{
+    font-size: 1rem !important;
+}
+.otros-img{
+max-width: 10rem;
+}
         .ecommerce-application .list-view .ecommerce-card {
             /* grid-template-columns: 1fr; */
             overflow: hidden;
@@ -97,11 +135,35 @@
         .item-price {
             font-size: 1rem !important;
         }
+           .listado_categoria .list-view .ecommerce-card .item-img {
+        max-height: 10rem;
+    }
     }
 </style>
 <script>
-
     $(document).ready(function () {
+console.log('ya se cargo la pagina')
+window.addEventListener('popstate', function(event) {
+    // The popstate event is fired each time when the current history entry changes.
+//console.log(event)
+  // var r = confirm("You pressed a Back button! Are you sure?!");
+
+    if ($('#knowledge-base-content').is(':visible') == true) {
+        // Call Back button programmatically as per user confirmation.
+      history.back();
+      console.log(event)  
+        // Uncomment below line to redirect to the previous page instead.
+        // window.location = document.referrer // Note: IE11 is not supporting this.
+    } else {
+        console.log($('#knowledge-base-content').is(':visible'))
+        Reset(6)
+        // Stay on the current page.
+        history.pushState(null, null, window.location.pathname);
+    }
+
+    history.pushState(null, null, window.location.pathname);
+
+}, false);
         $('.ws_link').on('click', (e) => {
             console.log(e)
             let ws_proveedor = e.target.dataset['tlf']
@@ -197,9 +259,8 @@
             }
         }
     });
-
 </script>
-<div class="app-content content ecommerce-application" style="transition:none">
+<div class="app-content content ecommerce-application" style="transition:none; margin-left:1rem; padding: 2rem !important;">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
 
@@ -212,32 +273,44 @@
             <section id="knowledge-base-content" class="show listado_categoria">
                 <div class="list-view">
                     <!-- sales card -->
-                    <div class="card ecommerce-card" style=" background-color: #011769; cursor:pointer" id="Salud_btn">
-
-                        <div class="item-img text-center">
-                            <img src="../../../app-assets/images/illustration/salud2.jpg" class="card-img-top" />
+ <div class="card encabezado ecommerce-application">
+                      <div class="text-center" style="padding: 1rem;">
+                            <img src="../../../dataPY4/images/pyt_4_logo_blanco.png" class="card-img-top" />
                         </div>
+                        <div class="card-body text-center">
+                            <h4 class="encabezadoh4" style="color:white">¡HOLA! {{cliente.firstName}} {{cliente.lastName}}, Bienvenid@ a tus beneficios BWATER</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">
+                                There is perhaps no better demonstration of the folly of image of our tiny world.
+                            </p> --}}
+                        </div>
+                        
+                    </div>
+                    <div class="card ecommerce-card" style=" background-color: #011769; cursor:pointer" id="Salud_btn">
+                      
                         <div class="card-body text-center">
                             <h4 class="display-1" style="color:white">Salud</h4>
                             {{!-- <p class="text-body mt-1 mb-0">
                                 There is perhaps no better demonstration of the folly of image of our tiny world.
                             </p> --}}
                         </div>
-
+ <div class="item-img text-center">
+                            <img src="../../../app-assets/images/illustration/salud2.jpg" class="card-img-top" />
+                        </div>
                     </div>
 
                     <!-- marketing -->
                     <div class="card ecommerce-card" style=" background-color: #c94095; cursor:pointer"
                         id="btn_belleza">
+                         <div class="item-img text-center">
+                            <img src="../../../app-assets/images/illustration/belleza 300px.png" class="card-img-top" />
+                        </div>
                         <div class="card-body text-center" for="#btn_belleza">
                             <h4 class="display-1" style="color:white">Belleza</h4>
                             {{!-- <p class="text-body mt-1 mb-0">
                                 Look again at that dot. That’s here. That’s home. That’s us. On it everyone you love.
                             </p> --}}
                         </div>
-                        <div class="item-img text-center">
-                            <img src="../../../app-assets/images/illustration/belleza.svg" class="card-img-top" />
-                        </div>
+                       
 
                     </div>
 
@@ -247,48 +320,50 @@
                     <!-- personalization -->
                     <div class="card ecommerce-card" style=" background-color: #0cad64;" id="btn_comida">
 
-                        <div class="item-img text-center">
-
-                            <img src="../../../app-assets/images/illustration/comida.svg" class="card-img-top" />
-                        </div>
+                        
                         <div class="card-body text-center">
                             <h4 class="display-1" style="color:white">Comida</h4>
                             {{!-- <p class="text-body mt-1 mb-0">It has been said that astronomy is a humbling and
                                 character experience.</p> --}}
                         </div>
+<div class="item-img text-center" style="display: flex;justify-content: flex-end;">
 
+                            <img src="../../../app-assets/images/illustration/comida 300px.png" class="card-img-top" />
+                        </div>
                     </div>
 
                     <div class="card ecommerce-card" style=" background-color: #2cf2fc;" id="fit_btn">
-                        <div class="card-body text-center">
-                            <h4 class="display-1" style="color:white">Fitness</h4>
-                            {{!-- <p class="text-body mt-1 mb-0">every hero and coward, every creator and destroyer of
-                                civilization.</p> --}}
-                        </div>
                         <div class="item-img text-center">
 
                             <img src="../../../app-assets/images/illustration/fit.jpg" class="card-img-top" />
                         </div>
-
+                        <div class="card-body text-center">
+                            <h4 class="display-1" style="color:white">Fitness</h4>
+                            {{!-- <p class="text-body mt-1 mb-0">every hero and coward, every creator and destroyer of
+                                civilization.</p> --}}
+                        </div>                
 
                     </div>
 
                     <!-- email -->
                     <div class="card ecommerce-card" style=" background-color: #a80b62;" id="btn_otros">
 
-                        <div class="item-img text-center">
-
-                            <img src="../../../app-assets/images/illustration/otros.jpg" class="card-img-top" />
-
-                        </div>
+                        
                         <div class="card-body text-center">
                             <h4 class="display-1" style="color:white">Otros</h4>
                             {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly
                                 of human conceits.</p> --}}
                         </div>
+<div class="item-img text-center" style="display: flex;justify-content: flex-end;">
 
+                            <img src="../../../app-assets/images/illustration/otros star.png" class="card-img-top otros-img" />
+
+                        </div>
                     </div>
                 </div>
+                <div class="item-options text-center" style="align-items: center;">
+                                   ¿Eres negocio y deseas Anunciarte? <a class="btn btn-primary btn-cart waves-effect waves-float waves-light" href="https://wa.me/523329694522/?text=¡Hola!, Soy un negocio y deseo anunciarme" target="_blank">Conectactanos aqui</a>
+                                </div>
             </section>
 
 
