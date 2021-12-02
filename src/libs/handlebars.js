@@ -190,6 +190,46 @@ module.exports = {
 			return 'Disable';
 		}
 	},
+	userstatuspy27: (state) => {
+		if(state === 'activo') {
+			return 'Active';
+		} else {
+			return 'Disable';
+		}
+	},
+	useraccountstatuspy27: (state) => {
+		if(state === 'No verificado') {
+			return 'Not Verified';
+		} else {
+			return 'Verified';
+		}
+	},
+	imgfrontuserpy27: (img) => {
+		if(!img) {
+			return '';
+		} else {
+			return `
+			<div class="col-12 col-sm-6 mb-1 dni-img">
+				<label class="form-label" for="">Image Front DNI</label>
+				<a href="/assets/img_up/${img}" target="_blank">
+					<img src="/assets/img_up/${img}" class="img-fluid rounded-1">
+				</a>
+				</div>`;
+		}
+	},
+	imgbackuserpy27: (img) => {
+		if(!img) {
+			return '';
+		} else {
+			return `
+			<div class="col-12 col-sm-6 mb-1 dni-img">
+				<label class="form-label" for="">Image Back DNI</label>
+				<a href="/assets/img_up/${img}" target="_blank">
+					<img src="/assets/img_up/${img}" class="img-fluid rounded-1">
+				</a>
+			</div>`;
+		}
+	},
 	formatDatapy24: (date) => {
 		if(date) {
 			return date.slice(0,10)

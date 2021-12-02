@@ -350,17 +350,9 @@ exports.profile = (req, res) => {
     roleClient = true;
     roleSeller = true;
   }
-  let fname, lname, typedoc, dni, username, email, type_user, avalible_balance, account_verified, status;
-  fname = res.locals.user.first_name
-  lname = res.locals.user.last_name
-  typedoc = res.locals.user.doc_type
-  dni = res.locals.user.num_document
-  username = res.locals.user.username
-  email = res.locals.user.email
-  type_user = res.locals.user.type_user
-  avalible_balance = res.locals.user.avalible_balance
-  account_verified = res.locals.user.account_verified
-  status = res.locals.user.status
+
+  let user = res.locals.user
+  let avalibleBalance = res.locals.user.avalible_balance
 
   let idUser = res.locals.user.id
       DataBase.GetCoinsAeroBTC(idUser).then((r) => {
@@ -383,8 +375,8 @@ exports.profile = (req, res) => {
       roleClient,
       roleSeller,
       presale: true,
-      fname, lname, typedoc, dni, username, email, type_user, avalible_balance, account_verified, status,
-      coins
+      user,
+      avalibleBalance
     });
   }).catch((err) => {
     console.log(err)
@@ -484,6 +476,7 @@ exports.retreats = (req, res) => {
   }
 
   let idUser = res.locals.user.id
+  let avalibleBalance = res.locals.user.avalible_balance
 
   DataBase.GetMRetreatsBTC(idUser).then((res3) => {
     let btc = JSON.parse(res3)[0];
@@ -515,7 +508,7 @@ exports.retreats = (req, res) => {
               coins += parseInt(item.amountAero);
             });
           
-    
+
     res.render(proyecto+"/user/retreats", {
       pageName: "AeroCoin - Retreats",
       dashboardPage: true,
@@ -531,7 +524,7 @@ exports.retreats = (req, res) => {
       btc, bnb, usdt,
       retreats,
       retreatsCompletes,
-      coins
+      avalibleBalance
     });
   }).catch((err) => {
     console.log(err)
@@ -1178,27 +1171,24 @@ exports.startdepositaero = (req, res) => {
   console.log(req.body)
   console.log("PARAMS")
 
-  let id = req.body.id; 
-  let idUser = res.locals.user.id; 
   let activated = moment().format('YYYY-MM-DD');
+  const {amountAero, id, depid} = req.body
   
-  DataBase.UpdateDepositsAero(id, activated).then((response) => {
+  DataBase.UpdateDepositsAero(depid, activated).then((response) => {
     console.log(response)
     console.log("DEPOSITO APROBADO POR ADMIN")
     
-    res.redirect('depositsaeroadmin/PYT-27');
-
-    /*DataBase.GetDepositApproveUser(idUser).then((res) => {
-        let dep = JSON.parse(res)[0];
-        let balance = dep.amountAero;
+    DataBase.GetBalanceCoinsUser(id).then((resp) => {
+        let dep = JSON.parse(resp)[0];
+        let balance = parseInt(dep.avalible_balance);
         console.log(dep)
         console.log(balance)
-        console.log("DEPOSITO APROBADO")
+        let total = balance + parseInt(amountAero);
+        console.log("TOTAL DE MONEDAS")
+        console.log(total)
         
-        DataBase.GiveCoinsToUser(idUser, balance).then((res) => {
-          console.log("MONEDAS AÑADIDAS A USUARIO")
-      
-        res.redirect('depositsaeroadmin/PYT-27');
+      DataBase.GiveCoinsToUser(id, total).then(() => {      
+          res.redirect("/depositsaeroadmin/PYT-27");
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
@@ -1208,7 +1198,7 @@ exports.startdepositaero = (req, res) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error27/PYT-27");
-    })*/
+    })
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1265,6 +1255,7 @@ exports.aeropresale = (req, res) => {
   let presale = true;
 
   let verify, unverify, pendingverify;
+  let avalibleBalance = res.locals.user.avalible_balance
 
   if (req.user.account_verified === 'No verificado') {
     if(req.user.front_img_dni === null || req.user.back_img_dni === null) {
@@ -1304,9 +1295,9 @@ exports.aeropresale = (req, res) => {
           console.log(allbnb)
 
         // TRAER CUENTAS PARA PAGAR EN USDT
-        DataBase.GetBNB().then((usdt)=>{
+        DataBase.GetUSDT().then((usdt)=>{
           let allusdt = JSON.parse(usdt)[0];
-          console.log(allbnb)
+          console.log(allusdt)
 
       let idUser = res.locals.user.id;
 
@@ -1333,7 +1324,7 @@ exports.aeropresale = (req, res) => {
       allbtc, allbnb, allusdt,
       verify, unverify, pendingverify,
       aero: true,
-      coins
+      avalibleBalance
     });
   }).catch((err) => {
     console.log(err)
@@ -2335,6 +2326,9 @@ exports.boardpresale = (req, res) => {
   } 
 
   console.log(req.user)
+  console.log("USUARIO")
+  console.log(res.locals.user.avalible_balance)
+  console.log("BALANCE")
 
   let verify, unverify, pendingverify;
 
@@ -2360,14 +2354,6 @@ exports.boardpresale = (req, res) => {
       let depositos = JSON.parse(resp);
       console.log(depositos)
 
-      DataBase.GetCoinsAeroBTC(idUser).then((response) => {
-        let dep = JSON.parse(response);
-        console.log(dep)
-        let coins = 0;
-        dep.forEach(item => {
-          coins += parseInt(item.amountAero);
-        });
-
     res.render(proyecto+"/user/boardpresale", {
       pageName: "AeroCoin - Board",
       dashboardPage: true,
@@ -2384,13 +2370,7 @@ exports.boardpresale = (req, res) => {
       depositos,
       avalibleBalance,
       board: true,
-      coins,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

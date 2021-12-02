@@ -42,18 +42,18 @@
                                             <td class="control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
                                             <td style="white-space: nowrap;">{{name}}</td>
                                             <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
-                                            <td>{{transaction_type}}</td>
+                                            <td>{{metodos_pago.transaction_type}}</td>
                                             <td>{{metodos_pago.code_wallet}}</td>
                                             <td>{{num_reference}}</td>
                                             <td>{{amountAero}}</td>
-                                            <td>{{price}} BTC</td>
+                                            <td>{{price}} {{metodos_pago.transaction_type}}</td>
                                             <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
                                             <td>
                                                 <!--<span class="badge rounded-pill badge-light-info">{{#estadodepositospy27 status}}{{/estadodepositospy27}}</span>-->
                                                 <span class="badge rounded-pill badge-light-warning">Not Verified</span>
                                             </td>
                                             <td>
-                                                <a class="btn btn-outline-primary AprobarBTCBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-user="{{item.name}}" data-wallet="{{metodos_pago.code_wallet}}" data-id="{{item.id}}" data-price="{{price}}" data-status="{{item.status}}" data-name="{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}" data-duration="{{paquete.duration}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Approve</a>
+                                                <a class="btn btn-outline-primary AprobarBTCBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-user="{{item.name}}" data-wallet="{{metodos_pago.code_wallet}}" data-id="{{item.usuarioId}}" data-deposit-id="{{item.id}}" data-price="{{price}}" data-status="{{item.status}}" data-amount-aero="{{item.amountAero}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Approve</a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -120,11 +120,11 @@
                                             <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
                                             <td style="white-space: nowrap;">{{name}}</td>
                                             <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
-                                            <td>{{transaction_type}}</td>
+                                            <td>{{metodos_pago.transaction_type}}</td>
                                             <td>{{metodos_pago.code_wallet}}</td>
                                             <td>{{num_reference}}</td>
                                             <td>{{amountAero}}</td>
-                                            <td>{{price}} BTC</td>
+                                            <td>{{price}} {{metodos_pago.transaction_type}}</td>
                                             <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
                                             <td>
                                                 <span class="badge rounded-pill badge-light-success">
@@ -159,68 +159,6 @@
                 </div>
             </section>
 
-            <!--- MODAL
-            <div class="modal fade" id="addNewCard" tabindex="-1" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <h1 class="text-center mb-1" id="">Pago Recibido</h1>
-                            <form action="/startdeposit" method="POST" class="card-body row">
-                                <div class="col-12 mb-2">
-                                    <label class="form-label" for="">Usuario</label>
-                                    <input type="text" id="id" name="id" class="d-none">
-                                    <input type="text" id="durationd" name="durationd" class="d-none">
-                                    <input id="usuario" class="form-control" type="text" value="" readonly required>
-                                </div>
-
-                                <div class="col-12 mb-2">
-                                    <label class="form-label" for="capital">Email</label>
-                                    <input id="email" class="form-control" type="text" value="" readonly required>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Nro del Paquete</label>
-                                    <input id="numPack" class="form-control" type="text" value="" readonly required>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Banco</label>
-                                    <input type="text" id="bank" class="form-control" value="" readonly required>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Nro de Comprobante</label>
-                                    <input type="text" id="bank_ref" class="form-control" value="" readonly required>
-                                </div>
-
-                                <div class="col-md-6 mb-2">
-                                    <label class="form-label" for="">Monto $</label>
-                                    <input type="text" id="total_amount" class="form-control" value="" readonly required>
-                                </div>
-                                
-                                <div class="col-12 mb-3">
-                                    <label class="form-label d-block" for="">Foto del Comprobante</label>
-                                    <a href="" id="voucherLink" target="_blank">
-                                        <img src="" id="capVoucher" class="img-fluid rounded-1 cap">
-                                    </a>
-                                </div>
-
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <button type="submit" class="btn btn-primary">Aprobar Contrato</button>
-                                        <button type="reset" class="btn btn-outline-secondary">Denegar</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            END MODAL --->
-
             <!--- MODAL BTC --->
             <div class="modal fade" id="addNewCard3" tabindex="-1" style="display: none;" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
@@ -233,8 +171,9 @@
                             <form action="/startdepositaero" method="POST" class="card-body row">
                                 <div class="col-12 mb-2">
                                     <label class="form-label" for="">User</label>
-                                    <input type="text" id="id2" name="id" class="d-none">
-                                    <input type="text" id="durationd2" name="durationd" class="d-none">
+                                    <input type="text" id="id2" name="id" class="d-none" required>
+                                    <input type="text" id="iddep" name="depid" class="d-none" required>
+                                    <input type="text" id="amount-aero" name="amountAero" class="d-none" required>
                                     <input id="usuario2" class="form-control" type="text" value="" readonly required>
                                 </div>
 
@@ -354,18 +293,22 @@
     
     const usuario2 = document.getElementById('usuario2'),
     id2 = document.getElementById('id2'),
+    iddep = document.getElementById('iddep'),
     codeWallet = document.getElementById('code_wallet'),
+    amountAero = document.getElementById('amount-aero'),
     totalAmount2 = document.getElementById('total_amount2');
 
     const SetPayModalBTC = (target) => {
         id2.value = target.getAttribute('data-id')
+        iddep.value = target.getAttribute('data-deposit-id')
         usuario2.value = target.getAttribute('data-user')
+        amountAero.value = parseInt(target.getAttribute('data-amount-aero'))
         codeWallet.value = target.getAttribute('data-wallet')
         totalAmount2.value = target.getAttribute('data-price')
 
-        console.log(target.getAttribute('data-id'))
+        console.log(parseInt(target.getAttribute('data-amount-aero')))
     }
-    
+
     const usuario3 = document.getElementById('usuario3'),
     id3 = document.getElementById('id3'),
     durationd3 = document.getElementById('durationd3'),
