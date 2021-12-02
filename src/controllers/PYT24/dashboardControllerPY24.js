@@ -526,7 +526,6 @@ exports.retreats = (req, res) => {
         DataBase.GetControlTH().then((response_th)=>{
           let data_th = JSON.parse(response_th)[0];
           console.log(data_th)
-
   
     res.render(proyecto+"/user/retreats", {
       pageName: "Minner - Retiros",
@@ -541,8 +540,8 @@ exports.retreats = (req, res) => {
       presale,
       ret: true,
       btc, bnb, usdt,
-      retreats,
-      retreatsCompletes,
+      /*retreats,
+      retreatsCompletes,*/
       data_th,
     });
   }).catch((err) => {

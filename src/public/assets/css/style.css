@@ -927,6 +927,20 @@ body {
 }
 /*--------------------------- PY-24 ---------------------------*/
 /*---------------------------- py27 ----------------------------*/
+table tr td {
+    white-space: nowrap !important;
+}
+.py27 .carousel .carousel-item .img-fluid {
+    display: block;
+    width: 100%;
+    min-height: 300px;
+    object-fit: cover;
+}
+@media (min-width: 900px) {
+    .py27 .carousel .carousel-item .img-fluid {
+        height: 300px;
+    }
+}
 .py27.es .navbar-brand .img-fluid {
     max-width: 105px;
     object-fit: cover;

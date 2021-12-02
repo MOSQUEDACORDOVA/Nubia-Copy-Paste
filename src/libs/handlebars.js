@@ -80,6 +80,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">${role}</span>`;
 		}
 	},
+	roleuserpy27: (role) => {
+		if(role === 'Inversionista') {
+			return `<span class="badge rounded-pill badge-light-info">Investor</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-warning">${role}</span>`;
+		}
+	},
 	usertosellerpy21: (id, role) => {
 		if(role === 'Inversionista') {
 			return `<form action="/usertosellerpy21" method="POST">
@@ -116,6 +123,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">${status}</span>`;
 		}
 	},
+	statususerpy27: (status) => {
+		if(status === 'activo') {
+			return `<span class="badge rounded-pill badge-light-success">Active</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
+		}
+	},
 	statususerpay: (status) => {
 		if(status === 'Pagado') {
 			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
@@ -128,6 +142,22 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-danger">${verify}</span>`;
 		} else {
 			return `<span class="badge rounded-pill badge-light-success">${verify}</span>`;
+		}
+	},
+	accountverifiedpy27: (verify) => {
+		if(verify === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-danger">Not Verified</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
+		}
+	},
+	estadodepositospy27: (status) => {
+		if(status === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
+		} else if (status === 'Finalizado') {
+			return `<span class="badge rounded-pill badge-light-info">Finalized</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">Approved</span>`;
 		}
 	},
 	estadodepositospy24: (status) => {
@@ -151,6 +181,13 @@ module.exports = {
 			return 'Habilitar';
 		} else {
 			return 'Deshabilitar';
+		}
+	},
+	statuspaymethodspy27: (state) => {
+		if(state === 'Deshabilitado') {
+			return 'Enable';
+		} else {
+			return 'Disable';
 		}
 	},
 	formatDatapy24: (date) => {
