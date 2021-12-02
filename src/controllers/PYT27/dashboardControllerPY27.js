@@ -334,41 +334,64 @@ exports.config = (req, res) => {
     })
 };
 
-// exports.profile = (req, res) => {
-//   let msg = false;
-//   if (req.query.msg) {
-//     msg = req.query.msg;
-//   }
-//   let proyecto = req.params.id  
-//   console.log(proyecto)
+exports.profile = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
   
-//   let roleAdmin;
-//   let roleClient;
-//   let roleSeller;
-//   if (req.user.type_user === 'Inversionista') {
-//     roleClient = true;
-//   } else if(req.user.type_user === 'Vendedor') {
-//     roleClient = true;
-//     roleSeller = true;
-//   }
-//   else {
-//     roleAdmin = true;
-//   }
+  let roleClient;
+  let roleSeller;
+  if (req.user.type_user === 'Inversionista') {
+    roleClient = true;
+  } else if(req.user.type_user === 'Vendedor') {
+    roleClient = true;
+    roleSeller = true;
+  }
+  let fname, lname, typedoc, dni, username, email, type_user, avalible_balance, account_verified, status;
+  fname = res.locals.user.first_name
+  lname = res.locals.user.last_name
+  typedoc = res.locals.user.doc_type
+  dni = res.locals.user.num_document
+  username = res.locals.user.username
+  email = res.locals.user.email
+  type_user = res.locals.user.type_user
+  avalible_balance = res.locals.user.avalible_balance
+  account_verified = res.locals.user.account_verified
+  status = res.locals.user.status
 
-//     res.render(proyecto+"/profile", {
-//       pageName: "Mi Perfil",
-//       dashboardPage: true,
-//       dashboard: true,
-//       py27:true,
-//       login: false,
-//       prof: true,
-//       username: req.user.username,
-//       typeUser: req.user.type_user,
-//       roleClient,
-//       roleAdmin,
-//       roleSeller
-//     })
-// };
+  let idUser = res.locals.user.id
+      DataBase.GetCoinsAeroBTC(idUser).then((r) => {
+      let dep = JSON.parse(r);
+      console.log(dep)
+      let coins = 0;
+      dep.forEach(item => {
+        coins += parseInt(item.amountAero);
+      });
+
+    res.render(proyecto+"/user/profile", {
+      pageName: "AeroCoin - Profile User",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: false,
+      prof: true,
+      username: req.user.username,
+      typeUser: req.user.type_user,
+      roleClient,
+      roleSeller,
+      presale: true,
+      fname, lname, typedoc, dni, username, email, type_user, avalible_balance, account_verified, status,
+      coins
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+};
 
 exports.contracts = (req, res) => {
   let msg = false;
@@ -463,7 +486,7 @@ exports.retreats = (req, res) => {
   let idUser = res.locals.user.id
 
   DataBase.GetMRetreatsBTC(idUser).then((res3) => {
-    let btc = JSON.parse(res3);
+    let btc = JSON.parse(res3)[0];
     console.log(btc)
 
     DataBase.GetMRetreatsBNB(idUser).then((res4) => {
@@ -1083,10 +1106,10 @@ exports.depositsaeroadmin = (req, res) => {
     console.log(completes)
 
     res.render(proyecto+"/admin/deposits", {
-      pageName: "Depositos",
+      pageName: "AeroCoin - Deposits",
       dashboardPage: true,
       dashboard: true,
-      py27:true,
+      py27: true,
       login: false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -1238,19 +1261,27 @@ exports.aeropresale = (req, res) => {
       let aerocoin = JSON.parse(response)[0];
       console.log(aerocoin)
 
+    DataBase.GetControlBTC().then((response2)=>{
+      let btcprice = JSON.parse(response2)[0];
+      console.log(btcprice)
+
+    DataBase.GetControlBNB().then((response3)=>{
+      let bnbprice = JSON.parse(response3)[0];
+      console.log(bnbprice)
+
       // TRAER CUENTAS PARA PAGAR EN BTC
       DataBase.GetBTC().then((btc)=>{
-        let allbtc = JSON.parse(btc);
+        let allbtc = JSON.parse(btc)[0];
         console.log(allbtc)
 
         // TRAER CUENTAS PARA PAGAR EN BNB
         DataBase.GetBNB().then((bnb)=>{
-          let allbnb = JSON.parse(bnb);
+          let allbnb = JSON.parse(bnb)[0];
           console.log(allbnb)
 
         // TRAER CUENTAS PARA PAGAR EN USDT
         DataBase.GetBNB().then((usdt)=>{
-          let allusdt = JSON.parse(usdt);
+          let allusdt = JSON.parse(usdt)[0];
           console.log(allbnb)
 
       let idUser = res.locals.user.id;
@@ -1274,7 +1305,7 @@ exports.aeropresale = (req, res) => {
       roleClient,
       presale,
       allpays,
-      aerocoin,
+      aerocoin, btcprice, bnbprice,
       allbtc, allbnb, allusdt,
       verify, unverify, pendingverify,
       aero: true,
@@ -1310,26 +1341,36 @@ exports.aeropresale = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error27/PYT-27");
   });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
 };
 
 // COMPRAR AEROCOINS
 exports.buyaerocoins = (req, res) => {
-  const { amountCoin, amount, methodid } = req.body;
+  const { amountCoin, amount, methodid, refs } = req.body;
   let msg = false;
   let userid = res.locals.user.id,
   name = res.locals.user.username,
   dni = res.locals.user.num_document,
   email = res.locals.user.email;
 
-  if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '') {
+  if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '' || refs.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/aeropresale/PYT-27');
   } else {
-    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, methodid, userid).then((respuesta) =>{
+    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
       let response = JSON.parse(respuesta);
       console.log(response)
       console.log("SU PAGO A SIDO ENVIADO A VERIFICACION")
-      res.redirect('/depositaero/PYT-27');
+      res.redirect('/boardpresalepy27/PYT-27');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -1348,6 +1389,44 @@ exports.addaerocoin = (req, res) => {
     res.redirect('/aero/PYT-27');
   } else {
     DataBase.ControlAeroCoin(price).then((respuesta) =>{
+      console.log("Precio de AeroCoin establecido satisfactoriamente");
+      res.redirect('/aero/PYT-27');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    });
+  }
+};
+// AÑADIR PRECIO DE BTC ADMINISTRADOR
+exports.addbtcprice = (req, res) => {
+  console.log(req.body);
+  const { price } = req.body;
+  let msg = false;
+  if (price.trim() === '') {
+    console.log('Complete todos los campos')
+    res.redirect('/aero/PYT-27');
+  } else {
+    DataBase.ControlBTC(price).then((respuesta) =>{
+      console.log("Precio de AeroCoin establecido satisfactoriamente");
+      res.redirect('/aero/PYT-27');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    });
+  }
+};
+// AÑADIR PRECIO DE BNB ADMINISTRADOR
+exports.addbnbprice = (req, res) => {
+  console.log(req.body);
+  const { price } = req.body;
+  let msg = false;
+  if (price.trim() === '') {
+    console.log('Complete todos los campos')
+    res.redirect('/aero/PYT-27');
+  } else {
+    DataBase.ControlBNB(price).then((respuesta) =>{
       console.log("Precio de AeroCoin establecido satisfactoriamente");
       res.redirect('/aero/PYT-27');
     }).catch((err) => {
@@ -1480,8 +1559,16 @@ exports.aerocoin = (req, res) => {
     let aerocoin = JSON.parse(resp)[0];
     console.log(aerocoin)
 
-    res.render(proyecto+"/aerocoin", {
-      pageName: "Administrar AeroCoin",
+  DataBase.GetControlBTC().then((resp2)=>{
+    let btcprice = JSON.parse(resp2)[0];
+    console.log(btcprice)
+
+  DataBase.GetControlBNB().then((resp3)=>{
+    let bnbprice = JSON.parse(resp3)[0];
+    console.log(bnbprice)
+
+    res.render(proyecto+"/admin/aerocoin", {
+      pageName: "AeroCoin - Price Managment",
       dashboardPage: true,
       dashboard: true,
       py27: true,
@@ -1490,8 +1577,18 @@ exports.aerocoin = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      aerocoin
+      aerocoin, btcprice, bnbprice
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo maquinas de minado en el sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo maquinas de minado en el sistema";
+    return res.redirect("/error27/PYT-27");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
@@ -1499,11 +1596,40 @@ exports.aerocoin = (req, res) => {
   });
 };
 
-// ACTUALIZAR PRECIO TH
+// ACTUALIZAR PRECIO AERO
 exports.updateaerocoin = (req, res) => {
   const {id, price} = req.body
 
   DataBase.UpdatePriceAeroCoin(id, price).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/aero/PYT-27')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+  
+
+// ACTUALIZAR PRECIO BTC
+exports.updateaebtc = (req, res) => {
+  const {id, price} = req.body
+
+  DataBase.UpdatePriceBTC(id, price).then((respuesta) =>{
+    let msg = respuesta
+    res.redirect('/aero/PYT-27')
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
+// ACTUALIZAR PRECIO BNB
+exports.updateaebnb = (req, res) => {
+  const {id, price} = req.body
+
+  DataBase.UpdatePriceBNB(id, price).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/aero/PYT-27')
   }).catch((err) => {

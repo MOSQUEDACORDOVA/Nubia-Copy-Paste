@@ -6,29 +6,29 @@
                     {{!--- VERIFICADOS ---}}
                     <div class="col-12">
                         <div class="card">
-                            <div id="" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Usuarios Verificados</h6></div></div>
+                            <div id="" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Verified Users</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                                            <label class="d-flex align-items-center">Mostrar 
+                                            <label class="d-flex align-items-center">Show 
                                                 <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
                                                     <option value="7">7</option>
                                                     <option value="10">10</option><option value="25">25</option>
                                                     <option value="50">50</option><option value="75">75</option>
                                                     <option value="100">100</option>
-                                                </select> entradas
+                                                </select> entries
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-6 mb-1 mb-md-0">
                                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                            <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                            <label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Paquetes</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Details</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Type user</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Aerocoins</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Verified account</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Status</th></tr>
                                     </thead>
                                     <tbody id="table-user">
                                         {{#if allusers}}
@@ -37,19 +37,23 @@
                                             <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
                                             <td style="white-space: nowrap;">{{user.username}}</td>
                                             <td style="white-space: nowrap;">{{user.email}}</td>
-                                            <td class="type_user">
-                                                {{#roleuserpy24 user.type_user}}{{/roleuserpy24}}
-                                            </td>
                                             <td>
+                                                <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#AddNewCard2">Info</a>
+                                            </td>
+                                            <td class="type_user">
+                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
+                                            </td>
+                                            <td>{{avalible_balance}}</td>
+                                            <!--<td>
                                                 <form id="form{{user.id}}">
                                                     <input type="text" class="d-none" name="id" value="{{user.id}}" readonly required>
                                                     {{#userdepositspy24 user.id user.depositos}}{{/userdepositspy24}}
                                                 </form>
-                                            </td>
+                                            </td>-->
                                             <td>
-                                                {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
+                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
                                             </td>
-                                            <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
+                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
                                         </tr>
                                         {{/each}}
                                         {{else}}
@@ -64,7 +68,7 @@
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
                                     <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 tickets</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -84,29 +88,29 @@
                     {{!--- PENDIENTES POR VERIFICAR ---}}
                     <div class="col-12">
                         <div class="card">
-                            <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pendientes por verificación</h6></div></div>
+                            <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pending Verification</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_length" id="DataTables_Table_0_length">
-                                            <label class="d-flex align-items-center">Mostrar 
+                                            <label class="d-flex align-items-center">Show 
                                                 <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
                                                     <option value="7">7</option>
                                                     <option value="10">10</option><option value="25">25</option>
                                                     <option value="50">50</option><option value="75">75</option>
                                                     <option value="100">100</option>
-                                                </select> entradas
+                                                </select> entries
                                             </label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                            <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                            <label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
                                         </div>
                                     </div>
                                 </div>
                                 <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
                                     <thead>
-                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Nombre de Usuario</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Tipo de Usuario</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cuenta verificada</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Type user</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Verified Account</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Status</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Action</th></tr>
                                     </thead>
                                     <tbody>
                                         {{#if allunverif}}
@@ -116,20 +120,20 @@
                                             <td style="white-space: nowrap;">{{user.username}}</td>
                                             <td style="white-space: nowrap;">{{user.email}}</td>
                                             <td>
-                                                {{#roleuserpy24 user.type_user}}{{/roleuserpy24}}
+                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
                                             </td>
                                             <td>
-                                                {{#accountverifiedpy24 user.account_verified}}{{/accountverifiedpy24}}
+                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
                                             </td>
-                                            <td style="white-space: nowrap;">{{#statususerpy24 user.status}}{{/statususerpy24}}</td>
+                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
 
                                             {{#if user.front_img_dni}}
                                             <td>
-                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Verificar</a>
+                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Check</a>
                                             </td>
                                             {{else}}
                                             <td>
-                                                <span class="badge rounded-pill badge-light-danger">Sin datos de verificación</span>
+                                                <span class="badge rounded-pill badge-light-danger">No verification data</span>
                                             </td>
                                             {{/if}}
                                         </tr>
@@ -137,7 +141,7 @@
                                         {{else}}
                                         <tr>
                                             <td style="white-space: nowrap;">
-                                                <p>No existen usuarios pendientes por verificación.</p>
+                                                <p>There are no users pending for verification.</p>
                                             </td>
                                         </tr>
                                         {{/if}}
@@ -146,7 +150,7 @@
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
                                     <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -165,66 +169,44 @@
 
             {{!-- MODAL --}}
             <div class="modal fade" id="AddNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body px-sm-5 mx-50 pb-5">
-                            <div id="pricing-plan">
-                                <!-- title text and switch button -->
-                                <div class="text-center">
-                                    <h1 id="pricingModalTitle">Paquetes</h1>
-                                    <p class="mb-3"></p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Paquetes</h6></div></div>
-                                            <div class="d-flex justify-content-between align-items-center mx-0 row">
-                                                <div class="col-sm-12 col-lg-6">
-                                                    <div class="dataTables_length" id="DataTables_Table_0_length">
-                                                        <label class="d-flex align-items-center">Mostrar 
-                                                            <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
-                                                                <option value="7">7</option>
-                                                                <option value="10">10</option><option value="25">25</option>
-                                                                <option value="50">50</option><option value="75">75</option>
-                                                                <option value="100">100</option>
-                                                            </select> entradas
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6">
-                                                    <div id="DataTables_Table_0_filter" class="dataTables_filter">
-                                                        <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
-                                                <thead>
-                                                    <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Cantidad de TH</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Monto $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Ganancias $</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                           
-                                                </tbody>
-                                            </table>
-
-                                            <div class="d-flex justify-content-between mx-0 row">
-                                                <div class="col-sm-12 col-md-6">
-                                                    <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
-                                                </div>
-                                                <div class="col-sm-12 col-md-6">
-                                                    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
-                                                        <ul class="pagination">
-                                                            <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
-                                                            <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-    
+                            <h4 class="fw-bolder border-bottom pb-50 mb-1">User Info</h4>
+                            <div class="info-container">
+                                <ul class="list-unstyled">
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">Username:</span>
+                                        <span>Mosqueda Cordova</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">DNI Type:</span>
+                                        <span>Passport</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">DNI:</span>
+                                        <span>65415315813</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">Email:</span>
+                                        <span>client@demo.es</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">Type User:</span>
+                                        <span>Investor</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">Avalible Balance:</span>
+                                        <span>0 ACN</span>
+                                    </li>
+                                    <li class="mb-75">
+                                        <span class="fw-bolder me-25">Status:</span>
+                                        <span class="badge bg-light-success">Verified</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>

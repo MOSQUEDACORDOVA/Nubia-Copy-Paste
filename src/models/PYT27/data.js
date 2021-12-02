@@ -9,6 +9,8 @@ const Depositos = require("../../models/PYT27/Depositos");
 const depositosaeros = require("../../models/PYT27/DepositosAero");
 const MetodosRetiros = require("../../models/PYT27/Retreats");
 const AeroCoin = require("../../models/PYT27/AeroCoin");
+const BNB = require("../../models/PYT27/bnb");
+const BTC = require("../../models/PYT27/btc");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -617,15 +619,12 @@ module.exports = {
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
     GetAllPendingDepositsAero(){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {
+        depositosaeros.findAll({where: {
           transaction_type: {
-            [Op.ne]: 'Transferencia Bancaria',
-            [Op.ne]: 'Pago Movil',
-            [Op.ne]: 'Billetera Digital',
+            [Op.or]: ['BTC', 'BNB', 'USDT'], 
           }, status: 'No verificado'},
           include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
+          {association: depositosaeros.MetodosPagos },
         ],order: [
           ["id", "DESC"],
         ],
@@ -757,9 +756,9 @@ module.exports = {
     // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
     GetAllDepositsUser(id){
       return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{usuarioId: id},
+        depositosaeros.findAll({where:{usuarioId: id},
           include:[
-            {association:Depositos.Paquetes },
+            {association:depositosaeros.MetodosPagos },
           ],order: [
             ["id", "DESC"],
           ],
@@ -1553,10 +1552,64 @@ module.exports = {
           });
         });
     },
+    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
+    GetControlBTC() {
+        return new Promise((resolve, reject) => {
+          BTC.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+        });
+    },
+    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
+    GetControlBNB() {
+        return new Promise((resolve, reject) => {
+          BNB.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log(data)
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+        });
+    },
     // CONTROL AEROCOIN TH PRECIO ADMIN
     ControlAeroCoin(price) {
         return new Promise((resolve, reject) => {
         AeroCoin.create({ price: price })
+            .then((data) => {
+                let data_set = JSON.stringify(data);
+                resolve('Datos agregados satisfactoriamente');
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    },
+    // CONTROL BTC PRECIO ADMIN
+    ControlBTC(price) {
+        return new Promise((resolve, reject) => {
+        BTC.create({ price: price })
+            .then((data) => {
+                let data_set = JSON.stringify(data);
+                resolve('Datos agregados satisfactoriamente');
+            })
+            .catch((err) => {
+                reject(err);
+            });
+        });
+    },
+    // CONTROL BNB PRECIO ADMIN
+    ControlBNB(price) {
+        return new Promise((resolve, reject) => {
+        BNB.create({ price: price })
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');
@@ -1584,15 +1637,55 @@ module.exports = {
           });
       });
     },
-    // COMPRAR AEROCOINS USUARIOS
-    BuyAeroCoin(name, dni, email, amountCoin, amount, idmethod, userid) {
+    // ACTUALIZAR PRECIO BTC
+    UpdatePriceBTC(id, price) {
       return new Promise((resolve, reject) => {
-        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, metodosPagoId: idmethod, usuarioId: userid })
+        BTC.update(
+          {
+            price: price
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Precio de AeroCoin actualizado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR PRECIO BNB
+    UpdatePriceBNB(id, price) {
+      return new Promise((resolve, reject) => {
+        BNB.update(
+          {
+            price: price
+          }, { where:{
+              id: id
+          }})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Precio de AeroCoin actualizado con éxito');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // COMPRAR AEROCOINS USUARIOS
+    BuyAeroCoin(name, dni, email, amountCoin, amount, refs, idmethod, userid) {
+      return new Promise((resolve, reject) => {
+        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, num_reference: refs, metodosPagoId: idmethod, usuarioId: userid })
         .then((data) => {
+          console.log(data)
+          console.log("DATOS AEROCOIN")
           let data_set = JSON.stringify(data);
           resolve(data_set);
         })
         .catch((err) => {
+          console.log(err)
+          console.log("ERROR AEROCOIN")
           reject(err);
         });
       });

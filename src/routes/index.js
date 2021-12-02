@@ -423,6 +423,8 @@ router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashbo
 router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
 
+router.get('/profile27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.profile);
+
 router.get('/webpy27/:id', dashboardControllerPY27.web);
 router.get('/webespy27/:id', dashboardControllerPY27.webes);
 router.get('/privacy/:id', dashboardControllerPY27.privacy);
@@ -446,8 +448,16 @@ router.post('/startdepositaero', authControllerPY27.authenticatedAdmin, dashboar
 
 // AÑADIR PRECIO DE AEROCOIN
 router.post('/addaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addaerocoin);
+// AÑADIR PRECIO DE BTC
+router.post('/addbtcpricepy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtcprice);
+// AÑADIR PRECIO DE BNB
+router.post('/addbnbpricepy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbnbprice);
 // ACTUALIZAR PRECIO AEROCOIN
 router.post('/updateaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaerocoin);
+// ACTUALIZAR PRECIO BTC
+router.post('/updateaebtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaebtc);
+// ACTUALIZAR PRECIO BNB
+router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaebnb);
 // COMPRAR AEROCOINS
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
 
