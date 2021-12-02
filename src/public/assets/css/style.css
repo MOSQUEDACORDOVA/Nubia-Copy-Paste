@@ -1105,6 +1105,17 @@ table tr td {
     background: #04246d !important;
     border-color: #04246d !important;
 }
+.py27 .dni-img .img-fluid {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+@media (min-width: 768px) {
+    .py27 .dni-img .img-fluid {
+        height: 300px;
+    }
+}
 .py27.acerca .btn {
     text-transform: capitalize;
     font-family: 'Conthrax Sb';

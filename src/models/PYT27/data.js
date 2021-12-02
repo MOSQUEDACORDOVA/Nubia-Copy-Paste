@@ -616,6 +616,24 @@ module.exports = {
           });
       });
     },
+    // DAR AEROCOINS A USUARIO
+    GiveCoinsToUser(id, amount) {
+        return new Promise((resolve, reject) => {
+          Usuarios.update({
+            avalible_balance: amount,
+          }, { where: {
+            id: id
+          }})
+            .then((data) => {
+              let data_s = JSON.stringify(data);
+              console.log(data_s)
+              resolve('MONEDAS AÑADIDAS SATISFACTORIAMENTE');
+            })
+            .catch((err) => {
+              reject(err)
+            });
+        });
+    },
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
     GetAllPendingDepositsAero(){
       return new Promise((resolve, reject) => {
@@ -910,6 +928,19 @@ module.exports = {
           });
       });
     },
+    // OBTENER BALANCE DE USUARIOS AEROCOIN
+    GetBalanceCoinsUser(id){
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll({where:{id: id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
     GetDepositsWallet(id){
       return new Promise((resolve, reject) => {
@@ -1103,7 +1134,8 @@ module.exports = {
           .then((data) => {
             let data_s = JSON.stringify(data)[0];
             console.log(data_s)
-            resolve('DEPOSITO APROBADO !!');
+            console.log("DEPOSITO APROBADO")
+            resolve(data_s);
           })
           .catch((err) => {
             reject(err)
