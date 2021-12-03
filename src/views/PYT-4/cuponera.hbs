@@ -9,6 +9,8 @@
 }
 .otros-img{
 max-width: 14rem !important;
+width: 7rem;
+    height: 7rem;
 }
 
 .encabezadoh4{
@@ -28,6 +30,7 @@ max-width: 14rem !important;
         overflow: hidden;
         display: grid;
         grid-template-columns: 2fr 2fr !important;
+        height: 18rem;
     }
 
     .listado_categoria .list-view .ecommerce-card .card-body {
@@ -89,13 +92,14 @@ max-width: 14rem !important;
         .encabezado img{
 width: 10rem;
         }
- /*@media (min-width: 320px) {
-.display-1{
-    font-size: 2rem;
-}
- }*/
-
+        .salud-img{
+display: inline-flex !important;
+    width: 21rem !important;
+        }
     @media (max-width: 760px) {
+                .salud-img{
+    width: 8rem !important;
+        }
         .encabezado img{
 width: 5rem;
         }
@@ -122,12 +126,15 @@ width: 5rem;
 }
 .otros-img{
 max-width: 10rem;
+width: 5rem !important;
+    height: 5rem !important;
 }
         .ecommerce-application .list-view .ecommerce-card {
             /* grid-template-columns: 1fr; */
             overflow: hidden;
             display: grid;
             grid-template-columns: 1fr 2fr;
+            height: 7rem;
         }
 
         .ecommerce-application .list-view .ecommerce-card .item-img {
@@ -255,22 +262,28 @@ window.addEventListener('popstate', function(event) {
             $('#fitness').fadeOut();
             switch (num) {
                 case 1:
-                    $('#Salud_list').fadeIn();
+                   // $('#Salud_list').fadeIn();
+                window.location.href="/cuponera/salud"
                     break;
                 case 2:
                     $('#fitness').fadeIn();
+                    window.location.href="/cuponera/belleza"
                     break;
                 case 3:
                     $('#belleza').fadeIn();
+                    window.location.href="/cuponera/fitness"
                     break;
                 case 4:
                     $('#comida').fadeIn();
+                    window.location.href="/cuponera/comida"
                     break;
                 case 5:
                     $('#otros').fadeIn();
+                    window.location.href="/cuponera/otros"
                     break;
                 case 6:
                     $('#knowledge-base-content').fadeIn();
+                    window.location.href="/cuponera"
                     break;
             }
         }
@@ -279,8 +292,7 @@ window.addEventListener('popstate', function(event) {
 <div class="app-content content ecommerce-application" style="transition:none; margin-left:1rem; padding: 2rem !important;">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
-
-            {{#if cliente}}
+                {{#if cupon}}
             <form method="post" id="form_cupon_used" hidden>
                 <input type="text" id="form_id_cliente" value="{{cliente.id}}" name="form_id_cliente">
                 <input type="text" id="id_cupon_selected" name="id_cupon_selected">
@@ -310,7 +322,7 @@ window.addEventListener('popstate', function(event) {
                             </p> --}}
                         </div>
  <div class="item-img text-center">
-                            <img src="../../../app-assets/images/illustration/salud2.jpg" class="card-img-top" />
+                            <img src="../../../app-assets/images/illustration/salud.png" class="card-img-top salud-img"/>
                         </div>
                     </div>
 
@@ -344,14 +356,14 @@ window.addEventListener('popstate', function(event) {
                         </div>
 <div class="item-img text-center" style="display: flex;justify-content: flex-end;">
 
-                            <img src="../../../app-assets/images/illustration/comida 300px.png" class="card-img-top" />
+                            <img src="../../../app-assets/images/illustration/comida 300px.png" class="card-img-top" style="height: 7rem;"/>
                         </div>
                     </div>
 
                     <div class="card ecommerce-card" style=" background-color: #2cf2fc;" id="fit_btn">
                         <div class="item-img text-center">
 
-                            <img src="../../../app-assets/images/illustration/fit.jpg" class="card-img-top" />
+                            <img src="../../../app-assets/images/illustration/fit.png" class="card-img-top" />
                         </div>
                         <div class="card-body text-center">
                             <h4 class="display-1" style="color:white">Fitness</h4>
@@ -370,7 +382,7 @@ window.addEventListener('popstate', function(event) {
                             {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly
                                 of human conceits.</p> --}}
                         </div>
-<div class="item-img text-center" style="display: flex;justify-content: flex-end;">
+<div class="item-img text-center" style="display: flex;justify-content: flex-end; align-items: center;">
 
                             <img src="../../../app-assets/images/illustration/otros star.png" class="card-img-top otros-img" />
 
@@ -378,12 +390,13 @@ window.addEventListener('popstate', function(event) {
                     </div>
                 </div>
                 <div class="item-options text-center" style="align-items: center;">
-                                   ¿Eres negocio y deseas Anunciarte? <a class="btn btn-primary btn-cart waves-effect waves-float waves-light" href="https://wa.me/523329694522/?text=¡Hola!, Soy un negocio y deseo anunciarme" target="_blank">Conectactanos aqui</a>
+                                   ¿Eres negocio y deseas BENEFICIAR a nuestros consumidores? <a class="btn btn-primary btn-cart waves-effect waves-float waves-light" href="https://wa.me/523329694522/?text=¡Hola!, Soy un negocio y deseo anunciarme" target="_blank">Conectactanos aqui</a>
                                 </div>
             </section>
+                    {{/if}}
 
-
-            <section id="Salud_list" class="collapse">
+    {{#if cat_salud}}
+            <section id="Salud_list" class="show">
                 <div class="list-view">
                     <!-- sales card -->
                     {{#each salud as | sal i|}}
@@ -416,7 +429,9 @@ window.addEventListener('popstate', function(event) {
                     {{/each}}
                 </div>
             </section>
-            <section id="fitness" class="collapse">
+        {{/if}}
+        {{#if cat_belleza}}
+            <section id="fitness" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
                     {{#each fitness as | fit i|}}
@@ -449,7 +464,9 @@ window.addEventListener('popstate', function(event) {
                     {{/each}}
                 </div>
             </section>
-            <section id="belleza" class="collapse">
+            {{/if}}
+            {{#if cat_fitness}}
+            <section id="belleza" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
                     {{#each belleza as | bel i|}}
@@ -482,7 +499,9 @@ window.addEventListener('popstate', function(event) {
                     {{/each}}
                 </div>
             </section>
-            <section id="comida" class="collapse">
+            {{/if}}
+            {{#if cat_comida}}
+            <section id="comida" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
                     {{#each comida as | com i|}}
@@ -515,7 +534,9 @@ window.addEventListener('popstate', function(event) {
                     {{/each}}
                 </div>
             </section>
-            <section id="otros" class="collapse">
+            {{/if}}
+            {{#if cat_otros}}
+            <section id="otros" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
                     {{#each otros as | otr i|}}
@@ -548,10 +569,6 @@ window.addEventListener('popstate', function(event) {
                     {{/each}}
                 </div>
             </section>
-            {{else}}
-            <div class="card-body">
-                no
-            </div>
             {{/if}}
 
         </div>
