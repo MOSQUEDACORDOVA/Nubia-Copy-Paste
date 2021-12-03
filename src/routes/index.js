@@ -26,6 +26,12 @@ const authControllerPY27 = require('../controllers/PYT27/authControllerPY27');
 const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControllerPY27');
 /*---------------------------------*/
 
+/*------------- PYT672 -------------*/
+const userControllerPY672 = require('../controllers/PYT672/userControllerPY672');
+const authControllerPY672 = require('../controllers/PYT672/authControllerPY672');
+const dashboardControllerPY672 = require('../controllers/PYT672/dashboardControllerPY672');
+/*---------------------------------*/
+
 const FileController = require('../models/PYT24/upload');
 const fileController = new FileController();
 
@@ -464,6 +470,13 @@ router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardCont
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
+/*------------ PYT-672-----------------*/
+router.get('/grupos/:id', dashboardControllerPY672.grupos);
+router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
+
+
+
+/*------------ PYT-672-----------------*/
 
 // 404
 /*
@@ -477,6 +490,8 @@ router.use((req, res, next) => {
 router.use((req, res, next) => {
   res.status(404).redirect('/error27/PYT-27')
 })
+
+
 
 //router.get('/micuenta',authController.authenticatedUser, dashboardController.micuenta);
 //router.get('/minegocio',authController.authenticatedUser, dashboardController.minegocio);

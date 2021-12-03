@@ -36,6 +36,10 @@ switch (req.body.proyect) {
 		console.log("27")
 		Usuarios = require('../models/PYT27/Usuarios');	
 		break;
+	case 'PYT672':
+		console.log("672")
+		//Usuarios = require('../models/PYT672/Usuarios');	
+		break;
 	default:
 		break;
 }
