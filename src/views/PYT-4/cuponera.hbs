@@ -9,8 +9,8 @@
 }
 .otros-img{
 max-width: 14rem !important;
-width: 7rem;
-    height: 7rem;
+width: 13rem !important;
+height: 13rem;
 }
 
 .encabezadoh4{
@@ -166,27 +166,6 @@ width: 5rem !important;
 <script>
     $(document).ready(function () {
 console.log('ya se cargo la pagina')
-window.addEventListener('popstate', function(event) {
-    // The popstate event is fired each time when the current history entry changes.
-//console.log(event)
-  // var r = confirm("You pressed a Back button! Are you sure?!");
-
-    if ($('#knowledge-base-content').is(':visible') == true) {
-        // Call Back button programmatically as per user confirmation.
-      history.back();
-      console.log(event)  
-        // Uncomment below line to redirect to the previous page instead.
-        // window.location = document.referrer // Note: IE11 is not supporting this.
-    } else {
-        console.log($('#knowledge-base-content').is(':visible'))
-        Reset(6)
-        // Stay on the current page.
-        history.pushState(null, null, window.location.pathname);
-    }
-
-    history.pushState(null, null, window.location.pathname);
-
-}, false);
         $('.ws_link').on('click', (e) => {
             console.log(e)
             let ws_proveedor = e.target.dataset['tlf']
@@ -382,7 +361,7 @@ window.addEventListener('popstate', function(event) {
                             {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly
                                 of human conceits.</p> --}}
                         </div>
-<div class="item-img text-center" style="display: flex;justify-content: flex-end; align-items: center;">
+<div class="item-img text-center" style="display: flex;justify-content: center; align-items: center;">
 
                             <img src="../../../app-assets/images/illustration/otros star.png" class="card-img-top otros-img" />
 
