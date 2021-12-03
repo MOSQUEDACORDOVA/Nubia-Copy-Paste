@@ -18,7 +18,7 @@ exports.grupos = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      login: true
+      //login: true
     })
 };
 
