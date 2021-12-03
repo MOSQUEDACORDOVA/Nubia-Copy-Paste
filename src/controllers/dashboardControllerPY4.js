@@ -1917,9 +1917,32 @@ exports.sessionCuponera = (req, res) => {
   })(req, res);
 };
 exports.introCupValidate = (req, res) => {
-  let msg = false;
+  let msg = false, cupon=true, cat_salud=false,cat_belleza=false,cat_fitness=false,cat_comida=false,cat_otros=false;
+
   if (req.params.msg) {
     msg = req.params.msg;
+  }
+  if (req.params.cat) {
+    cupon =false
+    switch (req.params.cat) {
+      case 'salud':
+        cat_salud =true
+        break;
+        case 'belleza':
+          cat_belleza =true
+          break;
+          case 'fitness':
+            cat_fitness =true
+            break;
+            case 'comida':
+              cat_comida =true
+              break;
+              case 'otros':
+                cat_otros =true
+                break;
+      default:
+        break;
+    }
   }
   let cliente = res.locals.user
   let salud = [], belleza = [], fitness=[],comida=[], otros =[]
@@ -1969,8 +1992,7 @@ exports.introCupValidate = (req, res) => {
       py4:true,
       cliente,
       salud, belleza, fitness, comida,  otros,  py4:true,
-  dash:true,
-disabled_chofer: true
+  dash:true,cupon,  cat_salud,  cat_fitness,  cat_comida,  cat_otros,disabled_chofer: true
     });
 
 }).catch((err) => {
