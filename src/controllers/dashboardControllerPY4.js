@@ -1722,7 +1722,7 @@ exports.getCupones = (req, res) => {
     DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
       let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
       
-    console.log(total_cupones_usados_cupones_act);
+    console.log(cupones_act);
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
@@ -1807,10 +1807,12 @@ exports.deleteCupon = async (req, res) => {
   let parametro_buscar = req.params.id;
 
   DataBase.deleteCupon(parametro_buscar).then((resultado) => {
-    
+    DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
+      let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
     let msg = "Cupón eliminado con exito";
-    res.send({msg});
+    res.send({total_cupones_usados_cupones_act});
   });
+});
 };
 
 exports.usar_cupon = async (req, res) => {
