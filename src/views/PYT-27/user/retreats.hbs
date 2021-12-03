@@ -1,6 +1,10 @@
 <div class="app-content content py27">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            <div role="alert" aria-live="polite" aria-atomic="true" class="alert alert-warning" data-v-3bcd05f2="">
+                <h4 class="alert-heading">Dear user, the withdrawals will be activated after the presale, we appreciate your patience, stay tuned.</h4> 
+            </div>
+
             <section class="vertical-wizard">
                 <div class="bs-stepper vertical vertical-wizard-example">
                     <div class="bs-stepper-header">
@@ -49,17 +53,17 @@
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="vertical-first-name">Code Wallet</label>
-                                    <input type="text" name="id" class="form-control d-none" value="{{btc.id}}" required>
-                                    <input type="text" id="" name="code_wallet" class="form-control" placeholder="" value="{{btc.code_wallet}}" required>
-                                    <input type="text" name="ttype" class="form-control d-none" value="BTC" required>
+                                    <input type="text" name="id" class="form-control d-none" value="{{btc.id}}" required disabled>
+                                    <input type="text" id="" name="code_wallet" class="form-control" placeholder="" value="{{btc.code_wallet}}" required disabled>
+                                    <input type="text" name="ttype" class="form-control d-none" value="BTC" required disabled>
                                 </div>
                             </div>
 
                             <div class="d-flex">
-                                <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1">
+                                <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1" disabled>
                                     Update
                                 </button>
-                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light" disabled>
                                     Dismiss
                                 </button>
                             </div>
@@ -72,15 +76,15 @@
                             <div class="row">
                                 <div class="mb-1 col-md-6">
                                     <label class="form-label" for="vertical-first-name">Code Wallet</label>
-                                    <input type="text" id="" name="code_wallet" class="form-control" placeholder="" value="" required>
+                                    <input type="text" id="" name="code_wallet" class="form-control" placeholder="" value="" required disabled>
                                 </div>
                             </div>
 
                             <div class="d-flex">
-                                <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1">
+                                <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1" disabled>
                                     Add
                                 </button>
-                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light">
+                                <button class="btn btn-outline-secondary waves-effect waves-float waves-light" disabled>
                                     Dismiss
                                 </button>
                             </div>
@@ -348,14 +352,16 @@
                 </div>
             </div> -->
            
-           <!---->
-            <div class="col-12 mb-2">
+           <!-- RETIROS-->
+            <div class="col-12 mb-2 d-none">
                 <a class="btn btn-outline-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" id="btnHistorial">
                     Withdrawal History
                 </a>
                 <a class="btn btn-secondary" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample" id="btnPendientes">
                     Pending Withdrawals
                 </a>
+
+                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-toggle="modal" id="btnInfo" data-bs-target="#addNewCard10">Info</button>
             </div>
 
             <!--- MODAL HISTORIAL RETIROS REALIZADOS --->
@@ -806,6 +812,27 @@
                 </div>
             </div>
             <!--- END MODAL --->
+
+            <!--- MODAL INFO  --->
+            <div class="modal fade" id="addNewCard10" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Dear user!</h1>
+                            <p class="text-center">Dear user, the withdrawals will be activated after the presale, we appreciate your patience, stay tuned.</p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn btn-outline-secondary">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
         </div>
     </div>
 </div>
@@ -1010,6 +1037,7 @@
     }
 
     $(document).ready(function(){
+        $('#btnInfo').click();
         $('#transfbtn').on('click', (e)=> {
             Reset(1)
         });

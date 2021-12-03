@@ -474,6 +474,14 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 /*------------ PYT-672-----------------*/
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
+router.get('/error672/:id', dashboardControllerPY672.error);
+
+
+
+// ? POST
+
+// * CREAR GRUPOS
+router.post('/creargrupopy672', dashboardControllerPY672.creargrupos);
 
 
 
@@ -488,6 +496,9 @@ router.use((req, res, next) => {
   res.status(404).redirect('/error24/PYT-24')
 })
 */
+router.use((req, res, next) => {
+  res.status(404).redirect('/error672/PYT-672')
+})
 router.use((req, res, next) => {
   res.status(404).redirect('/error27/PYT-27')
 })

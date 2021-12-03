@@ -3,13 +3,12 @@
         <div class="content-body">
             <section>
                 <div class="row match-height flex-md-row-reverse">
-
                     <!-- Listado de grpos -->
                     <div class="col-12 col-md-5">
                         <div class="card ">
                             <div class="card-header pb-md-0">
-                                    <h4 class="card-title">Crear grupo</h4>
-                                    <div class="heading-elements d-md-none">
+                                <h4 class="card-title">Crear grupo</h4>
+                                <div class="heading-elements d-md-none">
                                     <ul class="list-inline mb-0">
                                         <li>
                                             <a data-action="collapse"><i data-feather="chevron-down"></i></a>
@@ -20,13 +19,12 @@
                             <p class="card-header pt-1 font-small-2 d-none d-md-block">
                                 Si presionas un item a la derecha tambien puedes editarlo acá. . .
                             </p>
-
                             <div class="card-content collapse show">
                                 <div class="card-body">
-                                    <form class="form">
+                                    <div class="">
                                         <div class="row custom-options-checkable g-1 mb-1">
                                             <div class="col-md-6">
-                                                <input class="custom-option-item-check desde0" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios1" checked />
+                                                <input class="custom-option-item-check desde0" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios1" checked/>
                                                 <label class="custom-option-item p-1" for="customOptionsCheckableRadios1">
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Desde cero</span>
@@ -46,43 +44,71 @@
                                             </div>
                                         </div>
                                         
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="first-name-column">Día y Horario</label>
-                                                    <select class="form-select" name="" id="desde0select">
-                                                        <option> Lunes: 6:30pm a 9pm</option>
-                                                        <option> Martes: 6:30pm a 9pm</option>
-                                                        <option> Miércoles: 6:30pm a 9pm</option>
-                                                        <option> Jueves: 6:30pm a 9pm</option>
-                                                        <option> Sábado: 8:30am a 11am</option>
-                                                    </select>
-
-                                                    <select class="form-select d-none" name="" id="intensivoSelect">
-                                                        <option> Lunes y Míercoles: 6:30pm a 9pm</option>
-                                                        <option> Martes y Jueves: 6:30pm a 9pm</option>
-                                                    </select>
+                                        <!-- DESDE CERO -->
+                                        <form class="form" method="POST" action="/creargrupopy672" id="desde0Form">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="first-name-column">Día y Horario</label>
+                                                        <input type="text" class="d-none" value="Desde cero" name="nombre"/>
+                                                        <input type="text" class="d-none" value="1" name="lecciones"/>
+                                                        <select class="form-select" name="horario" required>
+                                                            <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
+                                                            <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
+                                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9pm</option>
+                                                            <option value="Jueves: 6:30pm a 9pm"> Jueves: 6:30pm a 9pm</option>
+                                                            <option value="Sábado: 8:30am a 11am"> Sábado: 8:30am a 11am</option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class="row">
-                                            <div class="col-12 mb-1">
-                                                <label class="form-label" for="fp-default">Fecha inicio</label>
-                                                <input type="text" id="fp-default" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" />
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Fecha inicio</label>
+                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic" name="fecha" placeholder="YYYY-MM-DD" required/>
+                                                </div>
                                             </div>
-                                        </div>
-                                                                                                
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <button type="reset" class="btn btn-primary me-1">Guardar</button>
+                                                                                                    
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-primary me-1">Guardar</button>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </form>
 
-                                    </form>
+                                        <!-- INTENSIVO -->
+                                        <form class="form d-none" method="POST" action="/creargrupopy672" id="intensivoForm">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="mb-1">
+                                                                                                                                                                     <input type="text" class="d-none" name="nombre" value="Intensivo"/>
+                                                        <input type="text" class="d-none" value="2" name="lecciones"/>
+                                                        <label class="form-label" for="first-name-column">Día y Horario</label>
+                                                        <select class="form-select" name="horario" id="" required>
+                                                            <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
+                                                            <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Fecha inicio</label>
+                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" name="fecha" required>
+                                                </div>
+                                            </div>
+                                                                                                    
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-primary me-1">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
                     </div>
@@ -114,15 +140,69 @@
                                             }
                                         </style>
                                         <div class="card-datatable table-responsive pt-0">
-                                            <div class=" TipoCurso-grupos"></div>
+                                            <div class="TipoCurso-grupos mb-1">
+                                                <label class="form-label" for="UserRole">Tipo de curso</label>
+                                                <select id="filtroApertura" class="form-select text-capitalize mb-md-0 mb-2">
+                                                    <option value="todos">Todos</option>
+                                                    <option value="desde cero" class="text-capitalize">Desde cero</option>
+                                                    <option value="intensivo" class="text-capitalize">Intensivo</option>
+                                                </select>
+                                            </div>
                                             <table class="user-list-table-Tabla-Aperturas table">
-                                                <thead class="table-light">
-                                                    <tr>
-                                                        <th class="d-none"></th>
-                                                        <th class="d-none">Nombre</th>
-                                                        <th class="d-none">current_plan</th>
+                                                <tbody>
+                                                    {{#each gruposApertura as |grupo i|}}
+                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}}">
+                                                        <td>
+                                                            <div>
+                                                                <div class="d-flex mb-1">
+                                                                    <div class="me-75"><a href="#"><b>C21101-1</b></a></div>
+
+                                                                    <div>
+                                                                        <div class="d-flex">
+                                                                            <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos">0</div>
+                                                                    
+                                                                            <div class="badge rounded-pill badge-light-info me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados">0</div>
+                                                                            
+                                                                            <div style="color:#999 !important; background-color:#ff0;" class="badge rounded-pill badge-light-warning me-1" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos">0</div>
+                                                                            
+                                                                            <div class="badge rounded-pill badge-light-warning me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados">0</div>
+                                                                            
+                                                                            <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">0</div>
+                                                                            
+                                                                            <div class="badge rounded-pill badge-light-secondary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">0</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="d-flex">
+                                                                    <!---- PROF ---->
+                                                                    <div class="me-1">
+                                                                        <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span><small class="emp_post text-muted">Prof.</small><br><small class="emp_post">-</small>
+                                                                    </div>
+
+                                                                    <!---- PAGOS ---->
+                                                                    <div class="me-1">
+                                                                        <span class="item-dollar-sign me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign font-small-4"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span><small class="emp_post text-muted">Pagos</small><br><small class="emp_post">-</small>
+                                                                    </div>
+
+                                                                    <div class="me-1">
+                                                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                                                                        
+                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post">{{dia_horario}}</small>
+                                                                        
+                                                                        </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                                                        <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
+                                                                    </div>
+                                                                    <div class="">
+                                                                        <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                                                        <small class="emp_post text-muted">Fin</small><br><small class="emp_post">-</small>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
                                                     </tr>
-                                                </thead>
+                                                    {{/each}}
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -166,9 +246,11 @@
 
 <script>
     let inputDesde0 = document.querySelector('.desde0'),
-    desde0Select = document.getElementById('desde0select'),
+    desde0Form = document.getElementById('desde0Form'),
     inputIntensivo = document.querySelector('.intensivo'),
-    intensivoSelect = document.getElementById('intensivoSelect');
+    intensivoForm= document.getElementById('intensivoForm');
+
+    const filtroApertura = document.getElementById('filtroApertura');
 
     inputDesde0.addEventListener('change', () => {
         Reset(1);
@@ -176,18 +258,57 @@
     inputIntensivo.addEventListener('change', () => {
         Reset(2);
     });
+
+    let gruposDesde0 = document.querySelectorAll('.desde0'),
+    gruposIntensivo = document.querySelectorAll('.intensivo');
+
+    filtroApertura.addEventListener('change', () => {
+        let seleccion = filtroApertura.value;
+        filtroAperturaGrupos(seleccion);  
+    });
     
+    const filtroAperturaGrupos = (target) => {
+        if(target === 'todos') {
+            gruposDesde0.forEach(grupo => {
+                grupo.classList.remove('d-none');
+                grupo.classList.add('d-block');
+            });
+            gruposIntensivo.forEach(grupo => {
+                grupo.classList.remove('d-none');
+                grupo.classList.add('d-block');
+            });
+        } else if(target === 'desde cero') {
+            gruposDesde0.forEach(grupo => {
+                grupo.classList.remove('d-none');
+                grupo.classList.add('d-block');
+            });
+            gruposIntensivo.forEach(grupo => {
+                grupo.classList.remove('d-block');
+                grupo.classList.add('d-none');
+            });  
+        } else {
+            gruposIntensivo.forEach(grupo => {
+                grupo.classList.remove('d-none');
+                grupo.classList.add('d-block');
+            });
+            gruposDesde0.forEach(grupo => {
+                grupo.classList.remove('d-block');
+                grupo.classList.add('d-none');
+            });
+        }
+    }
+
     const Reset = (num) => {
         if (num === 1) {
-            desde0Select.classList.remove('d-none')
-            desde0Select.classList.add('d-block')
-            intensivoSelect.classList.remove('d-block')
-            intensivoSelect.classList.add('d-none')
+            desde0Form.classList.remove('d-none')
+            desde0Form.classList.add('d-block')
+            intensivoForm.classList.remove('d-block')
+            intensivoForm.classList.add('d-none')
         } else {
-            intensivoSelect.classList.remove('d-none')
-            intensivoSelect.classList.add('d-block')
-            desde0Select.classList.remove('d-block')
-            desde0Select.classList.add('d-none')
+            intensivoForm.classList.remove('d-none')
+            intensivoForm.classList.add('d-block')
+            desde0Form.classList.remove('d-block')
+            desde0Form.classList.add('d-none')
         }
     }
 </script>
