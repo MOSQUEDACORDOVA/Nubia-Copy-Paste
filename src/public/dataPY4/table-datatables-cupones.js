@@ -233,6 +233,7 @@ function cargaTablacuponesUsed(editada) {
           // Avatar image/badge, Name and post
           targets: 1,
           render: function (data, type, full, meta) {
+
             var $user_img = full['cupone']['img'],
               $name = full['cupone']['nombre_cupon'],
               $post = full['cupone']['nombre_proveedor'];
@@ -445,10 +446,23 @@ function cargaTablacuponesUsed(editada) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(result.value.etiquetas_let)
-      var opts = result.value.etiquetas_let;
+      console.log(result.value.total_cupones_usados_cupones_act)
+      var opts = result.value.total_cupones_usados_cupones_act;
       $('.datatables-basic_cupones').DataTable().row($(this).parents('tr')).remove().draw();
-
+      $('#array_cupones_usados').val(JSON.stringify(result.value.total_cupones_usados_cupones_act))
+      $('.datatables-basic_cupones_usados').dataTable().fnDestroy();
+       $('.datatables-basic_cupones_usados').empty();
+      $('.datatables-basic_cupones_usados').html(`<thead>
+      <tr>
+        <th>id</th>
+        <th>Nombre</th>
+        <th>Usado Por</th>                              
+        <th>Fecha de Uso</th>
+        <th>Categoria</th>
+        
+      </tr>
+    </thead>`);
+    cargaTablacuponesUsed('si')
       Swal.fire({
         title: `Cupón ${id} borrado con éxito`,
       })
@@ -554,7 +568,7 @@ function cargaTablacuponesUsed(editada) {
   $('#fecha_final_edit').val(data['parsed_cupon']['fecha_final'])
  $('#cantidad_edit').val(data['parsed_cupon']['cantidad'])
  $('#edit-img5_').val(data['parsed_cupon']['img'])
-
+$('#descripcion_edit').val(data['parsed_cupon']['especial'])
   if ( $("#categoria_edit option[value='" + data['parsed_cupon']['categoria'] + "']").length == 0 ){
   console.log(data['parsed_cupon']['categoria'])
   $('#categoria_edit').prepend('<option selected value="' + data['parsed_cupon']['categoria'] + '">' + data['parsed_cupon']['categoria'] + '</option>');  
