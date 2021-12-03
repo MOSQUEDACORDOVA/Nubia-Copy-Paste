@@ -270,13 +270,14 @@ console.log('ya se cargo la pagina')
 </script>
 <div class="app-content content ecommerce-application" style="transition:none; margin-left:1rem; padding: 2rem !important;">
     <div class="content-wrapper container-xxxl p-0">
-        <div class="content-body">
-                {{#if cupon}}
-            <form method="post" id="form_cupon_used" hidden>
+                    <form method="post" id="form_cupon_used" hidden>
                 <input type="text" id="form_id_cliente" value="{{cliente.id}}" name="form_id_cliente">
                 <input type="text" id="id_cupon_selected" name="id_cupon_selected">
                 <input type="datetime-local" id="fecha_selected" name="fecha_selected">
             </form>
+        <div class="content-body">
+                {{#if cupon}}
+
             <section id="knowledge-base-content" class="show listado_categoria">
                 <div class="list-view">
                     <!-- sales card -->
