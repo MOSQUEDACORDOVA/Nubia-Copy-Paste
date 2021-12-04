@@ -1574,14 +1574,6 @@ exports.aerocoin = (req, res) => {
     let aerocoin = JSON.parse(resp)[0];
     console.log(aerocoin)
 
-  DataBase.GetControlBTC().then((resp2)=>{
-    let btcprice = JSON.parse(resp2)[0];
-    console.log(btcprice)
-
-  DataBase.GetControlBNB().then((resp3)=>{
-    let bnbprice = JSON.parse(resp3)[0];
-    console.log(bnbprice)
-
     res.render(proyecto+"/admin/aerocoin", {
       pageName: "AeroCoin - Price Managment",
       dashboardPage: true,
@@ -1592,18 +1584,8 @@ exports.aerocoin = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      aerocoin, btcprice, bnbprice
+      aerocoin,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo maquinas de minado en el sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error obteniendo maquinas de minado en el sistema";
