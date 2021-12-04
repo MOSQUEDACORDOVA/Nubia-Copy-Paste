@@ -268,6 +268,13 @@ module.exports = {
 			<p class="card-text">Profesional</p>`;
 		}
 	},
+	clasesGruposPY672: (nombre) => {
+		if(nombre === "Desde cero") {
+			return 'desde0';
+		} else {
+			return 'intensivo';
+		}
+	},
 	totalth: (totalth) => {
 		let total = 0;
 		console.log(totalth)
