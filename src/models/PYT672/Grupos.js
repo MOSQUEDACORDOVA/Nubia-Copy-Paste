@@ -7,6 +7,10 @@ const Grupos = db672.define('grupos', {
 		primaryKey: true,
 		autoIncrement: true
 	},
+	identificador: {
+		type: DataTypes.STRING(200),
+		allowNull: true,
+	},
 	nombre: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
@@ -19,14 +23,62 @@ const Grupos = db672.define('grupos', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
+	dia_pagos: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+	},
+	finalizar_nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+	},
 	fecha_inicio: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
-	/*fecha_finalizacion: {
+	fecha_finalizacion: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
-	},*/
+	},
+	activos: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	incorporados: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	inscritos: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	fusionados: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	congelados: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	total_alumnos: {
+		type: DataTypes.INTEGER(200),
+		allowNull: false,
+		defaultValue: 0
+	},
+	nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+		defaultValue: 'Principiante'
+	},
+	codigo_nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+		defaultValue: '-1'
+	},
 	estado: {
 		type: DataTypes.STRING(200),
 		allowNull: false,

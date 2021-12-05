@@ -1351,5 +1351,30 @@ table tr td {
     color: white;
     box-shadow: 0 8px 25px -8px #0087f5 !important;
 }
-/*---------- py27 ----------*/
 /*---------- py672 ----------*/
+.py672 .text-primary {
+    color: #7367f0 !important;
+}
+.py672 .badge-light-primary {
+    color: #7367f0 !important;
+}
+.py672 .nav-tabs .nav-link.active { 
+    color: #7367f0 !important;
+}
+.py672 .nav-tabs .nav-link.active, .py672 .nav-tabs .nav-item.show .nav-link {
+    color: #7367f0;
+    background-color: transparent;
+    border-color: #dae1e7 #dae1e7 transparent;
+}
+.py672 .nav-tabs .nav-link:after {
+    background: linear-gradient(30deg, #7367f0, rgba(115, 103, 240, 0.5)) !important;
+}
+.py672 .custom-options-checkable .custom-option-item {
+    border: 1px solid #7367f0;
+}
+.py672 .form-select:focus {
+    border-color: #7367f0 !important;
+}
+.py672 .form-control:focus {
+    border-color: #7367f0 !important;
+}

@@ -292,19 +292,35 @@
     selectWallets = document.getElementById('digWallet'),
     selectBtc = document.getElementById('btc');
 
+    let resultBtc;
+    fetch('https://api.coingecko.com/api/v3/exchange_rates')
+    .then(response => response.json())
+    .then(data => {
+        let arr = data.rates
+        resultBtc = arr.usd.value
+    });
+   
+    let resultBnb;
+    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
+    .then(response => response.json())
+    .then(data => {
+        let arr = data.tickers[7]
+        resultBnb = arr.last
+    });
+
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
         let amountAero = document.getElementById('amountth');
         let InCoin = document.querySelectorAll('.amountCoin');
-        let btcPrice = parseFloat(document.getElementById('btc_price').value);
-        let bnbPrice = parseFloat(document.getElementById('bnb_price').value);
+        //let btcPrice = parseFloat(document.getElementById('btc_price').value);
+        // bnbPrice = parseFloat(document.getElementById('bnb_price').value);
         let btc = document.getElementById('amountbtc');
         let bnb = document.getElementById('amountbnb');
         let priceACN = parseFloat(document.getElementById('price_').value);
 
-        btc.value = priceACN / btcPrice;
-        bnb.value =  priceACN / bnbPrice;
+        btc.value = priceACN / resultBtc;
+        bnb.value =  priceACN / resultBnb;
 
         let amount = amountAero.value;
 
