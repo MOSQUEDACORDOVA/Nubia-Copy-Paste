@@ -1722,7 +1722,7 @@ exports.getCupones = (req, res) => {
     DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
       let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
       
-    console.log(total_cupones_usados_cupones_act);
+    console.log(cupones_act);
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
@@ -1807,10 +1807,12 @@ exports.deleteCupon = async (req, res) => {
   let parametro_buscar = req.params.id;
 
   DataBase.deleteCupon(parametro_buscar).then((resultado) => {
-    
+    DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
+      let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
     let msg = "Cupón eliminado con exito";
-    res.send({msg});
+    res.send({total_cupones_usados_cupones_act});
   });
+});
 };
 
 exports.usar_cupon = async (req, res) => {
@@ -1917,9 +1919,32 @@ exports.sessionCuponera = (req, res) => {
   })(req, res);
 };
 exports.introCupValidate = (req, res) => {
-  let msg = false;
+  let msg = false, cupon=true, cat_salud=false,cat_belleza=false,cat_fitness=false,cat_comida=false,cat_otros=false;
+
   if (req.params.msg) {
     msg = req.params.msg;
+  }
+  if (req.params.cat) {
+    cupon =false
+    switch (req.params.cat) {
+      case 'salud':
+        cat_salud =true
+        break;
+        case 'belleza':
+          cat_belleza =true
+          break;
+          case 'fitness':
+            cat_fitness =true
+            break;
+            case 'comida':
+              cat_comida =true
+              break;
+              case 'otros':
+                cat_otros =true
+                break;
+      default:
+        break;
+    }
   }
   let cliente = res.locals.user
   let salud = [], belleza = [], fitness=[],comida=[], otros =[]
@@ -1969,8 +1994,7 @@ exports.introCupValidate = (req, res) => {
       py4:true,
       cliente,
       salud, belleza, fitness, comida,  otros,  py4:true,
-  dash:true,
-disabled_chofer: true
+  dash:true,cupon,  cat_salud,  cat_fitness,  cat_comida,  cat_otros,disabled_chofer: true
     });
 
 }).catch((err) => {
