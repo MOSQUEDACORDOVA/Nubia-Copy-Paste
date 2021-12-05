@@ -501,7 +501,23 @@ body {
         padding: 10px;
         border-radius: 8px;
     }
+
 }
+    .py27 .form-check-primary .form-check-input:not(:disabled):checked, .form-check-primary .form-check-input:not(:disabled):focus {
+        border-color: #0087f5 !important;
+        box-shadow: 0 8px 25px -8px #03467c !important;
+    }
+
+    .py27 .form-check-primary .form-check-input:checked {
+        border-color: #0087f5 !important;
+        background-color:#03467c !important;
+    }
+
+    .py27 .flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+        background: #03467c !important;
+        color: #fff;
+        border-color: #03467c !important;
+    }
 .dark-layout .main-menu-content .navigation-main .nav-item.open > a {
     /* background-color: #D9A443 !important;
     color: white !important; */
