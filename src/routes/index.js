@@ -54,6 +54,7 @@ router.get('/close-session', userController.closeSesion);
 router.get('/intro_cuponera', dashboardControllerPY4.introCup);
 router.get('/intro_cuponera/:crea', dashboardControllerPY4.introCup);
 router.get('/log_cuponera/:registrado', dashboardControllerPY4.introCup);
+router.get('/log_cupon/:msg', dashboardControllerPY4.introCup);
 router.post('/session_cuponera', dashboardControllerPY4.sessionCuponera);
 router.get('/cuponera',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
 router.get('/cuponera/:cat',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
@@ -167,7 +168,7 @@ router.post('/editar_pedido_save', authControllerPY4.authenticatedUser,dashboard
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
 router.post('/ad_tag_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_tag);
 router.post('/change_zone_client', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_zona_client);
-
+router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_cupon);
 
 
 

@@ -204,7 +204,7 @@ console.log('ya se cargo la pagina')
                         success: function (data, textStatus, jqXHR) {
                             console.log(data)
                             if (data.msg == "USADO") {
-                                Swal.fire('Cupon usado porfavor seleccione otro o actualice la página')
+                                Swal.fire('Cupon usado, por favor seleccione otro')
                                 return
                             }
                             window.location.href = `https://wa.me/52${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
@@ -257,11 +257,11 @@ console.log('ya se cargo la pagina')
                     break;
                 case 2:
                     $('#fitness').fadeIn();
-                    window.location.href="/cuponera/belleza"
+                    window.location.href="/cuponera/fitness"
                     break;
                 case 3:
                     $('#belleza').fadeIn();
-                    window.location.href="/cuponera/fitness"
+                    window.location.href="/cuponera/belleza"
                     break;
                 case 4:
                     $('#comida').fadeIn();
@@ -421,7 +421,7 @@ console.log('ya se cargo la pagina')
                 </div>
             </section>
         {{/if}}
-        {{#if cat_belleza}}
+        {{#if cat_fitness}}
             <section id="fitness" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
@@ -456,7 +456,7 @@ console.log('ya se cargo la pagina')
                 </div>
             </section>
             {{/if}}
-            {{#if cat_fitness}}
+            {{#if cat_belleza}}
             <section id="belleza" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
