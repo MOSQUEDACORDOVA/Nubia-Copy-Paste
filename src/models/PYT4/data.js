@@ -206,15 +206,23 @@ module.exports = {
 
   registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
-      Clientes.findOrCreate({
-        where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
-        defaults: {
-          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"SI"
-        }
+      Clientes.findOne({
+        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, }
       }).then((data)=>{
-        let data_set = JSON.stringify(data);
+
+        if (!data) {
+          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a"}).then((data_cliente)=>{
+          let data_set = JSON.stringify(data);
         console.log(data_set);
         resolve(data_set);
+
+          })
+          
+        }else{
+          console.log('ya existe esa dirección')
+          resolve('0');
+        }
+        
         
       })
       .catch((err) => {
@@ -247,6 +255,27 @@ module.exports = {
         .then((data) => {
           let data_set = JSON.stringify(data);
           resolve('Cliente actualizado con éxito');
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  update_cliente_cuponAct(id,actual) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          cuponera:actual},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Notificaciones.update({estado:'1'}, {where:{clienteId:id}})
+          resolve(data_set);
           //console.log(planes);
         })
         .catch((err) => {
@@ -1409,7 +1438,7 @@ PersonalAllS(id){
         });
     });
   },
-  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
+  guardarCupon(id_usuario,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img,dir_proveedor) {
     let now = new Date();
     fecha = now.toString();
     return new Promise((resolve, reject) => {
@@ -1425,7 +1454,8 @@ cantidad_actual:cantidad,
 categoria:categoria,
 especial:descripcion,
 img:img,
-usuarioId:id_usuario
+usuarioId:id_usuario,
+ubicacion:dir_proveedor
           })
             .then((res) => {
               let about = JSON.stringify(res);
@@ -1455,7 +1485,7 @@ usuarioId:id_usuario
         });
     });
   },
-  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img) {
+  saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img,dir_proveedor) {
     let now = new Date();
     fecha = now.toString();
     //console.log(fecha_inicio);
@@ -1472,7 +1502,8 @@ usuarioId:id_usuario
           categoria:categoria,
           especial:descripcion,
           img:img,
-          usuarioId:user
+          usuarioId:user,
+          ubicacion:dir_proveedor,
         },
         {
           where: {
@@ -1611,7 +1642,10 @@ usuarioId:id_usuario
     //NOTIFICACIONES
 obtenernotificaciones() {
       return new Promise((resolve, reject) => {
-        Notificaciones.findAll({where:{estado:'0'},include:[{association:Notificaciones.Clientes}],
+        Notificaciones.findAll(
+          {
+            //where:{estado:'0'},
+          include:[{association:Notificaciones.Clientes}],
           order: [
             // Will escape title and validate DESC against a list of valid direction parameters
             ["updatedAt", "DESC"],
