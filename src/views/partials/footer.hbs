@@ -82,14 +82,7 @@
     <script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>
 
     
-    {{#if disabled_chofer}}
-    {{else}}
-    <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
-    <script src="../../../dataPY4/editar_pedido.js"></script>
-    
-    <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
-    <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
-    {{/if}}
+   
     <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
@@ -106,6 +99,14 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+     {{#if disabled_chofer}}
+    {{else}}
+    <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
+    <script src="../../../dataPY4/editar_pedido.js"></script>
+    
+    <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
+    <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+    {{/if}}
     {{#if disabled_chofer}}
     
     <!-- BEGIN: Page Vendor JS-->
