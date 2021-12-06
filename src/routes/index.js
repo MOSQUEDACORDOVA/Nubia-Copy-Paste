@@ -468,6 +468,16 @@ router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboard
 // COMPRAR AEROCOINS
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
 
+// ? VERIFICACIÓN
+//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
+//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
+
+// ! EMAIL REGISTER
+router.get('/emailregtemplate/:id', dashboardControllerPY27.emailregtemplate);
+router.get('/emailregister/:id', dashboardControllerPY27.emailregister);
+router.get('/emaildeposits/:id', dashboardControllerPY27.emaildeposit);
+router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
+
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
@@ -475,6 +485,8 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
+
+
 
 
 router.get('/error672/:id', dashboardControllerPY672.error);

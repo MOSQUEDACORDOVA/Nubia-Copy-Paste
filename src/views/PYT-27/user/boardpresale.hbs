@@ -72,13 +72,13 @@
                                     </ol>
                                     <div class="carousel-inner">
                                         <div class="carousel-item">
-                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/buy.jpg">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/1.jpg">
                                         </div>
                                         <div class="carousel-item">
-                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/call.jpg">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/2.jpg">
                                         </div>
                                         <div class="carousel-item active">
-                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/buynow-2.jpg">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/3.jpg">
                                         </div>
                                     </div>
                                     <a class="carousel-control-prev" data-bs-target="#carousel-example-caption" role="button" data-bs-slide="prev">
@@ -165,7 +165,7 @@
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
                                     <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                        <div class="dataTables_info text-dark" role="status" aria-live="polite">Payments will be validated within 8 hours</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -192,21 +192,28 @@
                         </div>
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Account Verification</h1>
-                            <p class="text-center">Enter a photo of your identity document, legible, with both sides. The data provided must match the identification data registered.</p>
+                            <p class="text-center mb-0">Enter a photo of your identity document, legible, with both sides. The data provided must match the identification data registered.</p>
                             <form action="/solicitverifypy27" method="POST" class="card-body">
-                                <p class="card-text mb-0">Front</p>
 
                                 <!--<input type="text" class="form-control d-none" id="voucher1">-->
-                     
-                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+                                <p class="card-text mb-0">Document Type</p>
+                                <select name="" id="" class="form-select mb-1" required>
+                                    <option value=""></option>
+                                    <option value="">PASAPORT</option>
+                                    <option value="">DNI</option>
+                                    <option value="">DRIVER'S LICENSE</option>
+                                </select>
+
+                                <p class="card-text mb-0">Front</p>
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" required>
 
                                 <p class="card-text mb-0">Back</p>
 
                                 <!--<input type="text" class="form-control d-none" id="voucher2">-->
                      
-                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" required>
                                 
-                                <input type="submit" class="btn btn-primary" value="Send verification">
+                                <input type="submit" class="btn btn-outline-primary" value="Send verification">
                             </form>
                         </div>
                     </div>
@@ -216,44 +223,3 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-    let options = {
-        chart: {
-            height: 280,
-            type: "area"
-        },
-        dataLabels: {
-            enabled: false
-        },
-        series: [
-            {
-            name: "Ganancias",
-            data: [45, 52, 38, 45, 19, 23, 2]
-            }
-        ],
-        fill: {
-            type: "gradient",
-            gradient: {
-            shadeIntensity: 1,
-            opacityFrom: 0.7,
-            opacityTo: 0.9,
-            stops: [0, 90, 100]
-            }
-        },
-        xaxis: {
-            categories: [
-            "Lunes",
-            "Martes",
-            "Miercoles",
-            "Jueves",
-            "Viernes",
-            "Sabado",
-            "Domingo"
-            ]
-        }
-    };
-    let chart = new ApexCharts(document.querySelector("#prueba"), options);
-
-    chart.render();
-</script>

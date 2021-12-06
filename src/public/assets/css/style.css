@@ -930,15 +930,25 @@ body {
 table tr td {
     white-space: nowrap !important;
 }
+.py27 .email h3 {
+    font-family: 'Conthrax Sb';
+}
+.py27 .email p {
+    font-weight: 600;
+}
+.py27 .email .logo {
+    width: 150px;
+}
 .py27 .carousel .carousel-item .img-fluid {
     display: block;
     width: 100%;
     min-height: 300px;
-    object-fit: cover;
+    object-fit: contain;
 }
 @media (min-width: 900px) {
     .py27 .carousel .carousel-item .img-fluid {
         height: 300px;
+        object-fit: cover;
     }
 }
 .py27.es .navbar-brand .img-fluid {
@@ -991,7 +1001,7 @@ table tr td {
     font-family: 'Conthrax Sb';
     color: #04246d !important;
     font-weight: 700;
-    transition: rgb(73, 78, 82)e all;
+    transition: rgb(186, 223, 253)e all;
 }
 .py27.es .main-menu.menu-light .navigation > li.active > a {
     background: linear-gradient(118deg, #ce0011, #e62435);
@@ -1013,18 +1023,28 @@ table tr td {
     margin-top: 70px;
     min-height: 350px;
     display: block;
-    background-image: url(../../../app-assets/images/py27/nella/banner.jpeg);
-    background-size: cover;
+    background-image: url(../../../app-assets/images/py27/nella/bg.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
     background-position: center;
 }
 .py27.notice.es {
     background: linear-gradient(30deg, #ce0011 20%, rgb(255, 71, 71));
+}
+.py27 .board .btn {
+    font-weight: 700;
+}
+.py27 .card .list-group li {
+    list-style: none;
 }
 .py27.notice.es h2, .py27.notice.es p {
     font-family: 'Conthrax Sb';
 }
 .py27.notice.es p {
     line-height: 25px;
+}
+.py27.notice.es .btn {
+    font-family: 'Conthrax Sb';
 }
 .py27.notice.es .img-fluid {
     display: block;
@@ -1112,6 +1132,9 @@ table tr td {
     font-weight: 700;
     transition: .3s ease all;
 }
+.py27 .form-check-primary .form-check-input:not(:disabled):focus {
+    border-color: #04246d !important;
+}
 .py27 .btn.btn-outline-primary:hover {
     color: white !important;
     background: #04246d !important;
@@ -1137,6 +1160,16 @@ table tr td {
     width: 100%;
     height: 200px;
     object-fit: cover;
+}
+.py27 .progress-bar {
+    background-color: #04246d !important;
+}
+.py672 .flatpickr-day.selected {
+    background: #04246d !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    border-color: #04246d !important;
 }
 @media (min-width: 768px) {
     .py27 .dni-img .img-fluid {
@@ -1183,16 +1216,49 @@ table tr td {
     font-size: 1.3rem;
     transition: .3s ease all;
 }
-
+.py27 .flatpickr-calendar .flatpickr-day.today {
+    border-color: #04246d;
+}
+.py27 .flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #04246d;
+    border-color: #04246d;
+}
+.py27.es.webfooter .form-control:focus {
+    border-color: #ce0011;
+}
+.py27 .step .img-fluid {
+    width: 70px;
+    object-fit: contain;
+}
 .py27 .auth-wrapper .auth-login-form {
     padding-right: 5px;
     overflow: auto;
     max-height: 300px;
+    overflow-x: hidden;
+}
+.py27 .auth-wrapper .btn-group .btn-flags {
+    padding: 0 5px;
+}
+.py27 .auth-wrapper .btn-group .img-fluid {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+.py27 .auth-wrapper .btn-group .icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+.py27 .form-check-primary .form-check-input:not(:disabled):checked, .form-check-primary .form-check-input:not(:disabled):focus {
+    border-color: #04246d;
 }
 .py27 .auth-login-form::-webkit-scrollbar {
     background: #dedede;
     width: 8px;
     border-radius: 5px;
+}
+.py27 #drop img, .py27 #drop span {
+    pointer-events: none;
 }
 .py27 .main-menu.menu-light .navigation > li.active > a {
     background: linear-gradient(118deg, #04246d, #2a58c3);
@@ -1201,6 +1267,14 @@ table tr td {
     font-weight: 400;
     border-radius: 4px;
 }
+.py27 .form-check-input:checked {
+    background-color: #04246d;
+    border-color: #04246d;
+}
+.py27 .form-check-input:focus {
+    border-color: #04246d;
+}
+
 .py27 .dropdown-item:active {
     color: #fff !important;
     background-color: #04246d !important;
@@ -1327,6 +1401,7 @@ table tr td {
     color: white;
     background: #ce0011;
     border: 1px solid #ce0011;
+    box-shadow: 0 8px 25px -8px #ce0011 !important;
 }
 .py27.es.webfooter .btn-outline-danger {
     border-color: #ce0011 !important;
@@ -1354,6 +1429,21 @@ table tr td {
 /*---------- py672 ----------*/
 .py672 .text-primary {
     color: #7367f0 !important;
+}
+.py672 .dropdown-item:hover {
+    color: #fff !important;
+    background-color: #7367f0 !important;
+}
+.py672 .dropdown-item:focus {
+    color: #fff !important;
+    background-color: #7367f0 !important;
+}
+.py672 .page-item.active .page-link {
+    background-color: #7367f0 !important;
+}
+.py672 .dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    background-color: #7367f0;
 }
 .py672 .badge-light-primary {
     color: #7367f0 !important;

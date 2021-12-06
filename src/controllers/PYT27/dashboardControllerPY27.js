@@ -80,6 +80,26 @@ exports.sesionstart = (req, res) => {
   })(req, res);
 };
 
+/*exports.formLogin = async (req, res) => {
+  const { error } = res.locals.messages;
+  if (req.params.token) {
+    const usuario = await Usuarios.findOne({
+      where: {
+        token: req.params.token,
+      },
+    });
+    if (!usuario) {
+    req.flash("error", "Token No válido o  Vencido, favor coloque su correo para reenviar el token de confirmación");
+      return res.redirect("/search-account-token");
+    }
+    usuario.validado="ok"
+    await usuario.save();
+    req.flash("success", "Token valido, inicie sesion ahora");
+    return res.redirect("/login27/PYT-27");
+  }
+}
+*/
+
 // Registro de usuarios
 exports.reguserpy27 = (req, res) => {
   console.log(req.body);
@@ -90,6 +110,24 @@ exports.reguserpy27 = (req, res) => {
     res.redirect('/register27/PYT-27');
   } else {
     DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
+      /*
+      const usuario = await Usuarios.findOne({ where: { email } });
+
+      if (!usuario) {
+        req.flash("error", "No existe esa cuenta");
+        console.log("error")
+        //res.redirect("/search-account");
+      }
+
+      // Usuario existe
+      usuario.token = crypto.randomBytes(20).toString("hex");
+      usuario.expiration = Date.now() + 3600000;
+
+      // Guardarlos en la BD
+      await usuario.save();
+      const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
+      res.redirect("/mailBienvenida/"+email+"/" + usuario.token);
+      */
       res.redirect("/login27/PYT-27")
     }).catch((err) => {
       console.log(err)
@@ -214,6 +252,79 @@ exports.verifypackgesuser = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error27/PYT-27");
   });
+};
+
+// ! EMAIL REGISTER
+exports.emailregister = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/auth/verifyemail", {
+      pageName: "AeroCoin - Verify Email",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true,
+      email: true
+    });
+};
+
+exports.emailregtemplate = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/welcome", {
+      pageName: "AeroCoin - Email Register",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true,
+      email: true
+    });
+};
+
+exports.emaildeposit = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/deposits", {
+      pageName: "AeroCoin - Confirm Deposits",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true,
+      email: true
+    });
+};
+
+exports.emailretreats = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/retreats", {
+      pageName: "AeroCoin - Confirm Retreats",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true,
+      email: true
+    });
 };
 
 exports.login = (req, res) => {
@@ -1276,28 +1387,23 @@ exports.aeropresale = (req, res) => {
       let aerocoin = JSON.parse(response)[0];
       console.log(aerocoin)
 
-    DataBase.GetControlBTC().then((response2)=>{
-      let btcprice = JSON.parse(response2)[0];
-      console.log(btcprice)
-
-    DataBase.GetControlBNB().then((response3)=>{
-      let bnbprice = JSON.parse(response3)[0];
-      console.log(bnbprice)
-
       // TRAER CUENTAS PARA PAGAR EN BTC
       DataBase.GetBTC().then((btc)=>{
         let allbtc = JSON.parse(btc)[0];
         console.log(allbtc)
+        console.log("BTC")
 
         // TRAER CUENTAS PARA PAGAR EN BNB
         DataBase.GetBNB().then((bnb)=>{
           let allbnb = JSON.parse(bnb)[0];
           console.log(allbnb)
+          console.log("BNB")
 
         // TRAER CUENTAS PARA PAGAR EN USDT
         DataBase.GetUSDT().then((usdt)=>{
           let allusdt = JSON.parse(usdt)[0];
           console.log(allusdt)
+          console.log("USDT")
 
       let idUser = res.locals.user.id;
 
@@ -1320,22 +1426,12 @@ exports.aeropresale = (req, res) => {
       roleClient,
       presale,
       allpays,
-      aerocoin, btcprice, bnbprice,
+      aerocoin,
       allbtc, allbnb, allusdt,
       verify, unverify, pendingverify,
       aero: true,
       avalibleBalance
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

@@ -1584,64 +1584,10 @@ module.exports = {
           });
         });
     },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlBTC() {
-        return new Promise((resolve, reject) => {
-          BTC.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlBNB() {
-        return new Promise((resolve, reject) => {
-          BNB.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
     // CONTROL AEROCOIN TH PRECIO ADMIN
     ControlAeroCoin(price) {
         return new Promise((resolve, reject) => {
         AeroCoin.create({ price: price })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
-    // CONTROL BTC PRECIO ADMIN
-    ControlBTC(price) {
-        return new Promise((resolve, reject) => {
-        BTC.create({ price: price })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
-    // CONTROL BNB PRECIO ADMIN
-    ControlBNB(price) {
-        return new Promise((resolve, reject) => {
-        BNB.create({ price: price })
             .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve('Datos agregados satisfactoriamente');
