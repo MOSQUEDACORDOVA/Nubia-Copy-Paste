@@ -1,0 +1,269 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div class="app-content content py27">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
+            <section id="pricing-plan">
+                {{#if unverify}}
+                <div class="alert alert-warning" role="alert">
+                    <div class="alert-body">
+                        ¡Account not verified! In order to enjoy all our services you must <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#verificar">verify your account.</a>
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if pendingverify}}
+                <div class="alert alert-info" role="alert">
+                    <div class="alert-body">
+                        Your verification has been successfully submitted for review, this process may take a while, please stay tuned!
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if verify}}
+                <div class="alert alert-success" role="alert">
+                    <div class="alert-body">
+                        ¡Verified Account!
+                    </div>
+                </div>
+                {{/if}}
+
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-primary" role="alert">
+                            <div class="alert-body text-primary"><strong>Te encuentras en una fase de pre-venta</strong>, mantente atento al lanzamiento de la plataforma !!!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="knowledge-base-search">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card knowledge-base-bg text-center" style="background-image: url('../../../app-assets/images/banner/banner.png')">
+                                <div class="card-body">
+                                    <h2 class="text-primary">Te encuentras en una fase de pre-venta</h2>
+                                    <p class="card-text mb-2">
+                                        <span>Mantente atento al </span><span class="fw-bolder">lanzamiento de la plataforma !!!</span>
+                                    </p>
+                                    <a href="/presale/PYT-24" class="btn btn-primary">Empieza a comprar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> --->
+
+                <!-- Dashboard Ecommerce Starts -->
+          
+                <div class="row"> 
+                    <div class="col-12 col-md-6 col-xl-7">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="carousel-example-caption" class="carousel slide" data-bs-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        <li data-bs-target="#carousel-example-caption" data-bs-slide-to="0" class=""></li>
+                                        <li data-bs-target="#carousel-example-caption" data-bs-slide-to="1" class=""></li>
+                                        <li data-bs-target="#carousel-example-caption" data-bs-slide-to="2" class="active" aria-current="true"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/buy.jpg">
+                                        </div>
+                                        <div class="carousel-item">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/call.jpg">
+                                        </div>
+                                        <div class="carousel-item active">
+                                            <img class="img-fluid rounded-1" src="../../../app-assets/images/py27/buynow-2.jpg">
+                                        </div>
+                                    </div>
+                                    <a class="carousel-control-prev" data-bs-target="#carousel-example-caption" role="button" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" data-bs-target="#carousel-example-caption" role="button" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="visually-hidden">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-xl-5">
+                        <div class="row p-0">
+                            <div class="col-12">
+                                <div class="card text-center">
+                                    <div class="card-body">
+                                        <div class="avatar bg-light-primary p-50 mb-1">
+                                            <div class="avatar-content">
+                                                <i class="feather font-medium-5 text-primary" data-feather='credit-card'></i>
+                                            </div>
+                                        </div>
+                                        <h2 class="fw-bolder font-medium-5">{{avalibleBalance}} ACN</h2>
+                                        <p class="card-text">Balance</p>
+                                        <a href="/aeropresale/PYT-27" class="btn btn-outline-primary">Buy Coins</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--- DEPOSITS-->  
+                    <div class="col-12" id="deposits">
+                        <div class="card">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer" style="overflow: hidden"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Deposits Record</h6></div></div>
+                                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex align-items-center">Show 
+                                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="7">7</option>
+                                                    <option value="10">10</option><option value="25">25</option>
+                                                    <option value="50">50</option><option value="75">75</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="" role="grid" aria-describedby="DataTables_Table_0_info" style="">
+                                    <thead>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Transaction type</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Code Wallet</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">AeroCoins</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Amount</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Status</th></tr>
+                                    </thead>
+                                    <tbody>
+                                    {{#if depositos}}
+                                        {{#each depositos as |item i|}}
+                                        <tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{metodos_pago.transaction_type}}</td>
+                                            <td style="white-space: nowrap;">{{metodos_pago.code_wallet}}</td>
+    
+                                            <td style="white-space: nowrap;">{{amountAero}}</td>
+                                            <td style="white-space: nowrap;">{{price}} {{metodos_pago.transaction_type}}</td>
+                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td>
+                                                {{#estadodepositospy27 status}}{{/estadodepositospy27}}
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                    {{else}}
+                                        <tr>
+                                            <td style="white-space: nowrap;">There are no deposits.</td>
+                                        </tr>
+                                    {{/if}}
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--- DEPOSITS-->  
+                </div>
+            </section>
+
+            <!--- MODAL ---> 
+            <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Account Verification</h1>
+                            <p class="text-center">Enter a photo of your identity document, with both sides. The data provided must match the identification data registered.</p>
+                            
+                            
+                            <form action="/solicitverifypy27" method="POST" class="card-body">
+                             <p class="card-text mb-0">Identification document</p>
+                        
+                                <select name="nationality" id="prefijo" class="form-select" required>
+                                <option value=""> Select </option>
+                                <option value="1">Passport</option>
+                                <option value="2">DNI </option>
+                            </select><br>
+                            
+                                <p class="card-text mb-0">Front</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                     
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                <p class="card-text mb-0">Back</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                     
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                
+                                <input type="submit" class="btn btn-primary" value="Send verification">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    let options = {
+        chart: {
+            height: 280,
+            type: "area"
+        },
+        dataLabels: {
+            enabled: false
+        },
+        series: [
+            {
+            name: "Ganancias",
+            data: [45, 52, 38, 45, 19, 23, 2]
+            }
+        ],
+        fill: {
+            type: "gradient",
+            gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 90, 100]
+            }
+        },
+        xaxis: {
+            categories: [
+            "Lunes",
+            "Martes",
+            "Miercoles",
+            "Jueves",
+            "Viernes",
+            "Sabado",
+            "Domingo"
+            ]
+        }
+    };
+    let chart = new ApexCharts(document.querySelector("#prueba"), options);
+
+    chart.render();
+</script>

@@ -1,0 +1,99 @@
+<style>
+  .none{
+    display: none;
+  }
+</style>
+<script>
+  $(function(){
+   if ( $("#sucursal_select option[value]") =='{{vehiculos_let.sucursaleId}}' ){
+console.log("option doesn't exist!");
+//$('#sucursal_select').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
+
+}else{
+  console.log("option exist!");
+ // $('#sucursal_select').prepend('<option selected value="{{vehiculos_let.sucursaleId}}">' + found.cp.asentamiento + '</option>');
+  //$('#sucursal_select').find('option:selected').remove().end();
+$("#sucursal_select option[value='{{vehiculos_let.sucursaleId}}']").attr("selected", true);
+}
+  })
+</script>
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+<input type="text" id="array_personal" hidden value="{{personal_}}">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    
+    <div class="card">
+<div class="card-body">
+            <form class="needs-validation was-validated" action="/save_vehiculos_py4_edit" method="post">
+            <input  type="text" name="id_vehiculo" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" value="{{vehiculos_let.id}}"
+                  hidden>
+              <div class="form-group"><label for="register-firstName" class="form-label">Matrícula</label>
+              <input
+                  type="text" name="matricula" placeholder="Matricula" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2"
+                   value="{{vehiculos_let.matricula}}"></div>
+              <div class="form-group"><label for="register-lastName" class="form-label">Marca</label><input
+                  type="text" name="marca" placeholder="Marca" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2" value="{{vehiculos_let.marca}}"
+                 ></div>
+              
+              <div class="form-group"><label for="register-direccion"
+                  class="form-label">Módelo</label><input type="text" name="modelo"
+                  placeholder="Módelo" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" value="{{vehiculos_let.modelo}}"
+                 ></div>
+
+                 <div class="form-group"><label for="register-direccion"
+                  class="form-label">Año</label><input type="text" name="anio"
+                  placeholder="Año" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" value="{{vehiculos_let.anio}}"
+                 ></div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Tipo</label><input type="text" name="tipo"
+                  placeholder="Tipo" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" value="{{vehiculos_let.tipo}}"
+                 ></div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Capacidad</label><input type="number" name="capacidad"
+                  placeholder="Capacidad" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" value="{{vehiculos_let.capacidad}}"
+                 ></div>
+                 
+              <div class="form-group"><label for="register-ciudad" class="form-label">Status</label><select
+                  name="status" placeholder="Status" aria-describedby="register-cargo" tabindex="3"
+                  class="form-control mb-2"                 >
+                  <option selected=""> {{vehiculos_let.status}} </option>
+                  <option > Operativo </option>
+                  <option> Inoperativo </option>
+
+                </select></div>             
+              <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
+                  name="sucursal" class="form-control mb-2" id="sucursal_select">
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                 
+                </select></div>
+
+          </div>
+          <div class="modal-footer">
+             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+          </div>
+          </form>
+        </div>
+</div>
+</div>
+
+
+
+
+<!-- END: Content-->

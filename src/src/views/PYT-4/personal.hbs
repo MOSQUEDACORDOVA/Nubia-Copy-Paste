@@ -1,0 +1,458 @@
+<style>
+  .none {
+    display: none;
+  }
+</style>
+
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  function ucwords(str, force) {
+    str = force ? str.toLowerCase() : str;
+    return str.replace(/(\b)([a-zA-Z])/g,
+      function (firstLetter) {
+        return firstLetter.toUpperCase();
+      });
+  }
+  $(document).ready(function () {
+    $('input[type="text"]').keyup(function (evt) { // force: true to lower case all letter except first 
+      // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
+      var cp_value = ucwords($(this).val(), true);
+      $(this).val(cp_value);
+    });
+  });
+</script>
+<input type="text" id="array_personal" hidden value="{{personal_}}">
+<input type="text" id="array_usuarios" hidden value="{{usuarios_}}">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    <div class="content-body">
+      <section id="basic-datatable">
+        <div class="row">
+          <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
+              data-bs-target="#addEmployed">
+              Agregar
+            </button>
+
+          </div>
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Personal</h4>
+                <p class="card-text"> Todo el Personal de la plataforma están acá, pronto podrás filtrarlos y
+                  modificarlos rápidamente. </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-basic_personal">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Nombre</th>
+                              <th>Email</th>
+                              <th>Cargo</th>
+                              <th>Salario</th>
+                              <th>Teléfono</th>
+                              <th>Opciones</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+           {{#if admin}} <div class="card">
+              <div class="scrolling-inside-modal">
+                <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2"
+                  data-bs-toggle="modal" data-bs-target="#addUser">
+                  Agregar
+                </button>
+              </div>
+
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Usuarios</h4>
+                <p class="card-text"> Los usuarios activos del sistema </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-basic_usuarios">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Usuario</th>
+                              <th>Email</th>
+                              <th>Tipo</th>
+                              <th>Zona</th>
+                              <th>Opciones</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>{{/if}}
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Modal to add new record -->
+    <!-- Modal -->
+    <div class="modal fade" id="addEmployed" tabindex="-1" aria-labelledby="addEmployedTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEmployedTitle">Agregar Empleado</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="save_personal_py4" method="post">
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" required>
+              </div>
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName" tabindex="2"
+                  class="form-control mb-2"></div>
+
+              <div class="form-group"><label for="register-direccion" class="form-label">Dirección</label><input
+                  type="text" name="direccion" placeholder="Dirección" aria-describedby="register-direccion"
+                  tabindex="5" class="form-control mb-2"></div>
+
+              <div class="form-group"><label for="register-ciudad" class="form-label">Cargo</label><select name="cargo"
+                  placeholder="cargo" aria-describedby="register-cargo" tabindex="3" class="form-control mb-2">
+                  <option selected=""> Chofer </option>
+                  <option> Logistica </option>
+
+                </select></div>
+              <div class="form-group"><label for="register-sucursal" class="form-label">Vehiculo Asignado</label>
+                <select class="select2 form-select mb-2 form-control" id="select_vehiculo" name="vehiculo">
+                  <option value="default">Seleccione un vehiculo</option>
+                  {{#each vehiculos_let as |vehiculo i|}}
+                  <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
+                  {{/each}}
+                </select>
+                </select>
+              </div>
+              <div class="form-group"><label for="register-direccion" class="form-label">Fecha Ingreso</label><input
+                  type="date" name="fecha_ingreso" placeholder="" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2"></div>
+              <div class="form-group"><label for="register-salario" class="form-label">Salario</label><input type="text"
+                  name="salario" placeholder="Salario" aria-describedby="register-salario" tabindex="6"
+                  class="form-control mb-2"></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-sucursal" class="form-label">Sucursal</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2">
+                  <option selected=""> Seleccione una sucursal </option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email" tabindex="25"
+                  class="form-control mb-2"></div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="save_personal_py4btn">Regístrate</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="addUser" tabindex="-1" aria-labelledby="addUserTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addUserTitle">Agregar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="reguserPy4">
+              <div class="mb-1">
+                <label for="register-username" class="form-label">Tipo</label>
+                <select class="select2 w-100" name="tipo" id="tipo_reg_per">
+                  <option value="" label="blank"></option>
+                  <option value="Director">Director</option>
+                  <option value="Gerente de Sucursal">Gerente de Sucursal</option>
+                  <option value="Logistica">Logistica</option>
+                  <option value="Chofer">Chofer</option>
+                  <option value="Cliente">Cliente</option>
+                </select>
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="reg_per_nombre" name="nombre" placeholder="john@example.com"
+                  aria-describedby="register-email" tabindex="2" />
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="register_email_pers" name="email" placeholder="john@example.com"
+                  aria-describedby="register-email" tabindex="2" />
+              </div>
+
+              <div class="mb-1">
+                <label for="register-password" class="form-label">Password</label>
+
+                <div class="input-group input-group-merge form-password-toggle">
+                  <input type="password" class="form-control form-control-merge" id="reg_perspassword" name="password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                    aria-describedby="register-password" tabindex="3" />
+                  <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                </div>
+              </div>
+              <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="reg_pers_zona">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="reg_personal">Registrar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edit_user" tabindex="-1" aria-labelledby="edit_userTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit_userTitle">Editar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="edit_user_form">
+              <input type="hidden" class="form-control" id="edit_per_id" name="id_user"/>
+              <div class="mb-1">
+                <label for="register-username" class="form-label">Tipo</label>
+                <select class="form-control w-100" name="tipo" id="tipo_edit_per">
+                  <option value="" label="blank"></option>
+                  <option value="Director">Director</option>
+                  <option value="Gerente de Sucursal">Gerente de Sucursal</option>
+                  <option value="Logistica">Logistica</option>
+                  <option value="Chofer">Chofer</option>
+                  <option value="Cliente">Cliente</option>
+                </select>
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="edit_per_nombre" name="nombre" placeholder="john@example.com"
+                  aria-describedby="register-email" tabindex="2" />
+              </div>
+              <div class="mb-1">
+                <label for="register-email" class="form-label">Email</label>
+                <input type="text" class="form-control" id="edit_email_pers" name="email" placeholder="john@example.com"
+                  aria-describedby="register-email" tabindex="2" />
+              </div>
+
+
+              <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="edit_pers_zona">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_perso_user">Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+        <div class="modal fade" id="editar_personal" tabindex="-1" aria-labelledby="editar_personalTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editar_personalTitle">Agregar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="save_personal_py4_edit">
+              <input type="hidden" class="form-control" id="edit_pers_id" name="id_personal"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+             <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" id="edit_personal_firtname"></div>
+
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2" id="edit_personal_lastname"></div>
+              
+              <div class="form-group"><label for="register-direccion"
+                  class="form-label">Dirección</label><input type="text" name="direccion"
+                  placeholder="Dirección" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" id="edit_personal_direccion"></div>
+                 
+              <div class="form-group"><label for="register-ciudad" class="form-label">Cargo</label><select
+                  name="cargo" placeholder="cargo" aria-describedby="register-cargo" tabindex="3"
+                  class="form-control mb-2" id="edit_personal_cargo" >
+                  <option value="Chofer">Chofer</option>
+                  <option value="Logistica">Logistica</option>
+
+                </select></div>
+                <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Vehiculo Asignado</label>
+                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo_edit_personal" name="vehiculo">
+                    {{#each vehiculos_let as |vehiculo i|}}
+                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
+                        {{/each}}
+                        </select>
+                </select>
+                </div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
+                  placeholder="" aria-describedby="register-direccion" tabindex="5" id="edit_personal_ingreso"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-salario" class="form-label">Salario</label><input type="text"
+                  name="salario" placeholder="Salario" aria-describedby="register-salario" tabindex="6"
+                  class="form-control mb-2" id="edit_personal_salario"
+                 ></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" id="edit_personal_tlf"
+                    class="form-control mb-2">
+                </div>
+              </div>              
+               <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="edit_perso_zona">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+
+              <div class="form-group">
+                <label for="register-email" class="form-label">Correo</label>
+                <input type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email" tabindex="25" class="form-control mb-2" id="edit_personal_correo">
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_personal_save">Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="cambiapassmodal" tabindex="-1" aria-labelledby="cambiapassTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="cambiapassTitle">Cambiar clave de usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="cambia_pass_form">
+              <input type="hidden" class="form-control" id="cambia_pass_id" name="id_"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Contraseña nueva</label>
+             {{!-- <input
+                  type="password" name="pass" placeholder="*" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" id="pass">
+              </div>                               --}}
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge"  type="password" name="pass" placeholder="············"
+                                                aria-describedby="register-password" tabindex="3" id="pass"/><span
+                                                class="input-group-text cursor-pointer" ><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-eye">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg></span>
+                                        </div>
+
+              <div class="form-group"><label for="register-lastName" class="form-label">Confirmar contraseña</label>
+              </div>
+                                                      <div class="input-group input-group-merge form-password-toggle">
+                                            <input class="form-control form-control-merge" type="password" name="pass_confirm" placeholder="············"
+                                                aria-describedby="register-password" tabindex="3" id="pass_confirm"/><span
+                                                class="input-group-text cursor-pointer" ><svg
+                                                    xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-eye">
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                    <circle cx="12" cy="12" r="3"></circle>
+                                                </svg></span>
+                                        </div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="cambiapass_save">Guardar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </section>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<!-- END: Content-->

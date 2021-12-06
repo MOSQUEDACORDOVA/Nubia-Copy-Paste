@@ -1,0 +1,230 @@
+<script>
+  $(document).ready(function(){
+ if ( $("#sucursal_select option[value]") =='{{cliente_let.sucursaleId}}' ){
+console.log("option doesn't exist!");
+//$('#sucursal_select').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
+
+}else{
+  console.log("option exist!");
+$("#sucursal_select option[value='{{cliente_let.sucursaleId}}']").attr("selected", true);
+}
+  $('.cp_select').on('keyup', (e)=>{
+     $(".select_asentamiento").empty();
+let cp = e.target.value
+console.log(cp)
+const data = new FormData();
+data.append("cp", cp);
+$.ajax({
+      url: '/consultaCP',
+      type: 'POST',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      /*xhr: function () {        
+          var xhr = $.ajaxSettings.xhr();
+          xhr.upload.onprogress = function (event) {
+              var perc = Math.round((event.loaded / event.total) * 100);
+             // $("#nombreArchivoCalendario1").text(inputFile.name);
+             
+              $("#progressBar1").text(perc + '%');
+              $("#progressBar1").css('width', perc + '%');
+          };
+          return xhr;
+      },
+      beforeSend: function (xhr) {
+        displayLoading()
+          $("#progressBar1").text('0%');
+          $("#progressBar1").css('width', '0%');
+      },*/
+      success: function (data, textStatus, jqXHR)
+      {  
+     var municipio = ""
+for (let i = 0; i < data.cp_let.length; i++) {
+  
+  municipio = data.cp_let[0].municipio
+   $(".select_asentamiento").append('<option value="'+data.cp_let[i].id+'">'+data.cp_let[i].asentamiento+'</option>');
+}
+console.log(municipio)
+$('.municipio').val(municipio)
+      },
+      error: function (jqXHR, textStatus) { 
+        console.log('error:'+ jqXHR)
+      }
+  });
+
+
+
+  })
+  
+})
+</script>
+<div class="app-content content" style="transition:none">
+    <div class="content-overlay"></div>
+
+    <div class="card">
+<div class="card-body">
+      <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_cliente" method="post">
+  <input type="hidden" name="id_cliente" value="{{cliente_let.id}}">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" autofocus required value="{{cliente_let.firstName}}">
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
+                    <input type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2" value="{{cliente_let.lastName}}">
+                      </div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control cp_select" id="cp_select" value="{{cliente_let.estado}}">
+                                </div>
+
+<div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly>
+                                </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control municipio"  id="municipio" readonly value="{{cliente_let.municipio}}">
+                                </div>          
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                        <select class="select2 form-select select_asentamiento" id="select_asentamiento" name="asentamiento">
+                            <option value="{{cliente_let.cp.id}}">{{cliente_let.cp.asentamiento}}</option>
+                        </select>
+
+                        </div>
+                    <div class="form-group" hidden><label for="register-fraccionamiento"
+                            class="form-label">Fraccionamiento</label>
+                            <input type="text" name="fraccionamiento"
+                            placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
+                            class="form-control mb-2" value="{{cliente_let.fraccionamiento}}">
+                    </div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2" value="{{cliente_let.coto}}"></div>
+
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2" value="{{cliente_let.casa}}"></div>
+
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2" value="{{cliente_let.calle}}"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                    <input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2" value="{{cliente_let.avenida}}"></div>
+
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9"
+                            class="form-control mb-2" value="{{cliente_let.referencia}}"></div>
+
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11"
+                                class="form-control mb-2" value="{{cliente_let.telefono}}">
+                        </div>
+                    </div>
+
+<div class="divider">
+                <div class="divider-text">Familiares</div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
+                  1</label>
+                  <input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_1" tabindex="12"
+                  class="form-control mb-2" value="{{cliente_let.nombre_familiar_1}}"
+                 >
+                 </div>
+              <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
+                  1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_1" tabindex="13"
+                  class="form-control mb-2" value="{{cliente_let.apellido_familiar_1}}"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
+                  1</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                    class="form-control mb-2" value="{{cliente_let.telefono_familiar_1}}">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
+                  2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_2" tabindex="15"
+                  class="form-control mb-2" value="{{cliente_let.nombre_familiar_2}}"
+                 ></div>
+              <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
+                  2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_2" tabindex="16"
+                  class="form-control mb-2" value="{{cliente_let.apellido_familiar_2}}"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
+                  2</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                    class="form-control mb-2" value="{{cliente_let.telefono_familiar_2}}">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                  cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                  name="tipo_cliente" class="form-control mb-2">
+                  <option selected=""> {{cliente_let.tipo}} </option>
+                  <option > Residencial </option>
+                  <option> Negocio </option>
+                  <option> Punto de venta </option>
+                  <option> Sucursal </option>
+                  <option> Independiente </option>
+                </select></div>
+              <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                  cliente?</label>
+                <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
+                    name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                    class="custom-control-input me-1" value="SI"><label for="customCheck1" class="custom-control-label">Sí</label>
+                </div>
+              </div>
+              <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
+                  pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
+                  mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                  class="form-control mb-2" value="{{cliente_let.fecha_ultimo_pedido}}"></div>
+              <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de garrafones
+                  en el último pedido</label><input type="text" name="utimos_botellones" placeholder="10"
+                  aria-describedby="register-utimos_botellones" tabindex="23"
+                  class="form-control mb-2" value="{{cliente_let.ultimos_botellones}}"></div>
+                           <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
+                  name="sucursal" class="form-control mb-2" id="sucursal_select">
+                  
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+              <div class="divider">
+                <div class="divider-text">Acceso</div>
+              </div>
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                  tabindex="25" class="form-control mb-2" value="{{cliente_let.email}}"
+                 ></div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+            </div>
+            </form>
+            </div>
+            </div>
+</div>
+<!-- END: Content-->

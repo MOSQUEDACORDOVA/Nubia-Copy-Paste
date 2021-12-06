@@ -1,0 +1,272 @@
+   
+   
+   {{#if login}}{{else}}
+   <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+            <!-- BEGIN: Footer-->    
+            <footer class="footer footer-static footer-light {{#if py21}}py21{{/if}} {{#if py24}}py24{{/if}}">
+                <p class="clearfix mb-0">
+                    <span class="float-md-start d-block d-md-inline-block mt-25">MOSQUEDA CORDOVA &copy; 2021</span>
+                </p>
+            </footer>
+            <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+            <!-- END: Footer-->
+    {{/if}}
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+  
+   
+  
+     <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+    <!-- END: Page JS-->
+
+    {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
+    <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
+
+    {{#if py21}}
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+    {{/if}}
+{{#if py4}}
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+ <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+    
+    <!-- BEGIN: Page Vendor JS-->
+     <script src="../../../app-assets/vendors/js/extensions/jquery.contextMenu.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/jquery.ui.position.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
+    <!-- END: Page Vendor JS-->
+    
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>
+
+    
+    {{#if disabled_chofer}}
+    {{else}}
+    <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
+    <script src="../../../dataPY4/editar_pedido.js"></script>
+    
+    <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
+    <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+    {{/if}}
+    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+    <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+    {{#if disabled_chofer}}
+    
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    {{/if}}
+    {{#if cupones}}
+   
+    <script src="../../../assets/js/qrcode.js"></script>
+    <script src="../../../dataPY4/table-datatables-cupones.js"></script>
+   
+    {{/if}}
+      {{#if notificaciones}}   
+    <script src="../../../dataPY4/table-datatables-notificaciones.js"></script>   
+    {{/if}}
+     {{#if personal}}    
+     
+        <script src="../../../dataPY4/table-datatables-personal.js"></script>
+    {{/if}}
+    {{#if corte}}
+       <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+    <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+     <!-- END: Page Vendor JS-->
+    <script src="../../../dataPY4/table-datatables-corte.js"></script>
+    <!-- END: Page JS-->
+    {{/if}}
+       {{#if carga_init}}
+       <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+    <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+     <!-- END: Page Vendor JS-->
+    <script src="../../../dataPY4/table-datatables-carga.js"></script>
+    <!-- END: Page JS-->
+    {{/if}}
+    {{#if users1}}
+    <!-- END: Page Vendor JS-->
+    <script src="../../../dataPY4/table-datatables-basic.js"></script>  
+        <script src="../../../dataPY4/table-datatables-etiquetas.js"></script>
+    
+    <!-- END: Page JS-->
+        {{/if}}
+          {{#if vehiculos}}
+       <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+    <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+     <!-- END: Page Vendor JS-->
+    <script src="../../../dataPY4/table-datatables-vehiculos.js"></script>
+    <!-- END: Page JS-->
+    {{/if}}
+    {{#if dash}}
+     <!-- BEGIN: Page JS-->
+    <!-- END: Page Vendor JS-->
+    {{#if personal}}
+        <script src="../../../dataPY4/table-datatables-personal.js"></script>
+    {{/if}}      
+    <!-- END: Page JS-->
+    {{/if}}
+    {{#if sucursales}}
+        <script src="../../../dataPY4/table-datatables-sucursales.js"></script>
+    {{/if}}
+    <script src="../../../assets/js/datarepit.js"></script>
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script>
+    <!-- END: Page JS-->  
+    {{/if}}
+
+
+    {{#if py24}}
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+        <script src="../../../app-assets/js/scripts/pages/page-pricing.js"></script>
+        <script src="../../../app-assets/js/scripts/cards/card-analytics.js"></script>
+        <script src="../../../app-assets/js/scripts/pages/modal-add-new-cc.js"></script>
+        
+        <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+        <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+        <script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+        
+    {{/if}}
+    {{#if py27}}
+    <!-- cambios jorge JS-->
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+        <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script>
+    {{/if}}
+    {{#if py672}}
+        <!-- BEGIN: Page Vendor JS-->
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+        <!-- END: Page Vendor JS-->
+
+        <!-- BEGIN: Theme JS-->
+        <script src="../../../app-assets/js/core/app-menu.js"></script>
+        <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- END: Theme JS-->
+
+        <!-- BEGIN: Page JS-->
+        <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+        <!-- END: Page JS-->
+
+    {{/if}}
+
+    <script>
+         $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+            
+              $('#button_modal_init').click()
+			
+        
+        })
+
+		$(document).ready(function(){
+             
+   if ( $("#msgs").length ) {
+    let mensaje = $('#msgs').text();
+  Swal.fire(mensaje)
+ }
+        $('#basicSelect').on('change',(e)=>{
+				 var value = $('#basicSelect').val()
+				 console.log(value)
+
+				 if(value == "default"){
+					 return
+				 }else{
+					console.log(value)
+					window.location.href = value;
+				 }
+            })
+		})
+    </script>
+</body>
+<!-- END: Body-->
+
+</html>

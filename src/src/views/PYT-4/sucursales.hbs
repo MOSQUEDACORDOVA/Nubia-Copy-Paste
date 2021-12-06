@@ -1,0 +1,187 @@
+<style>
+  .none {
+    display: none;
+  }
+</style>
+<script>
+  $(function(){
+$('#select_gerente').on('change', (e)=>{
+  let id = $('#select_gerente').find(':selected').data('id');
+  console.log(id)
+  $('input[name=id_gerente]').val(id)
+})
+  })
+</script>
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    <div class="content-body">
+      <section id="basic-datatable">
+        <div class="row">
+          <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
+              data-bs-target="#add_sucursal">
+              Agregar
+            </button>
+
+
+
+          </div>
+          <div class="col-12">
+
+            <div class="card">
+
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Zonas</h4>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-basic_sucursales">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Nombre</th>                              
+                              <th>Teléfono</th>
+                              <th>Opciones</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Modal to add new record -->
+    <!-- Modal -->
+    <div class="modal fade" id="add_sucursal" tabindex="-1" aria-labelledby="addEmployedTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEmployedTitle">Agregar zona</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" action="/save_sucursal_py4" method="post">
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" required>
+              </div>
+              <div class="form-group d-none"><label for="register-direccion" class="form-label">Dirección</label><input
+                  type="text" name="direccion" placeholder="Dirección" aria-describedby="register-direccion"
+                  tabindex="5" class="form-control mb-2"></div>
+
+<div style="display: none;">
+<div class="form-group"><label for="register-ciudad" class="form-label">Longitud</label>
+              <input type="text" name="longitud" placeholder="Longitud" tabindex="5" class="form-control mb-2">
+              </div>
+              <div class="form-group"><label for="register-ciudad" class="form-label">Latitud</label>
+              <input type="text" name="latitud" placeholder="Latitud" tabindex="5" class="form-control mb-2">
+              </div>
+</div>
+            
+
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
+                </div>
+              </div>
+              <div class="form-group d-none"><label for="register-sucursal" class="form-label">Gerente</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="gerente" class="form-control mb-2" id="select_gerente">
+                  <option selected="" >Seleccione un gerente</option>
+                  {{#each gerentes_let as |gerente i|}}
+                  <option data-id="{{id}}"> {{name}} </option>
+                  {{/each}}
+                </select>
+                <input type="text" name="id_gerente" tabindex="5" class="form-control mb-2" hidden>
+                </div>
+
+                <div class="form-group d-none"><label for="register-telefono" class="form-label">Teléfono Gerente</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_gerente" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
+                </div>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light">Registrar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="edit_zone" tabindex="-1" aria-labelledby="edit_userTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit_userTitle">Editar Zona</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="editar_zona">
+              <input type="hidden" class="form-control" id="edit_id_zona" name="id_"/>
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                <input type="text" name="nombre" placeholder="Nombre" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" required id="nombre_zona_edit">
+              </div>        
+
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" id="tlf_zona_edit">
+                </div>
+              </div>
+              </div>
+          
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="edit_zona_save">Guardar</button>
+          </div>
+          </form></div>
+        </div>
+      </div>
+    </div>
+    </section>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+<!-- END: Content-->

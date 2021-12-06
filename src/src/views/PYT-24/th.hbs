@@ -1,0 +1,685 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<div class="app-content content">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <!-- Analytics card section -->
+            <section id="analytics-card">
+                <div class="row">
+                    <!-- TOTAL DE TH GRAFICA GENERAL -->
+                    {{#if machine}}
+                    <div class="col-12 col-lg-6 col-xl-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Capacidad Total de TH</h4>
+                                <i data-feather='edit' class="feather feather-bell ficon text-primary" type="button" data-bs-toggle="modal" data-bs-target="#editth"></i>
+                            </div>
+                            <div class="card-body graficas p-0" style="position: relative;">
+                                <div id="goal-overview-radial-bar-chart" class="my-2 d-none" style="min-height: 205.633px;">
+                                    <div class="circle">
+                                        <p class="mb-0" id="total">{{#totalth machine}}{{/totalth}}</p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="row border-top text-center mx-0 d-none">
+                                    <div class="col-6 border-end py-1">
+                                        <p class="card-text text-muted mb-0">Vendidos</p>
+                                        <h3 class="fw-bolder mb-0" id="vendidos">{{#totalthvendidos machine}}{{/totalthvendidos}}</h3>
+                                    </div>
+                                    <div class="col-6 py-1">
+                                        <p class="card-text text-muted mb-0">Disponible</p>
+                                        <h3 class="fw-bolder mb-0" id="disponibles">{{#totalthdisponibles machine}}{{/totalthdisponibles}}</h3>
+                                    </div>
+                                </div>
+                                <div class="my-2 mx-auto" style="display: block; max-width: 350px;">
+                                    <canvas id="chart"  class="d-block img-fluid"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="col-12">
+                        <div class="alert alert-warning my-1 alert-validation-msg" role="alert">
+                            <div class="alert-body d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info me-50"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                <span>No existen maquinas registradas actualmente !</span>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    
+                    {{#if data}}
+                    <div class="col-12 col-lg-6 col-xl-5">
+                        <div class="card card-statistics">
+                            <div class="card-header">
+                                <h4 class="card-title">Actualizar datos</h4>
+                            </div>
+                            <div class="card-body statistics-body">
+                                <div class="row">
+                                    {{!-- Precio TH --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-primary me-2">
+                                                <div class="avatar-content">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trending-up text-primary avatar-icon"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{data.price}} USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Precio TH</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- PRECIO TH --}}
+                                    {{!-- PORCENTAJE MANTENIMIENTO --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#mantenimiento">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-info me-2">
+                                                <div class="avatar-content">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user avatar-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{data.percentage_maintance}}%</h4>
+                                                <p class="card-text font-small-3 mb-0">Porcentaje de Mantenimiento</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- PORCENTAJE MANTENIMIENTO --}}
+                                    {{!-- PORCENTAJE DE ERROR --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#error">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-danger me-2">
+                                                <div class="avatar-content">
+                                            
+                                                    <i data-feather='alert-circle' width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box avatar-icon"></i>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{data.percentage_error}}%</h4>
+                                                <p class="card-text font-small-3 mb-0">Porcentaje de Error</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- PORCENTAJE DE ERROR --}}
+                                    {{!-- REFERIDOS --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#referidos">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-success me-2">
+                                                <div class="avatar-content">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{data.ref_earnings}} USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Ganancias por cada Referido</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- REFERIDOS --}}
+                                    {{!-- SALDO MINIMO RETIRO --}}
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#retiro">
+                                        <div class="d-flex align-items-center align-items-lg-start flex-row">
+                                            <div class="avatar bg-light-success me-2">
+                                                <div class="avatar-content">
+                                                    <i data-feather='credit-card' width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"></i>
+                                                </div>
+                                            </div>
+                                            <div class="my-auto">
+                                                <h4 class="fw-bolder mb-0">{{data.min_withdrawal}} USD</h4>
+                                                <p class="card-text font-small-3 mb-0">Saldo mínimo de retiro</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{!-- SALDO MINIMO RETIRO --}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Agregar Datos</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form form-vertical" method="POST" action="/th">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Precio de TH</label>
+                                                <input type="number" class="form-control" name="price" placeholder="60$ c/u" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Porcentaje de Mantenimiento</label>
+                                                <input type="number" class="form-control" name="maintance" placeholder="10%" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="">Porcentaje de Error</label>
+                                                <input type="number" id="" class="form-control" name="error" placeholder="5%" required>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="">Ganancias por cada Referido</label>
+                                                <input type="number" id="" class="form-control" name="earnings" placeholder="3$" required>
+                                            </div>
+                                        </div>--->
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label" for="">Saldo Mínimo de Retiro</label>
+                                                <input type="number" id="" class="form-control" name="minwithd" placeholder="50 BTC" required>
+                                            </div>
+                                        </div>
+          
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar</button>
+                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Cancelar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}} 
+                              
+                    <div class="col-12 mb-2">
+                        <a href="#" class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addth">Añadir Maquina</a>
+                        <!--<div class="alert alert-warning my-1 alert-validation-msg" role="alert">
+                            <div class="alert-body d-flex align-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info me-50"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                <span>La capacidad de TH se encuentra en <strong>50%</strong>. Mantente atento !!!.</span>
+                            </div>
+                        </div>-->
+                    </div> 
+
+                    <!-- MACHINE INFO -->
+                    {{#if machine}}
+                    <div class="col-md-6 col-12" id="machineInfo">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title" id="machineNum">Maquina 1</h4>
+                                <form action="/deletemachine" method="POST">
+                                    <input class="d-none" name="id" id="idMachine">
+                                    <button type="submit" class="btn">
+                                        <i data-feather='trash-2' class="ficon text-primary"></i>
+                                    </button>
+                                </form>
+                            </div>
+                            <div class="card-body graficas p-0" style="position: relative;">
+                                <div id="goal-overview-radial-bar-chart" class="my-2 d-none" style="min-height: 205.633px;">
+                                    <div class="circle">
+                                        <p class="mb-0" id="machineGrap"></p>
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="row border-top text-center mx-0 d-none">
+                                    <div class="col-6 border-end py-1">
+                                        <p class="card-text text-muted mb-0">Vendidos</p>
+                                        <h3 class="fw-bolder mb-0 text-primary" id="machineSoldOut">6</h3>
+                                        <h3 class="fw-bolder mb-0 text-primary" id="machineCapacity">6</h3>
+                                    </div>
+                                    <div class="col-6 py-1">
+                                        <p class="card-text text-muted mb-0">Disponible</p>
+                                        <h3 class="fw-bolder mb-0" id="machineAvalible">7</h3>
+                                    </div>
+                                </div>
+                                <div class="my-2 mx-auto" style="display: block; max-width: 350px;" id="grapContainer">
+                                    <canvas id="chart2" class="d-block img-fluid"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+
+                    {{#if machine}}
+                    <div class="col-md-6 col-12">
+                        <div class="card card-browser-states">
+                            <div class="card-header">
+                                <div>
+                                    <h4 class="card-title mb-1">Maquinas Minando</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {{#if machine}}
+                                {{#each machine as |mach i|}} 
+                                <div class="browser-states machines" role="button" data-machine-id="{{mach.id}}" data-machine-capacity="{{mach.th_capacity}}" data-machine-sold="{{mach.sold_out}}" data-machine-avalible="{{mach.avalible}}">
+                                    <div class="d-flex align-items-center justify-content-between w-100" style="pointer-events: none;">
+                                        <div class="d-flex">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu text-primary font-medium-5 me-1"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                                            <h6 class="align-self-center mb-0">Maquina {{#contadormaquinas i}}{{/contadormaquinas}}</h6>
+                                        </div>
+                                        <div class="d-flex align-items-center" style="position: relative;">
+                                            <span class="badge badge-pill-warning">
+                                                <div class="fw-bold text-body-heading me-1"><span class="badge badge-light-warning me-1">-13:47:53</span></div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/each}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div> 
+                    {{/if}}
+                </div>
+            </section>
+            <!--/ Analytics Card section -->
+            
+            {{!-- AÑADIR TH MODAL --}}
+            <div class="modal fade" id="addth" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="addNewCardTitle">Añadir Nueva Maquina</h1>
+                            <p class="text-center">Establecer poder de TH</p>
+
+                            <!-- form -->
+                            <form id="addNewCardValidation" class="row gy-1 gx-2 mt-75" method="POST" action="/addth">
+                                <div class="col-12">
+                                    <label class="form-label" for="modalAddCardNumber">Poder de TH</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="amount" class="form-control" type="number" min="0" placeholder="13 TH" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- AÑADIR TH MODAL --}}
+
+            {{!-- EDITAR TOTAL TH MODAL --}}
+            {{#if machine}}
+            <div class="modal fade" id="editth" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Capacidad Total de TH</p>
+
+                            <!-- form -->
+                            <form id="addNewCardValidation" class="row gy-1 gx-2 mt-75" onsubmit="return false" novalidate="novalidate">
+                                <div class="col-12">
+                                    <label class="form-label" for="modalAddCardNumber">Poder total de TH</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" placeholder="130 TH" value="{{#totalth machine}}{{/totalth}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalAddCardNumber">TH Vendidos</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" value="{{#totalthvendidos machine}}{{/totalthvendidos}}">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalAddCardNumber">TH Disponibles</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" value="{{#totalthdisponibles machine}}{{/totalthdisponibles}}" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <div class="modal fade" id="editth" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Capacidad Total de TH</p>
+
+                            <!-- form -->
+                            <form id="addNewCardValidation" class="row gy-1 gx-2 mt-75" onsubmit="return false" novalidate="novalidate">
+                                <div class="col-12">
+                                    <label class="form-label" for="modalAddCardNumber">Poder total de TH</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" placeholder="0" value="0">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalAddCardNumber">TH Vendidos</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" value="0">
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="modalAddCardNumber">TH Disponibles</label>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="" class="form-control" type="number" value="0" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/if}}
+            {{!-- EDITAR TOTAL TH MODAL --}}
+
+            {{#if data}}
+            {{!-- PRECIO TH MODAL --}}
+            <div class="modal fade" id="addNewCard" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Establecer precio de TH</p>
+
+                            <!-- form -->
+                            <form id="priceform" method="post" action="/updateth" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Precio de TH</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="price" name="price" class="form-control" type="number" min="0" placeholder="60$" value="{{data.price}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- PRECIO TH MODAL --}}
+
+            {{!-- MANTENIMIENTO MODAL --}}
+            <div class="modal fade" id="mantenimiento" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Establecer porcentaje de mantenimiento</p>
+
+                            <!-- form -->
+                            <form id="maintanceform" method="POST" action="/updatemaintance" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Cobro por mantenimiento</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="maintance" class="form-control" type="number" min="0" placeholder="15%" value="{{data.percentage_maintance}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- MANTENIMIENTO MODAL --}}
+
+            {{!-- ERROR MODAL --}}
+            <div class="modal fade" id="error" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Establecer porcentaje de error del servicio</p>
+
+                            <!-- form -->
+                            <form id="errorform" method="POST" action="/updateerror" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="modalAddCardNumber">Porcentaje de error</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="error" class="form-control add-credit-card-mask" type="number" min="0" placeholder="10%" value="{{data.percentage_error}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- ERROR MODAL --}}
+
+            {{!-- REFERIDOS MODAL --}}
+            <div class="modal fade" id="referidos" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Actualizar Datos</h1>
+                            <p class="text-center">Establecer ganancias por cada referido</p>
+
+                            <!-- form -->
+                            <form id="errorform" method="POST" action="/updateearnings" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Ganancias por referido</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="" name="earnings" class="form-control" type="number" min="0" placeholder="3 USD" value="{{data.ref_earnings}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- REFERIDOS MODAL --}}
+
+            {{!-- RETIRO MODAL --}}
+            <div class="modal fade" id="retiro" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="addNewCardTitle">Actualizar Datos</h1>
+                            <p class="text-center">Establecer un balance mínimo de retiro</p>
+
+                            <!-- form -->
+                            <form id="minwithdform" method="POST" action="/minwithd" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Saldo Mínimo de Retiro</label>
+                                    <input type="text" name="id" class="d-none" value="{{data.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="minwithd" name="minwithd" class="form-control add-credit-card-mask" type="number" placeholder="50 BTC" min="0" value="{{data.min_withdrawal}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-primary me-1 mt-1 waves-effect waves-float waves-light">Guardar</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- RETIRO MODAL --}}
+            {{/if}}
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let AllMachines = document.querySelectorAll('.machines');
+    let idMach = document.getElementById('idMachine');
+
+    if(AllMachines.length) {
+        let machModal = document.getElementById('machineInfo'),
+        machineNum = document.getElementById('machineNum'),
+        machineGrap = document.getElementById('machineGrap'),
+        machineCapacity = document.getElementById('machineCapacity'),
+        machineSoldOut = document.getElementById('machineSoldOut'),
+        machineAvalible = document.getElementById('machineAvalible');
+
+        AllMachines.forEach(machine => {
+            machine.addEventListener('click', (e) =>  {
+                SetMachineInfo(e.target);
+            });
+        });
+
+        SetInfo();
+    }
+
+    const SetMachineInfo = (mach) => {
+        if(mach) {
+            let num = mach.childNodes[1].childNodes[1].innerText,
+            total = parseInt(mach.getAttribute('data-machine-capacity')),
+            sold = parseInt(mach.getAttribute('data-machine-sold')),
+            aval = parseInt(mach.getAttribute('data-machine-avalible'));
+
+            idMach.value = mach.getAttribute('data-machine-id')
+            SetGrap(sold, total, aval);
+        }
+    }
+
+    function SetInfo () {
+        let num = AllMachines[0].childNodes[1].childNodes[1].innerText,
+        total = parseInt(AllMachines[0].getAttribute('data-machine-capacity')),
+        sold = parseInt(AllMachines[0].getAttribute('data-machine-sold')),
+        aval = parseInt(AllMachines[0].getAttribute('data-machine-avalible'));
+
+        idMach.value = parseInt(AllMachines[0].getAttribute('data-machine-id'));
+        machineNum.innerText = num;
+        SetGrap(sold, total, aval);
+    }
+
+    function SetGrap (sold, total, aval) {
+        const grapCont = document.getElementById('grapContainer');
+        let grap = document.getElementById('chart2'), clone = grap.cloneNode(true);
+        grap.remove();
+        grapCont.appendChild(clone);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [sold, total, aval],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart2'),
+            config
+        );
+
+    }
+</script>
+<script>
+    // GRAFICA GENERAL
+    let total = document.getElementById('total'),
+    disponibles = document.getElementById('disponibles'),
+    vendidos = document.getElementById('vendidos');
+
+    if(total && disponibles && vendidos) {
+        total = parseInt(total.innerText);
+        disponibles = parseInt(disponibles.innerText);
+        vendidos = parseInt(vendidos.innerText);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [vendidos, total, disponibles],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
+    }
+</script>

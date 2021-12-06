@@ -1,0 +1,112 @@
+<style>
+  .none{
+    display: none;
+  }
+</style>
+<script>
+  $(function(){
+   if ( $("#sucursal_select option[value]") =='{{personal_let.sucursaleId}}' ){
+console.log("option doesn't exist!");
+//$('#sucursal_select').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');  
+
+}else{
+  console.log("option exist!");
+$("#sucursal_select option[value='{{personal_let.sucursaleId}}']").attr("selected", true);
+}
+  })
+</script>
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+<input type="text" id="array_personal" hidden value="{{personal_}}">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    
+    <div class="card">
+<div class="card-body">
+            <form class="needs-validation was-validated" action="/save_personal_py4_edit" method="post">
+            <input
+                  type="text" name="id_personal" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" value="{{personal_let.id}}"
+                  hidden>
+              <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+              <input
+                  type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
+                  tabindex="1" autofocus="" class="form-control mb-2" value="{{personal_let.name}}"
+                  required></div>
+              <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
+                  type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
+                  tabindex="2" class="form-control mb-2" value="{{personal_let.lastName}}"
+                 ></div>
+              
+              <div class="form-group"><label for="register-direccion"
+                  class="form-label">Dirección</label><input type="text" name="direccion"
+                  placeholder="Dirección" aria-describedby="register-direccion" tabindex="5"
+                  class="form-control mb-2" value="{{personal_let.direccion}}"
+                 ></div>
+                 
+              <div class="form-group"><label for="register-ciudad" class="form-label">Cargo</label><select
+                  name="cargo" placeholder="cargo" aria-describedby="register-cargo" tabindex="3"
+                  class="form-control mb-2"  >
+                  <option selected=""> {{personal_let.cargo}} </option>
+                  <option > Chofer </option>
+                  <option> Logistica </option>
+
+                </select></div>
+                <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Vehiculo Asignado</label>
+                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo" name="vehiculo">
+                    <option value="{{personal_let.vehiculoId}}">{{personal_let.vehiculo.marca}} {{personal_let.vehiculo.modelo}}/{{personal_let.vehiculo.matricula}}</option>
+                    {{#each vehiculos_let as |vehiculo i|}}
+                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
+                        {{/each}}
+                        </select>
+                </select>
+                </div>
+                  <div class="form-group"><label for="register-direccion"
+                  class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
+                  placeholder="" aria-describedby="register-direccion" tabindex="5" value="{{personal_let.fecha_ingreso}}"
+                  class="form-control mb-2"
+                 ></div>
+              <div class="form-group"><label for="register-salario" class="form-label">Salario</label><input type="text"
+                  name="salario" placeholder="Salario" aria-describedby="register-salario" tabindex="6"
+                  class="form-control mb-2" value="{{personal_let.salario}}"
+                 ></div>
+              <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                    aria-describedby="register-telefono" tabindex="11" value="{{personal_let.telefono}}"
+                    class="form-control mb-2">
+                </div>
+              </div>              
+             <div class="form-group"><label for="register-sucursal"
+                  class="form-label">Sucursal</label><select aria-describedby="register-sucursal" tabindex="24"
+                  name="sucursal" class="form-control mb-2" id="sucursal_select">
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                  tabindex="25" class="form-control mb-2" value="{{personal_let.correo}}"
+                 ></div>
+          </div>
+          <div class="modal-footer">
+             <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+          </div>
+          </form>
+        </div>
+</div>
+</div>
+
+
+
+
+<!-- END: Content-->

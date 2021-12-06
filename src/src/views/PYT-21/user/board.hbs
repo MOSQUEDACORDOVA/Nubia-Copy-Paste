@@ -1,0 +1,372 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div class="app-content content py21">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
+            <section id="pricing-plan">
+                {{#if unverify}}
+                <div class="alert alert-warning" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta no verificada! Para poder disfrutar de todos nuestros servicios debes <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#verificar">verificar tu cuenta</a>.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if pendingverify}}
+                <div class="alert alert-info" role="alert">
+                    <div class="alert-body">
+                        ¡Su verificación se ah enviado a revisión correctamente, este proceso puede demorar un poco, por favor mantente atento!.
+                    </div>
+                </div>
+                {{/if}}
+
+                {{#if verify}}
+                <div class="alert alert-success" role="alert">
+                    <div class="alert-body">
+                        ¡Cuenta Verificada!
+                    </div>
+                </div>
+                {{/if}}
+
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-primary" role="alert">
+                            <div class="alert-body text-primary"><strong>Te encuentras en una fase de pre-venta</strong>, mantente atento al lanzamiento de la plataforma !!!</div>
+                        </div>
+                    </div>
+                </div>
+
+                <section id="knowledge-base-search">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card knowledge-base-bg text-center" style="background-image: url('../../../app-assets/images/banner/banner.png')">
+                                <div class="card-body">
+                                    <h2 class="text-primary">Te encuentras en una fase de pre-venta</h2>
+                                    <p class="card-text mb-2">
+                                        <span>Mantente atento al </span><span class="fw-bolder">lanzamiento de la plataforma !!!</span>
+                                    </p>
+                                    <a href="/presale/PYT-24" class="btn btn-primary">Empieza a comprar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section> --->
+
+                <!-- Dashboard Ecommerce Starts -->
+                <section id="dashboard-ecommerce">
+                    <div class="row match-height">                     
+                        <div class="col-lg-6 col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="header-left">
+                                        <h4 class="card-title">Ganancias diarias</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="prueba"></canvas>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="col-lg-6 col-12">
+                            <div class="row match-height">
+                                <!-- SALDO -->
+                                <div class="col-lg-6 col-md-4 col-6">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Saldo Disponible</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-success me-2">
+                                                    <div class="avatar-content">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card avatar-icon font-medium-3"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">{{avalibleBalance}} USD</h4>
+                                                    <p class="card-text font-small-3 mb-0">Saldo disponible</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/SALDO -->
+
+                                <!-- CAPITAL -->
+                                <div class="col-lg-6 col-md-4 col-6">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Capital</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-info me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather='box' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">
+                                                    {{#if capital}}
+                                                    <h4 class="fw-bolder mb-0">{{#capitalinvertidopy24 capital}}{{/capitalinvertidopy24}} USD</h4>
+                                                    {{else}}
+                                                    <h4 class="fw-bolder mb-0">0 USD</h4>
+                                                    {{/if}}
+                                                    <p class="card-text font-small-3 mb-0">Capital invertido</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ CAPITAL -->
+
+                                <!-- GANANCIAS -->
+                                <div class="col-lg-6 col-md-4 col-6">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Ganancias</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-warning me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather='trending-up' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">{{#gananciasgeneralespy24 depositos}}{{/gananciasgeneralespy24}} USD</h4>
+                                                    <p class="card-text font-small-3 mb-0">Ganancias generales</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ GANANCIAS -->
+
+                                <!-- REFERIDOS -->
+                                <div class="col-lg-6 col-md-4 col-6">
+                                    <div class="card card-statistics">
+                                        <div class="card-header pb-0">
+                                            <h4 class="card-title">Referidos</h4>
+                                        </div>
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-primary me-2">
+                                                    <div class="avatar-content text-primary">
+                                                        <i data-feather='user-plus' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">0 USD</h4>
+                                                    <p class="card-text font-small-3 mb-0">Pagos para vendedores</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ REFERIDOS -->
+
+                                <!-- HISTORICO -->
+                                <div class="col-lg-12 col-md-8 col-12 d-lg-none collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="card card-statistics">
+                                        <div class="card-body statistics-body">
+                                            <div class="d-flex align-items-start">
+                                                <div class="avatar bg-light-info me-2">
+                                                    <div class="avatar-content">
+                                                        <i data-feather='book' style="width: 20px; height: 20px;"></i>
+                                                    </div>
+                                                </div>
+                
+                                                <div class="my-auto">
+                                                    <h4 class="fw-bolder mb-0">Histórico</h4>
+                                                    <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ HISTORICO -->
+                            </div>
+                        </div>
+
+                        <!-- HISTORICO -->
+                        <div class="col-12 d-none d-lg-block collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            <div class="card card-statistics">
+                                <div class="card-body statistics-body">
+                                    <div class="d-flex align-items-start">
+                                        <div class="avatar bg-light-info me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='book' style="width: 20px; height: 20px;"></i>
+                                            </div>
+                                        </div>
+        
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Histórico</h4>
+                                            <p class="card-text font-small-3 mb-0">Ganancias por contrato</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ HISTORICO -->
+                    </div>
+                </section>
+
+                <!--- TABLA HISTORICO --->
+                <section class="collapse" id="collapseExample">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Historico</h6></div></div>
+                                    <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_length" id="DataTables_Table_0_length">
+                                                <label class="d-flex align-items-center">Mostrar 
+                                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                        <option value="7">7</option>
+                                                        <option value="10">10</option><option value="25">25</option>
+                                                        <option value="50">50</option><option value="75">75</option>
+                                                        <option value="100">100</option>
+                                                    </select> entradas
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                        <thead>
+                                            <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Creación</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Activación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Culminación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Precio del paquete</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Ganancias</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Estado</th></tr>
+                                        </thead>
+                                        <tbody>
+                                        {{#if depositos}}
+                                            {{#each depositos as |item i|}}
+                                            <tr>
+                                                <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                                <td style="white-space: nowrap;">{{#paqueteNombrepy24 paquete.name}}{{/paqueteNombrepy24}}</td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#if activatedAt}}{{activatedAt}}{{else}}-{{/if}} </td>
+                                                <td style="white-space: nowrap;" class="text-center">{{#if culmination}}{{culmination}}{{else}}-{{/if}}</td>
+                                                <td>{{paquete.duration}} Meses</td>
+                                                <td class="text-center">{{amount}}$</td>
+                                                <td>{{earnings}}$</td>
+                                                <td>
+                                                    {{#estadodepositospy24 status}}{{/estadodepositospy24}}
+                                                </td>
+                                            </tr>
+                                            {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap">No existen depositos</td>
+                                            </tr>
+                                        {{/if}}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-between mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+
+            <!--- MODAL --->
+            <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Verificación de cuenta</h1>
+                            <p class="text-center">Ingrese una foto de su documento de identidad, legible, con ambas caras. Los datos suministrados deben coincidir con los datos de identificación registrados.</p>
+                            <form action="/solicitverifypy21" method="POST" class="card-body">
+                                <p class="card-text mb-0">Parte frontal</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                     
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                <p class="card-text mb-0">Parte posterior</p>
+
+                                <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                     
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                
+                                <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL --->
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const labels = [
+  'Lunes',
+  'Martes',
+  'Miercoles',
+  'Jueves',
+  'Viernes',
+  'Sabado',
+  'Domingo',
+];
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Precio BTC',
+    data: [65, 59, 80, 81, 56, 55, 40],
+    backgroundColor: [
+      '#00cfe8',
+      '#00cfe8',
+      '#00cfe8',
+      '#00cfe8',
+      '#00cfe8',
+      '#00cfe8',
+      '#00cfe8'
+    ],
+    borderWidth: 0
+  }]
+};
+const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+const myChart = new Chart(
+    document.getElementById('prueba'),
+    config
+);
+</script>

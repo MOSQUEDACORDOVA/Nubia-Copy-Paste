@@ -1,0 +1,395 @@
+<div class="app-content content py27">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section id="basic-datatable">
+                <div class="row">
+                    <!--  DEPOSITOS PENDIENTES BTC -->
+                    <div class="col-12" id="btcw">
+                        <div class="card">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Deposits to be verified</h6></div></div>
+                                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex align-items-center">Show 
+                                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="7">7</option>
+                                                    <option value="10">10</option><option value="25">25</option>
+                                                    <option value="50">50</option><option value="75">75</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 mb-1 mb-md-0">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <select id="filter-deposits" class="form-select d-block w-50 me-0 ms-auto">
+                                                <option value="all">All</option>
+                                                <option value="invers">BTC</option>
+                                                <option value="sellers">BNB</option>
+                                                <option value="sellers">USD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                    <thead>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Transaction type</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Code Wallet</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Transaction Hash</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">AeroCoins</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Amount</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Status</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Action</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if pending}}
+                                        {{#each pending as |item i|}}
+                                        <tr>
+                                            <td class="control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{name}}</td>
+                                            <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
+                                            <td>{{metodos_pago.transaction_type}}</td>
+                                            <td>{{metodos_pago.code_wallet}}</td>
+                                            <td>{{num_reference}}</td>
+                                            <td>{{amountAero}}</td>
+                                            <td>{{price}} {{metodos_pago.transaction_type}}</td>
+                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td>
+                                                <!--<span class="badge rounded-pill badge-light-info">{{#estadodepositospy27 status}}{{/estadodepositospy27}}</span>-->
+                                                <span class="badge rounded-pill badge-light-warning">Not Verified</span>
+                                            </td>
+                                            <td>
+                                                <a class="btn btn-outline-primary AprobarBTCBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-user="{{item.name}}" data-wallet="{{metodos_pago.code_wallet}}" data-id="{{item.usuarioId}}" data-deposit-id="{{item.id}}" data-price="{{price}}" data-status="{{item.status}}" data-amount-aero="{{item.amountAero}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Approve</a>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap;">There are no deposits to verify</td>
+                                            </tr>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--  DEPOSITOS APROBADOS BTC -->
+                    <div class="col-12" id="btcw2">
+                        <div class="card">
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Approved Deposits</h6></div></div>
+                                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex align-items-center">Show 
+                                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="7">7</option>
+                                                    <option value="10">10</option><option value="25">25</option>
+                                                    <option value="50">50</option><option value="75">75</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 mb-1 mb-md-0">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <select id="filter-deposits" class="form-select d-block w-50 me-0 ms-auto">
+                                                <option value="all">All</option>
+                                                <option value="invers">BTC</option>
+                                                <option value="sellers">BNB</option>
+                                                <option value="sellers">USD</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                    <thead>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Transaction type</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Code Wallet</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">Transaction Hash</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">AeroCoins</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="white-space: nowrap;" aria-label="Date: activate to sort column ascending">Amount</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px;" aria-label="Name: activate to sort column ascending">Status</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if completes}}
+                                        {{#each completes as |item i|}}
+                                        <tr>
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{name}}</td>
+                                            <td style="white-space: nowrap;">{{#if email}}{{email}}{{else}}-{{/if}}</td>
+                                            <td>{{metodos_pago.transaction_type}}</td>
+                                            <td>{{metodos_pago.code_wallet}}</td>
+                                            <td>{{num_reference}}</td>
+                                            <td>{{amountAero}}</td>
+                                            <td>{{price}} {{metodos_pago.transaction_type}}</td>
+                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-success">
+                                                    Approved
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                            <tr>
+                                                <td style="white-space: nowrap;">There are no approved deposits</td>
+                                            </tr>
+                                        {{/if}}
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!--- MODAL BTC --->
+            <div class="modal fade" id="addNewCard3" tabindex="-1" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1" id="">Payment Received</h1>
+                            <form action="/startdepositaero" method="POST" class="card-body row">
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">User</label>
+                                    <input type="text" id="id2" name="id" class="d-none" required>
+                                    <input type="text" id="iddep" name="depid" class="d-none" required>
+                                    <input type="text" id="amount-aero" name="amountAero" class="d-none" required>
+                                    <input id="usuario2" class="form-control" type="text" value="" readonly required>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="capital">Code Wallet</label>
+                                    <input id="code_wallet" class="form-control" type="text" value="" readonly required>
+                                </div>
+
+                                <div class="col-12 mb-2">
+                                    <label class="form-label" for="">Amount BTC</label>
+                                    <input type="text" id="total_amount2" class="form-control" value="" readonly required>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-outline-primary">Approve Purchase</button>
+                                        <button type="reset" class="btn btn-outline-secondary">Deny</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--- END MODAL BTC --->
+        </div>
+    </div>  
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>    
+<script>
+    let btn = document.querySelectorAll('.showModalBtn'),
+    AprobarBtn = document.querySelectorAll('.AprobarBtn'),
+    AprobarBTCBtn = document.querySelectorAll('.AprobarBTCBtn'),
+    AprobarWalletBtn = document.querySelectorAll('.AprobarWalletBtn');
+
+    let newArr = [];
+
+    btn.forEach(e => {
+        e.addEventListener('click', (event) => {
+            let current = event.target
+            SetModal(current);
+        });
+    });
+
+    AprobarBtn.forEach(abtn => {
+        abtn.addEventListener('click', (event) => {
+            let current = event.target
+            SetPayModal(current);
+        });
+    });
+
+    AprobarBTCBtn.forEach(btcbtn => {
+        btcbtn.addEventListener('click', (event) => {
+            let current = event.target
+            SetPayModalBTC(current);
+        });
+    });
+
+    AprobarWalletBtn.forEach(wbtn => {
+        wbtn.addEventListener('click', (event) => {
+            let current = event.target
+            SetPayModalWallet(current);
+        });
+    });
+
+    const SetModal = (target) => {
+        const packName = document.getElementById('pname'),
+        name = document.getElementById('name2'),
+        amount_th = document.getElementById('amount_th2'),
+        duration = document.getElementById('duration2'),
+        date = document.getElementById('date2'),
+        maintance = document.getElementById('maintance'),
+        activated = document.getElementById('activated'),
+        culmination = document.getElementById('culmination'),
+        amount = document.getElementById('amount2'),
+        state = document.getElementById('state2');
+
+        packName.innerText = target.getAttribute('data-name')
+        name.value = target.getAttribute('data-name')
+        amount_th.value = target.getAttribute('data-amount_th')
+        duration.value = target.getAttribute('data-duration')
+        amount.value = target.getAttribute('data-price')
+        date.value = target.getAttribute('data-date')
+        state.value = target.getAttribute('data-status')
+        activated.value = target.getAttribute('data-activated')
+        culmination.value = target.getAttribute('data-culmination')
+        maintance.value = target.getAttribute('data-maintance')
+        console.log(target.getAttribute('data-activated'))
+        console.log(target.getAttribute('data-culmination'))
+    }
+
+    const usuario = document.getElementById('usuario'),
+    id = document.getElementById('id'),
+    durationd = document.getElementById('durationd'),
+    email = document.getElementById('email'),
+    numPack = document.getElementById('numPack'),
+    bank = document.getElementById('bank'),
+    ref = document.getElementById('bank_ref'),
+    totalAmount = document.getElementById('total_amount'),
+    link = document.getElementById('voucherLink'),
+    capture = document.getElementById('capVoucher');
+
+    const SetPayModal = (target) => {
+        id.value = target.getAttribute('data-id')
+        durationd.value = target.getAttribute('data-duration')
+        usuario.value = target.getAttribute('data-user')
+        email.value = target.getAttribute('data-email')
+        numPack.value = target.getAttribute('data-paquete')
+        bank.value = target.getAttribute('data-bank-name')
+        ref.value = target.getAttribute('data-ref')
+        totalAmount.value = target.getAttribute('data-price')
+        link.href = `/assets/img_up/${target.getAttribute('data-voucher')}`;
+        capture.src = `/assets/img_up/${target.getAttribute('data-voucher')}`;
+        console.log(target.getAttribute('data-paquete'))
+        console.log(target.getAttribute('data-price'))
+    }
+    
+    const usuario2 = document.getElementById('usuario2'),
+    id2 = document.getElementById('id2'),
+    iddep = document.getElementById('iddep'),
+    codeWallet = document.getElementById('code_wallet'),
+    amountAero = document.getElementById('amount-aero'),
+    totalAmount2 = document.getElementById('total_amount2');
+
+    const SetPayModalBTC = (target) => {
+        id2.value = target.getAttribute('data-id')
+        iddep.value = target.getAttribute('data-deposit-id')
+        usuario2.value = target.getAttribute('data-user')
+        amountAero.value = parseInt(target.getAttribute('data-amount-aero'))
+        codeWallet.value = target.getAttribute('data-wallet')
+        totalAmount2.value = target.getAttribute('data-price')
+
+        console.log(parseInt(target.getAttribute('data-amount-aero')))
+    }
+
+    const usuario3 = document.getElementById('usuario3'),
+    id3 = document.getElementById('id3'),
+    durationd3 = document.getElementById('durationd3'),
+    numPack3 = document.getElementById('numPack3'),
+    emailWallet = document.getElementById('email_wallet'),
+    totalAmount3 = document.getElementById('total_amount3');
+
+    const SetPayModalWallet = (target) => {
+        id3.value = target.getAttribute('data-id')
+        durationd3.value = target.getAttribute('data-duration')
+        usuario3.value = target.getAttribute('data-user')
+        emailWallet.value = target.getAttribute('data-wallet')
+        numPack3.value = target.getAttribute('data-paquete')
+        totalAmount3.value = target.getAttribute('data-price')
+
+        console.log(target.getAttribute('data-id'))
+    }
+    
+    $(document).ready(function() {
+
+        $('#transfbtn').on('click', (e)=> {
+            Reset(1)
+        });
+        $('#pagombtn').on('click', (e)=> {
+            Reset(2);
+        });
+        $('#billeterabtn').on('click', (e)=> {
+            Reset(3);
+        });
+        $('#btcwbtn').on('click', (e)=> {
+            Reset(4);
+        });
+
+        function Reset(num) {
+            $('#transf').removeClass('show')
+            $('#transf').addClass('collpase')
+            $('#transf2').removeClass('show')
+            $('#transf2').addClass('collpase')
+
+            $('#pagom').removeClass('show')
+            $('#pagom').addClass('collpase')
+            $('#pagom2').removeClass('show')
+            $('#pagom2').addClass('collpase')
+
+            $('#billetera').removeClass('show')
+            $('#billetera').addClass('collpase')
+            $('#billetera2').removeClass('show')
+            $('#billetera2').addClass('collpase')
+            
+            $('#btcw').removeClass('show')
+            $('#btcw').addClass('collpase')
+            $('#btcw2').removeClass('show')
+            $('#btcw2').addClass('collpase')
+            switch (num){
+                case 1:
+                    $('#transf').removeClass('collpase')
+                    $('#transf').addClass('show')
+                    $('#transf2').removeClass('collpase')
+                    $('#transf2').addClass('show')
+                    break;
+                case 2:
+                    $('#pagom').removeClass('collpase')
+                    $('#pagom').addClass('show')
+                    $('#pagom2').removeClass('collpase')
+                    $('#pagom2').addClass('show')
+                    break;
+                case 3:
+                    $('#billetera').addClass('show')
+                    $('#billetera').removeClass('collpase')
+                    $('#billetera2').addClass('show')
+                    $('#billetera2').removeClass('collpase')
+                    break;
+                case 4:
+                    $('#btcw').addClass('show')
+                    $('#btcw').removeClass('collpase')
+                    $('#btcw2').addClass('show')
+                    $('#btcw2').removeClass('collpase')
+                    break;
+                default:
+                break
+            }
+        }
+    });
+</script>
