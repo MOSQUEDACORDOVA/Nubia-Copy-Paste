@@ -57,16 +57,16 @@
                         </div>
                     </div>
                     {{/if}} 
-
+                    {{#if btcprice}}
                     <div class="col-12 col-lg-6 col-xl-5">
                         <div class="card card-statistics">
                             <div class="card-header">
-                                <h4 class="card-title">Last Price</h4>
+                                <h4 class="card-title">Update Price</h4>
                             </div>
                             <div class="card-body statistics-body">
                                 <div class="row">
                                     {{!-- PRECIO BTC --}}
-                                    <div class="col-lg-12 col-sm-6 col-12 mb-2">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-primary me-2">
                                                 <div class="avatar-content">
@@ -74,7 +74,7 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0"><span id="btcprice"></span> USDT</h4>
+                                                <h4 class="fw-bolder mb-0">{{btcprice.price}} USDT</h4>
                                                 <p class="card-text font-small-3 mb-0">Price BTC</p>
                                             </div>
                                         </div>
@@ -84,16 +84,42 @@
                             </div>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Set BTC Price</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form form-vertical" method="POST" action="/addbtcpricepy27">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Price BTC</label>
+                                                <input type="number" class="form-control" name="price" min="0" step="0.01" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light">Save</button>
+                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}} 
 
+                    {{#if bnbprice}}
                     <div class="col-12 col-lg-6 col-xl-5">
                         <div class="card card-statistics">
                             <div class="card-header">
-                                <h4 class="card-title">Last Price</h4>
+                                <h4 class="card-title">Update Price</h4>
                             </div>
                             <div class="card-body statistics-body">
                                 <div class="row">
                                     {{!-- PRECIO AEROCOIN --}}
-                                    <div class="col-lg-12 col-sm-6 col-12 mb-2">
+                                    <div class="col-lg-12 col-sm-6 col-12 mb-2" type="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">
                                         <div class="d-flex align-items-center align-items-lg-start flex-row">
                                             <div class="avatar bg-light-primary me-2">
                                                 <div class="avatar-content">
@@ -101,7 +127,7 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0"> <span id="bnbprice"></span> USDT</h4>
+                                                <h4 class="fw-bolder mb-0">{{bnbprice.price}} USDT</h4>
                                                 <p class="card-text font-small-3 mb-0">Price BNB</p>
                                             </div>
                                         </div>
@@ -111,6 +137,31 @@
                             </div>
                         </div>
                     </div>
+                    {{else}}
+                    <div class="col-md-6 col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Set BNB Price</h4>
+                            </div>
+                            <div class="card-body">
+                                <form class="form form-vertical" method="POST" action="/addbnbpricepy27">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-1">
+                                                <label class="form-label">Price BNB</label>
+                                                <input type="number" class="form-control" name="price" min="0" step="0.01" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light">Save</button>
+                                            <button type="reset" class="btn btn-outline-secondary waves-effect">Cancel</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}} 
                 </div>
             </section>
             <!--/ Analytics Card section -->
@@ -150,31 +201,195 @@
             </div>
             {{!-- PRECIO AEROCOIN MODAL --}}
             {{/if}}
+
+            {{#if btcprice}}
+            {{!-- PRECIO BTC MODAL --}}
+            <div class="modal fade" id="addNewCard2" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Update Price</h1>
+                            <p class="text-center">Set BTC price</p>
+
+                            <!-- form -->
+                            <form id="priceform" method="post" action="/updateaebtcpy27" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Price BTC USDT</label>
+                                    <input type="text" name="id" class="d-none" value="{{btcprice.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.001" value="{{btcprice.price}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-outline-primary me-1 mt-1 waves-effect waves-float waves-light">Save</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- PRECIO BTC MODAL --}}
+            {{/if}}
+
+            {{#if bnbprice}}
+            {{!-- PRECIO BNB MODAL --}}
+            <div class="modal fade" id="addNewCard3" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-sm-5 mx-50 pb-5">
+                            <h1 class="text-center mb-1" id="">Update Price</h1>
+                            <p class="text-center">Set BNB price</p>
+
+                            <!-- form -->
+                            <form id="priceform" method="post" action="/updateaebnbpy27" class="row gy-1 gx-2 mt-75">
+                                <div class="col-12">
+                                    <label class="form-label" for="">Price BNB USDT</label>
+                                    <input type="text" name="id" class="d-none" value="{{bnbprice.id}}" required>
+                                    <div class="input-group input-group-merge">
+                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.01" value="{{bnbprice.price}}" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn btn-outline-primary me-1 mt-1 waves-effect waves-float waves-light">Save</button>
+                                    <button type="reset" class="btn btn-outline-secondary mt-1 waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- PRECIO BNB MODAL --}}
+            {{/if}}
         </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    let btcPrice = document.getElementById('btcprice');
-    let bnbPrice = document.getElementById('bnbprice');
+    let AllMachines = document.querySelectorAll('.machines');
+    let idMach = document.getElementById('idMachine');
 
-    fetch('https://api.coingecko.com/api/v3/exchange_rates')
-    .then(response => response.json())
-    .then(data => {
-        let arr = data.rates
-        let resultBtc = arr.usd.value
+    if(AllMachines.length) {
+        let machModal = document.getElementById('machineInfo'),
+        machineNum = document.getElementById('machineNum'),
+        machineGrap = document.getElementById('machineGrap'),
+        machineCapacity = document.getElementById('machineCapacity'),
+        machineSoldOut = document.getElementById('machineSoldOut'),
+        machineAvalible = document.getElementById('machineAvalible');
 
-        btcPrice.innerText = resultBtc
-    });
-   
+        AllMachines.forEach(machine => {
+            machine.addEventListener('click', (e) =>  {
+                SetMachineInfo(e.target);
+            });
+        });
 
-    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
-    .then(response => response.json())
-    .then(data => {
-        let arr = data.tickers[7]
-        let resultBnb = arr.last
+        SetInfo();
+    }
 
-        bnbPrice.innerText = resultBnb
-    });
-   
+    const SetMachineInfo = (mach) => {
+        if(mach) {
+            let num = mach.childNodes[1].childNodes[1].innerText,
+            total = parseInt(mach.getAttribute('data-machine-capacity')),
+            sold = parseInt(mach.getAttribute('data-machine-sold')),
+            aval = parseInt(mach.getAttribute('data-machine-avalible'));
+
+            idMach.value = mach.getAttribute('data-machine-id')
+            SetGrap(sold, total, aval);
+        }
+    }
+
+    function SetInfo () {
+        let num = AllMachines[0].childNodes[1].childNodes[1].innerText,
+        total = parseInt(AllMachines[0].getAttribute('data-machine-capacity')),
+        sold = parseInt(AllMachines[0].getAttribute('data-machine-sold')),
+        aval = parseInt(AllMachines[0].getAttribute('data-machine-avalible'));
+
+        idMach.value = parseInt(AllMachines[0].getAttribute('data-machine-id'));
+        machineNum.innerText = num;
+        SetGrap(sold, total, aval);
+    }
+
+    function SetGrap (sold, total, aval) {
+        const grapCont = document.getElementById('grapContainer');
+        let grap = document.getElementById('chart2'), clone = grap.cloneNode(true);
+        grap.remove();
+        grapCont.appendChild(clone);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [sold, total, aval],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart2'),
+            config
+        );
+
+    }
+</script>
+<script>
+    // GRAFICA GENERAL
+    let total = document.getElementById('total'),
+    disponibles = document.getElementById('disponibles'),
+    vendidos = document.getElementById('vendidos');
+
+    if(total && disponibles && vendidos) {
+        total = parseInt(total.innerText);
+        disponibles = parseInt(disponibles.innerText);
+        vendidos = parseInt(vendidos.innerText);
+        const data = {
+            labels: [
+                'Vendidos',
+                'Total',
+                'Disponibles',
+            ],
+            datasets: [{
+                label: 'Control de TH',
+                data: [vendidos, total, disponibles],
+                backgroundColor: [
+                '#ea5455',
+                '#ffcb6a',
+                '#7367f0'
+                ],
+                borderWidth: 0,
+                hoverOffset: 0,
+            }],
+        };
+        const config = {
+            type: 'pie',
+            data: data,
+        };
+        const myChart = new Chart(
+            document.getElementById('chart'),
+            config
+        );
+    }
 </script>

@@ -501,7 +501,23 @@ body {
         padding: 10px;
         border-radius: 8px;
     }
+
 }
+    .py27 .form-check-primary .form-check-input:not(:disabled):checked, .form-check-primary .form-check-input:not(:disabled):focus {
+        border-color: #0087f5 !important;
+        box-shadow: 0 8px 25px -8px #03467c !important;
+    }
+
+    .py27 .form-check-primary .form-check-input:checked {
+        border-color: #0087f5 !important;
+        background-color:#03467c !important;
+    }
+
+    .py27 .flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+        background: #03467c !important;
+        color: #fff;
+        border-color: #03467c !important;
+    }
 .dark-layout .main-menu-content .navigation-main .nav-item.open > a {
     /* background-color: #D9A443 !important;
     color: white !important; */
@@ -1351,45 +1367,5 @@ table tr td {
     color: white;
     box-shadow: 0 8px 25px -8px #0087f5 !important;
 }
+/*---------- py27 ----------*/
 /*---------- py672 ----------*/
-.py672 .text-primary {
-    color: #7367f0 !important;
-}
-.py672 .dropdown-item:hover {
-    color: #fff !important;
-    background-color: #7367f0 !important;
-}
-.py672 .dropdown-item:focus {
-    color: #fff !important;
-    background-color: #7367f0 !important;
-}
-.py672 .page-item.active .page-link {
-    background-color: #7367f0 !important;
-}
-.py672 .dropdown-item.active, .dropdown-item:active {
-    color: #fff;
-    background-color: #7367f0;
-}
-.py672 .badge-light-primary {
-    color: #7367f0 !important;
-}
-.py672 .nav-tabs .nav-link.active { 
-    color: #7367f0 !important;
-}
-.py672 .nav-tabs .nav-link.active, .py672 .nav-tabs .nav-item.show .nav-link {
-    color: #7367f0;
-    background-color: transparent;
-    border-color: #dae1e7 #dae1e7 transparent;
-}
-.py672 .nav-tabs .nav-link:after {
-    background: linear-gradient(30deg, #7367f0, rgba(115, 103, 240, 0.5)) !important;
-}
-.py672 .custom-options-checkable .custom-option-item {
-    border: 1px solid #7367f0;
-}
-.py672 .form-select:focus {
-    border-color: #7367f0 !important;
-}
-.py672 .form-control:focus {
-    border-color: #7367f0 !important;
-}

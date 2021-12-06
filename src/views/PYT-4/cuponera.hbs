@@ -9,8 +9,8 @@
 }
 .otros-img{
 max-width: 14rem !important;
-width: 13rem !important;
-height: 13rem;
+width: 7rem;
+    height: 7rem;
 }
 
 .encabezadoh4{
@@ -96,18 +96,7 @@ width: 10rem;
 display: inline-flex !important;
     width: 21rem !important;
         }
-          .comida-img{
-            width: 19rem !important;
-        }
-        .comida-cont{
-                display: flex !important;
-    align-items: center;
-    justify-content: center;
-        }
     @media (max-width: 760px) {
-        .comida-img{
-            width: 6rem !important;
-        }
                 .salud-img{
     width: 8rem !important;
         }
@@ -177,6 +166,27 @@ width: 5rem !important;
 <script>
     $(document).ready(function () {
 console.log('ya se cargo la pagina')
+window.addEventListener('popstate', function(event) {
+    // The popstate event is fired each time when the current history entry changes.
+//console.log(event)
+  // var r = confirm("You pressed a Back button! Are you sure?!");
+
+    if ($('#knowledge-base-content').is(':visible') == true) {
+        // Call Back button programmatically as per user confirmation.
+      history.back();
+      console.log(event)  
+        // Uncomment below line to redirect to the previous page instead.
+        // window.location = document.referrer // Note: IE11 is not supporting this.
+    } else {
+        console.log($('#knowledge-base-content').is(':visible'))
+        Reset(6)
+        // Stay on the current page.
+        history.pushState(null, null, window.location.pathname);
+    }
+
+    history.pushState(null, null, window.location.pathname);
+
+}, false);
         $('.ws_link').on('click', (e) => {
             console.log(e)
             let ws_proveedor = e.target.dataset['tlf']
@@ -207,7 +217,7 @@ console.log('ya se cargo la pagina')
                                 Swal.fire('Cupon usado porfavor seleccione otro o actualice la página')
                                 return
                             }
-                            window.location.href = `https://wa.me/52${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
+                            window.location.href = `https://wa.me/${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
                         },
                         error: function (jqXHR, textStatus) {
                             console.log('error:' + jqXHR)
@@ -281,14 +291,13 @@ console.log('ya se cargo la pagina')
 </script>
 <div class="app-content content ecommerce-application" style="transition:none; margin-left:1rem; padding: 2rem !important;">
     <div class="content-wrapper container-xxxl p-0">
-                    <form method="post" id="form_cupon_used" hidden>
+        <div class="content-body">
+                {{#if cupon}}
+            <form method="post" id="form_cupon_used" hidden>
                 <input type="text" id="form_id_cliente" value="{{cliente.id}}" name="form_id_cliente">
                 <input type="text" id="id_cupon_selected" name="id_cupon_selected">
                 <input type="datetime-local" id="fecha_selected" name="fecha_selected">
             </form>
-        <div class="content-body">
-                {{#if cupon}}
-
             <section id="knowledge-base-content" class="show listado_categoria">
                 <div class="list-view">
                     <!-- sales card -->
@@ -345,9 +354,9 @@ console.log('ya se cargo la pagina')
                             {{!-- <p class="text-body mt-1 mb-0">It has been said that astronomy is a humbling and
                                 character experience.</p> --}}
                         </div>
-<div class="item-img text-center comida-cont">
+<div class="item-img text-center" style="display: flex;justify-content: flex-end;">
 
-                            <img src="../../../app-assets/images/illustration/comida.png" class="card-img-top comida-img" />
+                            <img src="../../../app-assets/images/illustration/comida 300px.png" class="card-img-top" style="height: 7rem;"/>
                         </div>
                     </div>
 
@@ -373,7 +382,7 @@ console.log('ya se cargo la pagina')
                             {{!-- <p class="text-body mt-1 mb-0">There is perhaps no better demonstration of the folly
                                 of human conceits.</p> --}}
                         </div>
-<div class="item-img text-center" style="display: flex;justify-content: center; align-items: center;">
+<div class="item-img text-center" style="display: flex;justify-content: flex-end; align-items: center;">
 
                             <img src="../../../app-assets/images/illustration/otros star.png" class="card-img-top otros-img" />
 

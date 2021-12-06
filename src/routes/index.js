@@ -445,6 +445,7 @@ router.get('/depositaero/:id', authControllerPY27.authenticatedUser, dashboardCo
 // CONTROL DE MONEDA AERO COIN
 router.get('/aero/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.aerocoin);
 
+
 // AUTH
 router.post('/loginpy27', dashboardControllerPY27.sesionstart);
 router.post('/reguserpy27', dashboardControllerPY27.reguserpy27);
@@ -472,11 +473,10 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 /*------------ PYT-672-----------------*/
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
-router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
-
-
 router.get('/error672/:id', dashboardControllerPY672.error);
+
+
 
 // ? POST
 

@@ -1492,7 +1492,6 @@ usuarioId:id_usuario
   },
   deleteCupon(parametro_buscar) {
     return new Promise((resolve, reject) => {
-     Used_cupons.destroy({where:{cuponeId:parametro_buscar}})
       Cupones.destroy({
         where: {
           id: parametro_buscar,

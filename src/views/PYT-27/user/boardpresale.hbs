@@ -192,8 +192,18 @@
                         </div>
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Account Verification</h1>
-                            <p class="text-center">Enter a photo of your identity document, legible, with both sides. The data provided must match the identification data registered.</p>
+                            <p class="text-center">Enter a photo of your identity document, with both sides. The data provided must match the identification data registered.</p>
+                            
+                            
                             <form action="/solicitverifypy27" method="POST" class="card-body">
+                             <p class="card-text mb-0">Identification document</p>
+                        
+                                <select name="nationality" id="prefijo" class="form-select" required>
+                                <option value=""> Select </option>
+                                <option value="1">Passport</option>
+                                <option value="2">DNI </option>
+                            </select><br>
+                            
                                 <p class="card-text mb-0">Front</p>
 
                                 <!--<input type="text" class="form-control d-none" id="voucher1">-->
