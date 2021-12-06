@@ -58,7 +58,11 @@ const Cupones = db.define('cupones', {
 		allowNull: true,
 		defaultValue: ""
 	},
-	
+	ubicacion: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 });
 Cupones.Usuarios= Cupones.belongsTo(Usuarios);
 

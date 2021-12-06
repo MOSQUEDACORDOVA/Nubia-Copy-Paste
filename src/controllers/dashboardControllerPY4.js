@@ -374,11 +374,18 @@ exports.save_cliente_cuponera =  (req, res) => {
   let msg = false;
 
   DataBase.registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color).then(async(respuesta) =>{
-    let cliente_created = JSON.parse(respuesta)[0]
-    console.log(cliente_created.id)
-await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
+    console.log(respuesta)    
+      if (respuesta == "0") {
+        respuesta ="Este domicilio ya se se encuentra registrado favor de comunicarse con el titular de la cuenta, contactar con Bwater sí requieren más ayuda"
+        res.redirect('/log_cupon/'+respuesta)
+      }else{
+        let cliente_created = JSON.parse(respuesta)[0]
+        await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
+        res.redirect('/log_cuponera/'+respuesta)
+      }
 
-    res.redirect('/log_cuponera/'+respuesta)
+
+    
 
   }).catch((err) => {
     console.log(err)
@@ -1764,10 +1771,10 @@ exports.getCupones = (req, res) => {
 
 
 exports.save_cupon = async (req, res) => {
-  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,descripcion} = req.body;
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,descripcion,dir_proveedor} = req.body;
   var msg = "";
   const user = res.locals.user.id
-  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
+  DataBase.guardarCupon(user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img,dir_proveedor)
     .then((result) => {
       let cupones_let = JSON.parse(result)
         res.send({cupones_let})
@@ -1786,11 +1793,12 @@ res.send({parsed_cupon})
 };
 
 exports.saveCuponEdited = async (req, res) => {
-  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon,descripcion} = req.body;
+  const {nombre_cupon, categoria, nombre_proveedor,ws_proveedor, fecha_inicio, fecha_final, cantidad, img,id_cupon,descripcion,dir_proveedor} = req.body;
   var msg = "";
   const user = res.locals.user.id
-  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img)
+  DataBase.saveEditedCupon(id_cupon,user,nombre_cupon,categoria,nombre_proveedor,ws_proveedor,fecha_inicio, fecha_final,cantidad, descripcion,img,dir_proveedor)
     .then((result) => {
+      console.log(result)
       DataBase.totalcupones().then((total_cupones) => {
         let cupones_act = JSON.parse(total_cupones);
         res.send({cupones_act})
@@ -1886,6 +1894,9 @@ exports.introCup = (req, res) => {
   if (req.params.registrado) {
     msg="Se ha registrado con éxito, ingrese el télefono registrado, para ingresar a la cuponera"
   }
+  if (req.params.msg) {
+    msg=req.params.msg
+  }
   res.render("PYT-4/intro_cuponera", {
     pageName: "Bwater",
       dashboardPage: true,
@@ -1913,8 +1924,14 @@ exports.sessionCuponera = (req, res) => {
         console.log(err)
         return next(err);
       }
-
-      return res.redirect('/cuponera')
+      console.log(user.dataValues.cuponera)
+if (user.dataValues.cuponera == '' || user.dataValues.cuponera == "c/a") {
+  return res.redirect('/cuponera')
+}else{
+  let msg="Por favor espere a que le sea dado el acceso por el área de administración, si tiene alguna duda puede contactarnos para más información"
+  return res.redirect('/log_cupon/'+msg)
+}
+      
     });
   })(req, res);
 };
@@ -1960,7 +1977,7 @@ exports.introCupValidate = (req, res) => {
             let fecha_final= ""              
               fecha_final= moment(hoy).isAfter(cupones_act[i].fecha_final); // true
               console.log(fecha_final)
-    if (usado == null) {
+  //  if (usado == null) {
       if (fecha_final == false) {
                switch (cupones_act[i].categoria) {
       case 'Belleza':
@@ -1983,7 +2000,7 @@ exports.introCupValidate = (req, res) => {
       }
       }
 
-    }  
+   // }  
   }
     res.render("PYT-4/cuponera", {
       pageName: "Cuponera",
@@ -1994,7 +2011,7 @@ exports.introCupValidate = (req, res) => {
       py4:true,
       cliente,
       salud, belleza, fitness, comida,  otros,  py4:true,
-  dash:true,cupon,  cat_salud,  cat_fitness,  cat_comida,  cat_otros,disabled_chofer: true
+  dash:true,cupon,cat_belleza,  cat_salud,  cat_fitness,  cat_comida,  cat_otros,disabled_chofer: true
     });
 
 }).catch((err) => {
@@ -2108,3 +2125,19 @@ obtenernotificaciones().then((notif_)=>{
   return res.redirect("/errorpy4/" + msg);
 });
 };
+exports.save_cliente_edit_cupon = (req, res) => {
+    
+  const {id, actual} = req.body
+  let msg = false;
+console.log(req.body)
+  DataBase.update_cliente_cuponAct(id,actual).then(async (respuesta) =>{
+ 
+        let notif_ = JSON.parse(await DataBase.obtenernotificaciones())
+         return res.send({notif_})
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+}
