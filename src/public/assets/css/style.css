@@ -930,6 +930,15 @@ body {
 table tr td {
     white-space: nowrap !important;
 }
+.py27 .email h3 {
+    font-family: 'Conthrax Sb';
+}
+.py27 .email p {
+    font-weight: 600;
+}
+.py27 .email .logo {
+    width: 150px;
+}
 .py27 .carousel .carousel-item .img-fluid {
     display: block;
     width: 100%;
@@ -992,7 +1001,7 @@ table tr td {
     font-family: 'Conthrax Sb';
     color: #04246d !important;
     font-weight: 700;
-    transition: rgb(73, 78, 82)e all;
+    transition: rgb(186, 223, 253)e all;
 }
 .py27.es .main-menu.menu-light .navigation > li.active > a {
     background: linear-gradient(118deg, #ce0011, #e62435);

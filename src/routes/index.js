@@ -469,7 +469,10 @@ router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboard
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
 
 // ! EMAIL REGISTER
+router.get('/emailregtemplate/:id', dashboardControllerPY27.emailregtemplate);
 router.get('/emailregister/:id', dashboardControllerPY27.emailregister);
+router.get('/emaildeposits/:id', dashboardControllerPY27.emaildeposit);
+router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
 
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);

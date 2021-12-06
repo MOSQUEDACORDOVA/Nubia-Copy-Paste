@@ -225,14 +225,66 @@ exports.emailregister = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     
+    res.render(proyecto+"/auth/verifyemail", {
+      pageName: "AeroCoin - Verify Email",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true
+    });
+};
+
+exports.emailregtemplate = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
     res.render(proyecto+"/mail/welcome", {
       pageName: "AeroCoin - Email Register",
       dashboardPage: true,
       dashboard: true,
-      py672: true,
+      py27: true,
       login: true
     });
 };
+
+exports.emaildeposit = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/deposits", {
+      pageName: "AeroCoin - Confirm Deposits",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true
+    });
+};
+
+exports.emailretreats = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/retreats", {
+      pageName: "AeroCoin - Confirm Retreats",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true
+    });
+};
+
 exports.login = (req, res) => {
   let msg = false;
   if (req.query.msg) {
