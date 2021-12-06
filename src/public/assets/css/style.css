@@ -1327,6 +1327,7 @@ table tr td {
     color: white;
     background: #ce0011;
     border: 1px solid #ce0011;
+    box-shadow: 0 8px 25px -8px #ce0011 !important;
 }
 .py27.es.webfooter .btn-outline-danger {
     border-color: #ce0011 !important;
