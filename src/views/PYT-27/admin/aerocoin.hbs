@@ -133,7 +133,7 @@
                                     <label class="form-label" for="">Price AeroCoin USDT</label>
                                     <input type="text" name="id" class="d-none" value="{{aerocoin.id}}" required>
                                     <div class="input-group input-group-merge">
-                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.1" value="{{aerocoin.price}}" required>
+                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.01" value="{{aerocoin.price}}" required>
                                     </div>
                                 </div>
 
@@ -171,8 +171,15 @@
     fetch('https://api.coingecko.com/api/v3/exchanges/binance')
     .then(response => response.json())
     .then(data => {
-        let arr = data.tickers[7]
+        let arr = data.tickers
         let resultBnb = arr.last
+        console.log(data.tickers)
+        arr.forEach(item => {
+            if(item.coin_id === 'binancecoin' && item.target === 'USDT') {
+                resultBnb = item.last;
+                // console.log(resultBnb)
+            }
+        });
 
         bnbPrice.innerText = resultBnb
     });

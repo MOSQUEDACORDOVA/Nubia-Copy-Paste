@@ -934,11 +934,12 @@ table tr td {
     display: block;
     width: 100%;
     min-height: 300px;
-    object-fit: cover;
+    object-fit: contain;
 }
 @media (min-width: 900px) {
     .py27 .carousel .carousel-item .img-fluid {
         height: 300px;
+        object-fit: cover;
     }
 }
 .py27.es .navbar-brand .img-fluid {
@@ -1201,6 +1202,14 @@ table tr td {
     font-weight: 400;
     border-radius: 4px;
 }
+.py27 .form-check-input:checked {
+    background-color: #04246d;
+    border-color: #04246d;
+}
+.py27 .form-check-input:focus {
+    border-color: #04246d;
+}
+
 .py27 .dropdown-item:active {
     color: #fff !important;
     background-color: #04246d !important;

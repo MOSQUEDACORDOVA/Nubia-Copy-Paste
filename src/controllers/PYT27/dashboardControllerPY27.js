@@ -216,6 +216,23 @@ exports.verifypackgesuser = (req, res) => {
   });
 };
 
+// ! EMAIL REGISTER
+exports.emailregister = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    
+    res.render(proyecto+"/mail/welcome", {
+      pageName: "AeroCoin - Email Register",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      login: true
+    });
+};
 exports.login = (req, res) => {
   let msg = false;
   if (req.query.msg) {
