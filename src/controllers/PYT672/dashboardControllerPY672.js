@@ -134,37 +134,45 @@ exports.creargrupos = (req, res) => {
   const { nombre, lecciones, horario, fechaInicio } = req.body;
   let msg = false;
   let diaActual = moment(fechaInicio).format('DD');
-  let identificador, fechaFin, fechaPagos, finNivel;
+  let identificador, numGrupo, numAño, fechaFin, fechaPagos, finNivel;
 
-  if (lecciones === 1) {
-      fechaFin = moment(fechaInicio).add(32, 'w').format('YYYY-MM-DD');
-      console.log(fechaFin)
-      finNivel = "32 Semanas";
-      console.log("32 SEMANAS")
-    } else {
-      fechaFin = moment(fechaInicio).add(16, 'w').format('YYYY-MM-DD');
-      finNivel = "16 Semanas";
-      console.log(fechaFin)
-      console.log("16 SEMANAS")
-  }
-  if (parseInt(diaActual) >= 9 || parseInt(diaActual) <= 26) {
+  numAño = moment(fechaInicio).format('YY');
+  console.log(numAño)
+  console.log("AÑO DE IDENTIFICADOR")
+
+  if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
-  } 
-  if (parseInt(diaActual) <= 25 || parseInt(diaActual) >= 10) {
+  } else {
     fechaPagos = "15 de cada mes";
   }
-  if (nombre === 'Desde cero') {
-    identificador = 'C';
-  } else {
-    identificador = 'I';
-  }
-
+  
   if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/verificargrupos/PYT-672');
   } else {
-    DataBase.CrearGrupo(nombre, lecciones, horario, fechaPagos, finNivel, fechaInicio, fechaFin).then((respuesta) =>{
-      res.redirect("/verificargrupos/PYT-672")
+    DataBase.ObtenerTodosGrupos().then((response) =>{
+      let grupos = JSON.parse(response);
+      numGrupo = grupos.length+1;
+      console.log(grupos.length)
+      console.log(numGrupo)
+      console.log("NUMERO DE IDENTIFICADOR")
+
+      if (lecciones === '1') {
+          fechaFin = moment(fechaInicio).add(32, 'w').format('YYYY-MM-DD');
+          finNivel = "32 Semanas";      
+          identificador = `C${numAño}10${numGrupo}-1`;
+      } else {
+          fechaFin = moment(fechaInicio).add(16, 'w').format('YYYY-MM-DD');
+          finNivel = "16 Semanas";      
+          identificador = `I${numAño}10${numGrupo}-1`;
+      } 
+      DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, fechaInicio, fechaFin).then((respuesta) =>{
+        res.redirect("/verificargrupos/PYT-672")
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

@@ -1355,6 +1355,21 @@ table tr td {
 .py672 .text-primary {
     color: #7367f0 !important;
 }
+.py672 .dropdown-item:hover {
+    color: #fff !important;
+    background-color: #7367f0 !important;
+}
+.py672 .dropdown-item:focus {
+    color: #fff !important;
+    background-color: #7367f0 !important;
+}
+.py672 .page-item.active .page-link {
+    background-color: #7367f0 !important;
+}
+.py672 .dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    background-color: #7367f0;
+}
 .py672 .badge-light-primary {
     color: #7367f0 !important;
 }

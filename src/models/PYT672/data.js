@@ -4,15 +4,27 @@ const Grupos = require("../../models/PYT672/Grupos");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
-    CrearGrupo(nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin) {
+    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('NUEVO GRUPO CREADO');
           })
           .catch((err) => {
             reject(err)
+          });
+      });
+    },
+    ObtenerTodosGrupos() {
+      return new Promise((resolve, reject) => {
+        Grupos.findAll()
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
           });
       });
     },
