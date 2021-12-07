@@ -1034,6 +1034,9 @@ table tr td {
 .py27 .board .btn {
     font-weight: 700;
 }
+.py27 .card .list-group li {
+    list-style: none;
+}
 .py27.notice.es h2, .py27.notice.es p {
     font-family: 'Conthrax Sb';
 }
