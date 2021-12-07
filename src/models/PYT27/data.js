@@ -1597,32 +1597,6 @@ module.exports = {
             });
         });
     },
-    // CONTROL BTC PRECIO ADMIN
-    ControlBTC(price) {
-        return new Promise((resolve, reject) => {
-        BTC.create({ price: price })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
-    // CONTROL BNB PRECIO ADMIN
-    ControlBNB(price) {
-        return new Promise((resolve, reject) => {
-        BNB.create({ price: price })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve('Datos agregados satisfactoriamente');
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
     // ACTUALIZAR PRECIO AEROCOIN ADMIN
     UpdatePriceAeroCoin(id, price) {
       return new Promise((resolve, reject) => {
