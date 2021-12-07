@@ -10,6 +10,8 @@ class FileController
     if (archivo.mimetype == 'image/png' || archivo.mimetype == 'image/jpeg' ) {
      // ubicacion = __dirname + '../../public/assets/dataPY4/img_upload/' + fileName;
       ubicacion = path.join(__dirname, '../../public/dataPY4/img_upload/' + fileName)
+    }else{
+      ubicacion = path.join(__dirname, '../../public/dataPY4/img_upload/' + fileName)
     }
     try {
       archivo.mv(ubicacion, (error) => {

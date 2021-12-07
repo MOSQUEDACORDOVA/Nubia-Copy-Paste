@@ -104,7 +104,16 @@ display: inline-flex !important;
     align-items: center;
     justify-content: center;
         }
+        .video-cu{
+            width: 22rem;
+            height: 15rem;
+        }
+
+        
     @media (max-width: 760px) {
+         .video-cu{
+            width: 20rem;
+        }
         .comida-img{
             width: 6rem !important;
         }
@@ -173,6 +182,17 @@ width: 5rem !important;
         max-height: 10rem;
     }
     }
+            @media (max-width: 1024px) {
+ .video-cu{
+            width: 15rem;
+        }
+          }    
+            @media (max-width: 1920px) {
+ .video-cu{
+            width: 25rem;
+            height: 17rem;
+        }
+            }
 </style>
 <script>
     $(document).ready(function () {
@@ -395,8 +415,9 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                                {{#video_img img}}{{/video_img}}
+                                {{!-- <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" /> --}}
                             </div>
 
                             <div class="card-body descrip-card2">
