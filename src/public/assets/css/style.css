@@ -1031,11 +1031,17 @@ table tr td {
 .py27.notice.es {
     background: linear-gradient(30deg, #ce0011 20%, rgb(255, 71, 71));
 }
+.py27 .board .btn {
+    font-weight: 700;
+}
 .py27.notice.es h2, .py27.notice.es p {
     font-family: 'Conthrax Sb';
 }
 .py27.notice.es p {
     line-height: 25px;
+}
+.py27.notice.es .btn {
+    font-family: 'Conthrax Sb';
 }
 .py27.notice.es .img-fluid {
     display: block;
