@@ -152,6 +152,9 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
+                                                        <img src="../../../app-assets/images/py27/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
+                                                    <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
 
@@ -195,6 +198,9 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
+                                                        <img src="../../../app-assets/images/py27/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
+                                                    <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allbnb}}
@@ -237,11 +243,14 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
+                                                        <img src="../../../app-assets/images/py27/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
+                                                    <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allusdt}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allusdt.id}}" required readonly>
-                                                        <input type="text" id="code_wallet" class="form-control" value="{{allbtc.code_wallet}}" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" value="{{allusdt.code_wallet}}" required readonly>
                                                         {{else}}
                                                         <input type="text" class="form-control mb-1" value="-" disabled>
                                                         {{/if}}
@@ -341,7 +350,7 @@
         let priceACN = parseFloat(document.getElementById('price_').value);
 
         btc.value = priceACN / resultBtc;
-        bnb.value =  priceACN / 551.30;
+        bnb.value =  priceACN / 545.80;
 
         let amount = amountAero.value;
 

@@ -467,6 +467,8 @@ router.post('/updateaebtcpy27', authControllerPY27.authenticatedAdmin, dashboard
 router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaebnb);
 // COMPRAR AEROCOINS
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
+// OBTENER INFORMACIÓN DE USUARIO
+router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.getuserinfopy27);
 
 // ? VERIFICACIÓN
 //router.get('/search-account-token', userControllerPY27.formSearchAccountToken);

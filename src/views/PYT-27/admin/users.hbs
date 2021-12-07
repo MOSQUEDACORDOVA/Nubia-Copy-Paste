@@ -38,18 +38,15 @@
                                             <td style="white-space: nowrap;">{{user.username}}</td>
                                             <td style="white-space: nowrap;">{{user.email}}</td>
                                             <td>
-                                                <a class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#AddNewCard2">Info</a>
+                                                <form action="/getuserinfopy27" method="POST" id="form{{user.id}}">
+                                                    <input class="d-none" type="text" name="id" value="{{user.id}}">
+                                                    <button type="button" class="btn btn-outline-primary info-user" data-id="{{user.id}}">Info</button>
+                                                </form>
                                             </td>
                                             <td class="type_user">
                                                 {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
                                             </td>
                                             <td>{{avalible_balance}}</td>
-                                            <!--<td>
-                                                <form id="form{{user.id}}">
-                                                    <input type="text" class="d-none" name="id" value="{{user.id}}" readonly required>
-                                                    {{#userdepositspy24 user.id user.depositos}}{{/userdepositspy24}}
-                                                </form>
-                                            </td>-->
                                             <td>
                                                 {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
                                             </td>
@@ -83,7 +80,7 @@
                         </div>
                     </div>
 
-                    <button class="d-none" id="btnModalPaquetes" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2"></button>
+                    <button class="d-none" id="btn-info" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2"></button>
 
                     {{!--- PENDIENTES POR VERIFICAR ---}}
                     <div class="col-12">
@@ -169,45 +166,91 @@
 
             {{!-- MODAL --}}
             <div class="modal fade" id="AddNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body px-sm-5 mx-50 pb-5">
-                            <h4 class="fw-bolder border-bottom pb-50 mb-1">User Info</h4>
-                            <div class="info-container">
-                                <ul class="list-unstyled">
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">Username:</span>
-                                        <span>Mosqueda Cordova</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">DNI Type:</span>
-                                        <span>Passport</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">DNI:</span>
-                                        <span>65415315813</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">Email:</span>
-                                        <span>client@demo.es</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">Type User:</span>
-                                        <span>Investor</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">Avalible Balance:</span>
-                                        <span>0 ACN</span>
-                                    </li>
-                                    <li class="mb-75">
-                                        <span class="fw-bolder me-25">Status:</span>
-                                        <span class="badge bg-light-success">Verified</span>
-                                    </li>
-                                </ul>
+                        <div class="modal-body pb-5 px-sm-5 pt-50">
+                            <div class="text-center mb-2">
+                                <h1 class="mb-1">User Information</h1>
                             </div>
+                            <form id="editUserForm" class="row gy-1 pt-75">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">First Name</label>
+                                    <input type="text" id="fname" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Last Name</label>
+                                    <input type="text" id="lname" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Username</label>
+                                    <input type="text" id="username" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Email</label>
+                                    <input type="text" id="email" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Date of Birth</label>
+                                    <input type="text" id="birth" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Gender</label>
+                                    <input type="text" id="gender" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Document Type</label>
+                                    <input type="text" id="tdoc" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI</label>
+                                    <input type="text" id="numdoc" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Phone</label>
+                                    <input type="text" id="phone" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Country</label>
+                                    <input type="text" id="country" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Nationality</label>
+                                    <input type="text" id="nationality" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">City</label>
+                                    <input type="text" id="city" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Address</label>
+                                    <input type="text" id="address" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Status</label>
+                                    <input type="text" id="status" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI Front</label>
+                                    <a href="" target="_blank" id="frontlink">
+                                        <img src="" id="front" class="img-fluid rounded-1 img-user-cap">
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI Back</label>
+                                    <a href="" target="_blank" id="backlink">
+                                        <img src="" id="back" class="img-fluid rounded-1 img-user-cap">
+                                    </a>
+                                </div>
+
+                                <div class="col-12 text-center mt-2 pt-50">
+                                    <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Close
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -275,120 +318,70 @@
 
 <script>
     $(document).ready(function() {
-        let tbodyModal = document.getElementById('tbody');
-        let btnModalP = $('#btnModalPaquetes');
-        $('.btn-paquetes').click(function(e) {
+        let btnModal = $('#btn-info');
+
+        let name = document.getElementById('fname'),
+        lname = document.getElementById('lname'),
+        username = document.getElementById('username'),
+        email = document.getElementById('email'),
+        birth = document.getElementById('birth'),
+        gender = document.getElementById('gender'),
+        tdoc = document.getElementById('tdoc'),
+        numdoc = document.getElementById('numdoc'),
+        phone = document.getElementById('phone'),
+        country = document.getElementById('country'),
+        nationality = document.getElementById('nationality'),
+        city = document.getElementById('city'),
+        address = document.getElementById('address'),
+        status = document.getElementById('status'),
+        frontlink = document.getElementById('frontlink'),
+        front = document.getElementById('front'),
+        backlink = document.getElementById('backlink');
+        back = document.getElementById('back');
+        
+        $('.info-user').click(function(e) {
             let iduser = e.target.getAttribute('data-id');
             let form = document.getElementById(`form${iduser}`);
             const data = new FormData(form);
             console.log(data)
             $.ajax({
-                url: '/getdeposits',
+                url: '/getuserinfopy27',
                 type: 'POST',
                 data: data,
                 cache: false,
                 contentType: false,
                 processData: false,
                 success: function (resp, textStatus, jqXHR) {
-                    let arr = resp;
-                    let newArr = [];
-                    console.log(resp)
-                    tbody.innerHTML = '';
-                    if(arr.transf.length) {
-                        newArr.push(arr.transf)
-                    }
-                    if(arr.paym.length) {
-                        newArr.push(arr.paym)
-                    }
-                    if(arr.btc.length) {
-                        newArr.push(arr.btc)
-                    }
-                    if(arr.wallet.length) {
-                        newArr.push(arr.wallet)
-                    }
-                    SetPackagesUser(newArr);
+                    let user = resp.user;
+                    console.log(user)
+                    console.log(address)
+                    name.value = user.first_name
+                    lname.value = user.last_name
+                    username.value = user.username
+                    email.value = user.email
+                    birth.value = user.date_of_birth
+                    gender.value = user.gender
+                    tdoc.value = user.doc_type
+                    numdoc.value = user.num_document
+                    phone.value = user.phone
+                    country.value = user.country
+                    city.value = user.city
+                    address.value = user.address
+                    nationality.value = user.nationality
+                    status.value = user.status
+
+                    frontlink.href = `/assets/img_up/${user.front_img_dni}`;
+                    front.src = `/assets/img_up/${user.front_img_dni}`;
+                    backlink.href = `/assets/img_up/${user.back_img_dni}`;
+                    back.src = `/assets/img_up/${user.back_img_dni}`;
+                    btnModal.click();
                 },
                 error: function (jqXHR, textStatus) {
                     console.log('error:' + jqXHR);
                 }
             });
         });
-
-        function SetPackagesUser (item) {
-            console.log(item)
-            if(item[0]) {
-                item[0].forEach(el => {
-                    SetModalValues(el);
-                })
-            }
-            if(item[1]) {
-                item[1].forEach(el => {
-                    SetModalValues(el);
-                })
-            }
-            if(item[2]) {
-                item[2].forEach(el => {
-                    SetModalValues(el);
-                })
-            }
-            if(item[3]) {
-                item[3].forEach(el => {
-                    SetModalValues(el);
-                })
-            }
-        }
-
-        function SetModalValues (item) {
-            console.log(item)
-            let name, status, created, activated, culmination;
-            if(item.status === 'No verificado') {
-                status = `<span class="badge rounded-pill badge-light-warning">${item.status}</span>`
-            } else {
-                status = `<span class="badge rounded-pill badge-light-success">${item.status}</span>`
-            }
-            if(!item.paquete.name) {
-                name = 'Paquete Personalizado';
-            } else {
-                name = item.paquete.name;
-            }
-            if(!item.createdAt) {
-                created = '-';
-            } else {
-                created = item.createdAt.slice(0,10)
-            }
-            if(!item.activatedAt) {
-                activated = '-';
-            } else {
-                activated = item.activatedAt.slice(0,10)
-            }
-            if(!item.culmination) {
-                culmination = '-';
-            } else {
-                culmination = item.culmination.slice(0,10)
-            }
-            let tr = document.createElement('tr')
-            tr.innerHTML = `
-                <td class=" control" tabindex="0" style="display: none;"></td>
-                <td class=" dt-checkboxes-cell">
-                    <div class="form-check"> 
-                        <input class="form-check-input dt-checkboxes" type="checkbox"  id="checkbox100">
-                        <label class="form-check-label" for="checkbox100"></label>
-                    </div>
-                </td>
-                <td style="white-space: nowrap">${name}</td>
-                <td style="white-space: nowrap">${created}</td>
-                <td style="white-space: nowrap">${activated}</td>
-                <td style="white-space: nowrap">${culmination}</td>
-                <td>${item.paquete.duration} Meses</td>
-                <td>${item.paquete.amount_th} TH</td>
-                <td>${item.paquete.price}$</td>
-                <td>${item.earnings}$</td>
-                <td>
-                    ${status}
-                </td>
-            `;
-            tbodyModal.appendChild(tr)
-            btnModalP.click();
-        }
+      
+        
     });
 </script>

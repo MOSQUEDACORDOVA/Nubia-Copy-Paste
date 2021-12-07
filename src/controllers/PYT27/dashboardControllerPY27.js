@@ -810,6 +810,32 @@ exports.users = (req, res) => {
     return res.redirect("/error27/PYT-27");
   });
 };
+
+exports.getuserinfopy27 = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  const {id} = req.body
+  if(id.trim() === '') {
+    return res.redirect("/error27/PYT-27");
+  } else {
+    DataBase.GetUserInfo(id).then((response)=>{
+      let user = JSON.parse(response)[0];
+      console.log(user)
+      res.send({user})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    });
+  }
+
+};
+
 // VERIFICAR CUENTA DE USUARIOS
 exports.verifyuser = (req, res) => {
   let msg = false;

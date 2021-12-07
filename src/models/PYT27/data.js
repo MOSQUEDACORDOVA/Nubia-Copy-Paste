@@ -9,8 +9,6 @@ const Depositos = require("../../models/PYT27/Depositos");
 const depositosaeros = require("../../models/PYT27/DepositosAero");
 const MetodosRetiros = require("../../models/PYT27/Retreats");
 const AeroCoin = require("../../models/PYT27/AeroCoin");
-const BNB = require("../../models/PYT27/bnb");
-const BTC = require("../../models/PYT27/btc");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -77,6 +75,20 @@ module.exports = {
             let data_s = JSON.stringify(data);
             console.log(data_s)
             resolve('Datos de verificación agregados satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER INFORMACIÓN DE USUARIO
+    GetUserInfo(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll({ where: {id: id }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve(data_s);
           })
           .catch((err) => {
             reject(err)
@@ -1601,42 +1613,6 @@ module.exports = {
     UpdatePriceAeroCoin(id, price) {
       return new Promise((resolve, reject) => {
         AeroCoin.update(
-          {
-            price: price
-          }, { where:{
-              id: id
-          }})
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Precio de AeroCoin actualizado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // ACTUALIZAR PRECIO BTC
-    UpdatePriceBTC(id, price) {
-      return new Promise((resolve, reject) => {
-        BTC.update(
-          {
-            price: price
-          }, { where:{
-              id: id
-          }})
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Precio de AeroCoin actualizado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // ACTUALIZAR PRECIO BNB
-    UpdatePriceBNB(id, price) {
-      return new Promise((resolve, reject) => {
-        BNB.update(
           {
             price: price
           }, { where:{
