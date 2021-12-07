@@ -100,13 +100,16 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+
      {{#if disabled_chofer}}
     {{else}}
     <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
     <script src="../../../dataPY4/editar_pedido.js"></script>
-    
+    {{#if dash}}
     <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
     <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+    {{/if}}
+    
     {{/if}}
     {{#if disabled_chofer}}
     
@@ -162,9 +165,7 @@
     {{#if dash}}
      <!-- BEGIN: Page JS-->
     <!-- END: Page Vendor JS-->
-    {{#if personal}}
-        <script src="../../../dataPY4/table-datatables-personal.js"></script>
-    {{/if}}      
+      
     <!-- END: Page JS-->
     {{/if}}
     {{#if sucursales}}
