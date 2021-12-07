@@ -1046,6 +1046,11 @@ table tr td {
 .py27.notice.es .btn {
     font-family: 'Conthrax Sb';
 }
+.py27 .qr-img {
+    display: block;
+    width: 200px;
+    object-fit: contain;
+}
 .py27.notice.es .img-fluid {
     display: block;
     margin: auto;
