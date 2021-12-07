@@ -1387,28 +1387,23 @@ exports.aeropresale = (req, res) => {
       let aerocoin = JSON.parse(response)[0];
       console.log(aerocoin)
 
-    DataBase.GetControlBTC().then((response2)=>{
-      let btcprice = JSON.parse(response2)[0];
-      console.log(btcprice)
-
-    DataBase.GetControlBNB().then((response3)=>{
-      let bnbprice = JSON.parse(response3)[0];
-      console.log(bnbprice)
-
       // TRAER CUENTAS PARA PAGAR EN BTC
       DataBase.GetBTC().then((btc)=>{
         let allbtc = JSON.parse(btc)[0];
         console.log(allbtc)
+        console.log("BTC")
 
         // TRAER CUENTAS PARA PAGAR EN BNB
         DataBase.GetBNB().then((bnb)=>{
           let allbnb = JSON.parse(bnb)[0];
           console.log(allbnb)
+          console.log("BNB")
 
         // TRAER CUENTAS PARA PAGAR EN USDT
         DataBase.GetUSDT().then((usdt)=>{
           let allusdt = JSON.parse(usdt)[0];
           console.log(allusdt)
+          console.log("USDT")
 
       let idUser = res.locals.user.id;
 
@@ -1431,22 +1426,12 @@ exports.aeropresale = (req, res) => {
       roleClient,
       presale,
       allpays,
-      aerocoin, btcprice, bnbprice,
+      aerocoin,
       allbtc, allbnb, allusdt,
       verify, unverify, pendingverify,
       aero: true,
       avalibleBalance
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

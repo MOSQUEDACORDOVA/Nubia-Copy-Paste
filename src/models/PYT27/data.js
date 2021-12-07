@@ -1584,34 +1584,6 @@ module.exports = {
           });
         });
     },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlBTC() {
-        return new Promise((resolve, reject) => {
-          BTC.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlBNB() {
-        return new Promise((resolve, reject) => {
-          BNB.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
     // CONTROL AEROCOIN TH PRECIO ADMIN
     ControlAeroCoin(price) {
         return new Promise((resolve, reject) => {
