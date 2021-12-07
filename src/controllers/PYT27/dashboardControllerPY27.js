@@ -80,6 +80,26 @@ exports.sesionstart = (req, res) => {
   })(req, res);
 };
 
+/*exports.formLogin = async (req, res) => {
+  const { error } = res.locals.messages;
+  if (req.params.token) {
+    const usuario = await Usuarios.findOne({
+      where: {
+        token: req.params.token,
+      },
+    });
+    if (!usuario) {
+    req.flash("error", "Token No válido o  Vencido, favor coloque su correo para reenviar el token de confirmación");
+      return res.redirect("/search-account-token");
+    }
+    usuario.validado="ok"
+    await usuario.save();
+    req.flash("success", "Token valido, inicie sesion ahora");
+    return res.redirect("/login27/PYT-27");
+  }
+}
+*/
+
 // Registro de usuarios
 exports.reguserpy27 = (req, res) => {
   console.log(req.body);
@@ -90,6 +110,24 @@ exports.reguserpy27 = (req, res) => {
     res.redirect('/register27/PYT-27');
   } else {
     DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
+      /*
+      const usuario = await Usuarios.findOne({ where: { email } });
+
+      if (!usuario) {
+        req.flash("error", "No existe esa cuenta");
+        console.log("error")
+        //res.redirect("/search-account");
+      }
+
+      // Usuario existe
+      usuario.token = crypto.randomBytes(20).toString("hex");
+      usuario.expiration = Date.now() + 3600000;
+
+      // Guardarlos en la BD
+      await usuario.save();
+      const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
+      res.redirect("/mailBienvenida/"+email+"/" + usuario.token);
+      */
       res.redirect("/login27/PYT-27")
     }).catch((err) => {
       console.log(err)
@@ -230,7 +268,8 @@ exports.emailregister = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py27: true,
-      login: true
+      login: true,
+      email: true
     });
 };
 
@@ -247,7 +286,8 @@ exports.emailregtemplate = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py27: true,
-      login: true
+      login: true,
+      email: true
     });
 };
 
@@ -264,7 +304,8 @@ exports.emaildeposit = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py27: true,
-      login: true
+      login: true,
+      email: true
     });
 };
 
@@ -281,7 +322,8 @@ exports.emailretreats = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py27: true,
-      login: true
+      login: true,
+      email: true
     });
 };
 

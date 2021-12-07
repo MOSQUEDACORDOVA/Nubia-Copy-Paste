@@ -120,6 +120,17 @@ const Usuarios = db27.define('usuarios', {
 			msg: 'El código ya existe'
 		}
 	},
+	token: {
+		type: DataTypes.STRING(255)
+	},
+	expiration: {
+		type: DataTypes.DATE
+	},
+	validation: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 	status: {
 		type: DataTypes.STRING(50),
 		allowNull: false,

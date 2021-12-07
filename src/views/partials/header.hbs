@@ -77,12 +77,19 @@
         <!-- END: Custom CSS-->
         <!-- BEGIN: PY21 Custom CSS-->
         <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
-        {{!-- <link rel="stylesheet" type="text/css" href="../../public/assets/css/py21/style.css"> --}}
         <!-- END: PY21 Custom CSS-->
     {{/if}}
 
     {{#if py27}}
-        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
+        {{#if email}}
+            <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
+        {{/if}}
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/fonts/py24/stylesheet.css">
@@ -126,9 +133,9 @@
     {{/if}}
     
     {{#if py672}}
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/page-knowledge-base.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
         <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     {{/if}}
 </head>

@@ -129,7 +129,7 @@
 
                                             {{#if user.front_img_dni}}
                                             <td>
-                                                <a href="#" role="button" class="btn btn-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Check</a>
+                                                <a href="#" role="button" class="btn btn-outline-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Check</a>
                                             </td>
                                             {{else}}
                                             <td>
@@ -222,22 +222,22 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <h1 class="text-center mb-1">Verificación de cuenta</h1>
-                            <p class="text-center">Datos suministrados por el cliente</p>
+                            <h1 class="text-center mb-1">Account Verification</h1>
+                            <p class="text-center">Data supplied by the client</p>
                             <form action="/verifyuserpy27" method="POST" class="card-body">
                                 <input type="text" name="id" id="iduser" class="d-none" required>
-                                <p class="card-text mb-0">DNI Parte frontal</p>
+                                <p class="card-text mb-0">DNI Front</p>
                                 <a target="_blank" id="link1">
                                     <img src="" class="img-fluid mb-2 rounded-1" id="dni_front">
                                 </a>
                                 
-                                <p class="card-text mb-0">DNI Parte posterior</p>
+                                <p class="card-text mb-0">DNI Back</p>
                                 <a target="_blank" id="link2">
                                     <img src="" class="img-fluid mb-2 rounded-1" id="dni_back">
                                 </a>
                                 
-                                <input type="submit" class="btn btn-primary" value="Validar verificación">
-                                <button type="reset" class="btn btn-outline-secondary">Denegar</button>
+                                <input type="submit" class="btn btn-primary" value="Validate verification">
+                                <button type="reset" class="btn btn-outline-secondary">Deny</button>
                             </form>
                         </div>
                     </div>

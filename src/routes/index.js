@@ -468,6 +468,10 @@ router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboard
 // COMPRAR AEROCOINS
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
 
+// ? VERIFICACIÓN
+//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
+//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
+
 // ! EMAIL REGISTER
 router.get('/emailregtemplate/:id', dashboardControllerPY27.emailregtemplate);
 router.get('/emailregister/:id', dashboardControllerPY27.emailregister);

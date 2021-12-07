@@ -165,7 +165,7 @@
                                 </table>
                                 <div class="d-flex justify-content-between mx-0 row">
                                     <div class="col-sm-12 col-md-6">
-                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                        <div class="dataTables_info text-dark" role="status" aria-live="polite">Payments will be validated within 8 hours</div>
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
@@ -192,21 +192,28 @@
                         </div>
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Account Verification</h1>
-                            <p class="text-center">Enter a photo of your identity document, legible, with both sides. The data provided must match the identification data registered.</p>
+                            <p class="text-center mb-0">Enter a photo of your identity document, legible, with both sides. The data provided must match the identification data registered.</p>
                             <form action="/solicitverifypy27" method="POST" class="card-body">
-                                <p class="card-text mb-0">Front</p>
 
                                 <!--<input type="text" class="form-control d-none" id="voucher1">-->
-                     
-                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+                                <p class="card-text mb-0">Document Type</p>
+                                <select name="" id="" class="form-select mb-1" required>
+                                    <option value=""></option>
+                                    <option value="">PASAPORT</option>
+                                    <option value="">DNI</option>
+                                    <option value="">DRIVER'S LICENSE</option>
+                                </select>
+
+                                <p class="card-text mb-0">Front</p>
+                                <input type="file" id="img1" name="voucher1" class="form-control mb-1" required>
 
                                 <p class="card-text mb-0">Back</p>
 
                                 <!--<input type="text" class="form-control d-none" id="voucher2">-->
                      
-                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                <input type="file" id="img2" name="voucher2" class="form-control mb-1" required>
                                 
-                                <input type="submit" class="btn btn-primary" value="Send verification">
+                                <input type="submit" class="btn btn-outline-primary" value="Send verification">
                             </form>
                         </div>
                     </div>

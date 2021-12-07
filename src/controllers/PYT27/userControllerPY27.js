@@ -27,6 +27,16 @@ exports.createUser = async (req, res) => {
     }
 };
 
+/*exports.formSearchAccountToken = (req, res) => {
+
+  res.render("search-account", {
+    pageName: "Buscar Cuenta",
+    layout: "page-form",
+    token:true
+  });
+
+};*/
+
 // Cerrar sesión
 exports.closeSesion = (req, res) => {
   req.session.destroy(() => {
