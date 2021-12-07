@@ -310,7 +310,7 @@ module.exports = {
 		 var out = "";
 				console.log(formato)
 				if (formato[1] == "mp4" || formato[1] == "ogg" || formato[1] == "webm") {
-					out+=	`<video src="../../../dataPY4/img_upload/${fotos}" controls width="320" height="240">
+					out+=	`<video src="../../../dataPY4/img_upload/${fotos}" controls class="video-cu">
 					Tu navegador no admite el elemento <code>video</code>.
 				  </video> `
 				}else{
