@@ -1155,6 +1155,13 @@ table tr td {
 .py27 .progress-bar {
     background-color: #04246d !important;
 }
+.py672 .flatpickr-day.selected {
+    background: #04246d !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    border-color: #04246d !important;
+}
 @media (min-width: 768px) {
     .py27 .dni-img .img-fluid {
         height: 300px;
