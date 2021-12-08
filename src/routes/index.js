@@ -497,6 +497,10 @@ router.get('/error672/:id', dashboardControllerPY672.error);
 
 // * CREAR GRUPOS
 router.post('/creargrupopy672', dashboardControllerPY672.creargrupos);
+// * ACTUALIZAR GRUPOS
+router.post('/actualizargrupospty672', dashboardControllerPY672.actualizargrupos);
+// * BORRAR GRUPOS
+router.post('/borrargrupopy672', dashboardControllerPY672.borrargrupo);
 
 
 

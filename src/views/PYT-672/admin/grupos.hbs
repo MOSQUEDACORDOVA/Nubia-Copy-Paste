@@ -152,7 +152,7 @@
                                                             <div>
                                                                 <div class="d-flex mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div>
@@ -168,6 +168,14 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
+                                                                                                                                                                                        <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
+                                                                                <form action="/borrargrupopy672" method="POST">
+                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
+                                                                                    <a class="borrar-btn">
+                                                                                        <i data-feather='trash'></i>
+                                                                                    </a>
+                                                                                </form>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -189,7 +197,7 @@
                                                                     <div class="me-1">
                                                                         <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
                                                                         
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post">{{dia_horario}}</small>
+                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
                                                                         
                                                                         </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
                                                                         <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
@@ -250,7 +258,7 @@
                                                             <div>
                                                                 <div class="d-flex mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div>
@@ -266,6 +274,14 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
+                                                                                                                                                                                         <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
+                                                                                <form action="/borrargrupopy672" method="POST">
+                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
+                                                                                    <a class="borrar-btn">
+                                                                                        <i data-feather='trash'></i>
+                                                                                    </a>
+                                                                                </form>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -287,7 +303,7 @@
                                                                     <div class="me-1">
                                                                         <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
                                                                         
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post">{{dia_horario}}</small>
+                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
                                                                         
                                                                         </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
                                                                         <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
@@ -348,7 +364,7 @@
                                                             <div>
                                                                 <div class="d-flex mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div>
@@ -364,6 +380,16 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
+
+                                                                            <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
+                                                                                <form action="/borrargrupopy672" method="POST">
+                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
+                                                                                    <a class="borrar-btn">
+                                                                                        <i data-feather='trash'></i>
+                                                                                    </a>
+                                                                                </form>
+                                                                            </div>
+                                                                           
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -385,7 +411,7 @@
                                                                     <div class="me-1">
                                                                         <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
                                                                         
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post">{{dia_horario}}</small>
+                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
                                                                         
                                                                         </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
                                                                         <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
@@ -394,6 +420,7 @@
                                                                         <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
                                                                         <small class="emp_post text-muted">Fin</small><br><small class="emp_post">{{fecha_finalizacion}}</small>
                                                                     </div>
+                                                                                                            
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -418,7 +445,7 @@
             <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal" aria-modal="true" role="dialog">
                 <div class="modal-dialog sidebar-lg">
                     <div class="modal-content p-0">
-                        <form id="form-modal-todo" class="todo-modal needs-validation" novalidate="novalidate" onsubmit="return false">
+                        <form class="todo-modal needs-validation" action="/actualizargrupospty672" method="POST">
                             <div class="modal-header align-items-center mb-1">
                                 <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x cursor-pointer" data-bs-dismiss="modal"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
@@ -427,18 +454,23 @@
                             <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                                 <div class="action-tags">
                                     <div class="mb-1">
-                                        <label for="todoTitleAdd" class="form-label">Tipo de Curso</label>
-                                        <input type="text" id="todoTitleAdd" name="todoTitleAdd" class="new-todo-item-title form-control" placeholder="Title">
+                                        <label for="" class="form-label">Tipo de Curso</label>
+                                        <input type="text" name="id" class="new-todo-item-title form-select d-none id" required>
+                                        <select type="text" id="titulo" name="nombre" class="new-todo-item-title form-select" required>
+                                            <option value="Desde cero">Desde cero</option>
+                                            <option value="Intensivo">Intensivo</option>
+                                        </select>
                                     </div>
                                     <div class="mb-1">
-                                        <label for="task-due-date" class="form-label">Fecha de Inicio</label>
-                                        <input type="text" class="form-control task-due-date flatpickr-input" id="task-due-date" name="task-due-date" readonly="readonly">
+                                        <label for="" class="form-label">Fecha de Inicio</label>
+                                        <input type="date" class="form-control task-due-date flatpickr-input" id="date" name="fechaInicio" required>
                                     </div> 
                                 </div>
                                 <div class="my-1">
-                                    <button type="button" class="btn btn-primary update-btn update-todo-item me-1 waves-effect waves-float waves-light">Actualizar</button>
-                                    <button type="button" class="btn btn-outline-danger update-btn waves-effect" data-bs-dismiss="modal">
-                                        Borrar
+                                    <!--<button type="submit" class="btn btn-primary">Actualizar</button>-->
+                                    <button type="reset" class="btn btn-primary">Actualizar</button>
+                                    <button type="reset" class="btn btn-outline-danger">
+                                        Cancelar
                                     </button>
                                 </div>
                             </div>
@@ -517,4 +549,28 @@
             desde0Form.classList.add('d-none')
         }
     }
+
+    let grupo = document.querySelectorAll('.grupo'),
+    idIn = document.querySelectorAll('.id'),
+    tituloIn = document.getElementById('titulo'),
+    fechaIn = document.getElementById('date');
+
+    grupo.forEach(btn => {
+        btn.addEventListener('click', e => {
+            tituloIn.value = e.target.getAttribute('data-nombre');
+            fechaIn.value = e.target.getAttribute('data-fecha');
+            idIn.forEach(inp => {
+                inp.value = e.target.getAttribute('data-id')
+            });
+        });
+    });
+
+    let borrarBtn = document.querySelectorAll('.borrar-btn');
+
+    borrarBtn.forEach(btn => {
+        btn.addEventListener('click', e => {
+            e.target.parentElement.submit()
+        });
+    });
+
 </script>
