@@ -144,7 +144,7 @@ exports.creargrupos = (req, res) => {
   const { nombre, lecciones, horario, fechaInicio } = req.body;
   let msg = false;
   let diaActual = moment(fechaInicio).format('DD');
-  let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivel;
+  let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
   inicio = moment(fechaInicio).format('DD-MM-YYYY');
 
@@ -168,52 +168,59 @@ exports.creargrupos = (req, res) => {
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        /*grupos.forEach(row => {
+        grupos.forEach(row => {
+          console.log(row.nombre)
+          console.log(row.fecha_inicio)
+
           if (moment(inicio).isSame(row.fecha_inicio, 'year')) {
             count++;
             console.log("CONTIENEN EL MISMO AÑO")
             console.log(count)
             console.log("NUMERO DE IDENTIFICADOR")
           }
-        });*/  
+        }); 
 
         numGrupo += count;
         let nivel1, nivel2, nivel3, nivel4;
-        nivel1 = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY')
-        nivel2 = moment(fechaInicio).add(64, 'w').format('DD-MM-YYYY')
-        nivel3 = moment(fechaInicio).add(128, 'w').format('DD-MM-YYYY')
-        nivel4 = moment(fechaInicio).add(128, 'w').format('DD-MM-YYYY')
+        nivel1 = moment().add(32, 'w').format('YYYY-MM-DD')
+        nivel2 = moment().add(64, 'w').format('YYYY-MM-DD')
+        nivel3 = moment().add(96, 'w').format('YYYY-MM-DD')
+        nivel4 = moment().add(128, 'w').format('YYYY-MM-DD')
 
-        console.log(nivel1)
-        console.log(nivel2)
-        console.log(nivel3)
-        console.log(nivel4)
         console.log("NIVELES")
-  
-        /*if(moment(fechaInicio).isBetween(moment(fechaInicio), nivel4)) {
-          nivel = '-4';
-          if(moment(fechaInicio).isBetween(moment(fechaInicio), nivel3)) {
-            nivel = '-3';
-            if(moment(fechaInicio).isBetween(moment(fechaInicio), nivel2)) {
-              nivel = '-2';
-              if(moment(fechaInicio).isBetween(moment(fechaInicio), nivel1)) {
-                nivel = '-1';
+
+        let testNivel1 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel1);
+        let testNivel2 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel2);
+        let testNivel3 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel3);
+        let testNivel4 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel4);
+        
+        if(testNivel4) {
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+          if(testNivel3) {
+            nivelCode = '-3';
+            nivel = 'Intermedio';
+            if(testNivel2) {
+              nivelCode = '-2';
+              nivel = 'Básico';
+              if(testNivel1) {
+                nivelCode = '-1';
+                nivel = 'Principiante';
               } 
             } 
           } 
-        } */
-        nivel = '-1';
+        } 
         
         fechaFin = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
         numId += numGrupo;
-        identificador = `C${numAño}${numId}${nivel}`;
+        identificador = `C${numAño}${numId}${nivelCode}`;
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin).then((respuesta) => {
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
           res.redirect("/verificargrupos/PYT-672")
         }).catch((err) => {
           console.log(err)
@@ -238,19 +245,46 @@ exports.creargrupos = (req, res) => {
               console.log("NUMERO DE IDENTIFICADOR")
             }
           });    
+        }
+
+        let nivel1, nivel2, nivel3, nivel4;
+        nivel1 = moment().add(16, 'w').format('YYYY-MM-DD')
+        nivel2 = moment().add(32, 'w').format('YYYY-MM-DD')
+        nivel3 = moment().add(48, 'w').format('YYYY-MM-DD')
+        nivel4 = moment().add(64, 'w').format('YYYY-MM-DD')
+
+        let testNivel1 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel1);
+        let testNivel2 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel2);
+        let testNivel3 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel3);
+        let testNivel4 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel4);
+        
+        if(testNivel4) {
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+          if(testNivel3) {
+            nivelCode = '-3';
+            nivel = 'Intermedio';
+            if(testNivel2) {
+              nivelCode = '-2';
+              nivel = 'Básico';
+              if(testNivel1) {
+                nivelCode = '-1';
+                nivel = 'Principiante';
+              } 
+            } 
+          } 
         } 
-        nivel = '-1'
 
         fechaFin = moment(fechaInicio).add(16, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
         numId += numGrupo;
-        identificador = `I${numAño}${numId}${nivel}`;
+        identificador = `I${numAño}${numId}${nivelCode}`;
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin).then((respuesta) => {
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
           res.redirect("/verificargrupos/PYT-672")
         }).catch((err) => {
           console.log(err)

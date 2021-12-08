@@ -72,7 +72,6 @@ const Grupos = db672.define('grupos', {
 	nivel: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
-		defaultValue: 'Principiante'
 	},
 	codigo_nivel: {
 		type: DataTypes.STRING(200),

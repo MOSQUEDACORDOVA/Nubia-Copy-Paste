@@ -227,7 +227,7 @@
                                                 <!-- FILTRO DESDE CERO -->
                                                 <div class="col-4 niveles-grupos">
                                                     <label class="form-label" for="">Niveles</label>
-                                                    <select id="" class="form-select text-capitalize mb-md-0 mb-2">
+                                                    <select id="nivelesGrupo1" class="form-select text-capitalize mb-md-0 mb-2">
                                                         <option value="todos">Todos</option>
                                                         <option value="Principiante" class="text-capitalize">Principiante</option>
                                                         <option value="Básico" class="text-capitalize">Básico</option>
@@ -250,10 +250,10 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="user-list-table-Tabla-DesdeCero table">
+                                            <table class="user-list-table-Tabla-DesdeCero table" id="tablaDesde0">
                                                 {{#if gruposDesde0}}
                                                 {{#each gruposDesde0 as |grupo i|}}
-                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}}" data-nivel="{{nivel}}">
+                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}">
                                                         <td>
                                                             <div>
                                                                 <div class="d-flex mb-1">
@@ -333,7 +333,7 @@
                                                 <!-- FILTRO INTENSIVO -->
                                                 <div class="col-4 niveles-grupos">
                                                     <label class="form-label" for="">Niveles</label>
-                                                    <select id="" class="form-select text-capitalize mb-md-0 mb-2">
+                                                    <select id="nivelesGrupo2" class="form-select text-capitalize mb-md-0 mb-2">
                                                         <option value="todos">Todos</option>
                                                         <option value="Principiante" class="text-capitalize">Principiante</option>
                                                         <option value="Básico" class="text-capitalize">Básico</option>
@@ -356,10 +356,10 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="user-list-table-Tabla-DesdeCero table">
+                                            <table class="user-list-table-Tabla-DesdeCero table" id="tablaIntensivo">
                                                 {{#if gruposIntensivo}}
                                                 {{#each gruposIntensivo as |grupo i|}}
-                                                    <tr class="odd {{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}}" data-nivel="{{nivel}}">
+                                                    <tr class="odd {{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}">
                                                         <td>
                                                             <div>
                                                                 <div class="d-flex mb-1">
@@ -573,4 +573,64 @@
         });
     });
 
+    let selectGrupo1 = document.getElementById('nivelesGrupo1'),
+    selectGrupo2 = document.getElementById('nivelesGrupo2');
+
+    selectGrupo1.addEventListener('change', e => {
+        console.log(selectGrupo1.value);
+        let selected = selectGrupo1.value;
+        filtroGruposDesde0(selected);
+    });
+
+    selectGrupo2.addEventListener('change', e => {
+        console.log(selectGrupo2.value);
+        let selected = selectGrupo2.value;
+        filtroGruposIntensivo(selected);
+    });
+
+      
+    const filtroGruposDesde0 = (item) => {
+        let todos = document.querySelectorAll(`#tablaDesde0 .desde0`);
+        let rows = document.querySelectorAll(`#tablaDesde0 .desde0.${item}`);
+        console.log(rows)
+        todos.forEach(row => {
+            row.classList.add('d-none');
+            row.classList.remove('d-block');
+        });
+        if(item === 'todos') {
+            todos.forEach(row => {
+                row.classList.remove('d-none');
+                row.classList.add('d-block');
+            });
+        } else {
+            rows.forEach(col => {
+                console.log(col)
+                col.classList.remove('d-none');
+                col.classList.add('d-block');
+            });
+        }
+    }
+      
+    const filtroGruposIntensivo = (item) => {
+        let todos = document.querySelectorAll(`#tablaIntensivo .intensivo`);
+        let rows = document.querySelectorAll(`#tablaIntensivo .intensivo.${item}`);
+
+        console.log(rows)
+        todos.forEach(row => {
+            row.classList.add('d-none');
+            row.classList.remove('d-block');
+        });
+        if(item === 'todos') {
+            todos.forEach(row => {
+                row.classList.remove('d-none');
+                row.classList.add('d-block');
+            });
+        } else {
+            rows.forEach(col => {
+                console.log(col)
+                col.classList.remove('d-none');
+                col.classList.add('d-block');
+            });
+        }
+    }
 </script>
