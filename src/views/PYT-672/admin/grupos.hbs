@@ -243,8 +243,8 @@
                                                 </div>
                                                 <div class="col-4 pagos-grupos">
                                                     <label class="form-label" for="">Fecha de pago</label>
-                                                    <select id="" class="form-select text-capitalize mb-md-0 mb-2xx">
-                                                        <option value=""></option>
+                                                    <select id="pagosGrupo1" class="form-select text-capitalize mb-md-0 mb-2xx">
+                                                        <option value="todos">Todos</option>
                                                         <option value="01">01 de cada mes</option>
                                                         <option value="15">15 de cada mes</option>
                                                     </select>
@@ -253,7 +253,7 @@
                                             <table class="user-list-table-Tabla-DesdeCero table" id="tablaDesde0">
                                                 {{#if gruposDesde0}}
                                                 {{#each gruposDesde0 as |grupo i|}}
-                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}">
+                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
                                                         <td>
                                                             <div>
                                                                 <div class="d-flex mb-1">
@@ -349,8 +349,8 @@
                                                 </div>
                                                 <div class="col-4 pagos-grupos">
                                                     <label class="form-label" for="">Fecha de pago</label>
-                                                    <select id="" class="form-select text-capitalize mb-md-0 mb-2xx">
-                                                        <option value=""></option>
+                                                    <select id="pagosGrupo2" class="form-select text-capitalize mb-md-0 mb-2xx">
+                                                        <option value="todos">Todos</option>
                                                         <option value="01">01 de cada mes</option>
                                                         <option value="15">15 de cada mes</option>
                                                     </select>
@@ -359,7 +359,7 @@
                                             <table class="user-list-table-Tabla-DesdeCero table" id="tablaIntensivo">
                                                 {{#if gruposIntensivo}}
                                                 {{#each gruposIntensivo as |grupo i|}}
-                                                    <tr class="odd {{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}">
+                                                    <tr class="odd {{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
                                                         <td>
                                                             <div>
                                                                 <div class="d-flex mb-1">
@@ -486,7 +486,7 @@
     let inputDesde0 = document.querySelector('.desde0'),
     desde0Form = document.getElementById('desde0Form'),
     inputIntensivo = document.querySelector('.intensivo'),
-    intensivoForm= document.getElementById('intensivoForm');
+    intensivoForm = document.getElementById('intensivoForm');
 
     const filtroApertura = document.getElementById('filtroApertura');
 
@@ -614,8 +614,6 @@
     const filtroGruposIntensivo = (item) => {
         let todos = document.querySelectorAll(`#tablaIntensivo .intensivo`);
         let rows = document.querySelectorAll(`#tablaIntensivo .intensivo.${item}`);
-
-        console.log(rows)
         todos.forEach(row => {
             row.classList.add('d-none');
             row.classList.remove('d-block');
@@ -630,6 +628,75 @@
                 console.log(col)
                 col.classList.remove('d-none');
                 col.classList.add('d-block');
+            });
+        }
+    }
+
+    let pagosGrupo1 = document.getElementById('pagosGrupo1'),
+    pagosGrupo2 = document.getElementById('pagosGrupo2');
+
+    pagosGrupo1.addEventListener('change', e => {
+        filtroPagosGrupoDesde0(pagosGrupo1.value);
+    });
+
+    const filtroPagosGrupoDesde0 = (item) => {
+        let todos = document.querySelectorAll(`#tablaDesde0 .desde0`);
+
+        todos.forEach(row => {
+            row.classList.add('d-none');
+            row.classList.remove('d-block');
+        });
+        if(item === 'todos') {
+            todos.forEach(row => {
+                row.classList.remove('d-none');
+                row.classList.add('d-block');
+            });
+        } else if (item === '01') {
+            todos.forEach(row => {
+                if(row.getAttribute('data-pagos') === '01 de cada mes') {
+                    row.classList.remove('d-none');
+                    row.classList.add('d-block');
+                }
+            });
+        } else {
+            todos.forEach(row => {
+                if(row.getAttribute('data-pagos') === '15 de cada mes') {
+                    row.classList.remove('d-none');
+                    row.classList.add('d-block');
+                }
+            });
+        }
+    }
+
+    pagosGrupo2.addEventListener('change', e => {
+        filtroPagosGrupoIntensivos(pagosGrupo2.value);
+    });
+
+    const filtroPagosGrupoIntensivos = (item) => {
+        let todos = document.querySelectorAll(`#tablaIntensivo .intensivo`);
+
+        todos.forEach(row => {
+            row.classList.add('d-none');
+            row.classList.remove('d-block');
+        });
+        if(item === 'todos') {
+            todos.forEach(row => {
+                row.classList.remove('d-none');
+                row.classList.add('d-block');
+            });
+        } else if (item === '01') {
+            todos.forEach(row => {
+                if(row.getAttribute('data-pagos') === '01 de cada mes') {
+                    row.classList.remove('d-none');
+                    row.classList.add('d-block');
+                }
+            });
+        } else {
+            todos.forEach(row => {
+                if(row.getAttribute('data-pagos') === '15 de cada mes') {
+                    row.classList.remove('d-none');
+                    row.classList.add('d-block');
+                }
             });
         }
     }
