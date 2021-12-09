@@ -6,6 +6,88 @@ const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
 
+// TODO: AUTH
+// * LOGIN
+exports.sesionstart = (req, res) => {
+  console.log(req.body);
+  let msg = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  passport.authenticate("local", function (err, user, info) {
+    if (err) {
+      console.log(err)
+      return next(err);
+    }
+    if (!user) {
+      console.log("no existe usuario")
+      return res.redirect("/loginpy672/PYT-672");
+    }
+    req.logIn(user, function (err) {
+      if (err) {
+        console.log(err)
+        return next(err);
+      }
+      console.log(user.dataValues.id);
+      return res.redirect('/grupos/PYT-672')
+    });
+  })(req, res);
+};
+
+// * REGISTRO DE USUARIOS
+exports.reguser = (req, res) => {
+  console.log(req.body);
+  const { username, email, password } = req.body;
+  let msg = false;
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/registerpy672/PYT-672');
+  } else {
+    DataBase.RegUser(username, email, password).then((respuesta) =>{
+      res.redirect('/py21/PYT-21'+respuesta)
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * VISTA LOGIN
+exports.login = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/auth/login", {
+      pageName: "Login",
+      dashboardPage: true,
+      dashboard: true,
+      py21:true,
+      login: true,
+    })
+};
+
+// * VISTA REGISTRO
+exports.register = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/auth/register", {
+      pageName: "Registro",
+      dashboardPage: true,
+      dashboard: true,
+      py21:true,
+      login: true
+    })
+};
+
+// TODO: ADMINISTRADOR
 exports.grupos = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -72,21 +154,21 @@ exports.verificargrupos = (req, res) => {
     // VERIFICAR GRUPOS EN APERTURA 
     grupos.forEach(row => {
       let inicioGrupo = row.fecha_inicio;
- 
+      let actual = moment();
+      let iniciado = moment(inicioGrupo, "DD-MM-YYYY");
+      let iniciar = actual.diff(iniciado, 'days');
+      console.log(iniciar)
+      console.log("CONDICION")
       console.log(inicioGrupo)
-      console.log("INCIIOASIDSOADIOASO")
-      
-      let actual = moment().format('DD-MM-YYYY');
-      let iniciado = moment(inicioGrupo, "DD-MM-YYYY").add(1, 'days').format('DD-MM-YYYY');
-      //let limite = moment(inicioGrupo, "DD-MM-YYYY").add(2, 'days').format('DD-MM-YYYY');
+      console.log("FECHA DE INICIO DEL GRUPO")
       console.log(iniciado)
-      console.log("FECHA DE GRUPO INICIADO")
- 
+      console.log("FECHA CUANDO INICIA EL GRUPO")
+      
       console.log(actual)
       console.log("FECHA ACTUAL")
       
-      if (moment(iniciado).isSameOrBefore(actual)) {
-        console.log("GRUPO INICIADO")
+      if (iniciar >= 1 && row.estado === 'En Apertura') {
+        console.log("GRUPO INICIADO CON EXITO ACTUALIZANDO")
 
         DataBase.ActualizarEstadoDeGrupos(row.id).then((actualizado) => {
           console.log(actualizado)

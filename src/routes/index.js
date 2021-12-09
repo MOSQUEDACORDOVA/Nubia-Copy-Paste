@@ -383,8 +383,6 @@ router.post('/upload', fileController.subirArchivo);
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 
-
-
 // PYT-27 --- AEROCOINS
 // ! ADMIN
 router.get('/paympy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymanag);
@@ -484,13 +482,22 @@ router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 /*------------ PYT-672-----------------*/
+// TODO: AUTH  
+router.get('/loginpy672/:id', dashboardControllerPY672.login);
+router.get('/registerpy672/:id', dashboardControllerPY672.register);
+
+// ? POST 
+router.post('/login672', dashboardControllerPY672.sesionstart);
+router.post('/reguserpy672', dashboardControllerPY672.reguser);
+
+// TODO: ADMIN
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 
 
 
-
+// * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
 // ? POST
