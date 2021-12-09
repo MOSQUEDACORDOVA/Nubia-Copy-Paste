@@ -247,14 +247,18 @@ exports.creargrupos = (req, res) => {
     if (lecciones === '1') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
         let grupos = JSON.parse(response);
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
         grupos.forEach(row => {
-          console.log(row.nombre)
-          console.log(row.fecha_inicio)
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
 
-          if (moment(inicio).isSame(row.fecha_inicio, 'year')) {
+          if (numAño === añoGrupo) {
             count++;
             console.log("CONTIENEN EL MISMO AÑO")
             console.log(count)
@@ -291,7 +295,10 @@ exports.creargrupos = (req, res) => {
               } 
             } 
           } 
-        } 
+        } else {
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+        }
         
         fechaFin = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
@@ -319,16 +326,26 @@ exports.creargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("INTENSIVOS")
         // FILTRAR POR AÑO
-        if (grupos.length >= 1) {
-          grupos.forEach(row => {
-            if (moment(inicio).isSame(row.fecha_inicio, 'year')) {
-              console.log("CONTIENEN EL MISMO AÑO")
-              numGrupo++;
-              console.log("NUMERO DE IDENTIFICADOR")
-            }
-          });    
-        }
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
 
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
         let nivel1, nivel2, nivel3, nivel4;
         nivel1 = moment().add(16, 'w').format('YYYY-MM-DD')
         nivel2 = moment().add(32, 'w').format('YYYY-MM-DD')
@@ -355,7 +372,10 @@ exports.creargrupos = (req, res) => {
               } 
             } 
           } 
-        } 
+        } else {
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+        }
 
         fechaFin = moment(fechaInicio).add(16, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
