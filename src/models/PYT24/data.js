@@ -13,9 +13,9 @@ const Referidos = require("../../models/PYT24/Referidos");
 
 module.exports = {
     // REGISTRO DE USUARIOS
-    RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password) {
+    RegUser(username, email, password) {
         return new Promise((resolve, reject) => {
-        Usuarios.create({first_name: fname, last_name: lname, date_of_birth: bdate, gender: gender, doc_type: dtype, num_document: numdoc, nationality: nationality, country: country, city: city, phone: phone, address: address, username: username, email: email, password: password, type_user: 'Inversionista' })
+        Usuarios.create({username: username, email: email, password: password, type_user: 'Inversionista' })
           .then((data) => {
               let data_set = JSON.stringify(data);
               resolve('Usuario registrado con éxito');

@@ -51,13 +51,13 @@ exports.sesionstart = (req, res) => {
 // Registro de usuarios
 exports.reguserpy24 = (req, res) => {
   console.log(req.body);
-  const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
+  const { username, email, password } = req.body;
   let msg = false;
-  if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/register24/PYT-24');
   } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
+    DataBase.RegUser(username, email, password).then((respuesta) =>{
       res.redirect("/login24/PYT-24")
     }).catch((err) => {
       console.log(err)
