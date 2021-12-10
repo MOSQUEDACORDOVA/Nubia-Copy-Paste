@@ -11,50 +11,6 @@ const Usuarios = db24.define('usuarios', {
 		primaryKey: true,
 		autoIncrement: true
 	},
-	first_name: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	last_name: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	date_of_birth: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	gender: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	doc_type: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	num_document: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	nationality: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	country: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	city: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	phone: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	address: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
 	username: {
 		type: DataTypes.STRING(100),
 		allowNull: false,

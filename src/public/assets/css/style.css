@@ -1057,6 +1057,7 @@ table tr td {
     height: 200px;
     object-fit: cover;
 }
+
 .py27.notice.es .img-fluid {
     display: block;
     margin: auto;
@@ -1478,4 +1479,12 @@ table tr td {
 }
 .py672 .form-control:focus {
     border-color: #7367f0 !important;
+}
+.py672 .grupo b, .py672 .borrar-btn > * {
+    pointer-events: none;
+}
+.py672 .texto-horario {
+    display: block;
+    min-width: 200px;
+    background: #396bf3;
 }

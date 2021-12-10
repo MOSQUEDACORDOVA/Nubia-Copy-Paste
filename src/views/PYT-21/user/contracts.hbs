@@ -13,53 +13,34 @@
                                     <div class="col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Tipo de Contrato</label>
-                                            <select name="" id="" class="form-select">
-                                                <option value="">Ganancia Mínima de 100 USD - 350 USD Máxima</option>
-                                                <option value="">Ganancia Mínima de 200 USD - 400 USD Máxima</option>
-                                                <option value="">Ganancia Mínima de 500 USD - 700 USD Máxima</option>
+                                            <select name="" id="typeContract" class="form-select">
+                                                <option value=""></option>
+                                                {{#each contratos as |item i|}}
+                                                <option value="{{id}}" data-duration="{{duration}}" data-min="{{min_earnings}}" data-max="{{max_earnings}}" data-bond="{{bond}}" data-id="{{id}}">Ganancia Mínima de {{min_earnings}} USD</option>
+                                                {{/each}}
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label class="form-label" for="email-id-vertical">Inversión</label>
-                                            <input type="text" class="form-control" name="email-id" placeholder="Monto">
+                                            <label class="form-label" for="">Inversión</label>
+                                            <input type="text" class="form-control" name="email-id" placeholder="Monto" required>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Duración</label>
-                                            <input type="text" class="form-control" value="6 Meses" placeholder="6 Meses" readonly>
+                                            <input type="text" class="form-control" id="duracion" value="" placeholder="6 Meses" required readonly>
                                         </div>
                                     </div>
-                                    <!--<div class="col-6">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="">Ganancia Mínima</label>
-                                            <select name="" id="" class="form-select">
-                                                <option value="">100$</option>
-                                                <option value="">200$</option>
-                                                <option value="">300$</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="">Ganancia Máxima</label>
-                                            <select name="" id="" class="form-select">
-                                                <option value="">600$</option>
-                                                <option value="">700$</option>
-                                                <option value="">800$</option>
-                                            </select>
-                                        </div>
-                                    </div>-->
                                     <div class="col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Bono</label>
-                                            <input type="text" class="form-control" value="5%" readonly>
+                                            <input type="text" id="bono" class="form-control" placeholder="5%" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-1">
-                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Crear Contrato</button>
+                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Crear Contrato</button>
                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                     </div>
                                 </div>
@@ -75,8 +56,8 @@
                                 <h4 class="card-title">Proyección de Contrato</h4>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div style="height:350px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="line-chart-ex chartjs chartjs-render-monitor" data-height="450" width="1790" height="900" style="display: block; width: 895px; height: 350px;"></canvas></div>
+                        <div class="card-body" id="grapContainer">
+                            <div id="chart"></div>
                         </div>
                     </div>
                 </div>
@@ -468,3 +449,91 @@
         </div>
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    const selectContr = document.getElementById('typeContract'),
+    duracion = document.getElementById('duracion'),
+    bono = document.getElementById('bono');
+
+    let grap = document.getElementById('chart');
+    
+    selectContr.addEventListener('change', e => {
+        if (!selectContr.options[selectContr.selectedIndex].getAttribute('data-duration') || !selectContr.options[selectContr.selectedIndex].getAttribute('data-bond')) {
+            duracion.value = '';
+            bono.value = '';
+        } else {
+            duracion.value = selectContr.options[selectContr.selectedIndex].getAttribute('data-duration') + ' Meses';
+            bono.value = selectContr.options[selectContr.selectedIndex].getAttribute('data-bond') + '%';
+        }
+        grap.classList.add('d-none');
+        let a = parseInt(selectContr.options[selectContr.selectedIndex].getAttribute('data-min')),
+        b = parseInt(parseInt(selectContr.options[selectContr.selectedIndex].getAttribute('data-max')) / 2.5),
+        c = parseInt(selectContr.options[selectContr.selectedIndex].getAttribute('data-max'));
+
+        if (!selectContr.options[selectContr.selectedIndex].value) {
+            SetGrap(0, 0 ,0);
+        } else {
+            SetGrap(a, b ,c);
+        }
+    });
+
+    const SetGrap = (a, b, c) => {
+        let options = {
+            chart: {
+                type: 'line',
+            },  
+            colors: ["#FF1654", "#247BA0", "#ffc107"],
+            series: [
+                {
+                    name: `Ganancia Mínima ${a} USD`,
+                    data: [0, a],
+                },
+                {
+                    name: `Ganancia Optima ${b} USD`,
+                    data: [0, b],
+                },
+                {
+                    name: `Ganancia Máxima ${c} USD`,
+                    data: [0, c],
+                },
+            ],
+            stroke: {
+                curve: 'smooth',
+            },
+            xaxis: {
+                labels: {
+                    show: false
+                },
+            },
+            yaxis: {
+                tickAmount: 2,
+                labels: {
+                    show: false
+                },
+            },
+            tooltip: {
+                intersect: true,
+                shared: false,
+            },
+            legend: {
+                horizontalAlign: "center",
+            }
+        }
+
+        let chart = new ApexCharts(document.getElementById("chart"), options);
+        chart.render().then(data => {
+            grap.classList.remove('d-none');
+        });
+    }
+
+    function SetInfo () {
+        SetGrap(0, 0, 0);
+    }
+
+    let stateCheck = setInterval(() => {
+        if (document.readyState === 'complete') {
+            clearInterval(stateCheck);
+            SetInfo();
+        }
+    }, 100);
+</script>
