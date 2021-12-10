@@ -4,6 +4,10 @@
             <div class="row justify-content-center justify-content-lg-start">
                 <div class="col-12 col-md-8 col-lg-6">
                     <div class="card">
+                        {{#each contratos as |item i|}}
+                            {{item.duration}}
+                            {{item.bond}}
+                        {{/each}}
                         <div class="card-header">
                             <h4 class="card-title">Nuevo Contrato</h4>
                         </div>

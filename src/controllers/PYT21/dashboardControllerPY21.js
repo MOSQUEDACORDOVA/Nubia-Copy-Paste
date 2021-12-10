@@ -579,7 +579,12 @@ exports.duration = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
+  console.log("ESTOY EN LA RUTA DE CONTRATOS")
 
+  DataBase.GetAllContractsAdmin().then((respuesta) =>{
+    let contratos = JSON.parse(respuesta);
+    console.log(contratos)
+    
     res.render(proyecto+"/admin/duration", {
       pageName: "Duración y Riesgo",
       dashboardPage: true,
@@ -590,22 +595,30 @@ exports.duration = (req, res) => {
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin: true,
+      contratos
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error404/PYT-21");
+  });
 };
 // * CREAR NUEVOS CONTRATOS ADMINISTRADOR
 exports.createcontract = (req, res) => {
   const { duration, min, max, bond } = req.body;
   let msg = false;
+  console.log(req.body)
   if (duration.trim() === '' || min.trim() === '' || max.trim() === '' || bond.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/plans/PYT-24');
+    res.redirect('/duration/PYT-21');
   } else {
     DataBase.CreateContract(duration, min, max, bond).then((respuesta) =>{
-      res.redirect('/plans/PYT-24')
+      console.log(respuesta)
+      res.redirect('/duration/PYT-21')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-24" + msg);
+      return res.redirect("/error404/PYT-21");
     });
   };
 };

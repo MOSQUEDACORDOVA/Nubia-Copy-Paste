@@ -1396,6 +1396,20 @@ module.exports = {
       Contratos.create({ duration: dur, min_earnings: min, max_earnings: max, bond: bond })
         .then((data) => {
             let data_set = JSON.stringify(data);
+            console.log("SE GUARDO");
+            resolve(data_set);
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    },
+    // TRAER TODOS LOS CONTRATOS ADMIN
+    GetAllContractsAdmin() {
+      return new Promise((resolve, reject) => {
+      Contratos.findAll()
+        .then((data) => {
+            let data_set = JSON.stringify(data);
             resolve(data_set);
         })
         .catch((err) => {
