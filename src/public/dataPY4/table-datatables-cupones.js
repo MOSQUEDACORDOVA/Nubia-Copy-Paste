@@ -376,7 +376,7 @@ function cargaTablacuponesUsed(editada) {
   // new QRCode(document.getElementById("qrcode"), "https://bwater.mosquedacordova.com/cuponera");
 
   new QRCode(document.getElementById("qrcode"), {
-    text: "https://bwater.mosquedacordova.com/intro_cuponera",
+    text: "https://plataforma.bwater.mx/intro_cuponera",
     width: 128,
     height: 128,
     colorDark : "#000000",
