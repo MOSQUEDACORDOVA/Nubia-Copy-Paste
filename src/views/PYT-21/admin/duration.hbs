@@ -104,8 +104,8 @@
                                               Acción</th>
                                     </tr>
                                 </thead>
-                         {{#each contratos as |item i|}} 
-                                <tbody>             
+                                <tbody>  
+                                 {{#each contratos as |item i|}}            
                                     <tr class="odd">
                                         <td class=" control" tabindex="0" style="display: none;"></td>
                                         <td class=" dt-checkboxes-cell">
@@ -114,11 +114,11 @@
                                                 <label class="form-check-label" for="checkbox100"></label>
                                             </div>
                                         </td>                                                        
-                                        <td class="td">{{item.duration}}</td>                                      
-                                        <td class="td">{{max_earnings}} usd</td>
-                                        <td class="td">{{item.min_earnings}} usd</td>   
+                                        <td class="td">{{item.duration}} Meses</td>                                      
+                                        <td class="td">{{max_earnings}} USD</td>
+                                        <td class="td">{{item.min_earnings}} USD</td>   
                                         <td class="td">----</td>                                
-                                        <td class="td">{{item.bond}}</td>
+                                        <td class="td">{{item.bond}} %</td>
 
                                         <td>20/08/2021</td>
                                         
@@ -155,7 +155,7 @@
                         <div class="modal-body">
                             <h1 class="text-center mb-1" id="">Código del Contrato: 001</h1>
                             <div class="card-body row">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12">
                                     <div class="mb-1">
                                         <label class="form-label" for="">Duración</label>
                                         <select name="" id="" class="form-select">
@@ -165,12 +165,12 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                {{!-- <div class="col-12 col-md-6">
                                     <div class="mb-1">
                                         <label class="form-label" for="">Ganancia Vendedor</label>
                                         <input type="text" class="form-control" name="" value="10%">
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-12 col-md-6">
                                     <div class="mb-1">
                                         <label class="form-label" for="">Ganancia Máxima</label>

@@ -111,7 +111,7 @@ exports.reguserpy21 = (req, res) => {
     res.redirect('/register/PYT-21');
   } else {
     DataBase.RegUser(username, email, password).then((respuesta) =>{
-      res.redirect('/py21/PYT-21'+respuesta)
+     res.redirect('/py21/PYT-21')
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
