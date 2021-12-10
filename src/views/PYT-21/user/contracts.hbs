@@ -24,23 +24,23 @@
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Inversión</label>
-                                            <input type="text" class="form-control" name="email-id" placeholder="Monto">
+                                            <input type="text" class="form-control" name="email-id" placeholder="Monto" required>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label class="form-label" for="email-id-vertical">Duración</label>
-                                            <input type="text" class="form-control" value="" placeholder="6 Meses" readonly>
+                                            <input type="text" class="form-control" id="duracion" value="" placeholder="6 Meses" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="mb-1">
                                             <label class="form-label" for="">Bono</label>
-                                            <input type="text" class="form-control" value="5%" readonly>
+                                            <input type="text" id="bono" class="form-control" placeholder="5%" value="" required readonly>
                                         </div>
                                     </div>
                                     <div class="col-12 mt-1">
-                                        <button type="reset" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Crear Contrato</button>
+                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard2">Crear Contrato</button>
                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
                                     </div>
                                 </div>
@@ -451,10 +451,20 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-    const selectContr = document.getElementById('typeContract');
+    const selectContr = document.getElementById('typeContract'),
+    duracion = document.getElementById('duracion'),
+    bono = document.getElementById('bono');
+
     let grap = document.getElementById('chart');
     
     selectContr.addEventListener('change', e => {
+        if (!selectContr.options[selectContr.selectedIndex].getAttribute('data-duration') || !selectContr.options[selectContr.selectedIndex].getAttribute('data-bond')) {
+            duracion.value = '';
+            bono.value = '';
+        } else {
+            duracion.value = selectContr.options[selectContr.selectedIndex].getAttribute('data-duration') + ' Meses';
+            bono.value = selectContr.options[selectContr.selectedIndex].getAttribute('data-bond') + '%';
+        }
         grap.classList.add('d-none');
         let a = parseInt(selectContr.options[selectContr.selectedIndex].getAttribute('data-min')),
         b = parseInt(parseInt(selectContr.options[selectContr.selectedIndex].getAttribute('data-max')) / 2.5),
