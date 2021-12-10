@@ -581,7 +581,7 @@ exports.duration = (req, res) => {
   console.log(proyecto)
   console.log("ESTOY EN LA RUTA DE CONTRATOS")
 
-  DataBase.GetAllContractsAdmin().then((respuesta) =>{
+  DataBase.GetAllContracts().then((respuesta) =>{
     let contratos = JSON.parse(respuesta);
     console.log(contratos)
     
@@ -785,8 +785,12 @@ exports.contracts = (req, res) => {
     roleClient = true;
     roleSeller = true;
   }
+
+  DataBase.GetAllContracts().then((respuesta) =>{
+    let contratos = JSON.parse(respuesta);
+    console.log(contratos)
   
-    res.render(proyecto+"/contracts", {
+    res.render(proyecto+"/user/contracts", {
       pageName: "Contratos",
       dashboardPage: true,
       dashboard: true,
@@ -795,10 +799,16 @@ exports.contracts = (req, res) => {
       contr: true,
       username: req.user.username,
       typeUser: req.user.type_user,
-      roleAdmin,
       roleClient,
-      roleSeller
-    })
+      roleSeller,
+      contratos
+    });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error404/PYT-21");
+  });
 };
 
 // * RETIROS USUARIOS

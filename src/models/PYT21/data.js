@@ -1405,7 +1405,7 @@ module.exports = {
       });
     },
     // TRAER TODOS LOS CONTRATOS ADMIN
-    GetAllContractsAdmin() {
+    GetAllContracts() {
       return new Promise((resolve, reject) => {
       Contratos.findAll()
         .then((data) => {
