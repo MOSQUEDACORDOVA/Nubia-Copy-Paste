@@ -1486,5 +1486,8 @@ table tr td {
 .py672 .texto-horario {
     display: block;
     min-width: 200px;
-    background: #396bf3;
+}
+.py672 .borrar-btn {
+    cursor: pointer;
+    padding: 5px 10px;
 }
