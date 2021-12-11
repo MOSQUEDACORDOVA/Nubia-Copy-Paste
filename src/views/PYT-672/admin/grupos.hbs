@@ -155,7 +155,7 @@
                                                                         <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
-                                                                    <div>
+                                                                    <div class="d-flex align-items-center justify-content-between w-100">
                                                                         <div class="d-flex">
                                                                             <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos">{{activos}}</div>
                                                                     
@@ -168,10 +168,13 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
-                                                                                                                                                                                        <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
+                                                                        
+                                                                        </div>
+                                                                        <div>
+                                                                            <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
                                                                                 <form action="/borrargrupopy672" method="POST">
                                                                                     <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a class="borrar-btn">
+                                                                                    <a>
                                                                                         <i data-feather='trash'></i>
                                                                                     </a>
                                                                                 </form>
@@ -261,7 +264,7 @@
                                                                         <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
-                                                                    <div>
+                                                                    <div class="d-flex align-items-center justify-content-between w-100">
                                                                         <div class="d-flex">
                                                                             <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos">{{activos}}</div>
                                                                     
@@ -274,14 +277,15 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
-                                                                                                                                                                                         <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
-                                                                                <form action="/borrargrupopy672" method="POST">
-                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a class="borrar-btn">
-                                                                                        <i data-feather='trash'></i>
-                                                                                    </a>
-                                                                                </form>
-                                                                            </div>
+                                                                                                        
+                                                                        </div>
+                                                                        <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
+                                                                            <form action="/borrargrupopy672" method="POST">
+                                                                                <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
+                                                                                <a>
+                                                                                    <i data-feather='trash'></i>
+                                                                                </a>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -367,7 +371,7 @@
                                                                         <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
-                                                                    <div>
+                                                                    <div class="d-flex align-items-center justify-content-between w-100">
                                                                         <div class="d-flex">
                                                                             <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos">{{activos}}</div>
                                                                     
@@ -380,16 +384,15 @@
                                                                             <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados">{{congelados}}</div>
                                                                             
                                                                             <div class="badge rounded-pill badge-light-primary me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total">{{total_alumnos}}</div>
-
-                                                                            <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Eliminar">
-                                                                                <form action="/borrargrupopy672" method="POST">
-                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a class="borrar-btn">
-                                                                                        <i data-feather='trash'></i>
-                                                                                    </a>
-                                                                                </form>
-                                                                            </div>
                                                                            
+                                                                        </div>
+                                                                        <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
+                                                                            <form action="/borrargrupopy672" method="POST">
+                                                                                <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
+                                                                                <a>
+                                                                                    <i data-feather='trash'></i>
+                                                                                </a>
+                                                                            </form>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -570,8 +573,8 @@
     borrarBtn.forEach(btn => {
         btn.addEventListener('click', e => {
             //e.target.parentElement.submit()
-            const data = new FormData(e.target.parentElement);
-            const fila = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
+            const data = new FormData(e.target.childNodes[1]);
+            const fila = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
             fetch('/borrargrupopy672', {
                 method: 'POST',
                 body: data
