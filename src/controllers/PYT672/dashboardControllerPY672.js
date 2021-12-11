@@ -147,7 +147,7 @@ exports.verificargrupos = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
 
-  DataBase.ObtenerGruposEnApertura().then((response) => {
+  DataBase.ObtenerTodosGrupos().then((response) => {
     let grupos = JSON.parse(response);
     console.log(grupos)
     
@@ -155,22 +155,99 @@ exports.verificargrupos = (req, res) => {
     grupos.forEach(row => {
       let inicioGrupo = row.fecha_inicio;
       let actual = moment();
-      let iniciado = moment(inicioGrupo, "DD-MM-YYYY");
-      let iniciar = actual.diff(iniciado, 'days');
+      let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+      let iniciar = moment(iniciado).diff(actual, 'days');
       console.log(iniciar)
       console.log("CONDICION")
       console.log(inicioGrupo)
       console.log("FECHA DE INICIO DEL GRUPO")
       console.log(iniciado)
-      console.log("FECHA CUANDO INICIA EL GRUPO")
+      console.log("FECHA CUANDO INICIA EL GRUPO !")
       
       console.log(actual)
       console.log("FECHA ACTUAL")
-      
-      if (iniciar >= 1 && row.estado === 'En Apertura') {
+
+      let nivelCode, nivel;
+    
+      function EstablecerNivel () {  
+        switch (row.lecciones_semanales) {
+          case '1':
+            nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+            nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+    
+            console.log("NIVELES")
+            console.log(nivel1)
+            console.log(nivel2)
+            console.log(nivel3)
+            console.log(nivel4)
+            console.log("DESDE CERO")
+            break;
+
+          case '2':
+            nivel1 = moment(iniciado).add(112, 'd').format('YYYY-MM-DD')
+            nivel2 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(336, 'd').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+    
+            console.log("NIVELES")
+            console.log(nivel1)
+            console.log(nivel2)
+            console.log(nivel3)
+            console.log(nivel4)
+            console.log("INTENSIVO")
+          break;
+        }
+          
+        if (moment().isBefore(nivel2)) {
+            fechaFin = moment(nivel1, "YYYY-MM-DD").format("DD-MM-YYYY")
+            nivelCode = '-1';
+            nivel = 'Principiante';
+            console.log("ESTA EN EL NIVEL 1 --- !!!!")
+            
+        } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
+          fechaFin = moment(nivel2, "YYYY-MM-DD").format("DD-MM-YYYY")
+          nivelCode = '-2';
+          nivel = 'Básico';
+          console.log("ESTA EN EL NIVEL 2 --- !!!!")
+          
+        } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
+          fechaFin = moment(nivel3, "YYYY-MM-DD").format("DD-MM-YYYY")
+          nivelCode = '-3';
+          nivel = 'Intermedio';
+          console.log("ESTA EN EL NIVEL 3 --- !!!!")
+          
+        } else if(moment().isAfter(nivel3)) {
+          fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+          console.log("ESTA EN EL NIVEL 4 --- !!!!")
+          
+        }
+      }
+
+      if (iniciar >= 1) {
+        EstablecerNivel();
+        console.log("NIVELLLL")
+      } else if (iniciar < 0) {
+        EstablecerNivel();
         console.log("GRUPO INICIADO CON EXITO ACTUALIZANDO")
 
-        DataBase.ActualizarEstadoDeGrupos(row.id).then((actualizado) => {
+        if(row.estado === 'En Apertura') {
+          DataBase.IniciarGrupos(row.id).then((actualizado) => {
+            console.log("GRUPO INICIADO - RES CONTROLLER")
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        } 
+
+        let identificador = row.identificador.slice(0,-2) + nivelCode;
+        console.log(identificador)
+
+        DataBase.ActualizarNivelesGrupos(row.id, identificador, fechaFin, nivel, nivelCode).then((actualizado) => {
           console.log(actualizado)
           console.log("GRUPO ACTUALIZADO")
         }).catch((err) => {
@@ -267,40 +344,11 @@ exports.creargrupos = (req, res) => {
         }); 
 
         numGrupo += count;
-        let nivel1, nivel2, nivel3, nivel4;
-        nivel1 = moment().add(32, 'w').format('YYYY-MM-DD')
-        nivel2 = moment().add(64, 'w').format('YYYY-MM-DD')
-        nivel3 = moment().add(96, 'w').format('YYYY-MM-DD')
-        nivel4 = moment().add(128, 'w').format('YYYY-MM-DD')
 
-        console.log("NIVELES")
-
-        let testNivel1 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel1);
-        let testNivel2 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel2);
-        let testNivel3 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel3);
-        let testNivel4 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel4);
+        nivelCode = '-1';
+        nivel = 'Principiante';
         
-        if(testNivel4) {
-          nivelCode = '-4';
-          nivel = 'Avanzado';
-          if(testNivel3) {
-            nivelCode = '-3';
-            nivel = 'Intermedio';
-            if(testNivel2) {
-              nivelCode = '-2';
-              nivel = 'Básico';
-              if(testNivel1) {
-                nivelCode = '-1';
-                nivel = 'Principiante';
-              } 
-            } 
-          } 
-        } else {
-          nivelCode = '-4';
-          nivel = 'Avanzado';
-        }
-        
-        fechaFin = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(224, 'd').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -346,38 +394,11 @@ exports.creargrupos = (req, res) => {
         }); 
 
         numGrupo += count;
-        let nivel1, nivel2, nivel3, nivel4;
-        nivel1 = moment().add(16, 'w').format('YYYY-MM-DD')
-        nivel2 = moment().add(32, 'w').format('YYYY-MM-DD')
-        nivel3 = moment().add(48, 'w').format('YYYY-MM-DD')
-        nivel4 = moment().add(64, 'w').format('YYYY-MM-DD')
 
-        let testNivel1 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel1);
-        let testNivel2 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel2);
-        let testNivel3 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel3);
-        let testNivel4 = moment(moment(fechaInicio).subtract(1, 'hours')).isBetween(moment(fechaInicio).subtract(1, 'days'), nivel4);
-        
-        if(testNivel4) {
-          nivelCode = '-4';
-          nivel = 'Avanzado';
-          if(testNivel3) {
-            nivelCode = '-3';
-            nivel = 'Intermedio';
-            if(testNivel2) {
-              nivelCode = '-2';
-              nivel = 'Básico';
-              if(testNivel1) {
-                nivelCode = '-1';
-                nivel = 'Principiante';
-              } 
-            } 
-          } 
-        } else {
-          nivelCode = '-4';
-          nivel = 'Avanzado';
-        }
+        nivelCode = '-1';
+        nivel = 'Principiante';
 
-        fechaFin = moment(fechaInicio).add(16, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")

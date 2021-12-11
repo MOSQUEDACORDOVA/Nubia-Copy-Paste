@@ -128,10 +128,30 @@ module.exports = {
           });
       });
     },
-    ActualizarEstadoDeGrupos(id) {
+    IniciarGrupos(id) {
       return new Promise((resolve, reject) => {
         Grupos.update({
           estado: 'Iniciado',
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log('GRUPO INICIADO')
+            resolve('GRUPO INICIADO');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    ActualizarNivelesGrupos(id, identif, fin, nivel, code) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          identificador: identif,
+          fecha_finalizacion: fin,
+          nivel: nivel,
+          codigo_nivel: code,
         }, { where: {
           id: id
         }})
