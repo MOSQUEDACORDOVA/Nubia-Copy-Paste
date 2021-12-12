@@ -495,8 +495,6 @@ router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 
-// * OBTENER GRUPOS PARA LA MATRICULA
-router.get('/obtenerestudiantesmatricula', dashboardControllerPY672.estudiantesmatricula);
 
 
 

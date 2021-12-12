@@ -1,7 +1,5 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
-const Estudiantes = require('../../models/PYT672/Estudiantes');
-const Matricula = require('../../models/PYT672/Matricula');
 
 // GRUPOS
 const Grupos = db672.define('grupos', {
@@ -88,5 +86,4 @@ const Grupos = db672.define('grupos', {
 	},
 });
 
-Grupos.Matricula = Grupos.hasOne(Matricula)
 module.exports = Grupos;

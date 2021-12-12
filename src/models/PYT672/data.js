@@ -2,7 +2,6 @@ const { Op, where } = require("sequelize");
 const db672 = require("../../config/dbPY672");
 const Grupos = require("../../models/PYT672/Grupos");
 const Estudiantes = require("../../models/PYT672/Estudiantes");
-const Matricula = require("../../models/PYT672/Matricula");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -37,12 +36,7 @@ module.exports = {
     },
     ObtenerTodosGrupos() {
       return new Promise((resolve, reject) => {
-        Grupos.findAll({
-          include:[
-            {association: Grupos.Matricula},
-          ],order: [
-            ["id", "DESC"],
-          ]})
+        Grupos.findAll()
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -58,12 +52,7 @@ module.exports = {
           estado: {
             [Op.eq]: 'En Apertura'
           }
-        },
-        include:[
-          {association: Grupos.Matricula},
-        ],order: [
-          ["id", "DESC"],
-        ]})
+        }})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -80,12 +69,7 @@ module.exports = {
             [Op.eq]: 'Desde cero',
           }, estado: {
             [Op.eq]: 'Iniciado',
-          }},
-          include:[
-            {association: Grupos.Matricula},
-          ],order: [
-            ["id", "DESC"],
-          ]
+          }}
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -119,12 +103,7 @@ module.exports = {
             [Op.eq]: 'Intensivo',
           }, estado: {
             [Op.eq]: 'Iniciado',
-          }},
-          include:[
-            {association: Grupos.Matricula},
-          ],order: [
-            ["id", "DESC"],
-          ]
+          }}
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -206,9 +185,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo) {
+    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, id) {
     return new Promise((resolve, reject) => {
-        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipo_estudiante: tipo})
+        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipo_estudiante: tipo, grupoId: id})
           .then((data) => {
             let data_set = JSON.stringify(data);
             console.log('NUEVO ESTUDIANTE REGISTRADO')
@@ -219,64 +198,10 @@ module.exports = {
           });
       });
     },
-    // * CREAR MATRICULA ADMIN
-    CrearMatricula(activos, idEs, grupoId) {
-    return new Promise((resolve, reject) => {
-        Matricula.create({ activos: activos, estudianteId: idEs, grupoId: grupoId })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve(data_set);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // * AÑADIR ESTUDIANTES A MATRICULA ADMIN
-    AñadirEstudianteMatricula(activos, idEs, grupoId) {
-    return new Promise((resolve, reject) => {
-        Matricula.create({ activos: activos, estudianteId: idEs, grupoId: grupoId })
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve(data_set);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // * OBTENER MATRICULA GRUPOS
-    ObtenerMatriculaGrupo(id) {
+    // * OBTENER GRUPO
+    BuscarGrupos(id) {
       return new Promise((resolve, reject) => {
-        Matricula.findAll({ where: {
-          grupoId: id
-        }})
-          .then((data) => {
-              let data_p = JSON.stringify(data);
-              resolve(data_p);
-          })
-          .catch((err) => {
-              reject(err)
-          });
-      });
-    },
-    // * OBTENER MATRICULA ESTUDIANTES
-    ObtenerMatriculaEstudiantes() {
-      return new Promise((resolve, reject) => {
-        Matricula.findAll()
-          .then((data) => {
-              let data_p = JSON.stringify(data);
-              resolve(data_p);
-          })
-          .catch((err) => {
-              reject(err)
-          });
-      });
-    },
-    // * OBTENER MATRICULA ESTUDIANTES
-    BuscarEstudiante(id) {
-      return new Promise((resolve, reject) => {
-        Estudiantes.findAll({ where: {
+        Grupos.findAll({ where: {
           id: id
         }})
           .then((data) => {
@@ -289,11 +214,9 @@ module.exports = {
       });
     },
     // * OBTENER GRUPO
-    BuscarGrupos(id) {
+    GruposYEstudiantes() {
       return new Promise((resolve, reject) => {
-        Grupos.findAll({ where: {
-          id: id
-        }})
+        Estudiantes.findAll({ include: [{association: Estudiantes.Grupos}]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);

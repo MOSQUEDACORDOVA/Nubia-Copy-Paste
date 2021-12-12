@@ -287,41 +287,10 @@ exports.matriculas = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    DataBase.ObtenerMatriculaEstudiantes().then((response) => {
-      let matricula = JSON.parse(response);
-      console.log(matricula)
-      console.log("TODA LA MATRICULA")
-      let newArr = [];
-  
-      matricula.forEach(row => { 
-        let idEs = row.estudianteId;
+    DataBase.GruposYEstudiantes().then((response2) => {
+      let arr = JSON.parse(response2);
+      console.log(arr)
 
-        DataBase.BuscarEstudiante(idEs).then((response2) => {
-          let estudiante = JSON.parse(response2);
-          console.log(estudiante)
-          console.log("ESTUDIANTE ENCONTRADO")
-          
-          const find = {
-            estudiante: JSON.stringify(estudiante) 
-          };
-
-          const finalResult = Object.assign(row,find);
-
-          let idG = row.grupoId;
-          DataBase.BuscarGrupos(idG).then((response3) => {
-            let grupo = JSON.parse(response3);
-            console.log(grupo)
-            console.log("GRUPO ENCONTRADO")
-            
-            const find = {
-              grupo: JSON.stringify(grupo) 
-            };
-            
-            const final = Object.assign(row,find);
-            newArr.push(row)
-            
-  console.log(newArr)
-  console.log("ARRAY NUEVO")
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/admin/matricula", {
@@ -331,87 +300,15 @@ exports.matriculas = (req, res) => {
       py672: true,
       matricula: true,
       gruposTodos,
-      newArr
+      arr,
+      response2
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-});
 
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-};
-
-// * OBTENER ESTUDIANTES MATRICULA
-exports.estudiantesmatricula = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-
-  DataBase.ObtenerMatriculaEstudiantes().then((response) => {
-    let matricula = JSON.parse(response);
-    console.log(matricula)
-    console.log("TODA LA MATRICULA")
-    let newArr = [];
-
-    if(matricula.length) {
-      matricula.forEach(row => { 
-        let idEs = row.estudianteId;
-
-        DataBase.BuscarEstudiante(idEs).then((response2) => {
-          let estudiante = JSON.parse(response2);
-          console.log(estudiante)
-          console.log("ESTUDIANTE ENCONTRADO")
-          
-          const find = {
-            grupo: estudiante  
-          };
-
-          const finalResult = Object.assign(row,find);
-
-          let idG = row.grupoId;
-          DataBase.BuscarGrupos(idG).then((response3) => {
-            let grupo = JSON.parse(response3);
-            console.log(grupo)
-            console.log("GRUPO ENCONTRADO")
-            
-            const find = {
-              grupo: grupo  
-            };
-            
-            const final = Object.assign(row,find);
-
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
-    }
-
-    res.send({newArr})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -501,18 +398,8 @@ exports.creargrupos = (req, res) => {
           console.log(grupoId)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          DataBase.CrearMatricula(0, null, grupoId).then((respuesta) => {
-            let matricula = JSON.parse(respuesta)
-            console.log(matricula)
-            console.log("MATRICULA CREADA SATISFACTORIAMENTE")
-  
-            return res.redirect("/verificargrupos/PYT-672");
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });
-
+          return res.redirect("/verificargrupos/PYT-672");
+       
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -567,17 +454,7 @@ exports.creargrupos = (req, res) => {
           console.log(grupoId)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          DataBase.CrearMatricula(0, null, grupoId).then((respuesta) => {
-            let matricula = JSON.parse(respuesta)
-            console.log(matricula)
-            console.log("MATRICULA CREADA SATISFACTORIAMENTE")
-  
-            return res.redirect("/verificargrupos/PYT-672");
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });
+          return res.redirect("/verificargrupos/PYT-672");
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -679,44 +556,25 @@ exports.registrarestudiantes = (req, res) => {
   const { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  let split = grupoId.split(',')
-  let grupo = split[0]
-  let id = split[1]
-  
-  console.log(split)
-  console.log(grupo)
-  console.log(id)
-  console.log("ID MATRICULA")
-  console.log(grupoId)
-  console.log("ID GRUPO")
-
   if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/verificargrupos/PYT-672');
   } else {
-    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito).then((respuesta) => {
-      console.log(respuesta)
-      let estudiante = JSON.parse(respuesta)
+
+    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId).then((resp) => {
+      console.log(resp)
+      let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      
-      DataBase.AñadirEstudianteMatricula(id, idEstudiante, grupo).then((resp2) => {
-        console.log(resp2)
-        console.log("ESTUDIANTE AÑADIDO A LA MATRICULA")
 
-        res.redirect("/verificargrupos/PYT-672")
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
-      
+      res.redirect("/matriculas/PYT-672")
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
+  
   }
 };
 

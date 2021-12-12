@@ -2,88 +2,21 @@
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <section>
-                <div class="row match-height flex-md-row-reverse">
+                <div class="row match-height">
                     <!-- Basic table -->
+                    <input class="d-none" value="{{response2}}" id="arrayEstudiantes">
                     <section id="basic-datatable">
                         <div class="row">
                             <div class="col-12">
                                 <div class="card">
-                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Alumnos inscritos</h6></div><div class="d-none dt-action-buttons text-end"><div class="dt-buttons d-inline-flex">  </div></div></div><div class="d-flex justify-content-between align-items-center mx-0 row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label class="d-flex align-items-center">Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="DataTables_Table_0_filter" class="dataTables_filter"><label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label></div></div></div>
-                                    <table class="datatables-basic table dataTable no-footer dtr-column" id="matricula">
-                                    <thead>
-                                        <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        {{#each newArr as |item i|}}
-                                        <tr>
-                                            <td>
-                                                {{#objetosformatnombre estudiante}}{{/objetosformatnombre}}
-                                            </td>
-                                            <td>
-                                                {{#objetosformatemail estudiante}}{{/objetosformatemail}}
-                                            </td>
-                                            <td>
-                                                {{#objetosformatgrupo grupo}}{{/objetosformatgrupo}}
-                                            </td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button type="button" class="btn btn-sm dropdown-toggle hide-arrow py-0 waves-effect waves-float waves-light" data-bs-toggle="dropdown">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-end">
-                                                        <a class="dropdown-item" href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 me-50"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
-                                                            <span>Editar</span>
-                                                        </a>
-                                                        <a class="dropdown-item" href="#">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                                                            <span>Borrar</span>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-between mx-0 row"><div class="col-sm-12 col-md-6"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 7 de 100 registros</div></div><div class="col-sm-12 col-md-6"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item disabled" id="DataTables_Table_0_ellipsis"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="6" tabindex="0" class="page-link">…</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0" class="page-link">15</a></li><li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="8" tabindex="0" class="page-link">&nbsp;</a></li></ul></div></div></div></div>
+                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5">
+                                        <table class="datatables-basic table dataTable dtr-column matricula" id="matricula">
+                                            <thead>
+                                                <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
+                                            </thead>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Modal to add new record -->
-                        <div class="modal modal-slide-in fade" id="modals-slide-in">
-                            <div class="modal-dialog sidebar-sm">
-                                <form class="add-new-record modal-content pt-0">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-                                    <div class="modal-header mb-1">
-                                        <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
-                                    </div>
-                                    <div class="modal-body flex-grow-1">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                                            <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-post">Post</label>
-                                            <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer" aria-label="Web Developer" />
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-email">Email</label>
-                                            <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                                            <small class="form-text"> You can use letters, numbers & periods </small>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-                                            <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label" for="basic-icon-default-salary">Salary</label>
-                                            <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000" aria-label="$12000" />
-                                        </div>
-                                        <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
-                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </section>
@@ -95,4 +28,4 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="../../assets/js/PYT672/matriculas.js"></script>
+
