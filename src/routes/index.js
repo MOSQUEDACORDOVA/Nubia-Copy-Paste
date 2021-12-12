@@ -497,6 +497,7 @@ router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 
 
 
+
 // * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
@@ -508,6 +509,8 @@ router.post('/creargrupopy672', dashboardControllerPY672.creargrupos);
 router.post('/actualizargrupospty672', dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS
 router.post('/borrargrupopy672', dashboardControllerPY672.borrargrupo);
+// * REGISTRAR ESTUDIANTES
+router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarestudiantes);
 
 
 

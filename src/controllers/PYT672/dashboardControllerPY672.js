@@ -96,6 +96,11 @@ exports.grupos = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
   
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+  
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
     console.log(gruposDesde0)
@@ -106,8 +111,8 @@ exports.grupos = (req, res) => {
       console.log(gruposIntensivo)
       console.log("INTENSIVOS INICIADOS")
 
-        DataBase.ObtenerGruposEnApertura().then((response) => {
-          let gruposApertura = JSON.parse(response);
+        DataBase.ObtenerGruposEnApertura().then((response4) => {
+          let gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
     
@@ -119,8 +124,14 @@ exports.grupos = (req, res) => {
       grupos: true,
       gruposApertura,
       gruposDesde0,
-      gruposIntensivo
+      gruposIntensivo,
+      gruposTodos
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -348,7 +359,7 @@ exports.creargrupos = (req, res) => {
         nivelCode = '-1';
         nivel = 'Principiante';
         
-        fechaFin = moment(fechaInicio).add(224, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -398,7 +409,7 @@ exports.creargrupos = (req, res) => {
         nivelCode = '-1';
         nivel = 'Principiante';
 
-        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(105, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -496,6 +507,46 @@ exports.borrargrupo = (req, res) => {
     DataBase.BorrarGrupos(id).then((response) =>{
       console.log(response)
       return res.redirect("/verificargrupos/PYT-672");
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * REGISTRAR ESTUDIANTES ADMIN
+exports.registrarestudiantes = (req, res) => {
+  console.log(req.body);
+  const { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
+  let msg = false;
+
+  console.log(grupoId)
+  console.log("ID GRUPO")
+
+  if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/verificargrupos/PYT-672');
+  } else {
+    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito).then((respuesta) => {
+      console.log(respuesta)
+      let estudiante = JSON.parse(respuesta);
+      console.log("RES RES RES")
+      let idEstudiante = estudiante.id
+      console.log(idEstudiante)
+      console.log("ESTUDIANTE REGISTRADO")
+      
+      DataBase.AñadirEstudianteMatricula(idEstudiante, grupoId).then((resp) => {
+        console.log(resp)
+        console.log("ESTUDIANTE AÑADIDO A LA MATRICULA")
+
+        res.redirect("/verificargrupos/PYT-672")
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

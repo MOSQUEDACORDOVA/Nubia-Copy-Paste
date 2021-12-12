@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
-// PRECIO DE AEROCOIN
+const Estudiantes = require('../../models/PYT672/Estudiantes');
+
+// GRUPOS
 const Grupos = db672.define('grupos', {
     id: {
 		type: DataTypes.INTEGER,

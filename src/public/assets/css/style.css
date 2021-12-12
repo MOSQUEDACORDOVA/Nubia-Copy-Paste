@@ -1491,3 +1491,20 @@ table tr td {
     cursor: pointer;
     padding: 5px 10px;
 }
+.py672 .select2-results__option[aria-selected='true'] {
+    background-color: #7367f0 !important;
+}
+    
+.py672 .select2 b {
+    display: none !important;
+}
+.py672 .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #7367f0 !important;
+}
+.py672 .form-check-input:checked {
+    background-color: #7367f0;
+    border-color: #7367f0;
+}
+.py672 .form-check-input:focus {
+    border-color: #7367f0;
+}

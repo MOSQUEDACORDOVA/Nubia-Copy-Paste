@@ -1,6 +1,8 @@
 const { Op, where } = require("sequelize");
 const db672 = require("../../config/dbPY672");
 const Grupos = require("../../models/PYT672/Grupos");
+const Estudiantes = require("../../models/PYT672/Estudiantes");
+const Matricula = require("../../models/PYT672/Matricula");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -16,7 +18,7 @@ module.exports = {
           });
       });
     },
-    // ELIMINAR GRUPOS
+    // * ELIMINAR GRUPOS ADMIN
     BorrarGrupos(id){
       return new Promise((resolve, reject) => {
         Grupos.destroy({where:{
@@ -176,6 +178,33 @@ module.exports = {
           .then((data) => {
             let data_s = JSON.stringify(data);
             resolve('GRUPO ACTUALIZADO');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * REGISTRAR ESTUDIANTES ADMIN
+    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo) {
+    return new Promise((resolve, reject) => {
+        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipo_estudiante: tipo})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            console.log('NUEVO ESTUDIANTE REGISTRADO')
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * AÑADIR ESTUDIANTES A MATRICULA ADMIN
+    AñadirEstudianteMatricula(idEs, grupoId) {
+    return new Promise((resolve, reject) => {
+        Matricula.create({ estudianteId: idEs, grupoId: grupoId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
           })
           .catch((err) => {
             reject(err)
