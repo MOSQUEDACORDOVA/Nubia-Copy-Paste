@@ -4,7 +4,7 @@ const Estudiantes = require('../../models/PYT672/Estudiantes');
 const Grupos = require('../../models/PYT672/Grupos');
 
 // MATRICULA
-const Matricula = db672.define('matricula', {
+const Matricula = db672.define('matriculas', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -12,6 +12,4 @@ const Matricula = db672.define('matricula', {
 	},
 });
 
-Matricula.Estudiantes = Matricula.belongsTo(Estudiantes);
-Matricula.Grupos = Matricula.belongsTo(Grupos);
 module.exports = Matricula;

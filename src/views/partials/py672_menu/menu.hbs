@@ -31,7 +31,9 @@
                                         <div class="position-relative">
                                             <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
                                                 {{#each gruposTodos as |item i|}}
-                                                <option value="{{id}}">{{identificador}}</option>
+                                                <option value="{{id}},{{matricula.id}}">
+                                                    {{identificador}}
+                                                </option>
                                                 {{/each}}
                                             </select>
                                         </div>

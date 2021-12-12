@@ -301,7 +301,21 @@ module.exports = {
 		let total = num + 1;
 		return total;
 	},
-
+	objetosformatnombre: (obj) => {
+		let result = JSON.parse(obj)[0]
+		console.log(result)
+		return result.nombre
+	},
+	objetosformatemail: (obj) => {
+		let result = JSON.parse(obj)[0]
+		console.log(result)
+		return result.email
+	},
+	objetosformatgrupo: (obj) => {
+		let result = JSON.parse(obj)[0]
+		console.log(result)
+		return result.nombre
+	},
 
 	// --------PY4
 	video_img: (fotos) => {

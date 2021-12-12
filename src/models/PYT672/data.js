@@ -11,7 +11,8 @@ module.exports = {
         Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel })
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('NUEVO GRUPO CREADO');
+            console.log('NUEVO GRUPO CREADO')
+            resolve(data_set);
           })
           .catch((err) => {
             reject(err)
@@ -36,7 +37,12 @@ module.exports = {
     },
     ObtenerTodosGrupos() {
       return new Promise((resolve, reject) => {
-        Grupos.findAll()
+        Grupos.findAll({
+          include:[
+            {association: Grupos.Matricula},
+          ],order: [
+            ["id", "DESC"],
+          ]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -52,7 +58,12 @@ module.exports = {
           estado: {
             [Op.eq]: 'En Apertura'
           }
-        }})
+        },
+        include:[
+          {association: Grupos.Matricula},
+        ],order: [
+          ["id", "DESC"],
+        ]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -69,7 +80,12 @@ module.exports = {
             [Op.eq]: 'Desde cero',
           }, estado: {
             [Op.eq]: 'Iniciado',
-          }}
+          }},
+          include:[
+            {association: Grupos.Matricula},
+          ],order: [
+            ["id", "DESC"],
+          ]
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -103,7 +119,12 @@ module.exports = {
             [Op.eq]: 'Intensivo',
           }, estado: {
             [Op.eq]: 'Iniciado',
-          }}
+          }},
+          include:[
+            {association: Grupos.Matricula},
+          ],order: [
+            ["id", "DESC"],
+          ]
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -198,16 +219,87 @@ module.exports = {
           });
       });
     },
-    // * AÑADIR ESTUDIANTES A MATRICULA ADMIN
-    AñadirEstudianteMatricula(idEs, grupoId) {
+    // * CREAR MATRICULA ADMIN
+    CrearMatricula(activos, idEs, grupoId) {
     return new Promise((resolve, reject) => {
-        Matricula.create({ estudianteId: idEs, grupoId: grupoId })
+        Matricula.create({ activos: activos, estudianteId: idEs, grupoId: grupoId })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);
           })
           .catch((err) => {
             reject(err)
+          });
+      });
+    },
+    // * AÑADIR ESTUDIANTES A MATRICULA ADMIN
+    AñadirEstudianteMatricula(activos, idEs, grupoId) {
+    return new Promise((resolve, reject) => {
+        Matricula.create({ activos: activos, estudianteId: idEs, grupoId: grupoId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * OBTENER MATRICULA GRUPOS
+    ObtenerMatriculaGrupo(id) {
+      return new Promise((resolve, reject) => {
+        Matricula.findAll({ where: {
+          grupoId: id
+        }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER MATRICULA ESTUDIANTES
+    ObtenerMatriculaEstudiantes() {
+      return new Promise((resolve, reject) => {
+        Matricula.findAll()
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER MATRICULA ESTUDIANTES
+    BuscarEstudiante(id) {
+      return new Promise((resolve, reject) => {
+        Estudiantes.findAll({ where: {
+          id: id
+        }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER GRUPO
+    BuscarGrupos(id) {
+      return new Promise((resolve, reject) => {
+        Grupos.findAll({ where: {
+          id: id
+        }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
           });
       });
     },

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
 const Estudiantes = require('../../models/PYT672/Estudiantes');
+const Matricula = require('../../models/PYT672/Matricula');
 
 // GRUPOS
 const Grupos = db672.define('grupos', {
@@ -41,6 +42,15 @@ const Grupos = db672.define('grupos', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
+	nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+	},
+	codigo_nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+		defaultValue: '-1'
+	},
 	activos: {
 		type: DataTypes.INTEGER(200),
 		allowNull: false,
@@ -71,15 +81,6 @@ const Grupos = db672.define('grupos', {
 		allowNull: false,
 		defaultValue: 0
 	},
-	nivel: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	codigo_nivel: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-		defaultValue: '-1'
-	},
 	estado: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
@@ -87,4 +88,5 @@ const Grupos = db672.define('grupos', {
 	},
 });
 
+Grupos.Matricula = Grupos.hasOne(Matricula)
 module.exports = Grupos;
