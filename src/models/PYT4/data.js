@@ -15,6 +15,7 @@ const Etiquetas = require("../../models/PYT4/Etiquetas");
 const Cupones = require("../../models/PYT4/Cupones");
 const Used_cupons = require("../../models/PYT4/Used_cupons");
 const Notificaciones = require("../../models/PYT4/Notificaciones");
+const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -1761,4 +1762,106 @@ clienteId:id_cliente
         });
       });
     },
+
+
+    //ASIGNACION DE CHOFER
+    ObtenerAsignados() {
+      return new Promise((resolve, reject) => {
+        Asig_chofer.findAll(
+          {
+            //where:{estado:'0'},
+          include:[{association:Asig_chofer.Vehiculos},{association:Asig_chofer.Personal},{association:Asig_chofer.Sucursales},],
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((rest) => {
+            let respuesta = JSON.stringify(rest);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+    ObtenerAsignadosbyId(id_) {
+      return new Promise((resolve, reject) => {
+        Asig_chofer.findOne({where:{id: id_}},
+          {
+            //where:{estado:'0'},
+          include:[{association:Asig_chofer.Vehiculos},{association:Asig_chofer.Personal},{association:Asig_chofer.Sucursales},],
+          order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["updatedAt", "DESC"],
+          ],
+        })
+          .then((rest) => {
+            let respuesta = JSON.stringify(rest);
+            resolve(respuesta);
+            ////console.log(JSON.stringify(users));
+          })
+          .catch((err) => {
+            //console.log(err);
+             reject(err)
+          });
+      });
+    },
+    SaveAsignado(id_vehiculo,id_chofer, Id_zona) {
+      return new Promise((resolve, reject) => {
+            Asig_chofer.create({
+              vehiculoId:id_vehiculo,
+              personalId:id_chofer,
+              sucursaleId:Id_zona
+            })
+              .then((res) => {
+                let respuesta = JSON.stringify(res);
+                resolve(respuesta);
+                ////console.log(respuesta);
+              })
+              .catch((err) => {
+                //console.log(err);
+                 reject(err)
+              });
+          
+      });
+    },
+    SaveAsignadoEdited(id_,id_vehiculo,id_chofer, Id_zona) {
+      return new Promise((resolve, reject) => {
+            Asig_chofer.update({
+              vehiculoId:id_vehiculo,
+              personalId:id_chofer,
+              sucursaleId:Id_zona
+            }, {where:{id:id_}})
+              .then((res) => {
+                let respuesta = JSON.stringify(res);
+                resolve(respuesta);
+                ////console.log(respuesta);
+              })
+              .catch((err) => {
+                //console.log(err);
+                 reject(err)
+              });
+          
+      });
+    },
+    delete_asignar_chofer(parametro_buscar) {
+      return new Promise((resolve, reject) => {
+        Asig_chofer.destroy({
+          where: {
+            id: parametro_buscar,
+          },
+        }).then(() => {
+          //let gates= JSON.stringify(users)
+          resolve("respuesta exitosa");
+          ////console.log(JSON.stringify(users));
+        }).catch((err) => {
+          //console.log(err);
+           reject(err)
+        });
+      });
+    },
+
 };

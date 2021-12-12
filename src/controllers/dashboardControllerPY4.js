@@ -1533,7 +1533,7 @@ exports.carga_inicial = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
-  let dia =""
+  let dia ="", admin= false
  
   if (req.params.day) {
     
@@ -1543,7 +1543,7 @@ exports.carga_inicial = (req, res) => {
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
-  let ClientesDB = "", PedidosDB="", ChoferesDB="", PersonalAll="",Carga_init=""
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", PersonalAll="",Carga_init="", Asig_chofer= "",vehiculosAll=""
   switch (req.session.tipo) {
     case "Director":
       ClientesDB=DataBase.ClientesAll
@@ -1551,6 +1551,9 @@ exports.carga_inicial = (req, res) => {
     ChoferesDB=DataBase.ChoferesAll
     PersonalAll=DataBase.PersonalAll
     Carga_init=DataBase.Carga_init
+    Asig_chofer=DataBase.ObtenerAsignados
+    vehiculosAll=DataBase.vehiculosAll
+    admin = true
       break;
   
     default:
@@ -1559,6 +1562,8 @@ exports.carga_inicial = (req, res) => {
     ChoferesDB=DataBase.ChoferesAllS
     PersonalAll=DataBase.PersonalAllS
     Carga_init=DataBase.Carga_initS
+Asig_chofer=DataBase.ObtenerAsignados
+vehiculosAll=DataBase.vehiculosAllS
       break;
   }
   ClientesDB(id_sucursal).then((clientes_d)=>{
@@ -1576,7 +1581,11 @@ exports.carga_inicial = (req, res) => {
                 let sucursales_let = JSON.parse(sucursales_)  
                 Carga_init(id_sucursal).then((carga_)=>{
                 let carga_let = JSON.parse(carga_) 
-                    
+                Asig_chofer(id_sucursal).then((asignados)=>{
+                  console.log(asignados)
+                  vehiculosAll(id_sucursal).then((vehiculos_)=>{
+                    let vehiculos_let = JSON.parse(vehiculos_)
+                    console.log(vehiculos_let)
     res.render("PYT-4/carga_init", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1585,7 +1594,7 @@ exports.carga_inicial = (req, res) => {
       carga_init:true,dia,
       clientes_d,clientes_arr,personal_let,personal_,
       pedidos_,choferes,choferes_,sucursales_let,
-      msg,carga_
+      msg,carga_,asignados,vehiculos_let,admin
     }) 
 }).catch((err) => {
   console.log(err)
@@ -1616,6 +1625,16 @@ exports.carga_inicial = (req, res) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
+  });  
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
   });
 };
 
@@ -1634,6 +1653,92 @@ exports.save_carga_inicial = (req, res) => {
 };
 
 
+
+//ASIGNAR CHOFER
+exports.save_asignar_chofer = (req, res) => {
+  
+  const { chofer, vehiculo, zona} = req.body
+  console.log(req.body)
+  let id_sucursal = req.session.sucursal_select
+  DataBase.SaveAsignado(vehiculo, chofer,zona).then((respuesta) =>{
+    console.log(respuesta)
+    let respuesta_let = JSON.parse(respuesta)
+DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
+            let asignados_let = JSON.parse(asignados_)
+            console.log(asignados_let)
+
+    return res.send({asignados_let})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+  }); 
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema2";
+return res.redirect("/errorpy4/" + msg);
+  });
+};
+exports.save_asignar_chofer_edited = (req, res) => {
+  
+  const {id_asig, chofer, vehiculo, zona} = req.body
+  console.log(req.body)
+  let id_sucursal = req.session.sucursal_select
+  DataBase.SaveAsignadoEdited(id_asig, vehiculo, chofer,zona).then((respuesta) =>{
+    console.log(respuesta)
+    let respuesta_let = JSON.parse(respuesta)
+DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
+            let asignados_let = JSON.parse(asignados_)
+            console.log(asignados_let)
+
+    return res.send({asignados_let})
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+  }); 
+}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema2";
+return res.redirect("/errorpy4/" + msg);
+  });
+};
+exports.delete_asignar_chofer = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id
+  let id_sucursal = req.session.sucursal_select
+  DataBase.delete_asignar_chofer(id_).then((respuesta) =>{
+    
+  let msg = "Etiqueta Eliminada con éxito"
+  DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
+    let asignados_let = JSON.parse(asignados_)
+    console.log(asignados_let)
+
+return res.send({asignados_let})
+
+}).catch((err) => {
+console.log(err)
+let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+});
+   })   
+ };
+exports.editar_asig_chofer = (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.body.id
+  
+DataBase.ObtenerAsignadosbyId(id_).then((asig_chofer_)=>{
+  let asig_chofer_let = JSON.parse(asig_chofer_)
+  console.log(asig_chofer_let)
+res.send({asig_chofer_let})
+}).catch((err) => {
+console.log(err)
+let msg = "Error en sistema";
+return res.redirect("/errorpy4/" + msg);
+});
+ };
 
 //ETIQUETAS
 
