@@ -107,6 +107,12 @@ router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardCo
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
 
+//ASIGNAR CHOFER
+router.post('/save_asig_chofer_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer);
+router.get('/delete_asig_chofer/:id', authController.authenticatedUser, dashboardControllerPY4.delete_asignar_chofer);
+router.post('/editar_asig_chofer', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_asig_chofer);
+router.post('/save_asig_chofer_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer_edited);
+
 //Cupones
 router.get('/promociones_bw',authControllerPY4.authenticatedUser, dashboardControllerPY4.getCupones);
 router.get('/promociones_bw/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.getCupones);
@@ -527,12 +533,12 @@ router.use((req, res, next) => {
   res.status(404).redirect('/error24/PYT-24')
 })
 */
-router.use((req, res, next) => {
-  res.status(404).redirect('/error672/PYT-672')
-})
-router.use((req, res, next) => {
-  res.status(404).redirect('/error27/PYT-27')
-})
+// router.use((req, res, next) => {
+//   res.status(404).redirect('/error672/PYT-672')
+// })
+// router.use((req, res, next) => {
+//   res.status(404).redirect('/error27/PYT-27')
+// })
 
 
 

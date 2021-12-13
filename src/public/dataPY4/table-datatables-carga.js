@@ -7,29 +7,29 @@
 
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
- var minDate, maxDate
+ var minDate2, maxDate2
  
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
+//  $.fn.dataTable.ext.search.push(
+//      function( settings, data, dataIndex ) {
+//          var min = minDate.val();
+//          var max = maxDate.val();
        
 
-     let f = data[5]
+//      let f = data[5]
     
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
+//          var date = new Date(f);
+//          if (
+//              ( min === null && max === null ) ||
+//              ( min === null && date <= max ) ||
+//              ( min <= date   && max === null ) ||
+//              ( min <= date   && date <= max ) 
+//          ) {
+//              return true;
+//          }
+//          return false;
+//      }
+//  );
  
  
  // Datepicker for advanced filter
@@ -79,7 +79,7 @@
        end = normalizeDate(endDate);
        var  min2 = minDate2.val();
        var max2 = maxDate2.val();
-       let f = aData[5]
+       let f = aData[3]
        var date = new Date(f);
      // If our date from the row is between the start and end
      if (
@@ -108,14 +108,13 @@
   let valor = $('#array_carga').val()
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  console.log(array2)
 
   var dt_basic_carga_init = $('.datatables-basic_carga_init'),
     dt_date_table = $('.dt-date');
-  minDate = new DateTime($('#min'), {
+  minDate2 = new DateTime($('#min1'), {
       format: 'DD/MM/YYYY'
   });
-  maxDate = new DateTime($('#max'), {
+  maxDate2 = new DateTime($('#max1'), {
       format: 'DD/MM/YYYY'
   });
   // DataTable with buttons
@@ -159,7 +158,6 @@
         {
           targets: 1,
           render:function(data, type, full, meta){
-           console.log(full)
 
            return `${full['personal']['name']}  ${full['personal']['lastName']}`
           }
@@ -210,7 +208,7 @@
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
-      dt_basic.draw();
+      dt_basic_carg.draw();
       });
   }
   // Flat Date picker
