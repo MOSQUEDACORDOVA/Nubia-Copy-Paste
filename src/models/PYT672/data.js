@@ -184,6 +184,23 @@ module.exports = {
           });
       });
     },
+    // ACTUALIZAR GRUPOS
+    ActualizarEstudiantesActivosGrupos(id, activos, total) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, total_alumnos: total
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            resolve('GRUPO ACTUALIZADO');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // * REGISTRAR ESTUDIANTES ADMIN
     RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId ,tipo) {
     return new Promise((resolve, reject) => {
@@ -192,6 +209,40 @@ module.exports = {
             let data_set = JSON.stringify(data);
             console.log('NUEVO ESTUDIANTE REGISTRADO')
             resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * ELIMINAR ESTUDIANTES ADMIN
+    BorrarEstudiantes(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log('ESTUDIANTE ELIMINADO')
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * BUSCAR ESTUDIANTE ADMIN
+    BuscarEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.findAll({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log('ESTUDIANTE ENCONTRADO')
+            resolve(data_p);
           })
           .catch((err) => {
             reject(err)

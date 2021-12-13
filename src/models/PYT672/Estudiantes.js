@@ -65,6 +65,11 @@ const Estudiantes = db672.define('estudiantes', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
+	estado: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+		defaultValue: 'Activo'
+	},
 });
 
 Estudiantes.Grupos = Estudiantes.belongsTo(Grupos)

@@ -34,19 +34,19 @@ function cargarTablaMatricula(editada) {
             return (
               `<div class="d-inline-flex">
                 <div role="button" class="btn btn-sm btn-outline-danger borrar-btn me-1">
-                    <form action="/borrargrupopy672" method="POST">
+                    <form action="/borrarestudiantespy672" method="POST" id="form${full['id']}">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                        <a>
-                            <i data-feather='trash'></i>
-                        </a>
+                        
+                        ${feather.icons['trash'].toSvg()}
+
                     </form>
                 </div>
                 <div role="button" class="btn btn-sm btn-outline-primary edit-btn">
-                    <form action="/borrargrupopy672" method="POST">
+                    <form action="/borrarestudiantespy672" method="POST">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                        <a>
-                            <i data-feather='edit'></i>
-                        </a>
+                      
+                        ${feather.icons['edit'].toSvg()}
+                        
                     </form>
                 </div>
               </div>`  
@@ -113,5 +113,24 @@ $(function () {
  
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
- 
+
+    
+  $('.borrar-btn').on('click', (e)=>{
+    
+    let data = e.target.childNodes[1];
+    data.submit()
+    /*fetch('/borrarestudiantespy672', {
+      method: 'POST',
+      body: data
+    }).then(function(response) {
+        if(response.ok) {
+            console.log("SUCCESS")
+        } else {
+            throw "Error en la llamada Ajax";
+        }
+    }).catch(function(err) {
+        console.log(err);
+    });*/
+    
+  });
 });
