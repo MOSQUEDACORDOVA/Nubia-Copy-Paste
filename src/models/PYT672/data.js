@@ -185,9 +185,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, id) {
+    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId ,tipo) {
     return new Promise((resolve, reject) => {
-        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipo_estudiante: tipo, grupoId: id})
+        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, grupoId: grupoId, tipo_estudiante: tipo})
           .then((data) => {
             let data_set = JSON.stringify(data);
             console.log('NUEVO ESTUDIANTE REGISTRADO')

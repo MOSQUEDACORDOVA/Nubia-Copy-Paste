@@ -32,13 +32,24 @@ function cargarTablaMatricula(editada) {
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_estudiante("'+full['id']+'")\'>' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a></div>'  
+              `<div class="d-inline-flex">
+                <div role="button" class="btn btn-sm btn-outline-danger borrar-btn me-1">
+                    <form action="/borrargrupopy672" method="POST">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
+                        <a>
+                            <i data-feather='trash'></i>
+                        </a>
+                    </form>
+                </div>
+                <div role="button" class="btn btn-sm btn-outline-primary edit-btn">
+                    <form action="/borrargrupopy672" method="POST">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
+                        <a>
+                            <i data-feather='edit'></i>
+                        </a>
+                    </form>
+                </div>
+              </div>`  
             );
           }  },
       ],
@@ -52,8 +63,13 @@ function cargarTablaMatricula(editada) {
         },
         {
             targets: 2, render: function (data, type, full) {
-
-            let micampo = full['grupo']['identificador'];
+            let micampo; 
+            if (full['grupo']) {
+              micampo = full['grupo']['identificador'];
+            } else {
+              micampo = '-'
+            }
+            
             return micampo
             }
         }

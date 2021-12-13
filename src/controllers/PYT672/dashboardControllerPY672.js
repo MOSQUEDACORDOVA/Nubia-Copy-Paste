@@ -553,28 +553,32 @@ exports.borrargrupo = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarestudiantes = (req, res) => {
   console.log(req.body);
-  const { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/verificargrupos/PYT-672');
   } else {
-
-    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId).then((resp) => {
-      console.log(resp)
-      let estudiante = JSON.parse(resp)
-      let idEstudiante = estudiante.id
-      console.log(idEstudiante)
-      console.log("ESTUDIANTE REGISTRADO")
-
-      res.redirect("/matriculas/PYT-672")
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
-  
+    if(telefono2.trim() === "") {
+      telefono2 = '-'
+      if(telefono3.trim() === "") {
+        telefono3 = '-'
+        DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId, tipo).then((resp) => {
+          console.log(resp)
+          let estudiante = JSON.parse(resp)
+          let idEstudiante = estudiante.id
+          console.log(idEstudiante)
+          console.log("ESTUDIANTE REGISTRADO")
+    
+          res.redirect("/matriculas/PYT-672")
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    }
   }
 };
 
