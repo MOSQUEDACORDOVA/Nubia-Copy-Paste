@@ -106,14 +106,16 @@ let selectGrupo1 = document.getElementById('nivelesGrupo1'),
 selectGrupo2 = document.getElementById('nivelesGrupo2');
 
 selectGrupo1.addEventListener('change', e => {
-    console.log(selectGrupo1.value);
     let selected = selectGrupo1.value;
+    pagosGrupo1.options[0].selected = true;
+    filtroPagosGrupoDesde0('todos');
     filtroGruposDesde0(selected);
 });
 
 selectGrupo2.addEventListener('change', e => {
-    console.log(selectGrupo2.value);
     let selected = selectGrupo2.value;
+    pagosGrupo2.options[0].selected = true;
+    filtroPagosGrupoIntensivos('todos');
     filtroGruposIntensivo(selected);
 });
 
@@ -164,12 +166,14 @@ let pagosGrupo1 = document.getElementById('pagosGrupo1'),
 pagosGrupo2 = document.getElementById('pagosGrupo2');
 
 pagosGrupo1.addEventListener('change', e => {
+    selectGrupo1.options[0].selected = true;
+    filtroGruposDesde0('todos');
     filtroPagosGrupoDesde0(pagosGrupo1.value);
 });
 
 const filtroPagosGrupoDesde0 = (item) => {
     let todos = document.querySelectorAll(`#tablaDesde0 .desde0`);
-
+    console.log(item)
     todos.forEach(row => {
         row.classList.add('d-none');
         row.classList.remove('d-block');
@@ -197,6 +201,8 @@ const filtroPagosGrupoDesde0 = (item) => {
 }
 
 pagosGrupo2.addEventListener('change', e => {
+    selectGrupo2.options[0].selected = true;
+    filtroGruposIntensivo('todos');
     filtroPagosGrupoIntensivos(pagosGrupo2.value);
 });
 
