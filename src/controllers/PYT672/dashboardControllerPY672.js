@@ -472,12 +472,12 @@ exports.creargrupos = (req, res) => {
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, fechaInicio } = req.body;
+  const { id, nombre, horario1, horario2, fechaInicio } = req.body;
   let msg = false;
-  console.log(req.body)
-
   let diaActual = moment(fechaInicio).format('DD');
-  let identificador, lecciones, numGrupo, numAño, fechaFin, fechaPagos, finNivel;
+  let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
+
+  inicio = moment(fechaInicio, "DD-MM-YYYY").format('DD-MM-YYYY');
 
   numAño = moment(fechaInicio).format('YY');
   console.log(numAño)
@@ -488,41 +488,119 @@ exports.actualizargrupos = (req, res) => {
   } else {
     fechaPagos = "15 de cada mes";
   }
-
+  
   if (id.trim() === '' || nombre.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/verificargrupos/PYT-672');
   } else {
-    DataBase.ObtenerTodosGrupos().then((response) =>{
-      let grupos = JSON.parse(response);
-      numGrupo = grupos.length+1;
-      console.log(grupos.length)
-      console.log(numGrupo)
-      console.log("NUMERO DE IDENTIFICADOR")
+    if (nombre === 'Desde cero') {
+      DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
+        let grupos = JSON.parse(response);
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
 
-      if (nombre === 'Desde Cero') {
-          fechaFin = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY');
-          finNivel = "32 Semanas";      
-          lecciones = "2";
-          identificador = `C${numAño}10${numGrupo}-1`;
-        } else {
-          fechaFin = moment(fechaInicio).add(16, 'w').format('DD-MM-YYYY');
-          finNivel = "16 Semanas";      
-          lecciones = "1";
-          identificador = `I${numAño}10${numGrupo}-1`;
-      } 
-      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario, fechaPagos, finNivel, fechaInicio, fechaFin).then((respuesta) =>{
-        res.redirect("/verificargrupos/PYT-672")
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
+
+        nivelCode = '-1';
+        nivel = 'Principiante';
+        lecciones = 1;
+                                      // 224
+        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
+        finNivel = "32 Semanas";      
+        console.log(fechaFin)
+        console.log("FECHAR FINALIZAR")
+        numId += numGrupo;
+        identificador = `C${numAño}${numId}${nivelCode}`;
+        console.log(identificador)
+        console.log("IDENTIFICADOR GENERADO")
+        
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          console.log(respuesta)
+          console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
+       
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
+    } else {
+      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
+        let grupos = JSON.parse(response);
+        console.log("INTENSIVOS")
+        // FILTRAR POR AÑO
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
+
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
+
+        nivelCode = '-1';
+        nivel = 'Principiante';
+        lecciones = 2;
+                                        // 112
+        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        finNivel = "16 Semanas";      
+        console.log(fechaFin)
+        console.log("FECHAR FINALIZAR")
+        numId += numGrupo;
+        identificador = `I${numAño}${numId}${nivelCode}`;
+        console.log(identificador)
+        console.log("IDENTIFICADOR GENERADO")
+        
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          console.log(respuesta)
+          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    } 
   }
 };
 

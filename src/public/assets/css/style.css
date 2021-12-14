@@ -1511,3 +1511,6 @@ table tr td {
 .py672 .form-check-input:focus {
     border-color: #7367f0;
 }
+.py672 .table a b {
+    pointer-events: none;
+}

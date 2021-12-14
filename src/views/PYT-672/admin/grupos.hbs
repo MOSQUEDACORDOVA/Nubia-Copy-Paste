@@ -152,7 +152,7 @@
                                                             <div>
                                                                 <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -261,7 +261,7 @@
                                                             <div>
                                                                 <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -370,7 +370,7 @@
                                                             <div>
                                                                 <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-horario="{{dia_horario}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -462,21 +462,34 @@
                                 <div class="action-tags">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Tipo de Curso</label>
-                                        <input type="text" name="id" class="new-todo-item-title form-select d-none id" required>
+                                        <input type="text" name="id" class="new-todo-item-title form-select id d-none" required>
                                         <select type="text" id="titulo" name="nombre" class="new-todo-item-title form-select" required>
                                             <option value="Desde cero">Desde cero</option>
                                             <option value="Intensivo">Intensivo</option>
                                         </select>
                                     </div>
                                     <div class="mb-1">
+                                        <label for="" class="form-label">Día y Horario</label>
+                                        <select name="horario1" id="horarioDesdeCero" class="form-select">       
+                                            <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
+                                            <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
+                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9pm</option>
+                                            <option value="Jueves: 6:30pm a 9pm"> Jueves: 6:30pm a 9pm</option>
+                                            <option value="Sábado: 8:30am a 11am"> Sábado: 8:30am a 11am</option>
+                                        </select>
+                                        <select name="horario2" id="horarioIntensivo" class="form-select">
+                                            <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
+                                            <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
+                                        </select>
+                                    </div> 
+                                    <div class="mb-1">
                                         <label for="" class="form-label">Fecha de Inicio</label>
                                         <input type="date" class="form-control task-due-date flatpickr-input" id="date" name="fechaInicio" required>
                                     </div> 
                                 </div>
                                 <div class="my-1">
-                                    <!--<button type="submit" class="btn btn-primary">Actualizar</button>-->
-                                    <button type="reset" class="btn btn-primary">Actualizar</button>
-                                    <button type="reset" class="btn btn-outline-danger">
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">
                                         Cancelar
                                     </button>
                                 </div>

@@ -65,18 +65,41 @@ const Reset = (num) => {
     }
 }
 
-let grupo = document.querySelectorAll('.grupo'),
+let grupo = document.querySelectorAll('.editar-grupo'),
 idIn = document.querySelectorAll('.id'),
 tituloIn = document.getElementById('titulo'),
+horarioDesdeCero = document.getElementById('horarioDesdeCero'),
+horarioIntensivo = document.getElementById('horarioIntensivo'),
 fechaIn = document.getElementById('date');
+
+tituloIn.addEventListener('change', e => {
+    horarioDesdeCero.classList.add('d-none')
+    horarioIntensivo.classList.add('d-none')
+    if(tituloIn.value === "Desde cero") {
+        horarioDesdeCero.classList.remove('d-none')
+    } else {
+        horarioIntensivo.classList.remove('d-none')
+    }
+});
 
 grupo.forEach(btn => {
     btn.addEventListener('click', e => {
         tituloIn.value = e.target.getAttribute('data-nombre');
         fechaIn.value = e.target.getAttribute('data-fecha');
+        
         idIn.forEach(inp => {
             inp.value = e.target.getAttribute('data-id')
         });
+
+        horarioDesdeCero.classList.add('d-none')
+        horarioIntensivo.classList.add('d-none')
+        if(e.target.getAttribute('data-nombre') === "Desde cero") {
+            horarioDesdeCero.classList.remove('d-none')
+            horarioDesdeCero.value = e.target.getAttribute('data-horario')
+        } else {
+            horarioIntensivo.classList.remove('d-none')
+            horarioIntensivo.value = e.target.getAttribute('data-horario')
+        }
     });
 });
 
