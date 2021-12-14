@@ -1275,7 +1275,7 @@ table tr td {
 .py27 .main-menu.menu-light .navigation > li.active > a {
     background: linear-gradient(118deg, #04246d, #2a58c3);
     box-shadow: 0 0 10px 1px #04236dbc;
-    color: #fff;
+    color: #fff !important;
     font-weight: 400;
     border-radius: 4px;
 }

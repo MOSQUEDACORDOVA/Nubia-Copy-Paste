@@ -25,21 +25,21 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount of ACN</label>
+                                                                <label class="col-form-label" for="">Amount USDT</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
-                                                                <input type="number" id="amountth" class="form-control" name="amount" placeholder="13" value="0" min="0" autocomplete="off" required>
+                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
+                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="0">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Cost USDT</label>
+                                                                <label class="col-form-label" for="">Amount of ACN</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
-                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
-                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="0" step="0.1" readonly>
+                                                                <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -173,7 +173,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BTC</label>
@@ -218,7 +218,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BNB</label>
@@ -263,7 +263,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="number" name="amount" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
@@ -320,39 +320,31 @@
     .then(data => {
         let arr = data.rates
         resultBtc = arr.usd.value
-        // console.log(arr)
-        // console.log(resultBtc)
     });
    
     let resultBnb;
-    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
+     fetch('https://api.coingecko.com/api/v3/coins/binancecoin/market_chart?vs_currency=usd&days=1')
     .then(response => response.json())
     .then(data => {
-        let arr = data.tickers
-        console.log(data.tickers)
-        arr.forEach(item => {
-            if(item.base === 'BNB' && item.coin_id === 'binancecoin' && item.target === 'USDT') {
-                resultBnb = item.last;
-                console.log(resultBnb)
-            }
-        });
+        console.log(data.prices[0][1])
+        let price = data.prices[0][1];
+        resultBnb = price;
     });
 
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
-        let amountAero = document.getElementById('amountth');
+        let amountUsd= document.getElementById('amountUsd');
         let InCoin = document.querySelectorAll('.amountCoin');
-        //let btcPrice = parseFloat(document.getElementById('btc_price').value);
-        // bnbPrice = parseFloat(document.getElementById('bnb_price').value);
+
         let btc = document.getElementById('amountbtc');
         let bnb = document.getElementById('amountbnb');
         let priceACN = parseFloat(document.getElementById('price_').value);
 
         btc.value = priceACN / resultBtc;
-        bnb.value =  priceACN / 545.80;
+        bnb.value =  priceACN / resultBnb;
 
-        let amount = amountAero.value;
+        let amount = amountUsd.value;
 
         InCoin.forEach(inp => {
             inp.value = amount;
@@ -391,19 +383,25 @@
 
     $(function (){
         let amountModal = $('.amount');
+        let amountModalUsd = $('.amountUsd');
         let idModal = $('.modal .d-none.id');
         let idMethod = $('.modal .d-none.methodid');
 
-        $('input[name="amount"]').on('keyup', (e)=>{
+        $('input[name="price"]').on('keyup', (e)=>{
             let valor =  e.target.value;
-            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
-            $('#price_').val(price_)
+            let priceAcn = parseFloat($('#costo_ref').val());
+            let price_ = (valor / priceAcn)+"-"
+            let priceFormat = parseFloat(price_.slice(0,-4))
+            $('#amountUsd').val(priceFormat)
 
             amountModal.each(function (index) {
-                $(this).val(price_);
+                $(this).val(priceFormat);
+            });
+
+            amountModalUsd.each(function (index) {
+                $(this).val(valor);
             });
         });
 
-        let inTh = $('.amountth');
     });
 </script>

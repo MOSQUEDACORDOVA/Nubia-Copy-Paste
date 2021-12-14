@@ -197,10 +197,10 @@ exports.verificargrupos = (req, res) => {
             break;
 
           case '2':
-            nivel1 = moment(iniciado).add(112, 'd').format('YYYY-MM-DD')
-            nivel2 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(336, 'd').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+            nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+            nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
     
             console.log("NIVELES")
             console.log(nivel1)
@@ -439,7 +439,7 @@ exports.creargrupos = (req, res) => {
         nivelCode = '-1';
         nivel = 'Principiante';
                                         // 112
-        fechaFin = moment(fechaInicio).add(105, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
