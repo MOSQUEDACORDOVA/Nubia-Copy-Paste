@@ -600,26 +600,15 @@ exports.retreats = (req, res) => {
       DataBase.GetMRetreatsUSDT(idUser).then((res5) => {
         let usdt = JSON.parse(res5);
         console.log(usdt)
-         
-        // HISTORIAL DE RETIROS (PAGOS) PENDIENTES
-        DataBase.GetPendingPaymenthsUser(idUser).then((res5) => {
-          let retreats = JSON.parse(res5);
-          console.log(retreats)
+  
+        DataBase.GetCoinsAeroBTC(idUser).then((r) => {
+          let dep = JSON.parse(r);
+          console.log(dep)
+          let coins = 0;
+          dep.forEach(item => {
+            coins += parseInt(item.amountAero);
+          });
           
-        // HISTORIAL DE RETIROS (PAGOS) COMPLETADOS
-        DataBase.GetPaymenthsUser(idUser).then((resp) => {
-          let retreatsCompletes = JSON.parse(resp);
-          console.log(retreatsCompletes)
-
-          DataBase.GetCoinsAeroBTC(idUser).then((r) => {
-            let dep = JSON.parse(r);
-            console.log(dep)
-            let coins = 0;
-            dep.forEach(item => {
-              coins += parseInt(item.amountAero);
-            });
-          
-
     res.render(proyecto+"/user/retreats", {
       pageName: "AeroCoin - Retreats",
       dashboardPage: true,
@@ -633,20 +622,8 @@ exports.retreats = (req, res) => {
       presale,
       ret: true,
       btc, bnb, usdt,
-      retreats,
-      retreatsCompletes,
       avalibleBalance
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1082,136 +1059,16 @@ exports.paymanag = (req, res) => {
 
   let roleAdmin = true;
 
-  DataBase.GetPaymenthsAdmin().then((resp2) => {
-    let pays = JSON.parse(resp2);
-    console.log(pays)
-
-    DataBase.GetPendingPaymenthsAdmin().then((resp) => {
-      let pendindPays = JSON.parse(resp);
-      console.log(pendindPays)
-
-    res.render(proyecto+"/admin/pay-managment", {
-      pageName: "AeroCoin - Pay Managment",
-      dashboardPage: true,
-      dashboard: true,
-      py27: true,
-      login: false,
-      paym: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      pendindPays,
-      pays
-    });
-
-  }).catch((err) => {
-    console.log(err)
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    return res.redirect("/error27/PYT-27");
-  });
-};
-
-// VER TODOS LOS DEPOSITOS
-exports.depositsadmin = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-
-  let roleAdmin = true;
-  // TRANSFERENCIAS
-  DataBase.GetAllCompleteDepositsTransf().then((res1) => {
-    let completeTransf = JSON.parse(res1);
-    console.log(completeTransf)
-
-  DataBase.GetAllPendingDepositsTransf().then((pres1) => {
-    let pendingTransf = JSON.parse(pres1);
-    console.log(pendingTransf)
-
-    // PAGO MOVIL
-    DataBase.GetAllCompleteDepositsPaym().then((res2) => {
-      let completePaym = JSON.parse(res2);
-      console.log(completePaym)
-
-    DataBase.GetAllPendingDepositsPaym().then((pres2) => {
-      let pendingPaym = JSON.parse(pres2);
-      console.log(pendingPaym)
-
-      //BTC
-      DataBase.GetAllCompleteDepositsBTC().then((res3) => {
-        let completeBTC = JSON.parse(res3);
-        console.log(completeBTC)
-
-      DataBase.GetAllPendingDepositsBTC().then((pres4) => {
-        let pendingBTC = JSON.parse(pres4);
-        console.log(pendingBTC)
-
-        // BILLETERA DIGITAL
-        DataBase.GetAllCompleteDepositsWallet().then((res5) => {
-          let completeWallet = JSON.parse(res5);
-          console.log(completeWallet)
-  
-        DataBase.GetAllPendingDepositsWallet().then((pres5) => {
-          let pendingWallet = JSON.parse(pres5);
-          console.log(pendingWallet)
-
-    res.render(proyecto+"/deposits", {
-      pageName: "Depositos",
-      dashboardPage: true,
-      dashboard: true,
-      py27:true,
-      login: false,
-      dep: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
-      roleAdmin,
-      completeTransf, completePaym, completeBTC, completeWallet,
-      pendingTransf, pendingPaym, pendingBTC, pendingWallet
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error obteniendo depositos realizados";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
+  res.render(proyecto+"/admin/pay-managment", {
+    pageName: "AeroCoin - Pay Managment",
+    dashboardPage: true,
+    dashboard: true,
+    py27: true,
+    login: false,
+    paym: true,
+    username: req.user.username,
+    typeUser: req.user.type_user,
+    roleAdmin,
   });
 };
 
@@ -2450,10 +2307,6 @@ exports.boardpresale = (req, res) => {
   // SALDO DISPONIBLE
   let avalibleBalance = res.locals.user.avalible_balance
 
-  DataBase.GetAllDepositsBoardUser(idUser).then((response) => {
-    let capital = JSON.parse(response);
-    console.log(capital)
-
     DataBase.GetAllDepositsUser(idUser).then((resp) => {
       let depositos = JSON.parse(resp);
       console.log(depositos)
@@ -2470,16 +2323,10 @@ exports.boardpresale = (req, res) => {
       roleSeller,
       presale,
       verify, unverify, pendingverify,
-      capital,
       depositos,
       avalibleBalance,
       board: true,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

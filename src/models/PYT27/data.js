@@ -2,10 +2,8 @@ const { Op, where } = require("sequelize");
 const db27 = require("../../config/dbPY27");
 const bcrypt = require("bcrypt-nodejs");
 const Usuarios = require("../../models/PYT27/Usuarios");
-const Paquetes = require("../../models/PYT27/Packages");
 const MPagos = require("../../models/PYT27/MetodosPago");
 const Pays = require("../../models/PYT27/Payments");
-const Depositos = require("../../models/PYT27/Depositos");
 const depositosaeros = require("../../models/PYT27/DepositosAero");
 const MetodosRetiros = require("../../models/PYT27/Retreats");
 const AeroCoin = require("../../models/PYT27/AeroCoin");
@@ -123,12 +121,7 @@ module.exports = {
           type_user: {
             [Op.ne]: 'Administrador',
           },
-        },
-        include:[
-          {association:Usuarios.Depositos},
-        ],order: [
-          ["id", "DESC"],
-        ],})
+        }})
         .then((data) => {
           let data_p = JSON.stringify(data);
           console.log(data)
@@ -150,12 +143,7 @@ module.exports = {
           type_user: {
             [Op.ne]: 'Administrador',
           },
-        },
-        include:[
-          {association:Usuarios.Depositos},
-        ],order: [
-          ["id", "DESC"],
-        ],})
+        }})
         .then((data) => {
           let data_p = JSON.stringify(data);
           console.log(data)
@@ -572,62 +560,6 @@ module.exports = {
           });
       });
     },
-    // CREAR DEPOSITO
-    CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, num_reference, id_pack, id_method, id_user) {
-      console.log(id_pack)
-      console.log(id_user)
-      console.log("IOIDDDDDADASDAD")
-        return new Promise((resolve, reject) => {
-          Depositos.create({ transaction_type: ttype, name: name, dni: dni, email: email, amount: amount, bank_name: bank_name, num_account: num_account, type_account: type_account, phone: phone, code_walle: code_wallet, digital_wallet_email: digital_wallet_email, voucher: voucher, num_reference: num_reference, paqueteId: id_pack, metodosPagoId: id_method, usuarioId: id_user })
-            .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve(data_set);
-            })
-            .catch((err) => {
-                reject(err);
-            });
-        });
-    },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES TRANSFERENCIAS
-    GetAllPendingDepositsTransf(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'No verificado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES PAGO MOVIL
-    GetAllPendingDepositsPaym(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'No verificado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // DAR AEROCOINS A USUARIO
     GiveCoinsToUser(id, amount) {
         return new Promise((resolve, reject) => {
@@ -668,122 +600,7 @@ module.exports = {
           });
       });
     },
-    // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BILLETERA DIGITAL
-    GetAllPendingDepositsWallet(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'No verificado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS TRANSFERENCIAS
-    GetAllCompleteDepositsTransf(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Transferencia Bancaria', status: 'Aprobado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS PAGO MOVIL
-    GetAllCompleteDepositsPaym(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Pago Movil', status: 'Aprobado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BTC
-    GetAllCompleteDepositsBTC(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'BTC', status: 'Aprobado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS REALIZADOS BILLETERA DIGITAL
-    GetAllCompleteDepositsWallet(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {transaction_type: 'Billetera Digital', status: 'Aprobado'},
-          include:[
-          {association:Depositos.Paquetes},
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER CAPITAL INVERTIDO DE TODOS LOS DEPOSITOS
-    GetAllDepositsBoardUser(id) {
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where: {status: {
-          [Op.ne]: 'No verificado'
-        }, usuarioId: id}})
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
+    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS
     GetAllDepositsUser(id){
       return new Promise((resolve, reject) => {
         depositosaeros.findAll({where:{usuarioId: id},
@@ -792,87 +609,6 @@ module.exports = {
           ],order: [
             ["id", "DESC"],
           ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS DEPOSITOS DE USUARIOS CON PAQUETES
-    GetAllDepositsAdmin(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{status: {
-          [Op.ne]: 'No verificado'
-        }},
-          include:[
-            {association:Depositos.Paquetes },
-          ],order: [
-            ["id", "DESC"],
-          ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
-    GetDepositsTransf(id){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria', usuarioId: id},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL
-    GetDepositsPaym(id){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Pago Movil', usuarioId: id},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS BTC
-    GetDepositsBTC(id){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'BTC', usuarioId: id},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
         })
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -953,86 +689,6 @@ module.exports = {
           });
       });
     },
-    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL
-    GetDepositsWallet(id){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Billetera Digital', usuarioId: id},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS TRANSFERENCIAS ADMIN
-    GetDepositsTransfAdmin(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Transferencia Bancaria'},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS PAGO MOVIL ADMIN
-    GetDepositsPaymAdmin(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Pago Movil'},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS BTC ADMIN
-    GetDepositsBTCAdmin(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'BTC'},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
     GetAllPendingDepositsBTCAero(){
       return new Promise((resolve, reject) => {
@@ -1070,64 +726,6 @@ module.exports = {
           .then((data) => {
             let data_p = JSON.stringify(data);
             resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITOS DE USUARIOS BILLETERA DIGITAL ADMIN
-    GetDepositsWalletAdmin(){
-      return new Promise((resolve, reject) => {
-        Depositos.findAll({where:{transaction_type: 'Billetera Digital'},
-          include:[
-          {association:Depositos.Paquetes },
-          {association:Depositos.MetodosPagos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // CULMINAR DEPOSITOS
-    CulminateDeposits(id){
-      return new Promise((resolve, reject) => {
-        Depositos.update({
-          status: 'Finalizado',
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data)[0];
-            console.log(data_s)
-            resolve('DEPOSITO FINALIZADO !!');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // APROBAR DEPOSITOS
-    UpdateDeposits(id, activated, culminated){
-      return new Promise((resolve, reject) => {
-        Depositos.update({
-          status: 'Aprobado',
-          activatedAt: activated,
-          culmination: culminated,
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data)[0];
-            console.log(data_s)
-            resolve('DEPOSITO APROBADO !!');
           })
           .catch((err) => {
             reject(err)
@@ -1455,96 +1053,6 @@ module.exports = {
         });
       });
     },
-    // OBTENER RETIROS COMPLETADOS DE USUARIOS
-    GetPaymenthsUser(id) {
-      return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Pagado', usuarioId: id},
-          include:[
-          {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
-          {association:Pays.MetodosRetiros },
-          {association:Pays.Depositos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER RETIROS SOLICITADOS DE USUARIOS
-    GetPendingPaymenthsUser(id) {
-      return new Promise((resolve, reject) => {
-        Pays.findAll({where:{ status: 'Pendiente', usuarioId: id },
-          include:[
-          {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
-          {association:Pays.MetodosRetiros },
-          {association:Pays.Depositos, where: {
-            status: 'Finalizado'
-          }},
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
-    GetPaymenthsAdmin() {
-      return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Pagado' },
-          include:[
-          {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
-          {association:Pays.MetodosRetiros },
-          {association:Pays.Depositos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER RETIROS SOLICITADOS DE USUARIOS ADMIN
-    GetPendingPaymenthsAdmin() {
-      return new Promise((resolve, reject) => {
-        Pays.findAll({where:{status: 'Solicitado' },
-          include:[
-          {association:Pays.Usuarios },
-          {association:Pays.Paquetes },
-          {association:Pays.MetodosRetiros },
-          {association:Pays.Depositos },
-        ],order: [
-          ["id", "DESC"],
-        ],
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
     // SOLICITAR PAGO USUARIO
     SolicitPay(id) {
       return new Promise((resolve, reject) => {
@@ -1642,86 +1150,6 @@ module.exports = {
           console.log("ERROR AEROCOIN")
           reject(err);
         });
-      });
-    },
-    // CREAR PAQUETES
-    CreatePackages(name, price, duration, amount, maintance) {
-      return new Promise((resolve, reject) => {
-        Paquetes.create({ name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
-        .then((data) => {
-          let data_set = JSON.stringify(data);
-          resolve('Datos agregados satisfactoriamente');
-        })
-        .catch((err) => {
-          reject(err);
-        });
-      });
-    },
-    // CREAR PAQUETES PERSONALIZADOS
-    CreatePackagesPers(price, duration, amount, maintance) {
-      return new Promise((resolve, reject) => {
-        Paquetes.create({ price: price, duration: duration, amount_th: amount, maintance_charge: maintance })
-        .then((data) => {
-          let data_set = JSON.stringify(data);
-          resolve(data_set);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-      });
-    },
-    // ACTUALIZAR SALDO MINIMO DE RETIRO
-    UpdatePackages(id, name, price, duration, amount, maintance) {
-      return new Promise((resolve, reject) => {
-      Paquetes.update(
-          {
-            name: name, price: price, duration: duration, amount_th: amount, maintance_charge: maintance
-          }, { where:{
-                id: id
-          }})
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Paquete actualizado con exito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // ELIMINAR PAQUETES
-    DeletePackages(id){
-      return new Promise((resolve, reject) => {
-        Paquetes.destroy({where:{
-          id: id
-        }
-        },)
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            resolve('data_p');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER TODOS LOS PAQUETES
-    GetPackages() {
-      return new Promise((resolve, reject) => {
-        Paquetes.findAll({
-          where: {
-            name: {
-              [Op.ne]: null
-            }
-          }
-        })
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
       });
     },
 }
