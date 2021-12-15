@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 const Swal = require("sweetalert2");
 const DataBase = require("../../models/PYT27/data");
+const Usuarios = require("../../models/PYT27/Usuarios");
+const crypto = require("crypto");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
@@ -80,7 +82,7 @@ exports.sesionstart = (req, res) => {
   })(req, res);
 };
 
-/*exports.formLogin = async (req, res) => {
+exports.formLogin = async (req, res) => {
   const { error } = res.locals.messages;
   if (req.params.token) {
     const usuario = await Usuarios.findOne({
@@ -89,16 +91,15 @@ exports.sesionstart = (req, res) => {
       },
     });
     if (!usuario) {
-    req.flash("error", "Token No válido o  Vencido, favor coloque su correo para reenviar el token de confirmación");
-      return res.redirect("/search-account-token");
+      req.flash("error", "Token No válido o  Vencido, favor coloque su correo para reenviar el token de confirmación");
+      return res.redirect("/verifyemail27/PYT-27");
     }
-    usuario.validado="ok"
+    usuario.validation="ok"
     await usuario.save();
     req.flash("success", "Token valido, inicie sesion ahora");
     return res.redirect("/login27/PYT-27");
   }
 }
-*/
 
 // Registro de usuarios
 exports.reguserpy27 = (req, res) => {
@@ -109,8 +110,8 @@ exports.reguserpy27 = (req, res) => {
     console.log('complete todos los campos')
     res.redirect('/register27/PYT-27');
   } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
-      /*
+    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then(async (respuesta) =>{
+      
       const usuario = await Usuarios.findOne({ where: { email } });
 
       if (!usuario) {
@@ -126,9 +127,8 @@ exports.reguserpy27 = (req, res) => {
       // Guardarlos en la BD
       await usuario.save();
       const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
-      res.redirect("/mailBienvenida/"+email+"/" + usuario.token);
-      */
-      res.redirect("/login27/PYT-27")
+      res.redirect("/mailBienvenidapy27/"+email+"/" + usuario.token);
+      
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -254,31 +254,13 @@ exports.verifypackgesuser = (req, res) => {
   });
 };
 
-// ! EMAIL REGISTER
-exports.emailregister = (req, res) => {
+exports.emailregsend = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
-    
-    res.render(proyecto+"/auth/verifyemail", {
-      pageName: "AeroCoin - Verify Email",
-      dashboardPage: true,
-      dashboard: true,
-      py27: true,
-      login: true,
-      email: true
-    });
-};
-
-exports.emailregtemplate = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
+  let userEmail = req.params.email 
   console.log(proyecto)
     
     res.render(proyecto+"/mail/welcome", {
@@ -287,7 +269,26 @@ exports.emailregtemplate = (req, res) => {
       dashboard: true,
       py27: true,
       login: true,
-      email: true
+      email: true,
+      userEmail
+    });
+};
+
+exports.test = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  let userEmail = req.params.email 
+  console.log(proyecto)
+    
+    res.render(proyecto+"/test", {
+      pageName: "AeroCoin - Test",
+      dashboardPage: true,
+      dashboard: true,
+      py27: true,
+      login: true,
     });
 };
 
@@ -1072,6 +1073,59 @@ exports.paymanag = (req, res) => {
   });
 };
 
+// INGRESAR EMAIL PARA ENVIAR TOKEN
+exports.formSearchAccountToken = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  res.render(proyecto+"/mail/verifyemail", {
+    pageName: "AeroCoin - Verify Email",
+    dashboardPage: true,
+    dashboard: true,
+    py27: true,
+    login: true,
+  });
+};
+
+// ENVIAR TOKEN PARA VALIDAR EMAIL
+exports.resendemailverify = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  const { email } = req.body;
+
+  if (email.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/register27/PYT-27');
+  } else {
+    /*
+    const usuario = await Usuarios.findOne({ where: { email } });
+
+    if (!usuario) {
+      req.flash("error", "No existe esa cuenta");
+      console.log("error")
+      //res.redirect("/search-account");
+    }
+
+    // Usuario existe
+    usuario.token = crypto.randomBytes(20).toString("hex");
+    usuario.expiration = Date.now() + 3600000;
+
+    // Guardarlos en la BD
+    await usuario.save();
+    const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
+    */
+  }
+};
+
 // VER TODOS LOS DEPOSITOS AEROCOIN ADMIN
 exports.depositsaeroadmin = (req, res) => {
   let msg = false;
@@ -1117,43 +1171,6 @@ exports.depositsaeroadmin = (req, res) => {
 };
 
 // APROBAR DEPOSITO
-exports.startdeposit = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id  
-  console.log(proyecto)
-
-  let roleAdmin;
-  let roleClient = true;
-  let roleSeller;
-  console.log(req.body)
-  console.log("PARAMS")
-
-  let id = req.body.id; 
-  let duration = req.body.durationd;
-  let activated = moment().format('YYYY-MM-DD');
-  let culminated =  moment().add(duration, 'M').format('YYYY-MM-DD');
-  
-  console.log(activated)
-  console.log(culminated)
-  
-  DataBase.UpdateDeposits(id, activated, culminated).then((response) => {
-    console.log(response)
-
-    let price = req.body.price,
-    paqid = req.body.paqueteId;
-
-    res.redirect('deposits27/PYT-27');
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  })
-};
-
-// APROBAR DEPOSITO
 exports.startdepositaero = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1181,8 +1198,9 @@ exports.startdepositaero = (req, res) => {
         console.log("TOTAL DE MONEDAS")
         console.log(total)
         
+        let userid = id;
       DataBase.GiveCoinsToUser(id, total).then(() => {      
-          res.redirect("/depositsaeroadmin/PYT-27");
+          res.redirect(`/mailDepositApprovey27/${userid}/${amountAero}`);
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
