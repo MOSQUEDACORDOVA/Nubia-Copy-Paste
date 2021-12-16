@@ -249,6 +249,78 @@ module.exports = {
           });
       });
     },
+    // * CONGELAR ESTUDIANTE ADMIN
+    CongelarEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          estado: 'Congelado',
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('GRUPO INICIADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ELIMINAR ESTUDIANTE DE UN GRUPO ADMIN
+    EliminarGrupoEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          grupoId: null,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * RESTAR ESTUDIANTE ELIMINADO DE UN GRUPO ADMIN
+    EliminarEstudianteGrupo(id, activos, total){
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, total_alumnos: total,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ACTUALIZAR GRUPOS
+    EstudianteCongeladoGrupo(id, activos, congelados) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, congelados: congelados,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('GRUPO ACTUALIZADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     // * OBTENER GRUPO
     BuscarGrupos(id) {
       return new Promise((resolve, reject) => {
@@ -264,7 +336,7 @@ module.exports = {
           });
       });
     },
-    // * OBTENER GRUPO
+    // * OBTENER ESTUDIANTES CON GRUPOS
     GruposYEstudiantes() {
       return new Promise((resolve, reject) => {
         Estudiantes.findAll({ include: [{association: Estudiantes.Grupos}]})

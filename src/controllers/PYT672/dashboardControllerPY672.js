@@ -766,6 +766,93 @@ exports.registrarestudiantes = (req, res) => {
   }
 };
 
+// * CONGELAR ESTUDIANTES ADMIN
+exports.congelarestudiante = (req, res) => {
+  let { id, grupoid, activos, congelados } = req.body;
+  let msg = false;
+  
+  activos = parseInt(activos) - 1
+  congelados = parseInt(congelados) + 1
+
+  if (activos < 0) {
+    activos = 0
+  }  
+  if (congelados < 0) {
+    congelados = 0
+  }
+
+  console.log(req.body);
+  console.log(activos);
+  console.log(congelados);
+
+  if (id.trim() === "" || grupoid.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.CongelarEstudiante(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EstudianteCongeladoGrupo(grupoid, activos, congelados).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * CONGELAR ESTUDIANTES ADMIN
+exports.eliminarestudiantegrupo = (req, res) => {
+  console.log(req.body);
+  let { id, grupoid, activos, total } = req.body;
+  let msg = false;
+
+  activos = parseInt(activos) - 1
+  total = parseInt(total) - 1
+
+  if(activos < 0) {
+    activos = 0
+  }
+  if(total < 0) {
+    total = 0
+  }
+
+  if (id.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+   
+    DataBase.EliminarGrupoEstudiante(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EliminarEstudianteGrupo(grupoid, activos, total).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+      return res.redirect("/matriculas/PYT-672");
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 exports.sesionstart = (req, res) => {
   console.log(req.body);
   let msg = false;
