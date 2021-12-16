@@ -112,7 +112,7 @@ exports.formLogin = async (req, res) => {
 }
 
 // Registro de usuarios
-exports.reguserpy27 = (req, res) => {
+exports.reguserpy27 = async (req, res) => {
   console.log(req.body);
   const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
   let msg = false;
