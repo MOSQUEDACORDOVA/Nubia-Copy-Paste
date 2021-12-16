@@ -492,8 +492,9 @@ router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
 router.get('/test/:id', dashboardControllerPY27.test);
 
 router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
-//router.get('/resendemailverify/:mail/:token', MailerController.resendemailverify);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
+
+router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
 
 
 

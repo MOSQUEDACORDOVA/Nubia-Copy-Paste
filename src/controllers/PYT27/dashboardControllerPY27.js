@@ -7,6 +7,7 @@ const crypto = require("crypto");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
+const { resolve } = require("path");
 
 exports.web = (req, res) => {
   let msg = false;
@@ -1132,31 +1133,44 @@ exports.resendemailverify = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
 
   const { email } = req.body;
+  console.log(email)
 
   if (email.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/register27/PYT-27');
   } else {
-    /*
-    const usuario = await Usuarios.findOne({ where: { email } });
 
-    if (!usuario) {
-      req.flash("error", "No existe esa cuenta");
-      console.log("error")
-      //res.redirect("/search-account");
+    function FindUser (email) {
+      return new Promise((resolve, reject) => {
+        const usuario = Usuarios.findOne({ where: { email } });
+        resolve(usuario);
+      }).then((usuario) => {
+        if (!usuario) {
+          req.flash("error", "No existe esa cuenta");
+          console.log("error")
+          return res.redirect("/register27/PYT-27");
+        }
+  
+        // Usuario existe
+        usuario.token = crypto.randomBytes(20).toString("hex");
+        usuario.expiration = Date.now() + 3600000;
+
+        usuario.save()
+        // Guardarlos en la BD
+        const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
+        resolve(usuario.token)
+      }).then((token) => {
+        return res.redirect("/mailBienvenidapy27/"+email+"/" + token);
+
+      }).catch((err) => {
+        console.log(err)
+        return res.redirect("/error27/PYT-27")
+      });
     }
-
-    // Usuario existe
-    usuario.token = crypto.randomBytes(20).toString("hex");
-    usuario.expiration = Date.now() + 3600000;
-
-    // Guardarlos en la BD
-    await usuario.save();
-    const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
-    */
+    
+    FindUser(email);
   }
 };
 
