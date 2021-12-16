@@ -60,6 +60,23 @@ module.exports = {
           });
       });
     },
+    // ACTUALIZAR PERFIL DE USUARIO
+    UpdateProfileUser(id, firstName, lastName, dateOfBirth, gender, typedoc, num_doc, nationality, country, city, phone, address, username, email, status) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          first_name: firstName, last_name: lastName, date_of_birth: dateOfBirth, gender: gender, doc_type: typedoc, num_document: num_doc, nationality: nationality, country: country, city: city, phone: phone, address: address, username: username, email: email, status: status
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            resolve(data_s);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // SOLICITAR VERIFICACION DE CUENTA
     SolicitVerify(id, dni1, dni2) {
       return new Promise((resolve, reject) => {
@@ -93,7 +110,7 @@ module.exports = {
           });
       });
     },
-    // VEERIFICAR CUENTA DE USUARIO
+    // VERIFICAR CUENTA DE USUARIO
     VerifyUser(id) {
       return new Promise((resolve, reject) => {
         Usuarios.update({

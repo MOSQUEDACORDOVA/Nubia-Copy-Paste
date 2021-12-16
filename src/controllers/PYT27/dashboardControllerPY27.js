@@ -62,7 +62,15 @@ exports.sesionstart = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
-  passport.authenticate("local", function (err, user, info) {
+  
+  const {email} = req.body
+  passport.authenticate("local", async function (err, user, info) {
+    const usuario = await Usuarios.findOne({ where: { email } });
+    console.log(usuario)
+    if (usuario.validation != "ok") {
+      res.redirect("/verifyemail27/PYT-27");
+    }
+
     if (err) {
       console.log(err)
       return next(err);
@@ -463,13 +471,16 @@ exports.profile = (req, res) => {
     roleSeller = true;
   }
 
-  let user = res.locals.user
-  let avalibleBalance = res.locals.user.avalible_balance
+  let avalibleBalance;
 
   let idUser = res.locals.user.id
+    DataBase.GetUserInfo(idUser).then((resp) => {
+      let user = JSON.parse(resp)[0]
+      avalibleBalance = user.avalible_balance
+
       DataBase.GetCoinsAeroBTC(idUser).then((r) => {
       let dep = JSON.parse(r);
-      console.log(dep)
+      //console.log(dep)
       let coins = 0;
       dep.forEach(item => {
         coins += parseInt(item.amountAero);
@@ -490,6 +501,11 @@ exports.profile = (req, res) => {
       user,
       avalibleBalance
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1091,6 +1107,24 @@ exports.formSearchAccountToken = (req, res) => {
   });
 };
 
+// RESTABLECER CONTRASEÑA
+exports.forgotpassword = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  res.render(proyecto+"/mail/forgotpassword", {
+    pageName: "AeroCoin - Forgot you password",
+    dashboardPage: true,
+    dashboard: true,
+    py27: true,
+    login: true,
+  });
+};
+
 // ENVIAR TOKEN PARA VALIDAR EMAIL
 exports.resendemailverify = (req, res) => {
   let msg = false;
@@ -1168,6 +1202,37 @@ exports.depositsaeroadmin = (req, res) => {
     let msg = "Error obteniendo depositos realizados";
     return res.redirect("/error27/PYT-27");
   });
+};
+
+// ACTUALIZAR PERFIL USUARIO
+exports.updateprofile = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let id = res.locals.user.id
+  console.log(res.locals.user)
+
+  console.log(req.body)
+  console.log("PARAMS")
+
+  let { firstName, lastName, username, email, dateOfBirth, gender, typedoc, num_doc, nationality, country, city, phone, address, status } = req.body
+
+  status = "activo"
+  
+  DataBase.UpdateProfileUser(id, firstName, lastName, dateOfBirth, gender, typedoc, num_doc, nationality, country, city, phone, address, username, email, status).then((response) => {
+    console.log(response)
+    console.log("PERFIL ACTUALIZADO")
+    
+    return res.redirect("/profile27/PYT-27");
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  })
 };
 
 // APROBAR DEPOSITO
@@ -1603,7 +1668,6 @@ exports.updateaerocoin = (req, res) => {
     return res.redirect("/error27/PYT-27");
   });
 };
-  
 
 // ACTUALIZAR PRECIO BTC
 exports.updateaebtc = (req, res) => {
@@ -2523,104 +2587,4 @@ exports.getdeposits = (req, res) => {
     return res.redirect("/error27/PYT-27");
   });
 
-};
-
-exports.createdeposits = (req, res) => {
-  let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
-  }
-  let proyecto = req.params.id;
-  let idUser = res.locals.user.id;
-  console.log(proyecto)
-  console.log(req.body)
-
-  let {id, methodid, ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, th} = req.body;
-
-  name = res.locals.user.username;
-  dni = res.locals.user.dni;
-  email = res.locals.user.email;
-
-  let depositid;
-  
-  DataBase.CreateDeposits(ttype, name, dni, email, amount, bank_name, num_account, type_account, phone, code_wallet, digital_wallet_email, voucher, ref, id, methodid, idUser).then((response) => {
-    console.log(response)
-    depositid = JSON.parse(response)
-    console.log("DEPOSITO-------ID")
-  }).then((data) => {
-    let data_set = JSON.stringify(data);
-    
-    DataBase.CreatePaymenthsUser(idUser, amount, id, depositid.id).then((response2) => {
-      console.log(response2)
-      console.log("RESPUESTA CONTROLADOR")
-
-      // RESTAR TH DISPONIBLES A LAS MAQUINAS
-      DataBase.GetMachineTH().then((resp)=> { 
-        let machine = JSON.parse(resp);
-        console.log(th)
-        console.log("CANTIDAD DE TH A RESTAR")
-        let count = th;
-        let idM, aval, sold;
-        console.log(count)
-        console.log(machine)
-        console.log("DATA CONTROLLER")
-        if(machine.length >= 2) {
-          machine.forEach(element => {
-            console.log(element.avalible)
-            console.log("MAQUINAS DISPONIBLES")
-            idM = element.id;
-            sold = element.sold;
-            aval = element.aval;
-            
-            while (count != 0) {   
-              if(count != 0 && aval <= count) {
-                DataBase.UpdateMachineTH(idM, sold, aval).then((resp3)=> { 
-                  count = (count - sold);
-                }).catch((err) => {
-                  console.log(err)
-                  let msg = "Error actualizando maquinas del sistema";
-                  return res.redirect("/error27/PYT-27");
-                });
-              } else {
-                DataBase.UpdateMachineTH(idM, sold, aval).then((resp3)=> { 
-                  count = (count - sold);
-                  res.redirect('/depositpresale/PYT-27');
-                }).catch((err) => {
-                  console.log(err)
-                  let msg = "Error actualizando maquinas del sistema";
-                  return res.redirect("/error27/PYT-27");
-                });
-              }
-            }
-          });
-        } else {
-          sold = parseInt(th);
-          aval = parseInt(machine[0].avalible) - parseInt(th);
-          console.log("TH DISPONIBLE DE MAQUINA" + aval)
-          console.log("TH VENDIDOS DE MAQUINA" + sold)
-          idM = machine[0].id;
-          DataBase.UpdateMachineTH(idM, sold, aval).then((resp2)=> { 
-            res.redirect('/depositpresale/PYT-27');
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error obteniendo maquinas de minado en el sistema";
-            return res.redirect("/error27/PYT-27");
-          });
-        }
-
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error obteniendo maquinas de minado en el sistema";
-        return res.redirect("/error27/PYT-27");
-      })
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error27/PYT-27");
-    })
-    resolve('Depostio creado con exito');
-  }).catch((err) => {
-    reject(err)
-    return res.redirect("/error27/PYT-27");
-  });
 };

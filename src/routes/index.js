@@ -420,6 +420,8 @@ router.get('/retreats27/:id', authControllerPY27.authenticatedUser, dashboardCon
 
 // ? POST
 // ENVIAR DATOS DNI DE VERIFICACION
+router.post('/updateprofilepy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.updateprofile);
+// ENVIAR DATOS DNI DE VERIFICACION
 router.post('/solicitverifypy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.solicitverify);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtcpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsbtc);
@@ -478,6 +480,8 @@ router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboard
 
 // VERIFICAR EMAIL
 router.get('/verifyemail27/:id', dashboardControllerPY27.formSearchAccountToken);
+// RESTABLECER CONTRASEÑA
+router.get('/forgotpasswordpy27/:id', dashboardControllerPY27.forgotpassword);
 // ? VERIFICACIÓN
 //router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
 
@@ -490,6 +494,7 @@ router.get('/test/:id', dashboardControllerPY27.test);
 router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
 //router.get('/resendemailverify/:mail/:token', MailerController.resendemailverify);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
+
 
 
 // Cerrar Sesión
