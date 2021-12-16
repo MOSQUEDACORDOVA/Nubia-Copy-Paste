@@ -58,7 +58,7 @@ function cargarTablaMatricula(editada) {
               } else {
               congelado = `
                 <a class="dropdown-item" href="#">
-                  <form action="/congelarestudiantepy672" method="POST">
+                  <form action="/activarestudiantecongeladopy672" method="POST">
                       <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
                       <input type="text" name="grupoid" class="new-todo-item-title form-control d-none" value="${full['grupoId']}" required>
                       <input type="text" name="activos" class="new-todo-item-title form-control d-none" value="${full['grupo']['activos']}" required>

@@ -249,6 +249,24 @@ module.exports = {
           });
       });
     },
+    // * ACTIVAR ESTUDIANTE CONGELADO ADMIN
+    ActivarEstudianteCongelado(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          estado: 'Activo',
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ACTIVADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     // * CONGELAR ESTUDIANTE ADMIN
     CongelarEstudiante(id){
       return new Promise((resolve, reject) => {
@@ -259,7 +277,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('GRUPO INICIADO')
+          console.log('ESTUDIANTE CONGELADO')
           resolve(data_s);
         })
         .catch((err) => {
@@ -303,8 +321,26 @@ module.exports = {
         });
       });
     },
-    // * ACTUALIZAR GRUPOS
+    // * ACTUALIZAR ESTUDIANTE CONGELADO GRUPOS
     EstudianteCongeladoGrupo(id, activos, congelados) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, congelados: congelados,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('GRUPO ACTUALIZADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ACTUALIZAR ESTUDIANTE ACTIVADO GRUPOS
+    EstudianteActivadoGrupo(id, activos, congelados) {
       return new Promise((resolve, reject) => {
         Grupos.update({
           activos: activos, congelados: congelados,

@@ -810,6 +810,47 @@ exports.congelarestudiante = (req, res) => {
   }
 };
 
+// * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
+exports.activarestudiantecongelado = (req, res) => {
+  let { id, grupoid, activos, congelados } = req.body;
+  let msg = false;
+  
+  activos = parseInt(activos) + 1
+  congelados = parseInt(congelados) - 1
+
+  if (congelados < 0) {
+    congelados = 0
+  }
+
+  console.log(req.body);
+  console.log(activos);
+  console.log(congelados);
+
+  if (id.trim() === "" || grupoid.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.ActivarEstudianteCongelado(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EstudianteActivadoGrupo(grupoid, activos, congelados).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * CONGELAR ESTUDIANTES ADMIN
 exports.eliminarestudiantegrupo = (req, res) => {
   console.log(req.body);

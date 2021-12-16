@@ -537,6 +537,8 @@ router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarestud
 router.post('/borrarestudiantespy672', dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES
 router.post('/congelarestudiantepy672', dashboardControllerPY672.congelarestudiante);
+// * ACTIVAR ESTUDIANTES CONGELADOS
+router.post('/activarestudiantecongeladopy672', dashboardControllerPY672.activarestudiantecongelado);
 // * BORRAR ESTUDIANTES DE GRUPO
 router.post('/eliminarestudiantedegrupopy672', dashboardControllerPY672.eliminarestudiantegrupo);
 
