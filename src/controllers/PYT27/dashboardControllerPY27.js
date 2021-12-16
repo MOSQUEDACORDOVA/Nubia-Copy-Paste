@@ -120,9 +120,19 @@ exports.reguserpy27 = (req, res) => {
     console.log('complete todos los campos')
     res.redirect('/register27/PYT-27');
   } else {
+    let usuario;
+
+    usuario = await Usuarios.findOne({ where: { email } });
+
+    if(usuario) {
+      req.flash("error", "No existe esa cuenta");
+      console.log("error")
+      return res.redirect("/register27/PYT-27");
+    }
+
     DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then(async (respuesta) =>{
       
-      const usuario = await Usuarios.findOne({ where: { email } });
+      usuario = await Usuarios.findOne({ where: { email } });
 
       if (!usuario) {
         req.flash("error", "No existe esa cuenta");
