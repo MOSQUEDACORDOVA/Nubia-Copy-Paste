@@ -68,10 +68,7 @@ exports.sesionstart = (req, res) => {
   passport.authenticate("local", async function (err, user, info) {
     const usuario = await Usuarios.findOne({ where: { email } });
     console.log(usuario)
-    if (usuario.validation != "ok") {
-      res.redirect("/verifyemail27/PYT-27");
-    }
-
+    
     if (err) {
       console.log(err)
       return next(err);
@@ -79,6 +76,10 @@ exports.sesionstart = (req, res) => {
     if (!user) {
       console.log("no existe usuario")
       return res.redirect("/login27/PYT-27");
+    } else {
+      if (usuario.validation != "ok") {
+        res.redirect("/verifyemail27/PYT-27");
+      }
     }
     req.logIn(user, function (err) {
       if (err) {
@@ -106,7 +107,7 @@ exports.formLogin = async (req, res) => {
     usuario.validation="ok"
     await usuario.save();
     req.flash("success", "Token valido, inicie sesion ahora");
-    return res.redirect("/login27/PYT-27");
+    return res.redirect("/emailverifynotifypy27/"+usuario.id);
   }
 }
 
@@ -494,8 +495,8 @@ exports.profile = (req, res) => {
       py27: true,
       login: false,
       prof: true,
-      username: req.user.username,
-      typeUser: req.user.type_user,
+      username: user.username,
+      typeUser: user.type_user,
       roleClient,
       roleSeller,
       presale: true,
@@ -604,8 +605,12 @@ exports.retreats = (req, res) => {
     roleSeller = true;
   }
 
+
   let idUser = res.locals.user.id
-  let avalibleBalance = res.locals.user.avalible_balance
+  DataBase.GetUserInfo(idUser).then((resp) => {
+    let user = JSON.parse(resp)[0]
+  // SALDO DISPONIBLE
+  let avalibleBalance = user.avalible_balance
 
   DataBase.GetMRetreatsBTC(idUser).then((res3) => {
     let btc = JSON.parse(res3)[0];
@@ -633,8 +638,8 @@ exports.retreats = (req, res) => {
       dashboard: true,
       py27:true,
       login:false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
+      username: user.username,
+      typeUser: user.type_user,
       roleClient,
       roleSeller,
       presale,
@@ -642,6 +647,11 @@ exports.retreats = (req, res) => {
       btc, bnb, usdt,
       avalibleBalance
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1161,6 +1171,7 @@ exports.resendemailverify = (req, res) => {
         // Guardarlos en la BD
         const resetUrl = `https://${req.headers.host}/login/${usuario.token}`;
         resolve(usuario.token)
+        
       }).then((token) => {
         return res.redirect("/mailBienvenidapy27/"+email+"/" + token);
 
@@ -1346,7 +1357,6 @@ exports.aeropresale = (req, res) => {
   let presale = true;
 
   let verify, unverify, pendingverify;
-  let avalibleBalance = res.locals.user.avalible_balance
 
   if (req.user.account_verified === 'No verificado') {
     if(req.user.front_img_dni === null || req.user.back_img_dni === null) {
@@ -1385,7 +1395,11 @@ exports.aeropresale = (req, res) => {
           console.log(allusdt)
           console.log("USDT")
 
-      let idUser = res.locals.user.id;
+      let idUser = res.locals.user.id
+      DataBase.GetUserInfo(idUser).then((resp) => {
+        let user = JSON.parse(resp)[0]
+      // SALDO DISPONIBLE
+      let avalibleBalance = user.avalible_balance
 
       DataBase.GetCoinsAeroBTC(idUser).then((response) => {
         let dep = JSON.parse(response);
@@ -1401,8 +1415,8 @@ exports.aeropresale = (req, res) => {
       dashboard: true,
       py27: true,
       login: false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
+      username: user.username,
+      typeUser: user.type_user,
       roleClient,
       presale,
       allpays,
@@ -1412,6 +1426,11 @@ exports.aeropresale = (req, res) => {
       aero: true,
       avalibleBalance
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2382,11 +2401,6 @@ exports.boardpresale = (req, res) => {
     roleSeller = true;
   } 
 
-  console.log(req.user)
-  console.log("USUARIO")
-  console.log(res.locals.user.avalible_balance)
-  console.log("BALANCE")
-
   let verify, unverify, pendingverify;
 
   if (req.user.account_verified === 'No verificado') {
@@ -2400,8 +2414,10 @@ exports.boardpresale = (req, res) => {
   }
 
   let idUser = res.locals.user.id
+  DataBase.GetUserInfo(idUser).then((resp) => {
+    let user = JSON.parse(resp)[0]
   // SALDO DISPONIBLE
-  let avalibleBalance = res.locals.user.avalible_balance
+  let avalibleBalance = user.avalible_balance
 
     DataBase.GetAllDepositsUser(idUser).then((resp) => {
       let depositos = JSON.parse(resp);
@@ -2413,8 +2429,8 @@ exports.boardpresale = (req, res) => {
       dashboard: true,
       py27:true,
       login:false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
+      username: user.username,
+      typeUser: user.type_user,
       roleClient,
       roleSeller,
       presale,
@@ -2423,6 +2439,11 @@ exports.boardpresale = (req, res) => {
       avalibleBalance,
       board: true,
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
