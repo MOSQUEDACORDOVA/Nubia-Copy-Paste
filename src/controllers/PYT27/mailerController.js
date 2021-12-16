@@ -86,7 +86,7 @@ exports.bienvenidaMail = async function (req, res) {
     });
     // Definimos el email
     var mailOptions = {
-      from: "prueba@prueba.com",
+      from: "no-reply@aerocoin.aero",
       to: mail,
       subject: "Welcome to Aerocoin",
       text: "Welcome to  Aerocoin" + resetUrl,
@@ -230,7 +230,7 @@ exports.emailVerificado = async function (req, res) {
   });
    // Definimos el email
    var mailOptions = {
-    from: "prueba@prueba.com",
+    from: "no-reply@aerocoin.aero",
     to: usuario.email,
     subject: "Email Verified Successfully - Aerocoin Team",
     text: "Email Verified Successfully - Aerocoin Team",
@@ -369,7 +369,7 @@ exports.depositoAprovado = async function (req, res) {
   });
    // Definimos el email
    var mailOptions = {
-    from: "prueba@prueba.com",
+    from: "no-reply@aerocoin.aero",
     to: usuario.email,
     subject: "Deposit Approve - Aerocoin Team",
     text: "Deposit Approve - Aerocoin Team",

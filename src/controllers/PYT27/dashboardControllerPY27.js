@@ -78,7 +78,7 @@ exports.sesionstart = (req, res) => {
       return res.redirect("/login27/PYT-27");
     } else {
       if (usuario.validation != "ok") {
-        res.redirect("/verifyemail27/PYT-27");
+        return res.redirect("/verifyemail27/PYT-27");
       }
     }
     req.logIn(user, function (err) {
