@@ -64,6 +64,8 @@ router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cupone
 //NOTIFICACIONES
 router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
 
+//seguimiento
+router.get('/seguimiento_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.seguimiento_table);
 // Dashboard
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
@@ -106,6 +108,7 @@ router.post('/editar_sucursales_save', authControllerPY4.authenticatedUser,dashb
 router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.carga_inicial);
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
+router.post('/save_recarga_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_recarga);
 
 //ASIGNAR CHOFER
 router.post('/save_asig_chofer_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer);

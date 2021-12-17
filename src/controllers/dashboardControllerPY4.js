@@ -1223,6 +1223,10 @@ exports.vehiculos_table = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
   let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
   switch (req.session.tipo) {
     case "Director":
@@ -1268,7 +1272,7 @@ exports.vehiculos_table = (req, res) => {
       pedidos_,sucursales_let,
 choferes,
 choferes_,sucursales_,
-      msg
+      msg, admin
     }) 
 }).catch((err) => {
   console.log(err)
@@ -1380,6 +1384,10 @@ exports.sucursales = (req, res) => {
   if (req.params.msg) {
     msg = req.params.msg;
   }
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
   let id_sucursal = req.session.sucursal_select
   let ClientesDB = "", PedidosDB="", ChoferesDB="", vehiculosAll=""
   switch (req.session.tipo) {
@@ -1421,7 +1429,7 @@ exports.sucursales = (req, res) => {
       pageName: "Bwater",
       dashboardPage: true,
       dashboard: true,
-      py4:true,
+      py4:true,admin,
       sucursales:true,
       clientes_d, clientes_arr,pedidos_,choferes,choferes_,
       vehiculos_let,  msg,
@@ -1585,7 +1593,7 @@ vehiculosAll=DataBase.vehiculosAllS
                   console.log(asignados)
                   vehiculosAll(id_sucursal).then((vehiculos_)=>{
                     let vehiculos_let = JSON.parse(vehiculos_)
-                    console.log(vehiculos_let)
+  console.log(carga_let)
     res.render("PYT-4/carga_init", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1642,14 +1650,71 @@ exports.save_carga_inicial = (req, res) => {
   
   const { carga_init,  id_chofer_carga} = req.body
   let msg = false;
+  let id_sucursal = req.session.sucursal_select
   DataBase.savecarga_inicial(carga_init,  id_chofer_carga, req.session.sucursal_select).then((respuesta) =>{
-    res.redirect('/carga_inicial_py4/'+respuesta)
+    let respuesta_let = JSON.parse(respuesta)
+    switch (req.session.tipo) {
+      case "Director":
+      Carga_init=DataBase.Carga_init
+      admin = true
+        break;
+    
+      default:
+      Carga_init=DataBase.Carga_initS
+        break;
+    }
+    Carga_init(id_sucursal).then((carga_)=>{
+      let carga_let = JSON.parse(carga_) 
+
+    res.send({carga_let})
+    
 
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+};
+exports.save_recarga = async (req, res) => {
+  
+  const { id_carga, recarga } = req.body
+  let msg = false;
+  let id_sucursal = req.session.sucursal_select
+  var carga_actual = JSON.parse(await DataBase.cargaActual(id_carga))
+  console.log(carga_actual)
+  let nueva_carga = parseInt(recarga)+ parseInt(carga_actual.recarga)
+  console.log(nueva_carga)
+const update_recarga = await DataBase.updcarga_inicial(id_carga,  nueva_carga);
+console.log(update_recarga)
+const recarga_table = await DataBase.recarga_table(id_carga,  nueva_carga)
+console.log(recarga_table)
+    let respuesta_let = JSON.parse(respuesta)
+    switch (req.session.tipo) {
+      case "Director":
+      Carga_init=DataBase.Carga_init
+      admin = true
+        break;
+    
+      default:
+      Carga_init=DataBase.Carga_initS
+        break;
+    }
+    Carga_init(id_sucursal).then((carga_)=>{
+      let carga_let = JSON.parse(carga_) 
+
+    res.send({carga_let})
+    
+
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 };
 
 
@@ -2246,3 +2311,147 @@ console.log(req.body)
       return res.redirect("/errorpy4/" + msg);
     });
 }
+
+//seguimiento
+exports.seguimiento_table = (req, res) => {
+  console.log(req.session.sucursal_select)
+  let msg = false;
+  let admin = false
+  if (req.session.tipo == "Director") {
+    admin = true
+  }
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  if (req.params.day) {
+    
+    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
+  }else{
+    dia = new Date()
+  }
+ let id_sucursal = req.session.sucursal_select
+ console.log(req.session.tipo)
+  //DATA-COMUNES
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="", LastPedidosAll=""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+    PedidosDB=DataBase.PedidosAll
+    ChoferesDB=DataBase.ChoferesAll
+    obtenernotificaciones=DataBase.obtenernotificaciones 
+    LastPedidosAll=DataBase.LastPedidosAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+    PedidosDB=DataBase.PedidosAllS
+    ChoferesDB=DataBase.ChoferesAllS
+obtenernotificaciones=DataBase.obtenernotificaciones 
+LastPedidosAll=DataBase.LastPedidosAllS
+      break;
+  }
+  DataBase.CodigosP().then((cp_)=>{
+    let cp_arr = JSON.parse(cp_)
+  ClientesDB(id_sucursal).then((clientes_d)=>{
+    let clientes_arr = JSON.parse(clientes_d)
+     let count = clientes_arr.length
+     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+      LastPedidosAll(id_sucursal).then((pedidos_g)=>{
+        let pedidos_letG = JSON.parse(pedidos_g)
+         let notif1_2=[], notif3_5=[], notif6_12=[], notificacion_g =[]
+         let hoy = moment()
+        var duration=""
+      for (let i = 0; i < pedidos_letG.length; i++) {
+      if (pedidos_letG[i].status_pedido == "Entregado") {
+        if (pedidos_letG[i].total_garrafones_pedido <= 2) {
+          let dia_pedido  = moment(pedidos_letG[i].createdAt)
+          duration = hoy.diff(dia_pedido, 'days');
+            if (duration >=10 && duration < 20) {
+              
+              notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+            }     
+          }
+          if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
+            let dia_pedido  = moment(pedidos_letG[i].createdAt)
+            duration = hoy.diff(dia_pedido, 'days');
+              if (duration >=20 && duration < 30) {
+       
+                notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+              }     
+            }
+            if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
+              let dia_pedido  = moment(pedidos_letG[i].createdAt)
+              duration = hoy.diff(dia_pedido, 'days');
+                if (duration >=30) {
+      
+                  notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                }     
+              }
+        }
+        }
+      let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
+notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
+       ChoferesDB(id_sucursal).then((choferes)=>{
+        let choferes_ = JSON.parse(choferes)
+        DataBase.Sucursales_ALl().then((sucursales_)=>{
+          let sucursales_let = JSON.parse(sucursales_)
+                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                    let etiquetas_let = JSON.parse(etiquetas_)
+                    
+console.log(notif1_2)
+console.log(notif3_5)
+console.log(notificacion_g)
+notificacion_g = JSON.stringify(notificacion_g)
+    res.render("PYT-4/seguimiento", {
+      pageName: "Bwater",
+      dashboardPage: true,
+      dashboard: true,
+      py4:true,
+      seguimiento:true,
+      admin,
+      clientes_d,
+      clientes_arr,
+      pedidos_,
+      pedidos_let,
+      choferes_,sucursales_let,
+      cp_,etiquetas_let,
+      msg,notificacion_g
+    }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+  }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+};

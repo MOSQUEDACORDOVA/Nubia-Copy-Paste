@@ -101,11 +101,17 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- // Advanced Search Functions Ends
- $(function () {
-  'use strict';
-  
+ function tablarCargainicial(edit) {
+     
   let valor = $('#array_carga').val()
+  let array =""
+  if (edit) {
+    array = JSON.parse(valor)
+console.log(array)
+  }else{
+   array = JSON.parse(valor.replace(/&quot;/g,'"')) 
+  }
+
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
 
@@ -137,7 +143,7 @@
       columns: [
         { data: 'id' },
         { data: 'personal' },
-        { data: 'cantidad_inicial' },
+        { data: 'recarga' },
         { data: 'createdAt'},
        /* {   // Actions
           targets: -1,
@@ -162,6 +168,17 @@
            return `${full['personal']['name']}  ${full['personal']['lastName']}`
           }
         },
+{
+          targets: 2,
+          render:function(data, type, full, meta){
+
+            return (
+             `<span class="badge rounded-pill badge-light-info" style="cursor:pointer;" onclick="openrecarga('${full['id']}')">
+              ${data} </span>`
+            );
+          }
+        },
+        
         {
           targets: 3,
           render:function(data){
@@ -211,6 +228,12 @@
       dt_basic_carg.draw();
       });
   }
+   
+ }
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+tablarCargainicial()
   // Flat Date picker
   if (dt_date_table.length) {
     dt_date_table.flatpickr({
@@ -222,33 +245,6 @@
   // Add New record
   // ? Remove/Update this code as per your requirements ?
   var count = 101;
-  $('.data-submit').on('click', function () {
-    var $new_name = $('.add-new-record .dt-full-name').val(),
-      $new_post = $('.add-new-record .dt-post').val(),
-      $new_email = $('.add-new-record .dt-email').val(),
-      $new_date = $('.add-new-record .dt-date').val(),
-      $new_salary = $('.add-new-record .dt-salary').val();
-
-    if ($new_name != '') {
-      dt_basic.row
-        .add({
-          responsive_id: null,
-          id: count,
-          full_name: $new_name,
-          post: $new_post,
-          email: $new_email,
-          start_date: $new_date,
-          salary: '$' + $new_salary,
-          status: 5
-        })
-        .draw();
-      count++;
-      $('.modal').modal('hide');
-    }
-  });
-
-
-
   // Responsive Table
   // --------------------------------------------------------------------
 
@@ -261,34 +257,64 @@
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
- /* $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
-    var id = e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = `/delete_pedido/${id}`;
+  $('#btn_carga_inicial').on('click', async (e)=>{
+    
+    $.ajax({
+      url: `/save_carga_init_py4`,
+      type: 'POST',
+      data: $('#form_cargaincial').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_carga').val(JSON.stringify(data.carga_let))
+        $('.datatables-basic_carga_init').dataTable().fnDestroy();
+        $('.datatables-basic_carga_init').empty();
+        $('.datatables-basic_carga_init').append(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Chofer</th>
+          <th>Carga Inicial</th>
+          <th>Fecha de carga</th>
+          <!--<th>Opciones</th>-->
+        </tr>
+      </thead>`);
+      tablarCargainicial('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
       }
-    })
-
-  });
-  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
-    var id_edit = e.target.classList[0]
-    if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
-    }
-  window.location.href = `/editar_pedido/${id_edit}`;
-
-  });
-*/
-
+    });
+    
+  })
+  $('#btn_recarga').on('click', async (e)=>{
+    
+    $.ajax({
+      url: `/save_recarga_py4`,
+      type: 'POST',
+      data: $('#form_recarga').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_carga').val(JSON.stringify(data.carga_let))
+        $('.datatables-basic_carga_init').dataTable().fnDestroy();
+        $('.datatables-basic_carga_init').empty();
+        $('.datatables-basic_carga_init').append(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Chofer</th>
+          <th>Carga Inicial</th>
+          <th>Fecha de carga</th>
+          <!--<th>Opciones</th>-->
+        </tr>
+      </thead>`);
+      tablarCargainicial('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });
 // Filter column wise function
 function filterColumn(i, val) {
@@ -330,30 +356,7 @@ function filterColumn2(i, val) {
     $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
   }
 }
-// Filter column wise function
-/*async function cambioSP(id, status) {
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Entregado: 'Entregado',
-        Cancelado: 'Cancelado',
-        'Por entregar': 'Por entregar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
-    showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
-        }
-      })
-    }
-  })
-  
-  if (estado) {
-    window.location.href = `/cambiaS_pedido/${id}/${estado}`;
-  }
-}*/
+function openrecarga(id) {
+  $('#id_carga').val(id)
+  $('#recarga').modal('show')
+}
