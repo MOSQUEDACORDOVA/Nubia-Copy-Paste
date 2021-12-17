@@ -184,7 +184,7 @@ $(document).ready(function() {
                     </div>
                                         <div class="card-body">
                       
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
                                         <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
@@ -203,7 +203,15 @@ $(document).ready(function() {
                                            <option style="background-color:{{color}};">{{etiquetas}}</option>
                                            {{/each}}
                                        </select>
+                                       <span class="me-md-1"></span>
+                                       <div class="mb-0 ">
+                                      <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_chofer">Cambiar chofer
+            </button>   
                                     </div>
+                                    
+                                       
+                                    </div>
+                                    
                                 </div>
                     </div>
                     <div class="row">
@@ -212,7 +220,8 @@ $(document).ready(function() {
                                 <div class="card">
                                     <table class="datatables-basic table dt-column-search" id="example">
                                         <thead>
-                                            <tr>
+                                            <tr>                                                
+                                                <th></th>
                                                 <th>Nº Pedido</th>
                                                 <th>Cliente</th>
                                                 <th>Total garrafones</th>
@@ -770,6 +779,38 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
+
+                <div class="modal fade" id="change_chofer" tabindex="-1" aria-labelledby="change_choferTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="change_choferTitle">Cambiar chofer a pedido(s)</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="change_chofer_form">
+              <input type="hidden" class="form-control" id="ids_pedido" name="ids_pedido"/>
+              
+                     <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 chofer_reg_modal_pedido" id='chofer_cambia'>
+                            <option default value="default">Seleccione un chofer</option>
+                            {{#each choferes_ as |chofer i |}}
+                            <option value="{{id}}">{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="change_chofer_btn">Cambiar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
 <script>
    
 </script>

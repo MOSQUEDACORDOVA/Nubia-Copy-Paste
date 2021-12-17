@@ -262,7 +262,7 @@ exports.sesionstart = (req, res) => {
   })(req, res);
 };
 
-
+//clientes
 exports.usuariosTable = (req, res) => {
   
   let msg = false;
@@ -651,8 +651,9 @@ exports.cambiaS_pedido = (req, res) => {
   
   const id_pedido = req.body.id
   const status = req.body.status
+  const motivo = req.body.motivo
   let id_sucursal = req.session.sucursal_select
-  DataBase.CambiaStatus(id_pedido,status).then((respuesta) =>{
+  DataBase.CambiaStatus(id_pedido,status, motivo).then((respuesta) =>{
     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
@@ -670,6 +671,30 @@ exports.cambiaS_pedido = (req, res) => {
     return res.redirect("/errorpy4/" + msg);
   });
 };
+exports.cambiachofer_pedido = async (req, res) => {
+  
+  const user = res.locals.user
+  const {ids_pedido, chofer} = req.body
+
+  let split_id = ids_pedido.split(',')
+
+  for (let i = 0; i < split_id.length; i++) {
+    await DataBase.cambiaChofer(split_id[i],chofer) 
+  }
+  let id_sucursal = req.session.sucursal_select
+    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+    let msg='respuesta'
+    return res.send({msg:msg, pedidos_let})
+    // res.redirect('/homepy4/'+msg)
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+};
+
 exports.cambia_S_pago = (req, res) => {
   
   const user = res.locals.user

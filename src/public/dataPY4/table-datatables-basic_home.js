@@ -141,7 +141,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  var groupColumn = 8;
+  var groupColumn = 9;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -155,16 +155,17 @@ maxDate2 = new DateTime($('#max1'), {
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
-      console.log(this.value)
+
       dt_basic.search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
-    console.log(this.value)
+ 
     dt_basic.search(this.value).draw();   
  });
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
+        { data: 'id' },
         { data: 'id' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
@@ -188,14 +189,13 @@ for (let i = 0; i < codigosP_arr.length; i++) {
   
 }
 if ($('#otro_rol').length>0) {
-    console.log($(this).html())
 let Hoy = moment().format('DD/MM/YYYY'); 
 let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
     var fecha_final= moment(Hoy).isAfter(fecha); // true
         
 } 
 let modif = ""
-console.log(fecha_final)
+
 if (fecha_final == true) {
   modif = "d-none"
 }
@@ -224,14 +224,32 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         { visible: false, targets: groupColumn,
          
         },
-        { visible: false, targets: 9,
+        {
+          // For Checkboxes
+          targets: 0,
+          orderable: false,
+          responsivePriority: 3,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          }
+        },
+        { visible: false, targets: 10,
           render: function (data, type, full) {
             
             if (full['cliente']['etiqueta'] == null) {
           return data
             }else{
               
-              console.log(data['etiquetas'])
               return data['etiquetas']
             }
             
@@ -240,7 +258,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 0,
+          targets: 1,
           render: function (data, type, full, meta) {
           //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
           //  let modificacion = moment(fecha_creado).isSame(modificado)
@@ -261,7 +279,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 1,
+          targets: 2,
           render: function (data, type, full, meta) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -289,7 +307,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
         }
-        console.log(full['cliente'])
         //aqui activa el modal info del cliente
             return (
               '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
@@ -301,7 +318,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
          {
           // Label
-          targets: 2,
+          targets: 3,
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
@@ -315,7 +332,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
            let detailRefill = 0, detailCanje = 0, detailNuevo=0
            detailRefill = parseFloat(full['total_refill_pedido'])*35
@@ -330,7 +347,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -354,7 +371,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 5,
+          targets: 6,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -374,9 +391,9 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           }
         },
         {
-          targets: 6,className:'fecha_pedido',
+          targets: 7,className:'fecha_pedido',
           render:function(data, type, full){
-            console.log(full['id'])
+            
            // return moment.tz(data, 'America/Mexico_City').format('L');
          //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
            return moment(data).format('L');
@@ -442,6 +459,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       });
   }
   if (dt_basic_table2.length) {
+    groupColumn = 8
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
@@ -454,11 +472,11 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       });
     });
     $('.select_chofer_ventas').on('change', function(){
-      console.log(this.value)
+      
       dt_basic2.search(this.value).draw();   
    });  
     $('.select_etiqueta_ventas').on('change', function(){
-      console.log(this.value)
+      
       dt_basic2.search(this.value).draw();   
    });
     var dt_basic2 = dt_basic_table2.DataTable({
@@ -477,17 +495,17 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           orderable: false,
           render: function (data, type, full, meta) {
             if ($('#otro_rol').length>0) {
-              console.log(full['createdAt'])
-                console.log($(this).html())
+              
+                
             let Hoy = moment().format('DD/MM/YYYY'); 
-            console.log(Hoy)
+            
             let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
-            console.log(fecha)
+            
                 var fecha_final= moment(Hoy).isAfter(fecha); // true
                     
             } 
             let modif = ""
-            console.log(fecha_final)
+            
             if (fecha_final == true) {
               modif = "d-none"
             }
@@ -602,20 +620,19 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 4,
           render: function (data, type, full, meta) {
-            
             var $status_number = full['status_pedido'];
             var $status = {
               "Reasignado": { title: 'Reasignado', class: 'badge-light-primary' },
               "Entregado": { title: 'Entregado', class: ' badge-light-success' },
-              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' },
+              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' , motivo: ' motivo_hover'},
             };
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
             return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              '<span class="badge rounded-pill' +
+              $status[$status_number].class +" "+ $status[$status_number].motivo +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-motivo="'+full['motivo'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -718,18 +735,111 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
   $('.cambia_status').on('click',async (e)=>{
-    console.log(e['currentTarget']['dataset'])
    let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
     
   })
-  //ACA SE ACTIVAS LOS CONTEXT MENU
+  //CAMBIA CHOFER TABLA PEDIDOS
+  $("#button_change_chofer").on('click', function (e) {
+    let valoresCheck = [];
   
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para hacer el cambio de chofer')
+  
+      return
+    }else{
+      $('#change_chofer').modal('show')
+    }
+  $("#ids_pedido").val(valoresCheck);
+  });
+
+  $('#change_chofer_btn').on('click', async (e)=>{
+    if ($('#chofer_cambia').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      return
+    }
+
+    $.ajax({
+      url: `/change_chofer_pedido`,
+      type: 'POST',
+      data: $('#change_chofer_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>
+        <th></th>
+        <th>Nº Pedido</th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto etiqueta </th> 
+        </tr>
+        </thead>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto etiqueta </th> 
+        </tr>
+        </thead>`);
+        
+        cargaTablas('si')
+  $('.modal').modal('hide');
+  Swal.fire('Se cambió con éxito el(los) choferes')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+  //ACA SE ACTIVAS LOS CONTEXT MENU
+  $.contextMenu({
+    selector: '.motivo_hover',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var motivo = e.currentTarget['dataset']["motivo"];
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Motivo": { name: `Motivo: ${motivo}`},
+            }
+        };
+    }
+  });
+
   $.contextMenu({
     selector: '.modal_detail_garrafones',
     trigger: 'hover',
     autoHide: true,
     build: function ($trigger, e) {
-      console.log(e)
       var title = e.currentTarget['dataset']["title"];
       var rfeill = e.currentTarget['dataset']["rfeill"];
       var canje = e.currentTarget['dataset']["canje"];
@@ -739,7 +849,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         return {
             callback: function (key, options) {
                 var m = "clicked: " + key;
-                console.log(m);
             },
             items: {
                 "Refill": { name: `Refill: ${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
@@ -756,7 +865,7 @@ $.contextMenu({
   trigger: 'hover',
   autoHide: true,
   build: function ($trigger, e) {
-    console.log(e)
+    
     var title = e.currentTarget['dataset']["title"];
     var rfeill = e.currentTarget['dataset']["rfeill"];
     var canje = e.currentTarget['dataset']["canje"];
@@ -766,7 +875,6 @@ $.contextMenu({
       return {
           callback: function (key, options) {
               var m = "clicked: " + key;
-              console.log(m);
           },
           items: {
               "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
@@ -795,7 +903,6 @@ $.contextMenu({
       return {
           callback: function (key, options) {
               var m = "clicked: " + key;
-              console.log(m);
           },
           items: {
               "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
@@ -852,7 +959,6 @@ $.contextMenu({
 
   $('.datatables-basic tbody').on('click', '.delete-record', function (e) {    
     if ($('#otro_rol').length) {
-      console.log('no eres admin')
       Swal.fire("Función valida solo para directores")
       return
     }
@@ -881,7 +987,6 @@ $.contextMenu({
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(result)
         dt_basic.row($(this).parents('tr')).remove().draw();
         Swal.fire({
           title: `Pedido ${id} borrado con éxito`,
@@ -970,7 +1075,7 @@ $('#edit_pedido').modal('show')
 
   $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
     if ($('#otro_rol').length) {
-      console.log('no eres admin')
+      
       Swal.fire("Función valida solo para directores")
       return
     }
@@ -999,7 +1104,7 @@ $('#edit_pedido').modal('show')
       allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(result)
+        
         dt_basic2.row($(this).parents('tr')).remove().draw();
         Swal.fire({
           title: `Pedido ${id2} borrado con éxito`,
@@ -1084,9 +1189,33 @@ function filterColumn2(i, val) {
 
 if (estado) {
   console.log(estado)   
+  var motiv
+  if (estado == "Cancelado") {
+    const { value: motivo } = await Swal.fire({
+      title: 'Indique el motivo',
+      input: 'text',
+      inputPlaceholder: 'Motivo',
+     // inputValue: inputValue,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (!value) {
+            resolve('Debe colocar un motivo')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    console.log(motivo)
+    motiv = motivo
+  }
+  console.log(motiv)
+  
   const data_C = new FormData();
   data_C.append("id", id);
   data_C.append("status", estado);
+  data_C.append("motivo", motiv);
   $.ajax({
     url: `/cambiaS_pedido`,
     type: 'POST',
@@ -1095,10 +1224,7 @@ if (estado) {
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
-console.log(data)
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-console.log($('#array_pedido').val())
-
 $('.datatables-basic').dataTable().fnDestroy();
  $('.datatables-basic').empty();
 $('.datatables-basic').html(`<thead>
@@ -1249,7 +1375,6 @@ $.ajax({
   contentType: false,
   processData: false,
   success: function (data, textStatus, jqXHR) {
-console.log(data)
 if ( $(".chofer option[value='" + data['chofer'] + "']").length == 0 ){
 $('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
 }else{
@@ -1263,9 +1388,6 @@ let garrafon19L = JSON.parse(data['garrafon19L'])
 let garrafon11L = JSON.parse(data['garrafon11L'])
 let botella1L = JSON.parse(data['botella1L'])
 let botella5L = JSON.parse(data['botella5L'])
-console.log(garrafon11L)
-console.log(botella1L)
-console.log(botella5L)
 $('.count_refill_garrafon').val(garrafon19L['refill_cant'])
 $('.refill_garrafon_mont').val(garrafon19L['refill_mont'])
 $('.count_canje_garrafon').val(garrafon19L['canje_cant'])
@@ -1318,7 +1440,6 @@ $('.total_total_inp').val(data['monto_total'])
 $('.total_total').text(data['monto_total'])
 
 if ( $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").length == 0 ){
-console.log(data['metodo_pago'])
 $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] + '">' + data['metodo_pago'] + '</option>');  
 }else{
 //  $('#metodo_pago_edit').find('option:selected').remove().end();

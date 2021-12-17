@@ -532,12 +532,12 @@ module.exports = {
     })})
   },
 
-  CambiaStatus(id_pedido,status) {
+  CambiaStatus(id_pedido,status, motivo) {
     return new Promise((resolve, reject) => {
         
       Pedidos.update(
         {
-          status_pedido: status}, { where:{
+          status_pedido: status, motivo: motivo}, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -611,6 +611,59 @@ console.log(hoy)
         })
         .catch((err) => {
           console.log(err)
+          reject(err)
+        });
+    });
+  },
+  cambiaChofer(ids_pedido,chofer) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          personalId: chofer}, { where:{
+            id: ids_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({personalId: chofer},{where:{pedidoId:ids_pedido}})
+          //console.log(data_set)
+          Pedidos.findOne({where: {id: ids_pedido}}).then((pedido_) =>{
+             console.log(pedido_.dataValues.status_pedido)
+           if (pedido_.dataValues.status_pedido =="Entregado") {
+              let hoy =moment(pedido_.dataValues.createdAt).format('MM/DD/YYYY')
+console.log(hoy)
+            GPrestados.findAll({where:{
+                     clienteId: pedido_.dataValues.clienteId, 
+                     personalId: pedido_.dataValues.personalId,
+                     fecha_ingreso: hoy
+                   }}).then((date)=>{
+                     console.log(date)
+                     GPrestados.update({
+                      personalId: chofer },
+                       {where:
+                         {cantidad: pedido_.dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_.dataValues.clienteId, personalId: pedido_.dataValues.personalId, status_pedido:pedido_.dataValues.status_pedido, sucursaleId: pedido_.dataValues.sucursaleId}
+                     }).then((data_upd) => {
+                       let data_set2 = JSON.stringify(data_upd)
+                       console.log(data_set2);
+                       resolve("Se creó correctamente el pedido");
+                       //console.log(planes);
+                     })
+                   }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+           }
+           resolve("Se actualizó el estado con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+      
+         
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
           reject(err)
         });
     });

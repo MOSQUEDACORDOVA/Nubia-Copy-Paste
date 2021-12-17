@@ -36,6 +36,11 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: ""
 	},
+	motivo: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 	garrafones_prestamos: {
 		type: DataTypes.TEXT,
 		allowNull: true,
