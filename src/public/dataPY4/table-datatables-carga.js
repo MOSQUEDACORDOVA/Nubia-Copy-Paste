@@ -171,10 +171,11 @@ console.log(array)
 {
           targets: 2,
           render:function(data, type, full, meta){
-
+            console.log(full)
+            var recarga_arr = encodeURIComponent(JSON.stringify(full['Recargas']));
             return (
-             `<span class="badge rounded-pill badge-light-info" style="cursor:pointer;" onclick="openrecarga('${full['id']}')">
-              ${data} </span>`
+             `<span class="badge rounded-pill badge-light-info hover_recarga" style="cursor:pointer;"   data-arrayrecarga="${recarga_arr}" data-cargainicial="${full['cantidad_inicial']}">
+              ${data} </span> <i class="fas fa-plus" onclick="openrecarga('${full['id']}')" style="cursor:pointer;"></i>`
             );
           }
         },
@@ -188,7 +189,7 @@ console.log(array)
         },
       ],
      
-      order: [[2, 'desc']],
+      order: [[0, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -242,6 +243,34 @@ tablarCargainicial()
     });
   }
 
+  $.contextMenu({
+    selector: '.hover_recarga',
+    trigger: 'left',
+    autoHide: true,
+    build: function ($trigger, e) {
+      console.log(e)
+      var Recargas = e.currentTarget['dataset']["arrayrecarga"];
+      var carga_inicial = e.currentTarget['dataset']["cargainicial"];
+      var my_object = JSON.parse(decodeURIComponent(Recargas));
+      console.log(my_object)
+
+       var items1 = {"Carga inicial": {name: `Carga inicial =  ${carga_inicial}`}}
+      for (let i = 0; i < my_object.length; i++) {
+        var newUser = "Recarga" + i;
+        items1[newUser] = {name: `Recargó ${i+1}º =  ${my_object[i]['recarga']}`}
+      }
+     console.log(items1)
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                console.log(m);
+            },
+            items: 
+            items1
+            
+        };
+    }
+  })
   // Add New record
   // ? Remove/Update this code as per your requirements ?
   var count = 101;
@@ -362,3 +391,4 @@ function openrecarga(id) {
   $('#id_carga').val(id)
   $('#recarga').modal('show')
 }
+

@@ -24,7 +24,9 @@
     });
   });
 </script>
-<input type="text" id="array_seguimiento_notificaciones" hidden value="{{notificacion_g}}">
+<input type="text" id="notif1_2" hidden value="{{notif1_2}}">
+<input type="text" id="notif3_5" hidden value="{{notif3_5}}">
+<input type="text" id="notif6_12" hidden value="{{notif6_12}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
@@ -34,7 +36,7 @@
     </div>
     <div class="content-body">
       <section id="basic-datatable">
-        <div class="row">
+        <div class="row" id="notificacion-1_2">
           {{!-- <div class="scrolling-inside-modal">
 
             <!-- Button trigger modal -->
@@ -49,7 +51,7 @@
               <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
               </div>
               <div class="card-body">
-                <h4 class="card-title">Seguimiento: ultimos pedidos</h4>
+                <h4 class="card-title">Seguimiento: 1-2</h4>
                 <p class="card-text"> </p>
               </div>
               <div class="d-flex justify-content-between align-items-center mx-0 row">
@@ -62,7 +64,104 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-seguimiento">
+                        <table class="datatables-seguimiento1_2">
+                          <thead>
+                            <tr>
+                              <th>#Pedido</th>
+                              <th>Total Garrafones</th>
+                              <th>Cliente</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="notificacion-3_5">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 3-5</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento3_5">
+                          <thead>
+                            <tr>
+                              <th>#Pedido</th>
+                              <th>Total Garrafones</th>
+                              <th>Cliente</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+        <div class="row" id="notificacion-6_12">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 6-12</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento6_12">
                           <thead>
                             <tr>
                               <th>#Pedido</th>

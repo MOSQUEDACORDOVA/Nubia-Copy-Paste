@@ -1692,7 +1692,7 @@ exports.save_recarga = async (req, res) => {
   console.log(nueva_carga)
 var update_recarga = await DataBase.updcarga_inicial(id_carga,  nueva_carga);
 console.log(update_recarga)
-var recarga_table = await DataBase.recarga_table(id_carga,  nueva_carga)
+var recarga_table = await DataBase.recarga_table(id_carga,  recarga)
 console.log(recarga_table)
     switch (req.session.tipo) {
       case "Director":
@@ -2402,6 +2402,9 @@ notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
 console.log(notif1_2)
 console.log(notif3_5)
 console.log(notificacion_g)
+notif1_2 = JSON.stringify(notif1_2)
+notif3_5 = JSON.stringify(notif3_5)
+notif6_12  = JSON.stringify(notif6_12)
 notificacion_g = JSON.stringify(notificacion_g)
     res.render("PYT-4/seguimiento", {
       pageName: "Bwater",
@@ -2416,7 +2419,9 @@ notificacion_g = JSON.stringify(notificacion_g)
       pedidos_let,
       choferes_,sucursales_let,
       cp_,etiquetas_let,
-      msg,notificacion_g
+      msg,notificacion_g,notif1_2,
+      notif3_5,
+      notif6_12
     }) 
 }).catch((err) => {
   console.log(err)
