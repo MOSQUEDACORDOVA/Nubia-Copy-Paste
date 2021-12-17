@@ -1,6 +1,7 @@
 const { Op, where } = require("sequelize");
 const db672 = require("../../config/dbPY672");
 const Grupos = require("../../models/PYT672/Grupos");
+const Estudiantes = require("../../models/PYT672/Estudiantes");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -9,14 +10,15 @@ module.exports = {
         Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel })
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('NUEVO GRUPO CREADO');
+            console.log('NUEVO GRUPO CREADO')
+            resolve(data_set);
           })
           .catch((err) => {
             reject(err)
           });
       });
     },
-    // ELIMINAR GRUPOS
+    // * ELIMINAR GRUPOS ADMIN
     BorrarGrupos(id){
       return new Promise((resolve, reject) => {
         Grupos.destroy({where:{
@@ -179,6 +181,207 @@ module.exports = {
           })
           .catch((err) => {
             reject(err)
+          });
+      });
+    },
+    // ACTUALIZAR GRUPOS
+    ActualizarEstudiantesActivosGrupos(id, activos, total) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, total_alumnos: total
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            resolve('GRUPO ACTUALIZADO');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * REGISTRAR ESTUDIANTES ADMIN
+    RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId ,tipo) {
+    return new Promise((resolve, reject) => {
+        Estudiantes.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, grupoId: grupoId, tipo_estudiante: tipo})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            console.log('NUEVO ESTUDIANTE REGISTRADO')
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * ELIMINAR ESTUDIANTES ADMIN
+    BorrarEstudiantes(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.destroy({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log('ESTUDIANTE ELIMINADO')
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * BUSCAR ESTUDIANTE ADMIN
+    BuscarEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.findAll({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log('ESTUDIANTE ENCONTRADO')
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // * ACTIVAR ESTUDIANTE CONGELADO ADMIN
+    ActivarEstudianteCongelado(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          estado: 'Activo',
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ACTIVADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * CONGELAR ESTUDIANTE ADMIN
+    CongelarEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          estado: 'Congelado',
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE CONGELADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ELIMINAR ESTUDIANTE DE UN GRUPO ADMIN
+    EliminarGrupoEstudiante(id){
+      return new Promise((resolve, reject) => {
+        Estudiantes.update({
+          grupoId: null,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * RESTAR ESTUDIANTE ELIMINADO DE UN GRUPO ADMIN
+    EliminarEstudianteGrupo(id, activos, total){
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, total_alumnos: total,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ACTUALIZAR ESTUDIANTE CONGELADO GRUPOS
+    EstudianteCongeladoGrupo(id, activos, congelados) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, congelados: congelados,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('GRUPO ACTUALIZADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * ACTUALIZAR ESTUDIANTE ACTIVADO GRUPOS
+    EstudianteActivadoGrupo(id, activos, congelados) {
+      return new Promise((resolve, reject) => {
+        Grupos.update({
+          activos: activos, congelados: congelados,
+        }, { where: {
+          id: id
+        }})
+        .then((data) => {
+          let data_s = JSON.stringify(data);
+          console.log('GRUPO ACTUALIZADO')
+          resolve(data_s);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    // * OBTENER GRUPO
+    BuscarGrupos(id) {
+      return new Promise((resolve, reject) => {
+        Grupos.findAll({ where: {
+          id: id
+        }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER ESTUDIANTES CON GRUPOS
+    GruposYEstudiantes() {
+      return new Promise((resolve, reject) => {
+        Estudiantes.findAll({ include: [{association: Estudiantes.Grupos}]})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
           });
       });
     },

@@ -101,8 +101,8 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <!--<h4 class="fw-bolder mb-0"> <span id="bnbprice"></span> USDT</h4>-->
-                                                <h4 class="fw-bolder mb-0">545.80 USDT</h4>
+                                                <h4 class="fw-bolder mb-0"> <span id="bnbprice"></span> USDT</h4>
+                                                <!--<h4 class="fw-bolder mb-0">545.80 USDT</h4>-->
                                                 <p class="card-text font-small-3 mb-0">Price BNB</p>
                                             </div>
                                         </div>
@@ -154,6 +154,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let btcPrice = document.getElementById('btcprice');
@@ -167,22 +168,24 @@
 
         btcPrice.innerText = resultBtc
     });
-   
 
-    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
+    fetch('https://api.coingecko.com/api/v3/coins/binancecoin/market_chart?vs_currency=usd&days=1')
     .then(response => response.json())
     .then(data => {
-        let arr = data.tickers
+        console.log(data.prices[0][1])
+        let price = data.prices[0][1];
+        bnbPrice.innerText = price;
+        /*let arr = data.tickers
         let resultBnb = arr.last
         console.log(data.tickers)
         arr.forEach(item => {
             if(item.coin_id === 'binancecoin' && item.target === 'USDT') {
                 resultBnb = item.last;
-                // console.log(resultBnb)
+                console.log(resultBnb)
             }
         });
 
-        //bnbPrice.innerText = resultBnb
+        bnbPrice.innerText = resultBnb*/
     });
    
 </script>

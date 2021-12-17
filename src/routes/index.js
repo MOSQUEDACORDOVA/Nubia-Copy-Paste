@@ -21,6 +21,7 @@ const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControlle
 /*---------------------------------*/
 
 /*------------- PYT27 -------------*/
+const MailerController = require('../controllers/PYT27/mailerController');
 const userControllerPY27 = require('../controllers/PYT27/userControllerPY27');
 const authControllerPY27 = require('../controllers/PYT27/authControllerPY27');
 const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControllerPY27');
@@ -422,6 +423,8 @@ router.get('/retreats27/:id', authControllerPY27.authenticatedUser, dashboardCon
 
 // ? POST
 // ENVIAR DATOS DNI DE VERIFICACION
+router.post('/updateprofilepy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.updateprofile);
+// ENVIAR DATOS DNI DE VERIFICACION
 router.post('/solicitverifypy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.solicitverify);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtcpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsbtc);
@@ -446,6 +449,7 @@ router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
 // prueba
 router.get('/login27/:id', dashboardControllerPY27.login);
+router.get('/loginverify27/:token', dashboardControllerPY27.formLogin);
 router.get('/error27/:id', dashboardControllerPY27.error);
 // AEROCOIN PRESALE
 router.get('/aeropresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.aeropresale);
@@ -477,15 +481,27 @@ router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardCont
 // OBTENER INFORMACIÓN DE USUARIO
 router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.getuserinfopy27);
 
+// VERIFICAR EMAIL
+router.get('/verifyemail27/:id', dashboardControllerPY27.formSearchAccountToken);
+// RESTABLECER CONTRASEÑA
+router.get('/forgotpasswordpy27/:id', dashboardControllerPY27.forgotpassword);
 // ? VERIFICACIÓN
-//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
 //router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
 
 // ! EMAIL REGISTER
-router.get('/emailregtemplate/:id', dashboardControllerPY27.emailregtemplate);
-router.get('/emailregister/:id', dashboardControllerPY27.emailregister);
+router.get('/emailregsend/:id/:email', dashboardControllerPY27.emailregsend);
 router.get('/emaildeposits/:id', dashboardControllerPY27.emaildeposit);
 router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
+router.get('/test/:id', dashboardControllerPY27.test);
+
+router.get('/emailverifynotifypy27/:id', MailerController.emailVerificado);
+
+router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
+router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
+
+router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
+
+
 
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
@@ -506,6 +522,7 @@ router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 
 
 
+
 // * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
@@ -517,6 +534,16 @@ router.post('/creargrupopy672', dashboardControllerPY672.creargrupos);
 router.post('/actualizargrupospty672', dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS
 router.post('/borrargrupopy672', dashboardControllerPY672.borrargrupo);
+// * REGISTRAR ESTUDIANTES
+router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarestudiantes);
+// * BORRAR ESTUDIANTES
+router.post('/borrarestudiantespy672', dashboardControllerPY672.borrarestudiantes);
+// * CONGELAR ESTUDIANTES
+router.post('/congelarestudiantepy672', dashboardControllerPY672.congelarestudiante);
+// * ACTIVAR ESTUDIANTES CONGELADOS
+router.post('/activarestudiantecongeladopy672', dashboardControllerPY672.activarestudiantecongelado);
+// * BORRAR ESTUDIANTES DE GRUPO
+router.post('/eliminarestudiantedegrupopy672', dashboardControllerPY672.eliminarestudiantegrupo);
 
 
 

@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
-// PRECIO DE AEROCOIN
+
+// GRUPOS
 const Grupos = db672.define('grupos', {
     id: {
 		type: DataTypes.INTEGER,
@@ -39,6 +40,15 @@ const Grupos = db672.define('grupos', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
+	nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+	},
+	codigo_nivel: {
+		type: DataTypes.STRING(200),
+		allowNull: false,
+		defaultValue: '-1'
+	},
 	activos: {
 		type: DataTypes.INTEGER(200),
 		allowNull: false,
@@ -68,15 +78,6 @@ const Grupos = db672.define('grupos', {
 		type: DataTypes.INTEGER(200),
 		allowNull: false,
 		defaultValue: 0
-	},
-	nivel: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	codigo_nivel: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-		defaultValue: '-1'
 	},
 	estado: {
 		type: DataTypes.STRING(200),

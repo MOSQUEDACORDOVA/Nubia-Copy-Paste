@@ -96,6 +96,11 @@ exports.grupos = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
   
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+  
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
     console.log(gruposDesde0)
@@ -106,8 +111,8 @@ exports.grupos = (req, res) => {
       console.log(gruposIntensivo)
       console.log("INTENSIVOS INICIADOS")
 
-        DataBase.ObtenerGruposEnApertura().then((response) => {
-          let gruposApertura = JSON.parse(response);
+        DataBase.ObtenerGruposEnApertura().then((response4) => {
+          let gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
     
@@ -119,8 +124,14 @@ exports.grupos = (req, res) => {
       grupos: true,
       gruposApertura,
       gruposDesde0,
-      gruposIntensivo
+      gruposIntensivo,
+      gruposTodos
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -186,10 +197,10 @@ exports.verificargrupos = (req, res) => {
             break;
 
           case '2':
-            nivel1 = moment(iniciado).add(112, 'd').format('YYYY-MM-DD')
-            nivel2 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(336, 'd').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+            nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+            nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
     
             console.log("NIVELES")
             console.log(nivel1)
@@ -270,6 +281,16 @@ exports.matriculas = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    DataBase.GruposYEstudiantes().then((response2) => {
+      let arr = JSON.parse(response2);
+      console.log(arr)
+
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/admin/matricula", {
@@ -277,8 +298,22 @@ exports.matriculas = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      matricula: true
-    })
+      matricula: true,
+      gruposTodos,
+      arr,
+      response2
+    });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 exports.error = (req, res) => {
@@ -347,8 +382,8 @@ exports.creargrupos = (req, res) => {
 
         nivelCode = '-1';
         nivel = 'Principiante';
-        
-        fechaFin = moment(fechaInicio).add(224, 'd').format('DD-MM-YYYY');
+                                      // 224
+        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -358,7 +393,13 @@ exports.creargrupos = (req, res) => {
         console.log("IDENTIFICADOR GENERADO")
         
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
-          res.redirect("/verificargrupos/PYT-672")
+          let grupoCreado = JSON.parse(respuesta)
+          let grupoId = grupoCreado.id
+          console.log(grupoId)
+          console.log("GRUPO CREADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
+       
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -397,8 +438,8 @@ exports.creargrupos = (req, res) => {
 
         nivelCode = '-1';
         nivel = 'Principiante';
-
-        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
+                                        // 112
+        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -408,7 +449,12 @@ exports.creargrupos = (req, res) => {
         console.log("IDENTIFICADOR GENERADO")
         
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
-          res.redirect("/verificargrupos/PYT-672")
+          let grupoCreado = JSON.parse(respuesta)
+          let grupoId = grupoCreado.id
+          console.log(grupoId)
+          console.log("GRUPO CREADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -426,12 +472,12 @@ exports.creargrupos = (req, res) => {
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, fechaInicio } = req.body;
+  const { id, nombre, horario1, horario2, fechaInicio } = req.body;
   let msg = false;
-  console.log(req.body)
-
   let diaActual = moment(fechaInicio).format('DD');
-  let identificador, lecciones, numGrupo, numAño, fechaFin, fechaPagos, finNivel;
+  let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
+
+  inicio = moment(fechaInicio, "DD-MM-YYYY").format('DD-MM-YYYY');
 
   numAño = moment(fechaInicio).format('YY');
   console.log(numAño)
@@ -442,41 +488,119 @@ exports.actualizargrupos = (req, res) => {
   } else {
     fechaPagos = "15 de cada mes";
   }
-
+  
   if (id.trim() === '' || nombre.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/verificargrupos/PYT-672');
   } else {
-    DataBase.ObtenerTodosGrupos().then((response) =>{
-      let grupos = JSON.parse(response);
-      numGrupo = grupos.length+1;
-      console.log(grupos.length)
-      console.log(numGrupo)
-      console.log("NUMERO DE IDENTIFICADOR")
+    if (nombre === 'Desde cero') {
+      DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
+        let grupos = JSON.parse(response);
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
 
-      if (nombre === 'Desde Cero') {
-          fechaFin = moment(fechaInicio).add(32, 'w').format('DD-MM-YYYY');
-          finNivel = "32 Semanas";      
-          lecciones = "2";
-          identificador = `C${numAño}10${numGrupo}-1`;
-        } else {
-          fechaFin = moment(fechaInicio).add(16, 'w').format('DD-MM-YYYY');
-          finNivel = "16 Semanas";      
-          lecciones = "1";
-          identificador = `I${numAño}10${numGrupo}-1`;
-      } 
-      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario, fechaPagos, finNivel, fechaInicio, fechaFin).then((respuesta) =>{
-        res.redirect("/verificargrupos/PYT-672")
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
+
+        nivelCode = '-1';
+        nivel = 'Principiante';
+        lecciones = 1;
+                                      // 224
+        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
+        finNivel = "32 Semanas";      
+        console.log(fechaFin)
+        console.log("FECHAR FINALIZAR")
+        numId += numGrupo;
+        identificador = `C${numAño}${numId}${nivelCode}`;
+        console.log(identificador)
+        console.log("IDENTIFICADOR GENERADO")
+        
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          console.log(respuesta)
+          console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
+       
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
+    } else {
+      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
+        let grupos = JSON.parse(response);
+        console.log("INTENSIVOS")
+        // FILTRAR POR AÑO
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
+
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
+
+        nivelCode = '-1';
+        nivel = 'Principiante';
+        lecciones = 2;
+                                        // 112
+        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        finNivel = "16 Semanas";      
+        console.log(fechaFin)
+        console.log("FECHAR FINALIZAR")
+        numId += numGrupo;
+        identificador = `I${numAño}${numId}${nivelCode}`;
+        console.log(identificador)
+        console.log("IDENTIFICADOR GENERADO")
+        
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          console.log(respuesta)
+          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
+
+          return res.redirect("/verificargrupos/PYT-672");
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    } 
   }
 };
 
@@ -496,6 +620,272 @@ exports.borrargrupo = (req, res) => {
     DataBase.BorrarGrupos(id).then((response) =>{
       console.log(response)
       return res.redirect("/verificargrupos/PYT-672");
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * BORRAR ESTUDIANTES ADMIN
+exports.borrarestudiantes = (req, res) => {
+  console.log(req.body);
+  const { id } = req.body;
+  let msg = false;
+
+  console.log(id)
+  console.log("ID ESTUDIANTE")
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.BuscarEstudiante(id).then((response) =>{
+      let eliminado = JSON.parse(response)[0]
+      let idGrupo = eliminado.grupoId;
+      let num = 0;
+      console.log(eliminado)
+      console.log(idGrupo)
+
+      if(idGrupo) {
+
+        DataBase.BuscarGrupos(idGrupo).then((response2) =>{
+          let grupos = JSON.parse(response2)[0]
+          let activos = parseInt(grupos.activos), total = parseInt(grupos.total_alumnos)
+  
+          console.log(activos)
+          console.log(total)
+  
+          if(eliminado.estado === "Activo") {
+            activos--;
+            total--;
+          }
+          console.log(activos)
+          console.log(total)
+  
+          DataBase.BorrarEstudiantes(id).then((response3) =>{
+            console.log(response3)
+            
+            DataBase.ActualizarEstudiantesActivosGrupos(idGrupo, activos, total).then((response4) =>{
+              console.log(response4)
+              console.log("MATRICULA ACTUALIZADA")
+              
+              return res.redirect("/matriculas/PYT-672");
+            }).catch((err) => {
+              console.log(err)
+              let msg = "Error en sistema";
+              return res.redirect("/error672/PYT-672");
+            });
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+          
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+
+      } else {
+        DataBase.BorrarEstudiantes(id).then((response3) =>{
+          console.log(response3)
+          return res.redirect("/matriculas/PYT-672");
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+        
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * REGISTRAR ESTUDIANTES ADMIN
+exports.registrarestudiantes = (req, res) => {
+  console.log(req.body);
+  let { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
+  let msg = false;
+
+  if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/verificargrupos/PYT-672');
+  } else {
+    if(!telefono2) {
+      telefono2 = '-'
+    }
+    if(!telefono3) {
+      telefono3 = '-'
+    }
+    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId, tipo).then((resp) => {
+      console.log(resp)
+      let estudiante = JSON.parse(resp)
+      let idEstudiante = estudiante.id
+      console.log(idEstudiante)
+      console.log("ESTUDIANTE REGISTRADO")
+      
+      DataBase.BuscarGrupos(grupoId).then((resp2) => {
+        let grupo = JSON.parse(resp2)[0]
+        let activos = 0, total = 0
+        console.log(grupo)
+        activos += grupo.activos + 1
+        total += grupo.total_alumnos + 1
+        console.log(activos)
+
+        DataBase.ActualizarEstudiantesActivosGrupos(grupoId, activos, total).then((resp3) => {
+          console.log(resp3)
+          console.log("GRUPO A ACTUALIZADO")
+        
+          res.redirect("/matriculas/PYT-672")
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * CONGELAR ESTUDIANTES ADMIN
+exports.congelarestudiante = (req, res) => {
+  let { id, grupoid, activos, congelados } = req.body;
+  let msg = false;
+  
+  activos = parseInt(activos) - 1
+  congelados = parseInt(congelados) + 1
+
+  if (activos < 0) {
+    activos = 0
+  }  
+  if (congelados < 0) {
+    congelados = 0
+  }
+
+  console.log(req.body);
+  console.log(activos);
+  console.log(congelados);
+
+  if (id.trim() === "" || grupoid.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.CongelarEstudiante(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EstudianteCongeladoGrupo(grupoid, activos, congelados).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
+exports.activarestudiantecongelado = (req, res) => {
+  let { id, grupoid, activos, congelados } = req.body;
+  let msg = false;
+  
+  activos = parseInt(activos) + 1
+  congelados = parseInt(congelados) - 1
+
+  if (congelados < 0) {
+    congelados = 0
+  }
+
+  console.log(req.body);
+  console.log(activos);
+  console.log(congelados);
+
+  if (id.trim() === "" || grupoid.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.ActivarEstudianteCongelado(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EstudianteActivadoGrupo(grupoid, activos, congelados).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * CONGELAR ESTUDIANTES ADMIN
+exports.eliminarestudiantegrupo = (req, res) => {
+  console.log(req.body);
+  let { id, grupoid, activos, total } = req.body;
+  let msg = false;
+
+  activos = parseInt(activos) - 1
+  total = parseInt(total) - 1
+
+  if(activos < 0) {
+    activos = 0
+  }
+  if(total < 0) {
+    total = 0
+  }
+
+  if (id.trim() === "") {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+   
+    DataBase.EliminarGrupoEstudiante(id).then((resp) => {
+      console.log(resp)
+
+      DataBase.EliminarEstudianteGrupo(grupoid, activos, total).then((resp2) => {
+        console.log(resp2)
+  
+        return res.redirect("/matriculas/PYT-672");
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+      return res.redirect("/matriculas/PYT-672");
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

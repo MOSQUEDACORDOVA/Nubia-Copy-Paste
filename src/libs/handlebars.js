@@ -301,8 +301,6 @@ module.exports = {
 		let total = num + 1;
 		return total;
 	},
-
-
 	// --------PY4
 	video_img: (fotos) => {
 

@@ -4,8 +4,8 @@
             <section>
                 <div class="row match-height flex-md-row-reverse">
                     <!-- Listado de grpos -->
-                    <div class="col-12 col-md-5">
-                        <div class="card ">
+                    <div class="col-12 col-md-6 col-lg-5">
+                        <div class="card">
                             <div class="card-header pb-md-0">
                                 <h4 class="card-title">Crear grupo</h4>
                                 <div class="heading-elements d-md-none">
@@ -29,7 +29,7 @@
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Desde cero</span>
                                                     </span>
-                                                    <small class="d-block">1 lección semanal.</small>
+                                                    <small class="text">1 lección semanal.</small>
                                                 </label>
                                             </div>
         
@@ -39,7 +39,7 @@
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Intensivo</span>
                                                     </span>
-                                                    <small class="d-block">2 lecciones semanales.</small>
+                                                    <small class="text">2 lecciones semanales.</small>
                                                 </label>
                                             </div>
                                         </div>
@@ -115,7 +115,7 @@
                     <!--/ Fin Listado de grpos -->
 
                     <!-- Formulario de grpos -->
-                    <div class="col-12 col-md-7">
+                    <div class="col-12 col-md-6 col-lg-7">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Grupos</h4>
@@ -150,9 +150,9 @@
                                                     <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}}">
                                                         <td>
                                                             <div>
-                                                                <div class="d-flex mb-1">
+                                                                <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -259,9 +259,9 @@
                                                     <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
                                                         <td>
                                                             <div>
-                                                                <div class="d-flex mb-1">
+                                                                <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -368,9 +368,9 @@
                                                     <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
                                                         <td>
                                                             <div>
-                                                                <div class="d-flex mb-1">
+                                                                <div class="d-flex align-items-center mb-1">
                                                                     <div class="me-75">
-                                                                        <a href="#" class="text-primary grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
+                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-horario="{{dia_horario}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
                                                                     </div>
 
                                                                     <div class="d-flex align-items-center justify-content-between w-100">
@@ -462,21 +462,34 @@
                                 <div class="action-tags">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Tipo de Curso</label>
-                                        <input type="text" name="id" class="new-todo-item-title form-select d-none id" required>
+                                        <input type="text" name="id" class="new-todo-item-title form-select id d-none" required>
                                         <select type="text" id="titulo" name="nombre" class="new-todo-item-title form-select" required>
                                             <option value="Desde cero">Desde cero</option>
                                             <option value="Intensivo">Intensivo</option>
                                         </select>
                                     </div>
                                     <div class="mb-1">
+                                        <label for="" class="form-label">Día y Horario</label>
+                                        <select name="horario1" id="horarioDesdeCero" class="form-select">       
+                                            <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
+                                            <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
+                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9pm</option>
+                                            <option value="Jueves: 6:30pm a 9pm"> Jueves: 6:30pm a 9pm</option>
+                                            <option value="Sábado: 8:30am a 11am"> Sábado: 8:30am a 11am</option>
+                                        </select>
+                                        <select name="horario2" id="horarioIntensivo" class="form-select">
+                                            <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
+                                            <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
+                                        </select>
+                                    </div> 
+                                    <div class="mb-1">
                                         <label for="" class="form-label">Fecha de Inicio</label>
                                         <input type="date" class="form-control task-due-date flatpickr-input" id="date" name="fechaInicio" required>
                                     </div> 
                                 </div>
                                 <div class="my-1">
-                                    <!--<button type="submit" class="btn btn-primary">Actualizar</button>-->
-                                    <button type="reset" class="btn btn-primary">Actualizar</button>
-                                    <button type="reset" class="btn btn-outline-danger">
+                                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                                    <button type="reset" class="btn btn-outline-danger" data-bs-dismiss="modal">
                                         Cancelar
                                     </button>
                                 </div>
@@ -489,235 +502,4 @@
     </div>
 </div>
 
-<script>
-    let inputDesde0 = document.querySelector('.desde0'),
-    desde0Form = document.getElementById('desde0Form'),
-    inputIntensivo = document.querySelector('.intensivo'),
-    intensivoForm = document.getElementById('intensivoForm');
-
-    const filtroApertura = document.getElementById('filtroApertura');
-
-    inputDesde0.addEventListener('change', () => {
-        Reset(1);
-    });
-    inputIntensivo.addEventListener('change', () => {
-        Reset(2);
-    });
-
-    let gruposDesde0 = document.querySelectorAll('.desde0'),
-    gruposIntensivo = document.querySelectorAll('.intensivo');
-
-    filtroApertura.addEventListener('change', () => {
-        let seleccion = filtroApertura.value;
-        filtroAperturaGrupos(seleccion);  
-    });
-    
-    const filtroAperturaGrupos = (target) => {
-        if(target === 'todos') {
-            gruposDesde0.forEach(grupo => {
-                grupo.classList.remove('d-none');
-                grupo.classList.add('d-block');
-            });
-            gruposIntensivo.forEach(grupo => {
-                grupo.classList.remove('d-none');
-                grupo.classList.add('d-block');
-            });
-        } else if(target === 'desde cero') {
-            gruposDesde0.forEach(grupo => {
-                grupo.classList.remove('d-none');
-                grupo.classList.add('d-block');
-            });
-            gruposIntensivo.forEach(grupo => {
-                grupo.classList.remove('d-block');
-                grupo.classList.add('d-none');
-            });  
-        } else {
-            gruposIntensivo.forEach(grupo => {
-                grupo.classList.remove('d-none');
-                grupo.classList.add('d-block');
-            });
-            gruposDesde0.forEach(grupo => {
-                grupo.classList.remove('d-block');
-                grupo.classList.add('d-none');
-            });
-        }
-    }
-
-    const Reset = (num) => {
-        if (num === 1) {
-            desde0Form.classList.remove('d-none')
-            desde0Form.classList.add('d-block')
-            intensivoForm.classList.remove('d-block')
-            intensivoForm.classList.add('d-none')
-        } else {
-            intensivoForm.classList.remove('d-none')
-            intensivoForm.classList.add('d-block')
-            desde0Form.classList.remove('d-block')
-            desde0Form.classList.add('d-none')
-        }
-    }
-
-    let grupo = document.querySelectorAll('.grupo'),
-    idIn = document.querySelectorAll('.id'),
-    tituloIn = document.getElementById('titulo'),
-    fechaIn = document.getElementById('date');
-
-    grupo.forEach(btn => {
-        btn.addEventListener('click', e => {
-            tituloIn.value = e.target.getAttribute('data-nombre');
-            fechaIn.value = e.target.getAttribute('data-fecha');
-            idIn.forEach(inp => {
-                inp.value = e.target.getAttribute('data-id')
-            });
-        });
-    });
-
-    let borrarBtn = document.querySelectorAll('.borrar-btn');
-
-    borrarBtn.forEach(btn => {
-        btn.addEventListener('click', e => {
-            //e.target.parentElement.submit()
-            const data = new FormData(e.target.childNodes[1]);
-            const fila = e.target.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement;
-            fetch('/borrargrupopy672', {
-                method: 'POST',
-                body: data
-            }).then(function(response) {
-                if(response.ok) {
-                    fila.remove();
-                } else {
-                    throw "Error en la llamada Ajax";
-                }
-            }).catch(function(err) {
-                console.log(err);
-            });
-        });
-    });
-
-    let selectGrupo1 = document.getElementById('nivelesGrupo1'),
-    selectGrupo2 = document.getElementById('nivelesGrupo2');
-
-    selectGrupo1.addEventListener('change', e => {
-        console.log(selectGrupo1.value);
-        let selected = selectGrupo1.value;
-        filtroGruposDesde0(selected);
-    });
-
-    selectGrupo2.addEventListener('change', e => {
-        console.log(selectGrupo2.value);
-        let selected = selectGrupo2.value;
-        filtroGruposIntensivo(selected);
-    });
-      
-    const filtroGruposDesde0 = (item) => {
-        let todos = document.querySelectorAll(`#tablaDesde0 .desde0`);
-        let rows = document.querySelectorAll(`#tablaDesde0 .desde0.${item}`);
-        console.log(rows)
-        todos.forEach(row => {
-            row.classList.add('d-none');
-            row.classList.remove('d-block');
-        });
-        if(item === 'todos') {
-            todos.forEach(row => {
-                row.classList.remove('d-none');
-                row.classList.add('d-block');
-            });
-        } else {
-            rows.forEach(col => {
-                console.log(col)
-                col.classList.remove('d-none');
-                col.classList.add('d-block');
-            });
-        }
-    }
-      
-    const filtroGruposIntensivo = (item) => {
-        let todos = document.querySelectorAll(`#tablaIntensivo .intensivo`);
-        let rows = document.querySelectorAll(`#tablaIntensivo .intensivo.${item}`);
-        todos.forEach(row => {
-            row.classList.add('d-none');
-            row.classList.remove('d-block');
-        });
-        if(item === 'todos') {
-            todos.forEach(row => {
-                row.classList.remove('d-none');
-                row.classList.add('d-block');
-            });
-        } else {
-            rows.forEach(col => {
-                console.log(col)
-                col.classList.remove('d-none');
-                col.classList.add('d-block');
-            });
-        }
-    }
-
-    let pagosGrupo1 = document.getElementById('pagosGrupo1'),
-    pagosGrupo2 = document.getElementById('pagosGrupo2');
-
-    pagosGrupo1.addEventListener('change', e => {
-        filtroPagosGrupoDesde0(pagosGrupo1.value);
-    });
-
-    const filtroPagosGrupoDesde0 = (item) => {
-        let todos = document.querySelectorAll(`#tablaDesde0 .desde0`);
-
-        todos.forEach(row => {
-            row.classList.add('d-none');
-            row.classList.remove('d-block');
-        });
-        if(item === 'todos') {
-            todos.forEach(row => {
-                row.classList.remove('d-none');
-                row.classList.add('d-block');
-            });
-        } else if (item === '01') {
-            todos.forEach(row => {
-                if(row.getAttribute('data-pagos') === '01 de cada mes') {
-                    row.classList.remove('d-none');
-                    row.classList.add('d-block');
-                }
-            });
-        } else {
-            todos.forEach(row => {
-                if(row.getAttribute('data-pagos') === '15 de cada mes') {
-                    row.classList.remove('d-none');
-                    row.classList.add('d-block');
-                }
-            });
-        }
-    }
-
-    pagosGrupo2.addEventListener('change', e => {
-        filtroPagosGrupoIntensivos(pagosGrupo2.value);
-    });
-
-    const filtroPagosGrupoIntensivos = (item) => {
-        let todos = document.querySelectorAll(`#tablaIntensivo .intensivo`);
-
-        todos.forEach(row => {
-            row.classList.add('d-none');
-            row.classList.remove('d-block');
-        });
-        if(item === 'todos') {
-            todos.forEach(row => {
-                row.classList.remove('d-none');
-                row.classList.add('d-block');
-            });
-        } else if (item === '01') {
-            todos.forEach(row => {
-                if(row.getAttribute('data-pagos') === '01 de cada mes') {
-                    row.classList.remove('d-none');
-                    row.classList.add('d-block');
-                }
-            });
-        } else {
-            todos.forEach(row => {
-                if(row.getAttribute('data-pagos') === '15 de cada mes') {
-                    row.classList.remove('d-none');
-                    row.classList.add('d-block');
-                }
-            });
-        }
-    }
-</script>
+<script src="../../assets/js/PYT672/grupos.js"></script>

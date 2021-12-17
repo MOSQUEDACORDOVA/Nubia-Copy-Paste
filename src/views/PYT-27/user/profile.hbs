@@ -19,7 +19,7 @@
                                     <!--/ header section -->
 
                                     <!-- form -->
-                                    <form class="validate-form mt-2 pt-50">
+                                    <form class="validate-form mt-2 pt-50" method="POST" action="/updateprofilepy27">
                                         <div class="row">
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">First Name</label>
@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Email</label>
-                                                <input type="email" class="form-control" id="" name="email" placeholder="" value="{{user.email}}" required>
+                                                <input type="email" class="form-control" id="" name="email" placeholder="" value="{{user.email}}" readonly required>
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Date of Birth</label>
@@ -43,7 +43,7 @@
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Gender</label>
-                                                <input type="text" class="form-control" id="" name="" placeholder="" value="{{user.gender}}" readonly>
+                                                <input type="text" class="form-control" id="" name="gender" placeholder="" value="{{user.gender}}" readonly>
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">DNI Type</label>
@@ -79,15 +79,15 @@
                                             </div>-->
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Balance ACN</label>
-                                                <input type="text" class="form-control" id="" name="" placeholder="" value="{{user.avalible_balance}}" readonly>
+                                                <input type="text" class="form-control" id="" placeholder="" value="{{user.avalible_balance}}" readonly>
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Account Verified</label>
-                                                <input type="text" class="form-control" id="" name="" placeholder="" value="{{#useraccountstatuspy27 user.account_verified}}{{/useraccountstatuspy27}}" readonly>
+                                                <input type="text" class="form-control" id="" placeholder="" value="{{#useraccountstatuspy27 user.account_verified}}{{/useraccountstatuspy27}}" readonly>
                                             </div>
                                             <div class="col-12 col-sm-6 mb-1">
                                                 <label class="form-label" for="">Account Status</label>
-                                                <input type="text" class="form-control" id="" name="" placeholder="" value="{{#userstatuspy27 user.status}}{{/userstatuspy27}}" readonly>
+                                                <input type="text" class="form-control" id="" name="status" placeholder="" value="{{#userstatuspy27 user.status}}{{/userstatuspy27}}" readonly>
                                             </div>
                                             <div class="col-12"></div>
 
