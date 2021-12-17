@@ -3,6 +3,10 @@
     display: none;
   }
 </style>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 <script>
   $(function(){
   $('#chofer_carga').on('change', () => {
@@ -171,7 +175,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form class="needs-validation was-validated" action="/save_carga_init_py4" method="post">
+            <form class="needs-validation was-validated" id="form_cargaincial">
               <div class="form-group"><label for="register-firstName" class="form-label">Ingrese la cantidad de carga inicial</label>
                 <input type="text" name="carga_init" placeholder="Carga" aria-describedby="register-firstName"
                   tabindex="1" autofocus="" class="form-control mb-2" required>
@@ -189,7 +193,32 @@
                     </div>
           </div>
           <div class="modal-footer">
-            <button tabindex="26"
+            <button type="button" id="btn_carga_inicial"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light">Registrar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+   <div class="modal fade" id="recarga" tabindex="-1" aria-labelledby="addEmployedTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addEmployedTitle">Agregar Carga</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="form_recarga">
+              <input type="hidden" name="id_carga" placeholder="Carga" id="id_carga">
+              <div class="form-group"><label for="register-firstName" class="form-label">Ingrese la cantidad de recarga</label>
+                <input type="text" name="recarga" placeholder="Carga" id="recarga_name"
+                  tabindex="1" autofocus="" class="form-control mb-2" required>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="btn_recarga"
               class="btn btn-primary btn-block waves-effect waves-float waves-light">Registrar</button>
           </div>
           </form>
@@ -297,6 +326,23 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="detail_recarga" tabindex="-1" aria-labelledby="detail_recarga"
+            style="display: none;" aria-hidden="detail_recarga">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detail_recarga_title"></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" id='detail_recarga_body'>
+                        
+                        </div>
+                        <div class="modal-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
     </section>
   </div>
 </div>
