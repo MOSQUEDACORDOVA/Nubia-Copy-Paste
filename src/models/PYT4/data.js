@@ -16,6 +16,7 @@ const Cupones = require("../../models/PYT4/Cupones");
 const Used_cupons = require("../../models/PYT4/Used_cupons");
 const Notificaciones = require("../../models/PYT4/Notificaciones");
 const Asig_chofer = require("../../models/PYT4/Asig_chofer");
+const Recargas = require("../../models/PYT4/Recargas");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -1307,7 +1308,7 @@ PersonalAllS(id){
     //Carga inicial
     Carga_initS(id){
       return new Promise((resolve, reject) => {
-        Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal}]})
+        Carga_init.findAll({where:{sucursaleId:id}, include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1321,7 +1322,37 @@ PersonalAllS(id){
     },
     Carga_init(id){
       return new Promise((resolve, reject) => {
-        Carga_init.findAll({include:[{association: Carga_init.Personal}]})
+        Carga_init.findAll({include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    cargaActual(id_){
+      return new Promise((resolve, reject) => {
+        Carga_init.findOne({where:{id:id_}},{attributes:['recarga']}
+        )
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    updcarga_inicial(id, recarga_new){
+      return new Promise((resolve, reject) => {
+        Carga_init.update({recarga:recarga_new}, {where:{id:id}}
+        )
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1350,10 +1381,10 @@ PersonalAllS(id){
     savecarga_inicial(carga_init,  chofer,id_sucursal) {
       return new Promise((resolve, reject) => {
         Carga_init.create(
-          {cantidad_inicial: carga_init, personalId: chofer, sucursaleId:id_sucursal})
+          {cantidad_inicial: carga_init, recarga: carga_init,personalId: chofer, sucursaleId:id_sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Carga registrada con éxito');
+            resolve(data_set);
             //console.log(planes);
           })
           .catch((err) => {
@@ -1361,7 +1392,20 @@ PersonalAllS(id){
           });
       });
     },
-
+    recarga_table(id_carga,  nueva_carga) {
+      return new Promise((resolve, reject) => {
+        Recargas.create(
+          {recarga: nueva_carga, cargaInitId: id_carga})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
         //Etiquetas
         Etiquetas(id){
           return new Promise((resolve, reject) => {

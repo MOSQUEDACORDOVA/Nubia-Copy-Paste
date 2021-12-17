@@ -1,0 +1,370 @@
+<style>
+  .none {
+    display: none;
+  }
+</style>
+
+{{#if msg}}
+<label id="msgs">{{msg}}</label>
+{{/if}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+  function ucwords(str, force) {
+    str = force ? str.toLowerCase() : str;
+    return str.replace(/(\b)([a-zA-Z])/g,
+      function (firstLetter) {
+        return firstLetter.toUpperCase();
+      });
+  }
+  $(document).ready(function () {
+    $('input[type="text"]').keyup(function (evt) { // force: true to lower case all letter except first 
+      // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
+      var cp_value = ucwords($(this).val(), true);
+      $(this).val(cp_value);
+    });
+  });
+</script>
+<input type="text" id="notif1_2" hidden value="{{notif1_2}}">
+<input type="text" id="notif3_5" hidden value="{{notif3_5}}">
+<input type="text" id="notif6_12" hidden value="{{notif6_12}}">
+<!-- BEGIN: Content-->
+<div class="app-content content ">
+  <div class="content-overlay"></div>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper">
+    <div class="content-header row">
+    </div>
+    <div class="content-body">
+      <section id="basic-datatable">
+        <div class="row" id="notificacion-1_2">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 1-2</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento1_2">
+                          <thead>
+                            <tr>
+                              <th>#Pedido</th>
+                              <th>Total Garrafones</th>
+                              <th>Cliente</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="notificacion-3_5">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 3-5</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento3_5">
+                          <thead>
+                            <tr>
+                              <th>#Pedido</th>
+                              <th>Total Garrafones</th>
+                              <th>Cliente</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+        <div class="row" id="notificacion-6_12">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 6-12</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento6_12">
+                          <thead>
+                            <tr>
+                              <th>#Pedido</th>
+                              <th>Total Garrafones</th>
+                              <th>Cliente</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <!-- Modal to add new record -->
+    <!-- Modal -->
+    <div class="modal fade" id="edit_cliente" tabindex="-1" aria-labelledby="edit_clienteTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="edit_clienteTitle">Editar informaciçon del cliente(s)</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="edit_cliente_form">
+             <input type="hidden" name="id_cliente" id="id_cliente_edited">
+             <input type="hidden" name="id_notificacion" id="id_notificacion">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                        <input type="text" name="" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                            tabindex="1" class="form-control mb-2" autofocus required id="firstName_edited">
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
+                    <input type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
+                            tabindex="2" class="form-control mb-2" id="lastName_edited">
+                      </div>
+                    <div class="divider">
+                        <div class="divider-text">Dirección</div>
+                    </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido Postal</label><input
+                                type="text" name="cp" placeholder="cp" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control cp_select" id="cp_select_edited" >
+                                </div>
+
+                      <div class="form-group mb-2" ><label for="register-lastName" class="form-label">Estado</label><input
+                                type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control" value="Jalisco" id="ciudad_select_edited" readonly>
+                                </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input
+                                type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName"
+                                tabindex="2" class="form-control municipio"  id="municipio_edited" readonly >
+                                </div>          
+                        <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                        <select class="select2 form-select select_asentamiento" id="select_asentamiento_edited" name="asentamiento">
+                            
+                        </select>
+
+                        </div>
+                    <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text"
+                            name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
+                            class="form-control mb-2" id="coto_edited"></div>
+
+                    <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text"
+                            name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
+                            class="form-control mb-2" id="casa_edited"></div>
+
+                    <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
+                            type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8"
+                            class="form-control mb-2" id="calle_edited"></div>
+                    <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                    <input
+                            type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
+                            tabindex="9" class="form-control mb-2" id="avenida_edited"></div>
+
+                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
+                            type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9"
+                            class="form-control mb-2" id="referencia_edited"></div>
+
+                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
+                                aria-describedby="register-telefono" tabindex="11"
+                                class="form-control mb-2" id="telefono_edited">
+                        </div>
+                    </div>
+
+<div class="divider">
+                <div class="divider-text">Familiares</div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del familiar
+                  1</label>
+                  <input type="text" name="nombre_familiar_1" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_1" tabindex="12"
+                  class="form-control mb-2" id="nombre_familiar_1_edited"
+                 >
+                 </div>
+              <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del familiar
+                  1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_1" tabindex="13"
+                  class="form-control mb-2" id="apellido_familiar_1_edited"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del familiar
+                  1</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
+                    class="form-control mb-2" id="telefono_familiar_1_edited">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del familiar
+                  2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
+                  aria-describedby="register-nombre_familiar_2" tabindex="15"
+                  class="form-control mb-2" id="nombre_familiar_2_edited"
+                 ></div>
+              <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del familiar
+                  2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
+                  aria-describedby="register-apellido_familiar_2" tabindex="16"
+                  class="form-control mb-2" id="apellido_familiar_2_edited"
+                 ></div>
+              <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del familiar
+                  2</label>
+                <div class="input-group">
+                  <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span></div>
+                  <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
+                    mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
+                    class="form-control mb-2" id="telefono_familiar_2_edited">
+                </div>
+              </div>
+              <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                  cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
+                  name="tipo_cliente" class="form-control mb-2" id="tipo_cliente_edited">
+                  <option > Residencial </option>
+                  <option> Negocio </option>
+                  <option> Punto de venta </option>
+                </select></div>
+              <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                  cliente?</label>
+                <div class="custom-control custom-checkbox"><input type="checkbox" id="cliente_nuevo_edited"
+                    name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
+                    class="custom-control-input me-1" value="SI"><label for="cliente_nuevo" class="custom-control-label">Sí</label>
+                </div>
+              </div>
+              <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del último
+                  pedido</label><input type="date" name="fecha_ultimo_pedido_edited" placeholder="01/02/2023"
+                  mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
+                  class="form-control mb-2" id="fecha_ultimo_pedido"></div>
+              <div class="form-group">
+                <label for="register-utimos_botellones" class="form-label">Cantidad de garrafones en el último pedido</label>
+                  <input type="text" name="utimos_botellones" placeholder="10" aria-describedby="register-utimos_botellones" tabindex="23"   class="form-control mb-2" id="utimos_botellones_edited">
+                  </div>
+
+<div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="zona_clientes_edited">
+                  <option selected="">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+              <div class="divider">
+                <div class="divider-text">Acceso</div>
+              </div>
+              <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text"
+                  name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                  tabindex="25" class="form-control mb-2" id="correo_edit_cliente_edited"></div>
+
+              
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="btn_save_edit_cliente">Actualizar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    </section>
+  </div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  $(function(){
+    
+  })
+  
+</script>
+
+
+
+<!-- END: Content-->
