@@ -1685,15 +1685,15 @@ exports.save_recarga = async (req, res) => {
   const { id_carga, recarga } = req.body
   let msg = false;
   let id_sucursal = req.session.sucursal_select
+  console.log(id_carga)
   var carga_actual = JSON.parse(await DataBase.cargaActual(id_carga))
   console.log(carga_actual)
-  let nueva_carga = parseInt(recarga)+ parseInt(carga_actual.recarga)
+  let nueva_carga = parseInt(recarga) + parseInt(carga_actual.recarga)
   console.log(nueva_carga)
-const update_recarga = await DataBase.updcarga_inicial(id_carga,  nueva_carga);
+var update_recarga = await DataBase.updcarga_inicial(id_carga,  nueva_carga);
 console.log(update_recarga)
-const recarga_table = await DataBase.recarga_table(id_carga,  nueva_carga)
+var recarga_table = await DataBase.recarga_table(id_carga,  nueva_carga)
 console.log(recarga_table)
-    let respuesta_let = JSON.parse(respuesta)
     switch (req.session.tipo) {
       case "Director":
       Carga_init=DataBase.Carga_init

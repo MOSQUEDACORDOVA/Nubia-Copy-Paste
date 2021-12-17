@@ -357,6 +357,8 @@ function filterColumn2(i, val) {
   }
 }
 function openrecarga(id) {
+  $('#id_carga').val('')
+  $('#recarga_name').val('')
   $('#id_carga').val(id)
   $('#recarga').modal('show')
 }

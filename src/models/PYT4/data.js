@@ -1334,9 +1334,9 @@ PersonalAllS(id){
           });
       });
     },
-    cargaActual(id){
+    cargaActual(id_){
       return new Promise((resolve, reject) => {
-        Carga_init.findOne({attributes:['recarga']}, {where:{id:id}}
+        Carga_init.findOne({where:{id:id_}},{attributes:['recarga']}
         )
           .then((data) => {
             let data_p = JSON.stringify(data);
