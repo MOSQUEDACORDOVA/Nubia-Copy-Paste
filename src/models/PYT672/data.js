@@ -253,7 +253,7 @@ module.exports = {
     ActivarEstudianteCongelado(id){
       return new Promise((resolve, reject) => {
         Matriculas.update({
-          estado: 'Activo',
+          estadoId: 1,
         }, { where: {
           id: id
         }})
@@ -271,7 +271,7 @@ module.exports = {
     CongelarEstudiante(id){
       return new Promise((resolve, reject) => {
         Matriculas.update({
-          estado: 'Congelado',
+          estadoId: 5,
         }, { where: {
           id: id
         }})

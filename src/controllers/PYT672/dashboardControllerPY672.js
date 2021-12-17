@@ -867,69 +867,13 @@ exports.borrarestudiantes = (req, res) => {
 
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    return res.redirect('/matriculas/PYT-672');
   } else {
-    DataBase.BuscarEstudiante(id).then((response) =>{
-      let eliminado = JSON.parse(response)[0]
-      let idGrupo = eliminado.grupoId;
-      let num = 0;
-      console.log(eliminado)
-      console.log(idGrupo)
+    DataBase.BorrarEstudiantes(id).then((response) =>{
+      console.log(response)
+      
+      return res.redirect('/matriculas/PYT-672');
 
-      if(idGrupo) {
-
-        DataBase.BuscarGrupos(idGrupo).then((response2) =>{
-          let grupos = JSON.parse(response2)[0]
-          let activos = parseInt(grupos.activos), total = parseInt(grupos.total_alumnos)
-  
-          console.log(activos)
-          console.log(total)
-  
-          if(eliminado.estado === "Activo") {
-            activos--;
-            total--;
-          }
-          console.log(activos)
-          console.log(total)
-  
-          DataBase.BorrarEstudiantes(id).then((response3) =>{
-            console.log(response3)
-            
-            DataBase.ActualizarEstudiantesActivosGrupos(idGrupo, activos, total).then((response4) =>{
-              console.log(response4)
-              console.log("MATRICULA ACTUALIZADA")
-              
-              return res.redirect("/matriculas/PYT-672");
-            }).catch((err) => {
-              console.log(err)
-              let msg = "Error en sistema";
-              return res.redirect("/error672/PYT-672");
-            });
-  
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });
-          
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-
-      } else {
-        DataBase.BorrarEstudiantes(id).then((response3) =>{
-          console.log(response3)
-          return res.redirect("/matriculas/PYT-672");
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
-        
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -997,39 +941,19 @@ exports.registrarmatricula = (req, res) => {
 
 // * CONGELAR ESTUDIANTES ADMIN
 exports.congelarestudiante = (req, res) => {
-  let { id, grupoid, activos, congelados } = req.body;
+  let { id } = req.body;
   let msg = false;
-  
-  activos = parseInt(activos) - 1
-  congelados = parseInt(congelados) + 1
-
-  if (activos < 0) {
-    activos = 0
-  }  
-  if (congelados < 0) {
-    congelados = 0
-  }
 
   console.log(req.body);
-  console.log(activos);
-  console.log(congelados);
 
-  if (id.trim() === "" || grupoid.trim() === "") {
+  if (id.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/matriculas/PYT-672');
   } else {
     DataBase.CongelarEstudiante(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EstudianteCongeladoGrupo(grupoid, activos, congelados).then((resp2) => {
-        console.log(resp2)
   
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
+      return res.redirect("/matriculas/PYT-672");
   
     }).catch((err) => {
       console.log(err)
@@ -1041,36 +965,19 @@ exports.congelarestudiante = (req, res) => {
 
 // * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
 exports.activarestudiantecongelado = (req, res) => {
-  let { id, grupoid, activos, congelados } = req.body;
+  let { id } = req.body;
   let msg = false;
-  
-  activos = parseInt(activos) + 1
-  congelados = parseInt(congelados) - 1
-
-  if (congelados < 0) {
-    congelados = 0
-  }
 
   console.log(req.body);
-  console.log(activos);
-  console.log(congelados);
 
-  if (id.trim() === "" || grupoid.trim() === "") {
+  if (id.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/matriculas/PYT-672');
   } else {
     DataBase.ActivarEstudianteCongelado(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EstudianteActivadoGrupo(grupoid, activos, congelados).then((resp2) => {
-        console.log(resp2)
-  
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
+      
+      return res.redirect("/matriculas/PYT-672");
   
     }).catch((err) => {
       console.log(err)
@@ -1083,18 +990,8 @@ exports.activarestudiantecongelado = (req, res) => {
 // * CONGELAR ESTUDIANTES ADMIN
 exports.eliminarestudiantegrupo = (req, res) => {
   console.log(req.body);
-  let { id, grupoid, activos, total } = req.body;
+  let { id } = req.body;
   let msg = false;
-
-  activos = parseInt(activos) - 1
-  total = parseInt(total) - 1
-
-  if(activos < 0) {
-    activos = 0
-  }
-  if(total < 0) {
-    total = 0
-  }
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
@@ -1103,16 +1000,6 @@ exports.eliminarestudiantegrupo = (req, res) => {
    
     DataBase.EliminarGrupoEstudiante(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EliminarEstudianteGrupo(grupoid, activos, total).then((resp2) => {
-        console.log(resp2)
-  
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
 
       return res.redirect("/matriculas/PYT-672");
     }).catch((err) => {
