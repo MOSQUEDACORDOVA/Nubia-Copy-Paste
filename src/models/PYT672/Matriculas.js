@@ -1,9 +1,11 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
-const Grupos = require('../../models/PYT672/Grupos');
+const Grupos = require('./Grupos');
+const Estado = require('./Estado');
+const TipoEstudiante = require('./TipoEstudiante');
 
 // ESTUDIANTES
-const Estudiantes = db672.define('estudiantes', {
+const Matriculas = db672.define('matriculas', {
     id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
@@ -61,16 +63,9 @@ const Estudiantes = db672.define('estudiantes', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
-	tipo_estudiante: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	estado: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-		defaultValue: 'Activo'
-	},
 });
 
-Estudiantes.Grupos = Estudiantes.belongsTo(Grupos)
-module.exports = Estudiantes;
+Matriculas.TipoEstudiante = Matriculas.belongsTo(TipoEstudiante)
+Matriculas.Grupos = Matriculas.belongsTo(Grupos)
+Matriculas.Estado = Matriculas.belongsTo(Estado)
+module.exports = Matriculas;

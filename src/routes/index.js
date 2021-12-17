@@ -532,7 +532,7 @@ router.post('/actualizargrupospty672', dashboardControllerPY672.actualizargrupos
 // * BORRAR GRUPOS
 router.post('/borrargrupopy672', dashboardControllerPY672.borrargrupo);
 // * REGISTRAR ESTUDIANTES
-router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarestudiantes);
+router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarmatricula);
 // * BORRAR ESTUDIANTES
 router.post('/borrarestudiantespy672', dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES

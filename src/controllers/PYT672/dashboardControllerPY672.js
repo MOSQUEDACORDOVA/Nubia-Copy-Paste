@@ -100,21 +100,222 @@ exports.grupos = (req, res) => {
     let gruposTodos = JSON.parse(response);
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
-  
+    
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
     console.log(gruposDesde0)
     console.log("DESDE CERO INICIADOS")
+
+      if (gruposDesde0.length) {
+        gruposDesde0.forEach(obj => {
+          let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+          console.log(obj)
+          console.log("EACH")
+  
+          DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+            let find = JSON.parse(responseGrupos);
+            console.log(find)
+            console.log("FIND MATRICULA")
+            
+            find.forEach(item => {
+              if(item.estado.id === 1) {
+                numActivos += 1;
+              } else if (item.estado.id === 2) {
+                numIncorporados += 1;
+              } else if (item.estado.id === 3) {
+                numInscritos += 1;
+              } else if (item.estado.id === 4) {
+                numFusionados += 1;
+              } else if (item.estado.id === 5) {
+                numCongelados += 1;
+              }
+              numTotal += 1;
+            });
+  
+            let newObj = {}
+  
+            matrActivos = {
+              activos: numActivos
+            }
+            matrIncorporados = {
+              incorporados: numIncorporados
+            }
+            matrInscritos = {
+              inscritos: numInscritos
+            }
+            matrFusionados = {
+              fusionados: numFusionados
+            }
+            matrCongelados = {
+              congelados: numCongelados
+            }
+            matrTotal = {
+              total: numTotal
+            }
+  
+            Object.assign(newObj, matrActivos)
+            Object.assign(newObj, matrIncorporados)
+            Object.assign(newObj, matrInscritos)
+            Object.assign(newObj, matrFusionados)
+            Object.assign(newObj, matrCongelados)
+            Object.assign(newObj, matrTotal)
+  
+            let result = Object.assign(obj, newObj);
+  
+            console.log(result)
+            console.log("RESULT")
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        });
+      }
     
     DataBase.ObtenerGruposIntensivo().then((response3) => {
       let gruposIntensivo = JSON.parse(response3);
       console.log(gruposIntensivo)
       console.log("INTENSIVOS INICIADOS")
 
+        if (gruposIntensivo.length) {
+          gruposIntensivo.forEach(obj => {
+            let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+            console.log(obj)
+            console.log("EACH")
+    
+            DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+              let find = JSON.parse(responseGrupos);
+              console.log(find)
+              console.log("FIND MATRICULA")
+              
+              find.forEach(item => {
+                if(item.estado.id === 1) {
+                  numActivos += 1;
+                } else if (item.estado.id === 2) {
+                  numIncorporados += 1;
+                } else if (item.estado.id === 3) {
+                  numInscritos += 1;
+                } else if (item.estado.id === 4) {
+                  numFusionados += 1;
+                } else if (item.estado.id === 5) {
+                  numCongelados += 1;
+                }
+                numTotal += 1;
+              });
+    
+              let newObj = {}
+    
+              matrActivos = {
+                activos: numActivos
+              }
+              matrIncorporados = {
+                incorporados: numIncorporados
+              }
+              matrInscritos = {
+                inscritos: numInscritos
+              }
+              matrFusionados = {
+                fusionados: numFusionados
+              }
+              matrCongelados = {
+                congelados: numCongelados
+              }
+              matrTotal = {
+                total: numTotal
+              }
+    
+              Object.assign(newObj, matrActivos)
+              Object.assign(newObj, matrIncorporados)
+              Object.assign(newObj, matrInscritos)
+              Object.assign(newObj, matrFusionados)
+              Object.assign(newObj, matrCongelados)
+              Object.assign(newObj, matrTotal)
+    
+              let result = Object.assign(obj, newObj);
+    
+              console.log(result)
+              console.log("RESULT")
+    
+            }).catch((err) => {
+              console.log(err)
+              let msg = "Error en sistema";
+              return res.redirect("/error672/PYT-672");
+            });
+          });
+        }
+
         DataBase.ObtenerGruposEnApertura().then((response4) => {
           let gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
+
+            if (gruposApertura.length) {
+              gruposApertura.forEach(obj => {
+                let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+                console.log(obj)
+                console.log("EACH")
+        
+                DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+                  let find = JSON.parse(responseGrupos);
+                  console.log(find)
+                  console.log("FIND MATRICULA")
+                  
+                  find.forEach(item => {
+                    if(item.estado.id === 1) {
+                      numActivos += 1;
+                    } else if (item.estado.id === 2) {
+                      numIncorporados += 1;
+                    } else if (item.estado.id === 3) {
+                      numInscritos += 1;
+                    } else if (item.estado.id === 4) {
+                      numFusionados += 1;
+                    } else if (item.estado.id === 5) {
+                      numCongelados += 1;
+                    }
+                    numTotal += 1;
+                  });
+        
+                  let newObj = {}
+        
+                  matrActivos = {
+                    activos: numActivos
+                  }
+                  matrIncorporados = {
+                    incorporados: numIncorporados
+                  }
+                  matrInscritos = {
+                    inscritos: numInscritos
+                  }
+                  matrFusionados = {
+                    fusionados: numFusionados
+                  }
+                  matrCongelados = {
+                    congelados: numCongelados
+                  }
+                  matrTotal = {
+                    total: numTotal
+                  }
+        
+                  Object.assign(newObj, matrActivos)
+                  Object.assign(newObj, matrIncorporados)
+                  Object.assign(newObj, matrInscritos)
+                  Object.assign(newObj, matrFusionados)
+                  Object.assign(newObj, matrCongelados)
+                  Object.assign(newObj, matrTotal)
+        
+                  let result = Object.assign(obj, newObj);
+        
+                  console.log(result)
+                  console.log("RESULT")
+        
+                }).catch((err) => {
+                  console.log(err)
+                  let msg = "Error en sistema";
+                  return res.redirect("/error672/PYT-672");
+                });
+              });
+            }
     
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
@@ -399,7 +600,7 @@ exports.creargrupos = (req, res) => {
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
           return res.redirect("/verificargrupos/PYT-672");
-       
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -711,7 +912,7 @@ exports.borrarestudiantes = (req, res) => {
 };
 
 // * REGISTRAR ESTUDIANTES ADMIN
-exports.registrarestudiantes = (req, res) => {
+exports.registrarmatricula = (req, res) => {
   console.log(req.body);
   let { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
   let msg = false;
@@ -726,7 +927,8 @@ exports.registrarestudiantes = (req, res) => {
     if(!telefono3) {
       telefono3 = '-'
     }
-    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId, tipo).then((resp) => {
+    tipo = parseInt(tipo)
+    DataBase.RegistrarMatricula(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
       console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id

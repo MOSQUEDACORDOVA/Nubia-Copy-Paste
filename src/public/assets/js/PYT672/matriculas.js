@@ -35,7 +35,7 @@ function cargarTablaMatricula(editada) {
             let congelado = '', añadirGrupo = '';
             if(full['grupo'] !== null) {
 
-              if(full['estado'] === 'Activo') {
+              if(full['estado']['id'] === 1) {
                 congelado = `
                   <a class="dropdown-item" href="#">
                     <form action="/congelarestudiantepy672" method="POST">
