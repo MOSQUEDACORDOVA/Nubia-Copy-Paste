@@ -1514,3 +1514,6 @@ table tr td {
 .py672 .table a b {
     pointer-events: none;
 }
+.py672 table thead th, .py672 table tbody td {
+    white-space: nowrap;
+}

@@ -103,6 +103,127 @@ grupo.forEach(btn => {
     });
 });
 
+let btnModalMatricula = document.querySelectorAll('.btnModalMatricula'),
+btnModalTabla = document.querySelector('#modalTable'),
+identificadorGrupo = document.querySelector('#identificadorGrupo'),
+btnModalRows = document.querySelector('#tableRows');
+
+btnModalMatricula.forEach(btn => {
+    btn.addEventListener('click', e => {
+        let select = e.target.getAttribute('data-id'),
+        consulta = e.target.getAttribute('data-consulta'),
+        form = new FormData(e.target.childNodes[1]);
+
+        identificadorGrupo.innerText = '';
+        btnModalRows.innerHTML = '';
+
+        if(consulta === 'todos') {
+            fetch('/obtenermatriculagrupo', {
+                method: 'POST', 
+                body: form,
+            }).then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response => {
+                    let data = response.find,
+                    fragment = new DocumentFragment();
+                    console.log(data)
+
+                    if(data.length >= 1) {
+                        let id;
+                        data.forEach(row => {
+                            let newRow = document.createElement('tr');
+                            let telefonos = row.telefono1;
+                            id = row.grupo.identificador;
+                            console.log(row)
+                            if (row.telefono2 != '-') {
+                                telefonos += ', ' + row.telefono2;
+                            } 
+                            if (row.telefono3 != '-') {
+                                telefonos += ', ' + row.telefono3;
+                            }
+                            newRow.innerHTML = 
+                            `
+                                <td>${row.nombre} ${row.primer_apellido}</td>
+                                <td>${row.email}</td>
+                                <td>${row.tipo_estudiante.tipo}</td>
+                                <td>${row.nro_identificacion}</td>
+                                <td>${row.fecha_nacimiento}</td>
+                                <td>${telefonos}</td>
+                                <td>${row.provincia}</td>
+                                <td>${row.canton}</td>
+                                <td>${row.distrito}</td>
+                                <td>
+                                    <span class="badge rounded-pill badge-light-primary">${row.estado.estado}</span>
+                                </td>
+                            `;
+                            fragment.appendChild(newRow);
+                        });
+                        identificadorGrupo.innerText = id;
+                        btnModalRows.appendChild(fragment);
+                    } else {
+                        let newRow = document.createElement('tr');
+                        newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
+                        btnModalRows.appendChild(newRow);
+                    }
+                    btnModalTabla.click();
+              });
+
+        } else if(consulta === 'activos') {
+            fetch('/obtenermatriculagrupo', {
+                method: 'POST', 
+                body: form,
+            }).then(res => res.json())
+              .catch(error => console.error('Error:', error))
+              .then(response => {
+                    let data = response.find,
+                    fragment = new DocumentFragment();
+                    console.log(data)
+
+                    if(data.length >= 1) {
+                        let id;
+                        data.forEach(row => {
+                            if(row.estado.id === 1) {
+                                let newRow = document.createElement('tr');
+                                let telefonos = row.telefono1;
+                                id = row.grupo.identificador;
+                                console.log(row)
+                                if (row.telefono2 != '-') {
+                                    telefonos += ', ' + row.telefono2;
+                                } 
+                                if (row.telefono3 != '-') {
+                                    telefonos += ', ' + row.telefono3;
+                                }
+                                newRow.innerHTML = 
+                                `
+                                    <td>${row.nombre} ${row.primer_apellido}</td>
+                                    <td>${row.email}</td>
+                                    <td>${row.tipo_estudiante.tipo}</td>
+                                    <td>${row.nro_identificacion}</td>
+                                    <td>${row.fecha_nacimiento}</td>
+                                    <td>${telefonos}</td>
+                                    <td>${row.provincia}</td>
+                                    <td>${row.canton}</td>
+                                    <td>${row.distrito}</td>
+                                    <td>
+                                        <span class="badge rounded-pill badge-light-success">${row.estado.estado}</span>
+                                    </td>
+                                `;
+                                fragment.appendChild(newRow);
+                            }
+                        });
+                        identificadorGrupo.innerText = id;
+                        btnModalRows.appendChild(fragment);
+                    } else {
+                        let newRow = document.createElement('tr');
+                        newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
+                        btnModalRows.appendChild(newRow)
+                    }
+                    btnModalTabla.click();
+              });
+        }
+    });
+});
+
 let borrarBtn = document.querySelectorAll('.borrar-btn');
 
 borrarBtn.forEach(btn => {

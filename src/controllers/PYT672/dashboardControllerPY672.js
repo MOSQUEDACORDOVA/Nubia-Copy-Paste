@@ -805,6 +805,33 @@ exports.actualizargrupos = (req, res) => {
   }
 };
 
+// * OBTENER MATRICULA DE GRUPO
+exports.obtenermatriculagrupo = (req, res) => {
+  console.log(req.body);
+  const { id } = req.body;
+  let msg = false;
+
+  console.log(id)
+  console.log("ID GRUPO")
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.ObtenerMatriculaGrupo(id).then((response) => {
+      let find = JSON.parse(response);
+      console.log(response)
+      console.log("RESPONSEEEE")
+
+      res.send({find})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * BORRAR GRUPOS ADMIN
 exports.borrargrupo = (req, res) => {
   console.log(req.body);
@@ -1120,23 +1147,4 @@ exports.sesionstart = (req, res) => {
       return res.redirect('/controlrolespy27/PYT-27')
     });
   })(req, res);
-};
-
-// Registro de usuarios
-exports.reguserpy27 = (req, res) => {
-  console.log(req.body);
-  const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
-  let msg = false;
-  if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/register27/PYT-27');
-  } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
-      res.redirect("/login27/PYT-27")
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-27");
-    });
-  }
 };
