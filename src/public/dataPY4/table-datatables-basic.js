@@ -31,6 +31,22 @@ console.log(array)
           dt_basic.column(i).search(this.value).draw();
         }
       });
+      
+    });
+    $('#cliente_nuevo').on('change', function (e) {
+      console.log(e)
+      if ($('#cliente_nuevo').is(':checked')) {
+        console.log('hello')
+        if (dt_basic.column(7).search() !== 'SI') {
+        dt_basic.column(7).search('SI').draw();
+      }
+      }else{
+        console.log('worfdl')
+        if (dt_basic.column(7).search() !== '') {
+          dt_basic.column(7).search('').draw();
+        }
+      }
+      
     });
     // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
@@ -43,7 +59,7 @@ console.log(array)
         { data: 'id' },
         { data: 'telefono' },
         { data: 'email' }, 
-        
+        { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
           title: '',
@@ -171,6 +187,9 @@ console.log(array)
           }
         },
         {
+          targets: 7,visible: false
+        },
+        {
           // Label
           targets: -2,
           render: function (data, type, full, meta) {
@@ -198,7 +217,7 @@ console.log(array)
       order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><""<"col-sm-12 col-md-6"l><"none"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
+      lengthMenu: [7, 10, 25, 50, 75, 100,120,130,140,150,200],
 
       language: {
         "decimal": "",
@@ -405,17 +424,18 @@ $("#id_ad_tag_cliente").val(valoresCheck);
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(` <thead>
-  <tr>
-      <th> </th>
-      <th>Nombre</th>
-      <th>Zona</th>
-      <th>Etiqueta</th>
-      <th>Titulo</th>
-      <th>Teléfono</th>
-      <th>Correo</th>  
-      <th>Opciones</th>
-  </tr>
-</thead>`);
+                                        <tr>
+                                            <th> </th>
+                                            <th>Nombre</th>
+                                            <th>Zona</th>
+                                            <th>Etiqueta</th>
+                                            <th>Titulo</th>
+                                            <th>Teléfono</th>
+                                            <th>Correo</th>  
+                                            <th>Nuevo </th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito la(s) Zona')
@@ -438,17 +458,18 @@ console.log('entro aqui')
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(` <thead>
-  <tr>
-      <th> </th>
-      <th>Nombre</th>
-      <th>Zona</th>
-      <th>Etiqueta</th>
-      <th>Titulo</th>
-      <th>Teléfono</th>
-      <th>Correo</th>  
-      <th>Opciones</th>
-  </tr>
-</thead>`);
+                                        <tr>
+                                            <th> </th>
+                                            <th>Nombre</th>
+                                            <th>Zona</th>
+                                            <th>Etiqueta</th>
+                                            <th>Titulo</th>
+                                            <th>Teléfono</th>
+                                            <th>Correo</th>  
+                                            <th>Nuevo </th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>`);
   cargaTabla('si')
   $('.modal').modal('hide');
   Swal.fire('Se editó con éxito la información del cliente')
