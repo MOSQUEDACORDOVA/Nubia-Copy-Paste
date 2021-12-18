@@ -473,13 +473,13 @@ exports.depositoAprovado = async function (req, res) {
       console.log(error);
       let msg = "Error al enviar Mensaje";
       console.log(msg)
-      res.redirect("/error404/PYT-27");
+      return res.redirect("/error404/PYT-27");
       // res.send(500, err.message);
     } else {
       console.log("Email sent fine");
       let msg =
         "Se envio un email, con la informacion del deposito aprobado";
-        res.redirect("/depositsaeroadmin/PYT-27");
+        return res.redirect("/depositsPasarelaAdmin/PASARELA");
       //  res.status(200).jsonp(req.body);
     }
   });

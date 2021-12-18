@@ -156,8 +156,10 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
 		} else if (status === 'Finalizado') {
 			return `<span class="badge rounded-pill badge-light-info">Finalized</span>`;
+		} else if (status === 'Rechazado') {
+			return `<span class="badge rounded-pill badge-light-danger">Rejected</span>`;
 		} else {
-			return `<span class="badge rounded-pill badge-light-success">Approved</span>`;
+			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
 		}
 	},
 	estadodepositospy24: (status) => {

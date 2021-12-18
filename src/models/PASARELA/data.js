@@ -1,12 +1,12 @@
 const { Op, where } = require("sequelize");
-const db27 = require("../../config/dbPY27");
+const dbPasarela = require("../../config/dbPasarela");
 const bcrypt = require("bcrypt-nodejs");
-const Usuarios = require("../../models/PYT27/Usuarios");
-const MPagos = require("../../models/PYT27/MetodosPago");
-const Pays = require("../../models/PYT27/Payments");
-const depositosaeros = require("../../models/PYT27/DepositosAero");
-const MetodosRetiros = require("../../models/PYT27/Retreats");
-const AeroCoin = require("../../models/PYT27/AeroCoin");
+const Usuarios = require("../../models/PASARELA/Usuarios");
+const MPagos = require("../../models/PASARELA/MetodosPago");
+const Pays = require("../../models/PASARELA/Payments");
+const depositosaeros = require("../../models/PASARELA/DepositosAero");
+const MetodosRetiros = require("../../models/PASARELA/Retreats");
+const AeroCoin = require("../../models/PASARELA/AeroCoin");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -100,20 +100,6 @@ module.exports = {
     GetUserInfo(id) {
       return new Promise((resolve, reject) => {
         Usuarios.findAll({ where: {id: id }})
-          .then((data) => {
-            let data_s = JSON.stringify(data);
-            console.log(data_s)
-            resolve(data_s);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // OBTENER DEPOSITO
-    GetDepositUsers(id) {
-      return new Promise((resolve, reject) => {
-        depositosaeros.findOne({ where: { id: id }})
           .then((data) => {
             let data_s = JSON.stringify(data);
             console.log(data_s)
@@ -776,25 +762,6 @@ module.exports = {
             let data_s = JSON.stringify(data)[0];
             console.log(data_s)
             console.log("DEPOSITO APROBADO")
-            resolve(data_s);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // RECHAZAR DEPOSITOS
-    RejectDeposit(id){
-      return new Promise((resolve, reject) => {
-        depositosaeros.update({
-          status: 'Rechazado',
-        }, { where: {
-          id: id
-        }})
-          .then((data) => {
-            let data_s = JSON.stringify(data);
-            console.log(data_s)
-            console.log("DEPOSITO RECHAZADO")
             resolve(data_s);
           })
           .catch((err) => {
