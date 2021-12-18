@@ -34,13 +34,14 @@
               </div>
               <div class="card-body">
                 <h4 class="card-title">Clientes</h4>
-           {{#if admin}} <p class="card-text"><button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
+           {{#if admin}} <p class="card-text">
+             <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
               Cambiar Zona
             </button> 
             <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
               Cambiar Etiquetas
             </button>
-             
+             <label><input type="checkbox" id="cliente_nuevo">Solo ver Nuevos</label>
             {{/if}}
               </div>
                                            
@@ -64,6 +65,7 @@
                                             <th>Titulo</th>
                                             <th>Teléfono</th>
                                             <th>Correo</th>  
+                                            <th>Nuevo </th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
