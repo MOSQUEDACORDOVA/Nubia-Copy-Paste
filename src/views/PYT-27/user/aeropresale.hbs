@@ -155,13 +155,15 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <img src="../../../app-assets/images/py27/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!<img src="../../../app-assets/images/py27/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py27/pasarelam-btc.jpg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
 
                                                         {{#if allbtc}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="bc1q5ggmvhtfrgfc7kc7v9hszyjn533nz9wsegvaux" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allbtc.id}}" required readonly>
                                                         <input type="text" id="code_wallet" class="form-control" value="{{allbtc.code_wallet}}" required readonly>
                                                         {{else}}
@@ -214,12 +216,14 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <img src="../../../app-assets/images/py27/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!<img src="../../../app-assets/images/py27/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py27/pasarelam-bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allbnb}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="0x3cE7e7ce2041CcBdaA45eDf685bA492686009CcE" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allbnb.id}}" required readonly>
                                                         <input type="text" id="code_wallet_bnb" class="form-control" data-code-wallet="{{allbnb.code_wallet}}" data-id="{{allbnb.id}}" value="{{allbnb.code_wallet}}" required readonly>
                                                         {{else}}
@@ -272,12 +276,14 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <img src="../../../app-assets/images/py27/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!---<img src="../../../app-assets/images/py27/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">---}}
+                                                        <img src="../../../app-assets/images/py27/pasarelam-usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allusdt}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="TC5zfKMpGqBKJu13gqFAmDNTmQZ9ToCAFr" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allusdt.id}}" required readonly>
                                                         <input type="text" id="code_wallet" class="form-control" value="{{allusdt.code_wallet}}" required readonly>
                                                         {{else}}

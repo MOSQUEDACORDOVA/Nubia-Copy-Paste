@@ -69,10 +69,12 @@ exports.bienvenidaMail = async function (req, res) {
     console.log(usuario.name)
     // Definimos el transporter
     var transporter = nodemailer.createTransport({
-      host: 'mail.smtp2go.com',
+      host: 'mail.aerocoin.aero',
+      port: 465,
+      secure: true,
       auth: {
           user: 'no-reply@aerocoin.aero',
-          pass: 's(byC-O;?@4!'
+          pass: 's(byC-O;?@4!',
       }
     });
     // Definimos el email
@@ -212,11 +214,12 @@ exports.emailVerificado = async function (req, res) {
   console.log(usuario.first_name)
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'mail.smtp2go.com',
+    host: 'mail.aerocoin.aero',
+    port: 465,
+    secure: true,
     auth: {
         user: 'no-reply@aerocoin.aero',
-        pass: 's(byC-O;?@4!'
+        pass: 's(byC-O;?@4!',
     }
   });
    // Definimos el email
@@ -351,11 +354,12 @@ exports.depositoAprovado = async function (req, res) {
   console.log(usuario.first_name)
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'mail.smtp2go.com',
+    host: 'mail.aerocoin.aero',
+    port: 465,
+    secure: true,
     auth: {
         user: 'no-reply@aerocoin.aero',
-        pass: 's(byC-O;?@4!'
+        pass: 's(byC-O;?@4!',
     }
   });
    // Definimos el email

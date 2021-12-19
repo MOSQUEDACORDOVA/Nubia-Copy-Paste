@@ -890,7 +890,7 @@ exports.registrarmatricula = (req, res) => {
 
   if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/verificargrupos/PYT-672');
+    return res.redirect('/verificargrupos/PYT-672');
   } else {
     if(!telefono2) {
       telefono2 = '-'
@@ -905,32 +905,7 @@ exports.registrarmatricula = (req, res) => {
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      
-      DataBase.BuscarGrupos(grupoId).then((resp2) => {
-        let grupo = JSON.parse(resp2)[0]
-        let activos = 0, total = 0
-        console.log(grupo)
-        activos += grupo.activos + 1
-        total += grupo.total_alumnos + 1
-        console.log(activos)
-
-        DataBase.ActualizarEstudiantesActivosGrupos(grupoId, activos, total).then((resp3) => {
-          console.log(resp3)
-          console.log("GRUPO A ACTUALIZADO")
-        
-          res.redirect("/matriculas/PYT-672")
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
-
+      return res.redirect('/verificargrupos/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

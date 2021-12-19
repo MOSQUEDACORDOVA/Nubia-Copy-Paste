@@ -1517,3 +1517,12 @@ table tr td {
 .py672 table thead th, .py672 table tbody td {
     white-space: nowrap;
 }
+/*.py672 .nav .select2 {
+    max-width: 91% !important;
+}
+.py672 .nav .select2-dropdown.select2-dropdown--below {
+    max-width: 91% !important;
+}
+.py672 .select2 option {
+    white-space: pre-wrap;
+}*/
