@@ -447,7 +447,7 @@ router.post('/deletemretreatspy27', authControllerPY27.authenticatedUser, dashbo
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
 router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
-router.get('/getallpendingdeposits/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.getallpendingdeposits);
+router.get('/getallpendingdeposits/:id', dashboardControllerPY27.getallpendingdeposits);
 
 router.get('/profile27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.profile);
 
