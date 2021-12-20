@@ -535,11 +535,14 @@
         let btc = document.getElementById('amountbtc');
         let bnb = document.getElementById('amountbnb');
         let priceACN = parseFloat(document.getElementById('price_').value);
-let amount = document.getElementById('price_').value;
+    let amount = document.getElementById('price_').value;
         amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
 
-        btc.value = amount / resultBtc;
-        bnb.value =  amount / resultBnb;
+        let totalBTC = amount / resultBtc
+        let totalBNB = amount / resultBnb
+
+        btc.value = (totalBTC * 0.05) + totalBTC;
+        bnb.value =  (totalBNB * 0.05) + totalBNB;
 
         
         InCoin.forEach(inp => {
