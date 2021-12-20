@@ -36,11 +36,7 @@ const depositosaeros = db27.define('depositosaeros', {
 	},
 	num_reference: {
 		type: DataTypes.STRING(255),
-		allowNull: false,
-		unique: {
-			args: true,
-			msg: 'This identifier is registered'
-		}
+		allowNull: true,
 	},
 	status: {
 		type: DataTypes.STRING(100),

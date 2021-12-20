@@ -17,7 +17,7 @@
                                 <div class="card">
                                     <div class="card-header align-items-start flex-column">
                                         <h4 class="card-title">Buy ACN</h4>
-                                        <p class="mb-0">We charge 0.5% commission for each transaction</p>
+                                        <p class="mb-0">We charge 1% commission for each transaction</p>
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex p-1">
@@ -26,7 +26,7 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount ACN</label>
+                                                                <label class="col-form-label" for="">Amount USDT</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
@@ -37,12 +37,12 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount USDT</label>
+                                                                <label class="col-form-label" for="">Amount ACN</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
-                                                                <label class="form-label mb-1 mb-sm-0" for="">Fee: <span class="fee">0ACN</span></label>
-                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2">0BTC</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0 d-none" for="">Fee: <span class="fee">0ACN</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2" style="font-weight: bold;">0USDT</span></label>
                                                             </div>
                                                         </div>
                                                         
@@ -177,17 +177,17 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <label class="form-label" for="">Amount USDT</label>
                                                         <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
                                                     </div>
 
-                                                    <div class="mb-1 col-12">
+                                                     <div class="mb-1 col-12 d-none">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
-                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
-                                                    </div>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2" ></span></label>
+                                                    </div> 
 
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <label class="form-label" for="">Amount of ACN</label>
                                                         <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -201,7 +201,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -248,17 +248,17 @@
 
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <label class="form-label" for="">Amount USDT</label>
                                                         <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
                                                     </div>
 
-                                                    <div class="mb-1 col-12">
+                                                    <div class="mb-1 col-12 d-none">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
                                                         <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <label class="form-label" for="">Amount of ACN</label>
                                                         <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -272,7 +272,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -318,17 +318,17 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <label class="form-label" for="">Amount USDT</label>
                                                         <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
                                                     </div>
 
-                                                    <div class="mb-1 col-12">
+                                                    <div class="mb-1 col-12 d-none">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
                                                         <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <label class="form-label" for="">Amount of ACN</label>
                                                         <input type="number" name="amount" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
@@ -339,7 +339,7 @@
                                                 </div>
 
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -513,6 +513,7 @@
     .then(data => {
         let arr = data.rates
         resultBtc = arr.usd.value
+        console.log(resultBtc)
     });
    
     let resultBnb;
@@ -521,6 +522,7 @@
     .then(data => {
         let price = data.prices[0][1];
         resultBnb = price;
+        console.log(resultBnb)
     });
 
     let buyBtn = document.getElementById('buybtn');
@@ -532,11 +534,13 @@
         let btc = document.getElementById('amountbtc');
         let bnb = document.getElementById('amountbnb');
         let priceACN = parseFloat(document.getElementById('price_').value);
+let amount = document.getElementById('price_').value;
+        amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
 
-        btc.value = priceACN / resultBtc;
-        bnb.value =  priceACN / resultBnb;
+        btc.value = amount / resultBtc;
+        bnb.value =  amount / resultBnb;
 
-        let amount = document.getElementById('price_').value;
+        
         InCoin.forEach(inp => {
             inp.value = amount;
         });
@@ -583,30 +587,30 @@
             let valor =  e.target.value;
             console.log(valor)
             //let priceAcn = parseFloat($('#costo_ref').val());
-            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
+            let price_ = parseFloat(valor) / parseFloat($('#costo_ref').val())
 
-            let n = (price_ / parseFloat($('#costo_ref').val()))
+            let n = (price_ * parseFloat($('#costo_ref').val()))
 
             let montoDolar = parseFloat($('#amountUsd').val())
           
 
-            let mult = montoDolar * 0.05;
+            let mult = parseFloat(valor) * 0.01;
             let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
     
             console.log("RESULTADO")
 
             $('#amountUsd').val(price_)
-
+            let monto_final = parseFloat(valor)+ parseFloat(mult)
             amountModalUsd.each(function (index) {
                 $(this).val(price_);
             });
 
             fee.forEach(item => {
-                item.innerText = feeMontoDolar + 'USDT';
+                item.innerText = mult + 'USDT';
             });
             
             fee2.forEach(item => {
-                item.innerText = mult + 'BTC';
+                item.innerText = 'Total a pagar: '+monto_final + 'USDT';
             });
         });
 
