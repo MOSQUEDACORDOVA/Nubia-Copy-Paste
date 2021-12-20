@@ -122,7 +122,7 @@ exports.bienvenidaMail = async function (req, res) {
                             <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey</p>
                             <p class="text-primary" style="font-weight: 700; font-size: 20px; margin-top: 0; color: #04246d;">${usuario.first_name} ${usuario.last_name}</p>
                             <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
-                              Thanks for signing up! ðŸ‘‹
+                              Thanks for signing up!
                             </p>
                             <p style="margin: 0 0 24px;">
                               Please verify your email address by clicking the below button and join our creative community,
@@ -407,7 +407,7 @@ exports.depositoAprovado = async function (req, res) {
                           <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey</p>
                           <p class="text-primary" style="font-weight: 700; font-size: 20px; margin-top: 0; color: #04246d;">${usuario.first_name} ${usuario.last_name}</p>
                           <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
-                            Deposit Approve! <br> YouÂ´ve received ${total} ACN in your Wallet accountÂ  ðŸ‘‹
+                            Deposit Approve! <br> YouÂ´ve received ${total} ACN in your Wallet accountÂ 
                           </p>
                           
                           <p class="card-text">If you donÂ´t recognize this activity , please contact us inmmediatelyÂ at: <a href="https://www.aerocoin.aero/suppor" class="text-primary">https://www.aerocoin.aero/support</a>.<br><br> Aerocoin Team.</p>
