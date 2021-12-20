@@ -1584,9 +1584,12 @@ exports.aeropresale = (req, res) => {
 
 // COMPRAR AEROCOINS
 exports.buyaerocoins = (req, res) => {
-  const { amountCoin, amount, methodid, refs } = req.body;
+  let { amountCoin, amount, methodid, refs } = req.body;
   let msg = false;
 
+  if(refs === "" || !refs) {
+    refs = '-';
+  }
   let userid = res.locals.user.id,
   name = res.locals.user.username,
   dni = res.locals.user.num_document,

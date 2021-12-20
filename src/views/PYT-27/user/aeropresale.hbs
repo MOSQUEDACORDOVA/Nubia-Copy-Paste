@@ -26,7 +26,7 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount USDT</label>
+                                                                <label class="col-form-label" for="">Amount ACN</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
@@ -37,7 +37,7 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount of ACN</label>
+                                                                <label class="col-form-label" for="">Amount USDT</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
@@ -154,7 +154,7 @@
                                             <!--- BTC -->
                                             <form action="/buyaerocoins" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">BSC - Binance Smart Chain (BEP20)</h5>
+                                                    <h5 class="mb-0">BTC</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
@@ -194,7 +194,8 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
+                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -202,7 +203,7 @@
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1 btnSubmit w-100" {{#if allbtc}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allbtc}}{{else}} disabled {{/if}}>
                                                         Make Payment
                                                     </button>
 
@@ -263,7 +264,8 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
+                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -271,7 +273,7 @@
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1 btnSubmit w-100" {{#if allbnb}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allbnb}}{{else}} disabled {{/if}}>
                                                         Make Payment
                                                     </button>
 
@@ -327,7 +329,8 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
+                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
                                                     </div>
                                                 </div>
 
@@ -336,7 +339,7 @@
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light me-1 btnSubmit w-100" {{#if allusdt}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allusdt}}{{else}} disabled {{/if}}>
                                                         Make Payment
                                                     </button>
 
@@ -512,7 +515,6 @@
      fetch('https://api.coingecko.com/api/v3/coins/binancecoin/market_chart?vs_currency=usd&days=1')
     .then(response => response.json())
     .then(data => {
-        //console.log(data.prices[0][1])
         let price = data.prices[0][1];
         resultBnb = price;
     });
@@ -531,7 +533,6 @@
         bnb.value =  priceACN / resultBnb;
 
         let amount = amountUsd.value;
-        
         InCoin.forEach(inp => {
             inp.value = amount;
         });
@@ -573,25 +574,25 @@
         let idMethod = $('.modal .d-none.methodid');
         let fee = document.querySelectorAll('span.fee');
 
-        $('input[name="price"]').on('keyup', (e)=>{
+        $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
-            let priceAcn = parseFloat($('#costo_ref').val());
-            
-            let n = (valor / priceAcn);
+            console.log(valor)
+            //let priceAcn = parseFloat($('#costo_ref').val());
+            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
+
+            let n = (valor / parseFloat($('#costo_ref').val()))
+
 
             // FEED -5%
             let mult = n * 0.05;
             let result = n - mult;
             console.log(result)
 
-            console.log(priceAcn)
-            let price_ = result
-            //let priceFormat = parseFloat(price_.slice(0,-4))
-            $('#amountUsd').val(price_)
+            //let price_ = result
+            $('#amountUsd').val(valor)
 
-   
             amountModalUsd.each(function (index) {
-                $(this).val(valor);
+                $(this).val(price_);
             });
             fee.forEach(item => {
                 item.innerText = mult + 'ACN';
