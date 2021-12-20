@@ -512,7 +512,7 @@ router.get('/test/:id', dashboardControllerPY27.test);
 router.get('/emailverifynotifypy27/:id', MailerController.emailVerificado);
 
 router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
-router.get('/mailDepositRejectedpy27/:id/', MailerController.depositoRechazado);
+router.get('/mailDepositRejectedpy27/:iduser', MailerController.depositoRechazado);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
 
 router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);

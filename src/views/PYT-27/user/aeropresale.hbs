@@ -30,7 +30,8 @@
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
-                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="5">
+                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="0">
+                                                                <small class="text-primary d-none" id="invalidAmount">The minimum purchase is 5 USDT</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -49,7 +50,8 @@
                                                     </div>
       
                                                     <div class="col-sm-9 offset-sm-3">
-                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn"  role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn" role="button">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light d-none" id="buybtnModal" role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
                                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Cancel</button>
                                                     </div>
                                                 </div>
@@ -197,6 +199,7 @@
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
                                                         <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -267,6 +270,7 @@
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
                                                         <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -333,6 +337,7 @@
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
                                                         <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
 
@@ -527,25 +532,30 @@
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
-        let amountUsd = document.getElementById('amountAcn');
-        let InCoin = document.querySelectorAll('.amountCoin');
+        if(parseInt($('input[name="price"]').val()) < 5) {
+            $('#invalidAmount').removeClass('d-none');
+        } else {
+            $('#invalidAmount').addClass('d-none');
+            $('#buybtnModal').click();
+            let amountUsd = document.getElementById('amountAcn');
+            let InCoin = document.querySelectorAll('.amountCoin');
 
-        let btc = document.getElementById('amountbtc');
-        let bnb = document.getElementById('amountbnb');
-        let priceACN = parseFloat(document.getElementById('price_').value);
-    let amount = document.getElementById('price_').value;
-        amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
+            let btc = document.getElementById('amountbtc');
+            let bnb = document.getElementById('amountbnb');
+            let priceACN = parseFloat(document.getElementById('price_').value);
+        let amount = document.getElementById('price_').value;
+            amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
 
-        let totalBTC = amount / resultBtc
-        let totalBNB = amount / resultBnb
+            let totalBTC = amount / resultBtc
+            let totalBNB = amount / resultBnb
 
-        btc.value = (totalBTC * 0.05) + totalBTC;
-        bnb.value =  (totalBNB * 0.05) + totalBNB;
-
-        
-        InCoin.forEach(inp => {
-            inp.value = amount;
-        });
+            btc.value = (totalBTC * 0.01) + totalBTC;
+            bnb.value =  (totalBNB * 0.01) + totalBNB;
+                        
+            InCoin.forEach(inp => {
+                inp.value = amount;
+            });
+        }
     });
 
     // BTC
@@ -587,63 +597,32 @@
 
         $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
-            console.log(valor)
-            if(parseInt(valor) < 5) {
-                $('input[name="price"]').val(5)
-                //let priceAcn = parseFloat($('#costo_ref').val());
-                let price_ = parseFloat($('input[name="price"]').val()) / parseFloat($('#costo_ref').val())
+            //let priceAcn = parseFloat($('#costo_ref').val());
+            let price_ = parseFloat($('input[name="price"]').val()) / parseFloat($('#costo_ref').val())
 
-                let n = (price_ * parseFloat($('#costo_ref').val()))
+            let n = (price_ * parseFloat($('#costo_ref').val()))
 
-                let montoDolar = parseFloat($('#amountUsd').val())
-            
-
-                let mult = parseFloat(valor) * 0.01;
-                let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+            let montoDolar = parseFloat($('#amountUsd').val())
         
-                console.log("RESULTADO")
 
-                $('#amountUsd').val(price_)
-                let monto_final = parseFloat($('input[name="price"]').val())+ parseFloat(mult)
-                amountModalUsd.each(function (index) {
-                    $(this).val(price_);
-                });
+            let mult = parseFloat(valor) * 0.01;
+            let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+    
+            console.log("RESULTADO")
 
-                fee.forEach(item => {
-                    item.innerText = mult + 'USDT';
-                });
-                
-                fee2.forEach(item => {
-                    item.innerText = 'Total a pagar: '+monto_final + 'USDT';
-                });
-            } else {
-                //let priceAcn = parseFloat($('#costo_ref').val());
-                let price_ = parseFloat(valor) / parseFloat($('#costo_ref').val())
+            $('#amountUsd').val(price_)
+            let monto_final = parseFloat($('input[name="price"]').val())+ parseFloat(mult)
+            amountModalUsd.each(function (index) {
+                $(this).val(price_);
+            });
 
-                let n = (price_ * parseFloat($('#costo_ref').val()))
-
-                let montoDolar = parseFloat($('#amountUsd').val())
+            fee.forEach(item => {
+                item.innerText = mult + 'USDT';
+            });
             
-
-                let mult = parseFloat(valor) * 0.01;
-                let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
-        
-                console.log("RESULTADO")
-
-                $('#amountUsd').val(price_)
-                let monto_final = parseFloat(valor)+ parseFloat(mult)
-                amountModalUsd.each(function (index) {
-                    $(this).val(price_);
-                });
-
-                fee.forEach(item => {
-                    item.innerText = mult + 'USDT';
-                });
-                
-                fee2.forEach(item => {
-                    item.innerText = 'Total a pagar: '+monto_final + 'USDT';
-                });
-            }
+            fee2.forEach(item => {
+                item.innerText = 'Total a pagar: '+monto_final + 'USDT';
+            });
         });
 
     });
