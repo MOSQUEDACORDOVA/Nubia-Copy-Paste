@@ -42,6 +42,7 @@
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
                                                                 <label class="form-label mb-1 mb-sm-0" for="">Fee: <span class="fee">0ACN</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2">0BTC</span></label>
                                                             </div>
                                                         </div>
                                                         
@@ -182,6 +183,7 @@
 
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
@@ -252,6 +254,7 @@
 
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
@@ -321,6 +324,7 @@
 
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
@@ -522,7 +526,7 @@
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
-        let amountUsd = document.getElementById('amountUsd');
+        let amountUsd = document.getElementById('amountAcn');
         let InCoin = document.querySelectorAll('.amountCoin');
 
         let btc = document.getElementById('amountbtc');
@@ -532,7 +536,7 @@
         btc.value = priceACN / resultBtc;
         bnb.value =  priceACN / resultBnb;
 
-        let amount = amountUsd.value;
+        let amount = document.getElementById('price_').value;
         InCoin.forEach(inp => {
             inp.value = amount;
         });
@@ -573,6 +577,7 @@
         let idModal = $('.modal .d-none.id');
         let idMethod = $('.modal .d-none.methodid');
         let fee = document.querySelectorAll('span.fee');
+        let fee2 = document.querySelectorAll('span.fee2');
 
         $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
@@ -580,22 +585,28 @@
             //let priceAcn = parseFloat($('#costo_ref').val());
             let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
 
-            let n = (valor / parseFloat($('#costo_ref').val()))
+            let n = (price_ / parseFloat($('#costo_ref').val()))
 
+            let montoDolar = parseFloat($('#amountUsd').val())
+          
 
-            // FEED -5%
-            let mult = n * 0.05;
-            let result = n - mult;
-            console.log(result)
+            let mult = montoDolar * 0.05;
+            let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+    
+            console.log("RESULTADO")
 
-            //let price_ = result
-            $('#amountUsd').val(valor)
+            $('#amountUsd').val(price_)
 
             amountModalUsd.each(function (index) {
                 $(this).val(price_);
             });
+
             fee.forEach(item => {
-                item.innerText = mult + 'ACN';
+                item.innerText = feeMontoDolar + 'USDT';
+            });
+            
+            fee2.forEach(item => {
+                item.innerText = mult + 'BTC';
             });
         });
 
