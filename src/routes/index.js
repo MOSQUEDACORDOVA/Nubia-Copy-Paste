@@ -583,7 +583,7 @@ router.get('/loginPasarela/:id', pasarelaController.login);
 router.post('/loginPasarela', pasarelaController.sesionstart);
 router.post('/reguserPasarela', pasarelaController.reguserPasarela);
 //asgfasgasg
-router.post('/startdepositaeropasarela', pasarelaAuthController.authenticatedAdmin, pasarelaController.startdepositaeropasarela);
+router.post('/startdepositaeropasarela', pasarelaController.startdepositaeropasarela);
 
 // APROBAR DEPOSITO PASARELA
 router.post('/startDeposit', pasarelaAuthController.authenticatedAdmin, pasarelaController.startdepositaero);
