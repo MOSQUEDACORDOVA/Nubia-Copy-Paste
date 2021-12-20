@@ -21,10 +21,9 @@
                                 <h4 class="notification-title mb-0 me-auto">Registrar alumno</h4>
                             </div>
                         </li>
-                        <li class="scrollable-container media-list ps">
+                        <li class="scrollable-container media-list">
                             <div>
                                 <div class="list-item bg-white">
-
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label">Grupo</label>
 
@@ -32,7 +31,7 @@
                                             <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
                                                 {{#each gruposTodos as |item i|}}
                                                 <option value="{{id}}">
-                                                    {{identificador}}
+                                                    {{identificador}} - {{dia_horario}}
                                                 </option>
                                                 {{/each}}
                                             </select>
@@ -66,21 +65,34 @@
                                         <label class="form-label" for="fp-default">Nacional</label>
                                         <div class="demo-inline-spacing">
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="Nacional" checked="">
+                                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
                                                 <label class="form-check-label" for="inlineRadio1">Nacional</label>
                                             </div>
                                             <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="Extranjero">
+                                                <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="2">
                                                 <label class="form-check-label" for="inlineRadio2">Extranjero</label>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="list-item bg-white">
+                                <div class="list-item bg-white d-flex flex-column" id="nacionalCampos">
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">No. Identificación</label>
-                                        <input type="text" class="form-control" placeholder="No. Identificación" id="n-identificacion" name="dni" required>
+                                    </div>
+                                    <div class="list-item-body flex-grow-1 d-flex">
+                                        <input type="text" class="d-none" name="dni" id="nacionalDni" value="">
+
+                                        <input type="text" class="form-control" id="primerCampo" minlength="1" maxlength="1">
+                                        <input type="text" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4">
+                                        <input type="text" class="form-control" id="tercerCampo" minlength="4" maxlength="4">
+                                    </div>
+                                </div>
+
+                                <div class="list-item bg-white" id="ExtranjeroCampo">
+                                    <div class="list-item-body flex-grow-1">
+                                        <label class="form-label" for="fp-default">No. Identificación</label>
+                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni">
                                     </div>
                                 </div>
 
@@ -220,3 +232,76 @@
 </div>
 <!-- END: Main Menu-->
 {{/if}}
+
+<script>
+    let radio1 = document.getElementById('inlineRadio1'),
+    radio2 = document.getElementById('inlineRadio2'),
+    nacionalC = document.getElementById('nacionalCampos'),
+    exC = document.getElementById('ExtranjeroCampo'),
+    nacionalDni = document.getElementById('nacionalDni'),
+    exDni = document.getElementById('exDni'),
+    primerC = document.getElementById('primerCampo'),
+    segundoC = document.getElementById('segundoCampo'),
+    tercerC = document.getElementById('tercerCampo');
+
+    let exp =  /^[0-9]+$/;
+    primerC.addEventListener('keydown', e => {
+        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
+        if (primerC.value.match(exp)){
+            segundoC.focus();
+        } else {
+            primerC.value = '';
+        }
+    });
+
+    segundoC.addEventListener('keydown', e => {
+        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
+        if (segundoC.value.match(exp)){
+            if(segundoC.value.length === 4) {
+                tercerC.focus();
+            }
+        } else {
+            segundoC.value.slice(0,-1);
+        }
+    });
+
+    tercerC.addEventListener('keydown', e => {
+        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
+        let current = '';
+        if (!tercerC.value.match(exp)){
+            tercerC.value = current;
+        } else {
+            tercerC.value.slice(0,-1);
+        }
+    });
+
+    radio1.addEventListener('change', e => {
+        SetRadio1();
+    });
+
+    radio2.addEventListener('change', e => {
+        SetRadio2();
+    });
+
+    const SetRadio1 = () => {
+        nacionalC.classList.remove('d-none');
+        nacionalC.classList.add('d-block');
+
+        exC.classList.remove('d-block');
+        exC.classList.add('d-none');
+    }
+
+    const SetRadio2 = () => {
+        exC.classList.remove('d-none');
+        exC.classList.add('d-block');
+
+        nacionalC.classList.remove('d-block');
+        nacionalC.classList.add('d-none');
+    }
+
+    SetRadio1();
+
+    exDni.addEventListener('keydown', e => {
+        nacionalDni.value = exDni.value;
+    });
+</script>

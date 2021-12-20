@@ -100,21 +100,222 @@ exports.grupos = (req, res) => {
     let gruposTodos = JSON.parse(response);
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
-  
+    
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
     console.log(gruposDesde0)
     console.log("DESDE CERO INICIADOS")
+
+      if (gruposDesde0.length) {
+        gruposDesde0.forEach(obj => {
+          let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+          console.log(obj)
+          console.log("EACH")
+  
+          DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+            let find = JSON.parse(responseGrupos);
+            console.log(find)
+            console.log("FIND MATRICULA")
+            
+            find.forEach(item => {
+              if(item.estado.id === 1) {
+                numActivos += 1;
+              } else if (item.estado.id === 2) {
+                numIncorporados += 1;
+              } else if (item.estado.id === 3) {
+                numInscritos += 1;
+              } else if (item.estado.id === 4) {
+                numFusionados += 1;
+              } else if (item.estado.id === 5) {
+                numCongelados += 1;
+              }
+              numTotal += 1;
+            });
+  
+            let newObj = {}
+  
+            matrActivos = {
+              activos: numActivos
+            }
+            matrIncorporados = {
+              incorporados: numIncorporados
+            }
+            matrInscritos = {
+              inscritos: numInscritos
+            }
+            matrFusionados = {
+              fusionados: numFusionados
+            }
+            matrCongelados = {
+              congelados: numCongelados
+            }
+            matrTotal = {
+              total: numTotal
+            }
+  
+            Object.assign(newObj, matrActivos)
+            Object.assign(newObj, matrIncorporados)
+            Object.assign(newObj, matrInscritos)
+            Object.assign(newObj, matrFusionados)
+            Object.assign(newObj, matrCongelados)
+            Object.assign(newObj, matrTotal)
+  
+            let result = Object.assign(obj, newObj);
+  
+            console.log(result)
+            console.log("RESULT")
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        });
+      }
     
     DataBase.ObtenerGruposIntensivo().then((response3) => {
       let gruposIntensivo = JSON.parse(response3);
       console.log(gruposIntensivo)
       console.log("INTENSIVOS INICIADOS")
 
+        if (gruposIntensivo.length) {
+          gruposIntensivo.forEach(obj => {
+            let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+            console.log(obj)
+            console.log("EACH")
+    
+            DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+              let find = JSON.parse(responseGrupos);
+              console.log(find)
+              console.log("FIND MATRICULA")
+              
+              find.forEach(item => {
+                if(item.estado.id === 1) {
+                  numActivos += 1;
+                } else if (item.estado.id === 2) {
+                  numIncorporados += 1;
+                } else if (item.estado.id === 3) {
+                  numInscritos += 1;
+                } else if (item.estado.id === 4) {
+                  numFusionados += 1;
+                } else if (item.estado.id === 5) {
+                  numCongelados += 1;
+                }
+                numTotal += 1;
+              });
+    
+              let newObj = {}
+    
+              matrActivos = {
+                activos: numActivos
+              }
+              matrIncorporados = {
+                incorporados: numIncorporados
+              }
+              matrInscritos = {
+                inscritos: numInscritos
+              }
+              matrFusionados = {
+                fusionados: numFusionados
+              }
+              matrCongelados = {
+                congelados: numCongelados
+              }
+              matrTotal = {
+                total: numTotal
+              }
+    
+              Object.assign(newObj, matrActivos)
+              Object.assign(newObj, matrIncorporados)
+              Object.assign(newObj, matrInscritos)
+              Object.assign(newObj, matrFusionados)
+              Object.assign(newObj, matrCongelados)
+              Object.assign(newObj, matrTotal)
+    
+              let result = Object.assign(obj, newObj);
+    
+              console.log(result)
+              console.log("RESULT")
+    
+            }).catch((err) => {
+              console.log(err)
+              let msg = "Error en sistema";
+              return res.redirect("/error672/PYT-672");
+            });
+          });
+        }
+
         DataBase.ObtenerGruposEnApertura().then((response4) => {
           let gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
+
+            if (gruposApertura.length) {
+              gruposApertura.forEach(obj => {
+                let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+                console.log(obj)
+                console.log("EACH")
+        
+                DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+                  let find = JSON.parse(responseGrupos);
+                  console.log(find)
+                  console.log("FIND MATRICULA")
+                  
+                  find.forEach(item => {
+                    if(item.estado.id === 1) {
+                      numActivos += 1;
+                    } else if (item.estado.id === 2) {
+                      numIncorporados += 1;
+                    } else if (item.estado.id === 3) {
+                      numInscritos += 1;
+                    } else if (item.estado.id === 4) {
+                      numFusionados += 1;
+                    } else if (item.estado.id === 5) {
+                      numCongelados += 1;
+                    }
+                    numTotal += 1;
+                  });
+        
+                  let newObj = {}
+        
+                  matrActivos = {
+                    activos: numActivos
+                  }
+                  matrIncorporados = {
+                    incorporados: numIncorporados
+                  }
+                  matrInscritos = {
+                    inscritos: numInscritos
+                  }
+                  matrFusionados = {
+                    fusionados: numFusionados
+                  }
+                  matrCongelados = {
+                    congelados: numCongelados
+                  }
+                  matrTotal = {
+                    total: numTotal
+                  }
+        
+                  Object.assign(newObj, matrActivos)
+                  Object.assign(newObj, matrIncorporados)
+                  Object.assign(newObj, matrInscritos)
+                  Object.assign(newObj, matrFusionados)
+                  Object.assign(newObj, matrCongelados)
+                  Object.assign(newObj, matrTotal)
+        
+                  let result = Object.assign(obj, newObj);
+        
+                  console.log(result)
+                  console.log("RESULT")
+        
+                }).catch((err) => {
+                  console.log(err)
+                  let msg = "Error en sistema";
+                  return res.redirect("/error672/PYT-672");
+                });
+              });
+            }
     
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
@@ -399,7 +600,7 @@ exports.creargrupos = (req, res) => {
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
           return res.redirect("/verificargrupos/PYT-672");
-       
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -604,6 +805,33 @@ exports.actualizargrupos = (req, res) => {
   }
 };
 
+// * OBTENER MATRICULA DE GRUPO
+exports.obtenermatriculagrupo = (req, res) => {
+  console.log(req.body);
+  const { id } = req.body;
+  let msg = false;
+
+  console.log(id)
+  console.log("ID GRUPO")
+
+  if (id.trim() === '') {
+    console.log('complete todos los campos')
+    res.redirect('/matriculas/PYT-672');
+  } else {
+    DataBase.ObtenerMatriculaGrupo(id).then((response) => {
+      let find = JSON.parse(response);
+      console.log(response)
+      console.log("RESPONSEEEE")
+
+      res.send({find})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * BORRAR GRUPOS ADMIN
 exports.borrargrupo = (req, res) => {
   console.log(req.body);
@@ -639,69 +867,13 @@ exports.borrarestudiantes = (req, res) => {
 
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    return res.redirect('/matriculas/PYT-672');
   } else {
-    DataBase.BuscarEstudiante(id).then((response) =>{
-      let eliminado = JSON.parse(response)[0]
-      let idGrupo = eliminado.grupoId;
-      let num = 0;
-      console.log(eliminado)
-      console.log(idGrupo)
+    DataBase.BorrarEstudiantes(id).then((response) =>{
+      console.log(response)
+      
+      return res.redirect('/matriculas/PYT-672');
 
-      if(idGrupo) {
-
-        DataBase.BuscarGrupos(idGrupo).then((response2) =>{
-          let grupos = JSON.parse(response2)[0]
-          let activos = parseInt(grupos.activos), total = parseInt(grupos.total_alumnos)
-  
-          console.log(activos)
-          console.log(total)
-  
-          if(eliminado.estado === "Activo") {
-            activos--;
-            total--;
-          }
-          console.log(activos)
-          console.log(total)
-  
-          DataBase.BorrarEstudiantes(id).then((response3) =>{
-            console.log(response3)
-            
-            DataBase.ActualizarEstudiantesActivosGrupos(idGrupo, activos, total).then((response4) =>{
-              console.log(response4)
-              console.log("MATRICULA ACTUALIZADA")
-              
-              return res.redirect("/matriculas/PYT-672");
-            }).catch((err) => {
-              console.log(err)
-              let msg = "Error en sistema";
-              return res.redirect("/error672/PYT-672");
-            });
-  
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });
-          
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-
-      } else {
-        DataBase.BorrarEstudiantes(id).then((response3) =>{
-          console.log(response3)
-          return res.redirect("/matriculas/PYT-672");
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
-        
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -711,14 +883,14 @@ exports.borrarestudiantes = (req, res) => {
 };
 
 // * REGISTRAR ESTUDIANTES ADMIN
-exports.registrarestudiantes = (req, res) => {
+exports.registrarmatricula = (req, res) => {
   console.log(req.body);
   let { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/verificargrupos/PYT-672');
+    return res.redirect('/verificargrupos/PYT-672');
   } else {
     if(!telefono2) {
       telefono2 = '-'
@@ -726,38 +898,14 @@ exports.registrarestudiantes = (req, res) => {
     if(!telefono3) {
       telefono3 = '-'
     }
-    DataBase.RegistrarEstudiantes(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, grupoId, tipo).then((resp) => {
+    tipo = parseInt(tipo)
+    DataBase.RegistrarMatricula(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
       console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      
-      DataBase.BuscarGrupos(grupoId).then((resp2) => {
-        let grupo = JSON.parse(resp2)[0]
-        let activos = 0, total = 0
-        console.log(grupo)
-        activos += grupo.activos + 1
-        total += grupo.total_alumnos + 1
-        console.log(activos)
-
-        DataBase.ActualizarEstudiantesActivosGrupos(grupoId, activos, total).then((resp3) => {
-          console.log(resp3)
-          console.log("GRUPO A ACTUALIZADO")
-        
-          res.redirect("/matriculas/PYT-672")
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
-
+      return res.redirect('/verificargrupos/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -768,39 +916,19 @@ exports.registrarestudiantes = (req, res) => {
 
 // * CONGELAR ESTUDIANTES ADMIN
 exports.congelarestudiante = (req, res) => {
-  let { id, grupoid, activos, congelados } = req.body;
+  let { id } = req.body;
   let msg = false;
-  
-  activos = parseInt(activos) - 1
-  congelados = parseInt(congelados) + 1
-
-  if (activos < 0) {
-    activos = 0
-  }  
-  if (congelados < 0) {
-    congelados = 0
-  }
 
   console.log(req.body);
-  console.log(activos);
-  console.log(congelados);
 
-  if (id.trim() === "" || grupoid.trim() === "") {
+  if (id.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/matriculas/PYT-672');
   } else {
     DataBase.CongelarEstudiante(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EstudianteCongeladoGrupo(grupoid, activos, congelados).then((resp2) => {
-        console.log(resp2)
   
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
+      return res.redirect("/matriculas/PYT-672");
   
     }).catch((err) => {
       console.log(err)
@@ -812,36 +940,19 @@ exports.congelarestudiante = (req, res) => {
 
 // * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
 exports.activarestudiantecongelado = (req, res) => {
-  let { id, grupoid, activos, congelados } = req.body;
+  let { id } = req.body;
   let msg = false;
-  
-  activos = parseInt(activos) + 1
-  congelados = parseInt(congelados) - 1
-
-  if (congelados < 0) {
-    congelados = 0
-  }
 
   console.log(req.body);
-  console.log(activos);
-  console.log(congelados);
 
-  if (id.trim() === "" || grupoid.trim() === "") {
+  if (id.trim() === "") {
     console.log('complete todos los campos')
     res.redirect('/matriculas/PYT-672');
   } else {
     DataBase.ActivarEstudianteCongelado(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EstudianteActivadoGrupo(grupoid, activos, congelados).then((resp2) => {
-        console.log(resp2)
-  
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
+      
+      return res.redirect("/matriculas/PYT-672");
   
     }).catch((err) => {
       console.log(err)
@@ -854,18 +965,8 @@ exports.activarestudiantecongelado = (req, res) => {
 // * CONGELAR ESTUDIANTES ADMIN
 exports.eliminarestudiantegrupo = (req, res) => {
   console.log(req.body);
-  let { id, grupoid, activos, total } = req.body;
+  let { id } = req.body;
   let msg = false;
-
-  activos = parseInt(activos) - 1
-  total = parseInt(total) - 1
-
-  if(activos < 0) {
-    activos = 0
-  }
-  if(total < 0) {
-    total = 0
-  }
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
@@ -874,16 +975,6 @@ exports.eliminarestudiantegrupo = (req, res) => {
    
     DataBase.EliminarGrupoEstudiante(id).then((resp) => {
       console.log(resp)
-
-      DataBase.EliminarEstudianteGrupo(grupoid, activos, total).then((resp2) => {
-        console.log(resp2)
-  
-        return res.redirect("/matriculas/PYT-672");
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
 
       return res.redirect("/matriculas/PYT-672");
     }).catch((err) => {
@@ -918,23 +1009,4 @@ exports.sesionstart = (req, res) => {
       return res.redirect('/controlrolespy27/PYT-27')
     });
   })(req, res);
-};
-
-// Registro de usuarios
-exports.reguserpy27 = (req, res) => {
-  console.log(req.body);
-  const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
-  let msg = false;
-  if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/register27/PYT-27');
-  } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
-      res.redirect("/login27/PYT-27")
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error404/PYT-27");
-    });
-  }
 };

@@ -851,6 +851,28 @@ exports.getuserinfopy27 = (req, res) => {
 
 };
 
+exports.getdeposituser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  const {id} = req.body
+ 
+  DataBase.GetDepositUsers(id).then((response)=>{
+    let deposito = JSON.parse(response);
+    console.log(deposito)
+    console.log("DEPOSITOOOOOSAOGOASOG ASGASG")
+    return res.send(deposito)
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
 // VERIFICAR CUENTA DE USUARIOS
 exports.verifyuser = (req, res) => {
   let msg = false;
@@ -1146,6 +1168,44 @@ exports.forgotpassword = (req, res) => {
   });
 };
 
+// OBTENER TODOS LOS ESTADOS
+exports.getallestados = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.GetAllEstados().then((response) => {
+    let estados = JSON.parse(response);
+    console.log(estados)
+    return res.send({estados});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo estados";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
+// OBTENER TODOS LOS ESTADOS
+exports.getallpaises = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.GetAllPaises().then((response) => {
+    let paises = JSON.parse(response);
+    console.log(paises)
+    return res.send({paises});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo estados";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
 // ENVIAR TOKEN PARA VALIDAR EMAIL
 exports.resendemailverify = (req, res) => {
   let msg = false;
@@ -1239,6 +1299,30 @@ exports.depositsaeroadmin = (req, res) => {
   });
 };
 
+// VER TODOS LOS DEPOSITOS PENDIENTES ADMIN
+exports.getallpendingdeposits = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let roleAdmin = true;
+
+  // BTC
+  DataBase.GetAllPendingDepositsAero().then((res1) => {
+    let pending = JSON.parse(res1);
+    console.log(pending)
+
+    return res.send(pending);
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo depositos realizados";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
 // ACTUALIZAR PERFIL USUARIO
 exports.updateprofile = (req, res) => {
   let msg = false;
@@ -1311,6 +1395,31 @@ exports.startdepositaero = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/error27/PYT-27");
     })
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  })
+};
+
+// RECHAZAR DEPOSITO
+exports.rejectdeposit = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  console.log(req.body)
+  console.log("PARAMS")
+
+  const {id} = req.body
+  
+  DataBase.RejectDeposit(id).then((response) => {
+    let respuesta = JSON.parse(response)
+    console.log("DEPOSITO RECHAZADO POR ADMIN")
+    return res.send({respuesta})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1475,28 +1584,27 @@ exports.aeropresale = (req, res) => {
 
 // COMPRAR AEROCOINS
 exports.buyaerocoins = (req, res) => {
-  const { amountCoin, amount, methodid, refs } = req.body;
+  let { amountCoin, amount, methodid, refs } = req.body;
   let msg = false;
+
+  if(refs === "" || !refs) {
+    refs = '-';
+  }
   let userid = res.locals.user.id,
   name = res.locals.user.username,
   dni = res.locals.user.num_document,
   email = res.locals.user.email;
 
-  if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '' || refs.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/aeropresale/PYT-27');
-  } else {
-    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
-      let response = JSON.parse(respuesta);
-      console.log(response)
-      console.log("SU PAGO A SIDO ENVIADO A VERIFICACION")
-      res.redirect('/boardpresalepy27/PYT-27');
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error27/PYT-27");
-    });
-  };
+  DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
+    let response = JSON.parse(respuesta);
+    console.log(response)
+    console.log("RESPONSE")
+    return res.send({response});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
 }
 
 // AÑADIR PRECIO DE AEROCOIN ADMINISTRADOR

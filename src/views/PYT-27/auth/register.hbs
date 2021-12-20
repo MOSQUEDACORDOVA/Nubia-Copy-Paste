@@ -62,14 +62,16 @@
                     <input type="text" class="form-control" name="numdoc" placeholder="Document Number" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Nationality</label>
-                    <select name="nationality" id="nacionalidad" class="form-select" required>
-                      <option></option>
+                    <label class="form-label" for="">Country</label>
+                    <select name="country" id="country" class="form-select" required>
+                      <option>Select your Nationality</option>
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Country</label>
-                    <input type="text" class="form-control" name="country" placeholder="Country of residence" required>
+                    <label class="form-label" for="">Area</label>
+                    <select id="nacionalidad" name="nationality" class="form-select" required>
+                      <option value="-">Country of residence</option>
+                    </select>
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">City</label>
@@ -130,22 +132,55 @@
 document.getElementById('remember-me').onclick = function() {
   document.getElementById('boton').toggleAttribute('disabled')
 }
-document.getElementById('nacionalidad').onchange = function() {
- var prefijo = document.getElementById('nacionalidad').value;
- console.log(prefijo);
- if(prefijo=='VE'){
-      alert('setear el select del prefijo internacional de venezuela +58');
- }
-}
 </script>
 
 <script>
   let currentFlag = document.getElementById('flag'),
   lista = document.getElementById('drop'),
   nacionalidad = document.getElementById('nacionalidad'),
+  country = document.getElementById('country'),
   fragment1 = new DocumentFragment(),
   fragment2 = new DocumentFragment(),
+  fragment3 = new DocumentFragment(),
   input = document.getElementById('phone');
+
+  let estados = [], paises = [];
+
+  fetch('/getallpaises')
+  .then(response => response.json())
+  .then(data => {
+    paises.push(data.paises);
+    paises[0].forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.paisnombre;
+      option.innerText = row.paisnombre;
+      option.setAttribute('data-id', row.id);
+      fragment2.appendChild(option);
+    });
+    country.appendChild(fragment2);
+  });
+
+  fetch('/getallestados')
+  .then(response => response.json())
+  .then(data => {
+    estados.push(data.estados);
+  });
+
+  country.addEventListener('change', e => {
+    let selected = parseInt(country.options[country.selectedIndex].getAttribute('data-id'));
+    console.log(selected)
+    nacionalidad.innerHTML = "<option value="-">Country of residence</option>";
+    estados[0].forEach(item => {
+      console.log(item)
+      if(item.paiseId === selected) {
+          let option = document.createElement('option');
+          option.value = item.estadonombre;
+          option.innerText = item.estadonombre;
+          fragment3.appendChild(option);
+      } 
+    });
+    nacionalidad.appendChild(fragment3);
+  });
 
   fetch('https://restcountries.com/v2/all')
   .then(response => response.json())
@@ -166,11 +201,9 @@ document.getElementById('nacionalidad').onchange = function() {
       option.innerText = item.name;
 
       fragment1.appendChild(a);
-      fragment2.appendChild(option);
     });
 
     lista.appendChild(fragment1);
-    nacionalidad.appendChild(fragment2);
   });
 
   drop.addEventListener('click', e => {

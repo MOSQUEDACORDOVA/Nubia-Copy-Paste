@@ -85,6 +85,26 @@
             <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
         {{/if}}
         
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
+        
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-todo.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/pickadate/pickadate.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/pickers/flatpickr/flatpickr.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/wizard/bs-stepper.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/form-wizard.css">
+        <link rel="stylesheet" type="text/css" href="../../../app-assets/fonts/py24/stylesheet.css">
+        <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    {{/if}}
+
+    {{#if pasarela}}
+        {{#if email}}
+            <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/authentication.css">
+        {{/if}}
+        
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-todo.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-flat-pickr.css">
         <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/forms/pickers/form-pickadate.css">
@@ -146,7 +166,7 @@
         <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     {{/if}}
 </head>
-<body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py4}} py4 {{/if}} {{#if py24}} py24 {{/if}} {{#if py27}} py27 vertical {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
+<body class="vertical-layout vertical-menu-modern navbar-floating footer-static{{#if py4}} py4 {{/if}} {{#if py24}} py24 {{/if}} {{#if py27}} py27 vertical {{/if}} {{#if pasarela}} py27 vertical {{/if}} {{#if login}}blank-page{{/if}}" data-open="click"
     data-menu="vertical-menu-modern" data-col="">
 
                               {{#if  modal_home}}
@@ -567,5 +587,9 @@
   
 {{#if py672}}
 {{>py672_menu/menu}}
+{{/if}}
+  
+{{#if pasarela}}
+{{>pasarela_menu/menu}}
 {{/if}}
   

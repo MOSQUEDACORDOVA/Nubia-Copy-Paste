@@ -35,23 +35,17 @@ function cargarTablaMatricula(editada) {
             let congelado = '', añadirGrupo = '';
             if(full['grupo'] !== null) {
 
-              if(full['estado'] === 'Activo') {
+              if(full['estado']['id'] === 1) {
                 congelado = `
                   <a class="dropdown-item" href="#">
                     <form action="/congelarestudiantepy672" method="POST">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                        <input type="text" name="grupoid" class="new-todo-item-title form-control d-none" value="${full['grupoId']}" required>
-                        <input type="text" name="activos" class="new-todo-item-title form-control d-none" value="${full['grupo']['activos']}" required>
-                        <input type="text" name="congelados" class="new-todo-item-title form-control d-none" value="${full['grupo']['congelados']}" required>
                         Congelar
                     </form>
                   </a>
                   <a class="dropdown-item eliminar-estudiante-grupo" href="#">
                     <form action="/eliminarestudiantedegrupopy672" method="POST">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                        <input type="text" name="grupoid" class="new-todo-item-title form-control d-none" value="${full['grupoId']}" required>
-                        <input type="text" name="total" class="new-todo-item-title form-control d-none" value="${full['activos']}" required>
-                        <input type="text" name="total" class="new-todo-item-title form-control d-none" value="${full['total_alumnos']}" required>
                         Eliminar de Grupo
                     </form>
                   </a>`;
@@ -60,18 +54,12 @@ function cargarTablaMatricula(editada) {
                 <a class="dropdown-item" href="#">
                   <form action="/activarestudiantecongeladopy672" method="POST">
                       <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                      <input type="text" name="grupoid" class="new-todo-item-title form-control d-none" value="${full['grupoId']}" required>
-                      <input type="text" name="activos" class="new-todo-item-title form-control d-none" value="${full['grupo']['activos']}" required>
-                      <input type="text" name="congelados" class="new-todo-item-title form-control d-none" value="${full['grupo']['congelados']}" required>
                       Activar
                   </form>
                 </a>
                 <a class="dropdown-item eliminar-estudiante-grupo" href="#">
                 <form action="/eliminarestudiantedegrupopy672" method="POST">
                     <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full['id']}" required>
-                    <input type="text" name="grupoid" class="new-todo-item-title form-control d-none" value="${full['grupoId']}" required>
-                    <input type="text" name="total" class="new-todo-item-title form-control d-none" value="${full['activos']}" required>
-                    <input type="text" name="total" class="new-todo-item-title form-control d-none" value="${full['total_alumnos']}" required>
                     Eliminar de Grupo
                   </form>
                 </a>`;
@@ -135,16 +123,16 @@ function cargarTablaMatricula(editada) {
         {
             targets: 3, render: function (data, type, full) {
               let micampo;
-              if(full['estado'] === 'Activo') {
+              if(full['estado']['id'] === 1) {
                 micampo = `
                   <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-success">${full['estado']}</span>
+                    <span class="badge rounded-pill badge-light-success">${full['estado']['estado']}</span>
                   </div>
                 `; 
-              } else if(full['estado'] === 'Congelado') {
+              } else if(full['estado']['id'] === 5) {
                 micampo = `
                   <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-danger">${full['estado']}</span>
+                    <span class="badge rounded-pill badge-light-danger">${full['estado']['estado']}</span>
                   </div>
                 `; 
               }

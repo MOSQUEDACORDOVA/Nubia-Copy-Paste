@@ -4,7 +4,7 @@
             <section id="basic-datatable">
                 <div class="row">
                     <!--  DEPOSITOS PENDIENTES BTC -->
-                    <div class="col-12" id="btcw">
+                    {{!---<div class="col-12" id="btcw">
                         <div class="card">
                             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Deposits to be verified</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
@@ -79,12 +79,12 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>---}}
 
-                    <!--  DEPOSITOS APROBADOS BTC -->
+                    <!--  DEPOSITOS PROCESADOS BTC -->
                     <div class="col-12" id="btcw2">
                         <div class="card">
-                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Approved Deposits</h6></div></div>
+                            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Deposits Processed</h6></div></div>
                                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -125,11 +125,9 @@
                                             <td>{{num_reference}}</td>
                                             <td>{{amountAero}}</td>
                                             <td>{{price}} {{metodos_pago.transaction_type}}</td>
-                                            <td style="white-space: nowrap;">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
+                                            <td style="white-space: nowrap">{{#formatDatapy24 createdAt}}{{/formatDatapy24}}</td>
                                             <td>
-                                                <span class="badge rounded-pill badge-light-success">
-                                                    Approved
-                                                </span>
+                                                {{#estadoadmindepositospy27 status}}{{/estadoadmindepositospy27}}
                                             </td>
                                         </tr>
                                         {{/each}}

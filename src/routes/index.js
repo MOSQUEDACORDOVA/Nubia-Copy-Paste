@@ -33,6 +33,12 @@ const authControllerPY672 = require('../controllers/PYT672/authControllerPY672')
 const dashboardControllerPY672 = require('../controllers/PYT672/dashboardControllerPY672');
 /*---------------------------------*/
 
+/*------------- PASARELA -------------*/
+const pasarelaUserController = require('../controllers/PASARELA/pasarelaUserController');
+const pasarelaAuthController = require('../controllers/PASARELA/pasarelaAuthController');
+const pasarelaController = require('../controllers/PASARELA/pasarelaController');
+/*---------------------------------*/
+
 const FileController = require('../models/PYT24/upload');
 const fileController = new FileController();
 
@@ -441,6 +447,7 @@ router.post('/deletemretreatspy27', authControllerPY27.authenticatedUser, dashbo
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
 router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
+router.get('/getallpendingdeposits/:id', dashboardControllerPY27.getallpendingdeposits);
 
 router.get('/profile27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.profile);
 
@@ -462,6 +469,8 @@ router.get('/aero/:id', authControllerPY27.authenticatedAdmin, dashboardControll
 router.post('/loginpy27', dashboardControllerPY27.sesionstart);
 router.post('/reguserpy27', dashboardControllerPY27.reguserpy27);
 
+
+
 // APROBAR
 router.post('/startdepositaero', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.startdepositaero);
 
@@ -482,6 +491,11 @@ router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardCont
 // OBTENER INFORMACIÓN DE USUARIO
 router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.getuserinfopy27);
 
+// TRAER DEPOSITO USUARIO
+router.post('/getdeposituser', authControllerPY27.authenticatedUser, dashboardControllerPY27.getdeposituser);
+
+router.post('/rejectdeposit', pasarelaController.rejectdeposit);
+
 // VERIFICAR EMAIL
 router.get('/verifyemail27/:id', dashboardControllerPY27.formSearchAccountToken);
 // RESTABLECER CONTRASEÑA
@@ -501,6 +515,9 @@ router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
 
 router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
+// ESTADOS PAISES
+router.get('/getallestados', dashboardControllerPY27.getallestados);
+router.get('/getallpaises', dashboardControllerPY27.getallpaises);
 
 
 
@@ -536,7 +553,7 @@ router.post('/actualizargrupospty672', dashboardControllerPY672.actualizargrupos
 // * BORRAR GRUPOS
 router.post('/borrargrupopy672', dashboardControllerPY672.borrargrupo);
 // * REGISTRAR ESTUDIANTES
-router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarestudiantes);
+router.post('/registrarestudiantepy672', dashboardControllerPY672.registrarmatricula);
 // * BORRAR ESTUDIANTES
 router.post('/borrarestudiantespy672', dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES
@@ -545,10 +562,36 @@ router.post('/congelarestudiantepy672', dashboardControllerPY672.congelarestudia
 router.post('/activarestudiantecongeladopy672', dashboardControllerPY672.activarestudiantecongelado);
 // * BORRAR ESTUDIANTES DE GRUPO
 router.post('/eliminarestudiantedegrupopy672', dashboardControllerPY672.eliminarestudiantegrupo);
+// * OBTENER MATRICULA DE GRUPO
+router.post('/obtenermatriculagrupo', dashboardControllerPY672.obtenermatriculagrupo);
 
 
 
 /*------------ PYT-672-----------------*/
+
+
+/*------------- PASARELA -------------*/
+// ! ADMIN
+
+router.get('/boardPasarela/:id', pasarelaAuthController.authenticatedAdmin, pasarelaController.boardpresale);
+
+router.get('/depositsPasarelaAdmin/:id', pasarelaController.depositsPasarelaAdmin);
+
+router.get('/registerPasarela/:id', pasarelaController.register);
+router.get('/loginPasarela/:id', pasarelaController.login);
+
+router.post('/loginPasarela', pasarelaController.sesionstart);
+router.post('/reguserPasarela', pasarelaController.reguserPasarela);
+//asgfasgasg
+router.post('/startdepositaeropasarela', pasarelaController.startdepositaeropasarela);
+
+// APROBAR DEPOSITO PASARELA
+router.post('/startDeposit', pasarelaAuthController.authenticatedAdmin, pasarelaController.startdepositaero);
+
+
+
+// Cerrar Sesión
+router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 // 404
 /*

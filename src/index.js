@@ -7,6 +7,7 @@ const db21 = require('./config/dbPY21');
 const db24 = require('./config/dbPY24');
 const db27 = require('./config/dbPY27');
 const db672 = require('./config/dbPY672');
+const dbPasarela = require('./config/dbPasarela');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -51,6 +52,12 @@ db27.sync()
 db672.sync()
 .then(() => {
 	console.log('Base de datos conectada PY672');
+})
+// Conectar con la base de datos PASARELA
+
+dbPasarela.sync()
+.then(() => {
+	console.log('Base de datos conectada PASARELA');
 })
 .catch(err => {
 	console.log('Error: ', err);
