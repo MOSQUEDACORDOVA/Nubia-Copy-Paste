@@ -22,7 +22,7 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0">{{aerocoin.price}} USDT</h4>
+                                                <h4 class="fw-bolder mb-0">{{aerocoin.price}} USD</h4>
                                                 <p class="card-text font-small-3 mb-0">Price AeroCoin</p>
                                             </div>
                                         </div>
@@ -131,7 +131,7 @@
                             <!-- form -->
                             <form id="priceform" method="post" action="/updateaerocoin" class="row gy-1 gx-2 mt-75">
                                 <div class="col-12">
-                                    <label class="form-label" for="">Price AeroCoin USDT</label>
+                                    <label class="form-label" for="">Price AeroCoin USD</label>
                                     <input type="text" name="id" class="d-none" value="{{aerocoin.id}}" required>
                                     <div class="input-group input-group-merge">
                                         <input id="price" name="price" class="form-control" type="number" min="0" step="0.0001" value="{{aerocoin.price}}" required>

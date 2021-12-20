@@ -546,9 +546,10 @@
         $('input[name="price"]').on('keyup', (e)=>{
             let valor =  e.target.value;
             let priceAcn = parseFloat($('#costo_ref').val());
-            let price_ = (valor / priceAcn)+"-"
-            let priceFormat = parseFloat(price_.slice(0,-4))
-            $('#amountUsd').val(priceFormat)
+            console.log(priceAcn)
+            let price_ = (valor / priceAcn)
+            //let priceFormat = parseFloat(price_.slice(0,-4))
+            $('#amountUsd').val(price_)
 
             amountModal.each(function (index) {
                 $(this).val(priceFormat);

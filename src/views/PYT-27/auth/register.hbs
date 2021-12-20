@@ -70,7 +70,7 @@
                 <div class="mb-1">
                     <label class="form-label" for="">Country</label>
                     <select id="country" name="country" class="form-select" required>
-                      <option>Country of residence</option>
+                      <option value="-">Country of residence</option>
                     </select>
                 </div>
                 <div class="mb-1">
@@ -179,7 +179,7 @@ document.getElementById('nacionalidad').onchange = function() {
   nacionalidad.addEventListener('change', e => {
     let selected = parseInt(nacionalidad.options[nacionalidad.selectedIndex].getAttribute('data-id'));
   console.log(selected)
-  country.innerHTML = "<option>Country of residence</option>";
+  country.innerHTML = "<option value="-">Country of residence</option>";
     paises[0].forEach(item => {
       if(item.id === selected) {
           let option = document.createElement('option');
