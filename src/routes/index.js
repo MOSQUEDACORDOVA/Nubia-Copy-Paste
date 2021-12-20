@@ -494,7 +494,7 @@ router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboard
 // TRAER DEPOSITO USUARIO
 router.post('/getdeposituser', authControllerPY27.authenticatedUser, dashboardControllerPY27.getdeposituser);
 
-router.post('/rejectdeposit', pasarelaAuthController.authenticatedAdmin, pasarelaController.rejectdeposit);
+router.post('/rejectdeposit', pasarelaController.rejectdeposit);
 
 // VERIFICAR EMAIL
 router.get('/verifyemail27/:id', dashboardControllerPY27.formSearchAccountToken);
