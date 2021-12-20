@@ -62,14 +62,14 @@
                     <input type="text" class="form-control" name="numdoc" placeholder="Document Number" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Nationality</label>
-                    <select name="nationality" id="nacionalidad" class="form-select" required>
+                    <label class="form-label" for="">Country</label>
+                    <select name="country" id="country" class="form-select" required>
                       <option>Select your Nationality</option>
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Country</label>
-                    <select id="country" name="country" class="form-select" required>
+                    <label class="form-label" for="">Area</label>
+                    <select id="nacionalidad" name="nationality" class="form-select" required>
                       <option value="-">Country of residence</option>
                     </select>
                 </div>
@@ -132,13 +132,6 @@
 document.getElementById('remember-me').onclick = function() {
   document.getElementById('boton').toggleAttribute('disabled')
 }
-document.getElementById('nacionalidad').onchange = function() {
- var prefijo = document.getElementById('nacionalidad').value;
- console.log(prefijo);
- if(prefijo=='VE'){
-      alert('setear el select del prefijo internacional de venezuela +58');
- }
-}
 </script>
 
 <script>
@@ -153,42 +146,40 @@ document.getElementById('nacionalidad').onchange = function() {
 
   let estados = [], paises = [];
 
-  fetch('/getallestados')
-  .then(response => response.json())
-  .then(data => {
-    estados.push(data.estados);
-    estados[0].forEach(row => {
-      let option = document.createElement('option');
-      option.value = row.estadonombre;
-      option.innerText = row.estadonombre;
-      option.setAttribute('data-id', row.paiseId);
-      fragment2.appendChild(option);
-    });
-    nacionalidad.appendChild(fragment2);
-  });
-
   fetch('/getallpaises')
   .then(response => response.json())
   .then(data => {
     paises.push(data.paises);
     paises[0].forEach(row => {
-      console.log(row)
+      let option = document.createElement('option');
+      option.value = row.paisnombre;
+      option.innerText = row.paisnombre;
+      option.setAttribute('data-id', row.id);
+      fragment2.appendChild(option);
     });
+    country.appendChild(fragment2);
   });
 
-  nacionalidad.addEventListener('change', e => {
-    let selected = parseInt(nacionalidad.options[nacionalidad.selectedIndex].getAttribute('data-id'));
-  console.log(selected)
-  country.innerHTML = "<option value="-">Country of residence</option>";
-    paises[0].forEach(item => {
-      if(item.id === selected) {
+  fetch('/getallestados')
+  .then(response => response.json())
+  .then(data => {
+    estados.push(data.estados);
+  });
+
+  country.addEventListener('change', e => {
+    let selected = parseInt(country.options[country.selectedIndex].getAttribute('data-id'));
+    console.log(selected)
+    nacionalidad.innerHTML = "<option value="-">Country of residence</option>";
+    estados[0].forEach(item => {
+      console.log(item)
+      if(item.paiseId === selected) {
           let option = document.createElement('option');
-          option.value = item.paisnombre;
-          option.innerText = item.paisnombre;
+          option.value = item.estadonombre;
+          option.innerText = item.estadonombre;
           fragment3.appendChild(option);
       } 
     });
-    country.appendChild(fragment3);
+    nacionalidad.appendChild(fragment3);
   });
 
   fetch('https://restcountries.com/v2/all')
