@@ -3,6 +3,7 @@ const path = require("path");
 const Swal = require("sweetalert2");
 const DataBase = require("../../models/PYT27/data");
 const Usuarios = require("../../models/PYT27/Usuarios");
+const Depositos = require("../../models/PYT27/DepositosAero");
 const crypto = require("crypto");
 const passport = require("passport");
 const { rejects } = require("assert");
@@ -1419,8 +1420,12 @@ exports.rejectdeposit = (req, res) => {
   DataBase.RejectDeposit(id).then((response) => {
     let respuesta = JSON.parse(response)
     console.log("DEPOSITO RECHAZADO POR ADMIN")
-    return res.send({respuesta})
-  }).catch((err) => {
+    res.send({respuesta})
+  }).then(() => {
+    console.log("THEN")
+    return res.redirect('/mailDepositRejectedpy27/'+id);
+  })
+  .catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error27/PYT-27");
@@ -1583,28 +1588,39 @@ exports.aeropresale = (req, res) => {
 };
 
 // COMPRAR AEROCOINS
-exports.buyaerocoins = (req, res) => {
+exports.buyaerocoins = async (req, res) => {
   let { amountCoin, amount, priceDolar, methodid, refs } = req.body;
   let msg = false;
+  const hash = await Depositos.findOne({ where: { num_reference: refs } });
+  console.log(hash)
+  console.log("HASH ASH AHASHS !!212")
 
   if(refs === "" || !refs) {
     refs = '-';
   }
+
   let userid = res.locals.user.id,
   name = res.locals.user.username,
   dni = res.locals.user.num_document,
   email = res.locals.user.email;
 
-  DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, priceDolar, refs, methodid, userid).then((respuesta) =>{
-    let response = JSON.parse(respuesta);
-    console.log(response)
-    console.log("RESPONSE")
+  if(!hash) {
+    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, priceDolar, refs, methodid, userid).then((respuesta) =>{
+      let response = JSON.parse(respuesta);
+      console.log(response)
+      console.log("RESPONSE")
+      return res.send({response});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    });
+  } else {
+    let response = {
+      msg: 'El Hash existe',
+    }
     return res.send({response});
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error27/PYT-27");
-  });
+  }
 }
 
 // AÑADIR PRECIO DE AEROCOIN ADMINISTRADOR

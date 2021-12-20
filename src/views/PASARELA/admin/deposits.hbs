@@ -58,7 +58,7 @@
                                             <td>
                                                 <a class="btn btn-outline-primary AprobarBTCBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-user="{{item.name}}" data-wallet="{{metodos_pago.code_wallet}}" data-id="{{item.usuarioId}}" data-deposit-id="{{item.id}}" data-price="{{price}}" data-status="{{item.status}}" data-amount-aero="{{item.amountAero}}" role="button" data-bs-toggle="modal" data-bs-target="#addNewCard3">Approve</a>
 
-                                                <a class="btn btn-outline-danger text-danger RechazarBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-deposit-id="{{item.id}}" role="button">Reject</a>
+                                                <a class="btn btn-outline-danger text-danger RechazarBtn" style="white-space: nowrap; text-overflow: ellipsis;" data-deposit-id="{{item.id}}" data-id-user="{{item.usuarioId}}" role="button">Reject</a>
                                             </td>
                                         </tr>
                                         {{/each}}
@@ -217,8 +217,10 @@
     rejectBtn.forEach(btn => {
         btn.addEventListener('click', e => {
             let id = e.target.getAttribute('data-deposit-id');
+            let iduser = e.target.getAttribute('data-id-user');
             const info = new FormData();
             info.append('id', id);
+            info.append('iduser', iduser);
             console.log(info)
             fetch('/rejectdeposit', {
                 method: 'POST',

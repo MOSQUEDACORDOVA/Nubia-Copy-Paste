@@ -30,7 +30,7 @@
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
-                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="0">
+                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="5">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -196,8 +196,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -215,11 +214,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
@@ -267,8 +266,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
@@ -286,11 +284,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
@@ -334,8 +332,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
 
@@ -354,11 +351,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>  
@@ -463,6 +460,9 @@
                     console.log(form) 
                     console.log(formData) 
 
+                    btnContinue.classList.remove('d-none');
+                    btnContinue.classList.add('d-block');
+
                     const VerifyDeposit = () => {
                         fetch('/getdeposituser', {
                             method: 'POST',
@@ -477,8 +477,7 @@
                                     btnLoadingStatusMain.innerText = '¡Approved!';
                                     btnLoading.classList.remove('btn-outline-primary');
                                     btnLoading.classList.add('btn-outline-success');
-                                    btnContinue.classList.remove('d-none');
-                                    btnContinue.classList.add('d-block');
+                                   
                                     status.innerText = 'Your deposit has been approved, click on the continue button to complete your transaction...';
 
                                 } else if(data2.status === 'Rechazado') {
@@ -486,8 +485,7 @@
                                     btnLoadingStatusMain.innerText = '¡Rejected!';
                                     btnLoading.classList.remove('btn-outline-primary');
                                     btnLoading.classList.add('btn-outline-danger');
-                                    btnContinue.classList.remove('d-none');
-                                    btnContinue.classList.add('d-block');
+
                                     status.innerText = 'Your deposit has been rejected, please enter another hash to proceed with another transaction...';
                                 }
                             })
@@ -590,32 +588,62 @@
         $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
             console.log(valor)
-            //let priceAcn = parseFloat($('#costo_ref').val());
-            let price_ = parseFloat(valor) / parseFloat($('#costo_ref').val())
+            if(parseInt(valor) < 5) {
+                $('input[name="price"]').val(5)
+                //let priceAcn = parseFloat($('#costo_ref').val());
+                let price_ = parseFloat($('input[name="price"]').val()) / parseFloat($('#costo_ref').val())
 
-            let n = (price_ * parseFloat($('#costo_ref').val()))
+                let n = (price_ * parseFloat($('#costo_ref').val()))
 
-            let montoDolar = parseFloat($('#amountUsd').val())
-          
-
-            let mult = parseFloat(valor) * 0.01;
-            let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
-    
-            console.log("RESULTADO")
-
-            $('#amountUsd').val(price_)
-            let monto_final = parseFloat(valor)+ parseFloat(mult)
-            amountModalUsd.each(function (index) {
-                $(this).val(price_);
-            });
-
-            fee.forEach(item => {
-                item.innerText = mult + 'USDT';
-            });
+                let montoDolar = parseFloat($('#amountUsd').val())
             
-            fee2.forEach(item => {
-                item.innerText = 'Total a pagar: '+monto_final + 'USDT';
-            });
+
+                let mult = parseFloat(valor) * 0.01;
+                let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+        
+                console.log("RESULTADO")
+
+                $('#amountUsd').val(price_)
+                let monto_final = parseFloat($('input[name="price"]').val())+ parseFloat(mult)
+                amountModalUsd.each(function (index) {
+                    $(this).val(price_);
+                });
+
+                fee.forEach(item => {
+                    item.innerText = mult + 'USDT';
+                });
+                
+                fee2.forEach(item => {
+                    item.innerText = 'Total a pagar: '+monto_final + 'USDT';
+                });
+            } else {
+                //let priceAcn = parseFloat($('#costo_ref').val());
+                let price_ = parseFloat(valor) / parseFloat($('#costo_ref').val())
+
+                let n = (price_ * parseFloat($('#costo_ref').val()))
+
+                let montoDolar = parseFloat($('#amountUsd').val())
+            
+
+                let mult = parseFloat(valor) * 0.01;
+                let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+        
+                console.log("RESULTADO")
+
+                $('#amountUsd').val(price_)
+                let monto_final = parseFloat(valor)+ parseFloat(mult)
+                amountModalUsd.each(function (index) {
+                    $(this).val(price_);
+                });
+
+                fee.forEach(item => {
+                    item.innerText = mult + 'USDT';
+                });
+                
+                fee2.forEach(item => {
+                    item.innerText = 'Total a pagar: '+monto_final + 'USDT';
+                });
+            }
         });
 
     });
