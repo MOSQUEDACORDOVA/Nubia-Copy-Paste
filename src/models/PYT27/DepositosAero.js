@@ -34,6 +34,10 @@ const depositosaeros = db27.define('depositosaeros', {
 		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
+	priceDolar: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
 	num_reference: {
 		type: DataTypes.STRING(255),
 		allowNull: true,

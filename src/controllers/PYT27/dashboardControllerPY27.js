@@ -1584,7 +1584,7 @@ exports.aeropresale = (req, res) => {
 
 // COMPRAR AEROCOINS
 exports.buyaerocoins = (req, res) => {
-  let { amountCoin, amount, methodid, refs } = req.body;
+  let { amountCoin, amount, priceDolar, methodid, refs } = req.body;
   let msg = false;
 
   if(refs === "" || !refs) {
@@ -1595,7 +1595,7 @@ exports.buyaerocoins = (req, res) => {
   dni = res.locals.user.num_document,
   email = res.locals.user.email;
 
-  DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
+  DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, priceDolar, refs, methodid, userid).then((respuesta) =>{
     let response = JSON.parse(respuesta);
     console.log(response)
     console.log("RESPONSE")
