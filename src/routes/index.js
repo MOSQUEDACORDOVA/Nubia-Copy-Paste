@@ -579,7 +579,7 @@ router.get('/loginPasarela/:id', pasarelaController.login);
 
 router.post('/loginPasarela', pasarelaController.sesionstart);
 router.post('/reguserPasarela', pasarelaController.reguserPasarela);
-
+//asgfasgasg
 router.post('/startdepositaeropasarela', pasarelaAuthController.authenticatedAdmin, pasarelaController.startdepositaeropasarela);
 
 // APROBAR DEPOSITO PASARELA
