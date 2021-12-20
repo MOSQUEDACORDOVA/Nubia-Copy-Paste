@@ -135,7 +135,7 @@ exports.bienvenidaMail = async function (req, res) {
                             <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody><tr>
                                 <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #04246d; background-color: #04246d; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; ">
-                                  <a href="${resetUrl}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Verify Email Now â†’</a>
+                                  <a href="${resetUrl}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Verify Email Now</a>
                                 </td>
                               </tr>
                             </tbody></table>
