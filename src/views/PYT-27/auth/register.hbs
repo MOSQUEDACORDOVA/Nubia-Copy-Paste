@@ -179,13 +179,14 @@ document.getElementById('nacionalidad').onchange = function() {
   nacionalidad.addEventListener('change', e => {
     let selected = parseInt(nacionalidad.options[nacionalidad.selectedIndex].getAttribute('data-id'));
   console.log(selected)
+  country.innerHTML = "<option>Country of residence</option>";
     paises[0].forEach(item => {
       if(item.id === selected) {
-        let option = document.createElement('option');
+          let option = document.createElement('option');
           option.value = item.paisnombre;
           option.innerText = item.paisnombre;
           fragment3.appendChild(option);
-      }
+      } 
     });
     country.appendChild(fragment3);
   });
