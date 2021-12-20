@@ -1101,8 +1101,6 @@ exports.depositsPasarelaAdmin = (req, res) => {
       dashboard: true,
       pasarela: true,
       login: false,
-      username: req.user.username,
-      typeUser: req.user.type_user,
       roleAdmin,
       pending, completes,
       depaero: true

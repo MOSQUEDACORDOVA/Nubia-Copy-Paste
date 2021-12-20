@@ -575,7 +575,7 @@ router.post('/obtenermatriculagrupo', dashboardControllerPY672.obtenermatriculag
 
 router.get('/boardPasarela/:id', pasarelaAuthController.authenticatedAdmin, pasarelaController.boardpresale);
 
-router.get('/depositsPasarelaAdmin/:id', pasarelaAuthController.authenticatedAdmin, pasarelaController.depositsPasarelaAdmin);
+router.get('/depositsPasarelaAdmin/:id', pasarelaController.depositsPasarelaAdmin);
 
 router.get('/registerPasarela/:id', pasarelaController.register);
 router.get('/loginPasarela/:id', pasarelaController.login);
