@@ -7,12 +7,11 @@ exports.sendEmail = function (req, res) {
   const { email } = req.body;
         // Definimos el transporter
         var transporter = nodemailer.createTransport({
-            //host: "mail.smtp2go.com",
             service: 'gmail',
-            host: 'smtp.gmail.com',
+            host: 'mail.smtp2go.com',
             auth: {
-                user: 'boryslopez1976@gmail.com',
-                pass: 'realpasswordforaboveaccount'
+                user: 'no-reply@aerocoin.aero',
+                pass: 's(byC-O;?@4!'
             }
         });
         // Definimos el email
@@ -70,18 +69,10 @@ exports.bienvenidaMail = async function (req, res) {
     console.log(usuario.name)
     // Definimos el transporter
     var transporter = nodemailer.createTransport({
-      /*host: "mail.smtp2go.com",
-      port: 465,
-      secure: true,
+      host: 'mail.smtp2go.com',
       auth: {
-        user: "backartist",
-        pass: "MnU3MzQ1Zm5pMjQw",
-      },*/
-      service: 'gmail',
-      host: 'smtp.gmail.com',
-      auth: {
-          user: 'boryslopez1976@gmail.com',
-          pass: 'bo26708053luna2020*'
+          user: 'no-reply@aerocoin.aero',
+          pass: 's(byC-O;?@4!'
       }
     });
     // Definimos el email
@@ -222,10 +213,10 @@ exports.emailVerificado = async function (req, res) {
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
     service: 'gmail',
-    host: 'smtp.gmail.com',
+    host: 'mail.smtp2go.com',
     auth: {
-        user: 'boryslopez1976@gmail.com',
-        pass: 'bo26708053luna2020*'
+        user: 'no-reply@aerocoin.aero',
+        pass: 's(byC-O;?@4!'
     }
   });
    // Definimos el email
@@ -361,10 +352,10 @@ exports.depositoAprovado = async function (req, res) {
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
     service: 'gmail',
-    host: 'smtp.gmail.com',
+    host: 'mail.smtp2go.com',
     auth: {
-        user: 'boryslopez1976@gmail.com',
-        pass: 'bo26708053luna2020*'
+        user: 'no-reply@aerocoin.aero',
+        pass: 's(byC-O;?@4!'
     }
   });
    // Definimos el email

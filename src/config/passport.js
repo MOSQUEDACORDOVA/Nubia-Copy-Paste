@@ -42,7 +42,7 @@ switch (req.body.proyect) {
 		break;
 	case 'PASARELA':
 		console.log("PASARELA")
-		Usuarios = require('../models/PASARELA/Usuarios');	
+		Usuarios = require('../models/PYT27/Usuarios');	
 		break;
 	default:
 		break;
