@@ -860,7 +860,6 @@ exports.getdeposituser = (req, res) => {
   console.log(proyecto)
 
   const {id} = req.body
-  console.log("ID -------- !" + id)
  
   DataBase.GetDepositUsers(id).then((response)=>{
     let deposito = JSON.parse(response);
@@ -1549,25 +1548,22 @@ exports.aeropresale = (req, res) => {
 exports.buyaerocoins = (req, res) => {
   const { amountCoin, amount, methodid, refs } = req.body;
   let msg = false;
+
   let userid = res.locals.user.id,
   name = res.locals.user.username,
   dni = res.locals.user.num_document,
   email = res.locals.user.email;
 
-  if (amountCoin.trim() === '' || amount.trim() === '' || methodid.trim() === '' || refs.trim() === '') {
-    console.log('complete todos los campos')
-    res.redirect('/aeropresale/PYT-27');
-  } else {
-    DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
-      let response = JSON.parse(respuesta);
-      console.log(response)
-      return res.send({response});
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error27/PYT-27");
-    });
-  };
+  DataBase.BuyAeroCoin(name, dni, email, amountCoin, amount, refs, methodid, userid).then((respuesta) =>{
+    let response = JSON.parse(respuesta);
+    console.log(response)
+    console.log("RESPONSE")
+    return res.send({response});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
 }
 
 // AÑADIR PRECIO DE AEROCOIN ADMINISTRADOR

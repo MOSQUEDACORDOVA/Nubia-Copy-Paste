@@ -747,7 +747,9 @@ module.exports = {
             [Op.ne]: 'Transferencia Bancaria',
             [Op.ne]: 'Pago Movil',
             [Op.ne]: 'Billetera Digital',
-          }, status: 'Aprobado'},
+          }, status: {
+            [Op.ne]: 'No verificado'
+          }},
           include:[
           {association: depositosaeros.MetodosPagos },
         ],order: [
@@ -1190,7 +1192,6 @@ module.exports = {
       return new Promise((resolve, reject) => {
         depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, num_reference: refs, metodosPagoId: idmethod, usuarioId: userid })
         .then((data) => {
-          console.log(data)
           console.log("DATOS AEROCOIN")
           let data_set = JSON.stringify(data);
           resolve(data_set);

@@ -184,7 +184,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
 
@@ -193,13 +193,18 @@
                                                         Make Payment
                                                     </button>
 
-                                                    <button class="btn btn-outline-primary waves-effect btnLoading mb-1 w-100" type="button" disabled>
+                                                    <button class="btn btn-outline-primary waves-effect btnLoading w-100" type="button" disabled>
                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                         <span class="ms-25 align-middle">Procesing...</span>
                                                     </button>
                                                 </div>
-                                                <div class="d-flex">
+                                                <div class="d-flex my-1">
                                                     <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Continue
+                                                    </button>
                                                 </div>
                                             </form>
                     
@@ -237,7 +242,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
 
@@ -246,13 +251,18 @@
                                                         Make Payment
                                                     </button>
 
-                                                    <button class="btn btn-outline-primary waves-effect btnLoading mb-1 w-100" type="button" disabled>
+                                                    <button class="btn btn-outline-primary waves-effect btnLoading w-100" type="button" disabled>
                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                         <span class="ms-25 align-middle">Procesing...</span>
                                                     </button>
                                                 </div>
-                                                <div class="d-flex">
+                                                <div class="d-flex my-1">
                                                     <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Continue
+                                                    </button>
                                                 </div>
                                             </form>
 
@@ -286,7 +296,7 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
                                                     </div>
                                                 </div>
 
@@ -295,13 +305,18 @@
                                                         Make Payment
                                                     </button>
 
-                                                    <button class="btn btn-outline-primary w-100 waves-effect btnLoading mb-1" type="button" disabled>
+                                                    <button class="btn btn-outline-primary w-100 waves-effect btnLoading" type="button" disabled>
                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                         <span class="ms-25 align-middle">Procesing..</span>
                                                     </button>
                                                 </div>
-                                                <div class="d-flex">
+                                                <div class="d-flex my-1">
                                                     <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Continue
+                                                    </button>
                                                 </div>
                                             </form>  
                                         </div>
@@ -338,11 +353,16 @@
 <script>
     let pagarForms = document.querySelectorAll('#pagar form'),
     loadingBtns = document.querySelectorAll('#pagar .btnLoading'),
+    continueBtns = document.querySelectorAll('#pagar .btnContinue'),
     statusForms = document.querySelectorAll('#pagar .status');
 
     loadingBtns.forEach((btn, i) => {
         btn.classList.add('d-none');
         statusForms[i].classList.add('d-none');
+        continueBtns[i].classList.add('d-none');
+        continueBtns[i].addEventListener('click', e => {
+            window.location.replace("/boardpresalepy27/PYT-27");
+        });
     });
 
     pagarForms.forEach(form => {
@@ -352,7 +372,10 @@
             selectId = e.target.getAttribute('id'),
             status = document.querySelector(`#${selectId} .status`),
             btnLoading = document.querySelector(`#${selectId} .btnLoading`),
+            btnLoadingStatusMain = document.querySelector(`#${selectId} .btnLoading`),
             btnLoadingStatus = document.querySelector(`#${selectId} .btnLoading span.align-middle`),
+            btnContinue = document.querySelector(`#${selectId} .btnContinue`),
+            hashInp = document.querySelector(`#${selectId} .hash`),
             btnSubmit = document.querySelector(`#${selectId} .btnSubmit`);
 
             status.classList.remove('d-none');
@@ -360,6 +383,8 @@
             btnSubmit.classList.add('d-none');
             btnLoading.classList.remove('d-none');
             btnLoading.classList.add('d-block');
+
+            console.log(select)
 
             let sectionsModals = document.querySelectorAll('#pagar .step');
 
@@ -371,15 +396,18 @@
                     }
                 }
             });
+
+            hashInp.readOnly = true;
             
             let data = new FormData(select);
-            console.log(data)
+
             fetch('/buyaerocoins', {
                 method: 'POST',
                 body: data
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log(data)
                     console.log(data.response)
                     let idDeposito = data.response.id;
 
@@ -402,17 +430,22 @@
                                 console.log(data2)
 
                                 if(data2.status === 'Aprobado') {
-                                    btnLoadingStatus.innerText = 'Approved...';
                                     clearInterval(interval)
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    },5000);
+                                    btnLoadingStatusMain.innerText = '¡Approved!';
+                                    btnLoading.classList.remove('btn-outline-primary');
+                                    btnLoading.classList.add('btn-outline-success');
+                                    btnContinue.classList.remove('d-none');
+                                    btnContinue.classList.add('d-block');
+                                    status.innerText = 'Your deposit has been approved, click on the continue button to complete your transaction...';
+
                                 } else if(data2.status === 'Rechazado') {
-                                    btnLoadingStatus.innerText = 'Rejected...';
                                     clearInterval(interval)
-                                    setTimeout(() => {
-                                        window.location.reload();
-                                    },5000);
+                                    btnLoadingStatusMain.innerText = '¡Rejected!';
+                                    btnLoading.classList.remove('btn-outline-primary');
+                                    btnLoading.classList.add('btn-outline-danger');
+                                    btnContinue.classList.remove('d-none');
+                                    btnContinue.classList.add('d-block');
+                                    status.innerText = 'Your deposit has been rejected, please enter another hash to proceed with another transaction...';
                                 }
                             })
                             .catch((err) => {
@@ -420,7 +453,7 @@
                             });
                     }
 
-                    let interval = setInterval(VerifyDeposit, 60000);
+                    let interval = setInterval(VerifyDeposit, 10000);
 
                     btnLoadingStatus.innerText = 'Not Verified...';
                 });
