@@ -64,12 +64,14 @@
                 <div class="mb-1">
                     <label class="form-label" for="">Nationality</label>
                     <select name="nationality" id="nacionalidad" class="form-select" required>
-                      <option></option>
+                      <option>Select your Nationality</option>
                     </select>
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">Country</label>
-                    <input type="text" class="form-control" name="country" placeholder="Country of residence" required>
+                    <select id="country" name="country" class="form-select" required>
+                      <option>Country of residence</option>
+                    </select>
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">City</label>
@@ -143,9 +145,50 @@ document.getElementById('nacionalidad').onchange = function() {
   let currentFlag = document.getElementById('flag'),
   lista = document.getElementById('drop'),
   nacionalidad = document.getElementById('nacionalidad'),
+  country = document.getElementById('country'),
   fragment1 = new DocumentFragment(),
   fragment2 = new DocumentFragment(),
+  fragment3 = new DocumentFragment(),
   input = document.getElementById('phone');
+
+  let estados = [], paises = [];
+
+  fetch('/getallestados')
+  .then(response => response.json())
+  .then(data => {
+    estados.push(data.estados);
+    estados[0].forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.estadonombre;
+      option.innerText = row.estadonombre;
+      option.setAttribute('data-id', row.paiseId);
+      fragment2.appendChild(option);
+    });
+    nacionalidad.appendChild(fragment2);
+  });
+
+  fetch('/getallpaises')
+  .then(response => response.json())
+  .then(data => {
+    paises.push(data.paises);
+    paises[0].forEach(row => {
+      console.log(row)
+    });
+  });
+
+  nacionalidad.addEventListener('change', e => {
+    let selected = parseInt(nacionalidad.options[nacionalidad.selectedIndex].getAttribute('data-id'));
+  console.log(selected)
+    paises[0].forEach(item => {
+      if(item.id === selected) {
+        let option = document.createElement('option');
+          option.value = item.paisnombre;
+          option.innerText = item.paisnombre;
+          fragment3.appendChild(option);
+      }
+    });
+    country.appendChild(fragment3);
+  });
 
   fetch('https://restcountries.com/v2/all')
   .then(response => response.json())
@@ -166,11 +209,9 @@ document.getElementById('nacionalidad').onchange = function() {
       option.innerText = item.name;
 
       fragment1.appendChild(a);
-      fragment2.appendChild(option);
     });
 
     lista.appendChild(fragment1);
-    nacionalidad.appendChild(fragment2);
   });
 
   drop.addEventListener('click', e => {

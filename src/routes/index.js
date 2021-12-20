@@ -515,6 +515,9 @@ router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
 
 router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
+// ESTADOS PAISES
+router.get('/getallestados', dashboardControllerPY27.getallestados);
+router.get('/getallpaises', dashboardControllerPY27.getallpaises);
 
 
 

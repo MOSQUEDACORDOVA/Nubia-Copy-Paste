@@ -7,6 +7,8 @@ const Pays = require("../../models/PYT27/Payments");
 const depositosaeros = require("../../models/PYT27/DepositosAero");
 const MetodosRetiros = require("../../models/PYT27/Retreats");
 const AeroCoin = require("../../models/PYT27/AeroCoin");
+const Pais = require("../../models/PYT27/Pais");
+const Estados = require("../../models/PYT27/Estado");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -90,6 +92,34 @@ module.exports = {
             let data_s = JSON.stringify(data);
             console.log(data_s)
             resolve('Datos de verificación agregados satisfactoriamente');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER PAISES
+    GetAllPaises() {
+      return new Promise((resolve, reject) => {
+        Pais.findAll()
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve(data_s);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER ESTADOS
+    GetAllEstados() {
+      return new Promise((resolve, reject) => {
+        Estados.findAll()
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve(data_s);
           })
           .catch((err) => {
             reject(err)

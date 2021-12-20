@@ -18,7 +18,7 @@ exports.sendEmail = function (req, res) {
         var mailOptions = {
           from: "Backartist@backartist.com",
           to: email,
-          subject: "Suscribción",
+          subject: "SuscribciÃ³n",
           text: "Gracias por suscribirte, pronto recibiras noticias nuestras en tu correo.",          
     html: `<html>
     <head>	
@@ -69,7 +69,7 @@ exports.bienvenidaMail = async function (req, res) {
     console.log(usuario.name)
     // Definimos el transporter
     var transporter = nodemailer.createTransport({
-      host: 'mail.aerocoin.aero',
+      host: 'aerocoin.aero',
       port: 465,
       secure: true,
       auth: {
@@ -122,7 +122,7 @@ exports.bienvenidaMail = async function (req, res) {
                             <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey</p>
                             <p class="text-primary" style="font-weight: 700; font-size: 20px; margin-top: 0; color: #04246d;">${usuario.first_name} ${usuario.last_name}</p>
                             <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
-                              Thanks for signing up! 👋
+                              Thanks for signing up! ðŸ‘‹
                             </p>
                             <p style="margin: 0 0 24px;">
                               Please verify your email address by clicking the below button and join our creative community,
@@ -135,14 +135,14 @@ exports.bienvenidaMail = async function (req, res) {
                             <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody><tr>
                                 <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #04246d; background-color: #04246d; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; ">
-                                  <a href="${resetUrl}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Verify Email Now →</a>
+                                  <a href="${resetUrl}" style="display: block; font-weight: 600; font-size: 14px; line-height: 100%; padding: 16px 24px; --text-opacity: 1; color: #ffffff; text-decoration: none;">Verify Email Now â†’</a>
                                 </td>
                               </tr>
                             </tbody></table>
                             <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody><tr>
                                 <td style="font-family: 'Montserrat',Arial,sans-serif; padding-top: 32px; padding-bottom: 32px;">
-                                  <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">‌</div>
+                                  <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">â€Œ</div>
                                 </td>
                               </tr>
                             </tbody></table>
@@ -160,9 +160,9 @@ exports.bienvenidaMail = async function (req, res) {
                           <td style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; padding-left: 48px; padding-right: 48px; --text-opacity: 1; color: #eceff1; color: rgba(236, 239, 241, var(--text-opacity));">
                             <p align="center" style="cursor: default; margin-bottom: 16px;">
                               <a href="https://www.facebook.com/aero_coin" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://1.bp.blogspot.com/-oIlDs9G4Hh0/X8ueda_RCwI/AAAAAAAAMtY/TCGqSTU-6nweFgD-lhtQRMgmEdxIqQskACLcBGAsYHQ/s852/facebook%2Blogo%2Bpng%2Bsin%2Bfondo%2B%25282%2529.png" width="17" alt="Facebook" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                              •
+                              â€¢
                               <a href="https://twitter.com/AEROCOIN_" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-4.png" width="17" alt="Twitter" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                              •
+                              â€¢
                               <a href="https://www.instagram.com/AEROCOIN/" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="17" alt="Instagram" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                             </p>
                             <p style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
@@ -214,7 +214,7 @@ exports.emailVerificado = async function (req, res) {
   console.log(usuario.first_name)
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
-    host: 'mail.aerocoin.aero',
+    host: 'aerocoin.aero',
     port: 465,
     secure: true,
     auth: {
@@ -270,7 +270,7 @@ exports.emailVerificado = async function (req, res) {
                             Your email has been <br> <b style="color: #04246d;">VERIFIED SUCCESSFULLY</b>
                           </p>
                           
-                          <p class="card-text">If you don´t recognize this activity , please contact us inmmediately at: <a href="https://www.aerocoin.aero/suppor" class="text-primary">https://www.aerocoin.aero/support</a>.<br><br> Aerocoin Team.</p>
+                          <p class="card-text">If you donÂ´t recognize this activity , please contact us inmmediatelyÂ at: <a href="https://www.aerocoin.aero/suppor" class="text-primary">https://www.aerocoin.aero/support</a>.<br><br> Aerocoin Team.</p>
                           <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                               <tbody><tr>
                                 <td style="mso-padding-alt: 16px 24px; --bg-opacity: 1; background-color: #04246d; background-color: #04246d; border-radius: 4px; font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; ">
@@ -283,7 +283,7 @@ exports.emailVerificado = async function (req, res) {
                           <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                             <tbody><tr>
                               <td style="font-family: 'Montserrat',Arial,sans-serif; padding-top: 32px; padding-bottom: 32px;">
-                                <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">‌</div>
+                                <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">â€Œ</div>
                               </td>
                             </tr>
                           </tbody></table>
@@ -302,9 +302,9 @@ exports.emailVerificado = async function (req, res) {
                         <td style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; padding-left: 48px; padding-right: 48px; --text-opacity: 1; color: #eceff1; color: rgba(236, 239, 241, var(--text-opacity));">
                           <p align="center" style="cursor: default; margin-bottom: 16px;">
                             <a href="https://www.facebook.com/aero_coin" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://1.bp.blogspot.com/-oIlDs9G4Hh0/X8ueda_RCwI/AAAAAAAAMtY/TCGqSTU-6nweFgD-lhtQRMgmEdxIqQskACLcBGAsYHQ/s852/facebook%2Blogo%2Bpng%2Bsin%2Bfondo%2B%25282%2529.png" width="17" alt="Facebook" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                            •
+                            â€¢
                             <a href="https://twitter.com/AEROCOIN_" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-4.png" width="17" alt="Twitter" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                            •
+                            â€¢
                             <a href="https://www.instagram.com/AEROCOIN/" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="17" alt="Instagram" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                           </p>
                           <p style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
@@ -354,7 +354,7 @@ exports.depositoAprovado = async function (req, res) {
   console.log(usuario.first_name)
   // Definimos el transporter
   var transporter = nodemailer.createTransport({
-    host: 'mail.aerocoin.aero',
+    host: 'aerocoin.aero',
     port: 465,
     secure: true,
     auth: {
@@ -407,16 +407,16 @@ exports.depositoAprovado = async function (req, res) {
                           <p style="font-weight: 600; font-size: 18px; margin-bottom: 0;">Hey</p>
                           <p class="text-primary" style="font-weight: 700; font-size: 20px; margin-top: 0; color: #04246d;">${usuario.first_name} ${usuario.last_name}</p>
                           <p class="sm-leading-32" style="font-weight: 600; font-size: 20px; margin: 0 0 16px; --text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">
-                            Deposit Approve! <br> You´ve received ${total} ACN in your Wallet account  👋
+                            Deposit Approve! <br> YouÂ´ve received ${total} ACN in your Wallet accountÂ  ðŸ‘‹
                           </p>
                           
-                          <p class="card-text">If you don´t recognize this activity , please contact us inmmediately at: <a href="https://www.aerocoin.aero/suppor" class="text-primary">https://www.aerocoin.aero/support</a>.<br><br> Aerocoin Team.</p>
+                          <p class="card-text">If you donÂ´t recognize this activity , please contact us inmmediatelyÂ at: <a href="https://www.aerocoin.aero/suppor" class="text-primary">https://www.aerocoin.aero/support</a>.<br><br> Aerocoin Team.</p>
 
                           <table style="font-family: 'Montserrat',Arial,sans-serif;" cellpadding="0" cellspacing="0" role="presentation">
                           <table style="font-family: 'Montserrat',Arial,sans-serif; width: 100%;" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                             <tbody><tr>
                               <td style="font-family: 'Montserrat',Arial,sans-serif; padding-top: 32px; padding-bottom: 32px;">
-                                <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">‌</div>
+                                <div style="--bg-opacity: 1; background-color: #eceff1; background-color: rgba(236, 239, 241, var(--bg-opacity)); height: 1px; line-height: 1px;">â€Œ</div>
                               </td>
                             </tr>
                           </tbody></table>
@@ -435,9 +435,9 @@ exports.depositoAprovado = async function (req, res) {
                         <td style="font-family: Montserrat, -apple-system, 'Segoe UI', sans-serif; font-size: 12px; padding-left: 48px; padding-right: 48px; --text-opacity: 1; color: #eceff1; color: rgba(236, 239, 241, var(--text-opacity));">
                           <p align="center" style="cursor: default; margin-bottom: 16px;">
                             <a href="https://www.facebook.com/aero_coin" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://1.bp.blogspot.com/-oIlDs9G4Hh0/X8ueda_RCwI/AAAAAAAAMtY/TCGqSTU-6nweFgD-lhtQRMgmEdxIqQskACLcBGAsYHQ/s852/facebook%2Blogo%2Bpng%2Bsin%2Bfondo%2B%25282%2529.png" width="17" alt="Facebook" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                            •
+                            â€¢
                             <a href="https://twitter.com/AEROCOIN_" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://logodownload.org/wp-content/uploads/2014/09/twitter-logo-4.png" width="17" alt="Twitter" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
-                            •
+                            â€¢
                             <a href="https://www.instagram.com/AEROCOIN/" target="_blank" style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity)); text-decoration: none;"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" width="17" alt="Instagram" style="border: 0; max-width: 100%; line-height: 100%; vertical-align: middle; margin-right: 12px;"></a>
                           </p>
                           <p style="--text-opacity: 1; color: #263238; color: rgba(38, 50, 56, var(--text-opacity));">

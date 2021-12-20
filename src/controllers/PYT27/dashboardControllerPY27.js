@@ -1168,6 +1168,44 @@ exports.forgotpassword = (req, res) => {
   });
 };
 
+// OBTENER TODOS LOS ESTADOS
+exports.getallestados = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.GetAllEstados().then((response) => {
+    let estados = JSON.parse(response);
+    console.log(estados)
+    return res.send({estados});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo estados";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
+// OBTENER TODOS LOS ESTADOS
+exports.getallpaises = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.GetAllPaises().then((response) => {
+    let paises = JSON.parse(response);
+    console.log(paises)
+    return res.send({paises});
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error obteniendo estados";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
 // ENVIAR TOKEN PARA VALIDAR EMAIL
 exports.resendemailverify = (req, res) => {
   let msg = false;
