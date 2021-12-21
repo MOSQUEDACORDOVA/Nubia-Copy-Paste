@@ -369,15 +369,6 @@ exports.verificargrupos = (req, res) => {
       let actual = moment();
       let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
       let iniciar = moment(iniciado).diff(actual, 'days');
-      console.log(iniciar)
-      console.log("CONDICION")
-      console.log(inicioGrupo)
-      console.log("FECHA DE INICIO DEL GRUPO")
-      console.log(iniciado)
-      console.log("FECHA CUANDO INICIA EL GRUPO !")
-      
-      console.log(actual)
-      console.log("FECHA ACTUAL")
 
       let nivelCode, nivel;
     
@@ -413,29 +404,25 @@ exports.verificargrupos = (req, res) => {
         }
           
         if (moment().isBefore(nivel2)) {
-            fechaFin = moment(nivel1, "YYYY-MM-DD").format("DD-MM-YYYY")
-            nivelCode = '-1';
-            nivel = 'Principiante';
-            console.log("ESTA EN EL NIVEL 1 --- !!!!")
+          fechaFin = moment(nivel1, "YYYY-MM-DD").format("DD-MM-YYYY")
+          nivelCode = '-1';
+          nivel = 'Principiante';
             
         } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
           fechaFin = moment(nivel2, "YYYY-MM-DD").format("DD-MM-YYYY")
           nivelCode = '-2';
           nivel = 'Básico';
-          console.log("ESTA EN EL NIVEL 2 --- !!!!")
           
         } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
           fechaFin = moment(nivel3, "YYYY-MM-DD").format("DD-MM-YYYY")
           nivelCode = '-3';
           nivel = 'Intermedio';
-          console.log("ESTA EN EL NIVEL 3 --- !!!!")
           
         } else if(moment().isAfter(nivel3)) {
           fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
           nivelCode = '-4';
           nivel = 'Avanzado';
-          console.log("ESTA EN EL NIVEL 4 --- !!!!")
-          
+
         }
       }
 
@@ -446,7 +433,7 @@ exports.verificargrupos = (req, res) => {
         EstablecerNivel();
         console.log("GRUPO INICIADO CON EXITO ACTUALIZANDO")
 
-        if(row.estado === 'En Apertura') {
+        if(row.estadosGrupoId === 1) {
           DataBase.IniciarGrupos(row.id).then((actualizado) => {
             console.log("GRUPO INICIADO - RES CONTROLLER")
           }).catch((err) => {
@@ -515,6 +502,46 @@ exports.matriculas = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+};
+
+// * ASISTENCIAS
+exports.asistencias = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  /*DataBase.BuscarGrupos(7).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    let numLeccion;
+
+    let fechaActual = moment().format("DD-MM-YYYY");
+
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+    let diff = moment(fechaInicio, "DD-MM-YYYY").diff(moment(), 'days');
+    let rest = (224 - (diff)) / 224; 
+    numLeccion = Math.floor(rest)*/
+
+    res.render(proyecto+"/admin/asistencias", {
+      pageName: "Academia Americana - Asistencias",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      asistencias: true,
+      /*grupo,
+      numLeccion,
+      fechaActual,
+      fechaInicio,
+      diff,
+      rest*/
+    });
+  /*}).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });*/
 };
 
 exports.error = (req, res) => {
@@ -650,9 +677,7 @@ exports.creargrupos = (req, res) => {
         console.log("IDENTIFICADOR GENERADO")
         
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
-          let grupoCreado = JSON.parse(respuesta)
-          let grupoId = grupoCreado.id
-          console.log(grupoId)
+          console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
           return res.redirect("/verificargrupos/PYT-672");

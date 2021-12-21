@@ -17,7 +17,7 @@
                                 <div class="card">
                                     <div class="card-header align-items-start flex-column">
                                         <h4 class="card-title">Buy ACN</h4>
-                                        <p class="mb-0">We charge 0.5% commission for each transaction</p>
+                                        <p class="mb-0">We charge 1% commission for each transaction</p>
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex p-1">
@@ -26,30 +26,32 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount ACN</label>
+                                                                <label class="col-form-label" for="">Amount USDT</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
                                                                 <input type="number" id="price_" class="form-control" name="price" value="0" min="0">
+                                                                <small class="text-primary d-none" id="invalidAmount">The minimum purchase is 5 USDT</small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount USDT</label>
+                                                                <label class="col-form-label" for="">Amount ACN</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
                                                                 <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
-                                                                <label class="form-label mb-1 mb-sm-0" for="">Fee: <span class="fee">0ACN</span></label>
-                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2">0BTC</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0 d-none" for="">Fee: <span class="fee">0ACN</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2" style="font-weight: bold;">0USDT</span></label>
                                                             </div>
                                                         </div>
                                                         
                                                     </div>
       
                                                     <div class="col-sm-9 offset-sm-3">
-                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn"  role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn" role="button">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light d-none" id="buybtnModal" role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
                                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Cancel</button>
                                                     </div>
                                                 </div>
@@ -177,18 +179,18 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
-                                                    </div>
-
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Fee: <span class="fee"></span></label>
-                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
-                                                    </div>
-
-                                                    <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+
+                                                     <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2" ></span></label>
+                                                    </div> 
+
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BTC</label>
@@ -196,12 +198,12 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -215,11 +217,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
@@ -248,18 +250,18 @@
 
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin" value="" required readonly>
                                                     </div>
 
-                                                    <div class="mb-1 col-12">
+                                                    <div class="mb-1 col-12 d-none">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
                                                         <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amountUsd" placeholder="" min="0" required readonly>
+                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BNB</label>
@@ -267,12 +269,12 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -286,11 +288,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
@@ -318,28 +320,29 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin d-none" required readonly>
+                                                        <input type="text" name="amount" class="form-control amountCoin" value="" required readonly>
                                                     </div>
 
-                                                    <div class="mb-1 col-12">
+                                                    <div class="mb-1 col-12 d-none">
                                                         <label class="form-label" for="">Fee: <span class="fee"></span></label>
                                                         <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
 
                                                     <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="amount" class="form-control amountUsd" placeholder="" min="0" required readonly>
+                                                        <label class="form-label" for="">Amount of ACN</label>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control hash" placeholder="">
-                                                        <small>This field is optional, but if you indicate the HASH the verification process will be much faster</small>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
 
                                                 <div class="d-flex mb-1">
-                                                    <small>We charge 0.5% commission for each transaction</small>
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
@@ -353,11 +356,11 @@
                                                     </button>
                                                 </div>
                                                 <div class="d-flex my-1">
-                                                    <small class="status">This process may take several minutes, please be patient and do not leave the page.</small>
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
                                                 </div>
                                                 <div class="d-flex">
                                                     <button class="btn btn-outline-primary btnContinue w-100" type="button">
-                                                        Continue
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>  
@@ -462,6 +465,9 @@
                     console.log(form) 
                     console.log(formData) 
 
+                    btnContinue.classList.remove('d-none');
+                    btnContinue.classList.add('d-block');
+
                     const VerifyDeposit = () => {
                         fetch('/getdeposituser', {
                             method: 'POST',
@@ -476,8 +482,7 @@
                                     btnLoadingStatusMain.innerText = '¡Approved!';
                                     btnLoading.classList.remove('btn-outline-primary');
                                     btnLoading.classList.add('btn-outline-success');
-                                    btnContinue.classList.remove('d-none');
-                                    btnContinue.classList.add('d-block');
+                                   
                                     status.innerText = 'Your deposit has been approved, click on the continue button to complete your transaction...';
 
                                 } else if(data2.status === 'Rechazado') {
@@ -485,8 +490,7 @@
                                     btnLoadingStatusMain.innerText = '¡Rejected!';
                                     btnLoading.classList.remove('btn-outline-primary');
                                     btnLoading.classList.add('btn-outline-danger');
-                                    btnContinue.classList.remove('d-none');
-                                    btnContinue.classList.add('d-block');
+
                                     status.innerText = 'Your deposit has been rejected, please enter another hash to proceed with another transaction...';
                                 }
                             })
@@ -513,6 +517,7 @@
     .then(data => {
         let arr = data.rates
         resultBtc = arr.usd.value
+        console.log(resultBtc)
     });
    
     let resultBnb;
@@ -521,25 +526,36 @@
     .then(data => {
         let price = data.prices[0][1];
         resultBnb = price;
+        console.log(resultBnb)
     });
 
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
-        let amountUsd = document.getElementById('amountAcn');
-        let InCoin = document.querySelectorAll('.amountCoin');
+        if(parseInt($('input[name="price"]').val()) < 5) {
+            $('#invalidAmount').removeClass('d-none');
+        } else {
+            $('#invalidAmount').addClass('d-none');
+            $('#buybtnModal').click();
+            let amountUsd = document.getElementById('amountAcn');
+            let InCoin = document.querySelectorAll('.amountCoin');
 
-        let btc = document.getElementById('amountbtc');
-        let bnb = document.getElementById('amountbnb');
-        let priceACN = parseFloat(document.getElementById('price_').value);
-
-        btc.value = priceACN / resultBtc;
-        bnb.value =  priceACN / resultBnb;
-
+            let btc = document.getElementById('amountbtc');
+            let bnb = document.getElementById('amountbnb');
+            let priceACN = parseFloat(document.getElementById('price_').value);
         let amount = document.getElementById('price_').value;
-        InCoin.forEach(inp => {
-            inp.value = amount;
-        });
+            amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
+
+            let totalBTC = amount / resultBtc
+            let totalBNB = amount / resultBnb
+
+            btc.value = (totalBTC * 0.04) + totalBTC;
+            bnb.value =  (totalBNB * 0.04) + totalBNB;
+                        
+            InCoin.forEach(inp => {
+                inp.value = amount;
+            });
+        }
     });
 
     // BTC
@@ -581,32 +597,31 @@
 
         $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
-            console.log(valor)
             //let priceAcn = parseFloat($('#costo_ref').val());
-            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
+            let price_ = parseFloat($('input[name="price"]').val()) / parseFloat($('#costo_ref').val())
 
-            let n = (price_ / parseFloat($('#costo_ref').val()))
+            let n = (price_ * parseFloat($('#costo_ref').val()))
 
             let montoDolar = parseFloat($('#amountUsd').val())
-          
+        
 
-            let mult = montoDolar * 0.05;
+            let mult = parseFloat(valor) * 0.01;
             let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
     
             console.log("RESULTADO")
 
             $('#amountUsd').val(price_)
-
+            let monto_final = parseFloat($('input[name="price"]').val())+ parseFloat(mult)
             amountModalUsd.each(function (index) {
                 $(this).val(price_);
             });
 
             fee.forEach(item => {
-                item.innerText = feeMontoDolar + 'USDT';
+                item.innerText = mult + 'USDT';
             });
             
             fee2.forEach(item => {
-                item.innerText = mult + 'BTC';
+                item.innerText = 'Total a pagar: '+monto_final + 'USDT';
             });
         });
 

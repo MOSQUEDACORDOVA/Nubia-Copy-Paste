@@ -1257,12 +1257,14 @@ exports.rejectdeposit = (req, res) => {
   console.log(req.body)
   console.log("PARAMS")
 
-  const {id} = req.body
+  const {id, iduser} = req.body
   
   DataBase.RejectDeposit(id).then((response) => {
     let respuesta = JSON.parse(response)
+    console.log(respuesta)
     console.log("DEPOSITO RECHAZADO POR ADMIN")
-    return res.send({respuesta})
+
+    return res.redirect('/mailDepositRejectedpy27/'+iduser);
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

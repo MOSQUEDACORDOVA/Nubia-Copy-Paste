@@ -512,6 +512,7 @@ router.get('/test/:id', dashboardControllerPY27.test);
 router.get('/emailverifynotifypy27/:id', MailerController.emailVerificado);
 
 router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
+router.get('/mailDepositRejectedpy27/:iduser', MailerController.depositoRechazado);
 router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
 
 router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
@@ -537,6 +538,7 @@ router.post('/reguserpy672', dashboardControllerPY672.reguser);
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
+router.get('/asistencias/:id', dashboardControllerPY672.asistencias);
 
 
 

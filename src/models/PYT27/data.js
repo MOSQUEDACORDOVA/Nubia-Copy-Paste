@@ -1218,9 +1218,9 @@ module.exports = {
       });
     },
     // COMPRAR AEROCOINS USUARIOS
-    BuyAeroCoin(name, dni, email, amountCoin, amount, refs, idmethod, userid) {
+    BuyAeroCoin(name, dni, email, amountCoin, amount, priceDolar, refs, idmethod, userid) {
       return new Promise((resolve, reject) => {
-        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, num_reference: refs, metodosPagoId: idmethod, usuarioId: userid })
+        depositosaeros.create({ name: name, dni: dni, email: email, amountAero: amountCoin, price: amount, priceDolar: priceDolar, num_reference: refs, metodosPagoId: idmethod, usuarioId: userid })
         .then((data) => {
           console.log("DATOS AEROCOIN")
           let data_set = JSON.stringify(data);

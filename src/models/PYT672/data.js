@@ -7,7 +7,7 @@ module.exports = {
     // * CREAR GRUPOS ADMIN
     CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
             console.log('NUEVO GRUPO CREADO')
@@ -49,8 +49,8 @@ module.exports = {
     ObtenerGruposEnApertura() {
       return new Promise((resolve, reject) => {
         Grupos.findAll({where:{ 
-          estado: {
-            [Op.eq]: 'En Apertura'
+          estadosGrupoId: {
+            [Op.eq]: 1
           }
         }})
           .then((data) => {
@@ -67,8 +67,8 @@ module.exports = {
         Grupos.findAll({where:
           { nombre: {
             [Op.eq]: 'Desde cero',
-          }, estado: {
-            [Op.eq]: 'Iniciado',
+          }, estadosGrupoId: {
+            [Op.eq]: 2,
           }}
         })
           .then((data) => {
@@ -101,8 +101,8 @@ module.exports = {
         Grupos.findAll({where:
           { nombre: {
             [Op.eq]: 'Intensivo',
-          }, estado: {
-            [Op.eq]: 'Iniciado',
+          }, estadosGrupoId: {
+            [Op.eq]: 2,
           }}
         })
           .then((data) => {
@@ -133,7 +133,7 @@ module.exports = {
     IniciarGrupos(id) {
       return new Promise((resolve, reject) => {
         Grupos.update({
-          estado: 'Iniciado',
+          estadosGrupoId: 2,
         }, { where: {
           id: id
         }})
