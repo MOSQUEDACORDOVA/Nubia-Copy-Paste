@@ -1541,23 +1541,6 @@ table tr td {
     width: 20px;
     height: 20px;
 }
-.py672 .range { 
-    width: 100% !important;
-    -webkit-appearance: none !important; 
-    background: #dae1e7; 
-    border-radius: 8px;
-    height: 15px; 
-} 
-.py672 .range.disable::-webkit-slider-thumb {
-    background: #8a8a8a; 
-}
-.py672 .range::-webkit-slider-thumb { 
-    -webkit-appearance: none !important; 
-    background: #7367f0; 
-    height: 30px; 
-    width: 30px; 
-    border-radius: 50%;
-}
 .py672 .bg-secondary.rounded-circle {
     display: inline-block;
 	position: relative;
