@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
+const EstadoGrupos = require('../../models/PYT672/EstadoGrupos');
 
 // GRUPOS
 const Grupos = db672.define('grupos', {
@@ -49,41 +50,7 @@ const Grupos = db672.define('grupos', {
 		allowNull: false,
 		defaultValue: '-1'
 	},
-	activos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	incorporados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	inscritos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	fusionados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	congelados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	total_alumnos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	estado: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-		defaultValue: 'En Apertura'
-	},
 });
 
+Grupos.EstadoGrupos = Grupos.belongsTo(EstadoGrupos);
 module.exports = Grupos;
