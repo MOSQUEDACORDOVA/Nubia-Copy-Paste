@@ -512,7 +512,12 @@ exports.asistencias = (req, res) => {
   }
   let proyecto = req.params.id  
 
-  /*DataBase.BuscarGrupos(7).then((respuesta) => {
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+  DataBase.BuscarGrupos(7).then((respuesta) => {
     let grupo = JSON.parse(respuesta)[0]
     let numLeccion;
 
@@ -520,9 +525,23 @@ exports.asistencias = (req, res) => {
 
     let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
 
-    let diff = moment(fechaInicio, "DD-MM-YYYY").diff(moment(), 'days');
-    let rest = (224 - (diff)) / 224; 
-    numLeccion = Math.floor(rest)*/
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+    let rest; 
+
+    if(diff < 0) {
+      rest = (224 - (-diff)) / 7; 
+    } else {
+      rest = (224 - (diff)) / 7; 
+    }
+
+    numLeccion = (32 - Math.floor(rest))
+
+    console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+    console.log(numLeccion)
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -530,18 +549,52 @@ exports.asistencias = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
-      /*grupo,
+      gruposTodos,
+      grupo,
       numLeccion,
       fechaActual,
       fechaInicio,
       diff,
-      rest*/
+      rest
     });
-  /*}).catch((err) => {
+  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
-  });*/
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * CALIFICACIONES
+exports.calificaciones = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    res.render(proyecto+"/admin/calificaciones", {
+      pageName: "Academia Americana - Calificaciones",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      calificaciones: true,
+      gruposTodos,
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 exports.error = (req, res) => {

@@ -1452,6 +1452,11 @@ table tr td {
     border-color: #7367f0 !important;
 }
 /*---------- py672 ----------*/
+@media (min-width: 768px) {
+    .py672 .dropdown-menu.drop-main-menu {
+        width: 34rem;
+    }
+}
 .py672 .text-primary {
     color: #7367f0 !important;
 }
@@ -1463,12 +1468,42 @@ table tr td {
     color: #fff !important;
     background-color: #7367f0 !important;
 }
+.py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button) {
+    background-color: transparent;
+    border-color: #7367f0;
+    color: #7367f0;
+}
+
+.py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active, .py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
+    background-color: rgba(114, 103, 240, 0.089) !important;
+    border-color: #7367f0 !important;
+    color: #7367f0;
+}
+.py672 .bg-light-primary {
+    background: rgba(114, 103, 240, 0.12) !important;
+    color: #7367f0 !important;
+}
 .py672 .page-item.active .page-link {
     background-color: #7367f0 !important;
 }
 .py672 .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     background-color: #7367f0;
+}
+.py672 .flatpickr-calendar .flatpickr-day.today {
+    border-color: #7367f0 !important;
+}
+.flatpickr-calendar .flatpickr-day.today {
+    border-color: #7367f0 !important;
+}
+.flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #7367f0;
+    border-color: #7367f0;
+}
+.py672 .flatpickr-calendar .flatpickr-day.selected, .py672 .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #7367f0 !important;
+    color: #fff;
+    border-color: #7367f0 !important;
 }
 .py672 .badge-light-primary {
     color: #7367f0 !important;
@@ -1548,9 +1583,6 @@ table tr td {
 	height: 60px;
 	background: rgba(172, 172, 172, 0.459) !important;
 }
-.py672 .form-check {
-    visibility: hidden;
-}
 .py672 .bg-secondary.rounded-circle label:before {
     content: "";
     display: block;
@@ -1562,7 +1594,9 @@ table tr td {
     opacity: 0.3;
     transition: .3s ease all;
 }
-
+/*.py672 .form-check {
+    visibility: hidden;
+}*/
 .py672 .bg-secondary.rounded-circle .form-check:checked + label:before {
     background: #28c76f;
     border: 2px solid #28c76f;
@@ -1576,8 +1610,6 @@ table tr td {
     width: 40px;
     height: 40px;
 }
-
-
 
 @media (min-width: 768px) {
     .py672 .asistencias .card .card-body .box {
