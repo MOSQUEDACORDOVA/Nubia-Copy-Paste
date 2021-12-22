@@ -1568,6 +1568,14 @@ table tr td {
     border: 2px solid #28c76f;
     opacity: 1;
 }
+.py672 .bg-light.rounded-circle.position-absolute {
+    top: -10px;
+    left: -10px;
+}
+.py672 .bg-light .circle {
+    width: 40px;
+    height: 40px;
+}
 
 
 
