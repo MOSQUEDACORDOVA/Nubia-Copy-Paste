@@ -11,234 +11,100 @@
                         <p class="lead">{{fechaInicio}}</p>
                     </div>----}}
                     
-                    <div class="col-6 col-md-4 mb-1">
-                        <select name="" id="" class="select2 form-select select2-hidden-accessible">
-                            <option value="-">Seleccionar Grupo</option>
-                        </select>
+                    <div class="col-12 mb-1">
+                        <div class="demo-inline-spacing">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio3" value="1" checked="">
+                                <label class="form-check-label" for="inlineRadio3">Desde Cero</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="inlineRadio4" name="tipo" value="2">
+                                <label class="form-check-label" for="inlineRadio4">Intensivo</label>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="col-6 col-md-4 mb-1">
-                        <select name="" id="" class="form-select select2">
-                            <option value="-">Seleccionar Lección</option>
-                        </select>
-                    </div>
-                    
-                    <div class="col-12">
-                        <div class="card card-statistics border-success">
-                            <div class="card-header pb-0">
-                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                        <input type="checkbox" name="" id="miCheck" class="mb-0 form-check d-none" checked>
-                                        <label for="miCheck" role="button"></label>
-                                    </span>
-                                </div>
+                    <div class="col-12 p-0" id="filtrosDesdeCero">
+                        <div class="row m-0 p-0">
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposDesde0 as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
                             </div>
-                            <div class="card-header d-block pt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex flex-column">
-                                            <h1 class="mb-1"><b>Mosqueda Cordova</b></h1>
-                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                <div class="box mb-2 mb-md-0 me-md-3">
-                                                    <p class="lead mb-1">% de Participación</p>
-                                                    <div class="col-md d-flex flex-column align-items-start">
-                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
-                                                        <div class="counter-wrapper mt-1">
-                                                            <strong>Puntos:</strong>
-                                                            <span class="counter">0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <div class="d-flex">
-                                                        <div class="hour-box me-1 position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Entrada</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
-                                                        </div>
-                                                        <div class="hour-box position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Salida</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select">
+                                    <option value="-">Seleccionar Lección</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="col-12">
-                        <div class="card card-statistics border-secondary">
-                            <div class="card-header pb-0">
-                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                        <input type="checkbox" name="" id="miCheck2" class="mb-0 form-check d-none">
-                                        <label for="miCheck2" role="button"></label>
-                                    </span>
-                                </div>
+
+                    <div class="col-12 p-0 d-none" id="filtrosIntensivo">
+                        <div class="row m-0 p-0">
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposIntensivo as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
                             </div>
-                            <div class="card-header d-block pt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex flex-column">
-                                            <h1 class="mb-1"><b>Jose Arzolay</b></h1>
-                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                <div class="box mb-2 mb-md-0 me-md-3">
-                                                    <p class="lead mb-1">% de Participación</p>
-                                                    <div class="col-md d-flex flex-column align-items-start">
-                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
-                                                        <div class="counter-wrapper mt-1">
-                                                            <strong>Puntos:</strong>
-                                                            <span class="counter">0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <div class="d-flex">
-                                                        <div class="hour-box me-1 position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Entrada</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
-                                                        </div>
-                                                        <div class="hour-box position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Salida</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select">
+                                    <option value="-">Seleccionar Lección</option>
+                                </select>
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="col-12">
-                        <div class="card card-statistics border-success">
-                            <div class="card-header pb-0">
-                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                        <input type="checkbox" name="" id="miCheck3" class="mb-0 form-check d-none" checked>
-                                        <label for="miCheck3" role="button"></label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="card-header d-block pt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex flex-column">
-                                            <h1 class="mb-1"><b>Borys Lopez</b></h1>
-                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                <div class="box mb-2 mb-md-0 me-md-3">
-                                                    <p class="lead mb-1">% de Participación</p>
-                                                    <div class="col-md d-flex flex-column align-items-start">
-                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
-                                                        <div class="counter-wrapper mt-1">
-                                                            <strong>Puntos:</strong>
-                                                            <span class="counter">0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <div class="d-flex">
-                                                        <div class="hour-box me-1 position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Entrada</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
-                                                        </div>
-                                                        <div class="hour-box position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Salida</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="col-12 position-relative">
-                        <div class="card card-statistics border-warning">
-                            <span class="bg-light rounded-circle position-absolute">
-                                <i data-feather='alert-circle' class="text-warning circle"></i>
-                            </span>
-                            <div class="card-header pb-0">
-                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                <div class="d-flex align-items-center">
-                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                        <input type="checkbox" name="" id="miCheck4" class="mb-0 form-check d-none" checked>
-                                        <label for="miCheck4" role="button"></label>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="card-header d-block pt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="d-flex flex-column">
-                                            <h1 class="mb-1"><b>Marcos Fernandez</b></h1>
-                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                <div class="box mb-2 mb-md-0 me-md-3">
-                                                    <p class="lead mb-1">% de Participación</p>
-                                                    <div class="col-md d-flex flex-column align-items-start">
-                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
-                                                        <div class="counter-wrapper mt-1">
-                                                            <strong>Puntos:</strong>
-                                                            <span class="counter">0</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="box">
-                                                    <div class="d-flex">
-                                                        <div class="hour-box me-1 position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Entrada</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
-                                                        </div>
-                                                        <div class="hour-box position-relative">
-                                                            <div class="d-flex align-items-center">
-                                                                <i data-feather='clock' class="hour-icon"></i>
-                                                                <p class="lead mb-0">H. Salida</p>
-                                                            </div>
-                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <form action="" method="GET" id="grupoForm" class="d-none">
+                        <input type="text" name="id" value="PYT-672">
+                        <input type="text" name="grupoid" class="grupoId">
+                    </form>
                 </div>
             </section>
         </div>
     </div>
 </div>
+
+<script>
+    let checkDesde0 = document.getElementById('inlineRadio3'),
+    checkIntensivo = document.getElementById('inlineRadio4'),
+    filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
+    selectDesdeCero = document.querySelector('#filtrosDesdeCero select'),
+    filtrosIntensivo = document.getElementById('filtrosIntensivo'),
+    selectIntensivo = document.querySelector('#filtrosIntensivo select'),
+    grupoForm = document.getElementById('grupoForm'),
+    grupoFormInput = document.querySelector('#grupoForm input.grupoId');
+
+    checkDesde0.addEventListener('change', e => {
+        if(checkDesde0.checked === true) {
+            filtrosDesdeCero.classList.remove('d-none');
+            filtrosIntensivo.classList.add('d-none');
+        }
+    });
+
+    selectDesdeCero.addEventListener('change', e => {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
+        grupoForm.submit();
+    });
+
+    checkIntensivo.addEventListener('change', e => {
+        if(checkIntensivo.checked === true) {
+            filtrosIntensivo.classList.remove('d-none');
+            filtrosDesdeCero.classList.add('d-none');
+        }
+    });
+
+</script>

@@ -486,7 +486,7 @@ exports.matriculas = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      matricula: true,
+      matric: true,
       gruposTodos,
       arr,
       response2
@@ -516,6 +516,16 @@ exports.asistencias = (req, res) => {
     let gruposTodos = JSON.parse(response);
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
+
+    DataBase.ObtenerGruposDesdeCero().then((response2) => {
+      let gruposDesde0 = JSON.parse(response2);
+      console.log(gruposDesde0)
+      console.log("DESDE CERO INICIADOS")
+
+      DataBase.ObtenerGruposIntensivo().then((response3) => {
+        let gruposIntensivo = JSON.parse(response3);
+        console.log(gruposIntensivo)
+        console.log("INTENSIVOS INICIADOS")
 
   /*DataBase.BuscarGrupos(7).then((respuesta) => {
     let grupo = JSON.parse(respuesta)[0]
@@ -550,6 +560,8 @@ exports.asistencias = (req, res) => {
       py672: true,
       asistencias: true,
       gruposTodos,
+      gruposDesde0,
+      gruposIntensivo
       /*grupo,
       numLeccion,
       fechaActual,
@@ -562,6 +574,56 @@ exports.asistencias = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });*/
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * ASISTENCIAS DE GRUPO
+exports.asistenciasgrupo = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = "PYT-672"  
+  let idGrupo = req.params.grupoid
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
+      let matri = JSON.parse(response2);
+      console.log(matri)
+      console.log("GRUPO ENCONTRADO")
+
+    res.render(proyecto+"/admin/asistenciasgrupo", {
+      pageName: "Academia Americana - Asistencias",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      asistencias: true,
+      gruposTodos,
+      matri
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
