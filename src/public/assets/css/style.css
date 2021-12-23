@@ -1144,6 +1144,13 @@ table tr td {
     font-weight: 700;
     transition: .3s ease all;
 }
+.py27 .modal .btn.btn-outline-primary {
+    text-transform: capitalize;
+    color: #04246d !important;
+    border-color: #04246d !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
 .py27 .form-check-primary .form-check-input:not(:disabled):focus {
     border-color: #04246d !important;
 }

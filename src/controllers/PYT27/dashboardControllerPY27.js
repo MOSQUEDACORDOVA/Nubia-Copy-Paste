@@ -894,6 +894,26 @@ exports.verifyuser = (req, res) => {
   });
 };
 
+// DENEGAR VERIFICACION DE USUARIOS
+exports.denyverificationuser = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id;
+  const {id} = req.body;
+  console.log(proyecto)
+
+  let roleAdmin = true;
+  DataBase.DenyVerificationUser(id).then((users)=>{
+    return res.redirect('userspy27/PYT-27');
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error27/PYT-27");
+  });
+};
+
 // SOLICITAR VERIFICAR CUENTA
 exports.solicitverify = (req, res) => {
   let msg = false;

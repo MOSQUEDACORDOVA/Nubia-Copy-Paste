@@ -410,6 +410,8 @@ router.get('/userspy27/:id', authControllerPY27.authenticatedAdmin, dashboardCon
 // ? POST ADMIN 
 // VERIFICAR USUARIO
 router.post('/verifyuserpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.verifyuser);
+// VERIFICAR USUARIO
+router.post('/denyverificationpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.denyverificationuser);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtc);
 // METODOS DE PAGO, RETIRO EN BNB

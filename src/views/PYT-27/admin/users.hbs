@@ -258,7 +258,7 @@
             {{!-- END MODAL --}}
 
             {{!-- MODAL VERIFICACION --}}
-            <div class="modal fade" id="AddNewCard3" tabindex="-1" style="display: none;" aria-hidden="true">
+            <div class="modal fade" id="AddNewCard3" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
@@ -279,20 +279,27 @@
                                     <img src="" class="img-fluid mb-2 rounded-1" id="dni_back">
                                 </a>
                                 
-                                <input type="submit" class="btn btn-primary" value="Validate verification">
-                                <button type="reset" class="btn btn-outline-secondary">Deny</button>
+                                <button type="submit" class="btn btn-outline-primary">Validate verification</button>
+
+                                <button type="button" class="btn btn-outline-secondary deny-btn">Deny</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
             {{!-- END MODAL VERIFICACION --}}
+            
+            {{!-- DENEGAR VERIFICACION DE USUARIO --}}
+            <form action="/denyverificationpy27" method="post" id="denyForm" class="d-none">
+                <input type="text" id="denyIdUser" name="id"required>
+            </form>
         </div>
     </div>  
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>      
 <script>
-    let btnVerify = document.querySelectorAll('.btn-verify');
+    let btnVerify = document.querySelectorAll('.btn-verify'),
+    denyBtn = document.querySelector('.deny-btn');
 
     btnVerify.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -314,6 +321,15 @@
         link2.href = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
         dni2.src = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
     }
+
+    denyBtn.addEventListener('click', e => {
+        let form = document.getElementById('denyForm'),
+        inpDenyUserId = document.getElementById('denyIdUser'),
+        inpIdUser = document.getElementById('iduser');
+
+        inpDenyUserId.value = inpIdUser.value;
+        form.submit();
+    });
 </script>
 
 <script>
