@@ -374,7 +374,7 @@ exports.register = (req, res) => {
   console.log(proyecto)
 
   res.render(proyecto+"/auth/register", {
-    pageName: "Registro",
+    pageName: "Register",
     dashboardPage: true,
     dashboard: true,
     py27: true,
