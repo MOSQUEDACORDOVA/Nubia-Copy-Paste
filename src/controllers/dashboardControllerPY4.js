@@ -44,7 +44,7 @@ exports.dashboard = (req, res) => {
  let id_sucursal = req.session.sucursal_select
  console.log(req.session.tipo)
   //DATA-COMUNES
-  let ClientesDB = "", PedidosDB="", ChoferesDB="", LastPedidosAll="",PrestadosGroupByCliente=""
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", LastPedidosAll="",PrestadosGroupByCliente="",Carga_init="",Entregados_resumen=""
   switch (req.session.tipo) {
     case "Director":
       ClientesDB=DataBase.ClientesAll
@@ -52,6 +52,8 @@ exports.dashboard = (req, res) => {
     ChoferesDB=DataBase.ChoferesAll
     LastPedidosAll=DataBase.LastPedidosAll
     PrestadosGroupByCliente=DataBase.PrestadosGroupByCliente
+    Carga_init=DataBase.Carga_initResumen
+    Entregados_resumen=DataBase.entregados_resumen
       break;
   
     default:
@@ -60,6 +62,8 @@ exports.dashboard = (req, res) => {
     ChoferesDB=DataBase.ChoferesAllS
 LastPedidosAll=DataBase.LastPedidosAllS
 PrestadosGroupByCliente=DataBase.PrestadosGroupByClienteS
+Carga_init=DataBase.Carga_initSResumen
+Entregados_resumen=DataBase.entregados_resumen
       break;
   }
   DataBase.CodigosP().then((cp_)=>{
@@ -143,6 +147,16 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                    prestamos_byday =JSON.stringify(prestamos_byday)
                    DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
+                    let forma_hoy = hoy.format('L')
+                    console.log(forma_hoy)
+                    Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{
+                    
+                      let carga_let = JSON.parse(carga_) 
+                      console.log(carga_let)
+                        if (!carga_let.length) {
+                        console.log('sin carga inicial')
+                      }
+
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -158,13 +172,18 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
       devueltos_del_dia,cp_,
       notif1_2,cont_not,notif3_5,
       notif6_12,etiquetas_let,
-      msg
+      msg,carga_
     }) 
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -653,14 +672,34 @@ exports.cambiaS_pedido = (req, res) => {
   const status = req.body.status
   const motivo = req.body.motivo
   let id_sucursal = req.session.sucursal_select
+  let Carga_init=""
+  switch (req.session.tipo) {
+    case "Director":
+    Carga_init=DataBase.Carga_initResumen
+      break;
+  
+    default:
+Carga_init=DataBase.Carga_initSResumen
+      break;
+  }
   DataBase.CambiaStatus(id_pedido,status, motivo).then((respuesta) =>{
     DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+      let hoy = moment()
+      let forma_hoy = hoy.format('L')
+      Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{
+                    
+        let carga_let = JSON.parse(carga_) 
       let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
-    return res.send({msg:msg, pedidos_let})
+    return res.send({msg:msg, pedidos_let,carga_let})
     // res.redirect('/homepy4/'+msg)
 
   }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  }); 
+}).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);

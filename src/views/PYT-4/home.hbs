@@ -68,6 +68,9 @@ $(document).ready(function() {
     $('#btnventas').on('click', (e)=> {
         Reset(3);
     });
+        $('#btnresumen').on('click', (e)=> {
+        Reset(4);
+    });
 
     function Reset(num) {
         $('#pedidostable').removeClass('show');
@@ -78,6 +81,9 @@ $(document).ready(function() {
 
         $('#ventastable').removeClass('show');
         $('#ventastable').addClass('collpase');
+
+         $('#resumenTable').removeClass('show');
+        $('#resumenTable').addClass('collpase');
         
         switch (num){
             case 1:
@@ -92,6 +98,10 @@ $(document).ready(function() {
                 $('#ventastable').addClass('show');
                 $('#ventastable').removeClass('collpase');
             break;
+              case 4:
+                $('#resumenTable').addClass('show');
+                $('#resumenTable').removeClass('collpase');
+            break;
         }
     }
 });
@@ -100,6 +110,7 @@ $(document).ready(function() {
 {{#if msg}}
 <label id="msgs">{{msg}}</label>
 {{/if}}
+<input type="text" id="carga_" hidden value="{{carga_}}">
 
 <div class="app-content content py4">
     <div class="content-wrapper container-xxxl p-0">
@@ -151,6 +162,19 @@ $(document).ready(function() {
                                         </div>
                                     </div>
                                 </div>
+                                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnresumen" data-bs-toggle="collapse" href="#resumenTable" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-success me-2">
+                                           <div class="avatar-content">
+                                                <i data-feather='loader' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0" >Resumen</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -359,11 +383,11 @@ $(document).ready(function() {
                     </div>
                 </section>
             </div>
-            <div class="card collapse" id="ventastable">
+            <div class="card collapse" id="resumenTable">
                 <div class="card-body">
-                    <h4 class="card-title">Ventas</h4>
-                    <p class="card-text">Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
-                    modificarlos rápidamente.</p>
+                    <h4 class="card-title">Resumen</h4>
+                    {{!-- <p class="card-text">Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
+                    modificarlos rápidamente.</p> --}}
                 </div>
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
@@ -376,8 +400,8 @@ $(document).ready(function() {
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
-                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
+                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_resumen"/>
+                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_resumen"/>
                                 </div>
                             </div>
                         </div>
@@ -410,10 +434,11 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic2 table dt-column-search2">
+                                    <table class="datatables-resumen table dt-column-search_resumen">
                                           <thead>
                                             <tr>
                                                 <th>Carga Inicial</th>
+                                                <th>Pedidos</th>
                                                 <th>Entregados</th>
                                                 <th>Pendientes</th>                                                
                                             
