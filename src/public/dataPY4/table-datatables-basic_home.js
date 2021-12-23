@@ -772,22 +772,22 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-        <tr>
-        <th></th>
-        <th>Nº Pedido</th>
-        <th>Cliente</th>
-        <th>Total garrafones</th>
-        <th>Monto Total</th>
-        <th>Status del Pedido</th>
-        <th>Status de Pago</th>
-        <th>Fecha</th>
-        <th>Opciones</th>
+        <tr>                                                
+            <th></th>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
             
         
         <th>oculto choferes </th> 
         <th>oculto etiqueta </th> 
         </tr>
-        </thead>`);
+    </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -805,7 +805,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         <th>oculto choferes </th> 
         <th>oculto etiqueta </th> 
         </tr>
-        </thead>`);
+    </thead>`);
         
         cargaTablas('si')
   $('.modal').modal('hide');
@@ -1225,10 +1225,12 @@ if (estado) {
     processData: false,
     success: function (data, textStatus, jqXHR) {
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+$('#carga_').val(JSON.stringify(data.carga_let))
 $('.datatables-basic').dataTable().fnDestroy();
  $('.datatables-basic').empty();
 $('.datatables-basic').html(`<thead>
-<tr>
+<tr>                                                
+    <th></th>
     <th>Nº Pedido</th>
     <th>Cliente</th>
     <th>Total garrafones</th>
@@ -1243,6 +1245,7 @@ $('.datatables-basic').html(`<thead>
 <th>oculto etiqueta </th> 
 </tr>
 </thead>`);
+
 $('.datatables-basic2').dataTable().fnDestroy();
 $('.datatables-basic2').empty();
 $('.datatables-basic2').html(`<thead>
@@ -1263,6 +1266,20 @@ $('.datatables-basic2').html(`<thead>
 </thead>`);
 
 cargaTablas('si')
+$('.datatables-resumen').dataTable().fnDestroy();
+$('.datatables-resumen').empty();
+$('.datatables-resumen').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+
+cargaTableResumen('si')
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)

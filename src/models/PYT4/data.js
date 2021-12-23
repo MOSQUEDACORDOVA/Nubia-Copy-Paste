@@ -994,6 +994,55 @@ console.log(hoy)
         });
     });
   },
+  //RESUMEN
+  entregados_resumen(id,dia){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{sucursaleId: id,status_pedido: 'Entregado',createdAt: { [Op.gte]: dia }},
+        include:[
+            {association:Pedidos.Personal },
+            {association:Pedidos.Clientes },       
+    ], order: [
+         ["createdAt", "DESC"],
+      ]} )
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  Carga_initSResumen(id, dia){
+    return new Promise((resolve, reject) => {
+      Carga_init.findAll({where:{sucursaleId:id, createdAt: dia}, include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  Carga_initResumen(id, dia){
+    return new Promise((resolve, reject) => {
+      Carga_init.findAll({where:{createdAt: { [Op.gte]: dia }},include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
      //Personal
      savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo) {
       return new Promise((resolve, reject) => {
