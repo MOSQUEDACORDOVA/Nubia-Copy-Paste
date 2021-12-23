@@ -107,4 +107,11 @@
         }
     });
 
+    selectIntensivo.addEventListener('change', e => {
+        let select = selectIntensivo.options[selectIntensivo.selectedIndex].value;
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
+        grupoForm.submit();
+    });
+
 </script>

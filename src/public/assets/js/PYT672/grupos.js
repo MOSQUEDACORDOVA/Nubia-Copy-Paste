@@ -146,10 +146,10 @@ btnModalMatricula.forEach(btn => {
                                 estado = `<span class="badge rounded-pill badge-light-danger">${row.estado.estado}</span>`
                             }
 
-                            if (row.telefono2 != '-') {
+                            if (row.telefono2 != '-' && row.telefono2 != null) {
                                 telefonos += ', ' + row.telefono2;
                             } 
-                            if (row.telefono3 != '-') {
+                            if (row.telefono3 != '-' && row.telefono3 != null) {
                                 telefonos += ', ' + row.telefono3;
                             }
                             newRow.innerHTML = 

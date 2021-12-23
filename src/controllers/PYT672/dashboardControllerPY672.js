@@ -1030,7 +1030,7 @@ exports.registrarmatricula = (req, res) => {
 
   if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
-    return res.redirect('/verificargrupos/PYT-672');
+    return res.redirect('/matriculas/PYT-672');
   } else {
     if(!telefono2) {
       telefono2 = '-'
@@ -1045,7 +1045,7 @@ exports.registrarmatricula = (req, res) => {
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      return res.redirect('/verificargrupos/PYT-672');
+      return res.redirect('/matriculas/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
