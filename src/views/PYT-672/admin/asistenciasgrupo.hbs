@@ -14,7 +14,7 @@
                     <div class="col-12">
                         <div class="card card-statistics border-secondary" id="estudiante{{id}}">
                             <div class="card-header pb-0">
-                                <h5>Grupo: {{grupo.identificador}}<span class="ms-1">Lección 2</span> - <span class="badge badge-light-secondary">Ausente</span></h5>
+                                <h5>Grupo: {{grupo.identificador}}<span class="ms-1">Lección 2&nbsp;</span>&nbsp;<span class="badge badge-light-secondary"></span></h5>
                                 <div class="d-flex align-items-center">
                                     <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
                                         <input type="checkbox" id="miCheck{{id}}" data-id="{{id}}" class="mb-0 form-check d-none checkBoxes">
@@ -49,8 +49,8 @@
                     {{/each}}
 
                     {{#if matri}}{{else}}
-                    <div class="col-12">
-                        <p class="lead">¡No existe matricula!</p>
+                    <div class="alert alert-primary" role="alert">
+                        <div class="alert-body text-primary">¡El grupo seleccionado no poseé ninguna matrícula!</div>
                     </div>
                     {{/if}}
                     

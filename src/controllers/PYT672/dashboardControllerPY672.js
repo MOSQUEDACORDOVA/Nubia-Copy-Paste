@@ -512,6 +512,7 @@ exports.asistencias = (req, res) => {
   }
   let proyecto = req.params.id  
 
+
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
     console.log(gruposTodos)
@@ -521,13 +522,13 @@ exports.asistencias = (req, res) => {
       let gruposDesde0 = JSON.parse(response2);
       console.log(gruposDesde0)
       console.log("DESDE CERO INICIADOS")
-
+      
       DataBase.ObtenerGruposIntensivo().then((response3) => {
         let gruposIntensivo = JSON.parse(response3);
         console.log(gruposIntensivo)
         console.log("INTENSIVOS INICIADOS")
 
-  /*DataBase.BuscarGrupos(7).then((respuesta) => {
+  DataBase.BuscarGrupos(7).then((respuesta) => {
     let grupo = JSON.parse(respuesta)[0]
     let numLeccion;
 
@@ -551,7 +552,7 @@ exports.asistencias = (req, res) => {
     console.log(fechaInicio)
     console.log(diff)
     console.log(rest)
-    console.log(numLeccion)*/
+    console.log(numLeccion)
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -561,19 +562,19 @@ exports.asistencias = (req, res) => {
       asistencias: true,
       gruposTodos,
       gruposDesde0,
-      gruposIntensivo
-      /*grupo,
+      gruposIntensivo,
+      grupo,
       numLeccion,
       fechaActual,
       fechaInicio,
       diff,
-      rest*/
+      rest,
     });
-  /*}).catch((err) => {
+  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
-  });*/
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -597,7 +598,7 @@ exports.asistenciasgrupo = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = "PYT-672"  
+  let proyecto = req.params.id  
   let idGrupo = req.params.grupoid
 
   DataBase.ObtenerTodosGrupos().then((response) => {
@@ -605,20 +606,89 @@ exports.asistenciasgrupo = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
-      let matri = JSON.parse(response2);
-      console.log(matri)
-      console.log("GRUPO ENCONTRADO")
+    DataBase.ObtenerGruposDesdeCero().then((response2) => {
+      let gruposDesde0 = JSON.parse(response2);
+      console.log(gruposDesde0)
+      console.log("DESDE CERO INICIADOS")
 
-    res.render(proyecto+"/admin/asistenciasgrupo", {
+      DataBase.ObtenerGruposIntensivo().then((response3) => {
+        let gruposIntensivo = JSON.parse(response3);
+        console.log(gruposIntensivo)
+        console.log("INTENSIVOS INICIADOS")
+
+      let matri, grupoIdentificador;
+
+      DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
+        matri = JSON.parse(response2);
+        if (matri.length) {
+          grupoIdentificador = matri[0].grupo.identificador
+        } else {
+          grupoIdentificador = "El grupo selecionado no poseé una matrícula";
+        }
+        console.log(grupoIdentificador)
+        console.log("GRUPO ENCONTRADO")
+          
+     
+
+  DataBase.BuscarGrupos(7).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    let numLeccion;
+
+    let fechaActual = moment().format("DD-MM-YYYY");
+
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+    let rest; 
+
+    if(diff < 0) {
+      rest = (224 - (-diff)) / 7; 
+    } else {
+      rest = (224 - (diff)) / 7; 
+    }
+
+    numLeccion = (32 - Math.floor(rest))
+
+    console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+    console.log(numLeccion)
+
+    res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
       dashboardPage: true,
       dashboard: true,
       py672: true,
       asistencias: true,
       gruposTodos,
+      gruposDesde0,
+      gruposIntensivo,
+      grupo,
+      grupoIdentificador,
+      numLeccion,
+      fechaActual,
+      fechaInicio,
+      diff,
+      rest,
       matri
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
