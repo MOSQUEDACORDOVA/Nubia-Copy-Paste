@@ -627,33 +627,6 @@ exports.asistenciasgrupo = (req, res) => {
         console.log(grupoIdentificador)
         console.log("GRUPO ENCONTRADO")
           
-     
-
-  DataBase.BuscarGrupos(7).then((respuesta) => {
-    let grupo = JSON.parse(respuesta)[0]
-    let numLeccion;
-
-    let fechaActual = moment().format("DD-MM-YYYY");
-
-    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-
-    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-
-    let rest; 
-
-    if(diff < 0) {
-      rest = (224 - (-diff)) / 7; 
-    } else {
-      rest = (224 - (diff)) / 7; 
-    }
-
-    numLeccion = (32 - Math.floor(rest))
-
-    console.log(fechaActual)
-    console.log(fechaInicio)
-    console.log(diff)
-    console.log(rest)
-    console.log(numLeccion)
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -664,20 +637,9 @@ exports.asistenciasgrupo = (req, res) => {
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
-      grupo,
       grupoIdentificador,
-      numLeccion,
-      fechaActual,
-      fechaInicio,
-      diff,
-      rest,
       matri
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
