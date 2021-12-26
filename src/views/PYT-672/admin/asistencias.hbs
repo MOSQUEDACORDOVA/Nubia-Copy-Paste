@@ -12,6 +12,8 @@
                         <p class="lead">fecha inicio: {{fechaInicio}}</p>
                     </div>--}}
                     
+                    <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
+
                     <div class="col-12 mb-1">
                         <div class="demo-inline-spacing">
                             <div class="form-check form-check-inline">
@@ -28,7 +30,7 @@
                     <div class="col-12 p-0" id="filtrosDesdeCero">
                         <div class="row m-0 p-0">
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select">
+                                <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
                                     {{#each gruposDesde0 as |grupo i|}}
                                     <option value="{{grupo.id}}">
@@ -39,7 +41,7 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select">
+                                <select name="" id="" class="form-select select2">
                                     <option value="-">Seleccionar Lección</option>
                                 </select>
                             </div>
@@ -49,7 +51,7 @@
                     <div class="col-12 p-0 d-none" id="filtrosIntensivo">
                         <div class="row m-0 p-0">
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select">
+                                <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
                                     {{#each gruposIntensivo as |grupo i|}}
                                     <option value="{{grupo.id}}">
@@ -60,7 +62,7 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select">
+                                <select name="" id="" class="form-select select2">
                                     <option value="-">Seleccionar Lección</option>
                                 </select>
                             </div>
@@ -134,14 +136,16 @@
         </div>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
 <script>
+$(document).ready(function() {
+
     let checkDesde0 = document.getElementById('inlineRadio3'),
     checkIntensivo = document.getElementById('inlineRadio4'),
     filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
-    selectDesdeCero = document.querySelector('#filtrosDesdeCero select'),
+    selectDesdeCero = document.querySelector('#filtrosDesdeCero select.grupo'),
     filtrosIntensivo = document.getElementById('filtrosIntensivo'),
-    selectIntensivo = document.querySelector('#filtrosIntensivo select'),
+    selectIntensivo = document.querySelector('#filtrosIntensivo select.grupo'),
     grupoForm = document.getElementById('grupoForm'),
     grupoFormInput = document.querySelector('#grupoForm input.grupoId');
 
@@ -152,12 +156,48 @@
         }
     });
 
-    selectDesdeCero.addEventListener('change', e => {
+    if($('#grupoId').val() != "") {
+        let arr = Object.values(selectDesdeCero.options),
+        arr2 = Object.values(selectIntensivo.options);
+        
+        arr.forEach(item => {
+            console.log(item)
+            if (item.value === $('#grupoId').val()) {
+                $('#filtrosDesdeCero select.grupo').val($('#grupoId').val());
+                $('#filtrosDesdeCero select.grupo').trigger('change');
+            }
+        });
+
+        arr2.forEach(item => {
+            console.log(item)
+            if (item.value === $('#grupoId').val()) {
+                $('#filtrosIntensivo select.grupo').val($('#grupoId').val());
+                $('#filtrosIntensivo select.grupo').trigger('change');
+                checkDesde0.checked = false;
+                checkIntensivo.checked = true;
+                filtrosIntensivo.classList.remove('d-none');
+                filtrosDesdeCero.classList.add('d-none');
+            }
+        });
+    }
+
+    $('#filtrosDesdeCero .select2').on('select2:select', function (e) {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        let data = e.params.data;
+        let id = data.id;
+        console.log(data);
+
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.submit();
+    });
+
+    /*selectDesdeCero.addEventListener('change', e => {
         let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
         grupoFormInput.value = select;
         grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
         grupoForm.submit();
-    });
+    });*/
 
     checkIntensivo.addEventListener('change', e => {
         if(checkIntensivo.checked === true) {
@@ -166,12 +206,23 @@
         }
     });
 
-    selectIntensivo.addEventListener('change', e => {
+    $('#filtrosIntensivo .select2').on('select2:select', function (e) {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        let data = e.params.data;
+        let id = data.id;
+        console.log(data);
+
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.submit();
+    });
+
+    /*selectIntensivo.addEventListener('change', e => {
         let select = selectIntensivo.options[selectIntensivo.selectedIndex].value;
         grupoFormInput.value = select;
         grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
         grupoForm.submit();
-    });
+    });*/
 
     let btnsAsistencias = document.querySelectorAll('.btnAsistencia');
 
@@ -217,4 +268,5 @@
         });
     });
 
+});
 </script>

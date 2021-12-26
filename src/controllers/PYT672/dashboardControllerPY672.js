@@ -527,7 +527,7 @@ exports.asistencias = (req, res) => {
         console.log(gruposIntensivo)
         console.log("INTENSIVOS INICIADOS")
 
-  /*DataBase.BuscarGrupos(7).then((respuesta) => {
+  DataBase.BuscarGrupos(9).then((respuesta) => {
     let grupo = JSON.parse(respuesta)[0]
     let numLeccion;
 
@@ -551,7 +551,7 @@ exports.asistencias = (req, res) => {
     console.log(fechaInicio)
     console.log(diff)
     console.log(rest)
-    console.log(numLeccion)*/
+    console.log(numLeccion)
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -562,18 +562,18 @@ exports.asistencias = (req, res) => {
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
-      /*grupo,
+      grupo,
       numLeccion,
       fechaActual,
       fechaInicio,
       diff,
-      rest,*/
+      rest,
     });
-  /*}).catch((err) => {
+  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
-  });*/
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -619,6 +619,7 @@ exports.asistenciasgrupo = (req, res) => {
 
       DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
         matri = JSON.parse(response2);
+        let grupoId = idGrupo;
         if (matri.length) {
           grupoIdentificador = matri[0].grupo.identificador
         } else {
@@ -638,7 +639,8 @@ exports.asistenciasgrupo = (req, res) => {
       gruposDesde0,
       gruposIntensivo,
       grupoIdentificador,
-      matri
+      matri,
+      grupoId
     });
   }).catch((err) => {
     console.log(err)
