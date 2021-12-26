@@ -1617,6 +1617,14 @@ table tr td {
     width: 40px;
     height: 40px;
 }
+.py672 .calificacion {
+    border: none;
+    width: 30px;
+}
+.py672 .calificacion:focus {
+    border: none;
+    outline: none;
+}
 /*.py672 .form-check {
     visibility: hidden;
 }*/
