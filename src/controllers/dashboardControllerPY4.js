@@ -148,11 +148,9 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                    DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     let forma_hoy = hoy.format('L')
-                    console.log(forma_hoy)
                     Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{
                     
                       let carga_let = JSON.parse(carga_) 
-                      console.log(carga_let)
                         if (!carga_let.length) {
                         console.log('sin carga inicial')
                       }
@@ -492,7 +490,7 @@ console.log(req.body)
   });
 }
 exports.save_cliente_edit_tag = async (req, res) => {
-     
+  console.log(req.body)
   const {id,color} = req.body
   let msg = false;
 let ids =id.split(',')
@@ -500,6 +498,7 @@ let ids =id.split(',')
 for (let i = 0; i < ids.length; i++) {
   console.log(ids[i])
   await DataBase.update_cliente_tag(ids[i],color).then((respuesta) =>{
+    console.log(respuesta)
  }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -520,6 +519,7 @@ for (let i = 0; i < ids.length; i++) {
     }
     ClientesDB(id_sucursal).then((clientes_d)=>{
     let clientes_arr = JSON.parse(clientes_d)
+    console.log(clientes_arr)
     res.send({clientes_arr})
 
   
@@ -633,18 +633,27 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior} = req.body
+  const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior, descuento} = req.body
 
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
   let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
   let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
   let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
   let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
-
+  let PedidosDB=""
+  switch (req.session.tipo) {
+    case "Director":
+    PedidosDB=DataBase.PedidosAll
+      break;
+  
+    default:
+    PedidosDB=DataBase.PedidosAllS
+      break;
+  }
  
-  DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
+  DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,descuento).then(async(respuesta) =>{
     let id_sucursal = req.session.sucursal_select
-    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+   await PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
     return res.send({msg:msg, pedidos_let})
@@ -676,14 +685,16 @@ exports.cambiaS_pedido = (req, res) => {
   switch (req.session.tipo) {
     case "Director":
     Carga_init=DataBase.Carga_initResumen
+     PedidosDB=DataBase.PedidosAll
       break;
   
     default:
 Carga_init=DataBase.Carga_initSResumen
+PedidosDB=DataBase.PedidosAllS
       break;
   }
   DataBase.CambiaStatus(id_pedido,status, motivo).then((respuesta) =>{
-    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+    PedidosDB(id_sucursal).then((pedidos_)=>{
       let hoy = moment()
       let forma_hoy = hoy.format('L')
       Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{

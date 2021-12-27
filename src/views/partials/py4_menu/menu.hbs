@@ -888,7 +888,7 @@ padding-left: 0.7rem;
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
+                <form class="needs-validation was-validated" action="/save_cliente_py4" method="post" id="form_reg_cliente">
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
                             tabindex="1" autofocus="" class="form-control mb-2">
@@ -1014,16 +1014,16 @@ padding-left: 0.7rem;
                     </div>
                                         <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                             aria-describedby="register-sucursal" tabindex="24" name="sucursal"
-                            class="form-control mb-2">
-                            <option selected=""> Seleccione una zona </option>
+                            class="form-control mb-2" id="reg_zona_cliente">
+                            <option selected="" value="0"> Seleccione una zona </option>
                             {{#each sucursales_let as |sucursal i|}}
                             <option value={{id}}> {{nombre}} </option>
                             {{/each}}
                         </select></div>
                    <div class="form-group">
                   <label for="register-lastName" class="form-label">Etiqueta</label>
-                  <select class="select2 form-select" id="color_tag" name="color" >
-                    <option selected="" value="default"> Seleccione una etiqueta </option>
+                  <select class="select2 form-select" id="color_tag_reg_cliente" name="color" >
+                    <option selected="" value="0"> Seleccione una etiqueta </option>
                     {{#each etiquetas_let as |cliente i|}}
                     <option value="{{id}}"> {{etiquetas}}</option>
                     {{/each}}

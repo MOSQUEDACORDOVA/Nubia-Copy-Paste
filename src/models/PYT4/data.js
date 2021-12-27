@@ -496,7 +496,7 @@ module.exports = {
         });
     });
   },
- PedidosUpd(id_pedido,id_cliente,  chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido,total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido) {
+ PedidosUpd(id_pedido,id_cliente,  chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido,total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,descuento) {
     return new Promise((resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -513,7 +513,7 @@ module.exports = {
           chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,danados:danados, clienteId: id_cliente, personalId: id_chofer,sucursaleId: sucursal,deuda_anterior:deuda_anterior, total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
           total_canje_pedido:total_canje_cant_pedido,
           total_nv_pedido:total_nuevo_cant_pedido,
-          total_obsequio_pedido:total_obsequio_pedido }, { where:{
+          total_obsequio_pedido:total_obsequio_pedido,descuento:descuento }, { where:{
             id: id_pedido
         }})
         .then((data) => {
@@ -522,7 +522,7 @@ module.exports = {
           Last_p.update({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
             total_canje_pedido:total_canje_cant_pedido,
             total_nv_pedido:total_nuevo_cant_pedido,
-            total_obsequio_pedido:total_obsequio_pedido  },{where:{pedidoId:id_pedido}})
+            total_obsequio_pedido:total_obsequio_pedido,descuento:descuento  },{where:{pedidoId:id_pedido}})
             resolve("Se actualizó correctamente el pedido");     
 
     })
