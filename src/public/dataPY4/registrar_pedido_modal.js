@@ -383,6 +383,20 @@ $(function () {
     $("#id_chofer").val(id_chofer);
   })
 
+$('#form_reg_cliente').submit((e)=>{
+e.preventDefault()
+console.log(e)
+if ($('#reg_zona_cliente').val() == "0" ) {
+  Swal.fire('Debe asignar una zona al cliente')
+  return
+}
+if ($('#color_tag_reg_cliente').val() == "0") {
+  Swal.fire('Debe asignar una etiqueta al cliente')
+  return
+}
 
+e.currentTarget.submit();
+
+})
 
 });

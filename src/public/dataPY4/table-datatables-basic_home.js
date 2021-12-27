@@ -334,13 +334,16 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 4,
           render: function (data, type, full, meta) {
-           let detailRefill = 0, detailCanje = 0, detailNuevo=0
-           detailRefill = parseFloat(full['total_refill_pedido'])*35
-           detailCanje = parseFloat(full['total_canje_pedido'])*55
-           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
            return (
-            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"   style="cursor:pointer;" >$' +
-            data +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            condesc +
             '</span>'
           );
         }
@@ -605,13 +608,16 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           targets: 3,
           render: function (data, type, full, meta) {
             
-           let detailRefill = 0, detailCanje = 0, detailNuevo=0
-           detailRefill = parseFloat(full['total_refill_pedido'])*35
-           detailCanje = parseFloat(full['total_canje_pedido'])*55
-           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
            return (
-            '<span class="badge rounded-pill badge-light-info detail_monto"  data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  style="cursor:pointer;">$' +
-            data +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            condesc +
             '</span>'
           );
         }
@@ -870,6 +876,9 @@ $.contextMenu({
     var rfeill = e.currentTarget['dataset']["rfeill"];
     var canje = e.currentTarget['dataset']["canje"];
    var Env = e.currentTarget['dataset']["env"] 
+   var desc = e.currentTarget['dataset']["descuento"] 
+   var sindesc = e.currentTarget['dataset']["sindesc"] 
+   var condesc = e.currentTarget['dataset']["condesc"] 
    var obsequio = e.currentTarget['dataset']["obsequio"];
    var total = e.currentTarget['dataset']["total"] 
       return {
@@ -880,7 +889,9 @@ $.contextMenu({
               "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
-              "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Sub-Total": { name: `Sub-Total: $${sindesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Desc.": { name: `Desc.: $${desc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Total": { name: `Total: $${condesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
   }
@@ -1007,42 +1018,58 @@ $.contextMenu({
   
   $('.datatables-basic').dataTable().fnDestroy();
    $('.datatables-basic').empty();
-  $('.datatables-basic').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-  </thead>`);
-  $('.datatables-basic2').dataTable().fnDestroy();
-  $('.datatables-basic2').empty();
-  $('.datatables-basic2').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-  </thead>`);
-  
-  cargaTablas('si')
+   $('.datatables-basic').html(`<thead>
+   <tr>                                                
+       <th></th>
+       <th>Nº Pedido</th>
+       <th>Cliente</th>
+       <th>Total garrafones</th>
+       <th>Monto Total</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       
+   
+   <th>oculto choferes </th> 
+   <th>oculto etiqueta </th> 
+   </tr>
+   </thead>`);
+   
+   $('.datatables-basic2').dataTable().fnDestroy();
+   $('.datatables-basic2').empty();
+   $('.datatables-basic2').html(`<thead>
+   <tr>
+       <th>Nº Pedido</th>
+       <th>Cliente</th>
+       <th>Total garrafones</th>
+       <th>Monto Total</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       
+   
+   <th>oculto choferes </th> 
+   <th>oculto etiqueta </th> 
+   </tr>
+   </thead>`);
+   
+   cargaTablas('si')
+   $('.datatables-resumen').dataTable().fnDestroy();
+   $('.datatables-resumen').empty();
+   $('.datatables-resumen').html(`<thead>
+   <tr>
+       <th>Carga Inicial</th>
+       <th>Pedidos</th>
+       <th>Entregados</th>
+       <th>Pendientes</th>                                                
+   
+   <th>oculto choferes </th>  
+   </tr>
+   </thead>`);
+   
+   cargaTableResumen('si')
   $('#edit_pedido').modal('hide')
       },
       error: function (jqXHR, textStatus) {
@@ -1467,6 +1494,13 @@ $('#status_pedido_edit').val(data['status_pedido'])
 $('#prestados_edit').val(data['garrafones_prestamos'])
 $('#danados_edit').val(data['danados'])
 $('#descuento_edit').val(data['descuento'])
+$('#total_total_inp').val(data['monto_total'])
+if (data['descuento']>0) {
+  $('#monto_descuento').removeClass('d-none')
+  console.log($('#total_total_inp').val())
+  let descuento = parseInt($('#total_total_inp').val()) - parseInt(data['descuento'])
+  $('#total_desc').text(descuento)
+}
 $('#observacion_edit').val(data['observacion'])
 $('#edit_pedido').modal('show')
   },

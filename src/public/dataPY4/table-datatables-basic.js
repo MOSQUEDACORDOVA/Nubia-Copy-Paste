@@ -351,7 +351,7 @@ $('#btn_asignar_tag').on('click', async (e)=>{
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
-$('#exampleClientes').append(` <thead>
+$('#exampleClientes').append(`  <thead>
 <tr>
     <th> </th>
     <th>Nombre</th>
@@ -360,6 +360,7 @@ $('#exampleClientes').append(` <thead>
     <th>Titulo</th>
     <th>Teléfono</th>
     <th>Correo</th>  
+    <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
 </thead>`);
@@ -368,7 +369,7 @@ $('.modal').modal('hide');
 Swal.fire('Se asignó con éxito la(s) etiqueta al cliente')
     },
     error: function (jqXHR, textStatus) {
-      console.log('error:' + jqXHR)
+      console.log('error:' + JSON.stringify(jqXHR))
     }
   });
   
@@ -498,6 +499,7 @@ $.ajax({
   processData: false,
   success: function (data, textStatus, jqXHR) {
 console.log(data)
+$('#cliente_nuevo_edited').attr('checked', false);  
 $('#id_cliente_edited').val(data['cliente_let']['id'])
 $('#firstName_edited').val(data['cliente_let']['firstName'])
 $('#lastName_edited').val(data['cliente_let']['lastName'])
@@ -532,7 +534,9 @@ if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']
   //  $('#metodo_pago_edit').find('option:selected').remove().end();
     $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
   }
-
+  if ( data['cliente_let']['nuevo']=="SI" ){
+    $('#cliente_nuevo_edited').attr('checked', true);  
+    }
 $('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
 $('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
 
