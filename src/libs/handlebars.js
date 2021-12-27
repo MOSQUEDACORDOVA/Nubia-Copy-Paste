@@ -288,6 +288,56 @@ module.exports = {
 			return 'intensivo';
 		}
 	},
+	horarioleccionpy672: (horario) => {
+		if(horario.includes("Sabado")) {
+			return `
+			<div class="box">
+				<div class="d-flex">
+					<div class="hour-box me-1 position-relative">
+						<div class="d-flex align-items-center">
+							<i data-feather='clock' class="hour-icon"></i>
+							<p class="lead mb-0">H. Entrada</p>
+						</div>
+						<input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="8:30 PM">
+					</div>
+					<div class="hour-box position-relative">
+						<div class="d-flex align-items-center">
+							<i data-feather='clock' class="hour-icon"></i>
+							<p class="lead mb-0">H. Salida</p>
+						</div>
+						<input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="11:00 PM">
+					</div>
+				</div>
+			</div>
+			`;
+		} else {
+			return `
+			<div class="box">
+				<div class="d-flex">
+					<div class="hour-box me-1 position-relative">
+						<div class="d-flex align-items-center">
+							<i data-feather='clock' class="hour-icon"></i>
+							<p class="lead mb-0">H. Entrada</p>
+						</div>
+						<input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM" disabled="disabled">
+					</div>
+					<div class="hour-box position-relative">
+						<div class="d-flex align-items-center">
+							<i data-feather='clock' class="hour-icon"></i>
+							<p class="lead mb-0">H. Salida</p>
+						</div>
+						<input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM" disabled="disabled">
+					</div>
+				</div>
+			</div>
+			`;
+		}
+	},
+	fechamenumatriculapy672: (fecha) => {
+		moment.locale('es');
+		let format = moment(fecha, "DD-MM-YYYY").format("MMM D YYYY");
+		return format;
+	},
 	totalth: (totalth) => {
 		let total = 0;
 		console.log(totalth)

@@ -172,6 +172,25 @@ module.exports = {
           });
       });
     },
+    // DENEGAR VERIFICACION DE USUARIO
+    DenyVerificationUser(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.update({
+          front_img_dni: null,
+          back_img_dni: null
+        }, { where: {
+          id: id
+        }})
+          .then((data) => {
+            let data_s = JSON.stringify(data);
+            console.log(data_s)
+            resolve('VERIFICACION DE USUARIO NEGADA');
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER CLIENTES VERIFICADOS
     GetAllVerifiedUsers() {
       return new Promise((resolve, reject) => {   

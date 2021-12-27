@@ -486,7 +486,7 @@ exports.matriculas = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      matricula: true,
+      matric: true,
       gruposTodos,
       arr,
       response2
@@ -512,7 +512,40 @@ exports.asistencias = (req, res) => {
   }
   let proyecto = req.params.id  
 
-  /*DataBase.BuscarGrupos(7).then((respuesta) => {
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    DataBase.ObtenerMatriculasDistinct().then((response2) => {
+      let gruposDist = JSON.parse(response2);
+      console.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")
+      
+      let gruposDesde0 = [], gruposIntensivo = [];
+      
+      gruposDist.forEach(element => {
+        DataBase.BuscarGrupos(element.grupoId).then((response3) => {
+          let gruposFounds = JSON.parse(response3);
+          console.log(gruposFounds)
+          console.log("GRUPOS ENCONTRADOS")
+
+          gruposFounds.forEach(found => {
+            if(found.nombre === "Desde cero") {
+              gruposDesde0.push(found);
+            } else {
+              gruposIntensivo.push(found);
+            }
+          });
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      });
+
+  /*DataBase.BuscarGrupos(9).then((respuesta) => {
     let grupo = JSON.parse(respuesta)[0]
     let numLeccion;
 
@@ -520,9 +553,23 @@ exports.asistencias = (req, res) => {
 
     let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
 
-    let diff = moment(fechaInicio, "DD-MM-YYYY").diff(moment(), 'days');
-    let rest = (224 - (diff)) / 224; 
-    numLeccion = Math.floor(rest)*/
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+    let rest; 
+
+    if(diff < 0) {
+      rest = (224 - (-diff)) / 7; 
+    } else {
+      rest = (224 - (diff)) / 7; 
+    }
+
+    numLeccion = (32 - Math.floor(rest))
+
+    console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+    console.log(numLeccion)*/
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -530,18 +577,147 @@ exports.asistencias = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      gruposTodos,
+      gruposDesde0,
+      gruposIntensivo,
       /*grupo,
       numLeccion,
       fechaActual,
       fechaInicio,
       diff,
-      rest*/
+      rest,*/
     });
   /*}).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
   });*/
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * ASISTENCIAS DE GRUPO
+exports.asistenciasgrupo = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  let idGrupo = req.params.grupoid
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    DataBase.ObtenerMatriculasDistinct().then((response2) => {
+      let gruposDist = JSON.parse(response2);
+      console.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")
+      
+      let gruposDesde0 = [], gruposIntensivo = [];
+      
+      gruposDist.forEach(element => {
+        DataBase.BuscarGrupos(element.grupoId).then((response3) => {
+          let gruposFounds = JSON.parse(response3);
+          console.log(gruposFounds)
+          console.log("GRUPOS ENCONTRADOS")
+
+          gruposFounds.forEach(found => {
+            if(found.nombre === "Desde cero") {
+              gruposDesde0.push(found);
+            } else {
+              gruposIntensivo.push(found);
+            }
+          });
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      });
+      let matri, grupoIdentificador;
+
+      DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
+        matri = JSON.parse(response2);
+        let grupoId = idGrupo;
+        /*if (matri.length) {
+          grupoIdentificador = matri[0].grupo.identificador
+        } else {
+          grupoIdentificador = "El grupo selecionado no poseé una matrícula";
+        }
+        console.log(grupoIdentificador)*/
+        console.log("GRUPO ENCONTRADO")
+
+    res.render(proyecto+"/admin/asistencias", {
+      pageName: "Academia Americana - Asistencias",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      asistencias: true,
+      gruposTodos,
+      gruposDesde0,
+      gruposIntensivo,
+      matri,
+      grupoId
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * CALIFICACIONES
+exports.calificaciones = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+
+    res.render(proyecto+"/admin/calificaciones", {
+      pageName: "Academia Americana - Calificaciones",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      calificaciones: true,
+      gruposTodos,
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 exports.error = (req, res) => {
@@ -915,7 +1091,7 @@ exports.registrarmatricula = (req, res) => {
 
   if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
-    return res.redirect('/verificargrupos/PYT-672');
+    return res.redirect('/matriculas/PYT-672');
   } else {
     if(!telefono2) {
       telefono2 = '-'
@@ -930,7 +1106,7 @@ exports.registrarmatricula = (req, res) => {
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      return res.redirect('/verificargrupos/PYT-672');
+      return res.redirect('/matriculas/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

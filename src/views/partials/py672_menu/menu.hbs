@@ -14,7 +14,7 @@
                 <a class="nav-link" href="#" data-bs-toggle="dropdown">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus ficon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
+                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end drop-main-menu">
                     <form  class="form" action="/registrarestudiantepy672" method="POST">
                         <li class="dropdown-menu-header">
                             <div class="dropdown-header d-flex">
@@ -31,7 +31,7 @@
                                             <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
                                                 {{#each gruposTodos as |item i|}}
                                                 <option value="{{id}}">
-                                                    {{identificador}} - {{dia_horario}}
+                                                    {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
                                                 </option>
                                                 {{/each}}
                                             </select>
@@ -218,21 +218,27 @@
             <li class="{{#if grupos}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/verificargrupos/PYT-672">
                     <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Tablero">Grupos</span>
+                    <span class="menu-title text-truncate">Grupos</span>
                 </a>
             </li>
-            <li class="{{#if matricula}}active{{/if}} nav-item">
+            <li class="{{#if matric}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/matriculas/PYT-672">
                     <i data-feather='trending-up'></i>
-                    <span class="menu-title text-truncate" data-i18n="Contratos">Matrícula</span>
+                    <span class="menu-title text-truncate">Matrícula</span>
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/asistencias/PYT-672">
                     <i data-feather='clipboard'></i>
-                    <span class="menu-title text-truncate" data-i18n="Contratos">Asistencias</span>
+                    <span class="menu-title text-truncate">Asistencias</span>
                 </a>
             </li>
+            {{!--<li class="{{#if calificaciones}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/calificaciones/PYT-672">
+                    <i data-feather='book-open'></i>
+                    <span class="menu-title text-truncate">Calificaciones</span>
+                </a>
+            </li>--}}
         </ul>
     </div>
 </div>
@@ -253,7 +259,7 @@
     let exp =  /^[0-9]+$/;
     primerC.addEventListener('keydown', e => {
         nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
-        if (primerC.value.match(exp)){
+        if (primerC.value.match(exp)) {
             segundoC.focus();
         } else {
             primerC.value = '';

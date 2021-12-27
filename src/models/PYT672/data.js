@@ -1,7 +1,8 @@
-const { Op, where } = require("sequelize");
+const { Op, where, Sequelize } = require("sequelize");
 const db672 = require("../../config/dbPY672");
 const Grupos = require("../../models/PYT672/Grupos");
 const Matriculas = require("../../models/PYT672/Matriculas");
+const Asistencia = require("../../models/PYT672/Asistencia");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -416,4 +417,30 @@ module.exports = {
         });
       });
     },
+    ObtenerMatriculasDistinct() {
+      return new Promise((resolve, reject) => {
+        Matriculas.findAll({
+          attributes: [
+            // specify an array where the first element is the SQL function and the second is the alias
+            [Sequelize.fn('DISTINCT', Sequelize.col('grupoId')) ,'grupoId'],
+            // specify any additional columns, e.g. country_code
+            // 'country_code'
+          ],
+          where: {
+            grupoId: {
+              [Op.ne]: null
+            }
+          }
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("FOUND")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    }
 }

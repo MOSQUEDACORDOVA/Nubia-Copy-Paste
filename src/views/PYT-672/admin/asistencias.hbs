@@ -2,156 +2,261 @@
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <section class="asistencias">
-                <div class="row match-height">
-                    <div class="row">
-                        <div class="col-12 d-flex mb-1">
-                            <a href="#" class="btn btn-primary me-1">Selecionar Grupo</a>
-                            <a href="#" class="btn btn-primary">Selecionar Lección</a>
-                        </div>
-                        
-                        <div class="col-12 col-xl-10">
-                            <div class="card card-statistics border-success">
-                                <div class="card-header">
-                                    <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                            <input type="checkbox" name="" id="miCheck" class="mb-0 form-check d-none" checked>
-                                            <label for="miCheck" role="button"></label>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-column">
-                                                <h1 class="mb-1"><b>Mosqueda Cordova</b></h1>
-                                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                    <div class="box mb-2 mb-md-0 me-md-3">
-                                                        <p class="lead mb-1">% de Participación</p>
-                                                        <input type="range" name="" id="" value="70" class="range">
-                                                    </div>
-                                                    <div class="box">
-                                                        <div class="d-flex">
-                                                            <div class="hour-box me-1">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Entrada</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="6:30 PM" value="6:30 PM">
-                                                            </div>
-                                                            <div class="hour-box">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Salida</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="9:00 PM" value="9:00 PM">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    {{!--<div class="col-12 my-1">
+                        <p class="lead">grupo: {{grupo.identificador}}</p>
+                        <p class="lead">numero leccion: {{numLeccion}}</p>
+                        <p class="lead">diferencia de dias: {{diff}}</p>
+                        <p class="lead">calculo: {{rest}}</p>
+                        <p class="lead">fecha actual: {{fechaActual}}</p>
+                        <p class="lead">fecha inicio: {{fechaInicio}}</p>
+                    </div>--}}
+                    
+                    <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
+
+                    <div class="col-12 mb-1">
+                        <div class="demo-inline-spacing">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio3" value="1" checked="">
+                                <label class="form-check-label" for="inlineRadio3">Desde Cero</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="inlineRadio4" name="tipo" value="2">
+                                <label class="form-check-label" for="inlineRadio4">Intensivo</label>
                             </div>
                         </div>
-                        
-                        <div class="col-12 col-xl-10">
-                            <div class="card card-statistics border-secondary">
-                                <div class="card-header">
-                                    <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                            <input type="checkbox" name="" id="miCheck2" class="mb-0 form-check d-none">
-                                            <label for="miCheck2" role="button"></label>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-column">
-                                                <h1 class="mb-1"><b>Jose Arzolay</b></h1>
-                                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                    <div class="box mb-2 mb-md-0 me-md-3">
-                                                        <p class="lead mb-1">% de Participación</p>
-                                                        <input type="range" name="" id="" value="30" class="range disable" disabled>
-                                                    </div>
-                                                    <div class="box">
-                                                        <div class="d-flex">
-                                                            <div class="hour-box me-1">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Entrada</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="6:30 PM" value="6:30 PM" disabled>
-                                                            </div>
-                                                            <div class="hour-box">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Salida</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="9:00 PM" value="9:00 PM" disabled>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                    </div>
+
+                    <div class="col-12 p-0" id="filtrosDesdeCero">
+                        <div class="row m-0 p-0">
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposDesde0 as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select select2">
+                                    <option value="-">Seleccionar Lección</option>
+                                </select>
                             </div>
                         </div>
-                        
-                        <div class="col-12 col-xl-10">
-                            <div class="card card-statistics border-success">
-                                <div class="card-header">
-                                    <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span></h5>
-                                    <div class="d-flex align-items-center">
-                                        <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                            <input type="checkbox" name="" id="miCheck3" class="mb-0 form-check d-none" checked>
-                                            <label for="miCheck3" role="button"></label>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
+                    </div>
+
+                    <div class="col-12 p-0 d-none" id="filtrosIntensivo">
+                        <div class="row m-0 p-0">
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposIntensivo as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-6 col-md-4 mb-1">
+                                <select name="" id="" class="form-select select2">
+                                    <option value="-">Seleccionar Lección</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{#each matri as |estudiante i|}}
+                    <div class="col-12">
+                        <div class="card card-statistics border-success" id="estudiante{{id}}">
+                            <div class="row m-0 p-0">
+                                <div class="col-10 col-xl-11">
+                                    {{!--<div class="">
+                                        <h5><span class="badge badge-light-success">Presente</span></h5>
+                                        <div class="d-flex align-items-center">
+                                            <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                                <input type="checkbox" id="miCheck{{id}}" data-id="{{id}}" class="mb-0 form-check d-none checkBoxes">
+                                                <label for="miCheck{{id}}" role="button"></label>
+                                            </span>
+                                        </div>
+                                    </div>---}}
+                                    <div class="row card-header">
                                         <div class="col-12">
-                                            <div class="d-flex flex-column">
-                                                <h1 class="mb-1"><b>Borys Lopez</b></h1>
-                                                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                                    <div class="box mb-2 mb-md-0 me-md-3">
-                                                        <p class="lead mb-1">% de Participación</p>
-                                                        <input type="range" name="" id="" value="100" class="range">
-                                                    </div>
-                                                    <div class="box">
-                                                        <div class="d-flex">
-                                                            <div class="hour-box me-1">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Entrada</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="6:30 PM" value="6:30 PM">
-                                                            </div>
-                                                            <div class="hour-box">
-                                                                <div class="d-flex align-items-center">
-                                                                    <i data-feather='clock' class="hour-icon"></i>
-                                                                    <p class="lead mb-0">H. Salida</p>
-                                                                </div>
-                                                                <input type="text" class="form-control mt-1" placeholder="9:00 PM" value="9:00 PM">
-                                                            </div>
-                                                        </div>
+                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                                <div class="d-flex flex-column mb-1 mb-md-0">
+                                                    <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                    <h1 class="mb-0"><b>{{primer_nombre}} {{primer_apellido}}</b></h1>
+                                                </div>
+
+                                                <div class="d-flex flex-column">
+                                                    <p class="text-success"><b>Calificación</b></p>
+                                                    <div class="d-flex align-items-center">
+                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                        <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+                                                        
+
+                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-xl-1 p-0">
+                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
+                                        <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
+                                        <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{/each}}
+
+                    <form action="" method="GET" id="grupoForm" class="d-none">
+                        <input type="text" name="id" value="PYT-672">
+                        <input type="text" name="grupoid" class="grupoId">
+                    </form>
                 </div>
             </section>
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script>
+$(document).ready(function() {
+
+    let checkDesde0 = document.getElementById('inlineRadio3'),
+    checkIntensivo = document.getElementById('inlineRadio4'),
+    filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
+    selectDesdeCero = document.querySelector('#filtrosDesdeCero select.grupo'),
+    filtrosIntensivo = document.getElementById('filtrosIntensivo'),
+    selectIntensivo = document.querySelector('#filtrosIntensivo select.grupo'),
+    grupoForm = document.getElementById('grupoForm'),
+    grupoFormInput = document.querySelector('#grupoForm input.grupoId');
+
+    checkDesde0.addEventListener('change', e => {
+        if(checkDesde0.checked === true) {
+            filtrosDesdeCero.classList.remove('d-none');
+            filtrosIntensivo.classList.add('d-none');
+        }
+    });
+
+    if($('#grupoId').val() != "") {
+        let arr = Object.values(selectDesdeCero.options),
+        arr2 = Object.values(selectIntensivo.options);
+        
+        arr.forEach(item => {
+            console.log(item)
+            if (item.value === $('#grupoId').val()) {
+                $('#filtrosDesdeCero select.grupo').val($('#grupoId').val());
+                $('#filtrosDesdeCero select.grupo').trigger('change');
+            }
+        });
+
+        arr2.forEach(item => {
+            console.log(item)
+            if (item.value === $('#grupoId').val()) {
+                $('#filtrosIntensivo select.grupo').val($('#grupoId').val());
+                $('#filtrosIntensivo select.grupo').trigger('change');
+                checkDesde0.checked = false;
+                checkIntensivo.checked = true;
+                filtrosIntensivo.classList.remove('d-none');
+                filtrosDesdeCero.classList.add('d-none');
+            }
+        });
+    }
+
+    $('#filtrosDesdeCero .select2').on('select2:select', function (e) {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        let data = e.params.data;
+        let id = data.id;
+        console.log(data);
+
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.submit();
+    });
+
+    /*selectDesdeCero.addEventListener('change', e => {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
+        grupoForm.submit();
+    });*/
+
+    checkIntensivo.addEventListener('change', e => {
+        if(checkIntensivo.checked === true) {
+            filtrosIntensivo.classList.remove('d-none');
+            filtrosDesdeCero.classList.add('d-none');
+        }
+    });
+
+    $('#filtrosIntensivo .select2').on('select2:select', function (e) {
+        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
+        let data = e.params.data;
+        let id = data.id;
+        console.log(data);
+
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.submit();
+    });
+
+    /*selectIntensivo.addEventListener('change', e => {
+        let select = selectIntensivo.options[selectIntensivo.selectedIndex].value;
+        grupoFormInput.value = select;
+        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
+        grupoForm.submit();
+    });*/
+
+    let btnsAsistencias = document.querySelectorAll('.btnAsistencia');
+
+    btnsAsistencias.forEach(btn => {
+        btn.addEventListener('click', e => {
+            let target = e.target.getAttribute('data-id');
+            let est = document.getElementById(`estudiante${target}`);
+            let checkBtn = document.querySelector(`#estudiante${target} .check`), unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`), badge = document.querySelector(`#estudiante${target} .badge`);
+            est.classList.toggle('border-success');
+            est.classList.toggle('border-secondary');
+            checkBtn.classList.toggle('d-none');
+            unCheckBtn.classList.toggle('d-none');
+            badge.classList.toggle('badge-light-success');
+            badge.classList.toggle('badge-light-secondary');
+            if(badge.classList.contains('badge-light-success')) {
+                badge.innerText = 'Presente';
+            } else {
+                badge.innerText = 'Ausente';
+            }
+        });
+    });
+
+    let btnCalifMas = document.querySelectorAll('.btnCalificacionMas'),
+    btnCalifMenos = document.querySelectorAll('.btnCalificacionMenos'),
+    calificacion = document.querySelectorAll('.calificacion');
+
+    btnCalifMas.forEach(btn => {
+        btn.addEventListener('click', e => {
+            let current = e.target.getAttribute('data-id')
+            let calif = document.querySelector(`#estudiante${current} .calificacion`);
+            calif.value++;
+        });
+    });
+    btnCalifMenos.forEach(btn => {
+        btn.addEventListener('click', e => {
+            let current = e.target.getAttribute('data-id')
+            let calif = document.querySelector(`#estudiante${current} .calificacion`);
+            if(calif.value === "0") {
+                calif.value = 0;
+            } else {
+                calif.value--;
+            }
+        });
+    });
+
+});
+</script>
