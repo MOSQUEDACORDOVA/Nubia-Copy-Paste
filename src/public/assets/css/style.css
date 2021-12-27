@@ -1144,6 +1144,13 @@ table tr td {
     font-weight: 700;
     transition: .3s ease all;
 }
+.py27 .modal .btn.btn-outline-primary {
+    text-transform: capitalize;
+    color: #04246d !important;
+    border-color: #04246d !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
 .py27 .form-check-primary .form-check-input:not(:disabled):focus {
     border-color: #04246d !important;
 }
@@ -1452,6 +1459,11 @@ table tr td {
     border-color: #7367f0 !important;
 }
 /*---------- py672 ----------*/
+@media (min-width: 768px) {
+    .py672 .dropdown-menu.drop-main-menu {
+        width: 34rem;
+    }
+}
 .py672 .text-primary {
     color: #7367f0 !important;
 }
@@ -1463,12 +1475,42 @@ table tr td {
     color: #fff !important;
     background-color: #7367f0 !important;
 }
+.py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button) {
+    background-color: transparent;
+    border-color: #7367f0;
+    color: #7367f0;
+}
+
+.py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button).fc-button-active, .py672 .fc .fc-toolbar .fc-button-group .fc-button-primary:not(.fc-prev-button):not(.fc-next-button):hover {
+    background-color: rgba(114, 103, 240, 0.089) !important;
+    border-color: #7367f0 !important;
+    color: #7367f0;
+}
+.py672 .bg-light-primary {
+    background: rgba(114, 103, 240, 0.12) !important;
+    color: #7367f0 !important;
+}
 .py672 .page-item.active .page-link {
     background-color: #7367f0 !important;
 }
 .py672 .dropdown-item.active, .dropdown-item:active {
     color: #fff;
     background-color: #7367f0;
+}
+.py672 .flatpickr-calendar .flatpickr-day.today {
+    border-color: #7367f0 !important;
+}
+.flatpickr-calendar .flatpickr-day.today {
+    border-color: #7367f0 !important;
+}
+.flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #7367f0;
+    border-color: #7367f0;
+}
+.py672 .flatpickr-calendar .flatpickr-day.selected, .py672 .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #7367f0 !important;
+    color: #fff;
+    border-color: #7367f0 !important;
 }
 .py672 .badge-light-primary {
     color: #7367f0 !important;
@@ -1541,32 +1583,12 @@ table tr td {
     width: 20px;
     height: 20px;
 }
-.py672 .range { 
-    width: 100% !important;
-    -webkit-appearance: none !important; 
-    background: #dae1e7; 
-    border-radius: 8px;
-    height: 15px; 
-} 
-.py672 .range.disable::-webkit-slider-thumb {
-    background: #8a8a8a; 
-}
-.py672 .range::-webkit-slider-thumb { 
-    -webkit-appearance: none !important; 
-    background: #7367f0; 
-    height: 30px; 
-    width: 30px; 
-    border-radius: 50%;
-}
 .py672 .bg-secondary.rounded-circle {
     display: inline-block;
 	position: relative;
     width: 60px;
 	height: 60px;
 	background: rgba(172, 172, 172, 0.459) !important;
-}
-.py672 .form-check {
-    visibility: hidden;
 }
 .py672 .bg-secondary.rounded-circle label:before {
     content: "";
@@ -1579,19 +1601,56 @@ table tr td {
     opacity: 0.3;
     transition: .3s ease all;
 }
-
+.py672 .col-12 {
+    transition: .3s ease all;
+}
+.py672 .col-12 .border-secondary .box.icon {
+    border-left: 1px solid #6e6b7b;
+}
+.py672 .col-12 .border-success .box.icon {
+    border-left: 1px solid #28c76f;
+}
+.border-success {
+    border: 1px solid #28c76f !important;
+}
+.py672 .col-12 .box.icon .feather {
+    width: 40px;
+    height: 40px;
+}
+.py672 .calificacion {
+    border: none;
+    width: 30px;
+}
+.py672 .calificacion:focus {
+    border: none;
+    outline: none;
+}
+/*.py672 .form-check {
+    visibility: hidden;
+}*/
 .py672 .bg-secondary.rounded-circle .form-check:checked + label:before {
     background: #28c76f;
     border: 2px solid #28c76f;
     opacity: 1;
 }
-
-
-
+.py672 .bg-light.rounded-circle.position-absolute {
+    top: -10px;
+    left: -10px;
+}
+.py672 .bg-light .circle {
+    width: 40px;
+    height: 40px;
+}
+.py672 .page-item .page-link:hover {
+    color: #7367f0;
+}
 @media (min-width: 768px) {
     .py672 .asistencias .card .card-body .box {
         width: 50%;
     }
+}
+.py672 .form-control:disabled {
+    background-color: #efefef !important;
 }
 /*.py672 .nav .select2 {
     max-width: 91% !important;

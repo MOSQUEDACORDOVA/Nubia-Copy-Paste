@@ -410,6 +410,8 @@ router.get('/userspy27/:id', authControllerPY27.authenticatedAdmin, dashboardCon
 // ? POST ADMIN 
 // VERIFICAR USUARIO
 router.post('/verifyuserpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.verifyuser);
+// VERIFICAR USUARIO
+router.post('/denyverificationpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.denyverificationuser);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtc);
 // METODOS DE PAGO, RETIRO EN BNB
@@ -539,6 +541,8 @@ router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 router.get('/asistencias/:id', dashboardControllerPY672.asistencias);
+router.get('/asistenciasgrupo/:id/:grupoid', dashboardControllerPY672.asistenciasgrupo);
+router.get('/calificaciones/:id', dashboardControllerPY672.calificaciones);
 
 
 
