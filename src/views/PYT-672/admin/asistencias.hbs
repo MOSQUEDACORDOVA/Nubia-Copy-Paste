@@ -13,6 +13,7 @@
                     </div>--}}
                     
                     <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
+                    <input type="text" class="d-none" value="{{numLeccion}}" id="numeroLeccion">
 
                     <div class="col-12 mb-1">
                         <div class="demo-inline-spacing">
@@ -41,8 +42,40 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select select2">
+                                <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
                                 </select>
                             </div>
                         </div>
@@ -62,8 +95,40 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
-                                <select name="" id="" class="form-select select2">
+                                <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
                                 </select>
                             </div>
                         </div>
@@ -151,18 +216,28 @@ $(document).ready(function() {
         arr2 = Object.values(selectIntensivo.options);
         
         arr.forEach(item => {
-            console.log(item)
             if (item.value === $('#grupoId').val()) {
                 $('#filtrosDesdeCero select.grupo').val($('#grupoId').val());
                 $('#filtrosDesdeCero select.grupo').trigger('change');
+                $('#filtrosDesdeCero select.leccion').val($('#numeroLeccion').val());
+                $('#filtrosDesdeCero select.leccion').trigger('change');
+                let numLecciones = parseInt($('#numeroLeccion').val());
+                for(i = 0; i <= numLecciones; i++) {
+                    $('#filtrosDesdeCero select.leccion')[0].options[i].disabled = false;
+                }
             }
         });
 
         arr2.forEach(item => {
-            console.log(item)
             if (item.value === $('#grupoId').val()) {
                 $('#filtrosIntensivo select.grupo').val($('#grupoId').val());
                 $('#filtrosIntensivo select.grupo').trigger('change');
+                $('#filtrosIntensivo select.leccion').val($('#numeroLeccion').val());
+                $('#filtrosIntensivo select.leccion').trigger('change');
+                let numLecciones = parseInt($('#numeroLeccion').val());
+                for(i = 0; i <= numLecciones; i++) {
+                    $('#filtrosIntensivo select.leccion')[0].options[i].disabled = false;
+                }
                 checkDesde0.checked = false;
                 checkIntensivo.checked = true;
                 filtrosIntensivo.classList.remove('d-none');
@@ -171,7 +246,7 @@ $(document).ready(function() {
         });
     }
 
-    $('#filtrosDesdeCero .select2').on('select2:select', function (e) {
+    $('#filtrosDesdeCero .select2.grupo').on('select2:select', function (e) {
         let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
         let data = e.params.data;
         let id = data.id;
@@ -196,7 +271,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#filtrosIntensivo .select2').on('select2:select', function (e) {
+    $('#filtrosIntensivo .select2.grupo').on('select2:select', function (e) {
         let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
         let data = e.params.data;
         let id = data.id;

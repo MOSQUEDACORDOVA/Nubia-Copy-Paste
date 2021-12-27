@@ -661,7 +661,42 @@ exports.asistenciasgrupo = (req, res) => {
           grupoIdentificador = "El grupo selecionado no poseé una matrícula";
         }
         console.log(grupoIdentificador)*/
-        console.log("GRUPO ENCONTRADO")
+        
+        DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+          let grupo = JSON.parse(respuesta)[0]
+          let numLeccion;
+          console.log(grupo)
+          console.log("GRUPO ENCONTRADO")
+          
+          let fechaActual = moment().format("DD-MM-YYYY");
+
+          let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+          let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+          let rest; 
+
+          if(grupo.lecciones_semanales === '1') {
+            if(diff < 0) {
+              rest = (224 - (-diff)) / 7; 
+            } else {
+              rest = (224 - (diff)) / 7; 
+            }
+          } else {
+            if(diff < 0) {
+              rest = (112 - (-diff)) / 3.5; 
+            } else {
+              rest = (112 - (diff)) / 3.5; 
+            }
+          }
+
+          numLeccion = (32 - Math.floor(rest))
+
+          console.log(fechaActual)
+          console.log(fechaInicio)
+          console.log(diff)
+          console.log(rest)
+          console.log(numLeccion)
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -673,8 +708,18 @@ exports.asistenciasgrupo = (req, res) => {
       gruposDesde0,
       gruposIntensivo,
       matri,
-      grupoId
+      grupoId,
+      numLeccion,
+      fechaActual,
+      fechaInicio,
+      diff,
+      rest,
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
