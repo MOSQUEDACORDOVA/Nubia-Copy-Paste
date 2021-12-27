@@ -462,7 +462,10 @@ return (
     })
    });
    $('#save_personal_py4btn').on('click', async (e)=>{
-    
+    if ($('#save_personal_zone').val() == '0') {
+        Swal.fire('Debe asignar una zona al personal para continuar')
+        return
+    }
     console.log('entro')
     $.ajax({
       url: `/save_personal_py4`,

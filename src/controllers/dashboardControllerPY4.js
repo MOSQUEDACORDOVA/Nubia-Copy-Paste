@@ -909,7 +909,7 @@ exports.delete_personal = (req, res) => {
   DataBase.Delete_Personal(id_).then((respuesta) =>{
     
   let msg = "Personal Eliminado con éxito"
-  res.sed({msg})
+  res.send({msg})
 
    })   
  };
