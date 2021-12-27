@@ -69,16 +69,6 @@
                         </div>
                     </div>
 
-                    {{#if grupoIdentificador}}
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="h3 mb-0">Grupo:<b class="text-primary"> {{grupoIdentificador}}</b></h3>
-                            </div>
-                        </div>
-                    </div>
-                    {{/if}}
-
                     {{#each matri as |estudiante i|}}
                     <div class="col-12">
                         <div class="card card-statistics border-success" id="estudiante{{id}}">
@@ -118,8 +108,8 @@
                                 </div>
                                 <div class="col-2 col-xl-1 p-0">
                                     <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
-                                        <i data-feather='user-check' class="feather text-success check" style="pointer-events: none;"></i>
-                                        <i data-feather='user-minus' class="feather text-secondary d-none uncheck" style="pointer-events: none;"></i>
+                                        <i data-feather='user-check' class="feather text-success d-none check" style="pointer-events: none;"></i>
+                                        <i data-feather='user-minus' class="feather text-secondary uncheck" style="pointer-events: none;"></i>
                                     </div>
                                 </div>
                             </div>
