@@ -1048,7 +1048,7 @@ console.log(hoy)
       return new Promise((resolve, reject) => {
         Personal.create(
           {
-            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, vehiculoId: vehiculo, sucursaleId:sucursal})
+            name: firstName, lastName: lastName, direccion: direccion,cargo: cargo, salario: salario, telefono: telefono,  sucursal: sucursal, correo: email, fecha_ingreso: fecha_ingreso, sucursaleId:sucursal})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Personal registrado con éxito');
