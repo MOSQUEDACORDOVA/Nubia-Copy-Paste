@@ -44,7 +44,7 @@ exports.dashboard = (req, res) => {
  let id_sucursal = req.session.sucursal_select
  console.log(req.session.tipo)
   //DATA-COMUNES
-  let ClientesDB = "", PedidosDB="", ChoferesDB="", LastPedidosAll="",PrestadosGroupByCliente="",Carga_init="",Entregados_resumen=""
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", LastPedidosAll="",PrestadosGroupByCliente="",Carga_init="",Entregados_resumen="", Etiquetas=""
   switch (req.session.tipo) {
     case "Director":
       ClientesDB=DataBase.ClientesAll
@@ -145,7 +145,7 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                   
                 }
                    prestamos_byday =JSON.stringify(prestamos_byday)
-                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                   DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     let forma_hoy = hoy.format('L')
                     Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{
@@ -317,7 +317,7 @@ exports.usuariosTable = (req, res) => {
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then(async(sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
-       DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+       DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
             let etiquetas_let = JSON.parse(etiquetas_)
 
      res.render("PYT-4/usersTable", {
@@ -1889,7 +1889,7 @@ exports.save_etiquetas = (req, res) => {
   let id_sucursal = req.session.sucursal_select
   DataBase.Etiquetas_save(nombre, color,id_sucursal).then((respuesta) =>{
     let respuesta_let = JSON.parse(respuesta)
-DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
             let etiquetas_let = JSON.parse(etiquetas_)
     res.send({respuesta_let})
 
@@ -1913,7 +1913,7 @@ exports.delete_etiqueta = (req, res) => {
   DataBase.delete_etiqueta(id_).then((respuesta) =>{
     
   let msg = "Etiqueta Eliminada con éxito"
-  DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+  DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
     let etiquetas_let = JSON.parse(etiquetas_)
 res.send({etiquetas_let})
 
@@ -2315,7 +2315,7 @@ obtenernotificaciones().then((notif_)=>{
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
-                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                   DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     console.log(notifi_g)
     res.render("PYT-4/notificaciones", {
@@ -2471,7 +2471,7 @@ notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
         let choferes_ = JSON.parse(choferes)
         DataBase.Sucursales_ALl().then((sucursales_)=>{
           let sucursales_let = JSON.parse(sucursales_)
-                   DataBase.Etiquetas(id_sucursal).then((etiquetas_)=>{
+                   DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     
 console.log(notif1_2)
