@@ -71,8 +71,7 @@ router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cupone
 //NOTIFICACIONES
 router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
 
-//seguimiento
-router.get('/seguimiento_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.seguimiento_table);
+
 // Dashboard
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);

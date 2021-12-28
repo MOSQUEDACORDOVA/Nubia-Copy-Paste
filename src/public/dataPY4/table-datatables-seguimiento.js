@@ -29,33 +29,25 @@ function tablanotif1_2(editada) {
     var seguimiento1_2 = tabla_seguimiento1_2.DataTable({
       data: array_seguimiento,
       columns: [
-        { data: 'id_pedido' },
+
+        { data: 'nombre_cliente' },
+        { data: 'id_pedido' }, 
         { data: 'total_g' },
-        { data: 'nombre_cliente' }, // used for sorting so will hide this column
         { data: 'fecha_' },
         { data: 'tiempo_desde' },
-        // {   // Actions
-        //   targets: -1,
-        //   title: 'Opciones',
-        //   orderable: false,
-        //   render: function (data, type, full, meta) {
-        //     if (full['tipo'] == "Nuevo cliente") {
-        //       return (
-        //       '<div class="d-inline-flex">' +
-        //       // '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-        //       // feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       // '</a>'+
-        //       '<a href="javascript:;" class="'+full['cliente']['id']+' dropdown-item" onclick=\'edit_cliente("'+full['cliente']['id']+'","'+full['id']+'")\' title="Editar Cliente">' +
-        //       feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       '</a>'  
-        //     );
-        //     }
-            
-        //   }  },
       ],
       columnDefs: [
+        {
+          // Avatar image/badge, Name and post
+          targets: 0,
+          render: function (data, type, full, meta) {
+console.log(full)
+let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full['asentamiento']
 
-         
+        //aqui activa el modal info del cliente
+            return nombre;
+          }
+        },
         {
           // Avatar image/badge, Name and post
           targets: 3,
@@ -121,32 +113,24 @@ function tablanotif3_5(editada) {
     var seguimiento3_5 = tabla_seguimiento3_5.DataTable({
       data: array_seguimiento,
       columns: [
-        { data: 'id_pedido' },
+        { data: 'nombre_cliente' },
+        { data: 'id_pedido' }, 
         { data: 'total_g' },
-        { data: 'nombre_cliente' }, // used for sorting so will hide this column
         { data: 'fecha_' },
         { data: 'tiempo_desde' },
-        // {   // Actions
-        //   targets: -1,
-        //   title: 'Opciones',
-        //   orderable: false,
-        //   render: function (data, type, full, meta) {
-        //     if (full['tipo'] == "Nuevo cliente") {
-        //       return (
-        //       '<div class="d-inline-flex">' +
-        //       // '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-        //       // feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       // '</a>'+
-        //       '<a href="javascript:;" class="'+full['cliente']['id']+' dropdown-item" onclick=\'edit_cliente("'+full['cliente']['id']+'","'+full['id']+'")\' title="Editar Cliente">' +
-        //       feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       '</a>'  
-        //     );
-        //     }
-            
-        //   }  },
       ],
       columnDefs: [
+        {
+          // Avatar image/badge, Name and post
+          targets: 0,
+          render: function (data, type, full, meta) {
+console.log(full)
+let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full['asentamiento']
 
+        //aqui activa el modal info del cliente
+            return nombre;
+          }
+        },
          
         {
           // Avatar image/badge, Name and post
@@ -213,33 +197,25 @@ function tablanotif6_12(editada) {
     var seguimiento6_12 = tabla_seguimiento6_12.DataTable({
       data: array_seguimiento,
       columns: [
-        { data: 'id_pedido' },
+        
+        { data: 'nombre_cliente' },
+        { data: 'id_pedido' }, 
         { data: 'total_g' },
-        { data: 'nombre_cliente' }, // used for sorting so will hide this column
         { data: 'fecha_' },
         { data: 'tiempo_desde' },
-        // {   // Actions
-        //   targets: -1,
-        //   title: 'Opciones',
-        //   orderable: false,
-        //   render: function (data, type, full, meta) {
-        //     if (full['tipo'] == "Nuevo cliente") {
-        //       return (
-        //       '<div class="d-inline-flex">' +
-        //       // '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-        //       // feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       // '</a>'+
-        //       '<a href="javascript:;" class="'+full['cliente']['id']+' dropdown-item" onclick=\'edit_cliente("'+full['cliente']['id']+'","'+full['id']+'")\' title="Editar Cliente">' +
-        //       feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-        //       '</a>'  
-        //     );
-        //     }
-            
-        //   }  },
       ],
       columnDefs: [
+        {
+          // Avatar image/badge, Name and post
+          targets: 0,
+          render: function (data, type, full, meta) {
+console.log(full)
+let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full['asentamiento']
 
-         
+        //aqui activa el modal info del cliente
+            return nombre;
+          }
+        },
         {
           // Avatar image/badge, Name and post
           targets: 3,
