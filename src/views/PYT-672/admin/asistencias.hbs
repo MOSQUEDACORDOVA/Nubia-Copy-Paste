@@ -238,7 +238,7 @@ $(document).ready(function() {
                 
                 if(response.length) {
                     idAusentes = response[0].matriculaId;
-                    console.log(idAusentes);
+                    //console.log(idAusentes);
                 }
 
                 let result = matriculaGrupo.filter(item => item.id === idAusentes); 
@@ -367,7 +367,7 @@ $(document).ready(function() {
         let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
         let data = e.params.data;
         let id = data.id;
-        console.log(data);
+        //console.log(data);
 
         grupoFormInput.value = select;
         grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
@@ -476,7 +476,6 @@ $(document).ready(function() {
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
         
         let form = new FormData(document.getElementById('procesarAusente'));
-        console.log(form)
 
         fetch('/registrarMatriculaAusente', {
             method: 'POST',
@@ -499,7 +498,7 @@ $(document).ready(function() {
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
         
         let form = new FormData(document.getElementById('procesarAusente'));
-        console.log(form)
+        //console.log(form)
 
         fetch('/eliminarMatriculaAusente', {
             method: 'POST',
