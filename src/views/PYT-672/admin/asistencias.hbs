@@ -31,6 +31,7 @@
                     <div class="col-12 p-0" id="filtrosDesdeCero">
                         <div class="row m-0 p-0">
                             <div class="col-6 col-md-4 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
                                 <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
                                     {{#each gruposDesde0 as |grupo i|}}
@@ -42,6 +43,7 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
                                 <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
                                     <option value="1" disabled>1</option>
@@ -84,6 +86,7 @@
                     <div class="col-12 p-0 d-none" id="filtrosIntensivo">
                         <div class="row m-0 p-0">
                             <div class="col-6 col-md-4 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
                                 <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
                                     {{#each gruposIntensivo as |grupo i|}}
@@ -95,6 +98,7 @@
                             </div>
 
                             <div class="col-6 col-md-4 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
                                 <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
                                     <option value="1" disabled>1</option>
@@ -153,10 +157,10 @@
                                             <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
                                                 <div class="d-flex flex-column mb-1 mb-md-0">
                                                     <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                    <h1 class="mb-0"><b>{{primer_nombre}} {{primer_apellido}}</b></h1>
+                                                    <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
                                                 </div>
 
-                                                <div class="d-flex flex-column">
+                                                {{!--<div class="d-flex flex-column">
                                                     <p class="text-success"><b>Calificación</b></p>
                                                     <div class="d-flex align-items-center">
                                                         <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
@@ -166,7 +170,7 @@
 
                                                         <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                                                     </div>
-                                                </div>
+                                                </div>--}}
                                             </div>
                                         </div>
                                     </div>
@@ -185,6 +189,12 @@
                     <form action="" method="GET" id="grupoForm" class="d-none">
                         <input type="text" name="id" value="PYT-672">
                         <input type="text" name="grupoid" class="grupoId">
+                    </form>
+
+                    <form action="" id="procesarAusente" class="d-none">
+                        <input type="number" name="leccion" id="ausenteNumLeccion">
+                        <input type="number" name="grupoId" id="ausenteGrupoId">
+                        <input type="number" name="matriculaId" id="ausenteMatriculaId">
                     </form>
                 </div>
             </section>
@@ -304,8 +314,10 @@ $(document).ready(function() {
             badge.classList.toggle('badge-light-secondary');
             if(badge.classList.contains('badge-light-success')) {
                 badge.innerText = 'Presente';
+                EliminarMatriculaAusente(target);
             } else {
                 badge.innerText = 'Ausente';
+                GuardarMatriculaAusente(target);
             }
         });
     });
@@ -333,5 +345,50 @@ $(document).ready(function() {
         });
     });
 
+    const GuardarMatriculaAusente = (id) => {
+        if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+            $('#ausenteNumLeccion').val($('#filtrosDesdeCero .select2.leccion').val());
+            $('#ausenteGrupoId').val($('#filtrosDesdeCero .select2.grupo').val());
+        } else {
+            $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
+            $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
+        }
+        $('#ausenteMatriculaId').val(id)
+        /*console.log($('#filtrosDesdeCero .select2.grupo').val())
+        console.log($('#filtrosIntensivo .select2.grupo').val())*/
+        
+        let form = new FormData(document.getElementById('procesarAusente'));
+        console.log(form)
+
+        fetch('/registrarMatriculaAusente', {
+            method: 'POST',
+            body: form
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));
+    }
+
+    const EliminarMatriculaAusente = (id) => {
+        if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+            $('#ausenteNumLeccion').val($('#filtrosDesdeCero .select2.leccion').val());
+            $('#ausenteGrupoId').val($('#filtrosDesdeCero .select2.grupo').val());
+        } else {
+            $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
+            $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
+        }
+        $('#ausenteMatriculaId').val(id)
+        /*console.log($('#filtrosDesdeCero .select2.grupo').val())
+        console.log($('#filtrosIntensivo .select2.grupo').val())*/
+        
+        let form = new FormData(document.getElementById('procesarAusente'));
+        console.log(form)
+
+        fetch('/eliminarMatriculaAusente', {
+            method: 'POST',
+            body: form
+        })
+        .then(response => response.json())
+        .then(data => console.log(data));
+    } 
 });
 </script>

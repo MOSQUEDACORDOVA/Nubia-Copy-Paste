@@ -637,10 +637,12 @@ exports.asistenciasgrupo = (req, res) => {
           console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
-            if(found.nombre === "Desde cero") {
-              gruposDesde0.push(found);
-            } else {
-              gruposIntensivo.push(found);
+            if(found.estadosGrupoId === 2) {
+              if(found.nombre === "Desde cero") {
+                gruposDesde0.push(found);
+              } else {
+                gruposIntensivo.push(found);
+              }
             }
           });
 
@@ -1070,6 +1072,50 @@ exports.obtenermatriculagrupo = (req, res) => {
       console.log("RESPONSEEEE")
 
       res.send({find})
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * REGISTRAR MATRICULA AUSENTE
+exports.registrarmatriculausente = (req, res) => {
+  const { leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.RegistrarMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+      let resp = JSON.parse(response);
+      return res.send({resp});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * ELIMINAR MATRICULA AUSENTE
+exports.eliminarmatriculausente = (req, res) => {
+  const { leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.EliminarMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+      let resp = JSON.parse(response);
+      return res.send({resp});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
