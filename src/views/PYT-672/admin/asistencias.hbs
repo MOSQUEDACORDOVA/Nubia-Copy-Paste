@@ -198,7 +198,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-
     let matriculaGrupo = document.getElementById('matriculaGrupo').value,
     arrRender = matriculaGrupo;
 
@@ -211,6 +210,7 @@ $(document).ready(function() {
 
     const EstablecerMatriculaPorLeccion = () => {
         let fragment = new DocumentFragment(), idAusentes, esContainer = document.getElementById('estudiantes');
+        esContainer.innerHTML = '';
 
         matriculaGrupo.forEach(matricula => {  
             let div = document.createElement('div');
@@ -241,9 +241,9 @@ $(document).ready(function() {
                     console.log(idAusentes);
                 }
 
-                let result = matriculaGrupo.filter(item => item.id === idAusentes)   
-                console.log(result)
-                if(result.length) {
+                let result = matriculaGrupo.filter(item => item.id === idAusentes); 
+                //console.log(result)
+                if(result.length != 0) {
                     div.innerHTML = `
                         <div class="card card-statistics border-secondary" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
@@ -261,8 +261,8 @@ $(document).ready(function() {
                                 </div>
                                 <div class="col-2 col-xl-1 p-0">
                                     <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${matricula.id}">
-                                        <i data-feather='user-check' class="feather text-secondary check" style="pointer-events: none;"></i>
-                                        <i data-feather='user-minus' class="feather text-success d-none uncheck" style="pointer-events: none;"></i>
+                                        ${feather.icons['user-check'].toSvg({class: 'feather text-secondary check', style: 'pointer-events: none;'})}
+                                        ${feather.icons['user-minus'].toSvg({class: 'feather text-success d-none uncheck', style: 'pointer-events: none;'})}
                                     </div>
                                 </div>
                             </div>
@@ -286,8 +286,8 @@ $(document).ready(function() {
                                 </div>
                                 <div class="col-2 col-xl-1 p-0">
                                     <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${matricula.id}">
-                                        <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
-                                        <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                        ${feather.icons['user-check'].toSvg({class: 'feather text-secondary d-none check', style: 'pointer-events: none;'})}
+                                        ${feather.icons['user-minus'].toSvg({class: 'feather text-success uncheck', style: 'pointer-events: none;'})}
                                     </div>
                                 </div>
                             </div>
@@ -299,7 +299,8 @@ $(document).ready(function() {
             fragment.appendChild(div);
         });
 
-        esContainer.appendChild(fragment)
+        esContainer.appendChild(fragment);
+        ActiveBtns();
     }
 
     if(matriculaGrupo != "") {
@@ -311,7 +312,6 @@ $(document).ready(function() {
         }, 1000);
     }
     
-
     let checkDesde0 = document.getElementById('inlineRadio3'),
     checkIntensivo = document.getElementById('inlineRadio4'),
     filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
@@ -406,10 +406,10 @@ $(document).ready(function() {
         grupoForm.submit();
     });*/
 
-    let btnsAsistencias = document.querySelectorAll('.btnAsistencia');
-
-    btnsAsistencias.forEach(btn => {
-        btn.addEventListener('click', e => {
+    let btnsAsistencias = document.getElementById('estudiantes');
+    
+    btnsAsistencias.addEventListener('click', e => {
+        if(e.target.classList.contains('btnAsistencia')) {
             let target = e.target.getAttribute('data-id');
             let est = document.getElementById(`estudiante${target}`);
             let checkBtn = document.querySelector(`#estudiante${target} .check`), unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`), badge = document.querySelector(`#estudiante${target} .badge`);
@@ -426,31 +426,42 @@ $(document).ready(function() {
                 badge.innerText = 'Ausente';
                 GuardarMatriculaAusente(target);
             }
-        });
+        }
     });
 
-    let btnCalifMas = document.querySelectorAll('.btnCalificacionMas'),
-    btnCalifMenos = document.querySelectorAll('.btnCalificacionMenos'),
-    calificacion = document.querySelectorAll('.calificacion');
+    const ActiveBtns = () => {
+        /*
+        let btnCalifMas = document.querySelectorAll('.btnCalificacionMas'),
+        btnCalifMenos = document.querySelectorAll('.btnCalificacionMenos'),
+        calificacion = document.querySelectorAll('.calificacion');
 
-    btnCalifMas.forEach(btn => {
-        btn.addEventListener('click', e => {
-            let current = e.target.getAttribute('data-id')
-            let calif = document.querySelector(`#estudiante${current} .calificacion`);
-            calif.value++;
+        btnCalifMas.forEach(btn => {
+            btn.addEventListener('click', e => {
+                let current = e.target.getAttribute('data-id')
+                let calif = document.querySelector(`#estudiante${current} .calificacion`);
+                calif.value++;
+            });
         });
-    });
-    btnCalifMenos.forEach(btn => {
-        btn.addEventListener('click', e => {
-            let current = e.target.getAttribute('data-id')
-            let calif = document.querySelector(`#estudiante${current} .calificacion`);
-            if(calif.value === "0") {
-                calif.value = 0;
-            } else {
-                calif.value--;
-            }
+        btnCalifMenos.forEach(btn => {
+            btn.addEventListener('click', e => {
+                let current = e.target.getAttribute('data-id')
+                let calif = document.querySelector(`#estudiante${current} .calificacion`);
+                if(calif.value === "0") {
+                    calif.value = 0;
+                } else {
+                    calif.value--;
+                }
+            });
+        });*/
+
+        $('#filtrosDesdeCero select.leccion').on('change', e => {
+            EstablecerMatriculaPorLeccion();
         });
-    });
+
+        $('#filtrosIntensivo select.leccion').on('change', e => {
+            EstablecerMatriculaPorLeccion();
+        });
+    }
 
     const GuardarMatriculaAusente = (id) => {
         if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
