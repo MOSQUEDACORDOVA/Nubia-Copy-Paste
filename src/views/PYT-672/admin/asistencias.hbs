@@ -14,6 +14,7 @@
                     
                     <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
                     <input type="text" class="d-none" value="{{numLeccion}}" id="numeroLeccion">
+                    <input type="text" class="d-none" value="{{matri}}" id="matriculaGrupo">
 
                     <div class="col-12 mb-1">
                         <div class="demo-inline-spacing">
@@ -138,53 +139,46 @@
                         </div>
                     </div>
 
-                    {{#each matri as |estudiante i|}}
-                    <div class="col-12">
-                        <div class="card card-statistics border-success" id="estudiante{{id}}">
-                            <div class="row m-0 p-0">
-                                <div class="col-10 col-xl-11">
-                                    {{!--<div class="">
-                                        <h5><span class="badge badge-light-success">Presente</span></h5>
-                                        <div class="d-flex align-items-center">
-                                            <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
-                                                <input type="checkbox" id="miCheck{{id}}" data-id="{{id}}" class="mb-0 form-check d-none checkBoxes">
-                                                <label for="miCheck{{id}}" role="button"></label>
-                                            </span>
-                                        </div>
-                                    </div>---}}
-                                    <div class="row card-header">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
-                                                <div class="d-flex flex-column mb-1 mb-md-0">
-                                                    <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                    <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
-                                                </div>
+                    <section class="row m-0 p-0" id="estudiantes"></section>
 
-                                                {{!--<div class="d-flex flex-column">
-                                                    <p class="text-success"><b>Calificación</b></p>
-                                                    <div class="d-flex align-items-center">
-                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                                                        <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
-                                                        
-
-                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                    <template id="template">            
+                        <div class="col-12">
+                            <div class="card card-statistics border-success" id="estudiante{{id}}">
+                                <div class="row m-0 p-0">
+                                    <div class="col-10 col-xl-11">
+                                        <div class="row card-header">
+                                            <div class="col-12">
+                                                <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                                    <div class="d-flex flex-column mb-1 mb-md-0">
+                                                        <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                        <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
                                                     </div>
-                                                </div>--}}
+
+                                                    {{!--<div class="d-flex flex-column">
+                                                        <p class="text-success"><b>Calificación</b></p>
+                                                        <div class="d-flex align-items-center">
+                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                            <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+                                                            
+
+                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                        </div>
+                                                    </div>--}}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2 col-xl-1 p-0">
-                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
-                                        <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
-                                        <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                    <div class="col-2 col-xl-1 p-0">
+                                        <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
+                                            <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
+                                            <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {{/each}}
+                    </template>
 
                     <form action="" method="GET" id="grupoForm" class="d-none">
                         <input type="text" name="id" value="PYT-672">
@@ -201,9 +195,122 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
+
+    let matriculaGrupo = document.getElementById('matriculaGrupo').value,
+    arrRender = matriculaGrupo;
+
+    if(matriculaGrupo != "") {
+        matriculaGrupo = JSON.parse(matriculaGrupo);
+        arrRender = matriculaGrupo;
+    } else {
+        matriculaGrupo = "";
+    }
+
+    const EstablecerMatriculaPorLeccion = () => {
+        let fragment = new DocumentFragment(), idAusentes, esContainer = document.getElementById('estudiantes');
+
+        matriculaGrupo.forEach(matricula => {  
+            let div = document.createElement('div');
+            div.classList.add('col-12');         
+
+            if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                $('#ausenteNumLeccion').val($('#filtrosDesdeCero .select2.leccion').val());
+                $('#ausenteGrupoId').val($('#filtrosDesdeCero .select2.grupo').val());
+            } else {
+                $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
+                $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
+            }
+            $('#ausenteMatriculaId').val(matricula.id)
+
+            let form = new FormData(document.getElementById('procesarAusente'));
+
+            fetch('/obtenerMatriculaAusente', {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.json())
+            .then(data => {
+                //console.log(data)
+                let response = data.resp;
+                
+                if(response.length) {
+                    idAusentes = response[0].matriculaId;
+                    console.log(idAusentes);
+                }
+
+                let result = matriculaGrupo.filter(item => item.id === idAusentes)   
+                console.log(result)
+                if(result.length) {
+                    div.innerHTML = `
+                        <div class="card card-statistics border-secondary" id="estudiante${matricula.id}">
+                            <div class="row m-0 p-0">
+                                <div class="col-10 col-xl-11">
+                                    <div class="row card-header">
+                                        <div class="col-12">
+                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                                <div class="d-flex flex-column mb-1 mb-md-0">
+                                                    <h5><span class="badge badge-light-secondary">Ausente</span></h5>
+                                                    <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-xl-1 p-0">
+                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${matricula.id}">
+                                        <i data-feather='user-check' class="feather text-secondary check" style="pointer-events: none;"></i>
+                                        <i data-feather='user-minus' class="feather text-success d-none uncheck" style="pointer-events: none;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    div.innerHTML = `
+                        <div class="card card-statistics border-success" id="estudiante${matricula.id}">
+                            <div class="row m-0 p-0">
+                                <div class="col-10 col-xl-11">
+                                    <div class="row card-header">
+                                        <div class="col-12">
+                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                                <div class="d-flex flex-column mb-1 mb-md-0">
+                                                    <h5><span class="badge badge-light-success">Ausente</span></h5>
+                                                    <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2 col-xl-1 p-0">
+                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${matricula.id}">
+                                        <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
+                                        <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });  
+
+            fragment.appendChild(div);
+        });
+
+        esContainer.appendChild(fragment)
+    }
+
+    if(matriculaGrupo != "") {
+        let docListo = setInterval(() => {
+            if(document.readyState === "complete") {
+                EstablecerMatriculaPorLeccion();
+                clearInterval(docListo);
+            }
+        }, 1000);
+    }
+    
 
     let checkDesde0 = document.getElementById('inlineRadio3'),
     checkIntensivo = document.getElementById('inlineRadio4'),

@@ -545,32 +545,6 @@ exports.asistencias = (req, res) => {
         });
       });
 
-  /*DataBase.BuscarGrupos(9).then((respuesta) => {
-    let grupo = JSON.parse(respuesta)[0]
-    let numLeccion;
-
-    let fechaActual = moment().format("DD-MM-YYYY");
-
-    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-
-    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-
-    let rest; 
-
-    if(diff < 0) {
-      rest = (224 - (-diff)) / 7; 
-    } else {
-      rest = (224 - (diff)) / 7; 
-    }
-
-    numLeccion = (32 - Math.floor(rest))
-
-    console.log(fechaActual)
-    console.log(fechaInicio)
-    console.log(diff)
-    console.log(rest)
-    console.log(numLeccion)*/
-
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
       dashboardPage: true,
@@ -580,23 +554,7 @@ exports.asistencias = (req, res) => {
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
-      /*grupo,
-      numLeccion,
-      fechaActual,
-      fechaInicio,
-      diff,
-      rest,*/
     });
-  /*}).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });*/
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -655,7 +613,7 @@ exports.asistenciasgrupo = (req, res) => {
       let matri, grupoIdentificador;
 
       DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
-        matri = JSON.parse(response2);
+        matri = response2;
         let grupoId = idGrupo;
         /*if (matri.length) {
           grupoIdentificador = matri[0].grupo.identificador
@@ -1091,7 +1049,7 @@ exports.registrarmatriculausente = (req, res) => {
     let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.RegistrarMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
       let resp = JSON.parse(response);
       return res.send({resp});
     }).catch((err) => {
@@ -1113,7 +1071,29 @@ exports.eliminarmatriculausente = (req, res) => {
     let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.EliminarMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+    DataBase.EliminarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+      let resp = JSON.parse(response);
+      return res.send({resp});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * OBTENER MATRICULA AUSENTE
+exports.obtenermatriculausente = (req, res) => {
+  const { leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
       let resp = JSON.parse(response);
       return res.send({resp});
     }).catch((err) => {
