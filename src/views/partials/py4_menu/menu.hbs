@@ -387,9 +387,9 @@ padding-left: 0.7rem;
                     href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Clientes</span></a>
             </li>
-            <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+           {{#if admin}} <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
-                        data-i18n="Usuarios">Personal</span></a>
+                        data-i18n="Usuarios">Personal</span></a>{{/if}}
             </li>
             <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/corte_py4"><i
                         data-feather='pie-chart'></i><span class="menu-title text-truncate"
@@ -399,13 +399,13 @@ padding-left: 0.7rem;
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
                         data-i18n="vehiculos">Vehiculos</span></a>{{/if}}
             </li>
-            <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+            {{#if admin}}<li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
-                        data-i18n="Zonas">Zonas</span></a>
+                        data-i18n="Zonas">Zonas</span></a>{{/if}}
             </li>
-                        <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                  {{#if admin}}      <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/carga_inicial_py4"><i data-feather='package'></i><span class="menu-title text-truncate"
-                        data-i18n="Carga">Carga Inicial</span></a>
+                        data-i18n="Carga">Carga Inicial</span></a>{{/if}}
             </li>
             
             <li class="{{#if promociones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
@@ -415,10 +415,6 @@ padding-left: 0.7rem;
             <li class="{{#if notificaciones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
                         data-i18n="Notificaciones ">Notificaciones</span></a>
-            </li>
-              <li class="{{#if seguimiento}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/seguimiento_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
-                        data-i18n="seguimiento ">Seguimiento</span></a>
             </li>
 
         </ul>

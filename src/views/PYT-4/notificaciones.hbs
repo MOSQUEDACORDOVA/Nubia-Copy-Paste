@@ -22,9 +22,77 @@
       var cp_value = ucwords($(this).val(), true);
       $(this).val(cp_value);
     });
+     $('#btncuponera1').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#btnsnpedido').on('click', (e)=> {
+        Reset(2);
+    });
+    $('#btndeudores').on('click', (e)=> {
+        Reset(3);
+    });
+ $('#select_filter_notif').on('change', (e)=> {
+   console.log(e.target.value)
+   
+    $('#notificacion-1_2').removeClass('show');
+        $('#notificacion-1_2').addClass('collpase');
+
+        $('#notificacion-3_5').removeClass('show');
+        $('#notificacion-3_5').addClass('collpase');
+
+        $('#notificacion-6_12').removeClass('show');
+        $('#notificacion-6_12').addClass('collpase');
+
+        
+        switch (e.target.value){
+            case '1':
+                $('#notificacion-1_2').removeClass('collpase');
+                $('#notificacion-1_2').addClass('show');
+            break;
+            case '2':
+                $('#notificacion-3_5').removeClass('collpase');
+                $('#notificacion-3_5').addClass('show');
+            break;
+            case '3':
+                $('#notificacion-6_12').addClass('show');
+                $('#notificacion-6_12').removeClass('collpase');
+            break;
+             
+        }
+    });
+    function Reset(num) {
+        $('#clientes_cuponera').removeClass('show');
+        $('#clientes_cuponera').addClass('collpase');
+
+        $('#sinpedido').removeClass('show');
+        $('#sinpedido').addClass('collpase');
+
+        $('#deudoresTable').removeClass('show');
+        $('#deudoresTable').addClass('collpase');
+
+        
+        switch (num){
+            case 1:
+                $('#clientes_cuponera').removeClass('collpase');
+                $('#clientes_cuponera').addClass('show');
+            break;
+            case 2:
+                $('#sinpedido').removeClass('collpase');
+                $('#sinpedido').addClass('show');
+            break;
+            case 3:
+                $('#deudoresTable').addClass('show');
+                $('#deudoresTable').removeClass('collpase');
+            break;
+             
+        }
+    }
   });
 </script>
 <input type="text" id="array_notif_" hidden value="{{notif_}}">
+<input type="text" id="notif1_2" hidden value="{{notif1_2}}">
+<input type="text" id="notif3_5" hidden value="{{notif3_5}}">
+<input type="text" id="notif6_12" hidden value="{{notif6_12}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
@@ -34,7 +102,60 @@
     </div>
     <div class="content-body">
       <section id="basic-datatable">
-        <div class="row">
+                    <div class="row">
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                            <div class="row">
+                        <span id="p1" class="d-none">ss</span>
+                        <div class="col-sm-12">
+                        </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btncuponera1" type="button" data-bs-toggle="collapse" href="#clientes_cuponera" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                             <label class="feather feather-trending-up text-primary avatar-icon">{{count_clientes_cuponera}}</label> 
+                                                {{!-- <i data-feather='clipboard' ></i> --}}
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Clientes cuponera</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnsnpedido" type="button" data-bs-toggle="collapse" href="#sinpedido" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                              <label class="feather feather-trending-up text-primary">{{count_sin_pedido_nuevo}}</label> 
+                                                {{!-- <i data-feather='info' class="feather feather-trending-up  avatar-icon"></i> --}}
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0" >Sin pedido nuevo</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btndeudores" data-bs-toggle="collapse" href="#deudoresTable" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-success me-2">
+                                           <div class="avatar-content">
+                                                <i data-feather='loader' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0" >Clientes deudores</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="card collapse show" id="clientes_cuponera">
           <div class="scrolling-inside-modal">
 
             <!-- Button trigger modal -->
@@ -83,6 +204,153 @@
             </div>
           </div>
         </div>
+
+      <div class="card collapse" id="sinpedido">
+                                    <div class="col-md-4 mt-2" style="margin-left: 10px;">
+                                    <label class="form-label">Seleccione el tipo:</label>
+                                    <div class="mb-0">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                       <select class="select2 form-select" id="select_filter_notif">
+                                           <option value="1">1-2</option>
+                                           <option value="2">3-5</option>
+                                           <option value="3">6-12</option>
+                                       </select>
+                                    </div>
+                                </div>   
+        <div class="card collapse show" id="notificacion-1_2">
+
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 1-2</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento1_2">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>#Pedido último</th>
+                              <th>Total Garrafones</th>                              
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+        </div>
+
+        <div class="card collapse" id="notificacion-3_5">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 3-5</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento3_5">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>#Pedido último</th>
+                              <th>Total Garrafones</th>                              
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+        <div class="card collapse" id="notificacion-6_12">
+          {{!-- <div class="scrolling-inside-modal">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" data-bs-toggle="modal"
+              data-bs-target="#add_cupon">
+              Agregar
+            </button>
+          </div> --}}
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Seguimiento: 6-12</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-seguimiento6_12">
+                          <thead>
+                            <tr>
+                              <th>Nombre</th>
+                              <th>#Pedido último</th>
+                              <th>Total Garrafones</th>
+                              <th>Fecha del pedido</th>
+                              <th>Días transcurridos</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+
+        </div>  
     </div>
 
 
