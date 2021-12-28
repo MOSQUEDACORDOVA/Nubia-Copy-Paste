@@ -2286,20 +2286,22 @@ exports.notificaciones_table = (req, res) => {
  let id_sucursal = req.session.sucursal_select
  console.log(req.session.tipo)
   //DATA-COMUNES
-  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="",PrestadosGroupByCliente=""
+  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="", LastPedidosAll=""
   switch (req.session.tipo) {
     case "Director":
       ClientesDB=DataBase.ClientesAll
     PedidosDB=DataBase.PedidosAll
     ChoferesDB=DataBase.ChoferesAll
-    obtenernotificaciones=DataBase.obtenernotificaciones
+    obtenernotificaciones=DataBase.obtenernotificaciones 
+    LastPedidosAll=DataBase.LastPedidosAll
       break;
   
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
     ChoferesDB=DataBase.ChoferesAllS
-obtenernotificaciones=DataBase.obtenernotificaciones
+obtenernotificaciones=DataBase.obtenernotificaciones 
+LastPedidosAll=DataBase.LastPedidosAllS
       break;
   }
   DataBase.CodigosP().then((cp_)=>{
@@ -2318,6 +2320,51 @@ obtenernotificaciones().then((notif_)=>{
                    DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     console.log(notifi_g)
+                    LastPedidosAll(id_sucursal).then((pedidos_g)=>{
+                      let pedidos_letG = JSON.parse(pedidos_g)
+                       let notif1_2=[], notif3_5=[], notif6_12=[], notificacion_g =[]
+                       let hoy = moment()
+                      var duration=""
+                    for (let i = 0; i < pedidos_letG.length; i++) {
+                    if (pedidos_letG[i].status_pedido == "Entregado") {
+                      if (pedidos_letG[i].total_garrafones_pedido <= 2) {
+                        let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                        duration = hoy.diff(dia_pedido, 'days');
+                          if (duration >=10 && duration < 20) {
+                            
+                            notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                          }     
+                        }
+                        if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
+                          let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                          duration = hoy.diff(dia_pedido, 'days');
+                            if (duration >=20 && duration < 30) {
+                     
+                              notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                            }     
+                          }
+                          if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
+                            let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                            duration = hoy.diff(dia_pedido, 'days');
+                              if (duration >=30) {
+                    
+                                notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                              }     
+                            }
+                      }
+                      }
+                    let count_sin_pedido_nuevo = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
+              notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
+                
+console.log(notif1_2.length)
+console.log(notif3_5.length)
+console.log(notif6_12.length)
+console.log(notifi_g.length)
+notif1_2 = JSON.stringify(notif1_2)
+notif3_5 = JSON.stringify(notif3_5)
+notif6_12  = JSON.stringify(notif6_12)
+notificacion_g = JSON.stringify(notificacion_g)
+let count_clientes_cuponera = notifi_g.length
     res.render("PYT-4/notificaciones", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -2331,8 +2378,17 @@ obtenernotificaciones().then((notif_)=>{
       pedidos_let,
       choferes_,sucursales_let,
       cp_,notifi_g,etiquetas_let,
-      msg,notif_
+      msg,notif_,notif1_2,
+      notif3_5,
+      notif6_12,
+      notificacion_g,count_clientes_cuponera,
+      count_sin_pedido_nuevo,
     }) 
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -2386,152 +2442,3 @@ console.log(req.body)
       return res.redirect("/errorpy4/" + msg);
     });
 }
-
-//seguimiento
-exports.seguimiento_table = (req, res) => {
-  console.log(req.session.sucursal_select)
-  let msg = false;
-  let admin = false
-  if (req.session.tipo == "Director") {
-    admin = true
-  }
-  if (req.params.msg) {
-    msg = req.params.msg;
-  }
-  if (req.params.day) {
-    
-    dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
-  }else{
-    dia = new Date()
-  }
- let id_sucursal = req.session.sucursal_select
- console.log(req.session.tipo)
-  //DATA-COMUNES
-  let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="", LastPedidosAll=""
-  switch (req.session.tipo) {
-    case "Director":
-      ClientesDB=DataBase.ClientesAll
-    PedidosDB=DataBase.PedidosAll
-    ChoferesDB=DataBase.ChoferesAll
-    obtenernotificaciones=DataBase.obtenernotificaciones 
-    LastPedidosAll=DataBase.LastPedidosAll
-      break;
-  
-    default:
-       ClientesDB=DataBase.ClientesAllS
-    PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
-obtenernotificaciones=DataBase.obtenernotificaciones 
-LastPedidosAll=DataBase.LastPedidosAllS
-      break;
-  }
-  DataBase.CodigosP().then((cp_)=>{
-    let cp_arr = JSON.parse(cp_)
-  ClientesDB(id_sucursal).then((clientes_d)=>{
-    let clientes_arr = JSON.parse(clientes_d)
-     let count = clientes_arr.length
-     PedidosDB(id_sucursal).then((pedidos_)=>{
-      let pedidos_let = JSON.parse(pedidos_)
-      LastPedidosAll(id_sucursal).then((pedidos_g)=>{
-        let pedidos_letG = JSON.parse(pedidos_g)
-         let notif1_2=[], notif3_5=[], notif6_12=[], notificacion_g =[]
-         let hoy = moment()
-        var duration=""
-      for (let i = 0; i < pedidos_letG.length; i++) {
-      if (pedidos_letG[i].status_pedido == "Entregado") {
-        if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-          let dia_pedido  = moment(pedidos_letG[i].createdAt)
-          duration = hoy.diff(dia_pedido, 'days');
-            if (duration >=10 && duration < 20) {
-              
-              notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
-            }     
-          }
-          if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
-            let dia_pedido  = moment(pedidos_letG[i].createdAt)
-            duration = hoy.diff(dia_pedido, 'days');
-              if (duration >=20 && duration < 30) {
-       
-                notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
-              }     
-            }
-            if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
-              let dia_pedido  = moment(pedidos_letG[i].createdAt)
-              duration = hoy.diff(dia_pedido, 'days');
-                if (duration >=30) {
-      
-                  notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
-                }     
-              }
-        }
-        }
-      let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
-notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
-       ChoferesDB(id_sucursal).then((choferes)=>{
-        let choferes_ = JSON.parse(choferes)
-        DataBase.Sucursales_ALl().then((sucursales_)=>{
-          let sucursales_let = JSON.parse(sucursales_)
-                   DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
-                    let etiquetas_let = JSON.parse(etiquetas_)
-                    
-console.log(notif1_2)
-console.log(notif3_5)
-console.log(notificacion_g)
-notif1_2 = JSON.stringify(notif1_2)
-notif3_5 = JSON.stringify(notif3_5)
-notif6_12  = JSON.stringify(notif6_12)
-notificacion_g = JSON.stringify(notificacion_g)
-    res.render("PYT-4/seguimiento", {
-      pageName: "Bwater",
-      dashboardPage: true,
-      dashboard: true,
-      py4:true,
-      seguimiento:true,
-      admin,
-      clientes_d,
-      clientes_arr,
-      pedidos_,
-      pedidos_let,
-      choferes_,sucursales_let,
-      cp_,etiquetas_let,
-      msg,notificacion_g,notif1_2,
-      notif3_5,
-      notif6_12
-    }) 
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-  }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/errorpy4/" + msg);
-  });
-}).catch((err) => {
-  console.log(err)
-  let msg = "Error en sistema";
-  return res.redirect("/errorpy4/" + msg);
-});
-};
