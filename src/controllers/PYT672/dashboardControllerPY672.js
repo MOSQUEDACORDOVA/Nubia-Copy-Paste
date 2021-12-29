@@ -1038,6 +1038,49 @@ exports.obtenermatriculagrupo = (req, res) => {
   }
 };
 
+// * REGISTRAR NOTAS
+exports.registrarnotas = (req, res) => {
+  const { nota, leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
+      let resp = JSON.parse(response);
+      
+      if(resp.length) {
+        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId).then((response2) =>{
+          let resp2 = JSON.parse(response2);
+          return res.send({resp2});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId).then((response3) =>{
+          let resp3 = JSON.parse(response3);
+          return res.send({resp3});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * REGISTRAR MATRICULA AUSENTE
 exports.registrarmatriculausente = (req, res) => {
   const { leccion, grupoId, matriculaId } = req.body;

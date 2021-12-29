@@ -1619,7 +1619,7 @@ table tr td {
 }
 .py672 .calificacion, .py672 .participacion {
     border: none;
-    width: 30px;
+    width: 40px;
 }
 .py672 .calificacion:focus, .py672 .participacion:focus {
     border: none;
