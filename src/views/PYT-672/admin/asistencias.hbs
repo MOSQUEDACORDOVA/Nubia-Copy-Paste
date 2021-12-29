@@ -198,12 +198,10 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 $(document).ready(function() {
-    let matriculaGrupo = document.getElementById('matriculaGrupo').value,
-    arrRender = matriculaGrupo;
+    let matriculaGrupo = document.getElementById('matriculaGrupo').value;
 
     if(matriculaGrupo != "") {
-        matriculaGrupo = JSON.parse(matriculaGrupo);
-        arrRender = matriculaGrupo;
+        matriculaGrupo = JSON.parse(document.getElementById('matriculaGrupo').value);
     } else {
         matriculaGrupo = "";
     }
@@ -223,7 +221,7 @@ $(document).ready(function() {
                 $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
                 $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
             }
-            $('#ausenteMatriculaId').val(matricula.id)
+            $('#ausenteMatriculaId').val(matricula.id);
 
             let form = new FormData(document.getElementById('procesarAusente'));
 
@@ -241,7 +239,9 @@ $(document).ready(function() {
                     //console.log(idAusentes);
                 }
 
-                let result = matriculaGrupo.filter(item => item.id === idAusentes); 
+                let result = matriculaGrupo.filter(item => {
+                    return item.id === idAusentes;
+                }); 
                 //console.log(result)
                 if(result.length != 0) {
                     div.innerHTML = `
@@ -300,7 +300,6 @@ $(document).ready(function() {
         });
 
         esContainer.appendChild(fragment);
-        ActiveBtns();
     }
 
     if(matriculaGrupo != "") {
@@ -453,15 +452,15 @@ $(document).ready(function() {
                 }
             });
         });*/
-
-        $('#filtrosDesdeCero select.leccion').on('change', e => {
-            EstablecerMatriculaPorLeccion();
-        });
-
-        $('#filtrosIntensivo select.leccion').on('change', e => {
-            EstablecerMatriculaPorLeccion();
-        });
     }
+
+    $('#filtrosDesdeCero select.leccion').on('change', e => {
+        EstablecerMatriculaPorLeccion();
+    });
+
+    $('#filtrosIntensivo select.leccion').on('change', e => {
+        EstablecerMatriculaPorLeccion();
+    });
 
     const GuardarMatriculaAusente = (id) => {
         if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
