@@ -577,6 +577,8 @@ router.post('/eliminarMatriculaAusente', dashboardControllerPY672.eliminarmatric
 router.post('/obtenerMatriculaAusente', dashboardControllerPY672.obtenermatriculausente);
 // * REGISTRAR NOTAS
 router.post('/registrarNotas', dashboardControllerPY672.registrarnotas);
+// * REGISTRAR PARTICIPACION
+router.post('/registrarParticipacion', dashboardControllerPY672.registrarparticipacion);
 
 
 

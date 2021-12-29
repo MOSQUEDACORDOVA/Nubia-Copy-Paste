@@ -1038,6 +1038,49 @@ exports.obtenermatriculagrupo = (req, res) => {
   }
 };
 
+// * REGISTRAR PARTICIPACION
+exports.registrarparticipacion = (req, res) => {
+  const { porcentaje, leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (porcentaje.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.BuscarParticipacionMatricula(leccion, grupoId, matriculaId).then((response) => {
+      let resp = JSON.parse(response);
+      
+      if(resp.length) {
+        DataBase.ActualizarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response2) =>{
+          let resp2 = JSON.parse(response2);
+          return res.send({resp2});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.RegistrarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response3) =>{
+          let resp3 = JSON.parse(response3);
+          return res.send({resp3});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
   const { nota, leccion, grupoId, matriculaId } = req.body;
@@ -1155,7 +1198,31 @@ exports.obtenermatriculausente = (req, res) => {
           }
           let final = Object.assign(item, notas)
         }
-        return
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      
+      DataBase.BuscarParticipacionMatricula(leccion, grupoId, item.id).then((response2) => {
+        let arr = JSON.parse(response2)[0];
+        console.log(arr)
+        if(arr) {
+          console.log("CONTIENE PARTICIPACION")
+          let participacion = {
+            participacion: parseInt(arr.porcentaje)
+          }
+          console.log(participacion)
+          let final2 = Object.assign(item, participacion)
+          console.log(final2)
+        } else {
+            let participacion = {
+              participacion: 0
+            }
+            let final2 = Object.assign(item, participacion)
+        }
+
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
@@ -1163,8 +1230,8 @@ exports.obtenermatriculausente = (req, res) => {
       });
     });
 
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response2) =>{
-      let resp = JSON.parse(response2);
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response3) =>{
+      let resp = JSON.parse(response3);
       return res.send({resp, matricula});
     }).catch((err) => {
       console.log(err)

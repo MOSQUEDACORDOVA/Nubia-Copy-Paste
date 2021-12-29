@@ -212,6 +212,13 @@
                         <input type="text" name="grupoId" class="grupo">
                         <input type="text" name="matriculaId" class="matricula">
                     </form>
+
+                    <form action="" class="d-none" id="procesarParticipacion">
+                        <input type="text" name="porcentaje" class="porcentaje">
+                        <input type="text" name="leccion" class="leccion">
+                        <input type="text" name="grupoId" class="grupo">
+                        <input type="text" name="matriculaId" class="matricula">
+                    </form>
                 </div>
             </section>
         </div>
@@ -271,11 +278,12 @@ $(document).ready(function() {
                     return item.id === idAusentes;
                 }); 
 
-                let calif = '', participacion = '', notas = 0;
+                let calif = '', participacion = '', notas = 0, participacionPorcentaje = 0;
 
                 if(response2.length) {
                     if(matricula.id === response2[0].id && matricula.grupoId === response2[0].grupoId) {
                         notas = parseInt(response2[0].notas);
+                        participacionPorcentaje = response2[0].participacion;
                     }
                 }
                 
@@ -286,7 +294,7 @@ $(document).ready(function() {
                         <div class="d-flex align-items-center">
                             <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                            <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="${notas}" min="0" max="100">%</p>
+                            <p class="h3 mb-0 mx-1"><input type="number" class="calificacion" value="${notas}" min="0" max="100">%</p>
                             
                             <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
@@ -298,7 +306,7 @@ $(document).ready(function() {
                             <div class="d-flex align-items-center">
                                 <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                                <p class="h3 mb-0 mx-1"><input type="text" name="" class="participacion" value="0" min="0" max="100">%</p>
+                                <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
                                 
                                 <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                             </div>
@@ -509,7 +517,40 @@ $(document).ready(function() {
             .then(data => console.log(data));
 
             clearTimeout(guardarNota);
-        }, 1000);
+        }, 3000);
+    }
+
+    let guardarParticip;
+
+    function guardarParticipacion(id, part) {
+        guardarParticip = setTimeout(() => {
+            let porcentaje = document.querySelector('#procesarParticipacion .porcentaje'),
+            leccion = document.querySelector('#procesarParticipacion .leccion'),
+            grupo = document.querySelector('#procesarParticipacion .grupo'),
+            matricula = document.querySelector('#procesarParticipacion .matricula');
+
+            porcentaje.value = part;
+            leccion.value = $('#numeroLeccion').val();
+            grupo.value = $('#grupoId').val();
+            matricula.value = id;
+
+            if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                leccion.value = parseInt($('#filtrosDesdeCero .select2.leccion').val());
+            } else {
+                leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
+            }
+            
+            let form = new FormData(document.getElementById('procesarParticipacion'));
+
+            fetch('/registrarParticipacion', {
+                method: 'POST',
+                body: form
+            })
+            .then(response => response.json())
+            .then(data => console.log(data));
+
+            clearTimeout(guardarParticip);
+        }, 3000);
     }
 
     let controlEstudiantes = document.getElementById('estudiantes');
@@ -561,6 +602,9 @@ $(document).ready(function() {
             } else {
                 participacion.value++;
             }
+            clearTimeout(guardarParticip);
+            guardarParticipacion(target, participacion.value);
+            
         } else if(e.target.classList.contains('btnParticipacionMenos')) {
             let target = e.target.getAttribute('data-id');
             let participacion = document.querySelector(`#estudiante${target} .participacion`);
@@ -569,6 +613,8 @@ $(document).ready(function() {
             } else {
                 participacion.value--;
             }
+            clearTimeout(guardarParticip);
+            guardarParticipacion(target, participacion.value);
         }
     });
 
