@@ -141,50 +141,49 @@
 
                     <section class="row m-0 p-0" id="estudiantes"></section>
 
-                    <div class="col-12">
-                        <div class="card card-statistics border-success" id="estudiante{{id}}">
-                            <div class="row m-0 p-0">
-                                <div class="col-10 col-xl-11">
-                                    <div class="row card-header">
-                                        <div class="col-12">
-                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between mb-1">
-                                                <div class="d-flex flex-column mb-1 mb-md-0">
-                                                    <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                    <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
-                                                </div>
 
-                                                <div class="d-flex flex-column">
-                                                    <p class="text-success"><b>Calificación</b></p>
-                                                    <div class="d-flex align-items-center">
-                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                    <template id="template">            
+                        <div class="col-12">
+                            <div class="card card-statistics border-success" id="estudiante{{id}}">
+                                <div class="row m-0 p-0">
+                                    <div class="col-10 col-xl-11">
+                                        <div class="row card-header">
+                                            <div class="col-12">
+                                                <div class="d-flex flex-column flex-sm-row justify-content-sm-between mb-1">
+                                                    <div class="d-flex flex-column mb-1 mb-md-0">
+                                                        <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                        <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
+                                                    </div>
 
-                                                        <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
-                                                        
+                                                    <div class="d-flex flex-column">
+                                                        <p class="text-success"><b>Calificación</b></p>
+                                                        <div class="d-flex align-items-center">
+                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                                                        <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+                                                            
+
+                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                            <div class="d-block">
-                                                <div id="example-caption-2" class="d-block">Participación: <span class="porcentaje">0</span>%</div>
-                                                <input type="range" name="" class="range" id="" value="0" min="0" max="100">
-                                                
+                                                <div class="d-block">
+                                                    <div id="example-caption-2" class="d-block">Participación: <span class="porcentaje">0</span>%</div>
+                                                    <input type="range" name="" class="range" id="" value="0" min="0" max="100">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-2 col-xl-1 p-0">
-                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
-                                        <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
-                                        <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                    <div class="col-2 col-xl-1 p-0">
+                                        <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
+                                            <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
+                                            <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <template id="template">            
                     </template>
 
                     <form action="" method="GET" id="grupoForm" class="d-none">
@@ -253,7 +252,7 @@ $(document).ready(function() {
                     return item.id === idAusentes;
                 }); 
             
-                let calif = '';
+                let calif = '', participacion = '';
 
                 if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
                     calif = `
@@ -268,18 +267,12 @@ $(document).ready(function() {
                         </div>
                     </div>`;
                     if(lecc === 32) {
-                        calif = `
-                        <div class="d-flex flex-column">
-                            <p class="text-success"><b>Calificación</b></p>
-                            <div class="d-flex align-items-center">
-                                <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                                <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="0" min="0" max="100">%</p>
-                                
-
-                                <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                            </div>
-                        </div>`;
+                        participacion = `
+                        <div class="d-block mt-1">
+                            <div id="example-caption-2" class="d-block">Participación: <span class="porcentaje">0</span>%</div>
+                            <input type="range" name="" class="range" id="" value="0" min="0" max="100">
+                        </div> 
+                        `;
                     }
                 }
 
@@ -297,6 +290,7 @@ $(document).ready(function() {
                                                 </div> 
                                                 ${calif}
                                             </div>
+                                            ${participacion}
                                         </div>
                                     </div>
                                 </div>
@@ -323,6 +317,7 @@ $(document).ready(function() {
                                                 </div>
                                                 ${calif}
                                             </div>
+                                            ${participacion}
                                         </div>
                                     </div>
                                 </div>
