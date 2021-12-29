@@ -185,7 +185,7 @@
                         <input type="text" name="grupoid" class="grupoId">
                     </form>
 
-                    <form action="" id="procesarAusente" class="d-none">
+                    <form action="" id="procesarAusente" class="">
                         <input type="number" name="leccion" id="ausenteNumLeccion">
                         <input type="number" name="grupoId" id="ausenteGrupoId">
                         <input type="number" name="matriculaId" id="ausenteMatriculaId">
@@ -207,12 +207,13 @@ $(document).ready(function() {
     }
 
     const EstablecerMatriculaPorLeccion = () => {
-        let fragment = new DocumentFragment(), idAusentes, esContainer = document.getElementById('estudiantes');
+        let fragment = new DocumentFragment(), esContainer = document.getElementById('estudiantes');
         esContainer.innerHTML = '';
 
         matriculaGrupo.forEach(matricula => {  
             let div = document.createElement('div');
-            div.classList.add('col-12');         
+            div.classList.add('col-12');      
+            let idAusentes = null;
 
             if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
                 $('#ausenteNumLeccion').val($('#filtrosDesdeCero .select2.leccion').val());
@@ -221,6 +222,8 @@ $(document).ready(function() {
                 $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
                 $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
             }
+            
+            $('#ausenteMatriculaId').val('');
             $('#ausenteMatriculaId').val(matricula.id);
 
             let form = new FormData(document.getElementById('procesarAusente'));
@@ -231,19 +234,17 @@ $(document).ready(function() {
             })
             .then(response => response.json())
             .then(data => {
-                //console.log(data)
                 let response = data.resp;
-                
                 if(response.length) {
                     idAusentes = response[0].matriculaId;
-                    //console.log(idAusentes);
-                }
+                } 
+                //console.log(idAusentes);
 
                 let result = matriculaGrupo.filter(item => {
                     return item.id === idAusentes;
                 }); 
-                //console.log(result)
-                if(result.length != 0) {
+
+                if(result.length) {
                     div.innerHTML = `
                         <div class="card card-statistics border-secondary" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
@@ -391,7 +392,6 @@ $(document).ready(function() {
         let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
         let data = e.params.data;
         let id = data.id;
-        console.log(data);
 
         grupoFormInput.value = select;
         grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
@@ -412,6 +412,7 @@ $(document).ready(function() {
             let target = e.target.getAttribute('data-id');
             let est = document.getElementById(`estudiante${target}`);
             let checkBtn = document.querySelector(`#estudiante${target} .check`), unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`), badge = document.querySelector(`#estudiante${target} .badge`);
+
             est.classList.toggle('border-success');
             est.classList.toggle('border-secondary');
             checkBtn.classList.toggle('d-none');
@@ -479,7 +480,7 @@ $(document).ready(function() {
         fetch('/registrarMatriculaAusente', {
             method: 'POST',
             body: form
-        })//
+        })
         .then(response => response.json())
         .then(data => console.log(data));
     }
@@ -492,7 +493,7 @@ $(document).ready(function() {
             $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
             $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
         }
-        $('#ausenteMatriculaId').val(id)
+        $('#ausenteMatriculaId').val(id);
         /*console.log($('#filtrosDesdeCero .select2.grupo').val())
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
         
