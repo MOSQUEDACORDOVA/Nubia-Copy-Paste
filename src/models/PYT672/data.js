@@ -442,5 +442,57 @@ module.exports = {
           reject(err)
         });
       });
-    }
+    },
+    RegistrarAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Asistencia.create({
+          n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("ASISTENCIA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    EliminarAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Asistencia.destroy({
+          where: {
+            n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          }
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("ASISTENCIA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Asistencia.findAll({
+          where: {
+            n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          }
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("ASISTENCIA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
 }

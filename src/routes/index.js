@@ -569,6 +569,12 @@ router.post('/activarestudiantecongeladopy672', dashboardControllerPY672.activar
 router.post('/eliminarestudiantedegrupopy672', dashboardControllerPY672.eliminarestudiantegrupo);
 // * OBTENER MATRICULA DE GRUPO
 router.post('/obtenermatriculagrupo', dashboardControllerPY672.obtenermatriculagrupo);
+// * REGISTRAR MATRICULA AUSENTE
+router.post('/registrarMatriculaAusente', dashboardControllerPY672.registrarmatriculausente);
+// * ELIMINAR MATRICULA AUSENTE
+router.post('/eliminarMatriculaAusente', dashboardControllerPY672.eliminarmatriculausente);
+// * OBTENER MATRICULA AUSENTE
+router.post('/obtenerMatriculaAusente', dashboardControllerPY672.obtenermatriculausente);
 
 
 
