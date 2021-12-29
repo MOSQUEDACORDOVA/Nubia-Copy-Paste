@@ -172,7 +172,7 @@ maxDate2 = new DateTime($('#max1'), {
         { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
-        { data: 'createdAt'},
+        { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -190,7 +190,7 @@ for (let i = 0; i < codigosP_arr.length; i++) {
 }
 if ($('#otro_rol').length>0) {
 let Hoy = moment().format('DD/MM/YYYY'); 
-let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
+let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
     var fecha_final= moment(Hoy).isAfter(fecha); // true
         
 } 
@@ -201,7 +201,7 @@ if (fecha_final == true) {
 }
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
@@ -260,7 +260,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 1,
           render: function (data, type, full, meta) {
-          //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+          //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
           //  let modificacion = moment(fecha_creado).isSame(modificado)
           //   if (modificacion == false) {
           //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
@@ -404,7 +404,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[6, 'desc'],[9,'desc']],
+      order: [[7, 'desc'],[10,'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -421,7 +421,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
@@ -491,7 +491,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
-        { data: 'createdAt'},
+        { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -502,7 +502,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
                 
             let Hoy = moment().format('DD/MM/YYYY'); 
             
-            let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
+            let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
             
                 var fecha_final= moment(Hoy).isAfter(fecha); // true
                     
@@ -514,7 +514,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             }
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic2")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
@@ -535,7 +535,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             // Label
             targets: 0,
             render: function (data, type, full, meta) {
-            //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+            //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
             //  let modificacion = moment(fecha_creado).isSame(modificado)
             //   if (modificacion == false) {
             //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
@@ -673,7 +673,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[6, 'desc'],[5, 'desc']],
+      order: [[6, 'desc'],[9, 'desc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -816,6 +816,84 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         cargaTablas('si')
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito el(los) choferes')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+
+  //ACA REGISTRA PEDIDO AJAX
+  $('#btn_reg_pedido').on('click', async (e)=>{
+    if ($('#id_cliente_reg_pedido').val() =="default") {
+      Swal.fire('Debe seleccionar un cliente')
+      return
+    }
+    if ($('#chofer').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      return
+    }
+    if ($('#reg_zona_cliente').val() == "0" ) {
+      Swal.fire('Debe asignar una zona al cliente')
+      return
+    }
+    if ($('#color_tag_reg_cliente').val() == "0") {
+      Swal.fire('Debe asignar una etiqueta al cliente')
+      return
+    }
+  if ($('#total_total_inp').val() == "0") {
+      Swal.fire('Debe agregar al menos un producto para continuar')
+      return
+    }
+    $.ajax({
+      url: `/reg_pedido_modal`,
+      type: 'POST',
+      data: $('#reg_pedido_modal1').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>                                                
+            <th></th>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto etiqueta </th> 
+        </tr>
+    </thead>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto etiqueta </th> 
+        </tr>
+    </thead>`);
+        
+        cargaTablas('si')
+  $('.modal').modal('hide');
+  Swal.fire('Se creó con éxito el pedido')
       },
       error: function (jqXHR, textStatus) {
         console.log('error:' + jqXHR)
@@ -968,44 +1046,7 @@ $.contextMenu({
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
-  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {    
-    if ($('#otro_rol').length) {
-      Swal.fire("Función valida solo para directores")
-      return
-    }
-    var id = e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Eliminar',
-      showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        return fetch(`/delete_pedido/${id}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(response.statusText)
-            }
-            return response.json()
-          })
-          .catch(error => {
-            Swal.showValidationMessage(
-              `Request failed: ${error}`              
-            )
-          })
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        dt_basic.row($(this).parents('tr')).remove().draw();
-        Swal.fire({
-          title: `Pedido ${id} borrado con éxito`,
-        })
-      }
-    })
-
-  });
+ 
 
   $('#form_edit_pedido').submit((e)=>{
     e.preventDefault()
@@ -1100,46 +1141,6 @@ $('#edit_pedido').modal('show')
 
   });
 
-  $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
-    if ($('#otro_rol').length) {
-      
-      Swal.fire("Función valida solo para directores")
-      return
-    }
-    var id2= e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Eliminar',
-      showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        return fetch(`/delete_pedido/${id2}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(response.statusText)
-            }
-            return response.json()
-          })
-          .catch(error => {
-            Swal.showValidationMessage(
-              `Request failed: ${error}`              
-            )
-          })
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        
-        dt_basic2.row($(this).parents('tr')).remove().draw();
-        Swal.fire({
-          title: `Pedido ${id2} borrado con éxito`,
-        })
-      }
-    })
-
-  });
 
 });
 // Filter column wise function
@@ -1419,12 +1420,13 @@ $.ajax({
   contentType: false,
   processData: false,
   success: function (data, textStatus, jqXHR) {
-if ( $(".chofer option[value='" + data['chofer'] + "']").length == 0 ){
-$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
+if ( $(".chofer option[value='" + data['personalId'] + "']").length == 0 ){
+//$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
 }else{
   //$('.chofer').find('option:selected').remove().end();
-  $(".chofer option[value='" + data['chofer'] + "']").attr("selected", true);
+  $(".chofer option[value='" + data['personalId'] + "']").attr("selected", true);
 }
+
 $('#id_chofer_edit').val(data['personalId'])
 $('#edit_pedido_id').val(data['id'])
 $('#edit_pedido_id_cliente').val(data['clienteId'])
@@ -1491,6 +1493,7 @@ $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] 
 }
 $('.status_pago').val(data['status_pago'])
 $('#status_pedido_edit').val(data['status_pedido'])
+$('#edit_fecha_pedido').val(data['fecha_pedido'])
 $('#prestados_edit').val(data['garrafones_prestamos'])
 $('#danados_edit').val(data['danados'])
 $('#descuento_edit').val(data['descuento'])
@@ -1508,4 +1511,44 @@ $('#edit_pedido').modal('show')
     console.log('error:' + jqXHR)
   }
 });
+}
+function delete_pedido(id_, tabla) {
+  if ($('#otro_rol').length) {
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  var id = id_
+  let dt_basic = tabla
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el pedido indicado",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_pedido/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(dt_basic)
+      console.log(`${dt_basic} tbody .delete-record${id}`)
+      $(`${dt_basic}`).DataTable().row($(`${dt_basic} tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Pedido ${id} borrado con éxito`,
+      })
+    }
+  })
 }

@@ -14,6 +14,8 @@
          }); 
         }
     $(document).ready(function () {
+
+
         $('input[type="text"]').keyup(function(evt){ // force: true to lower case all letter except first 
        // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
         var cp_value= ucwords($(this).val(),true) ; 
@@ -450,8 +452,7 @@ padding-left: 0.7rem;
             </div>
             <div class="modal-body">
 
-                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal"
-                    method="post" id="reg_pedido_modal1">
+                <form class="needs-validation was-validated repeater" method="post" id="reg_pedido_modal1">
 
 
                     <div class="form-group">
@@ -510,11 +511,22 @@ padding-left: 0.7rem;
                             </select>
 
                         </div>
-                        <div class="form-group" hidden><label for="register-fraccionamiento"
-                                class="form-label">Sucursal</label><input type="text" name="sucursal"
-                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                                class="form-control mb-2">
-                        </div>
+                        <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2" id="reg_zona_cliente">
+                  <option selected="" value="0">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+                                <div class="form-group">
+                  <label for="register-lastName" class="form-label">Color</label>
+                  <select class="select2 form-select" id="color_tag_reg_cliente" name="color" >
+                    <option value="default"> Seleccione una etiqueta </option>
+                    {{#each etiquetas_let as |cliente i|}}
+                    <option value="{{id}}"> {{etiquetas}}</option>
+                    {{/each}}
+                  </select>                
+                </div>
                         <div class="form-group" hidden><label for="register-fraccionamiento"
                                 class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
                                 placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
@@ -564,12 +576,18 @@ padding-left: 0.7rem;
                             class="form-control mb-2 chofer_reg_modal_pedido" id='chofer'>
                             <option default value="default">Seleccione un chofer</option>
                             {{#each choferes_ as |chofer i |}}
-                            <option data-id="{{id}}">{{name}} {{lastName}}</option>
+                            <option data-id="{{id}}" value="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
                         <input type="hidden" id="id_chofer" name="id_chofer">
                     </div>
-
+                    <div class="divider">
+                        <div class="divider-text">Fecha Pedido</div>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control mb-2" 
+                            id="fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
+                    </div>
                     <div class="divider">
                         <div class="divider-text">Productos</div>
                     </div>
@@ -868,7 +886,7 @@ padding-left: 0.7rem;
             </div>
             <div class="modal-footer">
                 <button tabindex="26" rippleeffect=""
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido">Regístrar</button>
             </div>
             </form>
         </div>

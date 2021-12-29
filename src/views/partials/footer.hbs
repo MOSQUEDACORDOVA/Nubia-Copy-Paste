@@ -160,6 +160,8 @@
     <!-- END: Page Vendor JS-->
     <script src="../../../dataPY4/table-datatables-basic.js"></script>  
         <script src="../../../dataPY4/table-datatables-etiquetas.js"></script>
+        <script src="../../../app-assets/vendors/js/maps/leaflet.min.js"></script>
+<script src="../../../dataPY4/map-leaflet.js"></script>
     
     <!-- END: Page JS-->
         {{/if}}
@@ -271,7 +273,9 @@
         })
 
 		$(document).ready(function(){
-             
+                let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+     
    if ( $("#msgs").length ) {
     let mensaje = $('#msgs').text();
   Swal.fire(mensaje)
