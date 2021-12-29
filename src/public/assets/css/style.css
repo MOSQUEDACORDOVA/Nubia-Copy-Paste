@@ -1617,11 +1617,11 @@ table tr td {
     width: 40px;
     height: 40px;
 }
-.py672 .calificacion {
+.py672 .calificacion, .py672 .participacion {
     border: none;
     width: 30px;
 }
-.py672 .calificacion:focus {
+.py672 .calificacion:focus, .py672 .participacion:focus {
     border: none;
     outline: none;
 }
@@ -1679,12 +1679,12 @@ input[type="number"]
     margin: 0;
     -moz-appearance:textfield !important;
 }
-.py672 input[type='range'],
+/*.py672 input[type='range'],
 .py672 input[type='range']::-webkit-slider-runnable-track,
 .py672 input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
-
 }
+
 .py672 input[type=range]::-webkit-slider-thumb {
     background-color: #7367f0;
     width: 20px;
@@ -1697,12 +1697,4 @@ input[type="number"]
     background-color: #e0e0e0;
     height: 8px;
     border-radius: 8px;
-}
-/*.py672 input[type=range]::-moz-range-progress {
-    background-color: green;
-    height: 1em;
-}
-.py672 input[type=range]::-webkit-range-progress {
-    background-color: green !important;
-    height: 1em;
 }*/
