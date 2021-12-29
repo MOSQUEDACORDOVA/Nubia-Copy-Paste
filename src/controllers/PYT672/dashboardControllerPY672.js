@@ -504,8 +504,8 @@ exports.matriculas = (req, res) => {
   });
 };
 
-// * ASISTENCIAS
-exports.asistencias = (req, res) => {
+// * CONTROL
+exports.control = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -568,7 +568,7 @@ exports.asistencias = (req, res) => {
 };
 
 // * ASISTENCIAS DE GRUPO
-exports.asistenciasgrupo = (req, res) => {
+exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;

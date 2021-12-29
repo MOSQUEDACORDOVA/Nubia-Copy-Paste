@@ -539,8 +539,8 @@ router.post('/reguserpy672', dashboardControllerPY672.reguser);
 router.get('/grupos/:id', dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
-router.get('/asistencias/:id', dashboardControllerPY672.asistencias);
-router.get('/asistenciasgrupo/:id/:grupoid', dashboardControllerPY672.asistenciasgrupo);
+router.get('/control/:id', dashboardControllerPY672.control);
+router.get('/controlgrupo/:id/:grupoid', dashboardControllerPY672.controlgrupo);
 router.get('/calificaciones/:id', dashboardControllerPY672.calificaciones);
 
 
