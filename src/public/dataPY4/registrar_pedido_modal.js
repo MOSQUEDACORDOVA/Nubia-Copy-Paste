@@ -318,6 +318,24 @@ $(function () {
       $("#select_asentamiento_me option[value='" + found.cpId + "']").attr("selected", true);
     }
 
+    if ($("#reg_zona_cliente option[value='" + found.sucursaleId + "']").length == 0) {
+      console.log("option doesn't exist!");
+     // $('#reg_zona_cliente').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
+    } else {
+      console.log("option exist!");
+      $('#reg_zona_cliente').find('option:selected').remove().end();
+      $("#reg_zona_cliente option[value='" + found.sucursaleId + "']").attr("selected", true);
+    }
+
+    if ($("#color_tag_reg_cliente option[value='" + found.etiquetaId + "']").length == 0) {
+      console.log("option doesn't exist!");
+     // $('#color_tag_reg_cliente').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
+    } else {
+      console.log("option exist!");
+      $('#color_tag_reg_cliente').find('option:selected').remove().end();
+      $("#color_tag_reg_cliente option[value='" + found.etiquetaId + "']").attr("selected", true);
+    }
+
     $('input[name="fraccionamiento"]').val(found.fraccionamiento)
     $('input[name="coto"]').val(found.coto)
     $('input[name="casa"]').val(found.casa)
@@ -398,5 +416,7 @@ if ($('#color_tag_reg_cliente').val() == "0") {
 e.currentTarget.submit();
 
 })
+
+
 
 });

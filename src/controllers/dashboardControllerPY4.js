@@ -319,7 +319,8 @@ exports.usuariosTable = (req, res) => {
           let sucursales_let = JSON.parse(sucursales_)
        DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
             let etiquetas_let = JSON.parse(etiquetas_)
-
+            DataBase.CodigosP().then((cp_)=>{
+              let cp_arr = JSON.parse(cp_)
      res.render("PYT-4/usersTable", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -334,9 +335,14 @@ exports.usuariosTable = (req, res) => {
       clientes_arr,
       count,sucursales_let,sucursales_,
       etiquetas_let,etiquetas_,
-      msg
+      msg,cp_
     })
   }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
@@ -411,15 +417,45 @@ exports.save_cliente_cuponera =  (req, res) => {
   });
 }
 
-exports.delete_cliente = (req, res) => {
+exports.delete_cliente = async (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id
+  // let cliente_pedido = await DataBase.SearchClientePedido(id_)
+  // console.log(cliente_pedido)
   
   DataBase.Delete_Cliente(id_).then((respuesta) =>{
-    
-    
-  let msg = "Cliente Eliminado con éxito"
-  res.redirect('/usuarios/'+msg)
+    let id_sucursal = req.session.sucursal_select
+    let ClientesDB = ""
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB=DataBase.ClientesAll
+      break;
+  
+    default:
+       ClientesDB=DataBase.ClientesAllS
+      break;
+  }
+  ClientesDB(id_sucursal).then(async (clientes_d)=>{
+      let clientes_arr = JSON.parse(clientes_d)
+      if (req.body.id_notificacion) {
+        console.log(req.body.id_notificacion)
+     const save_not =   await DataBase.saveEditedNotificaciones(req.body.id_notificacion,'1')
+     console.log(save_not)
+     if (save_not) {
+      console.log('----')
+        let notif_ = JSON.parse(await DataBase.obtenernotificaciones())
+         return res.send({notif_})
+     }
+   
+      }
+
+      return res.send({clientes_arr})
+  
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
 
    })   
  };
@@ -570,18 +606,37 @@ exports.regPedidoPy4 = (req, res) => {
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal, deuda_anterior} = req.body
+  const { id_cliente, firstName, lastName,  ciudad,municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, sucursal, deuda_anterior,fecha_pedido} = req.body
 
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
   let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
   let total_canje_cant_pedido = parseInt(garrafon19L.canje_cant) + parseInt(botella1L.canje_cant)+parseInt(garrafon11L.canje_cant)+ parseInt(botella5L.canje_cant) 
   let total_nuevo_cant_pedido = parseInt(garrafon19L.nuevo_cant) + parseInt(botella1L.nuevo_cant)+parseInt(garrafon11L.nuevo_cant)+ parseInt(botella5L.nuevo_cant) 
   let total_obsequio_pedido = parseInt(garrafon19L.enobsequio_cant_garrafon) + parseInt(botella1L.enobsequio_cant_botella)+parseInt(garrafon11L.enobsequio_cant_garrafon11l)+ parseInt(botella5L.enobsequio_cant_botella5l)
-
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido).then((respuesta) =>{
-    res.redirect('/homepy4/'+respuesta)
+  let PedidosDB=""
+  switch (req.session.tipo) {
+    case "Director":
+    PedidosDB=DataBase.PedidosAll
+      break;
+  
+    default:
+    PedidosDB=DataBase.PedidosAllS
+      break;
+  }
+  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido).then(async (respuesta) =>{
+    
+    let id_sucursal = req.session.sucursal_select
+   await PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
+    let msg=respuesta
+    return res.send({msg:msg, pedidos_let})
 
   }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  }); 
+}).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
@@ -633,7 +688,7 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
   let botella5L ={refill_cant: req.body.refill_cant_botella5l, refill_mont: req.body.refill_botella5l_mont, canje_cant: req.body.canje_cant_botella5l, canje_mont:req.body.canje_botella5l_mont, nuevo_cant:req.body.enNew_cant_botella5l, nuevo_mont: req.body.nuevo_botella5l_mont, total_cant: req.body.total_botella5l_cant, total_cost: req.body.total_botella5l, enobsequio_cant_botella5l: req.body.enobsequio_cant_botella5l}
 
   const user = res.locals.user
-  const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior, descuento} = req.body
+  const { id_pedido,id_cliente, chofer, total_total_inp, metodo_pago, status_pago,   status_pedido, garrafones_prestamos, observacion, danados,id_chofer,sucursal,deuda_anterior, descuento,fecha_pedido} = req.body
 
   let total_garrafones_pedido = parseInt(garrafon19L.total_cant) + parseInt(botella1L.total_cant)+parseInt(garrafon11L.total_cant)+ parseInt(botella5L.total_cant) 
   let total_refill_cant_pedido = parseInt(garrafon19L.refill_cant) + parseInt(botella1L.refill_cant)+parseInt(garrafon11L.refill_cant)+ parseInt(botella5L.refill_cant) 
@@ -651,7 +706,7 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
       break;
   }
  
-  DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,descuento).then(async(respuesta) =>{
+  DataBase.PedidosUpd(id_pedido,id_cliente, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id,sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,descuento,fecha_pedido).then(async(respuesta) =>{
     let id_sucursal = req.session.sucursal_select
    await PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)

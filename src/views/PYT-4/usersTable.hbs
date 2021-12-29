@@ -41,6 +41,9 @@
             <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
               Cambiar Etiquetas
             </button>
+             <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="mapgeo">
+              Ver Mapa
+            </button>
              <label><input type="checkbox" id="cliente_nuevo">Solo ver Nuevos</label>
             {{/if}}
               </div>
@@ -118,6 +121,105 @@
             </div>
           </div>
           {{/if}}
+             <div class="col-12 d-none">
+            
+            <div class="inner">
+              <h3 class="masthead-brand">Estrada Web Group</h3>
+              <div class="nav nav-masthead justify-content-center">
+                  <div class="row">
+                      <div class="col-md-4">
+                        <input type="text" id="txtDireccion" class="form-control" placeholder="direccion">
+                        
+                      </div>
+                      <div class="col-md-4">
+                        <input type="text" id="txtCiudad" class="form-control" placeholder="ciudad">
+                    </div>
+                    <div class="col-md-4">
+
+                        <input type="text" id="txtEstado" class="form-control" placeholder="estado">
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+          <main role="main" class="inner cover">
+              <div class="row">
+                <div class="col-md-4">
+                    <input type="text" id="txtLat" class="form-control" placeholder="latitude">
+                    
+                  </div>
+                  <div class="col-md-4">
+                    <input type="text" id="txtLng" class="form-control" placeholder="longitud">
+                    
+                  </div>
+              </div>
+            <div id="map_canvas" style="height:350px">
+
+            </div>
+          </main>
+          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaxdYMH4POsU0qYQSoAUEigIb4bKZ0sAE"></script>
+<script>
+    var markers = [
+        ['Brooklyn Museum, NY', 40.671531, -73.963588],
+        ['Brooklyn Public Library, NY', 40.672587, -73.968146],
+        ['Prospect Park Zoo, NY', 40.665588, -73.965336]
+    ];
+        var vMarker
+        var map
+         var bounds = new google.maps.LatLngBounds();
+           var mapOptions = {
+        mapTypeId: 'roadmap'
+    };
+         /*   map = new google.maps.Map(document.getElementById('map_canvas'), {
+                zoom: 14,
+                center: new google.maps.LatLng(19.4326296, -99.1331785),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+            vMarker = new google.maps.Marker({
+                position: new google.maps.LatLng(19.4326296, -99.1331785),
+                draggable: true
+            });*/
+              for( i = 0; i < markers.length; i++ ) {
+        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+        bounds.extend(position);
+        marker = new google.maps.Marker({
+            position: position,
+            map: map,
+            title: markers[i][0]
+        });
+              }
+            google.maps.event.addListener(vMarker, 'dragend', function (evt) {
+                $("#txtLat").val(evt.latLng.lat().toFixed(6));
+                $("#txtLng").val(evt.latLng.lng().toFixed(6));
+
+                map.panTo(evt.latLng);
+            });
+            map.setCenter(vMarker.position);
+            vMarker.setMap(map);
+
+            $("#txtCiudad, #txtEstado, #txtDireccion").change(function () {
+                movePin();
+            });
+
+            function movePin() {
+            var geocoder = new google.maps.Geocoder();
+            var textSelectM = $("#txtCiudad").text();
+            var textSelectE = $("#txtEstado").val();
+            var inputAddress = $("#txtDireccion").val() + ' ' + textSelectM + ' ' + textSelectE;
+            geocoder.geocode({
+                "address": inputAddress
+            }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    vMarker.setPosition(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+                    map.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
+                    $("#txtLat").val(results[0].geometry.location.lat());
+                    $("#txtLng").val(results[0].geometry.location.lng());
+                }
+
+            });
+        }
+        </script>
+                        </div>
         </div>
       </section>
 
