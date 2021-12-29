@@ -1127,7 +1127,7 @@ exports.eliminarmatriculausente = (req, res) => {
 
 // * OBTENER MATRICULA AUSENTE
 exports.obtenermatriculausente = (req, res) => {
-  const { leccion, grupoId, matriculaId } = req.body;
+  const { arr, leccion, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
@@ -1136,9 +1136,36 @@ exports.obtenermatriculausente = (req, res) => {
     let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
-      let resp = JSON.parse(response);
-      return res.send({resp});
+    let matricula = JSON.parse(arr);
+    matricula.forEach(item => {
+      DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
+        let result = JSON.parse(response)[0];
+        console.log(result)
+        if (result) {
+          console.log("CONTIENE NOTAS")
+          let notas = {
+            notas: result.nota
+          }
+          console.log(notas)
+          let final = Object.assign(item, notas)
+          console.log(final)
+        } else {
+          let notas = {
+            notas: 0
+          }
+          let final = Object.assign(item, notas)
+        }
+        return
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    });
+
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response2) =>{
+      let resp = JSON.parse(response2);
+      return res.send({resp, matricula});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

@@ -476,6 +476,32 @@ module.exports = {
         });
       });
     },
+    ObtenerNotasMatricula(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("NOTAS ENCONTRADAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     BuscarNotasLeccion(lecc, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({

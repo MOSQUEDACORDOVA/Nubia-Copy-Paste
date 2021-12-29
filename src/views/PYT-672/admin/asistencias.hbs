@@ -206,7 +206,7 @@
                         <input type="number" name="matriculaId" id="ausenteMatriculaId">
                     </form>
 
-                    <form action="" class="" id="procesarNotas">
+                    <form action="" class="d-none" id="procesarNotas">
                         <input type="text" name="nota" class="nota">
                         <input type="text" name="leccion" class="leccion">
                         <input type="text" name="grupoId" class="grupo">
@@ -249,8 +249,8 @@ $(document).ready(function() {
             
             $('#ausenteMatriculaId').val('');
             $('#ausenteMatriculaId').val(matricula.id);
-
             let form = new FormData(document.getElementById('procesarAusente'));
+            form.append('arr', $('#matriculaGrupo').val());
 
             fetch('/obtenerMatriculaAusente', {
                 method: 'POST',
@@ -258,7 +258,10 @@ $(document).ready(function() {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 let response = data.resp;
+                let response2 = data.matricula;
+                console.log(response2)
                 if(response.length) {
                     idAusentes = response[0].matriculaId;
                 } 
@@ -268,8 +271,14 @@ $(document).ready(function() {
                     return item.id === idAusentes;
                 }); 
 
-                let calif = '', participacion = '';
+                let calif = '', participacion = '', notas = 0;
 
+                if(response2.length) {
+                    if(matricula.id === response2[0].id && matricula.grupoId === response2[0].grupoId) {
+                        notas = parseInt(response2[0].notas);
+                    }
+                }
+                
                 if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
                     calif = `
                     <div class="d-flex flex-column mb-1 me-1">
@@ -277,7 +286,7 @@ $(document).ready(function() {
                         <div class="d-flex align-items-center">
                             <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                            <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="0" min="0" max="100">%</p>
+                            <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="${notas}" min="0" max="100">%</p>
                             
                             <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
@@ -483,6 +492,12 @@ $(document).ready(function() {
             leccion.value = $('#numeroLeccion').val();
             grupo.value = $('#grupoId').val();
             matricula.value = id;
+
+            if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                leccion.value = parseInt($('#filtrosDesdeCero .select2.leccion').val());
+            } else {
+                leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
+            }
             
             let form = new FormData(document.getElementById('procesarNotas'));
 
