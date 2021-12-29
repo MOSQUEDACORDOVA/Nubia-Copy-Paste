@@ -14,6 +14,8 @@ console.log(array)
   let sucursales = $('#array_sucursales').val()
   let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
 
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
 
@@ -67,7 +69,7 @@ console.log(array)
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_cliente("'+full['id']+'")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
@@ -104,47 +106,51 @@ console.log(array)
           targets: 1,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            var $user_img = "-",
-              $name = full['firstName'] + " " + full['lastName'],
-              $post = "Cliente";
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+            var $user_img = "-"
             if ($user_img) {
               // For Avatar image
               var $output =
                 '<img src="' + assetPath + 'images/avatar-s-pyt4.jpg" alt="Avatar" width="32" height="32">';
-            } else {
-              // For Avatar badge
-              var stateNum = full['status'];
-              var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-              var $state = states[stateNum],
-                $initials = $name.match(/\b\w/g) || [];
-              $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-content">' + $initials + '</span>';
             }
-
-            var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
-            // Creates full output for row
-            var color_tag ="", color_text=""
-            if (full['etiqueta'] ==null) {
-              color_tag =0
-              color_text="black"
-            }else{
-              color_tag =full['etiqueta']['color']
-              color_text="white"
+            var $status_number = full['tipo'];
+            var $status = {
+              "Residencial": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+              "Punto de venta": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+              "Negocio": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
             }
-            var $row_output =
-              '<div class="d-flex justify-content-left align-items-center">' +
-              '<div class="avatar ' +
-              colorClass +
-              ' me-1">' +
-              $output +
+        var cliente_arr = encodeURIComponent(JSON.stringify(full));
+        var color_tag ="", color_text=""
+        if (full['etiqueta'] ==null) {
+          color_tag =0
+          color_text="black"
+        }else{
+          color_tag =full['etiqueta']['color']
+          color_text="white"
+        }
+        //aqui activa el modal info del cliente
+            return ('<div class="d-flex justify-content-left align-items-center">' +
+            '<div class="avatar ' +
+            ' me-1">' +
+            $output +
+            '</div>' +
+            '<div class="d-flex flex-column">' +
+              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
+              '" >' +
+              $status[$status_number].title +
+              '</span>'+
               '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<span class="emp_name text-truncate fw-bold badge rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
-              $name +
-              '</span>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
+              '</div>'
+            );
           }
         },
         {
@@ -553,4 +559,46 @@ $('#edit_cliente').modal('show')
     console.log('error:' + jqXHR)
   }
 });
+}
+function delete_cliente(id_) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  if (typeof id_ =="undefined") {
+    return console.log(id_)
+  }
+  var id = id_
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_cliente/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Cliente ${id} borrado con éxito`,
+      })
+    }
+  })
 }
