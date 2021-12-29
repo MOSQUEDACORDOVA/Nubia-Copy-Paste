@@ -213,12 +213,14 @@ $(document).ready(function() {
         matriculaGrupo.forEach(matricula => {  
             let div = document.createElement('div');
             div.classList.add('col-12');      
-            let idAusentes = null;
+            let lecc = null, idAusentes = null;
 
             if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                lecc = parseInt($('#filtrosDesdeCero .select2.leccion').val());
                 $('#ausenteNumLeccion').val($('#filtrosDesdeCero .select2.leccion').val());
                 $('#ausenteGrupoId').val($('#filtrosDesdeCero .select2.grupo').val());
             } else {
+                lecc = parseInt($('#filtrosIntensivo .select2.leccion').val());
                 $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
                 $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
             }
@@ -243,6 +245,23 @@ $(document).ready(function() {
                 let result = matriculaGrupo.filter(item => {
                     return item.id === idAusentes;
                 }); 
+            
+                let calif = '';
+
+                if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
+                    calif = `
+                    <div class="d-flex flex-column">
+                        <p class="text-success"><b>Calificación</b></p>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                            <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="0" min="0" max="100">%</p>
+                            
+
+                            <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                        </div>
+                    </div>`;
+                }
 
                 if(result.length) {
                     div.innerHTML = `
@@ -256,6 +275,7 @@ $(document).ready(function() {
                                                     <h5><span class="badge badge-light-secondary">Ausente</span></h5>
                                                     <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
                                                 </div> 
+                                                ${calif}
                                             </div>
                                         </div>
                                     </div>
@@ -281,6 +301,7 @@ $(document).ready(function() {
                                                     <h5><span class="badge badge-light-success">Ausente</span></h5>
                                                     <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
                                                 </div>
+                                                ${calif}
                                             </div>
                                         </div>
                                     </div>
@@ -426,34 +447,20 @@ $(document).ready(function() {
                 badge.innerText = 'Ausente';
                 GuardarMatriculaAusente(target);
             }
+        } else if (e.target.classList.contains('btnCalificacionMas')) {
+            let target = e.target.getAttribute('data-id');
+            let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
+            calificacion.value++;
+        } else if (e.target.classList.contains('btnCalificacionMenos')) {
+            let target = e.target.getAttribute('data-id');
+            let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
+            if(calificacion.value === "0") {
+                calificacion.value = 0;
+            } else {
+                calificacion.value--;
+            }
         }
     });
-
-    const ActiveBtns = () => {
-        /*
-        let btnCalifMas = document.querySelectorAll('.btnCalificacionMas'),
-        btnCalifMenos = document.querySelectorAll('.btnCalificacionMenos'),
-        calificacion = document.querySelectorAll('.calificacion');
-
-        btnCalifMas.forEach(btn => {
-            btn.addEventListener('click', e => {
-                let current = e.target.getAttribute('data-id')
-                let calif = document.querySelector(`#estudiante${current} .calificacion`);
-                calif.value++;
-            });
-        });
-        btnCalifMenos.forEach(btn => {
-            btn.addEventListener('click', e => {
-                let current = e.target.getAttribute('data-id')
-                let calif = document.querySelector(`#estudiante${current} .calificacion`);
-                if(calif.value === "0") {
-                    calif.value = 0;
-                } else {
-                    calif.value--;
-                }
-            });
-        });*/
-    }
 
     $('#filtrosDesdeCero select.leccion').on('change', e => {
         EstablecerMatriculaPorLeccion();
