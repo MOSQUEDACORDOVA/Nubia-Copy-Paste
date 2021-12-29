@@ -16,11 +16,13 @@ const Asistencia = db672.define('asistencias', {
 	},
 	h_e: {
 		type: DataTypes.STRING(255),
-		allowNull: true
+		allowNull: true,
+		defaultValue: '-'
 	},
 	h_s: {
 		type: DataTypes.STRING(255),
-		allowNull: true
+		allowNull: true,
+		defaultValue:'-'
 	},
 });
 
