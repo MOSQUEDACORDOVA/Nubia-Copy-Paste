@@ -835,7 +835,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       Swal.fire('Debe seleccionar un chofer')
       return
     }
-    if ($('#reg_zona_cliente').val() == "0" ) {
+    if ($('#reg_zona_cliente_pedido').val() == "0" ) {
       Swal.fire('Debe asignar una zona al cliente')
       return
     }
