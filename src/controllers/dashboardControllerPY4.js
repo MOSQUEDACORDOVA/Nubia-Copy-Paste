@@ -2041,6 +2041,7 @@ exports.getCupones = (req, res) => {
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
+      promociones: true,
       cupones_act,total_cupones,
       msg,
       dashboardPage: true,admin,
