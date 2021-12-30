@@ -383,7 +383,7 @@ exports.save_cliente_py4 = async(req, res) => {
   console.log(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
 const revisa_cliente = await DataBase.SearchClientePedido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
 console.log(revisa_cliente)
-if (revisa_cliente) {
+if (revisa_cliente != "null") {
   msg ="Ya éxiste un cliente con los datos indicados"
   res.redirect('/homepy4/'+msg)
   return
