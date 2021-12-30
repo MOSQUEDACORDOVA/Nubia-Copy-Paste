@@ -894,6 +894,18 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         
         cargaTablas('si')
   $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+   let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+  
   Swal.fire('Se creó con éxito el pedido')
       },
       error: function (jqXHR, textStatus) {
