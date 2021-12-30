@@ -179,7 +179,7 @@ module.exports = {
   registrar_cliente(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color) {
     return new Promise((resolve, reject) => {
       Clientes.findOrCreate({
-        where: { firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
+        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, },
         defaults: {
           firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento, etiquetaId: color
         }
@@ -388,12 +388,10 @@ module.exports = {
         });
     });
   },
-  SearchClientePedido(id){
+  SearchClientePedido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono){
     return new Promise((resolve, reject) => {
-      Pedidos.findOne({where:{
-        clienteId: id
-      }
-      },)
+      Clientes.findOne({
+        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, }})
         .then((data) => {
           let data_p = JSON.stringify(data);
           resolve(data_p);

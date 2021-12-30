@@ -835,7 +835,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       Swal.fire('Debe seleccionar un chofer')
       return
     }
-    if ($('#reg_zona_cliente').val() == "0" ) {
+    if ($('#reg_zona_cliente_pedido').val() == "0" ) {
       Swal.fire('Debe asignar una zona al cliente')
       return
     }
@@ -1014,7 +1014,7 @@ $.contextMenu({
               "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
-              "Tlf": { name: `Tlf: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tel": { name: `Tel: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
   }
