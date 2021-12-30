@@ -1014,7 +1014,7 @@ $.contextMenu({
               "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
-              "Tlf": { name: `Tlf: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tel": { name: `Tel: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
   }
