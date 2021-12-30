@@ -541,7 +541,7 @@ router.get('/verificargrupos/:id', dashboardControllerPY672.verificargrupos);
 router.get('/matriculas/:id', dashboardControllerPY672.matriculas);
 router.get('/control/:id', dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', dashboardControllerPY672.controlgrupo);
-router.get('/calificaciones/:id', dashboardControllerPY672.calificaciones);
+router.get('/historial/:id', dashboardControllerPY672.historial);
 
 
 

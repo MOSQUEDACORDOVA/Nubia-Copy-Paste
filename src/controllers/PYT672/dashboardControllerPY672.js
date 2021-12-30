@@ -697,8 +697,8 @@ exports.controlgrupo = (req, res) => {
   });
 };
 
-// * CALIFICACIONES
-exports.calificaciones = (req, res) => {
+// * HISTORIAL
+exports.historial = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -710,12 +710,12 @@ exports.calificaciones = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    res.render(proyecto+"/admin/calificaciones", {
-      pageName: "Academia Americana - Calificaciones",
+    res.render(proyecto+"/admin/historial", {
+      pageName: "Academia Americana - Historial",
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      calificaciones: true,
+      historial: true,
       gruposTodos,
     });
   }).catch((err) => {
