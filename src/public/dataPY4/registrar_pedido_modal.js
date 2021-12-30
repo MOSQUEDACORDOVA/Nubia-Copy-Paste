@@ -24,6 +24,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -44,6 +49,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -64,6 +74,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -96,6 +111,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -116,6 +136,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -136,6 +161,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -168,6 +198,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -188,6 +223,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -208,6 +248,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -239,6 +284,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -259,6 +309,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -280,6 +335,11 @@ $(function () {
 
     let sumar_totales = parseInt($('#monto_garrafon_input').val()) + parseInt($('#monto_botella_input').val()) + parseInt($('#monto_garrafon11l_input').val()) + parseInt($('#monto_botella5l_input').val())
     $('#total_total_inp').val(sumar_totales)
+    if ($('input[name="deuda_anterior"]').val() > 0) {
+      $('#sub_total_total').text(sumar_totales)
+      sumar_totales = parseInt(sumar_totales) + parseInt($('input[name="deuda_anterior"]').val())
+      
+    }
     $('#total_total').text(sumar_totales)
   })
 
@@ -364,6 +424,7 @@ $(function () {
           $('#deuda_verf').text(data['deuda'])
           $('#prestados_anterior').text(data['prestados'])
           $('input[name="deuda_anterior"]').val(data['deuda'])
+
           $('#status_pago').val('Por verificar')
         }
 

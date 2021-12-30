@@ -141,7 +141,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  var groupColumn = 9;
+  let groupColumn = 9;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -334,15 +334,16 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 4,
           render: function (data, type, full, meta) {
-            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
             detailRefill = parseFloat(full['total_refill_pedido'])*35
             detailCanje = parseFloat(full['total_canje_pedido'])*55
             detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            adeudo = full['deuda_anterior']
             desc = full['descuento']
             sindesc = data
             condesc =parseFloat(data)- parseFloat(desc) 
            return (
-            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" data-adeudo="'+adeudo+'" style="cursor:pointer;" >$' +
             condesc +
             '</span>'
           );
@@ -462,7 +463,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       });
   }
   if (dt_basic_table2.length) {
-    groupColumn = 8
+  let groupColumn2 = 8
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
@@ -684,7 +685,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         var last = null;
 
         api
-          .column(groupColumn, { page: 'current' })
+          .column(groupColumn2, { page: 'current' })
           .data()
           .each(function (group, i) {
             let icono =`<i class="fas fa-truck"></i>`
@@ -957,8 +958,11 @@ $.contextMenu({
    var desc = e.currentTarget['dataset']["descuento"] 
    var sindesc = e.currentTarget['dataset']["sindesc"] 
    var condesc = e.currentTarget['dataset']["condesc"] 
+   var adeudo = e.currentTarget['dataset']["adeudo"] 
    var obsequio = e.currentTarget['dataset']["obsequio"];
-   var total = e.currentTarget['dataset']["total"] 
+   //var total = e.currentTarget['dataset']["total"] 
+   var total = (parseInt(sindesc) +parseInt(adeudo))-parseInt(desc)
+
       return {
           callback: function (key, options) {
               var m = "clicked: " + key;
@@ -968,8 +972,9 @@ $.contextMenu({
               "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Sub-Total": { name: `Sub-Total: $${sindesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Adeudo": { name: `Adeudo: $${adeudo}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Desc.": { name: `Desc.: $${desc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
-              "Total": { name: `Total: $${condesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
   }
