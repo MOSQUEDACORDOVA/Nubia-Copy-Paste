@@ -141,7 +141,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  let groupColumn = 9;
+  let groupColumn = 10;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -170,6 +170,7 @@ maxDate2 = new DateTime($('#max1'), {
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
+        { data: 'deuda_anterior'},
         { data: 'status_pedido' },
         { data: 'status_pago' },
         { data: 'fecha_pedido'},
@@ -243,7 +244,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { visible: false, targets: 10,
+        { visible: false, targets: 11,
           render: function (data, type, full) {
             
             if (full['cliente']['etiqueta'] == null) {
@@ -349,9 +350,20 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           );
         }
       },
+      {
+        // Label
+        targets: 5,
+        render: function (data, type, full, meta) {
+         return (
+          '<span class="badge rounded-pill badge-light-danger " >$' +
+          data +
+          '</span>'
+        );
+      }
+    },
         {
           // Label
-          targets: 5,
+          targets: 6,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -375,7 +387,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 6,
+          targets: 7,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -395,7 +407,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           }
         },
         {
-          targets: 7,className:'fecha_pedido',
+          targets: 8,className:'fecha_pedido',
           render:function(data, type, full){
             
            // return moment.tz(data, 'America/Mexico_City').format('L');
@@ -405,7 +417,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[7, 'desc'],[10,'desc']],
+      order: [[8, 'desc'],[11,'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -422,7 +434,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="10"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
@@ -526,7 +538,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           { data: 'personal.name' },
           { data: 'cliente.etiqueta' },
         ], columnDefs: [
-          { visible: false, targets: groupColumn,
+          { visible: false, targets: groupColumn2,
            
           },
           { visible: false, targets: 9,
