@@ -797,6 +797,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
+            <th>Adeudo</th>
             <th>Status del Pedido</th>
             <th>Status de Pago</th>
             <th>Fecha</th>
@@ -875,6 +876,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
+            <th>Adeudo</th>
             <th>Status del Pedido</th>
             <th>Status de Pago</th>
             <th>Fecha</th>
@@ -1095,6 +1097,7 @@ $.contextMenu({
        <th>Cliente</th>
        <th>Total garrafones</th>
        <th>Monto Total</th>
+       <th>Adeudo</th>
        <th>Status del Pedido</th>
        <th>Status de Pago</th>
        <th>Fecha</th>
@@ -1104,7 +1107,7 @@ $.contextMenu({
    <th>oculto choferes </th> 
    <th>oculto etiqueta </th> 
    </tr>
-   </thead>`);
+</thead>`);
    
    $('.datatables-basic2').dataTable().fnDestroy();
    $('.datatables-basic2').empty();
@@ -1292,6 +1295,7 @@ $('.datatables-basic').html(`<thead>
     <th>Cliente</th>
     <th>Total garrafones</th>
     <th>Monto Total</th>
+    <th>Adeudo</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
     <th>Fecha</th>
@@ -1390,21 +1394,23 @@ async function cambioPago(id, status) {
   $('.datatables-basic').dataTable().fnDestroy();
   $('.datatables-basic').empty();
   $('.datatables-basic').html(`<thead>
-                                            <tr>
-                                                <th>Nº Pedido</th>
-                                                <th>Cliente</th>
-                                                <th>Total garrafones</th>
-                                                <th>Monto Total</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                            <th>oculto choferes </th> 
-                                            <th>oculto etiqueta </th> 
-                                            </tr>
-                                        </thead>`);
+  <tr>                                                
+      <th></th>
+      <th>Nº Pedido</th>
+      <th>Cliente</th>
+      <th>Total garrafones</th>
+      <th>Monto Total</th>
+      <th>Adeudo</th>
+      <th>Status del Pedido</th>
+      <th>Status de Pago</th>
+      <th>Fecha</th>
+      <th>Opciones</th>
+      
+  
+  <th>oculto choferes </th> 
+  <th>oculto etiqueta </th> 
+  </tr>
+</thead>`);
   $('.datatables-basic2').dataTable().fnDestroy();
   $('.datatables-basic2').empty();
   $('.datatables-basic2').html(`<thead>
