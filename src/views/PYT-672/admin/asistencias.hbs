@@ -295,8 +295,8 @@ $(document).ready(function() {
                 if(response2.length) {
                     if(matricula.id === response2[0].id && matricula.grupoId === response2[0].grupoId) {
                         notas = parseInt(response2[0].notas);
-                        participacionPorcentaje = response2[0].participacion;
                     }
+                    participacionPorcentaje = response2[0].participacion;
                 }
                 
                 if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
