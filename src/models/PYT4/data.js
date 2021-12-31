@@ -402,6 +402,22 @@ module.exports = {
         });
     });
   },
+  SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,){
+    return new Promise((resolve, reject) => {
+      Clientes.findOne({
+        where: {
+          [Op.or]: [{ apellido_familiar_1: apellido_familiar_1}, {telefono_familiar_1: telefono_familiar_1}, {apellido_familiar_2: apellido_familiar_2}, {telefono_familiar_2: telefono_familiar_2}],
+        },})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+              ////console.log(id_usuario);
+            })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   Delete_Cliente(id){
     return new Promise((resolve, reject) => {
       Pedidos.destroy({where:{
