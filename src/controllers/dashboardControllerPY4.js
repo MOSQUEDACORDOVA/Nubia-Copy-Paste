@@ -382,9 +382,17 @@ exports.save_cliente_py4 = async(req, res) => {
   }
   console.log(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
 const revisa_cliente = await DataBase.SearchClientePedido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
-console.log(revisa_cliente)
+
 if (revisa_cliente != "null") {
   msg ="Ya éxiste un cliente con los datos indicados"
+  res.redirect('/homepy4/'+msg)
+  return
+}
+const revisa_cliente_familiar = await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,)
+console.log('revisa_cliente')
+console.log(revisa_cliente_familiar)
+if (revisa_cliente_familiar != "null") {
+  msg ="Ya éxiste un cliente con los datos del familiar indicados"
   res.redirect('/homepy4/'+msg)
   return
 }
