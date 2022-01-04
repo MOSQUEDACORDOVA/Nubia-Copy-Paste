@@ -417,7 +417,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
       ],
      
-      order: [[8, 'desc'],[11,'desc']],
+      order: [[8, 'asc'],[11,'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
