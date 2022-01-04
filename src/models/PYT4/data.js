@@ -406,7 +406,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.findOne({
         where: {
-          [Op.or]: [{ apellido_familiar_1: apellido_familiar_1}, {telefono_familiar_1: telefono_familiar_1}, {apellido_familiar_2: apellido_familiar_2}, {telefono_familiar_2: telefono_familiar_2}],
+          [Op.or]: [{telefono_familiar_1: telefono_familiar_1}, {telefono_familiar_2: telefono_familiar_2}],
         },})
         .then((data) => {
           let data_p = JSON.stringify(data);
