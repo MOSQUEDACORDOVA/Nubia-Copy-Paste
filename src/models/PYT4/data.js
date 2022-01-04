@@ -510,7 +510,7 @@ module.exports = {
 
           Clientes.update(
             {
-              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,  },{ where:{
+              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
                 resolve("Se creó correctamente el pedido");
