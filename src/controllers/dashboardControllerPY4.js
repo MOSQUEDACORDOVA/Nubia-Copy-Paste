@@ -66,6 +66,7 @@ Carga_init=DataBase.Carga_initSResumen
 Entregados_resumen=DataBase.entregados_resumen
       break;
   }
+  let hoy = moment()
   DataBase.CodigosP().then((cp_)=>{
     let cp_arr = JSON.parse(cp_)
   ClientesDB(id_sucursal).then((clientes_d)=>{
@@ -73,11 +74,11 @@ Entregados_resumen=DataBase.entregados_resumen
      let count = clientes_arr.length
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
-
+//COLOCAR AQUI QUE CUANDO EL PEDIDO TENGA EL STATUS REPROGRAMADO,Y SU FECHA SEA MAYOR A LA DE HOY, NO SE CARGE EN EL ARRAY pedidos_
 LastPedidosAll(id_sucursal).then((pedidos_g)=>{
   let pedidos_letG = JSON.parse(pedidos_g)
    let notif1_2=[], notif3_5=[], notif6_12=[]
-   let hoy = moment()
+   
   var duration=""
 for (let i = 0; i < pedidos_letG.length; i++) {
 if (pedidos_letG[i].status_pedido == "Entregado") {
