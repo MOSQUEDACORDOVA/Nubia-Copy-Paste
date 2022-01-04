@@ -374,13 +374,12 @@ exports.usuariosTable = (req, res) => {
 
 exports.save_cliente_py4 = async(req, res) => {
   
-  const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
+  var { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color} = req.body
   let msg = false;
   var modo_cliente ="SI"
   if (cliente_nuevo == null){
     modo_cliente = "NO"
   }
-  console.log(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
 const revisa_cliente = await DataBase.SearchClientePedido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono)
 
 if (revisa_cliente != "null") {
@@ -388,7 +387,26 @@ if (revisa_cliente != "null") {
   res.redirect('/homepy4/'+msg)
   return
 }
-const revisa_cliente_familiar = await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,)
+if (nombre_familiar_1 =="") {
+  nombre_familiar_1 =null
+}
+if (apellido_familiar_1 =="") {
+  apellido_familiar_1 =null
+}
+if (telefono_familiar_1 =="") {
+  telefono_familiar_1 =null
+}
+if (nombre_familiar_2 =="") {
+  nombre_familiar_2 =null
+}
+if (apellido_familiar_2 =="") {
+  apellido_familiar_2 =null
+}
+if (telefono_familiar_2 =="") {
+  telefono_familiar_2 =null
+}
+console.log(nombre_familiar_1 , apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2)
+const revisa_cliente_familiar = await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,)
 console.log('revisa_cliente')
 console.log(revisa_cliente_familiar)
 if (revisa_cliente_familiar != "null") {
@@ -751,8 +769,9 @@ exports.cambiaS_pedido = (req, res) => {
   const id_pedido = req.body.id
   const status = req.body.status
   const motivo = req.body.motivo
+  const fecha_rep = req.body.fecha_re
   let id_sucursal = req.session.sucursal_select
-  let Carga_init=""
+  let Carga_init="",CambiaStatus=""
   switch (req.session.tipo) {
     case "Director":
     Carga_init=DataBase.Carga_initResumen
@@ -764,7 +783,17 @@ Carga_init=DataBase.Carga_initSResumen
 PedidosDB=DataBase.PedidosAllS
       break;
   }
-  DataBase.CambiaStatus(id_pedido,status, motivo).then((respuesta) =>{
+  switch (fecha_rep) {
+    case "undefined":
+      CambiaStatus=DataBase.CambiaStatus
+      break;
+  
+    default:
+      CambiaStatus=DataBase.CambiaStatusFecha
+      break;
+  }
+  console.log(fecha_rep)
+  CambiaStatus(id_pedido,status, motivo,fecha_rep).then((respuesta) =>{
     PedidosDB(id_sucursal).then((pedidos_)=>{
       let hoy = moment()
       let forma_hoy = hoy.format('L')
