@@ -370,7 +370,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
               "Por entregar": { title: 'Por entregar', class: ' badge-light-yellow' },
               "Devuelto": { title: 'Devuelto', class: ' badge-light-danger' },
-              "Rezagado": { title: 'Rezagado', class: ' badge-light-warning' },
+              "Reprogramado": { title: 'Reprogramado', class: ' badge-light-warning' },
               "En proceso": { title: 'En proceso', class: ' badge-light-info' }
             };
             if (typeof $status[$status_number] === 'undefined') {
