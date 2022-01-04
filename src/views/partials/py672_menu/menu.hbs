@@ -228,9 +228,21 @@
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/asistencias/PYT-672">
+                <a class="d-flex align-items-center" href="/control/PYT-672">
                     <i data-feather='clipboard'></i>
-                    <span class="menu-title text-truncate">Asistencias</span>
+                    <span class="menu-title text-truncate">Control</span>
+                </a>
+            </li>
+            <li class="{{#if historial}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/historial/PYT-672">
+                    <i data-feather='file-text'></i>
+                    <span class="menu-title text-truncate">Historial</span>
+                </a>
+            </li>
+            <li class="{{#if caja}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="#">
+                    <i data-feather='dollar-sign'></i>
+                    <span class="menu-title text-truncate">Caja</span>
                 </a>
             </li>
             {{!--<li class="{{#if calificaciones}}active{{/if}} nav-item">

@@ -504,8 +504,8 @@ exports.matriculas = (req, res) => {
   });
 };
 
-// * ASISTENCIAS
-exports.asistencias = (req, res) => {
+// * CONTROL
+exports.control = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -568,7 +568,7 @@ exports.asistencias = (req, res) => {
 };
 
 // * ASISTENCIAS DE GRUPO
-exports.asistenciasgrupo = (req, res) => {
+exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -697,8 +697,8 @@ exports.asistenciasgrupo = (req, res) => {
   });
 };
 
-// * CALIFICACIONES
-exports.calificaciones = (req, res) => {
+// * HISTORIAL
+exports.historial = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -710,12 +710,12 @@ exports.calificaciones = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    res.render(proyecto+"/admin/calificaciones", {
-      pageName: "Academia Americana - Calificaciones",
+    res.render(proyecto+"/admin/historial", {
+      pageName: "Academia Americana - Historial",
       dashboardPage: true,
       dashboard: true,
       py672: true,
-      calificaciones: true,
+      historial: true,
       gruposTodos,
     });
   }).catch((err) => {
@@ -1038,6 +1038,92 @@ exports.obtenermatriculagrupo = (req, res) => {
   }
 };
 
+// * REGISTRAR PARTICIPACION
+exports.registrarparticipacion = (req, res) => {
+  const { porcentaje, leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (porcentaje.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.BuscarParticipacionMatricula(leccion, grupoId, matriculaId).then((response) => {
+      let resp = JSON.parse(response);
+      
+      if(resp.length) {
+        DataBase.ActualizarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response2) =>{
+          let resp2 = JSON.parse(response2);
+          return res.send({resp2});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.RegistrarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response3) =>{
+          let resp3 = JSON.parse(response3);
+          return res.send({resp3});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
+// * REGISTRAR NOTAS
+exports.registrarnotas = (req, res) => {
+  const { nota, leccion, grupoId, matriculaId } = req.body;
+  console.log(req.body);
+  let msg = false;
+
+  if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+    console.log('complete todos los campos')
+    let err = { error: "complete todos los campos" };
+    res.send({err});
+  } else {
+    DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
+      let resp = JSON.parse(response);
+      
+      if(resp.length) {
+        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId).then((response2) =>{
+          let resp2 = JSON.parse(response2);
+          return res.send({resp2});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId).then((response3) =>{
+          let resp3 = JSON.parse(response3);
+          return res.send({resp3});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * REGISTRAR MATRICULA AUSENTE
 exports.registrarmatriculausente = (req, res) => {
   const { leccion, grupoId, matriculaId } = req.body;
@@ -1084,7 +1170,7 @@ exports.eliminarmatriculausente = (req, res) => {
 
 // * OBTENER MATRICULA AUSENTE
 exports.obtenermatriculausente = (req, res) => {
-  const { leccion, grupoId, matriculaId } = req.body;
+  const { arr, leccion, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
@@ -1093,9 +1179,60 @@ exports.obtenermatriculausente = (req, res) => {
     let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
-      let resp = JSON.parse(response);
-      return res.send({resp});
+    let matricula = JSON.parse(arr);
+    matricula.forEach(item => {
+      DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
+        let result = JSON.parse(response)[0];
+        console.log(result)
+        if (result) {
+          console.log("CONTIENE NOTAS")
+          let notas = {
+            notas: result.nota
+          }
+          console.log(notas)
+          let final = Object.assign(item, notas)
+          console.log(final)
+        } else {
+          let notas = {
+            notas: 0
+          }
+          let final = Object.assign(item, notas)
+        }
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      
+      DataBase.BuscarParticipacionMatricula(leccion, grupoId, item.id).then((response2) => {
+        let arr = JSON.parse(response2)[0];
+        console.log(arr)
+        if(arr) {
+          console.log("CONTIENE PARTICIPACION")
+          let participacion = {
+            participacion: parseInt(arr.porcentaje)
+          }
+          console.log(participacion)
+          let final2 = Object.assign(item, participacion)
+          console.log(final2)
+        } else {
+            let participacion = {
+              participacion: 0
+            }
+            let final2 = Object.assign(item, participacion)
+        }
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    });
+
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response3) =>{
+      let resp = JSON.parse(response3);
+      return res.send({resp, matricula});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

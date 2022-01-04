@@ -3,6 +3,8 @@ const db672 = require("../../config/dbPY672");
 const Grupos = require("../../models/PYT672/Grupos");
 const Matriculas = require("../../models/PYT672/Matriculas");
 const Asistencia = require("../../models/PYT672/Asistencia");
+const Notas = require("../../models/PYT672/Notas");
+const Participacion = require("../../models/PYT672/Participacion");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -452,6 +454,172 @@ module.exports = {
           let data_p = JSON.stringify(data);
           console.log(data)
           console.log("ASISTENCIA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    RegistrarNotas(nota, lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.create({
+          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("NOTAS GUARDADAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    RegistrarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Participacion.create({
+          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("PARTICIPACION GUARDADA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerNotasMatricula(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("NOTAS ENCONTRADAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarNotasLeccion(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("NOTAS ENCONTRADAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarParticipacionMatricula(lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Participacion.findAll({
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("PARTICIPACION ENCONTRADA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ActualizarNotas(nota, lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.update({
+          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId,  
+        }, {
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("NOTAS ACATUALIZADAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ActualizarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Participacion.update({
+          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId,  
+        }, {
+          where: {
+            n_leccion: {
+              [Op.eq]: lecc,
+            },
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("PARTICIPACION ACATUALIZADA")
           resolve(data_p);
         })
         .catch((err) => {

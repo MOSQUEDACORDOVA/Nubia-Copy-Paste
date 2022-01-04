@@ -3,6 +3,18 @@
         <div class="content-body">
             <section class="asistencias">
                 <div class="row">
+                    <div class="toast-container" id="toast">
+                        <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                            <div class="toast-header">
+                                <strong class="me-auto"></strong>
+                                <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+
                     {{!--<div class="col-12 my-1">
                         <p class="lead">grupo: {{grupo.identificador}}</p>
                         <p class="lead">numero leccion: {{numLeccion}}</p>
@@ -141,6 +153,7 @@
 
                     <section class="row m-0 p-0" id="estudiantes"></section>
 
+
                     <template id="template">            
                         <div class="col-12">
                             <div class="card card-statistics border-success" id="estudiante{{id}}">
@@ -148,24 +161,38 @@
                                     <div class="col-10 col-xl-11">
                                         <div class="row card-header">
                                             <div class="col-12">
-                                                <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                                <div class="d-flex flex-column flex-sm-row justify-content-sm-between mb-1">
                                                     <div class="d-flex flex-column mb-1 mb-md-0">
                                                         <h5><span class="badge badge-light-success">Presente</span></h5>
                                                         <h1 class="mb-0"><b>{{nombre}} {{primer_apellido}}</b></h1>
                                                     </div>
 
-                                                    {{!--<div class="d-flex flex-column">
-                                                        <p class="text-success"><b>Calificación</b></p>
-                                                        <div class="d-flex align-items-center">
-                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                    <div class="d-flex flex-column flex-md-row">
+                                                        <div class="d-flex flex-column mb-1 me-md-1">
+                                                            <p class="text-success"><b>Calificación</b></p>
+                                                            <div class="d-flex align-items-center">
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                                                            <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
-                                                            
+                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+                                                                
 
-                                                            <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </div>
                                                         </div>
-                                                    </div>--}}
-                                                </div>
+
+                                                        <div class="d-flex flex-column">
+                                                            <p class="text-success"><b>Participación</b></p>
+                                                            <div class="d-flex align-items-center">
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+                                                                
+
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>                            
                                             </div>
                                         </div>
                                     </div>
@@ -189,6 +216,20 @@
                         <input type="number" name="leccion" id="ausenteNumLeccion">
                         <input type="number" name="grupoId" id="ausenteGrupoId">
                         <input type="number" name="matriculaId" id="ausenteMatriculaId">
+                    </form>
+
+                    <form action="" class="d-none" id="procesarNotas">
+                        <input type="text" name="nota" class="nota">
+                        <input type="text" name="leccion" class="leccion">
+                        <input type="text" name="grupoId" class="grupo">
+                        <input type="text" name="matriculaId" class="matricula">
+                    </form>
+
+                    <form action="" class="d-none" id="procesarParticipacion">
+                        <input type="text" name="porcentaje" class="porcentaje">
+                        <input type="text" name="leccion" class="leccion">
+                        <input type="text" name="grupoId" class="grupo">
+                        <input type="text" name="matriculaId" class="matricula">
                     </form>
                 </div>
             </section>
@@ -227,8 +268,8 @@ $(document).ready(function() {
             
             $('#ausenteMatriculaId').val('');
             $('#ausenteMatriculaId').val(matricula.id);
-
             let form = new FormData(document.getElementById('procesarAusente'));
+            form.append('arr', $('#matriculaGrupo').val());
 
             fetch('/obtenerMatriculaAusente', {
                 method: 'POST',
@@ -236,7 +277,10 @@ $(document).ready(function() {
             })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 let response = data.resp;
+                let response2 = data.matricula;
+                console.log(response2)
                 if(response.length) {
                     idAusentes = response[0].matriculaId;
                 } 
@@ -245,22 +289,42 @@ $(document).ready(function() {
                 let result = matriculaGrupo.filter(item => {
                     return item.id === idAusentes;
                 }); 
-            
-                let calif = '';
 
+                let calif = '', participacion = '', notas = 0, participacionPorcentaje = 0;
+
+                if(response2.length) {
+                    if(matricula.id === response2[0].id && matricula.grupoId === response2[0].grupoId) {
+                        notas = parseInt(response2[0].notas);
+                    }
+                    participacionPorcentaje = response2[0].participacion;
+                }
+                
                 if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
                     calif = `
-                    <div class="d-flex flex-column">
+                    <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
                         <div class="d-flex align-items-center">
-                            <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                            <p class="h3 mb-0 mx-1"><input type="number" name="calificacion" class="calificacion" value="0" min="0" max="100">%</p>
+                            <p class="h3 mb-0 mx-1"><input type="number" class="calificacion" value="${notas}" min="0" max="100">%</p>
                             
-
-                            <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
                     </div>`;
+                    if(lecc === 32) {
+                        participacion = `
+                        <div class="d-flex flex-column me-1">
+                            <p class="text-success"><b>Participación</b></p>
+                            <div class="d-flex align-items-center">
+                                <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+                                
+                                <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            </div>
+                        </div>
+                        `;
+                    }
                 }
 
                 if(result.length) {
@@ -270,12 +334,16 @@ $(document).ready(function() {
                                 <div class="col-10 col-xl-11">
                                     <div class="row card-header">
                                         <div class="col-12">
-                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                            <div class="d-flex flex-column flex-md-row justify-content-sm-between">
                                                 <div class="d-flex flex-column mb-1 mb-md-0">
                                                     <h5><span class="badge badge-light-secondary">Ausente</span></h5>
                                                     <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
                                                 </div> 
-                                                ${calif}
+                                                <div class="d-flex flex-row">
+                                                    ${calif}
+
+                                                    ${participacion}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -296,12 +364,17 @@ $(document).ready(function() {
                                 <div class="col-10 col-xl-11">
                                     <div class="row card-header">
                                         <div class="col-12">
-                                            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                                            <div class="d-flex flex-column flex-md-row justify-content-sm-between">
                                                 <div class="d-flex flex-column mb-1 mb-md-0">
-                                                    <h5><span class="badge badge-light-success">Ausente</span></h5>
+                                                    <h5><span class="badge badge-light-success">Presente</span></h5>
                                                     <h1 class="mb-0"><b>${matricula.nombre} ${matricula.primer_apellido}</b></h1>
                                                 </div>
-                                                ${calif}
+
+                                                <div class="d-flex flex-row">
+                                                    ${calif}
+
+                                                    ${participacion}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -391,7 +464,7 @@ $(document).ready(function() {
         //console.log(data);
 
         grupoFormInput.value = select;
-        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.action = `/controlgrupo/PYT-672/${id}`;
         grupoForm.submit();
     });
 
@@ -415,7 +488,7 @@ $(document).ready(function() {
         let id = data.id;
 
         grupoFormInput.value = select;
-        grupoForm.action = `/asistenciasgrupo/PYT-672/${id}`;
+        grupoForm.action = `/controlgrupo/PYT-672/${id}`;
         grupoForm.submit();
     });
 
@@ -426,9 +499,91 @@ $(document).ready(function() {
         grupoForm.submit();
     });*/
 
-    let btnsAsistencias = document.getElementById('estudiantes');
+    let guardarNota;
+
+    function guardarNotas(id, calif) {
+        guardarNota = setTimeout(() => {
+            let nota = document.querySelector('#procesarNotas .nota'),
+            leccion = document.querySelector('#procesarNotas .leccion'),
+            grupo = document.querySelector('#procesarNotas .grupo'),
+            matricula = document.querySelector('#procesarNotas .matricula');
+
+            nota.value = calif;
+            leccion.value = $('#numeroLeccion').val();
+            grupo.value = $('#grupoId').val();
+            matricula.value = id;
+
+            if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                leccion.value = parseInt($('#filtrosDesdeCero .select2.leccion').val());
+            } else {
+                leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
+            }
+            
+            let form = new FormData(document.getElementById('procesarNotas'));
+
+            fetch('/registrarNotas', {
+                method: 'POST',
+                body: form
+            })
+            .then(response => {
+                response.json();
+                if(response.ok) {
+                    Toast("Nota");
+                } else {
+                    Toast("Error");
+                }
+            })
+            .then(data => console.log(data));
+
+            clearTimeout(guardarNota);
+        }, 2000);
+    }
+
+    let guardarParticip;
+
+    function guardarParticipacion(id, part) {
+        guardarParticip = setTimeout(() => {
+            let porcentaje = document.querySelector('#procesarParticipacion .porcentaje'),
+            leccion = document.querySelector('#procesarParticipacion .leccion'),
+            grupo = document.querySelector('#procesarParticipacion .grupo'),
+            matricula = document.querySelector('#procesarParticipacion .matricula');
+
+            porcentaje.value = part;
+            leccion.value = $('#numeroLeccion').val();
+            grupo.value = $('#grupoId').val();
+            matricula.value = id;
+
+            if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
+                leccion.value = parseInt($('#filtrosDesdeCero .select2.leccion').val());
+            } else {
+                leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
+            }
+            
+            let form = new FormData(document.getElementById('procesarParticipacion'));
+
+            fetch('/registrarParticipacion', {
+                method: 'POST',
+                body: form
+            })
+            .then(response => {
+                response.json()
+                if(response.ok) {
+                    Toast("Participacion");
+                } else {
+                    Toast("Error");
+                }
+            })
+            .then(data => {
+                //console.log(data)
+            });
+
+            clearTimeout(guardarParticip);
+        }, 2000);
+    }
+
+    let controlEstudiantes = document.getElementById('estudiantes');
     
-    btnsAsistencias.addEventListener('click', e => {
+    controlEstudiantes.addEventListener('click', e => {
         if(e.target.classList.contains('btnAsistencia')) {
             let target = e.target.getAttribute('data-id');
             let est = document.getElementById(`estudiante${target}`);
@@ -450,15 +605,44 @@ $(document).ready(function() {
         } else if (e.target.classList.contains('btnCalificacionMas')) {
             let target = e.target.getAttribute('data-id');
             let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
-            calificacion.value++;
+            if (parseInt(calificacion.value) >= 100) {
+                calificacion.value = 100;
+            } else {
+                calificacion.value++;
+            }
+            clearTimeout(guardarNota);
+            guardarNotas(target, calificacion.value);
         } else if (e.target.classList.contains('btnCalificacionMenos')) {
             let target = e.target.getAttribute('data-id');
             let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
-            if(calificacion.value === "0") {
+            if(parseInt(calificacion.value) === 0) {
                 calificacion.value = 0;
             } else {
                 calificacion.value--;
             }
+            clearTimeout(guardarNota);
+            guardarNotas(target, calificacion.value);
+        } else if(e.target.classList.contains('btnParticipacionMas')) {
+            let target = e.target.getAttribute('data-id');
+            let participacion = document.querySelector(`#estudiante${target} .participacion`);
+            if (parseInt(participacion.value) >= 100) {
+                participacion.value = 100;
+            } else {
+                participacion.value++;
+            }
+            clearTimeout(guardarParticip);
+            guardarParticipacion(target, participacion.value);
+            
+        } else if(e.target.classList.contains('btnParticipacionMenos')) {
+            let target = e.target.getAttribute('data-id');
+            let participacion = document.querySelector(`#estudiante${target} .participacion`);
+            if(parseInt(participacion.value) === 0) {
+                participacion.value = 0;
+            } else {
+                participacion.value--;
+            }
+            clearTimeout(guardarParticip);
+            guardarParticipacion(target, participacion.value);
         }
     });
 
@@ -488,7 +672,14 @@ $(document).ready(function() {
             method: 'POST',
             body: form
         })
-        .then(response => response.json())
+        .then(response => {
+            response.json();
+            if(response.ok) {
+                Toast("Asistencia");
+            } else {
+                Toast("Error");
+            }
+        })
         .then(data => console.log(data));
     }
 
@@ -511,8 +702,57 @@ $(document).ready(function() {
             method: 'POST',
             body: form
         })
-        .then(response => response.json())
+        .then(response => {
+            response.json()
+            if(response.ok) {
+                Toast("Asistencia");
+            } else {
+                Toast("Error");
+            }
+        })
         .then(data => console.log(data));
     } 
+
+    function Toast (notif) {
+        let toast = document.getElementById('toast'),
+        toastContainer = document.querySelector('#toast .basic-toast'),
+        toastHeaderText = document.querySelector('#toast .toast-header strong'),
+        toastText = document.querySelector('#toast .toast-body'),
+        btnToast = document.getElementById('btnToast');
+
+        if(toastContainer.classList.contains('bg-primary')) {    
+            toastContainer.classList.remove('bg-primary', 'text-white');
+            toastHeaderText.classList.remove('text-primary');
+        }
+        if(toastContainer.classList.contains('bg-danger')) {
+            toastContainer.classList.remove('bg-danger', 'text-white');
+            toastHeaderText.classList.remove('text-danger');
+        }
+
+        if(notif === "Nota") {
+            toastContainer.classList.add('bg-primary', 'text-white');
+            toastHeaderText.classList.add('text-primary');
+            toastHeaderText.innerText = 'Nota Guardada !';
+            toastText.innerText = 'Estimado usuario, hemos guardado sus cambios correctamente';
+        } else if (notif === "Participacion") {
+            toastContainer.classList.add('bg-primary', 'text-white');
+            toastHeaderText.classList.add('text-primary');
+            toastHeaderText.innerText = 'Participacion Guardada !';
+            toastText.innerText = 'Estimado usuario, hemos guardado sus cambios correctamente';
+            
+        } else if (notif === "Asistencia") {
+            toastContainer.classList.add('bg-primary', 'text-white');
+            toastHeaderText.classList.add('text-primary');
+            toastHeaderText.innerText = 'Asistencia Guardada !';
+            toastText.innerText = 'Estimado usuario, hemos guardado sus cambios correctamente';
+
+        } else if (notif === "Error") {
+            toastContainer.classList.add('bg-danger', 'text-white');
+            toastHeaderText.classList.add('text-danger');
+            toastHeaderText.innerText = 'Lo sentimos, algo ah ocurrido !';
+            toastText.innerText = 'Estimado usuario, se presento un error al realizar la tarea';
+        }
+        btnToast.click();
+    }
 });
 </script>

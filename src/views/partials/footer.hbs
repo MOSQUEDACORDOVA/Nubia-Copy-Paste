@@ -97,7 +97,7 @@
     <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
 
@@ -252,6 +252,10 @@
         <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
         <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
         <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" ></script>
+        <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+        <script src="../../../app-assets/js/scripts/components/components-bs-toast.js"></script>
         {{! MATRICULA}}
         {{#if matric}}
         <script src="../../assets/js/PYT672/matriculas.js"></script>
@@ -267,29 +271,27 @@
                 });
             }
             
-              $('#button_modal_init').click()
-			
-        
+            $('#button_modal_init').click()
         })
 
 		$(document).ready(function(){
-                let hoy= moment().format('YYYY-MM-DD')
-$('#fecha_pedido').val(hoy)
-     
-   if ( $("#msgs").length ) {
-    let mensaje = $('#msgs').text();
-  Swal.fire(mensaje)
- }
-        $('#basicSelect').on('change',(e)=>{
-				 var value = $('#basicSelect').val()
-				 console.log(value)
+            let hoy = moment().format('YYYY-MM-DD')
+            $('#fecha_pedido').val(hoy)
+                
+            if ( $("#msgs").length ) {
+                let mensaje = $('#msgs').text();
+            Swal.fire(mensaje)
+            }
+            $('#basicSelect').on('change',(e)=>{
+                var value = $('#basicSelect').val()
+                console.log(value)
 
-				 if(value == "default"){
-					 return
-				 }else{
-					console.log(value)
-					window.location.href = value;
-				 }
+                if(value == "default"){
+                    return
+                } else{
+                    console.log(value)
+                    window.location.href = value;
+                }
             })
 		})
     </script>
