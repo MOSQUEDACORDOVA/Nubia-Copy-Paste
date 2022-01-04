@@ -365,10 +365,10 @@ $(function () {
     console.log(id_)
     var found = array.find(element => element.id == id_);
 
-    $('input[name="firstName"]').val(found.firstName)
-    $('input[name="lastName"]').val(found.lastName)
-    $('input[name="cp"]').val(found.estado)
-    $('input[name="municipio"]').val(found.municipio)
+    $('#nombre_c_pedido').val(found.firstName)
+    $('#apellido_c_pedido').val(found.lastName)
+    $('#cp_select_pedido').val(found.estado)
+    $('#municipio_pedido').val(found.municipio)
     if ($("#select_asentamiento_me option[value='" + found.cpId + "']").length == 0) {
       console.log("option doesn't exist!");
       $('#select_asentamiento_me').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
@@ -387,23 +387,23 @@ $(function () {
       $("#reg_zona_cliente_pedido option[value='" + found.sucursaleId + "']").attr("selected", true);
     }
 
-    if ($("#color_tag_reg_cliente option[value='" + found.etiquetaId + "']").length == 0) {
+    if ($("#color_tag_reg_pedido option[value='" + found.etiquetaId + "']").length == 0) {
       console.log("option doesn't exist!");
-     // $('#color_tag_reg_cliente').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
+     // $('#color_tag_reg_pedido').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#color_tag_reg_cliente').find('option:selected').remove().end();
-      $("#color_tag_reg_cliente option[value='" + found.etiquetaId + "']").attr("selected", true);
+      $('#color_tag_reg_pedido').find('option:selected').remove().end();
+      $("#color_tag_reg_pedido option[value='" + found.etiquetaId + "']").attr("selected", true);
     }
+    $("#color_tag_reg_pedido").val(`${found.etiquetaId}`).trigger('change');
 
-    $('input[name="fraccionamiento"]').val(found.fraccionamiento)
-    $('input[name="coto"]').val(found.coto)
-    $('input[name="casa"]').val(found.casa)
-    $('input[name="calle"]').val(found.calle)
-    $('input[name="avenida"]').val(found.avenida)
-    $('input[name="referencia"]').val(found.referencia)
-    $('input[name="telefono"]').val(found.telefono)
-    $('input[name="sucursal"]').val(found.sucursaleId)
+    $('#fraccionamiento_pedido').val(found.fraccionamiento)
+    $('#coto_c_pedido').val(found.coto)
+    $('#casa_c_pedido').val(found.casa)
+    $('#calle_c_pedido').val(found.calle)
+    $('#avenida_c_pedido').val(found.avenida)
+    $('#referencia_c_pedido').val(found.referencia)
+    $('#telefono_c_pedido').val(found.telefono)
 
     const data = new FormData();
     data.append('id_cliente', id_);
