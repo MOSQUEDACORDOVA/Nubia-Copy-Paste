@@ -388,34 +388,51 @@ if (revisa_cliente != "null") {
   res.redirect('/homepy4/'+msg)
   return
 }
-if (nombre_familiar_1 =="") {
-  nombre_familiar_1 =null
-}
-if (apellido_familiar_1 =="") {
-  apellido_familiar_1 =null
-}
-if (telefono_familiar_1 =="") {
-  telefono_familiar_1 =null
-}
-if (nombre_familiar_2 =="") {
-  nombre_familiar_2 =null
-}
-if (apellido_familiar_2 =="") {
-  apellido_familiar_2 =null
-}
-if (telefono_familiar_2 =="") {
-  telefono_familiar_2 =null
-}
+ if (nombre_familiar_1 =="") {
+   nombre_familiar_1 =null
+ }
+ if (apellido_familiar_1 =="") {
+   apellido_familiar_1 =null
+ }
+ if (telefono_familiar_1 =="") {
+   telefono_familiar_1 =null
+ }
+ if (nombre_familiar_2 =="") {
+   nombre_familiar_2 =null
+ }
+ if (apellido_familiar_2 =="") {
+   apellido_familiar_2 =null
+ }
+ if (telefono_familiar_2 =="") {
+   telefono_familiar_2 =null
+ }
 console.log(nombre_familiar_1 , apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2)
-const revisa_cliente_familiar = await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,)
+const revisa_cliente_familiar = JSON.parse(await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,))
 console.log('revisa_cliente')
 console.log(revisa_cliente_familiar)
-if (revisa_cliente_familiar != "null") {
+if (revisa_cliente_familiar!= null) {
   msg ="Ya éxiste un cliente con los datos del familiar indicados"
   res.redirect('/homepy4/'+msg)
   return
 }
-
+if (nombre_familiar_1 ==null) {
+  nombre_familiar_1 =""
+}
+if (apellido_familiar_1 ==null) {
+  apellido_familiar_1 =""
+}
+if (telefono_familiar_1 ==null) {
+  telefono_familiar_1 =""
+}
+if (nombre_familiar_2 ==null) {
+  nombre_familiar_2 =""
+}
+if (apellido_familiar_2 ==null) {
+  apellido_familiar_2 =""
+}
+if (telefono_familiar_2 ==null) {
+  telefono_familiar_2 =""
+}
   DataBase.registrar_cliente(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then((respuesta) =>{
 
     res.redirect('/usuarios/'+respuesta)
