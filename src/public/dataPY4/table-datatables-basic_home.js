@@ -852,7 +852,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       Swal.fire('Debe asignar una zona al cliente')
       return
     }
-    if ($('#color_tag_reg_cliente').val() == "0") {
+    if ($('#color_tag_reg_pedido').val() == "0") {
       Swal.fire('Debe asignar una etiqueta al cliente')
       return
     }
@@ -1232,6 +1232,7 @@ function filterColumn2(i, val) {
   inputOptions: {
       Entregado: 'Entregado',
       Cancelado: 'Cancelado',
+      Reprogramado: 'Reprogramado',
       'Por entregar': 'Por entregar',
   },
   inputPlaceholder: 'Seleccione un nuevo Status',
@@ -1249,7 +1250,7 @@ function filterColumn2(i, val) {
 
 if (estado) {
   console.log(estado)   
-  var motiv
+  var motiv, fecha_rep
   if (estado == "Cancelado") {
     const { value: motivo } = await Swal.fire({
       title: 'Indique el motivo',
@@ -1270,12 +1271,28 @@ if (estado) {
     console.log(motivo)
     motiv = motivo
   }
-  console.log(motiv)
+  if (estado == "Reprogramado") {
+    const { value: fecha_re } = await Swal.fire({
+      title: 'Indique la fecha',
+      html:
+      '<input id="swal-input1" class="swal2-input" type="date">',
+    focusConfirm: false,
+    preConfirm: () => {
+      return [
+        document.getElementById('swal-input1').value,
+      ]
+    }
+    })
+    console.log(fecha_re)
+    fecha_rep =fecha_re
+  }
+  //console.log(fecha_re)
   
   const data_C = new FormData();
   data_C.append("id", id);
   data_C.append("status", estado);
   data_C.append("motivo", motiv);
+  data_C.append("fecha_re", fecha_rep);
   $.ajax({
     url: `/cambiaS_pedido`,
     type: 'POST',
