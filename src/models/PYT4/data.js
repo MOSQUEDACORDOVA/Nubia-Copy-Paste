@@ -623,6 +623,68 @@ console.log(hoy)
         });
     });
   },
+  CambiaStatusFecha(id_pedido,status, motivo,fecha_rep) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          status_pedido: status, fecha_pedido: fecha_rep}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({status_pedido: status,fecha_pedido:fecha_rep},{where:{pedidoId:id_pedido}})
+          //console.log(data_set)
+          Pedidos.findAll({where: {id: id_pedido}}).then((pedido_) =>{
+             console.log(pedido_[0].dataValues.status_pedido)
+           if (pedido_[0].dataValues.status_pedido =="Entregado") {
+              let hoy =moment(pedido_[0].dataValues.createdAt).format('MM/DD/YYYY')
+console.log(hoy)
+            GPrestados.findAll({where:{
+                     clienteId: pedido_[0].dataValues.clienteId, 
+                     personalId: pedido_[0].dataValues.personalId,
+                     fecha_ingreso: hoy
+                   }}).then((date)=>{
+                     console.log(date)
+                     if (date =="") {
+                       console.log(hoy)
+                       GPrestados.create({
+                         cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido, sucursaleId: pedido_[0].dataValues.sucursaleId
+                       }).then((data_cli) => {
+                         resolve("Se creó correctamente el pedido");
+                         //console.log(planes);
+                       })
+                     }
+                     GPrestados.update({
+                       cantidad: pedido_[0].dataValues.garrafones_prestamos,status_pedido:pedido_[0].dataValues.status_pedido },
+                       {where:
+                         {cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido, sucursaleId: pedido_[0].dataValues.sucursaleId}
+                     }).then((data_upd) => {
+                       let data_set2 = JSON.stringify(data_upd)
+                       console.log(data_set2);
+                       resolve("Se creó correctamente el pedido");
+                       //console.log(planes);
+                     })
+                   }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+           }
+           resolve("Se actualizó el estado con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+      
+         
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   CambiaStatusPago(id_pedido,status) {
     return new Promise((resolve, reject) => {
         
