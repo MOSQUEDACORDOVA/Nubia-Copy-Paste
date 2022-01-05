@@ -707,17 +707,103 @@ exports.historial = (req, res) => {
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
+    //console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
-    console.log(matriculas)
-    console.log("TODA LA MATRICULA")
+    /*console.log(matriculas)
+    console.log("TODA LA MATRICULA")*/
+    let arrString;
+
+    matriculas.forEach(element => {
+      let notas = {
+        leccion9: '',
+        leccion17: '',
+        leccion18: '',
+        leccion25: '',
+        leccion31: '',
+        leccion32: '',
+      };
+
+      let lecciones = [9, 17, 18, 25, 31, 32];
+      lecciones.forEach((item, idx) => {
+        DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
+          let lecc = JSON.parse(leccion)[0];
+          /*console.log(lecc)
+          console.log("LECCION")
+          console.log(item)*/
+
+          if(lecc !== undefined) {
+              if(idx === 0) {
+                notas.leccion9 = parseInt(lecc.nota);
+              } else if (idx === 1) {
+                notas.leccion17 = parseInt(lecc.nota);
+              } else if (idx === 2) {
+                notas.leccion18 = parseInt(lecc.nota);
+              } else if (idx === 3) {
+                notas.leccion25 = parseInt(lecc.nota);
+              } else if (idx === 4) {
+                notas.leccion31 = parseInt(lecc.nota);
+              } else if (idx === 5) {
+                notas.leccion32 = parseInt(lecc.nota);
+              }
+          } else {
+            if(idx === 0) {
+              notas.leccion9 = 0;
+            } else if (idx === 1) {
+              notas.leccion17 = 0;
+            } else if (idx === 2) {
+              notas.leccion18 = 0;
+            } else if (idx === 3) {
+              notas.leccion25 = 0;
+            } else if (idx === 4) {
+              notas.leccion31 = 0;
+            } else if (idx === 5) {
+              notas.leccion32 = 0;
+            }
+          }
+          
+          /*console.log(notas)*/
+  
+          /*DataBase.BuscarNotasLeccion(17, element.grupoId, element.id).then((lecc17) => {
+            lecc17 = JSON.parse(lecc17)[0];
+            console.log(lecc17)
+            console.log("LECCION 17")
+            
+            if(lecc17 !== []) {
+              notas.leccion17 = parseInt(lecc17.nota);
+              console.log(lecc17.nota)
+              console.log("NOTAS LECCION 17 NJDA MMGV GUATAKATAPITUS BERRI")
+            } else {
+              notas.leccion17 = 0;
+            }
+    
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });*/
+          
+          let final = Object.assign(element, notas);
+          /*console.log(final)
+          console.log("FINAL --------- !!!!!!")*/
+
+          arrString = JSON.stringify(matriculas);
+          console.log(arrString)
+          console.log("STTRINGYFYY PERRAA")
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+        
+      });
+    });
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
-      console.log(gruposDist)
+      //console.log(gruposDist)
       console.log("GRUPOS DISTINCTS")
       
       let arrGrupos = [];
@@ -725,12 +811,11 @@ exports.historial = (req, res) => {
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response4) => {
           let gruposFounds = JSON.parse(response4);
-          console.log(gruposFounds)
+          //console.log(gruposFounds)
           console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
             arrGrupos.push(found);
-            console.log("FOUND");
           });
 
         }).catch((err) => {
@@ -747,7 +832,7 @@ exports.historial = (req, res) => {
       py672: true,
       historial: true,
       gruposTodos,
-      response2,
+      arrString,
       arrGrupos
     });
   }).catch((err) => {
