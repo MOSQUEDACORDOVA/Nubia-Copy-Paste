@@ -1,4 +1,4 @@
-/*$(function () {
+$(function () {
     let provincias, canton, distritos;
     fetch('/obtenerdirecciones')
         .then(response => response.json())
@@ -43,4 +43,3 @@
         dist.disabled = false;
     });
 });
-  */
