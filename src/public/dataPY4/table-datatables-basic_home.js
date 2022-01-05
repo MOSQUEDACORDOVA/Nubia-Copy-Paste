@@ -842,10 +842,12 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
   $('#btn_reg_pedido').on('click', async (e)=>{
     if ($('#id_cliente_reg_pedido').val() =="default") {
       Swal.fire('Debe seleccionar un cliente')
+      $('#id_cliente_reg_pedido').focus()
       return
     }
     if ($('#chofer').val() =="default") {
       Swal.fire('Debe seleccionar un chofer')
+      $('#chofer').focus()
       return
     }
     if ($('#reg_zona_cliente_pedido').val() == "0" ) {
@@ -907,6 +909,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     </thead>`);
         
         cargaTablas('si')
+        Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
   $('#reg_pedido_modal1').trigger("reset");
   $('#cant_garrafon').text('0')
@@ -920,7 +923,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    let hoy= moment().format('YYYY-MM-DD')
 $('#fecha_pedido').val(hoy)
   
-  Swal.fire('Se creó con éxito el pedido')
+  
       },
       error: function (jqXHR, textStatus) {
         console.log('error:' + jqXHR)
