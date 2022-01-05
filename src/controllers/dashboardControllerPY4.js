@@ -435,6 +435,10 @@ if (telefono_familiar_2 ==null) {
 }
   DataBase.registrar_cliente(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,  tipo_cliente, modo_cliente, fecha_ultimo_pedido, utimos_botellones,sucursal, email,color).then((respuesta) =>{
 
+    if (req.body.dashboard) {
+  return res.redirect('/homepy4/'+respuesta)
+
+    }
     res.redirect('/usuarios/'+respuesta)
 
   }).catch((err) => {
