@@ -18,6 +18,7 @@ $(function () {
 
     $('#select-provincia').on('change', function () {
         let current = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
+        $('#select-canton').html('<option value="">Seleccione un Canton</option>');
         $.each(canton, function(key, value) {
             if(value.provinciaId === current) {
                 $('#select-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`);
@@ -32,6 +33,7 @@ $(function () {
     $('#select-canton').on('change', function () {
         let currentProv = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
         let currentCant = parseInt(cant.options[cant.selectedIndex].getAttribute('data-id'));
+        $('#select-distrito').html('<option value="">Seleccione un Distrito</option>');
         $.each(distritos, function(key, value) {
             if(value.provinciaId === currentProv && value.cantonId === currentCant) {
                 $('#select-distrito').append(`<option value="${value.nombre}">${value.nombre}</option>`);
