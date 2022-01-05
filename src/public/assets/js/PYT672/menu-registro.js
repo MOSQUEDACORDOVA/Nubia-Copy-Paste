@@ -23,6 +23,9 @@ $(function () {
                 $('#select-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`);
             }
         });
+        $('#select-canton').val("");
+        $('#select-canton').trigger('change');
+
         cant.disabled = false;
     });
 
@@ -34,6 +37,9 @@ $(function () {
                 $('#select-distrito').append(`<option value="${value.nombre}">${value.nombre}</option>`);
             }
         });
+        $('#select-distrito').val("");
+        $('#select-distrito').trigger('change');
+
         dist.disabled = false;
     });
 });
