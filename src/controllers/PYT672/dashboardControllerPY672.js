@@ -475,7 +475,7 @@ exports.matriculas = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    DataBase.GruposYEstudiantes().then((response2) => {
+    DataBase.GruposYMatriculas().then((response2) => {
       let arr = JSON.parse(response2);
       console.log(arr)
 
@@ -710,6 +710,36 @@ exports.historial = (req, res) => {
     console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
+  DataBase.GruposYMatriculas().then((response2) => {
+    let matriculas = JSON.parse(response2);
+    console.log(matriculas)
+    console.log("TODA LA MATRICULA")
+
+    DataBase.ObtenerMatriculasDistinct().then((response3) => {
+      let gruposDist = JSON.parse(response3);
+      console.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")
+      
+      let arrGrupos = [];
+      
+      gruposDist.forEach(element => {
+        DataBase.BuscarGrupos(element.grupoId).then((response4) => {
+          let gruposFounds = JSON.parse(response4);
+          console.log(gruposFounds)
+          console.log("GRUPOS ENCONTRADOS")
+
+          gruposFounds.forEach(found => {
+            arrGrupos.push(found);
+            console.log("FOUND");
+          });
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      });
+
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
       dashboardPage: true,
@@ -717,7 +747,19 @@ exports.historial = (req, res) => {
       py672: true,
       historial: true,
       gruposTodos,
+      response2,
+      arrGrupos
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

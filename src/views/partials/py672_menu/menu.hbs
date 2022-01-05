@@ -144,21 +144,35 @@
                                 <div class="list-item bg-white">
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Provincia</label>
-                                        <input type="text" class="form-control" id="basicInput" name="provincia" required>
+                                        <div class="position-relative">
+                                            <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" required>
+                                                <option value="">Seleccione una Provincia</option>
+                                            </select>
+                                        </div>
+                                        {{!<input type="text" class="form-control" id="basicInput" name="provincia" required>}}
                                     </div>
                                 </div>
 
                                 <div class="list-item bg-white">
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Cantón</label>
-                                        <input type="text" class="form-control" id="basicInput" name="canton" required>
+                                        <div class="position-relative">
+                                            <select class="select2 form-select" tabindex="-1" name="canton" aria-hidden="true" required>
+                                                <option value="">Seleccione un Canton</option>
+                                            </select>
+                                        </div>
+                                        {{!<input type="text" class="form-control" id="basicInput" name="canton" required>}}
                                     </div>
                                 </div>
 
                                 <div class="list-item bg-white">
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Distrito</label>
-                                        <input type="text" class="form-control" id="basicInput" name="distrito" required>
+                                        <select class="select2 form-select" tabindex="-1" name="distrito" aria-hidden="true" required>
+                                            <option value="">Seleccione un Distrito</option>
+                                        </select>
+                                        
+                                        {{!<input type="text" class="form-control" id="basicInput" name="distrito" required>}}
                                     </div>
                                 </div>
                             </div>
