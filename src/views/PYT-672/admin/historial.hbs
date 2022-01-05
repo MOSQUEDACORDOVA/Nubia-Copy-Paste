@@ -1,17 +1,22 @@
 <div class="app-content content py672">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            <input class="d-none" value="{{response2}}" id="arrayMatricula">
+
             <section class="row match-height">                 
                 <div class="col-6 col-md-4 mb-1">
                     <div class="input-group mb-2">
                         <span class="input-group-text" id="basic-addon-search1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
-                        <input type="text" class="form-control" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
+                        <input type="text" class="form-control buscar-matricula" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
                     </div>
                 </div>
 
                 <div class="col-6 col-md-4 mb-1">
-                    <select name="" id="" class="form-select select2">
-                        <option value="-">Seleccionar Grupo</option>
+                    <select name="" id="" class="form-select select2 buscar-grupos">
+                        <option value="">Seleccionar Grupo</option>
+                        {{#each arrGrupos as |item i|}}
+                        <option value="{{identificador}}">{{identificador}}</option>
+                        {{/each}}
                     </select>
                 </div>
 
@@ -117,6 +122,20 @@
                         </div>
                     </div>
                 </div>
+
+                {{!<div class="col-12">
+                    <div class="card">
+                        <div class="table-responsive">
+                            <div id="DataTables_Table_0_wrapper" class="">
+                                <table class="datatables-basic table dataTable historial" id="historial">
+                                    <thead>
+                                        <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Asistencia</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nota</th></tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>}}
             </section>
         </div>
     </div>

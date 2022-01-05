@@ -5,6 +5,9 @@ const Matriculas = require("../../models/PYT672/Matriculas");
 const Asistencia = require("../../models/PYT672/Asistencia");
 const Notas = require("../../models/PYT672/Notas");
 const Participacion = require("../../models/PYT672/Participacion");
+const Provincias = require("../../models/PYT672/Provincias");
+const Canton = require("../../models/PYT672/Canton");
+const Distritos = require("../../models/PYT672/Distritos");
 
 module.exports = {
     // * CREAR GRUPOS ADMIN
@@ -376,7 +379,7 @@ module.exports = {
       });
     },
     // * OBTENER ESTUDIANTES CON GRUPOS
-    GruposYEstudiantes() {
+    GruposYMatriculas() {
       return new Promise((resolve, reject) => {
         Matriculas.findAll({
         include:[

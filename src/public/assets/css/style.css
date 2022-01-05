@@ -1625,6 +1625,11 @@ table tr td {
     border: none;
     outline: none;
 }
+@media (max-width: 575.98px) {
+    .py672 div.dataTables_wrapper {
+        overflow-y: hidden;
+    }
+}
 /*.py672 .form-check {
     visibility: hidden;
 }*/
