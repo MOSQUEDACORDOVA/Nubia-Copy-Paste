@@ -767,6 +767,8 @@ exports.historial = (req, res) => {
   });
 };
 
+
+
 exports.error = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1434,6 +1436,40 @@ exports.eliminarestudiantegrupo = (req, res) => {
       return res.redirect("/error672/PYT-672");
     });
   }
+};
+
+// * OBTENER PROVINCIAS, CANTON, DISTRITOS
+exports.obtenerdirecciones = (req, res) => {
+  let provincias, canton, distritos;
+
+  DataBase.ObtenerTodasProvincias().then((response) =>{
+    provincias = JSON.parse(response);
+    console.log(provincias)
+
+    DataBase.ObtenerTodosCanton().then((response2) =>{
+      canton = JSON.parse(response2);
+      console.log(canton)
+      
+      DataBase.ObtenerTodosDistritos().then((response3) =>{
+        distritos = JSON.parse(response3);
+        console.log(distritos)
+
+        return res.send({provincias, canton, distritos});
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 exports.sesionstart = (req, res) => {

@@ -666,4 +666,47 @@ module.exports = {
         });
       });
     },
+    // ? OBTENER DATOS DE DIRECCION PROVINCIAS, CANTON, DISTRITOS 
+    ObtenerTodasProvincias() {
+      return new Promise((resolve, reject) => {
+        Provincias.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("PROVINCIAS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerTodosCanton() {
+      return new Promise((resolve, reject) => {
+        Canton.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("CANTON")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerTodosDistritos() {
+      return new Promise((resolve, reject) => {
+        Distritos.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("DISTRITOS")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
 }

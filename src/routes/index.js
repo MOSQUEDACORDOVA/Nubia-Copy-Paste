@@ -531,7 +531,7 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 router.get('/loginpy672/:id', dashboardControllerPY672.login);
 router.get('/registerpy672/:id', dashboardControllerPY672.register);
 
-// ? POST 
+// ? POST ------------------!
 router.post('/login672', dashboardControllerPY672.sesionstart);
 router.post('/reguserpy672', dashboardControllerPY672.reguser);
 
@@ -549,8 +549,7 @@ router.get('/historial/:id', dashboardControllerPY672.historial);
 // * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
-// ? POST
-
+// ? POST --------------------!
 // * CREAR GRUPOS
 router.post('/creargrupopy672', dashboardControllerPY672.creargrupos);
 // * ACTUALIZAR GRUPOS
@@ -579,6 +578,8 @@ router.post('/obtenerMatriculaAusente', dashboardControllerPY672.obtenermatricul
 router.post('/registrarNotas', dashboardControllerPY672.registrarnotas);
 // * REGISTRAR PARTICIPACION
 router.post('/registrarParticipacion', dashboardControllerPY672.registrarparticipacion);
+// * OBTENER PROVINCIAS, CANTON, DISTRITOS
+router.get('/obtenerdirecciones', dashboardControllerPY672.obtenerdirecciones);
 
 
 
