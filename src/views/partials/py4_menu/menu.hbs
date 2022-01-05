@@ -1057,10 +1057,9 @@ padding-left: 0.7rem;
                             aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
 
 
-                    <!--bindings={
-  "ng-reflect-ng-if-else": "[object Object]"
-}-->
-                    <!--container-->
+                {{#if dash}}
+                <input type="text" name="dashboard" value="1">
+                {{/if}}
                     <div class="divider">
                         <div class="divider-text">Acceso</div>
                     </div>
