@@ -1630,6 +1630,19 @@ table tr td {
         overflow-y: hidden;
     }
 }
+.py672 table.dataTable thead .sorting:after,
+.py672 table.dataTable thead .sorting_asc:after,
+.py672 table.dataTable thead .sorting_desc:after {
+    display: none;
+}
+.py672 table.dataTable thead .sorting:before,
+.py672 table.dataTable thead .sorting_asc:before,
+.py672 table.dataTable thead .sorting_desc:before {
+    display: none;
+}
+.py672 table.dataTable>thead .sorting, .py672 table.dataTable>thead .sorting_asc, .py672 table.dataTable>thead .sorting_desc, .py672 table.dataTable>thead .sorting_asc_disabled, .py672 table.dataTable>thead .sorting_desc_disabled {
+    cursor: default;
+}
 /*.py672 .form-check {
     visibility: hidden;
 }*/
@@ -1660,6 +1673,23 @@ table tr td {
 .py672 .col-12 .d-block .range {
     width: 100%;
     transition: .6s ease all;
+}
+.py672 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
+    background-color: #7367f0;
+    color: #fff;
+    box-shadow: 0 8px 25px -8px #7367f0;
+}
+.py672 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
+    color: #7367f0;
+}
+.py672 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
+    background-color: #7267f02a;
+    color: #7367f0 !important;
+}
+.py672 .modal .bs-stepper {
+    background-color: unset;
+    box-shadow: unset;
+    border-radius: 0.5rem;
 }
 /*.py672 .nav .select2 {
     max-width: 91% !important;

@@ -29,6 +29,7 @@ function cargarTablaMatricula(editada) {
     });  
 
     tableMatr = historialTable.DataTable({
+      ordering: false,
       data: matriculaParsed,
       columns: [
         { data: 'nombre' },
@@ -38,21 +39,29 @@ function cargarTablaMatricula(editada) {
       ],
       columnDefs: [
         {
-            targets: 1, render: function (data, type, full) {
-                let grupo;
-                if(full.grupo) {
-                    grupo = `
-                    <div class="badge-wrapper me-1">
-                        <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
-                    </div>`;
-                } else {
-                    grupo = `
-                    <div class="badge-wrapper me-1">
-                        <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-                    </div>`
-                }
-                return grupo
-            }
+          targets: 0, render: function (data, type, full) {
+            let nombreEst = `
+              <span type="button" data-bs-toggle="modal" data-bs-target="#createAppModal">${full['nombre']} ${full['primer_apellido']}</span>
+            `;
+            return nombreEst
+          }
+        },
+        {
+          targets: 1, render: function (data, type, full) {
+              let grupo;
+              if(full.grupo) {
+                  grupo = `
+                  <div class="badge-wrapper me-1">
+                      <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
+                  </div>`;
+              } else {
+                  grupo = `
+                  <div class="badge-wrapper me-1">
+                      <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
+                  </div>`
+              }
+              return grupo
+          }
         },
         {
           targets: 2, render: function (data, type, full) {
