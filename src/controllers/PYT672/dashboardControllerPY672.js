@@ -724,6 +724,7 @@ exports.historial = (req, res) => {
         leccion25: '',
         leccion31: '',
         leccion32: '',
+        participacion: ''
       };
 
       let lecciones = [9, 17, 18, 25, 31, 32];
@@ -733,21 +734,21 @@ exports.historial = (req, res) => {
           /*console.log(lecc)
           console.log("LECCION")
           console.log(item)*/
-
+          
           if(lecc !== undefined) {
-              if(idx === 0) {
-                notas.leccion9 = parseInt(lecc.nota);
-              } else if (idx === 1) {
-                notas.leccion17 = parseInt(lecc.nota);
-              } else if (idx === 2) {
-                notas.leccion18 = parseInt(lecc.nota);
-              } else if (idx === 3) {
-                notas.leccion25 = parseInt(lecc.nota);
-              } else if (idx === 4) {
-                notas.leccion31 = parseInt(lecc.nota);
-              } else if (idx === 5) {
-                notas.leccion32 = parseInt(lecc.nota);
-              }
+            if(idx === 0) {
+              notas.leccion9 = parseInt(lecc.nota);
+            } else if (idx === 1) {
+              notas.leccion17 = parseInt(lecc.nota);
+            } else if (idx === 2) {
+              notas.leccion18 = parseInt(lecc.nota);
+            } else if (idx === 3) {
+              notas.leccion25 = parseInt(lecc.nota);
+            } else if (idx === 4) {
+              notas.leccion31 = parseInt(lecc.nota);
+            } else if (idx === 5) {
+              notas.leccion32 = parseInt(lecc.nota);
+            }
           } else {
             if(idx === 0) {
               notas.leccion9 = 0;
@@ -764,40 +765,39 @@ exports.historial = (req, res) => {
             }
           }
           
-          /*console.log(notas)*/
-  
-          /*DataBase.BuscarNotasLeccion(17, element.grupoId, element.id).then((lecc17) => {
-            lecc17 = JSON.parse(lecc17)[0];
-            console.log(lecc17)
-            console.log("LECCION 17")
-            
-            if(lecc17 !== []) {
-              notas.leccion17 = parseInt(lecc17.nota);
-              console.log(lecc17.nota)
-              console.log("NOTAS LECCION 17 NJDA MMGV GUATAKATAPITUS BERRI")
-            } else {
-              notas.leccion17 = 0;
-            }
+            let final = Object.assign(element, notas);
+            /*console.log(final)
+            console.log("FINAL --------- !!!!!!")*/
     
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error672/PYT-672");
-          });*/
-          
-          let final = Object.assign(element, notas);
-          /*console.log(final)
-          console.log("FINAL --------- !!!!!!")*/
-
-          arrString = JSON.stringify(matriculas);
-          console.log(arrString)
-          console.log("STTRINGYFYY PERRAA")
+            arrString = JSON.stringify(matriculas);
+            /*console.log(arrString)*/ 
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
           return res.redirect("/error672/PYT-672");
         });
-        
+  
+      });
+
+      DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
+        let participacion = JSON.parse(part)[0];
+        console.log(participacion)
+        console.log("PARTICIPACIO NJD")
+
+        if(participacion !== undefined) {
+          notas.participacion = parseInt(participacion.porcentaje);
+        } else {
+          notas.participacion = 0;
+        }
+
+        let final = Object.assign(element, notas);
+        console.log(final)
+
+        arrString = JSON.stringify(matriculas);
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
       });
     });
 

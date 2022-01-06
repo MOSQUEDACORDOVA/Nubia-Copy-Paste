@@ -56,7 +56,7 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 2, render: function (data, type, full) {
-            let total = 0;
+            let total = 100;
 
             let notaTotal = `<div id="chartPart${full['id']}"></div>`;
 
@@ -86,7 +86,7 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 3, render: function (data, type, full) {
-            let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'];
+            let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
 
             let notaTotal = `<div id="chart${full['id']}"></div>`;
 
@@ -175,7 +175,7 @@ function cargarTablaMatricula(editada) {
             },
             value: {
               color: "#111",
-              fontSize: "20px",
+              fontSize: "18px",
               show: true
             }
           }
