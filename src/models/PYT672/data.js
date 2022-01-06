@@ -666,6 +666,24 @@ module.exports = {
         });
       });
     },
+    ObtenerTodasAsistenciaMatricula(grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Asistencia.findAll({
+          where: {
+            grupoId: grupoId, matriculaId: matriculaId
+          }
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("ASISTENCIA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     // ? OBTENER DATOS DE DIRECCION PROVINCIAS, CANTON, DISTRITOS 
     ObtenerTodasProvincias() {
       return new Promise((resolve, reject) => {

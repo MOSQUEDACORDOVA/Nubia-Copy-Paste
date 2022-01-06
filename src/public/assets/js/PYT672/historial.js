@@ -56,7 +56,8 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 2, render: function (data, type, full) {
-            let total = 100;
+            let leccionesAusentes = parseFloat(full['asistencias'] * 3.125).toFixed(2);
+            let total = parseFloat(100 - leccionesAusentes);
 
             let notaTotal = `<div id="chartPart${full['id']}"></div>`;
 
@@ -164,7 +165,7 @@ function cargarTablaMatricula(editada) {
             margin: 15,
             size: "55%"
           },
-         
+          
           dataLabels: {
             showOn: "always",
             name: {
@@ -175,9 +176,9 @@ function cargarTablaMatricula(editada) {
             },
             value: {
               color: "#111",
-              fontSize: "18px",
-              show: true
-            }
+              fontSize: "16px",
+              show: true,
+            },
           }
         }
       },

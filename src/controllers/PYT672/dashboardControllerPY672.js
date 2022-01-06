@@ -724,7 +724,8 @@ exports.historial = (req, res) => {
         leccion25: '',
         leccion31: '',
         leccion32: '',
-        participacion: ''
+        participacion: '',
+        asistencias: ''
       };
 
       let lecciones = [9, 17, 18, 25, 31, 32];
@@ -781,8 +782,7 @@ exports.historial = (req, res) => {
 
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];
-        console.log(participacion)
-        console.log("PARTICIPACIO NJD")
+        /*console.log(participacion)*/
 
         if(participacion !== undefined) {
           notas.participacion = parseInt(participacion.porcentaje);
@@ -791,7 +791,27 @@ exports.historial = (req, res) => {
         }
 
         let final = Object.assign(element, notas);
-        console.log(final)
+        /*console.log(final)*/
+
+        arrString = JSON.stringify(matriculas);
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+      DataBase.ObtenerTodasAsistenciaMatricula(element.grupoId, element.id).then((asist) => {
+        let asistencias = JSON.parse(asist);
+        /*console.log(asistencias)*/
+
+        if(asistencias !== undefined) {
+          notas.asistencias = parseInt(asistencias.length);
+        } else {
+          notas.asistencias = 0;
+        }
+
+        let final = Object.assign(element, notas);
+        /*console.log(final)*/
 
         arrString = JSON.stringify(matriculas);
       }).catch((err) => {
