@@ -68,7 +68,11 @@ function cargarTablaMatricula(editada) {
             let leccionesAusentes = parseFloat(full['asistencias'] * 3.125).toFixed(2);
             let total = parseFloat(100 - leccionesAusentes);
 
-            let notaTotal = `<div id="chartPart${full['id']}"></div>`;
+            let notaTotal = `
+            <div class="d-flex justify-content-center align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#createAppModal">
+              <h6 class="m-0">${total}%</h6>
+              <div id="chartPart${full['id']}"></div>
+            </div>`;
 
             let color;
 
@@ -98,7 +102,11 @@ function cargarTablaMatricula(editada) {
           targets: 3, render: function (data, type, full) {
             let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
 
-            let notaTotal = `<div id="chart${full['id']}"></div>`;
+            let notaTotal = `
+            <div class="d-flex justify-content-center align-items-center" type="button" data-bs-toggle="modal" data-bs-target="#createAppModal">
+              <h6 class="m-0">${total}%</h6>
+              <div id="chart${full['id']}"></div>
+            </div>`;
 
             let color;
 
@@ -160,8 +168,8 @@ function cargarTablaMatricula(editada) {
     console.log(item, total, color) 
     let options = {
       chart: {
-        width: 150,
-        height: 150,
+        width: 100,
+        height: 100,
         type: "radialBar"
       },
       
@@ -171,8 +179,8 @@ function cargarTablaMatricula(editada) {
       plotOptions: {
         radialBar: {
           hollow: {
-            margin: 15,
-            size: "55%"
+            margin: 0,
+            size: "40%"
           },
           
           dataLabels: {
@@ -186,7 +194,7 @@ function cargarTablaMatricula(editada) {
             value: {
               color: "#111",
               fontSize: "16px",
-              show: true,
+              show: false,
             },
           }
         }
