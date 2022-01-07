@@ -208,14 +208,18 @@ if (fecha_final == true) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-             `<p id="CopyPedido${full['id']}" class="d-none">#Pedido:${full['id']} -
-Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']};
-Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']};
-Referencia:${full['cliente']['referencia']}
-Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`  
+             `<p id="CopyPedido${full['id']}" class="d-none">
+--------------------------------------------------------------
+#Pedido:${full['id']} -
+Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']}.
+Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']}.
+Referencia:${full['cliente']['referencia']}.
+Rf:${rf}.
+CJ: ${CJ}.
+Env: ${Env}.</p>`  
             );
           }, 
         },
@@ -843,6 +847,23 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     
   })
 
+  //COPIA VARIOS PEDIDOS
+  $("#button_copiar_varios").on('click', function (e) {
+    let valoresCheck = [];
+  
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para Copiar el pedido')
+  
+      return
+    }else{
+      console.log('copiando...')
+    }
+    copyToClipboardVarios(valoresCheck)
+  });
   //ACA REGISTRA PEDIDO AJAX
   $('#btn_reg_pedido').on('click', async (e)=>{
     if ($('#id_cliente_reg_pedido').val() =="default") {
@@ -873,7 +894,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       data: $('#reg_pedido_modal1').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        if ($('#carga_').length>0) {
+          $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
@@ -914,7 +936,36 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     </thead>`);
         
         cargaTablas('si')
+        $('.datatables-resumen').dataTable().fnDestroy();
+        $('.datatables-resumen').empty();
+        $('.datatables-resumen').html(`<thead>
+        <tr>
+            <th>Carga Inicial</th>
+            <th>Pedidos</th>
+            <th>Entregados</th>
+            <th>Pendientes</th>                                                
+        
+        <th>oculto choferes </th>  
+        </tr>
+    </thead>`);
+        cargaTableResumen('si')
         Swal.fire('Se creó con éxito el pedido')
+  $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  let hoy= moment().format('YYYY-MM-DD')
+  $('#fecha_pedido').val(hoy)
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+
+  
+        } else {
+          Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
   $('#reg_pedido_modal1').trigger("reset");
   $('#cant_garrafon').text('0')
@@ -927,7 +978,8 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
    $("#id_cliente_reg_pedido").val('default').trigger('change');
    let hoy= moment().format('YYYY-MM-DD')
 $('#fecha_pedido').val(hoy)
-  
+        }
+        
   
       },
       error: function (jqXHR, textStatus) {
@@ -1212,6 +1264,26 @@ function copyToClipboard(elemento) {
   $temp.remove();
   Swal.fire('Pedido copiado en el portapapeles')
   }
+  function copyToClipboardVarios(elemento) {
+    console.log(elemento)
+    if ($("#checkboxSelectAll").is(':checked')) {
+      console.log('borra el primero')
+      var new_elemento = elemento.shift()
+    }
+    console.log(new_elemento)
+    var $temp = $("<textarea>")
+    var brRegex = /<br\s*[\/]?>/gi;
+    $("body").append($temp);
+    for (let i = 0; i < elemento.length; i++) {
+      const element = array[i];
+      $temp.append($(`#CopyPedido${elemento[i]}`).html().replace(brRegex, "\r\n")).select();
+    }
+
+    
+    document.execCommand("copy");
+    $temp.remove();
+    Swal.fire('Pedido copiado en el portapapeles')
+    }
 // Filter column wise function
 function filterColumn2(i, val) {
   if (i == 5) {
@@ -1611,4 +1683,14 @@ function delete_pedido(id_, tabla) {
       })
     }
   })
+}
+function share_record(id_) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = id_
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+    $('#p1').text(direction_copy)*/
+    copyToClipboard(`#CopyPedido${id_edit}`)
 }

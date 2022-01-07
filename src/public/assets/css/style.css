@@ -13,8 +13,14 @@ table tbody td button {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.py4 .was-validated .form-check-input:valid ~ .form-check-label, .py4 .form-check-input.is-valid ~ .form-check-label {
+    color: unset;
+}
+.py4 .was-validated .form-check-input:valid, .py4 .form-check-input.is-valid {
+    border-color: unset;
+}
 .py4 .badge-light-primary {
-    color: #7367f0;
+    color: #7367f0 !important;
 }
 .py4table table tr td {
     white-space: nowrap;

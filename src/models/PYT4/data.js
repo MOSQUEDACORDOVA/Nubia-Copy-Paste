@@ -391,7 +391,8 @@ module.exports = {
   SearchClientePedido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono){
     return new Promise((resolve, reject) => {
       Clientes.findOne({
-        where: { telefono:telefono, }})
+        where: {
+          [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono},{telefono_familiar_1: telefono}, {telefono_familiar_2: telefono}, {firstName: firstName,lastName:lastName}],  }})
         .then((data) => {
           let data_p = JSON.stringify(data);
           resolve(data_p);

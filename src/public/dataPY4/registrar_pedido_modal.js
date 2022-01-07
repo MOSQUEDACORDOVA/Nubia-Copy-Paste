@@ -374,7 +374,7 @@ $(function () {
       $('#select_asentamiento_me').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#select_asentamiento_me').find('option:selected').remove().end();
+     // $('#select_asentamiento_me').find('option:selected').remove().end();
       $("#select_asentamiento_me option[value='" + found.cpId + "']").attr("selected", true);
     }
 
@@ -383,7 +383,7 @@ $(function () {
      // $('#reg_zona_cliente_pedido').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#reg_zona_cliente_pedido').find('option:selected').remove().end();
+     // $('#reg_zona_cliente_pedido').find('option:selected').remove().end();
       $("#reg_zona_cliente_pedido option[value='" + found.sucursaleId + "']").attr("selected", true);
     }
 
@@ -392,7 +392,7 @@ $(function () {
      // $('#color_tag_reg_pedido').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#color_tag_reg_pedido').find('option:selected').remove().end();
+     // $('#color_tag_reg_pedido').find('option:selected').remove().end();
       $("#color_tag_reg_pedido option[value='" + found.etiquetaId + "']").attr("selected", true);
     }
     $("#color_tag_reg_pedido").val(`${found.etiquetaId}`).trigger('change');
@@ -477,7 +477,86 @@ if ($('#color_tag_reg_cliente').val() == "0") {
 e.currentTarget.submit();
 
 })
+if ($('#carga_').length>0) {
+       
+} else {
 
+ //ACA REGISTRA PEDIDO AJAX
+ $('#btn_reg_pedido').on('click', async (e)=>{
+  if ($('#id_cliente_reg_pedido').val() =="default") {
+    Swal.fire('Debe seleccionar un cliente')
+    $('#id_cliente_reg_pedido').focus()
+    return
+  }
+  if ($('#chofer').val() =="default") {
+    Swal.fire('Debe seleccionar un chofer')
+    $('#chofer').focus()
+    return
+  }
+  if ($('#reg_zona_cliente_pedido').val() == "0" ) {
+    Swal.fire('Debe asignar una zona al cliente')
+    return
+  }
+  if ($('#color_tag_reg_pedido').val() == "0") {
+    Swal.fire('Debe asignar una etiqueta al cliente')
+    return
+  }
+if ($('#total_total_inp').val() == "0") {
+    Swal.fire('Debe agregar al menos un producto para continuar')
+    return
+  }
+  $.ajax({
+    url: `/reg_pedido_modal`,
+    type: 'POST',
+    data: $('#reg_pedido_modal1').serialize(),
+    success: function (data, textStatus, jqXHR) {
+      console.log(data)
+     
+        Swal.fire('Se creó con éxito el pedido, debe acceder al "Tablero" para observarlo a detalle')
+$('.modal').modal('hide');
+$('#reg_pedido_modal1').trigger("reset");
+let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+$('#cant_garrafon').text('0')
+$('#monto_garrafon').text('0')
+$('#sub_total_total').text('0')
+$('#deuda_verf').text('0')
+ $('#total_total').text('0')
+ $('#deuda_box').attr('style','display:none')
+ $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+ $("#id_cliente_reg_pedido").val('default').trigger('change');
 
+      
+      
 
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+  
+})
+}
+
+$('#btn-close-pedido').on('click', ()=>{
+  $('#reg_pedido_modal1').trigger("reset");
+  let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+$('#cant_garrafon').text('0')
+$('#monto_garrafon').text('0')
+$('#sub_total_total').text('0')
+$('#deuda_verf').text('0')
+ $('#total_total').text('0')
+ $('#deuda_box').attr('style','display:none')
+ $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+ $("#id_cliente_reg_pedido").val('default').trigger('change');
+ 
+})
+
+$('#btn-close-cliente').on('click', ()=>{
+  $('#form_reg_cliente').trigger("reset");
+  $('#municipio').text('')
+  $("#select_asentamiento").val('default').trigger('change');
+  $("#color_tag_reg_cliente").val('0').trigger('change');
+})
 });

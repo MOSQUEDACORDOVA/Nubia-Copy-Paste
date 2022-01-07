@@ -33,21 +33,21 @@
                 </div>
                 <div class="card-body">
                   <h4 class="card-title">Clientes</h4>
-            {{#if admin}} <p class="card-text">
-              <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
+            <p class="card-text">
+              {{#if admin}} <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
                 Cambiar Zona
-              </button> 
+              </button> {{/if}}
               <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
                 Cambiar Etiquetas
               </button>
-              <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="mapgeo">
+              <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" id="mapgeo">
                 Ver Mapa
               </button>
               <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="cliente_nuevo" value="checked" checked="">
+                  <input class="form-check-input" type="checkbox" id="cliente_nuevo">
                   <label class="form-check-label" for="cliente_nuevo">Solo ver Nuevos</label>
               </div>
-              {{/if}}
+              
                 </div>
                                             
                 
