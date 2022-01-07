@@ -155,7 +155,7 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                         if (!carga_let.length) {
                         console.log('sin carga inicial')
                       }
-
+console.log(clientes_arr)
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,

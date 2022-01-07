@@ -374,7 +374,7 @@ $(function () {
       $('#select_asentamiento_me').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#select_asentamiento_me').find('option:selected').remove().end();
+     // $('#select_asentamiento_me').find('option:selected').remove().end();
       $("#select_asentamiento_me option[value='" + found.cpId + "']").attr("selected", true);
     }
 
@@ -383,7 +383,7 @@ $(function () {
      // $('#reg_zona_cliente_pedido').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#reg_zona_cliente_pedido').find('option:selected').remove().end();
+     // $('#reg_zona_cliente_pedido').find('option:selected').remove().end();
       $("#reg_zona_cliente_pedido option[value='" + found.sucursaleId + "']").attr("selected", true);
     }
 
@@ -392,7 +392,7 @@ $(function () {
      // $('#color_tag_reg_pedido').prepend('<option selected value="' + found.cpId + '">' + found.cp.asentamiento + '</option>');
     } else {
       console.log("option exist!");
-      $('#color_tag_reg_pedido').find('option:selected').remove().end();
+     // $('#color_tag_reg_pedido').find('option:selected').remove().end();
       $("#color_tag_reg_pedido option[value='" + found.etiquetaId + "']").attr("selected", true);
     }
     $("#color_tag_reg_pedido").val(`${found.etiquetaId}`).trigger('change');
