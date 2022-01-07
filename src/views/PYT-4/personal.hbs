@@ -185,7 +185,7 @@
                     aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
                 </div>
               </div>
-              <div class="form-group"><label for="register-sucursal" class="form-label">Sucursal</label><select
+              <div class="form-group d-none"><label for="register-sucursal" class="form-label">Sucursal</label><select
                   aria-describedby="register-sucursal" id="save_personal_zone" name="sucursal" class="form-control mb-2">
                   <option selected="" value="0"> Seleccione una sucursal </option>
                   {{#each sucursales_let as |sucursal i|}}
@@ -318,7 +318,7 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editar_personalTitle">Agregar Usuario</h5>
+            <h5 class="modal-title" id="editar_personalTitle">Editar Personal</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -371,7 +371,7 @@
                     class="form-control mb-2">
                 </div>
               </div>              
-               <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+               <div class="form-group d-none"><label for="register-sucursal" class="form-label">Zona</label><select
                   aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="edit_perso_zona">
                   <option selected="" value="0">Seleccione una Zona</option>
                   {{#each sucursales_let as |sucursal i|}}
