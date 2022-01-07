@@ -13,6 +13,9 @@ table tbody td button {
     text-overflow: ellipsis;
     overflow: hidden;
 }
+.py4 .badge-light-primary {
+    color: #7367f0;
+}
 .py4table table tr td {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -182,9 +185,9 @@ table tbody td button {
 .py4 .btn-primary:hover:not(.disabled):not(:disabled), .btn-primary:hover:not(.disabled):not(:disabled) {
     box-shadow: 0 8px 25px -8px #001871;
 }
-.py4 table thead th {
+/*.py4 table thead th {
     white-space: nowrap;
-}
+}*/
 table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before, table.dataTable>thead .sorting_desc:before, table.dataTable>thead .sorting_asc_disabled:before, table.dataTable>thead .sorting_desc_disabled:before, table.dataTable>thead .sorting:after, table.dataTable>thead .sorting_asc:after, table.dataTable>thead .sorting_desc:after, table.dataTable>thead .sorting_asc_disabled:after, table.dataTable>thead .sorting_desc_disabled:after {
     right: 0 !important;
 }
