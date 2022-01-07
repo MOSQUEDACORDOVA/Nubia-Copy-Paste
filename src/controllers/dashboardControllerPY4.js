@@ -59,7 +59,7 @@ exports.dashboard = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
 LastPedidosAll=DataBase.LastPedidosAllS
 PrestadosGroupByCliente=DataBase.PrestadosGroupByClienteS
 Carga_init=DataBase.Carga_initSResumen
@@ -304,7 +304,7 @@ exports.usuariosTable = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
       break;
   }
   //DATA-COMUNES
@@ -918,7 +918,7 @@ exports.personal_table = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     PersonalDB=DataBase.PersonalAllS
       break;
   }
@@ -997,7 +997,8 @@ exports.save_personal = (req, res) => {
   const { firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo} = req.body
   let msg = false;
   let id_sucursal = req.session.sucursal_select
-  DataBase.savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso, vehiculo).then((respuesta) =>{
+  let suc = null
+  DataBase.savePersonal(firstName, lastName, direccion,cargo, salario, telefono,  suc, email, fecha_ingreso, vehiculo).then((respuesta) =>{
     let PersonalDB=""
   switch (req.session.tipo) {
     case "Director":
@@ -1231,7 +1232,7 @@ exports.corte_table = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     PersonalDB=DataBase.PersonalAllS
     PedidosAllGroupByChoferes=DataBase.PedidosAllGroupByChoferesS
       break;
@@ -1436,7 +1437,7 @@ exports.vehiculos_table = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     vehiculosAll=DataBase.vehiculosAllS
       break;
   }
@@ -1598,7 +1599,7 @@ exports.sucursales = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     vehiculosAll=DataBase.vehiculosAllS
       break;
   }
@@ -1764,7 +1765,7 @@ exports.carga_inicial = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     PersonalAll=DataBase.PersonalAllS
     Carga_init=DataBase.Carga_initS
 Asig_chofer=DataBase.ObtenerAsignados
@@ -2070,7 +2071,7 @@ exports.getCupones = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
     vehiculosAll=DataBase.vehiculosAllS
       break;
   }
@@ -2422,7 +2423,7 @@ exports.notificaciones_table = (req, res) => {
     default:
        ClientesDB=DataBase.ClientesAllS
     PedidosDB=DataBase.PedidosAllS
-    ChoferesDB=DataBase.ChoferesAllS
+    ChoferesDB=DataBase.ChoferesAll
 obtenernotificaciones=DataBase.obtenernotificaciones 
 LastPedidosAll=DataBase.LastPedidosAllS
       break;
