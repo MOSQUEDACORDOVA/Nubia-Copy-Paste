@@ -419,6 +419,9 @@ padding-left: 0.7rem;
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
                         data-i18n="Notificaciones ">Notificaciones</span></a>
             </li>
+            <li class="{{#if reportes}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/reportes"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Reportes</span></a>
+            </li>
 
         </ul>
         {{#if disabled_chofer}} <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -1025,12 +1028,13 @@ padding-left: 0.7rem;
                             <option> Negocio </option>
                             <option> Punto de venta </option>
                         </select></div>
-                    <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                    <div class="form-group">
+                        <label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                             cliente?</label>
 
                         <div class="custom-control custom-checkbox mb-1">
-                            <div class="form-check form-check-inline p-0">
-                                <input class="custom-control-input me-1" type="checkbox" id="customCheck1" name="cliente_nuevo" value="SI">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input me-1" type="checkbox" id="customCheck1" name="cliente_nuevo" value="SI">
                                 <label class="form-check-label" for="customCheck1">Sí</label>
                             </div>
                         </div>
