@@ -855,7 +855,6 @@ Env: ${Env}.</p>`
   
       return
     }else{
-      
       console.log('copiando...')
     }
     copyToClipboardVarios(valoresCheck)
@@ -1262,7 +1261,11 @@ function copyToClipboard(elemento) {
   }
   function copyToClipboardVarios(elemento) {
     console.log(elemento)
-    var $temp2 = $("<textarea>")
+    if ($("#checkboxSelectAll").is(':checked')) {
+      console.log('borra el primero')
+      var new_elemento = elemento.shift()
+    }
+    console.log(new_elemento)
     var $temp = $("<textarea>")
     var brRegex = /<br\s*[\/]?>/gi;
     $("body").append($temp);
