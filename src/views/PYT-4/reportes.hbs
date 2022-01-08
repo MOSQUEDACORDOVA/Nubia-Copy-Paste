@@ -148,21 +148,27 @@
                         <label class="form-check-label mb-1" for="clientesNuevos">Clientes Nuevos</label>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3 mb-1">
-                    <button class="btn btn-primary">Mostrar</button>
+                  <div class="col-6 col-md-3">
+                    <div class="btn-group">
+                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#ventasGrap" role="button" id="btnVentasCol">Ventas</button>
+                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#transferenciasGrap" role="button" id="btnTransferenciasCol">Transferencias</button>
+                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#globalGrap" role="button" id="btnGlobalCol">Global</button>
+                    </div>
                   </div>
-
 
                   {{!<button id="btn">Reset</button>}}
                 </div>
               </div>
               <div class="card-body">
-                <div class="row">
-                  <div class="col-12 col-md-6">
+                <div class="row justify-content-center">
+                  <div class="col-12 col-md-6 collapse" id="ventasGrap">
                     <div id="chart"></div>
                   </div>
-                  <div class="col-12 col-md-6">
+                  <div class="col-12 my-3 collapse" id="transferenciasGrap">
                     <div id="chart2"></div>
+                  </div>
+                  <div class="col-12 collapse" id="globalGrap">
+                    <div id="chart3"></div>
                   </div>
                 </div>
               </div>
@@ -209,6 +215,53 @@
     }
   };
   
+  let options2 = {
+    chart: {
+      height: 400,
+      type: 'bar',
+      events: {
+        click: function(chart, w, e) {
+          // console.log(chart, w, e)
+        }
+      }
+    },
+    series: [{
+      data: [21, 22, 10, 28, 16, 21, 13, 30]
+    }],
+    colors: ["#ff9f43"],
+    plotOptions: {
+      bar: {
+        columnWidth: '45%',
+        distributed: true,
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: true
+    },
+    xaxis: {
+      categories: [
+        ['John', 'Doe'],
+        ['Joe', 'Smith'],
+        ['Jake', 'Williams'],
+        'Amber',
+        ['Peter', 'Brown'],
+        ['Mary', 'Evans'],
+        ['David', 'Wilson'],
+        ['Lily', 'Roberts'], 
+      ],
+      labels: {
+        show: false,
+        style: {
+          colors: ["#ff9f43"],
+          fontSize: '12px'
+        }
+      }
+    }
+  };
+  
   function appendData() {
     var arr = chart.w.globals.series.slice()
     arr.push(Math.floor(Math.random() * (100 - 1 + 1)) + 1)
@@ -232,8 +285,10 @@
   }
 
   let chart = new ApexCharts(document.querySelector("#chart"), options);
-  let chart2 = new ApexCharts(document.querySelector("#chart2"), options);
+  let chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  let chart3 = new ApexCharts(document.querySelector("#chart3"), options);
   chart.render();
   chart2.render();
+  chart3.render();
 
 </script>
