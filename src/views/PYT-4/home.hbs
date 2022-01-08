@@ -9,6 +9,10 @@
         border: none;
         border-bottom: 1px solid rgba(34, 41, 47, 0.125);
     }
+    table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
     
     @media(min-width: 768px) {
         #home_modal .modal-dialog {
@@ -247,9 +251,9 @@ $(document).ready(function() {
                                         <thead>
                                             <tr>                                                
                                                 <th></th>
-                                                <th>Nº Pedido</th>
+                                                <th>#Pedido</th>
                                                 <th class="cliente">Cliente</th>
-                                                <th>Total garr</th>
+                                                <th>To. garr.</th>
                                                 <th>Monto Total</th>
                                                 <th>Adeudo</th>
                                                 <th>Status del Pedido</th>
