@@ -227,12 +227,12 @@ Env: ${Env}.</p>`
         { data: 'cliente.etiqueta' },
       ], columnDefs: [
         { visible: false, targets: groupColumn,
-         
         },
         {
           // For Checkboxes
           targets: 0,
           orderable: false,
+          searchable: false,
           responsivePriority: 3,
           render: function (data, type, full, meta) {
             return (
@@ -419,7 +419,9 @@ Env: ${Env}.</p>`
            return moment(data).format('L');
           }
         },
+        
       ],
+     
      
       order: [[8, 'desc'],[11,'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -444,6 +446,7 @@ Env: ${Env}.</p>`
             }
           });
       },
+      
      
       language: {
       "decimal": "",
@@ -464,7 +467,9 @@ Env: ${Env}.</p>`
           next: '&nbsp;'
         }
       }
+      
     });
+    
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {

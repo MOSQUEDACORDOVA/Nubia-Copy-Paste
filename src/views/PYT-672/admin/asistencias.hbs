@@ -605,8 +605,8 @@ $(document).ready(function() {
         } else if (e.target.classList.contains('btnCalificacionMas')) {
             let target = e.target.getAttribute('data-id');
             let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
-            if (parseInt(calificacion.value) >= 100) {
-                calificacion.value = 100;
+            if (parseInt(calificacion.value) >= 15) {
+                calificacion.value = 15;
             } else {
                 calificacion.value++;
             }
@@ -615,7 +615,7 @@ $(document).ready(function() {
         } else if (e.target.classList.contains('btnCalificacionMenos')) {
             let target = e.target.getAttribute('data-id');
             let calificacion = document.querySelector(`#estudiante${target} .calificacion`);
-            if(parseInt(calificacion.value) === 0) {
+            if(parseInt(calificacion.value) <= 0) {
                 calificacion.value = 0;
             } else {
                 calificacion.value--;
@@ -625,8 +625,8 @@ $(document).ready(function() {
         } else if(e.target.classList.contains('btnParticipacionMas')) {
             let target = e.target.getAttribute('data-id');
             let participacion = document.querySelector(`#estudiante${target} .participacion`);
-            if (parseInt(participacion.value) >= 100) {
-                participacion.value = 100;
+            if (parseInt(participacion.value) >= 10) {
+                participacion.value = 10;
             } else {
                 participacion.value++;
             }
@@ -636,7 +636,7 @@ $(document).ready(function() {
         } else if(e.target.classList.contains('btnParticipacionMenos')) {
             let target = e.target.getAttribute('data-id');
             let participacion = document.querySelector(`#estudiante${target} .participacion`);
-            if(parseInt(participacion.value) === 0) {
+            if(parseInt(participacion.value) <= 0) {
                 participacion.value = 0;
             } else {
                 participacion.value--;

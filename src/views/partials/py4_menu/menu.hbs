@@ -114,7 +114,7 @@ $('#bell_not').on('click', ()=>{
               <li class="dropdown-menu-header">
                 <div class="dropdown-header d-flex">
                   <h4 class="notification-title mb-0 me-auto">Notificaciones</h4>
-                  <div class="badge rounded-pill badge-light-primary">{{cont_not}} New</div>
+                  <div class="badge rounded-pill badge-light-primary">{{cont_not}} Nuevos</div>
                 </div>
               </li>
               <li class="scrollable-container media-list ps ps--active-y">
@@ -419,6 +419,9 @@ padding-left: 0.7rem;
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
                         data-i18n="Notificaciones ">Notificaciones</span></a>
             </li>
+            <li class="{{#if reportes}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/reportes"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Reportes</span></a>
+            </li>
 
         </ul>
         {{#if disabled_chofer}} <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -585,8 +588,8 @@ padding-left: 0.7rem;
                     <div class="divider">
                         <div class="divider-text">Fecha Pedido</div>
                     </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
-                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control mb-2" 
+                    <div class="form-group mb-2"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
                             id="fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
                     </div>
                     <div class="divider">
@@ -959,15 +962,18 @@ padding-left: 0.7rem;
                     <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
                             type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
                             tabindex="9" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                            type="text" name="referencia" placeholder="Referencia"
-                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                    <div class="form-group">
+                        <label for="register-referencia" class="form-label">Referencia</label>
+                        <input type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="register-telefono" class="form-label">Teléfono</label>
                         <div class="input-group">
                             <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
                             </div>
                             <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                                aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" required>
+                                aria-describedby="register-telefono" tabindex="11" class="form-control" required>
                         </div>
                     </div>
                     <div class="divider">
@@ -982,7 +988,8 @@ padding-left: 0.7rem;
                             1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
                             aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
                     </div>
-                    <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del
+                    <div class="form-group mb-2">
+                        <label for="register-telefono_familiar_1" class="form-label">Teléfono del
                             familiar
                             1</label>
                         <div class="input-group">
@@ -990,7 +997,7 @@ padding-left: 0.7rem;
                             </div>
                             <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
                                 mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
-                                class="form-control mb-2">
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
@@ -1002,7 +1009,8 @@ padding-left: 0.7rem;
                             2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
                             aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
                     </div>
-                    <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del
+                    <div class="form-group mb-2">
+                        <label for="register-telefono_familiar_2" class="form-label">Teléfono del
                             familiar
                             2</label>
                         <div class="input-group">
@@ -1010,7 +1018,7 @@ padding-left: 0.7rem;
                             </div>
                             <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
                                 mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
-                                class="form-control mb-2">
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
@@ -1020,13 +1028,15 @@ padding-left: 0.7rem;
                             <option> Negocio </option>
                             <option> Punto de venta </option>
                         </select></div>
-                    <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                    <div class="form-group">
+                        <label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                             cliente?</label>
-                            
-                        <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
-                                name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
-                                class="custom-control-input me-1" value="SI"><label for="customCheck1"
-                                class="custom-control-label">Sí</label>
+
+                        <div class="custom-control custom-checkbox mb-1">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input me-1" type="checkbox" id="customCheck1" name="cliente_nuevo" value="SI">
+                                <label class="form-check-label" for="customCheck1">Sí</label>
+                            </div>
                         </div>
                     </div>
                                         <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
@@ -1037,7 +1047,7 @@ padding-left: 0.7rem;
                             <option value={{id}}> {{nombre}} </option>
                             {{/each}}
                         </select></div>
-                   <div class="form-group">
+                   <div class="form-group mb-2">
                   <label for="register-lastName" class="form-label">Etiqueta</label>
                   <select class="select2 form-select" id="color_tag_reg_cliente" name="color" >
                     <option selected="" value="0"> Seleccione una etiqueta </option>
@@ -1046,15 +1056,13 @@ padding-left: 0.7rem;
                     {{/each}}
                   </select>                
                 </div>
-                    <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                    <div class="form-group mb-2"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
                             último
-                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
-                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                            class="form-control mb-2"></div>
+                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023" class="form-control flatpickr-basic flatpickr-input"></div>
                     <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
                             garrafones
                             en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0"
-                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
+                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control"></div>
 
 
                 {{#if dash}}

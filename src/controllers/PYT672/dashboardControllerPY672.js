@@ -707,17 +707,123 @@ exports.historial = (req, res) => {
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
+    //console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
-    console.log(matriculas)
-    console.log("TODA LA MATRICULA")
+    /*console.log(matriculas)
+    console.log("TODA LA MATRICULA")*/
+    let arrString;
+
+    matriculas.forEach(element => {
+      let notas = {
+        leccion9: '',
+        leccion17: '',
+        leccion18: '',
+        leccion25: '',
+        leccion31: '',
+        leccion32: '',
+        participacion: '',
+        asistencias: ''
+      };
+
+      let lecciones = [9, 17, 18, 25, 31, 32];
+      lecciones.forEach((item, idx) => {
+        DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
+          let lecc = JSON.parse(leccion)[0];
+          /*console.log(lecc)
+          console.log("LECCION")
+          console.log(item)*/
+          
+          if(lecc !== undefined) {
+            if(idx === 0) {
+              notas.leccion9 = parseInt(lecc.nota);
+            } else if (idx === 1) {
+              notas.leccion17 = parseInt(lecc.nota);
+            } else if (idx === 2) {
+              notas.leccion18 = parseInt(lecc.nota);
+            } else if (idx === 3) {
+              notas.leccion25 = parseInt(lecc.nota);
+            } else if (idx === 4) {
+              notas.leccion31 = parseInt(lecc.nota);
+            } else if (idx === 5) {
+              notas.leccion32 = parseInt(lecc.nota);
+            }
+          } else {
+            if(idx === 0) {
+              notas.leccion9 = 0;
+            } else if (idx === 1) {
+              notas.leccion17 = 0;
+            } else if (idx === 2) {
+              notas.leccion18 = 0;
+            } else if (idx === 3) {
+              notas.leccion25 = 0;
+            } else if (idx === 4) {
+              notas.leccion31 = 0;
+            } else if (idx === 5) {
+              notas.leccion32 = 0;
+            }
+          }
+          
+            let final = Object.assign(element, notas);
+            /*console.log(final)
+            console.log("FINAL --------- !!!!!!")*/
+    
+            arrString = JSON.stringify(matriculas);
+            /*console.log(arrString)*/ 
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+  
+      });
+
+      DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
+        let participacion = JSON.parse(part)[0];
+        /*console.log(participacion)*/
+
+        if(participacion !== undefined) {
+          notas.participacion = parseInt(participacion.porcentaje);
+        } else {
+          notas.participacion = 0;
+        }
+
+        let final = Object.assign(element, notas);
+        /*console.log(final)*/
+
+        arrString = JSON.stringify(matriculas);
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+      DataBase.ObtenerTodasAsistenciaMatricula(element.grupoId, element.id).then((asist) => {
+        let asistencias = JSON.parse(asist);
+        /*console.log(asistencias)*/
+
+        if(asistencias !== undefined) {
+          notas.asistencias = parseInt(asistencias.length);
+        } else {
+          notas.asistencias = 0;
+        }
+
+        let final = Object.assign(element, notas);
+        /*console.log(final)*/
+
+        arrString = JSON.stringify(matriculas);
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    });
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
-      console.log(gruposDist)
+      //console.log(gruposDist)
       console.log("GRUPOS DISTINCTS")
       
       let arrGrupos = [];
@@ -725,12 +831,11 @@ exports.historial = (req, res) => {
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response4) => {
           let gruposFounds = JSON.parse(response4);
-          console.log(gruposFounds)
+          //console.log(gruposFounds)
           console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
             arrGrupos.push(found);
-            console.log("FOUND");
           });
 
         }).catch((err) => {
@@ -747,7 +852,7 @@ exports.historial = (req, res) => {
       py672: true,
       historial: true,
       gruposTodos,
-      response2,
+      arrString,
       arrGrupos
     });
   }).catch((err) => {
@@ -766,6 +871,8 @@ exports.historial = (req, res) => {
     return res.redirect("/error672/PYT-672");
   });
 };
+
+
 
 exports.error = (req, res) => {
   let msg = false;
@@ -1434,6 +1541,40 @@ exports.eliminarestudiantegrupo = (req, res) => {
       return res.redirect("/error672/PYT-672");
     });
   }
+};
+
+// * OBTENER PROVINCIAS, CANTON, DISTRITOS
+exports.obtenerdirecciones = (req, res) => {
+  let provincias, canton, distritos;
+
+  DataBase.ObtenerTodasProvincias().then((response) =>{
+    provincias = JSON.parse(response);
+    console.log(provincias)
+
+    DataBase.ObtenerTodosCanton().then((response2) =>{
+      canton = JSON.parse(response2);
+      console.log(canton)
+      
+      DataBase.ObtenerTodosDistritos().then((response3) =>{
+        distritos = JSON.parse(response3);
+        console.log(distritos)
+
+        return res.send({provincias, canton, distritos});
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
 };
 
 exports.sesionstart = (req, res) => {

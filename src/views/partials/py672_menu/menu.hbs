@@ -41,8 +41,8 @@
 
                                 <div class="list-item bg-white">
                                     <div class="list-item-body flex-grow-1">
-                                        <label class="form-label">Nombre completo</label>
-                                        <input type="text" class="form-control" id="basicInput" placeholder="Nombre completo" name="nombre" required>
+                                        <label class="form-label">Nombres</label>
+                                        <input type="text" class="form-control" id="basicInput" placeholder="Nombres" name="nombre" required>
                                     </div>
                                 </div>
 
@@ -145,7 +145,7 @@
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Provincia</label>
                                         <div class="position-relative">
-                                            <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" required>
+                                            <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" id="select-provincia" required>
                                                 <option value="">Seleccione una Provincia</option>
                                             </select>
                                         </div>
@@ -157,7 +157,7 @@
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Cantón</label>
                                         <div class="position-relative">
-                                            <select class="select2 form-select" tabindex="-1" name="canton" aria-hidden="true" required>
+                                            <select class="select2 form-select" id="select-canton" tabindex="-1" name="canton" aria-hidden="true" disabled required>
                                                 <option value="">Seleccione un Canton</option>
                                             </select>
                                         </div>
@@ -168,7 +168,7 @@
                                 <div class="list-item bg-white">
                                     <div class="list-item-body flex-grow-1">
                                         <label class="form-label" for="fp-default">Distrito</label>
-                                        <select class="select2 form-select" tabindex="-1" name="distrito" aria-hidden="true" required>
+                                        <select class="select2 form-select" id="select-distrito" tabindex="-1" name="distrito" aria-hidden="true" disabled required>
                                             <option value="">Seleccione un Distrito</option>
                                         </select>
                                         
@@ -238,7 +238,7 @@
             <li class="{{#if matric}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/matriculas/PYT-672">
                     <i data-feather='trending-up'></i>
-                    <span class="menu-title text-truncate">Matrícula</span>
+                    <span class="menu-title text-truncate">Alumnos</span>
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
