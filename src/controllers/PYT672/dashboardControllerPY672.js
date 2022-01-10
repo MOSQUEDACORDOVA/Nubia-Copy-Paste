@@ -70,13 +70,14 @@ exports.controlroles = (req, res) => {
 };*/
 exports.reguser = (req, res) => {
   console.log(req.body);
-  const { nombre, dni, email, pais, fechaN, puesto, password } = req.body;
+  let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  nombre = nombre + " " + apellidos;
   let msg = false;
-  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || puesto.trim() === '' || password.trim() === '') {
+  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
     return res.redirect('/usuarios672/PYT-672');
   } else {
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, puesto, password).then((respuesta) =>{
+    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password).then((respuesta) =>{
       return res.redirect('/usuarios672/PYT-672');
     }).catch((err) => {
       console.log(err)

@@ -56,7 +56,7 @@ const Usuarios = db672.define('usuarios', {
 	},
 	fecha_inicio: {
 		type: DataTypes.STRING(100),
-		allowNull: true,
+		allowNull: false,
 	}
 }, {
 	hooks: {

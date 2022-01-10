@@ -12,9 +12,9 @@ const Usuarios = require("../../models/PYT672/Usuarios");
 
 module.exports = {
     // * REGISTRO DE USUARIOS
-    RegUser(nombre, dni, email, pais, fechaN, puesto, password) {
+    RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password) {
       return new Promise((resolve, reject) => {
-      Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN,  password: password })
+      Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password })
         .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Usuario registrado con éxito');
