@@ -104,7 +104,7 @@ exports.login = (req, res) => {
 };
 
 // * VISTA RESTABLECER CONTRASEÁ
-exports.restablecercontraseña = (req, res) => {
+exports.restablecerpass = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
