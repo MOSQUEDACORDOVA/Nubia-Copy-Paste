@@ -73,6 +73,8 @@ function cargarTablaUsuarios(editada) {
                 let puesto = full.puesto;
                 if(puesto === "Vendedor") {
                     puesto = `<span class="badge badge-light-warning">${puesto}</span>`
+                } else if(puesto === "Administrador") {
+                    puesto = `<span class="badge badge-light-success">${puesto}</span>`
                 } else {
                     puesto = `<span class="badge badge-light-info">${puesto}</span>`
                 }
