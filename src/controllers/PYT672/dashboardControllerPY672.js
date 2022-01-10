@@ -923,7 +923,7 @@ exports.historial = (req, res) => {
   });
 };
 
-// * VISTA LOGIN
+// * MODULO USUARIOS
 exports.usuarios = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -936,6 +936,9 @@ exports.usuarios = (req, res) => {
     let gruposTodos = JSON.parse(response);
     //console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
+
+    DataBase.ObtenerTodosUsuarios().then((stringUsuarios) => {
+      let usuarios = JSON.parse(stringUsuarios);
     
     res.render(proyecto+"/admin/usuarios", {
       pageName: "Usuarios",
@@ -943,8 +946,15 @@ exports.usuarios = (req, res) => {
       dashboard: true,
       py672:true,
       usuarios: true,
-      gruposTodos
+      gruposTodos,
+      usuarios,
+      stringUsuarios
     });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

@@ -392,6 +392,19 @@ module.exports = {
           });
       });
     },
+    // * OBTENER TODOS LOS USUARIOS
+    ObtenerTodosUsuarios() {
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll()
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
     // * OBTENER ESTUDIANTES CON GRUPOS
     GruposYMatriculas() {
       return new Promise((resolve, reject) => {
