@@ -51,7 +51,7 @@ exports.controlroles = (req, res) => {
 };
 
 // * REGISTRO DE USUARIOS
-exports.reguser = (req, res) => {
+/*exports.reguser = (req, res) => {
   console.log(req.body);
   const { nombre, dni, email, pais, fechaN, puesto, password } = req.body;
   let msg = false;
@@ -61,6 +61,23 @@ exports.reguser = (req, res) => {
   } else {
     DataBase.RegUser(nombre, dni, email, pais, fechaN, puesto, password).then((respuesta) =>{
       res.redirect('/loginpy672/PYT-672')
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};*/
+exports.reguser = (req, res) => {
+  console.log(req.body);
+  const { nombre, dni, email, pais, fechaN, puesto, password } = req.body;
+  let msg = false;
+  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || puesto.trim() === '' || password.trim() === '') {
+    console.log('complete todos los campos')
+    return res.redirect('/usuarios672/PYT-672');
+  } else {
+    DataBase.RegUser(nombre, dni, email, pais, fechaN, puesto, password).then((respuesta) =>{
+      return res.redirect('/usuarios672/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -79,6 +96,23 @@ exports.login = (req, res) => {
   console.log(proyecto)
     res.render(proyecto+"/auth/login", {
       pageName: "Login",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      login: true,
+    })
+};
+
+// * VISTA RESTABLECER CONTRASEÁ
+exports.restablecercontraseña = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+    res.render(proyecto+"/auth/restablecerpass", {
+      pageName: "Restablecer Contraseña",
       dashboardPage: true,
       dashboard: true,
       py672:true,
@@ -881,6 +915,35 @@ exports.historial = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * VISTA LOGIN
+exports.usuarios = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    //console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+    
+    res.render(proyecto+"/admin/usuarios", {
+      pageName: "Usuarios",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      usuarios: true,
+      gruposTodos
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

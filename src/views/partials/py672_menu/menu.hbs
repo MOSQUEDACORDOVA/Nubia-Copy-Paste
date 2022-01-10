@@ -229,7 +229,7 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{#if role}}{{role}}{{else}}Administrador{{/if}}</span><i
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{#if role}}{{role}}{{else}}Dashboard{{/if}}</span><i
                     data-feather="more-horizontal"></i>
             {{#if roleUser}}
             <li class="{{#if board}}active{{/if}} nav-item">
@@ -267,6 +267,12 @@
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='dollar-sign'></i>
                     <span class="menu-title text-truncate">Caja</span>
+                </a>
+            </li>
+            <li class="{{#if usuarios}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/usuarios672/PYT-672">
+                    <i data-feather='users'></i>
+                    <span class="menu-title text-truncate">Usuarios</span>
                 </a>
             </li>
             {{!--<li class="{{#if calificaciones}}active{{/if}} nav-item">
