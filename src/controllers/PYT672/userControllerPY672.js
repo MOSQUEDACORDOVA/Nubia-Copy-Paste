@@ -30,6 +30,6 @@ exports.createUser = async (req, res) => {
 // Cerrar sesión
 exports.closeSesion = (req, res) => {
   req.session.destroy(() => {
-    res.redirect("/login27/PYT-27");
+    return res.redirect("/loginpy672/PYT-672");
   });
 };

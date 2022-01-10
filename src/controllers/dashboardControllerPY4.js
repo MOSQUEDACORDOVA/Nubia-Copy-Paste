@@ -155,7 +155,7 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                         if (!carga_let.length) {
                         console.log('sin carga inicial')
                       }
-console.log(clientes_arr)
+/*console.log(clientes_arr)*/
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -447,6 +447,43 @@ if (telefono_familiar_2 ==null) {
     return res.redirect("/errorpy4/" + msg);
   });
 }
+
+exports.ventasPorZonas =  (req, res) => {
+
+  DataBase.ObtenerVentasDistinct().then(async(respuesta) =>{
+    let ventasId = JSON.parse(respuesta);
+    let ventasGlobal = [], ventasZonas = [], ventasCanje = [], ventasRefil = [], ventasNuevo = [], ventasObsequio = []
+
+    console.log(ventasId)   
+    console.log("RESSS")
+    DataBase.PedidosAll().then(async(respuesta2) => {
+      let pedidos = JSON.parse(respuesta2)
+      let found = pedidos.filter((pedido) => pedido.status_pago === "Pagado" && pedido.status_pedido === "Entregado");
+      ventasGlobal.push(found)
+      console.log(found)
+      console.log(ventasZonas)
+      
+      // filtrar zonas
+      if(ventasId.length) {
+        //ventasZonas.push(found)
+  
+      }
+
+      return res.send({ventasGlobal})
+      
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/errorpy4/" + msg);
+  });
+}
+
 exports.save_cliente_cuponera =  (req, res) => {
   
   const { firstName,cp,asentamiento,lastName,ciudad,municipio, fraccionamiento,coto,casa, calle, avenida, referencia, telefono,  tipo_cliente,sucursal, email,color} = req.body
@@ -462,10 +499,7 @@ exports.save_cliente_cuponera =  (req, res) => {
         await DataBase.saveCupNotificacionClientNew('Nuevo cliente', '0','Se ha creado un nuevo cliente desde la cuponera', cliente_created.id)
         res.redirect('/log_cuponera/'+respuesta)
       }
-
-
-    
-
+      
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2553,7 +2587,7 @@ let count_clientes_cuponera = notifi_g.length
 
 // REPORTES
 exports.reportes = (req, res) => {
-  console.log(req.session.sucursal_select)
+  /*console.log(req.session.sucursal_select)*/
   //Push.create('Hello World!')
   let msg = false;
   let admin = false
@@ -2570,7 +2604,7 @@ exports.reportes = (req, res) => {
     dia = new Date()
   }
  let id_sucursal = req.session.sucursal_select
- console.log(req.session.tipo)
+ /*console.log(req.session.tipo)*/
   //DATA-COMUNES
   let ClientesDB = "", PedidosDB="", ChoferesDB="", obtenernotificaciones="", LastPedidosAll=""
   switch (req.session.tipo) {
@@ -2642,14 +2676,14 @@ obtenernotificaciones().then((notif_)=>{
                     let count_sin_pedido_nuevo = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
               notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
                 
-console.log(notif1_2.length)
+/*console.log(notif1_2.length)
 console.log(notif3_5.length)
 console.log(notif6_12.length)
 console.log(notifi_g.length)
 notif1_2 = JSON.stringify(notif1_2)
 notif3_5 = JSON.stringify(notif3_5)
 notif6_12  = JSON.stringify(notif6_12)
-notificacion_g = JSON.stringify(notificacion_g)
+notificacion_g = JSON.stringify(notificacion_g)*/
 let count_clientes_cuponera = notifi_g.length
     res.render("PYT-4/reportes", {
       pageName: "Bwater",

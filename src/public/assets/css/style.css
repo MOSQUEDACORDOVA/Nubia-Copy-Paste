@@ -1468,6 +1468,18 @@ table tr td {
     border-color: #7367f0 !important;
 }
 /*---------- py672 ----------*/
+.py672 .auth-img {
+    object-fit: contain;
+    max-width: 500px;
+}
+.py672 .auth-wrapper .brand-logo .brand-text {
+    font-weight: bold !important;
+}
+@media (min-width: 992px) {
+    .py672 .auth-box {
+        min-height: 100vh;
+    }
+}
 @media (min-width: 768px) {
     .py672 .dropdown-menu.drop-main-menu {
         width: 34rem;
