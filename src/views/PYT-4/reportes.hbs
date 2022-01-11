@@ -20,8 +20,6 @@ $(document).ready(function () {
 <input type="text" id="notif6_12" hidden value="{{notif6_12}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
-  <div class="content-overlay"></div>
-  <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
       <div class="content-body">
         <div class="row">
@@ -73,7 +71,7 @@ $(document).ready(function () {
                         <label class="form-check-label mb-1" for="clientesNuevos">Clientes Nuevos</label>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3">
+                  <div class="col-6 col-md-3 d-none">
                     <div class="btn-group">
                       <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#ventasGrap" id="btnVentasCol">Ventas</button>
                       <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
@@ -86,7 +84,7 @@ $(document).ready(function () {
               </div>
               <div class="card-body">
                 <div class="row justify-content-center">
-                  <div class="col-12 col-md-6 collapse show" id="ventasGrap">
+                  <div class="col-12 col-lg-8" id="ventasGrap">
                     <div id="chart"></div>
                   </div>
                   <div class="col-12 my-3 collapse" id="transferenciasGrap">
@@ -112,50 +110,73 @@ $(document).ready(function () {
 
   function CheckClearLoad() {
     if(document.readyState === "complete") {
-      fetch('/obtenerventasporzonas')
+      fetch('/obetenerdatosgeneralesreportes')
         .then(response => response.json())
         .then(data => {
-          let ventasG = data.ventasGlobal[0];
-          let totalVentas = 0;
-          console.log(data.ventasGlobal);
+          let pedidos = data.pedidos, transferencias = 0, deudores = 0, ventasG = data.ventasGlobal[0], clientes = data.clientes, clientesNuevos = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalGarraf = 0
+          console.log(data);
+
+          pedidos.forEach(pedido => {
+            if(pedido.metodo_pago === "Deposito" || pedido.metodo_pago === "Transferencia") {
+              transferencias++;
+            }
+            if(pedido.status_pago === "Por verificar" && pedido.status_pedido === "Entregado") {
+              deudores++;
+            }
+          });
 
           ventasG.forEach(venta => {
             totalVentas += parseInt(venta.monto_total);
-            console.log(parseInt(venta.monto_total))
+            console.log(parseInt(venta.monto_total));
+            totalGarraf += parseInt(venta.total_garrafones_pedido);
+            totalRefil += parseInt(venta.total_refill_pedido);
+            totalCanje += parseInt(venta.total_canje_pedido);
+          });
+
+          clientes.forEach(cliente => {
+            if(cliente.nuevo === "SI") {
+              clientesNuevos++;
+            }
           });
 
           optionsVentasChart = {
-              series: [totalVentas],
-              chart: {
-              width: 100 + '%',
+            series: [totalVentas, totalGarraf, totalRefil, clientesNuevos, totalCanje, transferencias, deudores],
+            chart: {
+              width: '90%',
               type: 'donut',
             },
-            labels: ['Ventas Globales'],
+            labels: ['T. Ventas', 'T. Garrafones Vendidos', 'T. Refil Vendidos', 'T. Canje Vendidos', 'T. Clientes Nuevos', 'T. Trasnferencias', 'T. Deudores'],
             dataLabels: {
               enabled: false,
               textAnchor: 'middle'
             },
             responsive: [{
-              breakpoint: 480,
+              breakpoint: 568,
               options: {
                 chart: {
-                  width: 200
+                  width: '100%'
                 },
-                legend: {
-                  show: false
-                }
-              }
+                /*plotOptions: {
+                  pie: {
+                    donut: {
+                      labels: {
+                        show: false,
+                      }
+                    },
+                  }
+                }*/
+              },
             }],
             legend: {
               position: 'top',
               offsetY: 0,
               height: 50,
             },
-              plotOptions: {
+            plotOptions: {
               pie: {
                 donut: {
                   labels: {
-                    //show: true,
+                    show: true,
                   }
                 },
               

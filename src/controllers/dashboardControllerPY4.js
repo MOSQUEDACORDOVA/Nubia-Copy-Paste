@@ -448,20 +448,25 @@ if (telefono_familiar_2 ==null) {
   });
 }
 
-exports.ventasPorZonas =  (req, res) => {
-
+exports.gerenalReportes =  (req, res) => {
+  
   DataBase.ObtenerVentasDistinct().then(async(respuesta) =>{
     let ventasId = JSON.parse(respuesta);
     let ventasGlobal = [], ventasZonas = [], ventasCanje = [], ventasRefil = [], ventasNuevo = [], ventasObsequio = []
 
-    console.log(ventasId)   
-    console.log("RESSS")
-    DataBase.PedidosAll().then(async(respuesta2) => {
-      let pedidos = JSON.parse(respuesta2)
-      let found = pedidos.filter((pedido) => pedido.status_pago === "Pagado" && pedido.status_pedido === "Entregado");
-      ventasGlobal.push(found)
-      console.log(found)
-      console.log(ventasZonas)
+    /*console.log(ventasId)   
+    console.log("RESSS")*/
+    
+    DataBase.ClientesAll().then(async(respuesta2) => {
+      let clientes = JSON.parse(respuesta2)
+      
+      DataBase.PedidosAll().then(async(respuesta3) => {
+        let pedidos = JSON.parse(respuesta3)
+        let found = pedidos.filter((pedido) => pedido.status_pago === "Pagado" && pedido.status_pedido === "Entregado");
+
+        ventasGlobal.push(found);
+        /*console.log(found)
+        console.log(ventasZonas)*/
       
       // filtrar zonas
       if(ventasId.length) {
@@ -469,8 +474,14 @@ exports.ventasPorZonas =  (req, res) => {
   
       }
 
-      return res.send({ventasGlobal})
+      return res.send({pedidos, ventasGlobal, clientes})
       
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/errorpy4/" + msg);
+      });
+
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
