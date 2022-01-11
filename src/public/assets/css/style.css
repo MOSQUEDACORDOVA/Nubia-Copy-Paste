@@ -247,6 +247,7 @@ table.dataTable>thead .sorting:before, table.dataTable>thead .sorting_asc:before
     max-height: 500px;
     overflow: auto;
 }
+
 /*--------------------------- PYT-21 ---------------------------*/
 .py21 .btn-primary, .btn-primary {
 	border-color: #7367f0 !important;
