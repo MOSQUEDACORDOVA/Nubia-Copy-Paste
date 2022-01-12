@@ -44,9 +44,6 @@ function cargarTablaUsuarios(editada) {
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
                 <a class="dropdown-item" href="#">
-                  Reasignar Grupo
-                </a>
-                <a class="dropdown-item" href="#">
                   Eliminar Grupo
                 </a>
               </div>
