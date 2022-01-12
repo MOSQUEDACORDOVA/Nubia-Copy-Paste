@@ -55,10 +55,10 @@ function cargarTablaMatricula(editada) {
             }
 
             let nombreEst = `
-            <div class="d-flex flex-column btnHistorialDetalles">
+            <div class="d-flex flex-column">
 
               <div class="d-flex align-items-center mb-1">
-                <span class="btnHistorialDetalles me-1" type="button" data-grupoid="${full['grupo']['id']}">${full['nombre']} ${full['primer_apellido']}</span>
+                <span class="me-1 btnHistorialDetalles" data-grupoid="${full['grupo']['id']}">${full['nombre']} ${full['primer_apellido']}</span>
 
                 <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Presente" data-consulta="presente" role="button">
                   1
