@@ -2,8 +2,12 @@
     .none {
         display: none;
     }
-    .d-flex .select2 {
-        max-width: 160px !important;
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #001871 !important;
+    }
+    .select2-selection__rendered {
+        color: #001871 !important;
+        font-weight: 500;
     }
     #home_modal .modal-dialog .list-group-item {
         border: none;
@@ -213,34 +217,36 @@ $(document).ready(function() {
                     </div>
                                         <div class="card-body">
                       
-                                <div class="col-md-10">
-                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
-                                    <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                        <select class="select2 form-select select_chofer_pedidos">
-                                           <option value="">Filtrar choferes</option>
-                                           <option value="">Ver Todo</option>
-                                           {{#each choferes_ as |chofer i|}}
-                                           <option >{{name}}</option>
-                                           {{/each}}
-                                        </select>
-                                        <span class="me-md-1"></span>
-                                        <select class="select2 form-select select_etiqueta_pedidos">
-                                           <option value="">Filtrar etiquetas</option>
-                                           <option value="">Ver Todo</option>
-                                           {{#each etiquetas_let as |etiqueta i|}}
-                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
-                                           {{/each}}
-                                       </select>
-                                       <span class="me-md-1"></span>
-                                       <div class="mb-0 ">
-                                      <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_chofer">Cambiar chofer</button>  
-                                      <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_copiar_varios">Copiar Varios</button>  
+                                <div class="col-12">
+                                    <div class="row m-0">
+                                        <div class="col-12">
+                                            <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                        </div>
+                                        <div class="col-6 col-lg-3">
+                                            <select class="select2 form-select select_chofer_pedidos bg-outline-primary-2">
+                                                <option value="">Filtrar choferes</option>
+                                                <option value="">Ver Todo</option>
+                                                {{#each choferes_ as |chofer i|}}
+                                                <option >{{name}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-6 col-lg-3">
+                                            <select class="select2 form-select select_etiqueta_pedidos bg-outline-primary-2">
+                                                <option value="">Filtrar etiquetas</option>
+                                                <option value="">Ver Todo</option>
+                                                {{#each etiquetas_let as |etiqueta i|}}
+                                                <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                        <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                            <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
+                                        </div>
+                                        <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                            <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                        </div>
                                     </div>
-                                    
-                                       
-                                    </div>
-                                    
                                 </div>
                     </div>
                     <div class="row">

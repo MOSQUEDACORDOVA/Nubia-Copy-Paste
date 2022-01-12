@@ -8,8 +8,22 @@ const Participacion = require("../../models/PYT672/Participacion");
 const Provincias = require("../../models/PYT672/Provincias");
 const Canton = require("../../models/PYT672/Canton");
 const Distritos = require("../../models/PYT672/Distritos");
+const Usuarios = require("../../models/PYT672/Usuarios");
 
 module.exports = {
+    // * REGISTRO DE USUARIOS
+    RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password) {
+      return new Promise((resolve, reject) => {
+      Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password })
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario registrado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
     // * CREAR GRUPOS ADMIN
     CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel) {
     return new Promise((resolve, reject) => {
@@ -369,6 +383,19 @@ module.exports = {
         Grupos.findAll({ where: {
           id: id
         }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER TODOS LOS USUARIOS
+    ObtenerTodosUsuarios() {
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll()
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);

@@ -9,94 +9,17 @@
 {{/if}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-  function ucwords(str, force) {
-    str = force ? str.toLowerCase() : str;
-    return str.replace(/(\b)([a-zA-Z])/g,
-      function (firstLetter) {
-        return firstLetter.toUpperCase();
-      });
-  }
-  $(document).ready(function () {
-    $('input[type="text"]').keyup(function (evt) { // force: true to lower case all letter except first 
-      // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
-      var cp_value = ucwords($(this).val(), true);
-      $(this).val(cp_value);
-    });
-     $('#btncuponera1').on('click', (e)=> {
-        Reset(1)
-    });
-    $('#btnsnpedido').on('click', (e)=> {
-        Reset(2);
-    });
-    $('#btndeudores').on('click', (e)=> {
-        Reset(3);
-    });
- $('#select_filter_notif').on('change', (e)=> {
-   console.log(e.target.value)
+$(document).ready(function () {
    
-    $('#notificacion-1_2').removeClass('show');
-        $('#notificacion-1_2').addClass('collpase');
-
-        $('#notificacion-3_5').removeClass('show');
-        $('#notificacion-3_5').addClass('collpase');
-
-        $('#notificacion-6_12').removeClass('show');
-        $('#notificacion-6_12').addClass('collpase');
-
-        
-        switch (e.target.value){
-            case '1':
-                $('#notificacion-1_2').removeClass('collpase');
-                $('#notificacion-1_2').addClass('show');
-            break;
-            case '2':
-                $('#notificacion-3_5').removeClass('collpase');
-                $('#notificacion-3_5').addClass('show');
-            break;
-            case '3':
-                $('#notificacion-6_12').addClass('show');
-                $('#notificacion-6_12').removeClass('collpase');
-            break;
-             
-        }
-    });
-    function Reset(num) {
-        $('#clientes_cuponera').removeClass('show');
-        $('#clientes_cuponera').addClass('collpase');
-
-        $('#sinpedido').removeClass('show');
-        $('#sinpedido').addClass('collpase');
-
-        $('#deudoresTable').removeClass('show');
-        $('#deudoresTable').addClass('collpase');
-
-        
-        switch (num){
-            case 1:
-                $('#clientes_cuponera').removeClass('collpase');
-                $('#clientes_cuponera').addClass('show');
-            break;
-            case 2:
-                $('#sinpedido').removeClass('collpase');
-                $('#sinpedido').addClass('show');
-            break;
-            case 3:
-                $('#deudoresTable').addClass('show');
-                $('#deudoresTable').removeClass('collpase');
-            break;
-             
-        }
-    }
-  });
+});
 </script>
+
 <input type="text" id="array_notif_" hidden value="{{notif_}}">
 <input type="text" id="notif1_2" hidden value="{{notif1_2}}">
 <input type="text" id="notif3_5" hidden value="{{notif3_5}}">
 <input type="text" id="notif6_12" hidden value="{{notif6_12}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
-  <div class="content-overlay"></div>
-  <div class="header-navbar-shadow"></div>
     <div class="content-wrapper">
       <div class="content-body">
         <div class="row">
@@ -148,11 +71,11 @@
                         <label class="form-check-label mb-1" for="clientesNuevos">Clientes Nuevos</label>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3">
+                  <div class="col-6 col-md-3 d-none">
                     <div class="btn-group">
-                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#ventasGrap" role="button" id="btnVentasCol">Ventas</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#transferenciasGrap" role="button" id="btnTransferenciasCol">Transferencias</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" href="#globalGrap" role="button" id="btnGlobalCol">Global</button>
+                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#ventasGrap" id="btnVentasCol">Ventas</button>
+                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
+                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
                     </div>
                   </div>
 
@@ -161,7 +84,7 @@
               </div>
               <div class="card-body">
                 <div class="row justify-content-center">
-                  <div class="col-12 col-md-6 collapse" id="ventasGrap">
+                  <div class="col-12 col-lg-8" id="ventasGrap">
                     <div id="chart"></div>
                   </div>
                   <div class="col-12 my-3 collapse" id="transferenciasGrap">
@@ -181,41 +104,124 @@
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
-  /*let btn = document.getElementById('btn')
 
-  btn.addEventListener('click', () => {
-    //reset()
-    chart.updateSeries(randomize())
-  });*/
+  let ventasChart;
+  let optionsVentasChart, interval;
 
-  let options = {
-      series: [44, 55, 13, 33],
-      chart: {
-      width: 100 + '%',
-      type: 'donut',
-    },
-    dataLabels: {
-      enabled: false
-    },
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: {
-          width: 200
-        },
-        legend: {
-          show: false
-        }
-      }
-    }],
-    legend: {
-      position: 'top',
-      offsetY: 0,
-      height: 50,
+  function CheckClearLoad() {
+    if(document.readyState === "complete") {
+      fetch('/obetenerdatosgeneralesreportes')
+        .then(response => response.json())
+        .then(data => {
+          let pedidos = data.pedidos, transferencias = 0, deudores = 0, ventasG = data.ventasGlobal[0], clientes = data.clientes, clientesNuevos = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalGarraf = 0
+          console.log(data);
+
+          pedidos.forEach(pedido => {
+            if(pedido.metodo_pago === "Deposito" || pedido.metodo_pago === "Transferencia") {
+              transferencias++;
+            }
+            if(pedido.status_pago === "Por verificar" && pedido.status_pedido === "Entregado") {
+              deudores++;
+            }
+          });
+
+          ventasG.forEach(venta => {
+            totalVentas += parseInt(venta.monto_total);
+            console.log(parseInt(venta.monto_total));
+            totalGarraf += parseInt(venta.total_garrafones_pedido);
+            totalRefil += parseInt(venta.total_refill_pedido);
+            totalCanje += parseInt(venta.total_canje_pedido);
+          });
+
+          clientes.forEach(cliente => {
+            if(cliente.nuevo === "SI") {
+              clientesNuevos++;
+            }
+          });
+
+          optionsVentasChart = {
+            series: [totalVentas, totalGarraf, totalRefil, clientesNuevos, totalCanje, transferencias, deudores],
+            chart: {
+              width: '90%',
+              type: 'donut',
+            },
+            labels: ['T. Ventas', 'T. Garrafones Vendidos', 'T. Refil Vendidos', 'T. Canje Vendidos', 'T. Clientes Nuevos', 'T. Trasnferencias', 'T. Deudores'],
+            dataLabels: {
+              enabled: false,
+              textAnchor: 'middle'
+            },
+            responsive: [{
+              breakpoint: 568,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                /*plotOptions: {
+                  pie: {
+                    donut: {
+                      labels: {
+                        show: false,
+                      }
+                    },
+                  }
+                }*/
+              },
+            }],
+            legend: {
+              position: 'top',
+              offsetY: 0,
+              height: 50,
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                  }
+                },
+              
+              }
+            }
+          };
+          
+          ventasChart = new ApexCharts(document.querySelector("#chart"), optionsVentasChart);
+          ventasChart.render();
+        });
+      clearInterval(interval)
     }
-  };
+  }
+
+  interval = setInterval(CheckClearLoad, 500);
+
+  //let chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
+  //let chart3 = new ApexCharts(document.querySelector("#chart3"), options);
+  //chart2.render();
+  //chart3.render();
+  //chart.updateSeries(appendData())
+
+  function reset() {
+    return optionsVentasChart.series
+  }
+
+  function appendData(total) {
+    let arr = chart.w.globals.series.slice()
+    arr.push(total)
+    return arr;
+  }
   
-  let options2 = {
+  function removeData() {
+    var arr = chart.w.globals.series.slice()
+    arr.pop()
+    return arr;
+  }
+  
+  function randomize() {
+    return chart.w.globals.series.map(function() {
+        return Math.floor(Math.random() * (100 - 1 + 1)) + 1
+    })
+  }
+
+  /*let options2 = {
     chart: {
       height: 400,
       type: 'bar',
@@ -260,35 +266,75 @@
         }
       }
     }
+  };*/
+  
+  // BAR GRAP
+  /*let columnChartEl = document.querySelector('#chart3'),
+  columnChartConfig = {
+    chart: {
+      height: 400,
+      type: 'bar',
+      stacked: true,
+      parentHeightOffset: 0,
+      toolbar: {
+        show: false
+      }
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '15%',
+        colors: {
+          backgroundBarColors: [
+            '#333'
+          ],
+          backgroundBarRadius: 10
+        }
+      }
+    },
+    dataLabels: {
+      enabled: false
+    },
+    legend: {
+      show: true,
+      position: 'top',
+      horizontalAlign: 'start'
+    },
+    colors: ['red'],
+    stroke: {
+      show: true,
+      colors: ['transparent']
+    },
+    grid: {
+      xaxis: {
+        lines: {
+          show: true
+        }
+      }
+    },
+    series: [
+      {
+        name: 'Apple',
+        data: [90, 120, 55, 100, 80, 125, 175, 70, 88, 180]
+      },
+      {
+        name: 'Samsung',
+        data: [85, 100, 30, 40, 95, 90, 30, 110, 62, 20]
+      }
+    ],
+    xaxis: {
+      categories: ['7/12', '8/12', '9/12', '10/12', '11/12', '12/12', '13/12', '14/12', '15/12', '16/12']
+    },
+    fill: {
+      opacity: 1
+    },
+    yaxis: {
+      //opposite: isRtl
+    }
   };
   
-  function appendData() {
-    var arr = chart.w.globals.series.slice()
-    arr.push(Math.floor(Math.random() * (100 - 1 + 1)) + 1)
-    return arr;
-  }
-  
-  function removeData() {
-    var arr = chart.w.globals.series.slice()
-    arr.pop()
-    return arr;
-  }
-  
-  function randomize() {
-    return chart.w.globals.series.map(function() {
-        return Math.floor(Math.random() * (100 - 1 + 1)) + 1
-    })
-  }
-  
-  function reset() {
-    return options.series
-  }
-
-  let chart = new ApexCharts(document.querySelector("#chart"), options);
-  let chart2 = new ApexCharts(document.querySelector("#chart2"), options2);
-  let chart3 = new ApexCharts(document.querySelector("#chart3"), options);
-  chart.render();
-  chart2.render();
-  chart3.render();
+  if (typeof columnChartEl !== undefined && columnChartEl !== null) {
+    var columnChart = new ApexCharts(columnChartEl, columnChartConfig);
+    columnChart.render();
+  }*/
 
 </script>

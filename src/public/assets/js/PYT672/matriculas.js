@@ -1,4 +1,4 @@
-var matriculaTable = $('.matricula');
+let matriculaTable = $('.matricula');
 
 function cargarTablaMatricula(editada) {
 

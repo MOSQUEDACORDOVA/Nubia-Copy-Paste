@@ -1,4 +1,4 @@
-const { Op, where } = require("sequelize");
+const { Op, where, Sequelize } = require("sequelize");
 const db = require("../../config/db");
 const bcrypt = require("bcrypt-nodejs");
 const Usuarios = require("../../models/PYT4/Usuarios");
@@ -2098,6 +2098,27 @@ clienteId:id_cliente
         }).catch((err) => {
           //console.log(err);
            reject(err)
+        });
+      });
+    },
+    ObtenerVentasDistinct() {
+      return new Promise((resolve, reject) => {
+        Pedidos.findAll({
+          attributes: [
+            // specify an array where the first element is the SQL function and the second is the alias
+            [Sequelize.fn('DISTINCT', Sequelize.col('sucursaleId')) ,'sucursaleId'],
+            // specify any additional columns, e.g. country_code
+            // 'country_code'
+          ],
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          console.log(data)
+          console.log("FOUND")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
         });
       });
     },
