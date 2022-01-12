@@ -37,8 +37,20 @@ function cargarTablaUsuarios(editada) {
           render: function (data, type, full, meta) {
             return `
             <div class="d-flex align-items-center">
-                <a href="#" class="btn btn-sm text-primary">${feather.icons['edit'].toSvg()}</a>
-                <a href="#" class="btn btn-sm ms-1 text-primary">${feather.icons['trash'].toSvg()}</a>
+              <a href="#" class="btn btn-sm ms-1 text-primary">${feather.icons['trash'].toSvg()}</a>
+              <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                ${feather.icons['more-vertical'].toSvg()}
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
+                <a class="dropdown-item" href="#">
+                  Reasignar Grupo
+                </a>
+                <a class="dropdown-item" href="#">
+                  Eliminar Grupo
+                </a>
+              </div>
+              
             </div>`;
           }
         },
