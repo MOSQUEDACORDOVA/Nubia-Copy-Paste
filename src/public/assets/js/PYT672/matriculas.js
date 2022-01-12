@@ -85,6 +85,9 @@ function cargarTablaMatricula(editada) {
                       ${feather.icons['more-vertical'].toSvg()}
                     </a>
                     <div class="dropdown-menu congelar-estudiante" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#createAppModal">
+                          Reasignar Grupo
+                        </a>
                         ${añadirGrupo}
                         ${congelado}
                     </div>
