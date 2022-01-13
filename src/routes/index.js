@@ -167,6 +167,7 @@ router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboa
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
+router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago_deudor);
 
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);

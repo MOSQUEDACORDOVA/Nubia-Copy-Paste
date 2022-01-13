@@ -74,6 +74,17 @@ Entregados_resumen=DataBase.entregados_resumen
      let count = clientes_arr.length
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_ = JSON.stringify(p)
 //COLOCAR AQUI QUE CUANDO EL PEDIDO TENGA EL STATUS REPROGRAMADO,Y SU FECHA SEA MAYOR A LA DE HOY, NO SE CARGE EN EL ARRAY pedidos_
 LastPedidosAll(id_sucursal).then((pedidos_g)=>{
   let pedidos_letG = JSON.parse(pedidos_g)
@@ -83,27 +94,27 @@ LastPedidosAll(id_sucursal).then((pedidos_g)=>{
 for (let i = 0; i < pedidos_letG.length; i++) {
 if (pedidos_letG[i].status_pedido == "Entregado") {
   if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-    let dia_pedido  = moment(pedidos_letG[i].createdAt)
+    let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
     duration = hoy.diff(dia_pedido, 'days');
       if (duration >=10 && duration < 20) {
         
-        notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+        notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
       }     
     }
     if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
-      let dia_pedido  = moment(pedidos_letG[i].createdAt)
+      let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
       duration = hoy.diff(dia_pedido, 'days');
         if (duration >=20 && duration < 30) {
  
-          notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+          notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
         }     
       }
       if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
-        let dia_pedido  = moment(pedidos_letG[i].createdAt)
+        let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
         duration = hoy.diff(dia_pedido, 'days');
           if (duration >=30) {
 
-            notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+            notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
           }     
         }
   }
@@ -313,6 +324,17 @@ exports.usuariosTable = (req, res) => {
      let count = clientes_arr.length
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_ = JSON.stringify(p)
        let count = pedidos_let.length
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
@@ -729,6 +751,17 @@ exports.regPedidoPy4 = (req, res) => {
     let id_sucursal = req.session.sucursal_select
    await PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_let = p
     let msg=respuesta
     return res.send({msg:msg, pedidos_let})
 
@@ -812,6 +845,17 @@ DataBase.PedidoById2(id_).then((pedidos_)=>{
    await PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
+    let reprogramado =''
+    let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+console.log(reprogramado)
+if (reprogramado) {
+  p.push(pedidos_let[i])
+}
+
+}
+pedidos_let = p
     return res.send({msg:msg, pedidos_let})
     // res.redirect('/homepy4/'+msg)
 
@@ -862,12 +906,24 @@ PedidosDB=DataBase.PedidosAllS
   console.log(fecha_rep)
   CambiaStatus(id_pedido,status, motivo,fecha_rep).then((respuesta) =>{
     PedidosDB(id_sucursal).then((pedidos_)=>{
+      let pedidos_let = JSON.parse(pedidos_)
       let hoy = moment()
       let forma_hoy = hoy.format('L')
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_let = p
       Carga_init(id_sucursal, forma_hoy).then(async (carga_)=>{
                     
         let carga_let = JSON.parse(carga_) 
-      let pedidos_let = JSON.parse(pedidos_)
+      
     let msg=respuesta
     return res.send({msg:msg, pedidos_let,carga_let})
     // res.redirect('/homepy4/'+msg)
@@ -899,9 +955,30 @@ exports.cambiachofer_pedido = async (req, res) => {
     await DataBase.cambiaChofer(split_id[i],chofer) 
   }
   let id_sucursal = req.session.sucursal_select
-    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+  let PedidosDB=""
+  switch (req.session.tipo) {
+    case "Director":
+     PedidosDB=DataBase.PedidosAll
+      break;
+  
+    default:
+PedidosDB=DataBase.PedidosAllS
+      break;
+  }
+  PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
     let msg='respuesta'
+    let reprogramado =''
+    let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+console.log(reprogramado)
+if (reprogramado) {
+  p.push(pedidos_let[i])
+}
+
+}
+pedidos_let = p
     return res.send({msg:msg, pedidos_let})
     // res.redirect('/homepy4/'+msg)
 
@@ -918,17 +995,61 @@ exports.cambia_S_pago = (req, res) => {
   const id_pedido = req.body.id
   const status = req.body.status
   let id_sucursal = req.session.sucursal_select
-
+  let PedidosDB=""
+  switch (req.session.tipo) {
+    case "Director":
+     PedidosDB=DataBase.PedidosAll
+      break;
+  
+    default:
+PedidosDB=DataBase.PedidosAllS
+      break;
+  }
   DataBase.CambiaStatusPago(id_pedido,status).then((respuesta) =>{
-    DataBase.PedidosAllS(id_sucursal).then((pedidos_)=>{
+    PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
     let msg=respuesta
+    let reprogramado =''
+    let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+console.log(reprogramado)
+if (reprogramado) {
+  p.push(pedidos_let[i])
+}
+
+}
+pedidos_let = p
     return res.send({msg:msg, pedidos_let})
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/errorpy4/" + msg);
   });
+}).catch((err) => {
+  console.log(err)
+  let msg = "Error en sistema";
+  return res.redirect("/errorpy4/" + msg);
+});
+};
+exports.cambia_S_pago_deudor = async (req, res) => {
+  
+  const user = res.locals.user
+  const id_pedido = req.body.id
+  const status = req.body.status
+  const tipo_pago = req.body.tipo_pago
+  var chofer_r = req.body.chofer_r
+  const fecha_pago = req.body.fecha_pago
+  let id_sucursal = req.session.sucursal_select
+if (chofer_r == "Null") {
+  chofer_r= null
+}
+const pago_deudor = await DataBase.agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago)
+  DataBase.CambiaStatusPago_deudor(id_pedido,status,tipo_pago).then((respuesta) =>{
+    let msg=respuesta
+    console.log(pago_deudor)
+
+    return res.send({msg:msg,})
 }).catch((err) => {
   console.log(err)
   let msg = "Error en sistema";
@@ -974,6 +1095,17 @@ exports.personal_table = (req, res) => {
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ = JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
        
@@ -1290,6 +1422,17 @@ exports.corte_table = (req, res) => {
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ = JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         PersonalDB(id_sucursal).then((personal_)=>{
@@ -1311,7 +1454,7 @@ exports.corte_table = (req, res) => {
             let garrafon19Larray, botella1Larr, garrafon11Larr, botella5Larr;
             let carga_inicial ="", arr_carga=[]
             for (let i = 0; i < pedidos_let.length; i++) {
-              fecha_created = pedidos_let[i].createdAt
+              fecha_created = pedidos_let[i].fecha_pedido
               let iguales = moment(fecha_created).isSame(dia, 'day'); // true
               if (iguales == true && pedidos_let[i].status_pedido == "Entregado") {
                 carga_inicial = JSON.parse(await DataBase.carga_init_corte(id_sucursal,pedidos_let[i].personalId))
@@ -1494,6 +1637,17 @@ exports.vehiculos_table = (req, res) => {
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ = JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)       
        
@@ -1655,6 +1809,17 @@ exports.sucursales = (req, res) => {
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ = JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         vehiculosAll(id_sucursal).then((vehiculos_)=>{
@@ -1823,6 +1988,17 @@ vehiculosAll=DataBase.vehiculosAllS
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ =JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         PersonalAll(id_sucursal).then((personal_)=>{
@@ -2127,6 +2303,17 @@ exports.getCupones = (req, res) => {
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
        let count = pedidos_let.length
+       let reprogramado =''
+       let p =[]
+ for (let i = 0; i < pedidos_let.length; i++) {  
+   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+   console.log(reprogramado)
+   if (reprogramado) {
+     p.push(pedidos_let[i])
+   }
+   
+ }
+ pedidos_ =JSON.stringify(p)
        ChoferesDB(id_sucursal).then((choferes)=>{
         let choferes_ = JSON.parse(choferes)
         vehiculosAll(id_sucursal).then((vehiculos_)=>{
@@ -2480,6 +2667,17 @@ LastPedidosAll=DataBase.LastPedidosAllS
      let count = clientes_arr.length
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_ = JSON.stringify(p)
 obtenernotificaciones().then((notif_)=>{
   let notifi_g = JSON.parse(notif_)
        ChoferesDB(id_sucursal).then((choferes)=>{
@@ -2497,42 +2695,51 @@ obtenernotificaciones().then((notif_)=>{
                     for (let i = 0; i < pedidos_letG.length; i++) {
                     if (pedidos_letG[i].status_pedido == "Entregado") {
                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                        let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                        let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                         duration = hoy.diff(dia_pedido, 'days');
                           if (duration >=10 && duration < 20) {
                             
-                            notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                            notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                           }     
                         }
                         if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
-                          let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                          let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                           duration = hoy.diff(dia_pedido, 'days');
                             if (duration >=20 && duration < 30) {
                      
-                              notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                              notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                             }     
                           }
                           if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
-                            let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                            let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                             duration = hoy.diff(dia_pedido, 'days');
                               if (duration >=30) {
                     
-                                notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                                notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                               }     
                             }
                       }
                       }
                     let count_sin_pedido_nuevo = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
               notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
-                
-console.log(notif1_2.length)
+     let pedidos_deudores = [] , fecha_final
+     for (let i = 0; i < pedidos_let.length; i++) {
+       fecha_final= moment(hoy).isSame(moment(pedidos_let[i].fecha_pedido), 'days'); // true
+        if (fecha_final == false && pedidos_let[i].status_pedido =="Entregado" && pedidos_let[i].status_pago =="Por verificar") {
+          pedidos_deudores.push(pedidos_let[i])
+        }
+       
+     }
+     let count_deudores = pedidos_deudores.length
+
 console.log(notif3_5.length)
 console.log(notif6_12.length)
-console.log(notifi_g.length)
+console.log(pedidos_deudores)
 notif1_2 = JSON.stringify(notif1_2)
 notif3_5 = JSON.stringify(notif3_5)
 notif6_12  = JSON.stringify(notif6_12)
 notificacion_g = JSON.stringify(notificacion_g)
+pedidos_deudores = JSON.stringify(pedidos_deudores)
 let count_clientes_cuponera = notifi_g.length
     res.render("PYT-4/notificaciones", {
       pageName: "Bwater",
@@ -2551,7 +2758,7 @@ let count_clientes_cuponera = notifi_g.length
       notif3_5,
       notif6_12,
       notificacion_g,count_clientes_cuponera,
-      count_sin_pedido_nuevo,
+      count_sin_pedido_nuevo,pedidos_deudores,count_deudores,choferes
     }) 
 }).catch((err) => {
   console.log(err)
@@ -2642,6 +2849,17 @@ LastPedidosAll=DataBase.LastPedidosAllS
      let count = clientes_arr.length
      PedidosDB(id_sucursal).then((pedidos_)=>{
       let pedidos_let = JSON.parse(pedidos_)
+      let reprogramado =''
+      let p =[]
+for (let i = 0; i < pedidos_let.length; i++) {  
+  reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
+  console.log(reprogramado)
+  if (reprogramado) {
+    p.push(pedidos_let[i])
+  }
+  
+}
+pedidos_ = JSON.stringify(p)
 obtenernotificaciones().then((notif_)=>{
   let notifi_g = JSON.parse(notif_)
        ChoferesDB(id_sucursal).then((choferes)=>{
@@ -2659,27 +2877,27 @@ obtenernotificaciones().then((notif_)=>{
                     for (let i = 0; i < pedidos_letG.length; i++) {
                     if (pedidos_letG[i].status_pedido == "Entregado") {
                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                        let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                        let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                         duration = hoy.diff(dia_pedido, 'days');
                           if (duration >=10 && duration < 20) {
                             
-                            notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                            notif1_2.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration, asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                           }     
                         }
                         if (pedidos_letG[i].total_garrafones_pedido >=3 && pedidos_letG[i].total_garrafones_pedido <=5) {
-                          let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                          let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                           duration = hoy.diff(dia_pedido, 'days');
                             if (duration >=20 && duration < 30) {
                      
-                              notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                              notif3_5.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                             }     
                           }
                           if (pedidos_letG[i].total_garrafones_pedido >=6 && pedidos_letG[i].total_garrafones_pedido <=12) {
-                            let dia_pedido  = moment(pedidos_letG[i].createdAt)
+                            let dia_pedido  = moment(pedidos_letG[i].fecha_pedido)
                             duration = hoy.diff(dia_pedido, 'days');
                               if (duration >=30) {
                     
-                                notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].createdAt, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
+                                notif6_12.push({id_pedido: pedidos_letG[i].id, total_g: pedidos_letG[i].total_garrafones_pedido,id_cliente:pedidos_letG[i].clienteId,nombre_cliente: pedidos_letG[i].cliente.firstName,apellido_cliente: pedidos_letG[i].cliente.lastName,fecha_:pedidos_letG[i].fecha_pedido, tiempo_desde: duration,asentamiento:pedidos_letG[i].cliente.cp.asentamiento})
                               }     
                             }
                       }

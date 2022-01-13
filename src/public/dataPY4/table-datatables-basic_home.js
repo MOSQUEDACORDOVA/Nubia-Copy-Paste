@@ -149,8 +149,12 @@ maxDate2 = new DateTime($('#max1'), {
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
   
       $('input', this).on('keyup change', function () {
+        let valor = (this.value).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        console.log(valor)
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
+        }else{
+          dt_basic.column(i).search(valor).draw();
         }
       });
     });
@@ -1471,8 +1475,7 @@ async function cambioPago(id, status) {
   })
   
   if (estado) {
-    //window.location.href = `/cambia_S_pago/${id}/${estado}`;
-    console.log(estado)   
+      
     const data_C = new FormData();
     data_C.append("id", id);
     data_C.append("status", estado);
@@ -1486,7 +1489,6 @@ async function cambioPago(id, status) {
       success: function (data, textStatus, jqXHR) {
   console.log(data)
   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  console.log($('#array_pedido').val())
   
   $('.datatables-basic').dataTable().fnDestroy();
   $('.datatables-basic').empty();

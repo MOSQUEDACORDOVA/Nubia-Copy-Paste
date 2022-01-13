@@ -17,6 +17,7 @@ const Used_cupons = require("../../models/PYT4/Used_cupons");
 const Notificaciones = require("../../models/PYT4/Notificaciones");
 const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 const Recargas = require("../../models/PYT4/Recargas");
+const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
 
 module.exports = {
@@ -686,7 +687,7 @@ console.log(hoy)
         });
     });
   },
-  CambiaStatusPago(id_pedido,status) {
+  CambiaStatusPago(id_pedido,status,tipo_pago) {
     return new Promise((resolve, reject) => {
         
       Pedidos.update(
@@ -696,6 +697,45 @@ console.log(hoy)
         }})
         .then((data) => {
           Last_p.update({ status_pago: status, deuda_anterior:0},{where:{pedidoId:id_pedido}})
+          let data_set = JSON.stringify(data);
+                       resolve(data_set);
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
+  CambiaStatusPago_deudor(id_pedido,status,tipo_pago) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          status_pago: status,metodo_pago:tipo_pago, deuda_anterior:0}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          Last_p.update({ status_pago: status,metodo_pago:tipo_pago, deuda_anterior:0},{where:{pedidoId:id_pedido}})
+          let data_set = JSON.stringify(data);
+                       resolve(data_set);
+            
+          //console.log(planes);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
+  agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago) {
+    return new Promise((resolve, reject) => {
+        
+      Pagos_deudores.create(
+        {fecha_pago:fecha_pago,
+          modo_pago:tipo_pago,pedidoId:id_pedido,personalId:chofer_r},)
+        .then((data) => {
           let data_set = JSON.stringify(data);
                        resolve(data_set);
             
