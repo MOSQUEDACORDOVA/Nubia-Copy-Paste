@@ -1486,6 +1486,9 @@ table tr td {
         width: 34rem;
     }
 }
+.py672 .btnHistorialDetalles {
+    cursor: pointer;
+}
 .py672 .text-primary {
     color: #7367f0 !important;
 }

@@ -763,8 +763,8 @@ exports.historial = (req, res) => {
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
-    /*console.log(matriculas)
-    console.log("TODA LA MATRICULA")*/
+    console.log(matriculas)
+    /*console.log("TODA LA MATRICULA")*/
     let arrString;
 
     matriculas.forEach(element => {
@@ -961,6 +961,58 @@ exports.usuarios = (req, res) => {
     return res.redirect("/error672/PYT-672");
   });
 };
+
+// * OBTENER LECCION ACTUAL DE GRUPO
+exports.obtenerGrupoLeccionActual = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  const { idGrupo } = req.body
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  console.log(idGrupo)
+
+  DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    let numLeccion;
+    console.log(grupo)
+    console.log("GRUPO ENCONTRADO")
+    
+    let fechaActual = moment().format("DD-MM-YYYY");
+
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+    let rest; 
+
+    if(grupo.lecciones_semanales === '1') {
+      if(diff < 0) {
+        rest = (224 - (-diff)) / 7; 
+      } else {
+        rest = (224 - (diff)) / 7; 
+      }
+    } else {
+      if(diff < 0) {
+        rest = (112 - (-diff)) / 3.5; 
+      } else {
+        rest = (112 - (diff)) / 3.5; 
+      }
+    }
+
+    numLeccion = (32 - Math.floor(rest));
+
+    return res.send({numLeccion});
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+
 
 
 

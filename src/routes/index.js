@@ -564,9 +564,12 @@ router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardCont
 // * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
-// ? POST --------------------!
+// ? POST -------------------------!
 // * CREAR GRUPOS
 router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
+// * OBTENER LECCION ACTUAL DE GRUPO
+router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
+
 // * ACTUALIZAR GRUPOS
 router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS

@@ -717,8 +717,8 @@ module.exports = {
         Provincias.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("PROVINCIAS")
+          /*console.log(data)
+          console.log("PROVINCIAS")*/
           resolve(data_p);
         })
         .catch((err) => {
@@ -731,8 +731,8 @@ module.exports = {
         Canton.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("CANTON")
+          /*console.log(data)
+          console.log("CANTON")*/
           resolve(data_p);
         })
         .catch((err) => {
@@ -745,8 +745,8 @@ module.exports = {
         Distritos.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("DISTRITOS")
+          /*console.log(data)
+          console.log("DISTRITOS")*/
           resolve(data_p);
         })
         .catch((err) => {
