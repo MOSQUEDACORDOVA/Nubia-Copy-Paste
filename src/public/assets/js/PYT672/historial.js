@@ -58,22 +58,22 @@ function cargarTablaMatricula(editada) {
             <div class="d-flex flex-column">
 
               <div class="d-flex align-items-center mb-1">
-                <span class="me-1 btnHistorialDetalles" data-grupoid="${full['grupo']['id']}">${full['nombre']} ${full['primer_apellido']}</span>
+                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']} ${full['primer_apellido']}</span>
 
                 <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Presente" data-consulta="presente" role="button">
-                  1
+                  ${full['asistencias']}
                 </div>
 
                 <div class="badge rounded-pill badge-light-danger me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Ausentes" data-consulta="ausentes" role="button">
-                  0
+                  ${full['ausentes']}
                 </div>
 
                 <div class="badge rounded-pill badge-light-info me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Nivel" data-consulta="nivel" role="button">
-                  2
+                  ${full['nivelActualGrupo']}
                 </div>
                
                 <div class="badge rounded-pill badge-light-warning me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Lección" data-consulta="leccion" role="button">
-                  7
+                  ${full['leccActual']}
                 </div>
               </div>
 
@@ -117,11 +117,11 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 1, render: function (data, type, full) {
-            let leccionesAusentes = parseFloat(full['asistencias'] * 3.125).toFixed(2);
+            let leccionesAusentes = parseFloat(full['ausentes'] * 3.125).toFixed(2);
             let total = parseFloat(100 - leccionesAusentes);
 
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" type="button" data-grupoid="${full['grupo']['id']}">
+            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chartPart${full['id']}"></div>
             </div>`;
@@ -155,7 +155,7 @@ function cargarTablaMatricula(editada) {
             let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
 
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" type="button" data-grupoid="${full['grupo']['id']}">
+            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chart${full['id']}"></div>
             </div>`;
@@ -273,41 +273,75 @@ $(function () {
   $('.even').addClass('selector'); 
   
   $('.btnHistorialDetalles').on('click', function (){
-    console.log(this.getAttribute('data-grupoid'));
-    let id = this.getAttribute('data-grupoid');
-    $('#btnHistorialDetalles').click();
-    /*$.ajax({
-      // la URL para la petición
-      url : '/obtenerGrupoLeccionActual',
+    let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = JSON.parse(this.getAttribute('data-lecciones-ausentes')), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion'));
   
-      // la información a enviar
-      // (también es posible utilizar una cadena de datos)
-      data : { idGrupo: id },
+    /*console.log(arrayLeccionesAusentes)
+    console.log(presentes)
+    console.log(idGrupo)
+    console.log(ausentes)
+    console.log(nivel)
+    console.log(leccion)*/
+    $('#tablaHistorialDetalles').html('');
+
+    let content = new DocumentFragment();
+
+    for (let num = 1; num <= leccion; num++) {
+      let row = document.createElement('tr'), td = '', calif = '-';
+      
+      if(arrayLeccionesAusentes.length) {
+        arrayLeccionesAusentes.forEach(item => {
+          if(num === parseInt(item.n_leccion)) {
+            console.log(parseInt(item.n_leccion))
+            console.log("SE ENCONTRO LA LECCION AUSENTE")
+            td += `
+              <tr>
+                <td>${num}</td>
+                <td>-</td>
+                <td>
+                    <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
+                </td>
+                <td>
+                    <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
+                </td>
+              </tr>
+            `;
+          } else {
+            td += `
+              <tr>
+                <td>${num}</td>
+                <td>-</td>
+                <td>
+                    <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                </td>
+                <td>
+                    <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
+                </td>
+              </tr>
+            `;
+          }
   
-      // especifica si será una petición POST o GET
-      type : 'POST',
-  
-      // el tipo de información que se espera de respuesta
-      dataType : 'json',
-  
-      // código a ejecutar si la petición es satisfactoria;
-      // la respuesta es pasada como argumento a la función
-      success : function(json) {
-          console.log(json)
-      },
-  
-      // código a ejecutar si la petición falla;
-      // son pasados como argumentos a la función
-      // el objeto de la petición en crudo y código de estatus de la petición
-      error : function(xhr, status) {
-          alert('Disculpe, existió un problema');
-      },
-  
-      // código a ejecutar sin importar si la petición falló o no
-      complete : function(xhr, status) {
-          alert('Petición realizada');
+        });
+      } else {
+        td += `
+          <tr>
+            <td>${num}</td>
+            <td>-</td>
+            <td>
+                <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+            </td>
+            <td>
+                <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
+            </td>
+          </tr>
+        `;
       }
-    });*/
+      row.innerHTML = td;
+      content.appendChild(row);
+    }
+
+    $('#tablaHistorialDetalles').append(content);
+
+    $('#btnHistorialDetalles').click();
 
   });
 

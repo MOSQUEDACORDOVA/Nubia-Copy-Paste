@@ -3,6 +3,16 @@
         <div class="content-body">
             <input class="d-none" value="{{arrString}}" id="arrayMatricula">
 
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
             <section class="row match-height">                 
                 <div class="col-6 col-md-4 mb-1">
                     <div class="input-group mb-2">
@@ -138,6 +148,8 @@
                 </div>
             </section>
 
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            
             <button class="btn btn-primary d-none" id="btnHistorialDetalles" data-bs-toggle="modal" data-bs-target="#createAppModal">Lanzar Modal</button>
 
             <div class="modal fade" id="createAppModal" tabindex="-1" aria-modal="true" role="dialog">
@@ -162,11 +174,11 @@
                                 <div class="col-12 col-lg-6 col-xl-5">
                                     <p class="fw-bolder mt-lg-1 mb-0">Nivel</p>
                                     <select name="" id="" class="form-select select2">
-                                        <option value="">Seleccione un Nivel</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
+                                        <option value="" selected>Seleccione un Nivel</option>
+                                        <option value="1" disabled>1</option>
+                                        <option value="2" disabled>2</option>
+                                        <option value="3" disabled>3</option>
+                                        <option value="4" disabled>4</option>
                                     </select>
 
                                     <p class="my-1"><span class="fw-bolder">Grupo:</span> C20210-1</p>
@@ -191,7 +203,7 @@
                                                     <th>Calificación</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="tablaHistorialDetalles">
                                                 <tr>
                                                     <td>2</td>
                                                     <td>2020/05/16</td>

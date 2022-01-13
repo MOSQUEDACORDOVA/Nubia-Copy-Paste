@@ -763,12 +763,14 @@ exports.historial = (req, res) => {
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
-    console.log(matriculas)
+    //console.log(matriculas)
     /*console.log("TODA LA MATRICULA")*/
     let arrString;
 
     matriculas.forEach(element => {
-      let notas = {
+      let userInfo = {
+        leccActual: 0,
+        nivelActualGrupo: 1,
         leccion9: '',
         leccion17: '',
         leccion18: '',
@@ -776,8 +778,130 @@ exports.historial = (req, res) => {
         leccion31: '',
         leccion32: '',
         participacion: '',
-        asistencias: ''
+        asistencias: 0,
+        ausentes: 0,
+        fechaLeccionesAusentes: ''
       };
+
+      DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
+        let grupo = JSON.parse(respuesta)[0]
+
+        let inicioGrupo = grupo.fecha_inicio;
+        let fechaActual = moment().format("DD-MM-YYYY");
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+        let iniciar = moment(iniciado).diff(moment(), 'days');
+
+        /*console.log(iniciado)
+        console.log(iniciar)
+        console.log("INCIAR DIAS DIFERENCIA")
+        //console.log(grupo)
+        //console.log("GRUPO ENCONTRADO")*/
+        
+        let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+        let rest; 
+
+        function EstablecerNivel () {  
+          let nivel1, nivel2, nivel3, nivel4;
+          switch (grupo.lecciones_semanales) {
+            case '1':
+              nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+      
+              /*console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("DESDE CERO")*/
+              break;
+  
+            case '2':
+              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+      
+              /*console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("INTENSIVO")*/
+            break;
+          }
+            
+          if (moment().isBefore(nivel2)) {
+            userInfo.nivelActualGrupo = 1
+            
+          } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
+            userInfo.nivelActualGrupo = 2
+            
+          } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
+            userInfo.nivelActualGrupo = 3
+            
+          } else if(moment().isAfter(nivel3)) {
+            userInfo.nivelActualGrupo = 4
+
+          }
+
+          if(grupo.lecciones_semanales === '1') {
+            if(diff < 0) {
+              rest = (224 - (-diff)) / 7; 
+            } else {
+              rest = (224 - (diff)) / 7; 
+            }
+          } else {
+            if(diff < 0) {
+              rest = (112 - (-diff)) / 3.5; 
+            } else {
+              rest = (112 - (diff)) / 3.5; 
+            }
+          }
+
+          if(userInfo.nivelActualGrupo === 1) {
+            rest = (224 - (-diff)) / 7; 
+          } else if (userInfo.nivelActualGrupo === 2) {
+            rest = (448 - (-diff)) / 14; 
+            console.log(rest)
+            console.log(userInfo.nivelActualGrupo)
+            console.log("NIVEL 2")
+          } else if (userInfo.nivelActualGrupo === 3) {
+            
+          } else if (userInfo.nivelActualGrupo === 4) {
+            
+          }
+          let numPositivo = Math.floor(rest);
+          /*if (numPositivo < 0) {
+            numPositivo = -(numPositivo)
+          }*/
+          userInfo.leccActual = -(32 - numPositivo);
+        }
+  
+        if (iniciar >= 1 || iniciar < 0) {
+          EstablecerNivel();
+        } 
+
+        
+
+        let final = Object.assign(element, userInfo);
+
+        /*console.log(fechaActual)
+        console.log(fechaInicio)
+        console.log(diff)
+        console.log(rest)
+
+        console.log(userInfo.leccActual)
+        console.log(final)
+        console.log("OBJETO FINAL")*/
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
 
       let lecciones = [9, 17, 18, 25, 31, 32];
       lecciones.forEach((item, idx) => {
@@ -789,35 +913,35 @@ exports.historial = (req, res) => {
           
           if(lecc !== undefined) {
             if(idx === 0) {
-              notas.leccion9 = parseInt(lecc.nota);
+              userInfo.leccion9 = parseInt(lecc.nota);
             } else if (idx === 1) {
-              notas.leccion17 = parseInt(lecc.nota);
+              userInfo.leccion17 = parseInt(lecc.nota);
             } else if (idx === 2) {
-              notas.leccion18 = parseInt(lecc.nota);
+              userInfo.leccion18 = parseInt(lecc.nota);
             } else if (idx === 3) {
-              notas.leccion25 = parseInt(lecc.nota);
+              userInfo.leccion25 = parseInt(lecc.nota);
             } else if (idx === 4) {
-              notas.leccion31 = parseInt(lecc.nota);
+              userInfo.leccion31 = parseInt(lecc.nota);
             } else if (idx === 5) {
-              notas.leccion32 = parseInt(lecc.nota);
+              userInfo.leccion32 = parseInt(lecc.nota);
             }
           } else {
             if(idx === 0) {
-              notas.leccion9 = 0;
+              userInfo.leccion9 = 0;
             } else if (idx === 1) {
-              notas.leccion17 = 0;
+              userInfo.leccion17 = 0;
             } else if (idx === 2) {
-              notas.leccion18 = 0;
+              userInfo.leccion18 = 0;
             } else if (idx === 3) {
-              notas.leccion25 = 0;
+              userInfo.leccion25 = 0;
             } else if (idx === 4) {
-              notas.leccion31 = 0;
+              userInfo.leccion31 = 0;
             } else if (idx === 5) {
-              notas.leccion32 = 0;
+              userInfo.leccion32 = 0;
             }
           }
           
-            let final = Object.assign(element, notas);
+            let final = Object.assign(element, userInfo);
             /*console.log(final)
             console.log("FINAL --------- !!!!!!")*/
     
@@ -836,12 +960,12 @@ exports.historial = (req, res) => {
         /*console.log(participacion)*/
 
         if(participacion !== undefined) {
-          notas.participacion = parseInt(participacion.porcentaje);
+          userInfo.participacion = parseInt(participacion.porcentaje);
         } else {
-          notas.participacion = 0;
+          userInfo.participacion = 0;
         }
 
-        let final = Object.assign(element, notas);
+        let final = Object.assign(element, userInfo);
         /*console.log(final)*/
 
         arrString = JSON.stringify(matriculas);
@@ -856,12 +980,15 @@ exports.historial = (req, res) => {
         /*console.log(asistencias)*/
 
         if(asistencias !== undefined) {
-          notas.asistencias = parseInt(asistencias.length);
+          userInfo.ausentes = parseInt(asistencias.length);
+          userInfo.fechaLeccionesAusentes = asist;
         } else {
-          notas.asistencias = 0;
+          userInfo.ausentes = 0;
         }
 
-        let final = Object.assign(element, notas);
+        userInfo.asistencias += userInfo.leccActual - userInfo.ausentes;
+
+        let final = Object.assign(element, userInfo);
         /*console.log(final)*/
 
         arrString = JSON.stringify(matriculas);
@@ -870,12 +997,13 @@ exports.historial = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
+            
     });
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
       //console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")
+      //console.log("GRUPOS DISTINCTS")
       
       let arrGrupos = [];
       
@@ -883,7 +1011,7 @@ exports.historial = (req, res) => {
         DataBase.BuscarGrupos(element.grupoId).then((response4) => {
           let gruposFounds = JSON.parse(response4);
           //console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")
+          //console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
             arrGrupos.push(found);
