@@ -30,6 +30,7 @@ function cargarTablaUsuarios(editada) {
         { data: 'puesto' },
         { data: 'fecha_nacimiento' },
         { data: 'fecha_inicio' },
+        { data: 'Vendedor' },
         {   // Actions
           targets: -1,
           title: 'Acciones',
@@ -107,6 +108,17 @@ function cargarTablaUsuarios(editada) {
                     inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
                 }
                 return inicio;
+            }
+        },
+        {
+            targets: 7, render: function (data, type, full) {
+                let vendedor = '<span class="badge badge-light-info">Sin Vendedor</span>';
+                /*if(inicio === null) {
+                    inicio = '<span class="badge badge-light-danger">No Establecida</span>'
+                } else {
+                    inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
+                }*/
+                return vendedor;
             }
         },
         

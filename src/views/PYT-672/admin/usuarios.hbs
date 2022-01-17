@@ -47,7 +47,7 @@
                                 <div id="DataTables_Table_0_wrapper" class="">
                                     <table class="datatables-basic table dataTable dtr-column usuarios" id="usuarios">
                                         <thead>
-                                            <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Nacimiento</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Inicio</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
+                                            <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Nacimiento</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Inicio</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Vendedor</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
                                         </thead>
                                         <tbody>
                                             <tr>
@@ -163,10 +163,6 @@
                                         <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Mosqueda">
                                     </div>
                                     <div class="col-md-6 mb-1">
-                                        <label class="form-label" for="apellidos">Apellidos</label>
-                                        <input type="text" name="apellidos" id="apellidos" class="form-control" placeholder="Cordova">
-                                    </div>
-                                    <div class="col-md-6 mb-1">
                                         <label class="form-label" for="dni">DNI</label>
                                         <input type="text" name="dni" id="dni" class="form-control">
                                     </div>
@@ -185,6 +181,13 @@
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="fechaI">Fecha de Inicio</label>
                                         <input type="text" name="fechaI" id="fechaI" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="YYYY-MM-DD">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="apellidos">Asignar Vendedor</label>
+                                        <select name="" id="" class="form-select select2">
+                                            <option value="">Seleccione un Vendedor</option>
+                                            <option value="">Isaac Mosqueda</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="">Puesto</label>

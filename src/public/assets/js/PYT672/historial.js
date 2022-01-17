@@ -58,7 +58,7 @@ function cargarTablaMatricula(editada) {
             <div class="d-flex flex-column">
 
               <div class="d-flex align-items-center mb-1">
-                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']} ${full['primer_apellido']}</span>
+                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']} ${full['primer_apellido']}</span>
 
                 <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Presente" data-consulta="presente" role="button">
                   ${full['asistencias']}
@@ -121,7 +121,7 @@ function cargarTablaMatricula(editada) {
             let total = parseFloat(100 - leccionesAusentes);
 
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
+            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chartPart${full['id']}"></div>
             </div>`;
@@ -155,7 +155,7 @@ function cargarTablaMatricula(editada) {
             let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
 
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
+            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chart${full['id']}"></div>
             </div>`;
@@ -272,55 +272,92 @@ $(function () {
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
   
-  $('.btnHistorialDetalles').on('click', function (){
-    let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = JSON.parse(this.getAttribute('data-lecciones-ausentes')), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion'));
-  
+  $('.btnHistorialDetalles').on('click', function () {
+    let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
+    
     /*console.log(arrayLeccionesAusentes)
     console.log(presentes)
     console.log(idGrupo)
     console.log(ausentes)
     console.log(nivel)
     console.log(leccion)*/
+    if(arrayLeccionesAusentes.includes("[{")) {
+      arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
+    }
+    /*console.log(notas)
+    if(notas.includes("[{")) {
+      notas = notas.split(';');
+    }
+    console.log(notas)*/
     $('#tablaHistorialDetalles').html('');
 
     let content = new DocumentFragment();
 
     for (let num = 1; num <= leccion; num++) {
-      let row = document.createElement('tr'), td = '', calif = '-';
+      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '';
+      
+      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+        calif = `<span class="badge rounded-pill badge-light-primary me-1">${notaLeccion}</span>`;
+      } else {
+        calif = `<span class="badge rounded-pill badge-light-info me-1">No contiene nota</span>`;
+      }
       
       if(arrayLeccionesAusentes.length) {
-        arrayLeccionesAusentes.forEach(item => {
-          if(num === parseInt(item.n_leccion)) {
-            console.log(parseInt(item.n_leccion))
-            console.log("SE ENCONTRO LA LECCION AUSENTE")
-            td += `
-              <tr>
-                <td>${num}</td>
-                <td>-</td>
-                <td>
-                    <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
-                </td>
-                <td>
-                    <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
-                </td>
-              </tr>
-            `;
-          } else {
-            td += `
-              <tr>
-                <td>${num}</td>
-                <td>-</td>
-                <td>
-                    <span class="badge rounded-pill badge-light-success me-1">Presente</span>
-                </td>
-                <td>
-                    <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
-                </td>
-              </tr>
-            `;
-          }
-  
-        });
+
+        let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+        //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+
+        if(result.length && parseInt(result[0].n_leccion) === num) {
+          console.log(result)
+          td += `
+            <tr>
+              <td>${num}</td>
+              <td>-</td>
+              <td>
+                  <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
+              </td>
+              <td>
+                  ${calif}
+              </td>
+              <td>          
+                <div class="btn-group">
+                  <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    ${feather.icons['folder'].toSvg()}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">C21105-1</a>
+                      <a class="dropdown-item" href="#">C21101-1</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          td += `
+            <tr>
+              <td>${num}</td>
+              <td>-</td>
+              <td>
+                  <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+              </td>
+              <td>
+                  ${calif}
+              </td>
+              <td>
+                <div class="btn-group">
+                  <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    ${feather.icons['folder'].toSvg()}
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">C21105-1</a>
+                      <a class="dropdown-item" href="#">C21101-1</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `;
+        }
+
       } else {
         td += `
           <tr>
@@ -330,7 +367,18 @@ $(function () {
                 <span class="badge rounded-pill badge-light-success me-1">Presente</span>
             </td>
             <td>
-                <span class="badge rounded-pill badge-light-warning me-1">${calif}</span>
+              ${calif}
+            </td>
+            <td>
+              <div class="btn-group">
+                <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  ${feather.icons['folder'].toSvg()}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="#">C21105-1</a>
+                    <a class="dropdown-item" href="#">C21101-1</a>
+                </div>
+              </div>
             </td>
           </tr>
         `;

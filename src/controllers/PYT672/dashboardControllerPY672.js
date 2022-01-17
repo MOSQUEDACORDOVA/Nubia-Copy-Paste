@@ -70,8 +70,8 @@ exports.controlroles = (req, res) => {
 };*/
 exports.reguser = (req, res) => {
   console.log(req.body);
-  let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
-  nombre = nombre + " " + apellidos;
+  let { nombre, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  
   let msg = false;
   if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
@@ -780,7 +780,8 @@ exports.historial = (req, res) => {
         participacion: '',
         asistencias: 0,
         ausentes: 0,
-        fechaLeccionesAusentes: ''
+        fechaLeccionesAusentes: '',
+        notas: ''
       };
 
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
@@ -817,7 +818,7 @@ exports.historial = (req, res) => {
               console.log(nivel4)
               console.log("DESDE CERO")*/
               break;
-  
+  /*OJO*/
             case '2':
               nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
               nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
@@ -848,43 +849,70 @@ exports.historial = (req, res) => {
           }
 
           if(grupo.lecciones_semanales === '1') {
-            if(diff < 0) {
-              rest = (224 - (-diff)) / 7; 
-            } else {
-              rest = (224 - (diff)) / 7; 
+            console.log("DESDE CERO")
+
+            if (userInfo.nivelActualGrupo === 1) {
+              if(diff < 0) {
+                rest = (224 - (-diff)) / 7; 
+              } else {
+                rest = (224 - (diff)) / 7; 
+              }
             }
+
+            if (userInfo.nivelActualGrupo === 2) {
+              if(diff < 0) {
+                rest = (448 - (-diff)) / 14; 
+              } else {
+                rest = (448 - (diff)) / 14; 
+              }
+              console.log(diff)
+              console.log(rest)
+              console.log("NIVEL 2")
+              /*console.log(rest)
+              console.log(userInfo.nivelActualGrupo)
+              console.log("NIVEL 2")*/
+            } else if (userInfo.nivelActualGrupo === 3) {
+              
+            } else if (userInfo.nivelActualGrupo === 4) {
+              
+            }
+
           } else {
-            if(diff < 0) {
-              rest = (112 - (-diff)) / 3.5; 
-            } else {
-              rest = (112 - (diff)) / 3.5; 
+            if (userInfo.nivelActualGrupo === 1) {
+              if(diff < 0) {
+                rest = (112 - (-diff)) / 3.5; 
+              } else {
+                rest = (112 - (diff)) / 3.5; 
+              }
+            }
+           
+            if (userInfo.nivelActualGrupo === 2) {
+              if(diff < 0) {
+                rest = (224 - (-diff)) / 7; 
+              } else {
+                rest = (224 - (diff)) / 7; 
+              }
+  
+            } else if (userInfo.nivelActualGrupo === 3) {
+              
+            } else if (userInfo.nivelActualGrupo === 4) {
+              
             }
           }
-
-          if(userInfo.nivelActualGrupo === 1) {
-            rest = (224 - (-diff)) / 7; 
-          } else if (userInfo.nivelActualGrupo === 2) {
-            rest = (448 - (-diff)) / 14; 
-            console.log(rest)
-            console.log(userInfo.nivelActualGrupo)
-            console.log("NIVEL 2")
-          } else if (userInfo.nivelActualGrupo === 3) {
-            
-          } else if (userInfo.nivelActualGrupo === 4) {
-            
+          if(rest < 0) {
+            rest = rest * (-1)
           }
           let numPositivo = Math.floor(rest);
-          /*if (numPositivo < 0) {
-            numPositivo = -(numPositivo)
-          }*/
-          userInfo.leccActual = -(32 - numPositivo);
+          console.log(grupo.identificador)
+          console.log(rest)
+          userInfo.leccActual = (32 - (numPositivo));
+
+          
         }
   
         if (iniciar >= 1 || iniciar < 0) {
           EstablecerNivel();
         } 
-
-        
 
         let final = Object.assign(element, userInfo);
 
@@ -903,15 +931,17 @@ exports.historial = (req, res) => {
         return res.redirect("/error672/PYT-672");
       });
 
-      let lecciones = [9, 17, 18, 25, 31, 32];
+      let lecciones = [9, 17, 18, 25, 31, 32], notasArr = '';
       lecciones.forEach((item, idx) => {
+        // CREAR CONSULTA QUE MUESTRA QUE ME TRAIGA TODAS LAS NOTAS 
         DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
           let lecc = JSON.parse(leccion)[0];
           /*console.log(lecc)
           console.log("LECCION")
           console.log(item)*/
-          
+
           if(lecc !== undefined) {
+            //notasArr += leccion + ';';
             if(idx === 0) {
               userInfo.leccion9 = parseInt(lecc.nota);
             } else if (idx === 1) {
@@ -941,19 +971,21 @@ exports.historial = (req, res) => {
             }
           }
           
-            let final = Object.assign(element, userInfo);
-            /*console.log(final)
-            console.log("FINAL --------- !!!!!!")*/
-    
-            arrString = JSON.stringify(matriculas);
-            /*console.log(arrString)*/ 
+          userInfo.notas = notasArr;
+          let final = Object.assign(element, userInfo);
+          /*console.log(userInfo)
+          console.log("FINAL ----- FINAL ---- !!!!!!")*/
+  
+          arrString = JSON.stringify(matriculas);
+          /*console.log(arrString)*/ 
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
           return res.redirect("/error672/PYT-672");
         });
-  
       });
+      
 
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];
@@ -980,8 +1012,15 @@ exports.historial = (req, res) => {
         /*console.log(asistencias)*/
 
         if(asistencias !== undefined) {
-          userInfo.ausentes = parseInt(asistencias.length);
-          userInfo.fechaLeccionesAusentes = asist;
+          // FILTRAR AUSENCIAS CON LA LECCION ACTUAL
+          let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
+          if(result.length) {
+            userInfo.ausentes = parseInt(result.length);
+            userInfo.fechaLeccionesAusentes = asist;
+          } else {
+            userInfo.ausentes = 0;
+            userInfo.fechaLeccionesAusentes = "";
+          }
         } else {
           userInfo.ausentes = 0;
         }

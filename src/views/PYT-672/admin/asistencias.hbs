@@ -43,7 +43,7 @@
 
                     <div class="col-12 p-0" id="filtrosDesdeCero">
                         <div class="row m-0 p-0">
-                            <div class="col-6 col-md-4 mb-1">
+                            <div class="col-5 col-md-4 mb-1">
                                 <label for="" class="form-label">Seleccionar Grupo</label>
                                 <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
@@ -55,7 +55,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-6 col-md-4 mb-1">
+                            <div class="col-5 col-md-4 mb-1">
                                 <label for="" class="form-label">Seleccionar Lección</label>
                                 <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
@@ -93,12 +93,29 @@
                                     <option value="32" disabled>32</option>
                                 </select>
                             </div>
+
+                            <div class="col-2 col-md-4 mb-1">
+                                <label for="" class="form-label">Nivel</label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-12 p-0 d-none" id="filtrosIntensivo">
                         <div class="row m-0 p-0">
-                            <div class="col-6 col-md-4 mb-1">
+                            <div class="col-5 col-md-4 mb-1">
                                 <label for="" class="form-label">Seleccionar Grupo</label>
                                 <select name="" id="" class="form-select select2 grupo">
                                     <option value="-">Seleccionar Grupo</option>
@@ -110,7 +127,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-6 col-md-4 mb-1">
+                            <div class="col-5 col-md-4 mb-1">
                                 <label for="" class="form-label">Seleccionar Lección</label>
                                 <select name="" id="" class="form-select select2 leccion">
                                     <option value="-">Seleccionar Lección</option>
@@ -148,11 +165,27 @@
                                     <option value="32" disabled>32</option>
                                 </select>
                             </div>
+
+                            <div class="col-2 col-md-4 mb-1">
+                                <label for="" class="form-label">Nivel</label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
                         </div>
                     </div>
 
                     <section class="row m-0 p-0" id="estudiantes"></section>
-
 
                     <template id="template">            
                         <div class="col-12">
