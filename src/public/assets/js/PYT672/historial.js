@@ -264,10 +264,10 @@ function cargarTablaMatricula(editada) {
     }
   }
 }
+cargarTablaMatricula();
 
 $(function () {
   'use strict';
-  cargarTablaMatricula()
  
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
