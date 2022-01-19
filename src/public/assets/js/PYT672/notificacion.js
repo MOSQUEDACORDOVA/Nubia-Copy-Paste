@@ -19,6 +19,7 @@ function Toast (notif) {
         toastHeaderText.classList.add('text-primary');
         toastHeaderText.innerText = 'Nota Guardada !';
         toastText.innerText = 'Estimado usuario, hemos guardado sus cambios correctamente';
+
     } else if (notif === "Participacion") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
@@ -30,12 +31,19 @@ function Toast (notif) {
         toastHeaderText.classList.add('text-primary');
         toastHeaderText.innerText = 'Asistencia Guardada !';
         toastText.innerText = 'Estimado usuario, hemos guardado sus cambios correctamente';
-
+        
     } else if (notif === "Error") {
         toastContainer.classList.add('bg-danger', 'text-white');
         toastHeaderText.classList.add('text-danger');
         toastHeaderText.innerText = 'Lo sentimos, algo ah ocurrido !';
         toastText.innerText = 'Estimado usuario, se presento un error al realizar la tarea';
+
+    } else if (notif === "Grupo Eliminado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Grupo Eliminado !';
+        toastText.innerText = 'Grupo Eliminado satisfactoriamente !';
+
     }
     btnToast.click();
 }

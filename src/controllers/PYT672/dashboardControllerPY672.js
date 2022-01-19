@@ -296,88 +296,89 @@ exports.grupos = (req, res) => {
           });
         }
 
+        let gruposApertura, stringAperturas;
         DataBase.ObtenerGruposEnApertura().then((response4) => {
-          let gruposApertura = JSON.parse(response4);
+          gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
 
-            if (gruposApertura.length) {
-              gruposApertura.forEach(obj => {
-                let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-                console.log(obj)
-                console.log("EACH")
-        
-                DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
-                  let find = JSON.parse(responseGrupos);
-                  console.log(find)
-                  console.log("FIND MATRICULA")
-                  
-                  find.forEach(item => {
-                    if(item.estado.id === 1) {
-                      numActivos += 1;
-                    } else if (item.estado.id === 2) {
-                      numIncorporados += 1;
-                    } else if (item.estado.id === 3) {
-                      numInscritos += 1;
-                    } else if (item.estado.id === 4) {
-                      numFusionados += 1;
-                    } else if (item.estado.id === 5) {
-                      numCongelados += 1;
-                    }
-                    numTotal += 1;
-                  });
-        
-                  let newObj = {}
-        
-                  matrActivos = {
-                    activos: numActivos
+          if (gruposApertura.length) {
+            gruposApertura.forEach(obj => {
+              let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+              console.log(obj)
+              console.log("EACH")
+      
+              DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+                let find = JSON.parse(responseGrupos);
+                console.log(find)
+                console.log("FIND MATRICULA")
+                
+                find.forEach(item => {
+                  if(item.estado.id === 1) {
+                    numActivos += 1;
+                  } else if (item.estado.id === 2) {
+                    numIncorporados += 1;
+                  } else if (item.estado.id === 3) {
+                    numInscritos += 1;
+                  } else if (item.estado.id === 4) {
+                    numFusionados += 1;
+                  } else if (item.estado.id === 5) {
+                    numCongelados += 1;
                   }
-                  matrIncorporados = {
-                    incorporados: numIncorporados
-                  }
-                  matrInscritos = {
-                    inscritos: numInscritos
-                  }
-                  matrFusionados = {
-                    fusionados: numFusionados
-                  }
-                  matrCongelados = {
-                    congelados: numCongelados
-                  }
-                  matrTotal = {
-                    total: numTotal
-                  }
-        
-                  Object.assign(newObj, matrActivos)
-                  Object.assign(newObj, matrIncorporados)
-                  Object.assign(newObj, matrInscritos)
-                  Object.assign(newObj, matrFusionados)
-                  Object.assign(newObj, matrCongelados)
-                  Object.assign(newObj, matrTotal)
-        
-                  let result = Object.assign(obj, newObj);
-        
-                  console.log(result)
-                  console.log("RESULT")
-        
-                }).catch((err) => {
-                  console.log(err)
-                  let msg = "Error en sistema";
-                  return res.redirect("/error672/PYT-672");
+                  numTotal += 1;
                 });
+      
+                let newObj = {}
+      
+                matrActivos = {
+                  activos: numActivos
+                }
+                matrIncorporados = {
+                  incorporados: numIncorporados
+                }
+                matrInscritos = {
+                  inscritos: numInscritos
+                }
+                matrFusionados = {
+                  fusionados: numFusionados
+                }
+                matrCongelados = {
+                  congelados: numCongelados
+                }
+                matrTotal = {
+                  total: numTotal
+                }
+      
+                Object.assign(newObj, matrActivos)
+                Object.assign(newObj, matrIncorporados)
+                Object.assign(newObj, matrInscritos)
+                Object.assign(newObj, matrFusionados)
+                Object.assign(newObj, matrCongelados)
+                Object.assign(newObj, matrTotal)
+      
+                let result = Object.assign(obj, newObj);
+                
+              }).catch((err) => {
+                console.log(err)
+                let msg = "Error en sistema";
+                return res.redirect("/error672/PYT-672");
               });
-            }
-    
+            });
+          }
+
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
       dashboardPage: true,
       dashboard: true,
       py672: true,
       grupos: true,
-      gruposApertura,
+      gruposTodos,
       gruposDesde0,
+      response2,
       gruposIntensivo,
-      gruposTodos
+      response3,
+      gruposApertura,
+      response4,
     });
   }).catch((err) => {
     console.log(err)
@@ -399,6 +400,266 @@ exports.grupos = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+};
+
+// * AJAX
+exports.obtenergruposapertura = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  var dataFinal;
+
+  DataBase.ObtenerGruposEnApertura().then(async (response) => {
+    let gruposApertura = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    //console.log(gruposApertura)
+    //console.log("EN APERTURA")
+    
+    for (let index = 0; index < gruposApertura.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposApertura[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposApertura[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposApertura.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    console.log(gruposArr2)
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+};
+
+// * AJAX
+exports.obtenergruposdesde0 = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let dataFinal;
+
+  DataBase.ObtenerGruposDesdeCero().then(async (response) => {
+    let gruposDesde0 = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    //console.log(gruposDesde0)
+    //console.log("DESDE CERO INICIADO")
+    
+    for (let index = 0; index < gruposDesde0.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposDesde0[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposDesde0[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposDesde0.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+};
+
+// * AJAX
+exports.obtenergruposintensivos = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let dataFinal;
+
+  DataBase.ObtenerGruposIntensivo().then(async (response) => {
+    let gruposIntensivo = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    console.log(gruposIntensivo)
+    console.log("INTENSIVOS INICIADOS")
+    
+    for (let index = 0; index < gruposIntensivo.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposIntensivo[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposIntensivo[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposIntensivo.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
 };
 
 // * VERIFICAR GRUPOS

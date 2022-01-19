@@ -264,9 +264,10 @@ function cargarTablaMatricula(editada) {
     }
   }
 }
-cargarTablaMatricula();
+
 
 $(function () {
+  cargarTablaMatricula();
   'use strict';
  
   $('.odd').addClass('selector');
