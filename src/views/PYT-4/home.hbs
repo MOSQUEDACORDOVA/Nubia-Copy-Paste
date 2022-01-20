@@ -49,11 +49,11 @@ $(document).ready(function() {
         $('#detail_monto .btn-close').click();
     });
 
-    $('#edit_pedido .modal-dialog').mouseleave(function(e) {
+    /*$('#edit_pedido .modal-dialog').mouseleave(function(e) {
         $('#edit_pedido').removeClass('show');
         $('#edit_pedido').addClass('fade');
         $('#edit_pedido .btn-close').click();
-    });
+    });*/
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -159,7 +159,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
                                             <div class="avatar-content">
@@ -215,40 +215,41 @@ $(document).ready(function() {
                             </div>
                         </form>
                     </div>
-                                        <div class="card-body">
-                      
+
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row m-0">
                                 <div class="col-12">
-                                    <div class="row m-0">
-                                        <div class="col-12">
-                                            <label class="form-label">Filtrar chofer ó etiqueta:</label>
-                                        </div>
-                                        <div class="col-6 col-lg-3">
-                                            <select class="select2 form-select select_chofer_pedidos bg-outline-primary-2">
-                                                <option value="">Filtrar choferes</option>
-                                                <option value="">Ver Todo</option>
-                                                {{#each choferes_ as |chofer i|}}
-                                                <option >{{name}}</option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
-                                        <div class="col-6 col-lg-3">
-                                            <select class="select2 form-select select_etiqueta_pedidos bg-outline-primary-2">
-                                                <option value="">Filtrar etiquetas</option>
-                                                <option value="">Ver Todo</option>
-                                                {{#each etiquetas_let as |etiqueta i|}}
-                                                <option style="background-color:{{color}};">{{etiquetas}}</option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
-                                        <div class="col-6 col-lg-3 mt-1 mt-lg-0">
-                                            <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
-                                        </div>
-                                        <div class="col-6 col-lg-3 mt-1 mt-lg-0">
-                                            <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
-                                        </div>
-                                    </div>
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                 </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_chofer_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar choferes</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <option >{{name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_etiqueta_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar etiquetas</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each etiquetas_let as |etiqueta i|}}
+                                        <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
@@ -561,7 +562,7 @@ $(document).ready(function() {
                         <div class="divider-text">Fecha Pedido</div>
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
-                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control mb-2" 
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input mb-2" 
                             id="edit_fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
                     </div>
                         <div class="divider">

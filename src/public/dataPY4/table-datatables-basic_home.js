@@ -147,9 +147,10 @@ maxDate2 = new DateTime($('#max1'), {
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
-  
       $('input', this).on('keyup change', function () {
-        let valor = (this.value).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        console.log(this.value)
+        let valor = this.value
+
         console.log(valor)
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
