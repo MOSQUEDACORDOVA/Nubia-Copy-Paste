@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const bcrypt = require('bcrypt-nodejs');
-const Paquetes = require('../../models/PYT24/Packages');
 const Depositos = require('../../models/PYT24/Depositos');
 
 // USUARIOS
