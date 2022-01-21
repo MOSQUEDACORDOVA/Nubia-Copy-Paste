@@ -17,16 +17,15 @@ const fileupload = require('express-fileupload');
 //var firebase = require("firebase/app");
 
 // Conectar con la base de datos
- db.sync()
+db.sync()
  	.then(() => {
  		console.log('Base de datos conectada');
  	})
  	.catch(err => {
  		console.log('Error: ', err);
  	});
-
 // Conectar con la base de datos PYT21
- db21.sync()
+db21.sync()
  	.then(() => {
  		console.log('Base de datos conectada PY21');
  	})
@@ -34,7 +33,6 @@ const fileupload = require('express-fileupload');
  		console.log('Error: ', err);
  	});
 
-require('./models/PYT21/Usuarios');
 // Conectar con la base de datos PYT24
 db24.sync()
 .then(() => {
@@ -43,6 +41,8 @@ db24.sync()
 .catch(err => {
 	console.log('Error: ', err);
 });
+require('./models/PYT24/Usuarios');
+
 // Conectar con la base de datos PYT27
 db27.sync()
 .then(() => {
