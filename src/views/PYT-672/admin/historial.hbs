@@ -3,6 +3,16 @@
         <div class="content-body">
             <input class="d-none" value="{{arrString}}" id="arrayMatricula">
 
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
             <section class="row match-height">                 
                 <div class="col-6 col-md-4 mb-1">
                     <div class="input-group mb-2">
@@ -129,7 +139,7 @@
                             <div id="DataTables_Table_0_wrapper" class="">
                                 <table class="datatables-basic table dataTable historial" id="historial">
                                     <thead>
-                                        <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Asistencia</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nota</th></tr>
+                                        <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Alumno</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Asistencias</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Notas</th></tr>
                                     </thead>
                                 </table>
                             </div>
@@ -138,6 +148,10 @@
                 </div>
             </section>
 
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            
+            <button class="btn btn-primary d-none" id="btnHistorialDetalles" data-bs-toggle="modal" data-bs-target="#createAppModal">Lanzar Modal</button>
+
             <div class="modal fade" id="createAppModal" tabindex="-1" aria-modal="true" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
@@ -145,328 +159,84 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body pb-3 px-sm-3">
-                            <h1 class="text-center mb-1" id="createAppTitle">Historial de Alumno</h1>
+                            <h1 class="text-center mb-3" id="createAppTitle">Historial de Alumno</h1>
                             {{!<p class="text-center mb-2">Provide application data with this form</p>}}
 
-                            <div class="bs-stepper vertical wizard-modern create-app-wizard">
-                                <div class="bs-stepper-header" role="tablist">
-                                    <div class="step active" data-target="#create-app-details" role="tab" id="create-app-details-trigger">
-                                        <button type="button" class="step-trigger py-75" aria-selected="true">
-                                            <span class="bs-stepper-box">
-                                                <i data-feather='book' class="feather feather-book font-medium-3"></i>
-                                            </span>
-                                            <span class="bs-stepper-label">
-                                                <span class="bs-stepper-title">Nivel 1</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div class="step" data-target="#create-app-frameworks" role="tab" id="create-app-frameworks-trigger">
-                                        <button type="button" class="step-trigger py-75" aria-selected="false">
-                                            <span class="bs-stepper-box">
-                                                <i data-feather='book' class="feather feather-book font-medium-3"></i>
-                                            </span>
-                                            <span class="bs-stepper-label">
-                                                <span class="bs-stepper-title">Nivel 2</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div class="step" data-target="#create-app-database" role="tab" id="create-app-database-trigger">
-                                        <button type="button" class="step-trigger py-75" aria-selected="false">
-                                            <span class="bs-stepper-box">
-                                                <i data-feather='book' class="feather feather-book font-medium-3"></i>
-                                            </span>
-                                            <span class="bs-stepper-label">
-                                                <span class="bs-stepper-title">Nivel 3</span>
-                                            </span>
-                                        </button>
-                                    </div>
-                                    <div class="step" data-target="#create-app-billing" role="tab" id="create-app-billing-trigger">
-                                        <button type="button" class="step-trigger py-75" aria-selected="false">
-                                            <span class="bs-stepper-box">
-                                                <i data-feather='book' class="feather feather-book font-medium-3"></i>
-                                            </span>
-                                            <span class="bs-stepper-label">
-                                                <span class="bs-stepper-title">Nivel 4</span>
-                                            </span>
-                                        </button>
-                                    </div>
+                            <div class="row mb-2 border-secondary rounded-1">
+                                <div class="col-12 col-lg-6 col-xl-7">
+                                    <p class="my-1"><span class="fw-bolder">Nombre:</span> Isaac Mosqueda</p>
+                                    <p class=""><span class="fw-bolder">DNI:</span> 20844051</p>
+                                    <p class=""><span class="fw-bolder">Teléfonos:</span> 65102651 - 161618 - 6154161</p>
+                                    <p class=""><span class="fw-bolder">Email:</span> moquedacordova@gmail.com</p>
                                 </div>
 
-                                <!-- content -->
-                                <div class="bs-stepper-content shadow-none">
-                                    <div id="create-app-details" class="content dstepper-block active" role="tabpanel" aria-labelledby="create-app-details-trigger">
-                                        <h5>Todas las Lecciones</h5>
+                                <div class="col-12 col-lg-6 col-xl-5">
+                                    <p class="fw-bolder mt-lg-1 mb-0">Nivel</p>
+                                    <select name="" id="" class="form-select select2">
+                                        <option value="1">1</option>
+                                        <option value="2" disabled>2</option>
+                                        <option value="3" disabled>3</option>
+                                        <option value="4" disabled>4</option>
+                                    </select>
 
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 1: </h6>
-                                                    <span class="badge badge-light-success ms-1">Presente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 2: </h6>
-                                                    <span class="badge badge-light-success ms-1">Presente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 3: </h6>
-                                                    <span class="badge badge-light-secondary ms-1">Ausente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 4: </h6>
-                                                    <span class="badge badge-light-secondary ms-1">Ausente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 5: </h6>
-                                                    <span class="badge badge-light-success ms-1">Presente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 6: </h6>
-                                                    <span class="badge badge-light-success ms-1">Presente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 7: </h6>
-                                                    <span class="badge badge-light-secondary ms-1">Ausente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 8: </h6>
-                                                    <span class="badge badge-light-secondary ms-1">Ausente</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Lección 9: </h6>
-                                                    <span class="badge badge-light-success mx-1">Presente</span>
-                                                    <h6 class="mb-0">Calificación: </h6>
-                                                    <span class="badge badge-light-primary ms-1">12%</span>
-                                                </div>
-                                            </li>
-                                            <li class="list-group-item px-0">
-                                                <div class="d-flex align-items-center">
-                                                    <h6 class="card-text mb-0">Calificación Total: </h6>
-                                                    <span class="badge badge-light-primary mx-1">12%</span>
-                                                    <h6 class="card-text mb-0 d-none">Participación: </h6>
-                                                    <span class="badge badge-light-info mx-1 d-none">5%</span>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                    <p class="my-1"><span class="fw-bolder">Grupo:</span> C20210-1</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                                        <p class="fw-bolder mb-0">Horario</p>
                                     </div>
+                                    <p class="emp_post">Lunes y Míercoles: 6:30pm a 9pm</p>
+                                        
+                                </div>
+                            </div>
 
-                                    <div id="create-app-frameworks" class="content dstepper-block" role="tabpanel" aria-labelledby="create-app-frameworks-trigger">
-                                        <h5>Select Framework</h5>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppReactNative" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-info me-1">
-                                                        <img src="../../../app-assets/images/icons/technology/react.png" height="25" alt="react">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">React Native</span>
-                                                            <span>Create truly native apps</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppReactNative" type="radio" name="frameworkRadio">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppAngular" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-danger me-1">
-                                                        <img src="../../../app-assets/images/icons/technology/angular.png" height="25" alt="angular">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">Angular</span>
-                                                            <span>Most suited to your application</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppAngular" type="radio" name="frameworkRadio" checked="">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppVue" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-success me-1">
-                                                        <img src="../../../app-assets/images/icons/technology/vue.png" height="25" alt="vue">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">Vue</span>
-                                                            <span>Progressive framework.</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppVue" type="radio" name="frameworkRadio">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppLaravel" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-warning me-1">
-                                                        <img src="../../../app-assets/images/icons/technology/laravel.png" height="25" alt="laravel">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">Laravel</span>
-                                                            <span>PHP web framework</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppLaravel" type="radio" name="frameworkRadio">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary btn-prev waves-effect waves-float waves-light">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left align-middle me-sm-25 me-0"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next waves-effect waves-float waves-light">
-                                                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right align-middle ms-sm-25 ms-0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="create-app-database" class="content dstepper-block" role="tabpanel" aria-labelledby="create-app-database-trigger">
-                                        <h5>Database Name</h5>
-
-                                        <input class="form-control" type="text" name="database" placeholder="app_database">
-
-                                        <h5 class="mt-2 pt-1">Select Database Engine</h5>
-                                        <ul class="list-group list-group-flush">
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppFirebase" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-danger me-1">
-                                                        <img src="../../../app-assets/images/icons/google.png" height="25" alt="google">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">Firebase</span>
-                                                            <span>Cloud Firestore</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppFirebase" type="radio" name="databaseRadio">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppDynamoDB" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-secondary me-1">
-                                                        <img src="../../../app-assets/images/icons/amazon.png" height="25" alt="amazon">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">DynamoDB</span>
-                                                            <span>Amazon Fast NoSQL Database</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppDynamoDB" type="radio" name="databaseRadio" checked="">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                            <li class="list-group-item border-0 px-0">
-                                                <label for="createAppMysql" class="d-flex cursor-pointer">
-                                                    <span class="avatar avatar-tag bg-light-info me-1">
-                                                        <img src="../../../app-assets/images/icons/database.png" height="25" alt="database">
-                                                    </span>
-                                                    <span class="d-flex align-items-center justify-content-between flex-grow-1">
-                                                        <span class="me-1">
-                                                            <span class="h5 d-block fw-bolder">MySQL</span>
-                                                            <span>Basic MySQL database</span>
-                                                        </span>
-                                                        <span>
-                                                            <input class="form-check-input" id="createAppMysql" type="radio" name="databaseRadio">
-                                                        </span>
-                                                    </span>
-                                                </label>
-                                            </li>
-                                        </ul>
-                                        <div class="d-flex justify-content-between mt-2">
-                                            <button class="btn btn-primary btn-prev waves-effect waves-float waves-light">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left align-middle me-sm-25 me-0"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next waves-effect waves-float waves-light">
-                                                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right align-middle ms-sm-25 ms-0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div id="create-app-billing" class="content dstepper-block" role="tabpanel" aria-labelledby="create-app-billing-trigger">
-                                        <h5 class="mb-1">Category</h5>
-
-                                        <!-- form -->
-                                        <form id="createAppBillingForm" class="row gy-1 gx-2" onsubmit="return false">
-                                            <div class="col-12">
-                                                <label class="form-label" for="cardNumberBilling">Card Number</label>
-                                                <div class="input-group input-group-merge">
-                                                    <input id="cardNumberBilling" name="cardNumberBillingModal" class="form-control create-app-card-mask" type="text" value="5637817212901451" placeholder="1356 3215 6548 7898" aria-describedby="cardNumberBillingModal1">
-                                                    <span class="input-group-text cursor-pointer p-25" id="cardNumberBillingModal1">
-                                                        <span class="credit-app-card-type"><img src="../../../app-assets/images/icons/payments/maestro-cc.png" height="24"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="nameOnCardBilling">Name On Card</label>
-                                                <input type="text" id="nameOnCardBilling" class="form-control" placeholder="John Doe">
-                                            </div>
-
-                                            <div class="col-6 col-md-3">
-                                                <label class="form-label" for="expDateBilling">Exp. Date</label>
-                                                <input type="text" id="expDateBilling" class="form-control create-app-expiry-date-mask" placeholder="MM/YY">
-                                            </div>
-
-                                            <div class="col-6 col-md-3">
-                                                <label class="form-label" for="cvvBilling">CVV</label>
-                                                <input type="text" id="cvvBilling" class="form-control create-app-cvv-code-mask" maxlength="3" placeholder="654">
-                                            </div>
-
-                                            <div class="col-12">
-                                                <div class="d-flex align-items-center">
-                                                    <div class="form-check form-switch form-check-primary me-25">
-                                                        <input type="checkbox" class="form-check-input" id="saveCardBilling" checked="">
-                                                        <label class="form-check-label" for="saveCardBilling">
-                                                            <span class="switch-icon-left"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
-                                                            <span class="switch-icon-right"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></span>
-                                                        </label>
-                                                    </div>
-                                                    <label class="form-check-label fw-bolder" for="saveCardBilling">
-                                                        Save Card for future billing?
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        <div class="d-flex justify-content-between mt-5 pt-1">
-                                            <button class="btn btn-primary btn-prev waves-effect waves-float waves-light">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left align-middle me-sm-25 me-0"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                                                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                            </button>
-                                            <button class="btn btn-primary btn-next waves-effect waves-float waves-light">
-                                                <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right align-middle ms-sm-25 ms-0"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                                            </button>
-                                        </div>
+                            <div class="row m-0">
+                                <div class="col-12 p-0">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Lección</th>
+                                                    <th>Fecha</th>
+                                                    <th>Asistencia</th>
+                                                    <th>Calificación</th>
+                                                    <th>Reasignaciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tablaHistorialDetalles">
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>2020/05/16</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-warning me-1">Sin calificación</span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>9</td>
+                                                    <td>2022/01/08</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-primary me-1">15%</span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>25</td>
+                                                    <td>2021/03/01</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-primary me-1">0%</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>

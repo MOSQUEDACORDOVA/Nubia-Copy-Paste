@@ -167,6 +167,7 @@ router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboa
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
+router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago_deudor);
 
 
 router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
@@ -555,6 +556,10 @@ router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardCo
 router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
+router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
+router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
+router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
+
 // TODO: USUARIOS
 router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.boardUser);
 
@@ -563,9 +568,12 @@ router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardCont
 // * STATICS
 router.get('/error672/:id', dashboardControllerPY672.error);
 
-// ? POST --------------------!
+// ? POST -------------------------!
 // * CREAR GRUPOS
 router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
+// * OBTENER LECCION ACTUAL DE GRUPO
+//router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
+
 // * ACTUALIZAR GRUPOS
 router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS

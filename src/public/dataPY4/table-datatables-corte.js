@@ -1976,7 +1976,6 @@ $('.totalefectivoF').text(total)
     var nombre = triggerLink.data("nombre");
     var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#pedidos_corteGral').dataTable().fnDestroy();
  $('#pedidos_corteGral').empty();

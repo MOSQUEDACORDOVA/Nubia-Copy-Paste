@@ -13,7 +13,7 @@
                                         <div id="DataTables_Table_0_wrapper" class="">
                                             <table class="datatables-basic table dataTable dtr-column matricula" id="matricula">
                                                 <thead>
-                                                    <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
+                                                    <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Grupo</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Vendedor</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Estado</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
                                                 </thead>
                                             </table>
                                         </div>
@@ -25,6 +25,114 @@
                     <!--/ Basic table -->
                 </div>
             </section>
+
+            <button class="btn btn-primary d-none" id="btnHistorialDetalles" data-bs-toggle="modal" data-bs-target="#createAppModal">Lanzar Modal</button>
+
+            <div class="modal fade" id="createAppModal" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-3 px-sm-3">
+                            <h1 class="text-center mb-3" id="createAppTitle">Detalles del Alumno</h1>
+                            {{!<p class="text-center mb-2">Provide application data with this form</p>}}
+
+                            <div class="row mb-2 border-secondary rounded-1">
+                                <div class="col-12 col-lg-6 col-xl-7">
+                                    <p class="my-1"><span class="fw-bolder">Nombre:</span> Isaac Mosqueda</p>
+                                    <p class=""><span class="fw-bolder">DNI:</span> 20844051</p>
+                                    <p class=""><span class="fw-bolder">Fecha de Nacimiento:</span> 1996/06/20</p>
+                                    <p class=""><span class="fw-bolder">Teléfonos:</span> 65102651 - 161618 - 6154161</p>
+                                    <p class=""><span class="fw-bolder">Email:</span> moquedacordova@gmail.com</p>
+                                </div>
+
+                                <div class="col-12 col-lg-6 col-xl-5">
+                                    <p class="fw-bolder mt-lg-1 mb-0">Nivel</p>
+                                    <select name="" id="" class="form-select select2">
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+
+                                    <p class="my-1"><span class="fw-bolder">Grupo:</span> C20210-1</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                                        <p class="fw-bolder mb-0">Horario</p>
+                                    </div>
+                                    <p class="emp_post">Lunes y Míercoles: 6:30pm a 9pm</p>
+                                </div>
+
+                            </div>
+
+                            <div class="row m-0">
+                                <div class="col-12 p-0">
+                                    <p class="fw-bolder mb-0">Grupos disponibles para reasignar</p>
+                                    <select name="" id="" class="form-select select2">
+                                        <option value="">Grupos Disponibles</option>
+                                        <option value="">I21102-1</option>
+                                        <option value="">C21105-1</option>
+                                        <option value="">C21102-1</option>
+                                        <option value="">C21101-1</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-12 p-0 d-none">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Lección</th>
+                                                    <th>Fecha</th>
+                                                    <th>Asistencia</th>
+                                                    <th>Calificación</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>2020/05/16</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-warning me-1">Sin calificación</span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>9</td>
+                                                    <td>2022/01/08</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-primary me-1">15%</span>
+                                                    </td>
+                                                </tr>
+                                                
+                                                <tr>
+                                                    <td>25</td>
+                                                    <td>2021/03/01</td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
+                                                    </td>
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-primary me-1">0%</span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

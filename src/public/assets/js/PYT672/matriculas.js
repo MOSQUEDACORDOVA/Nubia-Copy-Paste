@@ -26,6 +26,7 @@ function cargarTablaMatricula(editada) {
         { data: 'nombre' },
         { data: 'email' }, // used for sorting so will hide this column
         { data: 'grupoId' },
+        { data: 'vendedores' },
         { data: 'estado' },
         {   // Actions
           targets: -1,
@@ -85,6 +86,9 @@ function cargarTablaMatricula(editada) {
                       ${feather.icons['more-vertical'].toSvg()}
                     </a>
                     <div class="dropdown-menu congelar-estudiante" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#createAppModal">
+                          Reasignar Grupo
+                        </a>
                         ${añadirGrupo}
                         ${congelado}
                     </div>
@@ -121,7 +125,18 @@ function cargarTablaMatricula(editada) {
             }
         },
         {
-            targets: 3, render: function (data, type, full) {
+          targets: 3, render: function (data, type, full) {
+              let vendedor = '<span class="badge badge-light-info">Sin Vendedor</span>';
+              /*if(inicio === null) {
+                  inicio = '<span class="badge badge-light-danger">No Establecida</span>'
+              } else {
+                  inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
+              }*/
+              return vendedor;
+          }
+        },
+        {
+            targets: 4, render: function (data, type, full) {
               let micampo;
               if(full['estado']['id'] === 1) {
                 micampo = `

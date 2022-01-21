@@ -135,6 +135,7 @@
       {{#if notificaciones}}   
     <script src="../../../dataPY4/table-datatables-notificaciones.js"></script>  
     <script src="../../../dataPY4/table-datatables-seguimiento.js"></script> 
+     <script src="../../../dataPY4/table-datatables-deudores.js"></script> 
     {{/if}}
      {{#if personal}}    
      
@@ -265,6 +266,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
         <script src="../../../app-assets/js/scripts/components/components-bs-toast.js"></script>
         <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        {{!NOTIFICACION}}
+        <script src="../../assets/js/PYT672/notificacion.js"></script>
+        {{!DIRECCIONES REGISTRO MATRICULAS
+        <script src="../../assets/js/PYT672/menu-registro.js"></script>}}
+        {{!GRUPOS}}
+        {{#if grupos}}
+        <script src="../../assets/js/PYT672/grupos.js"></script>
+        {{/if}}
         {{! MATRICULA}}
         {{#if matric}}
         <script src="../../assets/js/PYT672/matriculas.js"></script>
@@ -277,7 +286,6 @@
         {{#if usuarios}}
         <script src="../../assets/js/PYT672/usuarios.js"></script>
         {{/if}}
-        <script src="../../assets/js/PYT672/menu-registro.js"></script>
     {{/if}}
 
     <script>
