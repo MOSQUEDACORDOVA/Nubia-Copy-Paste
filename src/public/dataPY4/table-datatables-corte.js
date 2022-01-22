@@ -447,7 +447,7 @@ let ArrayGral = Object.entries(Newcorte2);
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
   var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,descuentos=0,resdescuentos=0,subtotal=0,total=0;
-  $('.depositos').each(function(){
+  dt_Gral_t.$('.depositos').each(function(){
     if ($(this).text() == "-" || $(this).text() == "0") {
       subDepositos;
       cantDepositos
@@ -456,21 +456,21 @@ let ArrayGral = Object.entries(Newcorte2);
       cantDepositos++
     }    
 });
-  $('.efectivo').each(function(){
+dt_Gral_t.$('.efectivo').each(function(){
     if ($(this).text() == "-") {
       subefectivo
     }else{
       subefectivo += parseFloat($(this).text());
     }    
 });
-$('.deuda').each(function(){
+dt_Gral_t.$('.deuda').each(function(){
   if ($(this).text() == "-") {
     subadeudo
   }else{
         subadeudo += parseFloat($(this).text());
   }    
 });
-$('.descuento').each(function(){
+dt_Gral_t.$('.descuento').each(function(){
   if ($(this).text() == "-") {
     resdescuentos
   }else{
@@ -478,7 +478,7 @@ $('.descuento').each(function(){
   }    
 });
 let resDpositos = 0, resEfectivo = 0, resDeuda = 0, rescantDepositos=0
-$('tr.d-none .depositos').each(function(){
+dt_Gral_t.$('tr.d-none .depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     resDpositos;
     rescantDepositos
@@ -487,21 +487,21 @@ $('tr.d-none .depositos').each(function(){
     rescantDepositos++
   }    
 });
-$('tr.d-none .efectivo').each(function(){
+dt_Gral_t.$('tr.d-none .efectivo').each(function(){
   if ($(this).text() == "-") {
     resEfectivo
   }else{
     resEfectivo += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .deuda').each(function(){
+dt_Gral_t.$('tr.d-none .deuda').each(function(){
 if ($(this).text() == "-") {
   resDeuda
 }else{
       resDeuda += parseFloat($(this).text());
 }    
 });
-$('tr.d-none .descuento').each(function(){
+dt_Gral_t.$('tr.d-none .descuento').each(function(){
   if ($(this).text() == "-") {
     descuentos
   }else{
@@ -516,21 +516,21 @@ $('.descuentogral').html(`<span >$${descuentos}</span>`)
 
 console.log(subefectivo)
 efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-  $('.refill').each(function(){
+dt_Gral_t.$('.refill').each(function(){
     if ($(this).text() == "-") {
       sumaRefill
     }else{
           sumaRefill += parseFloat($(this).text());
     }    
 });
-$('.canje').each(function(){
+dt_Gral_t.$('.canje').each(function(){
   if ($(this).text() == "-") {
     sumacanje 
   }else{
   sumacanje += parseFloat($(this).text());
   }     
 });
-$('.nuevo').each(function(){
+dt_Gral_t.$('.nuevo').each(function(){
   if ($(this).text() == "-") {
     sumanuevo
   }else{
@@ -538,14 +538,14 @@ $('.nuevo').each(function(){
   }   
 });
 
-$('.danados').each(function(){
+dt_Gral_t.$('.danados').each(function(){
   if ($(this).text() == "-") {
     sumadanados
   }else{
   sumadanados += parseFloat($(this).text());
   }    
 });
-$('.prestados').each(function(){
+dt_Gral_t.$('.prestados').each(function(){
   if ($(this).text() == "-") {
     sumaprestados
   }else{
@@ -566,7 +566,7 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
   
 
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
-  $('tr.d-none .refill').each(function(){
+  dt_Gral_t.$('.d-none .refill').each(function(){
     if ($(this).text() == "-") {
       sumaRefillres
     }else{
@@ -574,14 +574,14 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
     }    
 });
 
-$('tr.d-none .canje').each(function(){
+dt_Gral_t.$('.d-none .canje').each(function(){
   if ($(this).text() == "-") {
     resCanje 
   }else{
   resCanje += parseFloat($(this).text());
   }     
 });
-$('tr.d-none .nuevo').each(function(){
+dt_Gral_t.$('.d-none .nuevo').each(function(){
   if ($(this).text() == "-") {
     resNuevos
   }else{
@@ -589,14 +589,14 @@ $('tr.d-none .nuevo').each(function(){
   }   
 });
 
-$('tr.d-none .danados').each(function(){
+dt_Gral_t.$('.d-none .danados').each(function(){
   if ($(this).text() == "-") {
     resdanados
   }else{
   resdanados += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .prestados').each(function(){
+dt_Gral_t.$('.d-none .prestados').each(function(){
   if ($(this).text() == "-") {
     resprestados
   }else{
@@ -609,15 +609,15 @@ $('tr.d-none .prestados').each(function(){
   $('.canje_gral').html(resCanje)
   $('.nuevo_gral').html(resNuevos)
   $('.danados_gral').html(resdanados)
-$('.prestados_gral').html(resprestados)
+  $('.prestados_gral').html(resprestados)
 
-$('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
-$('.depositosF').text(subDepositos)
-$('.cantdepositosF').text(cantDepositos)
-$('.descuentosF').text(resdescuentos)
+  $('.adeudoF').text(subadeudo)
+  $('.subtotalF').text(efectivoPre)
+  $('.depositosF').text(subDepositos)
+  $('.cantdepositosF').text(cantDepositos)
+  $('.descuentosF').text(resdescuentos)
 total =  parseFloat(subtotal) - parseFloat(resdescuentos)
-$('.totalefectivoF').text(total)
+dt_Gral_t.$('.totalefectivoF').text(total)
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
@@ -625,6 +625,7 @@ $('.totalefectivoF').text(total)
       });
   }
  }
+
  function cargaTablaResidencial(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
