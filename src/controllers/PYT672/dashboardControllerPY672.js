@@ -1351,6 +1351,35 @@ exports.historial = (req, res) => {
   });
 };
 
+// * MODULO CAJA
+exports.caja = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    //console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+    
+    res.render(proyecto+"/admin/caja", {
+      pageName: "Academia Americana - Caja",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      caja: true,
+      gruposTodos,
+    });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
 // * MODULO USUARIOS
 exports.usuarios = (req, res) => {
   let msg = false;

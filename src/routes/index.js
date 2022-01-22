@@ -553,6 +553,7 @@ router.get('/matriculas/:id', authControllerPY672.authenticatedAdmin, dashboardC
 router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
 router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
+router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
 router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 

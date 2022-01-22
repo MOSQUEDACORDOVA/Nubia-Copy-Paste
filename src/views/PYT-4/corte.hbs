@@ -80,220 +80,221 @@ case 4:
     </div>
     <div class="content-body">
      <!-- Dashboard Analytics Start -->
-                <section id="dashboard-analytics">
-                    <div class="row justify-content-center match-height py4">
-                        <!-- Greetings Card starts -->
-                        <div class="col-lg-3 col-md-12 col-sm-12">
-                            <div class="card card-congratulation">
-                                <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
-                                    <div class="avatar avatar-xl bg-light shadow">
-                                        <div class="avatar-content">
-                                            <i data-feather="award" class="font-large-1 text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h1 class="my-1 text-white text-center">Total del día</h1>
-                                        <p class="card-text mb-1">Ventas: <strong> {{cont_ventas_del_dia}}</strong></p>
-                                         <p class="card-text mb-1">Garrafones: <strong> {{total_garrafones}}</strong></p>
-                                        <p class="card-text"> Ingreso: <strong>$ {{ventas_del_dia}}</strong></p>
-                                    </div>
-                                    {{#if admin}}
-                                    <div class="col">
-                                        <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
-                                        <div class="mb-0 d-flex">
-                                            <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                            <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
-                                        </div>
-                                    </div>
-                                    {{/if}}
+        <section id="dashboard-analytics">
+            <div class="row justify-content-center match-height py4">
+                <!-- Greetings Card starts -->
+                <div class="col-lg-3 col-md-12 col-sm-12">
+                    <div class="card card-congratulation">
+                        <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
+                            <div class="avatar avatar-xl bg-light shadow">
+                                <div class="avatar-content">
+                                    <i data-feather="award" class="font-large-1 text-primary"></i>
                                 </div>
                             </div>
-                        </div>
-                        <!-- Greetings Card ends -->
-
-                        <!-- Subscribers Chart Card starts -->
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card btn-outline-primary">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center"  id="btnresidenciales" data-bs-toggle="collapse" href="#residenciales" role="button" aria-expanded="false" aria-controls="residenciales">
-                                    <div class="avatar bg-light-primary p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather="users" class="font-medium-5 text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <h2 class="fw-bolder my-1">Residenciales</h2>
-                                    <p class="card-text mb-1">Ventas: <strong> {{residencial_cont}}</strong></p>
-                                      <p class="card-text mb-1">Garrafones: <strong> {{residencial_cont_garrafones}}</strong></p>
-                                    <p>Ingreso: <strong>$ {{residencial_mont}}</strong></p>
+                            <div>
+                                <h1 class="my-1 text-white text-center">Total del día</h1>
+                                <p class="card-text mb-1">Ventas: <strong> {{cont_ventas_del_dia}}</strong></p>
+                                    <p class="card-text mb-1">Garrafones: <strong> {{total_garrafones}}</strong></p>
+                                <p class="card-text"> Ingreso: <strong>$ {{ventas_del_dia}}</strong></p>
+                            </div>
+                            {{#if admin}}
+                            <div class="col">
+                                <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
+                                <div class="mb-0 d-flex">
+                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                    <input type="text" class="form-control mx-auto start_date dt-input" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha" id="fecha_corte"/>
                                 </div>
                             </div>
+                            {{/if}}
                         </div>
-                        <!-- Subscribers Chart Card ends -->
-
-                        <!-- Orders Chart Card starts -->
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card btn-outline-primary">
-                                <div class="card-body d-flex flex-column align-items-center justify-content-center" id="btnnegocio"  data-bs-toggle="collapse" href="#negocio" role="button" aria-expanded="false" aria-controls="negocio">
-                                    <div class="avatar bg-light-warning p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather='shopping-bag' class="font-medium-5"></i>
-                                        </div>
-                                    </div>
-                                    <h2 class="fw-bolder my-1">Negocio</h2>
-                                    <p class="card-text mb-1">Ventas del día: <strong> {{negocio_cont}}</strong></p>
-                                    <p class="card-text mb-1">Garrafones: <strong> {{negocio_cont_garrafones}}</strong></p>
-                                    <p>Ingreso: <strong>$ {{negocio_mont}}</strong></p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-sm-6 col-12">
-                            <div class="card btn-outline-primary">
-                                <div class="card-body p-1 d-flex flex-column align-items-center justify-content-center" id="btnpuntoVenta" data-bs-toggle="collapse" href="#puntoVenta" role="button" aria-expanded="false" aria-controls="puntoVenta">
-                                    <div class="avatar bg-light-success p-50 m-0">
-                                        <div class="avatar-content">
-                                            <i data-feather='credit-card' class="font-medium-5"></i>
-                                        </div>
-                                    </div>
-                                    <h2 class="fw-bolder my-1">Puntos de Venta</h2>
-                                    <p class="mb-1">Ventas del día: <strong> {{ptoVenta_cont}}</strong></p>
-                                    <p class="card-text mb-1">Garrafones: <strong> {{ptoventa_cont_garrafones}}</strong></p>
-                                    <p>Ingreso: <strong>$ {{ptoVenta_mont}}</strong></p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Orders Chart Card ends -->
                     </div>
-                </section>
-                <div class="card py4table collapse show" id="total">
-                    <!-- List DataTable -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card-datatable ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">General</h6></div>
-                                        </div>
-                                        <div class="card-body">
-                                            {{#each choferes_ as |chofer i|}}
-                                            <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_general_tabla">{{name}} {{lastName}}</button>
-                                            {{/each}}
-                                        </div>
-                                    </div>
+                </div>
+                <!-- Greetings Card ends -->
+
+                <!-- Subscribers Chart Card starts -->
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="card btn-outline-primary">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center"  id="btnresidenciales" data-bs-toggle="collapse" href="#residenciales" role="button" aria-expanded="false" aria-controls="residenciales">
+                            <div class="avatar bg-light-primary p-50 m-0">
+                                <div class="avatar-content">
+                                    <i data-feather="users" class="font-medium-5 text-primary"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bolder my-1">Residenciales</h2>
+                            <p class="card-text mb-1">Ventas: <strong> {{residencial_cont}}</strong></p>
+                                <p class="card-text mb-1">Garrafones: <strong> {{residencial_cont_garrafones}}</strong></p>
+                            <p>Ingreso: <strong>$ {{residencial_mont}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Subscribers Chart Card ends -->
+
+                <!-- Orders Chart Card starts -->
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="card btn-outline-primary">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center" id="btnnegocio"  data-bs-toggle="collapse" href="#negocio" role="button" aria-expanded="false" aria-controls="negocio">
+                            <div class="avatar bg-light-warning p-50 m-0">
+                                <div class="avatar-content">
+                                    <i data-feather='shopping-bag' class="font-medium-5"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bolder my-1">Negocio</h2>
+                            <p class="card-text mb-1">Ventas del día: <strong> {{negocio_cont}}</strong></p>
+                            <p class="card-text mb-1">Garrafones: <strong> {{negocio_cont_garrafones}}</strong></p>
+                            <p>Ingreso: <strong>$ {{negocio_mont}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-sm-6 col-12">
+                    <div class="card btn-outline-primary">
+                        <div class="card-body p-1 d-flex flex-column align-items-center justify-content-center" id="btnpuntoVenta" data-bs-toggle="collapse" href="#puntoVenta" role="button" aria-expanded="false" aria-controls="puntoVenta">
+                            <div class="avatar bg-light-success p-50 m-0">
+                                <div class="avatar-content">
+                                    <i data-feather='credit-card' class="font-medium-5"></i>
+                                </div>
+                            </div>
+                            <h2 class="fw-bolder my-1">Puntos de Venta</h2>
+                            <p class="mb-1">Ventas del día: <strong> {{ptoVenta_cont}}</strong></p>
+                            <p class="card-text mb-1">Garrafones: <strong> {{ptoventa_cont_garrafones}}</strong></p>
+                            <p>Ingreso: <strong>$ {{ptoVenta_mont}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Orders Chart Card ends -->
+            </div>
+        </section>
+
+        <div class="card py4table collapse show" id="total">
+            <!-- List DataTable -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <div class="card invoice-list-wrapper" >
+                            <div class="card-datatable ">
+                                <div class="card-header p-1">
+                                    <div class="head-label"><h6 class="mb-0">General</h6></div>
+                                </div>
+                                <div class="card-body">
+                                    {{#each choferes_ as |chofer i|}}
+                                    <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_general_tabla">{{name}} {{lastName}}</button>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {{!-- <div class="card py4table collapse" id="total">
-                    <!-- List DataTable -->
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card-datatable ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">General</h6></div>
-                                        </div>
-                                        <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
-                                            <thead>
-                                                <tr>
-                                                    <th>Tipo oculto</th>
-                                                    <th>-</th>
-                                                    <th>Refil</th>
-                                                    <th>Canje</th>
-                                                    <th>Nuevo Envase</th>
-                                                    <th>Dañados</th>
-                                                    <th>Prestados</th>
-                                                    <th>Depositos</th>
-                                                    <th>Adeudo</th>
-                                                    <th>Subtotal</th>
-                                                </tr>
-                                            </thead>
-                                                    <tfoot>
-            <tr>
-                <th colspan="2" style="text-align:right"> Total</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </tfoot>
-                                        </table>
-                                    </div>
+            </div>
+        </div>
+        {{!-- <div class="card py4table collapse" id="total">
+            <!-- List DataTable -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <div class="card invoice-list-wrapper" >
+                            <div class="card-datatable ">
+                                <div class="card-header p-1">
+                                    <div class="head-label"><h6 class="mb-0">General</h6></div>
                                 </div>
+                                <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
+                                    <thead>
+                                        <tr>
+                                            <th>Tipo oculto</th>
+                                            <th>-</th>
+                                            <th>Refil</th>
+                                            <th>Canje</th>
+                                            <th>Nuevo Envase</th>
+                                            <th>Dañados</th>
+                                            <th>Prestados</th>
+                                            <th>Depositos</th>
+                                            <th>Adeudo</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                            <tfoot>
+    <tr>
+        <th colspan="2" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </div> --}}
-                <div class="card py4table collapse" id="residenciales">
-                                        <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card-datatable ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
-                                        </div>
-                                        <div class="card-body">
-                                            {{#each choferes_ as |chofer i|}}
-                                            <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_residencial_tabla">{{name}} {{lastName}}</button>
-                                            {{/each}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- List DataTable -->
                 </div>
-                
-                <div class="card py4table collapse" id="negocio">
-                    <!-- List DataTable -->
-                                        <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card-datatable ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">Negocio</h6></div>
-                                        </div>
-                                        <div class="card-body">
-                                            {{#each choferes_ as |chofer i|}}
-                                            <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_negocio">{{name}} {{lastName}}</button>
-                                            {{/each}}
-                                        </div>
-                                    </div>
+            </div>
+        </div> --}}
+        <div class="card py4table collapse" id="residenciales">
+            <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <div class="card invoice-list-wrapper" >
+                            <div class="card-datatable ">
+                                <div class="card-header p-1">
+                                    <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
+                                </div>
+                                <div class="card-body">
+                                    {{#each choferes_ as |chofer i|}}
+                                    <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_residencial_tabla">{{name}} {{lastName}}</button>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>  
-
-                <div class="card py4table collapse" id="puntoVenta">
-                    <!-- List DataTable -->
-                                                         <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card invoice-list-wrapper" >
-                                    <div class="card-datatable ">
-                                        <div class="card-header p-1">
-                                            <div class="head-label"><h6 class="mb-0">Punto de Venta</h6></div>
-                                        </div>
-                                        <div class="card-body">
-                                            {{#each choferes_ as |chofer i|}}
-                                            <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_ptovta">{{name}} {{lastName}}</button>
-                                            {{/each}}
-                                        </div>
-                                    </div>
+                </div>
+            </div>
+            <!-- List DataTable -->
+        </div>
+        
+        <div class="card py4table collapse" id="negocio">
+            <!-- List DataTable -->
+                                <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <div class="card invoice-list-wrapper" >
+                            <div class="card-datatable ">
+                                <div class="card-header p-1">
+                                    <div class="head-label"><h6 class="mb-0">Negocio</h6></div>
+                                </div>
+                                <div class="card-body">
+                                    {{#each choferes_ as |chofer i|}}
+                                    <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_negocio">{{name}} {{lastName}}</button>
+                                    {{/each}}
                                 </div>
                             </div>
                         </div>
-                    </div> 
-                </div>  
-                 
-                <!-- Dashboard Analytics end -->
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+        <div class="card py4table collapse" id="puntoVenta">
+            <!-- List DataTable -->
+                                                    <div class="row">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <div class="card invoice-list-wrapper" >
+                            <div class="card-datatable ">
+                                <div class="card-header p-1">
+                                    <div class="head-label"><h6 class="mb-0">Punto de Venta</h6></div>
+                                </div>
+                                <div class="card-body">
+                                    {{#each choferes_ as |chofer i|}}
+                                    <button class="btn btn-primary mb-1 me-1" data-bs-toggle="modal" data-id="{{id}}" data-nombre="{{name}} {{lastName}}" data-fecha="{{#formatoFecha2 dia}}{{/formatoFecha2}}" data-bs-target="#corte_modal_ptovta">{{name}} {{lastName}}</button>
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>  
+            
+        <!-- Dashboard Analytics end -->
   </div>
 </div>
 </div>
