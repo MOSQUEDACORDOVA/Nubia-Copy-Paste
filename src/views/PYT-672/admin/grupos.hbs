@@ -18,7 +18,7 @@
             <section>
                 <div class="row match-height flex-md-row-reverse">
                     <!-- Listado de grpos -->
-                    <div class="col-12 col-md-6 col-lg-5">
+                    <div class="col-12 col-md-6 col-lg-4" >
                         <div class="card">
                             <div class="card-header pb-md-0">
                                 <h4 class="card-title">Crear grupo</h4>
@@ -43,7 +43,7 @@
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Desde cero</span>
                                                     </span>
-                                                    <small class="text">1 lección semanal.</small>
+                                                    <small class="text">1 lección &nbsp &nbsp semanal.</small>
                                                 </label>
                                             </div>
         
@@ -69,18 +69,52 @@
                                                         <select class="form-select" name="horario" required>
                                                             <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
                                                             <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
-                                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9pm</option>
+                                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9:30pm</option>
                                                             <option value="Jueves: 6:30pm a 9pm"> Jueves: 6:30pm a 9pm</option>
                                                             <option value="Sábado: 8:30am a 11am"> Sábado: 8:30am a 11am</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--Prueba-->
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Fecha inicio</label>
                                                     <input type="text" id="fp-default" class="form-control flatpickr-basic" name="fechaInicio" placeholder="YYYY-MM-DD" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Monto Mensual</label>
+                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    
+                                                    <label class="form-label" for="fp-default">Profesor</label>
+                                                    <!-- 
+                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
+                                                    -->
+                                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                                        <!-- 
+                                                        {{#each gruposTodos as |item i|}}
+                                                        <option value="{{id}}">
+                                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                                                        </option>
+                                                        {{/each}}
+                                                        -->
+                                                        <option value="" selected>(opcional)</option>
+                                                        <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
+                                                        <option value="Rai Torcat"> Rai Torcat</option>
+                                                        <option value="Patricio Calderon"> Patricio Calderon</option>
+                                                        <option value="Boris Melgarejo"> Boris Melgarejo</option>
+                                                        <option value="Jose Arzolay"> Jose Arzolay</option>
+
+                                                    </select>
                                                 </div>
                                             </div>
                                                                                                     
@@ -113,6 +147,20 @@
                                                     <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" name="fechaInicio" required>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Monto Mensual</label>
+                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Profesor</label>
+                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
+                                                </div>
+                                            </div>
                                                                                                     
                                             <div class="row">
                                                 <div class="col-12">
@@ -128,7 +176,7 @@
                     <!--/ Fin Listado de grpos -->
 
                     <!-- Formulario de grpos -->
-                    <div class="col-12 col-md-6 col-lg-7">
+                    <div class="col-12 col-md-6 col-lg-8">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Grupos</h4>
@@ -147,7 +195,7 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="aperturas" aria-labelledby="aperturas-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable ">
                                             <div class="TipoCurso-grupos mb-1">
                                                 <label class="form-label" for="">Tipo de curso</label>
                                                 <select id="filtroApertura" class="form-select text-capitalize mb-md-0 mb-2">
@@ -156,7 +204,7 @@
                                                     <option value="Intensivo" class="text-capitalize">Intensivo</option>
                                                 </select>
                                             </div>
-                                            <table class="table" id="tabla-aperturas">
+                                            <table class="table table-responsive dataTable" id="tabla-aperturas">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
@@ -169,8 +217,9 @@
                                         </div>
                                     </div>
                                     <!-- GRUPOS DESDE CERO -->
+                                    
                                     <div class="tab-pane" id="desdecero" aria-labelledby="desdecero-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable">
                                             <div class="row p-0 mb-1">
                                                 <!-- FILTRO DESDE CERO -->
                                                 <div class="col-4 niveles-grupos">
@@ -198,7 +247,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="table" id="tablaDesde0">
+                                            <table class="table table-responsive dataTable" id="tablaDesde0">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
@@ -213,7 +262,7 @@
 
                                     <!-- GRUPOS INTENSIVO -->
                                     <div class="tab-pane" id="intensivo" aria-labelledby="intensivo-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable">
                                             <div class="row p-0 mb-1">
                                                 <!-- FILTRO INTENSIVO -->
                                                 <div class="col-4 niveles-grupos">
@@ -241,7 +290,7 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="table" id="tablaIntensivo">
+                                            <table class="table table-responsive dataTable" id="tablaIntensivo">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
