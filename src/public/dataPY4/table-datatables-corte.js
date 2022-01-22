@@ -234,67 +234,79 @@ let ArrayGral = Object.entries(Newcorte2);
     {
       // REFILL
       targets:2,render: function (data, type, full, meta) {
-        let total=0;
+        let total=0; let ResOcultoRefill;
+        
         for (let i = 0; i < data.length; i++) {
           total += parseInt(data[i]['data']['total_refill_pedido']);
-          
+          if (data[i]['tipo'] == "Residencial") {
+            ResOcultoRefill="ResOcultoRefill"     
+          }
         }
+        
+             
         if (total == 0) {
           total = "-"
         }
-        return (`<span class="refill">${total}</span>`)
-        }  
+        return (`<span class="refill ${ResOcultoRefill}">${total}</span>`)
+      }  
   },
   {
     // canje
     targets:3,render: function (data, type, full, meta) {
-      let total=0;
+      let total=0 , ResOcultoCanje; 
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_canje_pedido']);
-        
+        if (data[i]['tipo'] == "Residencial") {
+          ResOcultoCanje="ResOcultoCanje"     
+        }
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="canje">${total}</span>`)}  
+      return (`<span class="canje ${ResOcultoCanje}">${total}</span>`)
+      
+    }  
+
 },
 {
   // nuevo
   targets:4,render: function (data, type, full, meta) {
-    let total=0;
+    let total=0, ResOcultoNuevo;
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_nv_pedido']);
-        
+        ResOcultoNuevo="ResOcultoNuevo"
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="nuevo">${total}</span>`)}  
+      return (`<span class="nuevo ${ResOcultoNuevo}">${total}</span>`)}  
 },
 {
   // dañados
   targets:5,render: function (data, type, full, meta) {
-          let danados = 0, garrafones_prestamos=0;
+          let danados = 0, garrafones_prestamos=0, ResOcultoDanados;
     for (let i = 0; i < data.length; i++) {
       danados += parseInt(data[i]['data']['danados']);
+      ResOcultoDanados="ResOcultoDanados";
   }
   if (danados == 0) {
     danados = "-"
   }
-    return (`<span class="danados">${danados}</span>`)}  
+    return (`<span class="danados ${ResOcultoDanados}">${danados}</span>`)}  
   },
   {
     // prestados
     targets:6,render: function (data, type, full, meta) {
       
-    let danados = 0, garrafones_prestamos=0;
+    let danados = 0, garrafones_prestamos=0, ResOcultoPrestados;
     for (let i = 0; i < data.length; i++) {
     garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+    ResOcultoPrestados="ResOcultoPrestados"
   }
   if (garrafones_prestamos == 0) {
     garrafones_prestamos = "-"
   }
-    return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+    return (`<span class="prestados ${ResOcultoPrestados} ">${garrafones_prestamos}</span>`)}  
     },
 
     {          
@@ -447,7 +459,7 @@ let ArrayGral = Object.entries(Newcorte2);
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
   var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,descuentos=0,resdescuentos=0,subtotal=0,total=0;
-  dt_Gral_t.$('.depositos').each(function(){
+  $('.depositos').each(function(){
     if ($(this).text() == "-" || $(this).text() == "0") {
       subDepositos;
       cantDepositos
@@ -456,21 +468,21 @@ let ArrayGral = Object.entries(Newcorte2);
       cantDepositos++
     }    
 });
-dt_Gral_t.$('.efectivo').each(function(){
+$('.efectivo').each(function(){
     if ($(this).text() == "-") {
       subefectivo
     }else{
       subefectivo += parseFloat($(this).text());
     }    
 });
-dt_Gral_t.$('.deuda').each(function(){
+$('.deuda').each(function(){
   if ($(this).text() == "-") {
     subadeudo
   }else{
         subadeudo += parseFloat($(this).text());
   }    
 });
-dt_Gral_t.$('.descuento').each(function(){
+$('.descuento').each(function(){
   if ($(this).text() == "-") {
     resdescuentos
   }else{
@@ -478,7 +490,7 @@ dt_Gral_t.$('.descuento').each(function(){
   }    
 });
 let resDpositos = 0, resEfectivo = 0, resDeuda = 0, rescantDepositos=0
-dt_Gral_t.$('tr.d-none .depositos').each(function(){
+$('tr.d-none .depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     resDpositos;
     rescantDepositos
@@ -487,21 +499,21 @@ dt_Gral_t.$('tr.d-none .depositos').each(function(){
     rescantDepositos++
   }    
 });
-dt_Gral_t.$('tr.d-none .efectivo').each(function(){
+$('tr.d-none .efectivo').each(function(){
   if ($(this).text() == "-") {
     resEfectivo
   }else{
     resEfectivo += parseFloat($(this).text());
   }    
 });
-dt_Gral_t.$('tr.d-none .deuda').each(function(){
+$('tr.d-none .deuda').each(function(){
 if ($(this).text() == "-") {
   resDeuda
 }else{
       resDeuda += parseFloat($(this).text());
 }    
 });
-dt_Gral_t.$('tr.d-none .descuento').each(function(){
+$('tr.d-none .descuento').each(function(){
   if ($(this).text() == "-") {
     descuentos
   }else{
@@ -566,7 +578,7 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
   
 
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
-  dt_Gral_t.$('.d-none .refill').each(function(){
+  dt_Gral_t.$('.ResOcultoRefill').each(function(){
     if ($(this).text() == "-") {
       sumaRefillres
     }else{
@@ -574,14 +586,14 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
     }    
 });
 
-dt_Gral_t.$('.d-none .canje').each(function(){
+dt_Gral_t.$('.ResOcultoCanje').each(function(){
   if ($(this).text() == "-") {
     resCanje 
   }else{
   resCanje += parseFloat($(this).text());
   }     
 });
-dt_Gral_t.$('.d-none .nuevo').each(function(){
+dt_Gral_t.$('.ResOcultoNuevos').each(function(){
   if ($(this).text() == "-") {
     resNuevos
   }else{
@@ -589,14 +601,14 @@ dt_Gral_t.$('.d-none .nuevo').each(function(){
   }   
 });
 
-dt_Gral_t.$('.d-none .danados').each(function(){
+dt_Gral_t.$('.ResOcultoDanados').each(function(){
   if ($(this).text() == "-") {
     resdanados
   }else{
   resdanados += parseFloat($(this).text());
   }    
 });
-dt_Gral_t.$('.d-none .prestados').each(function(){
+dt_Gral_t.$('.ResOcultoPrestados').each(function(){
   if ($(this).text() == "-") {
     resprestados
   }else{
@@ -617,7 +629,7 @@ dt_Gral_t.$('.d-none .prestados').each(function(){
   $('.cantdepositosF').text(cantDepositos)
   $('.descuentosF').text(resdescuentos)
 total =  parseFloat(subtotal) - parseFloat(resdescuentos)
-dt_Gral_t.$('.totalefectivoF').text(total)
+$('.totalefectivoF').text(total)
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
