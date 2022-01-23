@@ -1565,7 +1565,7 @@ table tr td {
 }
 .py672 .texto-horario {
     display: block;
-    min-width: 200px;
+    min-width: 168px;
 }
 .py672 .borrar-btn, .py672 .edit-btn {
     cursor: pointer;
@@ -1596,6 +1596,32 @@ table tr td {
 }
 .py672 table thead th, .py672 table tbody td {
     white-space: nowrap;
+}
+.py672.ecommerce-application .ecommerce-card:hover {
+    transform: translateY(0);
+    box-shadow: 0 4px 25px 0 rgba(34, 41, 47, 0);
+}
+.py672.ecommerce-application .list-view .ecommerce-card {
+    grid-template-columns: 1fr 1fr;
+}
+.py672 .input-group-text {
+    height: unset;
+    display: flex;
+    align-items: center;
+    padding: 0.571rem 1rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #6e6b7b;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #fff;
+    border: 1px solid #d8d6de;
+    border-radius: 0.357rem;
+}
+.py672 .border-light-secondary {
+    border-color: #e6e6e6 !important;
+    border: 3px solid #e6e6e6 !important;
 }
 .py672 .progress-bar-primary .progress-bar {
     background-color: #7367f0;

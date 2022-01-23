@@ -227,7 +227,7 @@ module.exports = {
       Matriculas.create({ nombre: nombre, primer_apellido: apellido1, segundo_apellido: apellido2, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1})
           .then((data) => {
             let data_set = JSON.stringify(data);
-            console.log('NUEVO ESTUDIANTE REGISTRADO')
+            //console.log('NUEVO ESTUDIANTE REGISTRADO')
             resolve(data_set);
           })
           .catch((err) => {

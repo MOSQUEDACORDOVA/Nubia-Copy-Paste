@@ -553,8 +553,13 @@ router.get('/matriculas/:id', authControllerPY672.authenticatedAdmin, dashboardC
 router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
 router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
+router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
 router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
+
+router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
+router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
+router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
 
 // TODO: USUARIOS
 router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.boardUser);
@@ -568,7 +573,7 @@ router.get('/error672/:id', dashboardControllerPY672.error);
 // * CREAR GRUPOS
 router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
 // * OBTENER LECCION ACTUAL DE GRUPO
-router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
+//router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
 
 // * ACTUALIZAR GRUPOS
 router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);

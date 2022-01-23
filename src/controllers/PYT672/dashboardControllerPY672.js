@@ -296,88 +296,89 @@ exports.grupos = (req, res) => {
           });
         }
 
+        let gruposApertura, stringAperturas;
         DataBase.ObtenerGruposEnApertura().then((response4) => {
-          let gruposApertura = JSON.parse(response4);
+          gruposApertura = JSON.parse(response4);
           console.log(gruposApertura)
           console.log("EN APERTURA")
 
-            if (gruposApertura.length) {
-              gruposApertura.forEach(obj => {
-                let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-                console.log(obj)
-                console.log("EACH")
-        
-                DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
-                  let find = JSON.parse(responseGrupos);
-                  console.log(find)
-                  console.log("FIND MATRICULA")
-                  
-                  find.forEach(item => {
-                    if(item.estado.id === 1) {
-                      numActivos += 1;
-                    } else if (item.estado.id === 2) {
-                      numIncorporados += 1;
-                    } else if (item.estado.id === 3) {
-                      numInscritos += 1;
-                    } else if (item.estado.id === 4) {
-                      numFusionados += 1;
-                    } else if (item.estado.id === 5) {
-                      numCongelados += 1;
-                    }
-                    numTotal += 1;
-                  });
-        
-                  let newObj = {}
-        
-                  matrActivos = {
-                    activos: numActivos
+          if (gruposApertura.length) {
+            gruposApertura.forEach(obj => {
+              let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+              console.log(obj)
+              console.log("EACH")
+      
+              DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
+                let find = JSON.parse(responseGrupos);
+                console.log(find)
+                console.log("FIND MATRICULA")
+                
+                find.forEach(item => {
+                  if(item.estado.id === 1) {
+                    numActivos += 1;
+                  } else if (item.estado.id === 2) {
+                    numIncorporados += 1;
+                  } else if (item.estado.id === 3) {
+                    numInscritos += 1;
+                  } else if (item.estado.id === 4) {
+                    numFusionados += 1;
+                  } else if (item.estado.id === 5) {
+                    numCongelados += 1;
                   }
-                  matrIncorporados = {
-                    incorporados: numIncorporados
-                  }
-                  matrInscritos = {
-                    inscritos: numInscritos
-                  }
-                  matrFusionados = {
-                    fusionados: numFusionados
-                  }
-                  matrCongelados = {
-                    congelados: numCongelados
-                  }
-                  matrTotal = {
-                    total: numTotal
-                  }
-        
-                  Object.assign(newObj, matrActivos)
-                  Object.assign(newObj, matrIncorporados)
-                  Object.assign(newObj, matrInscritos)
-                  Object.assign(newObj, matrFusionados)
-                  Object.assign(newObj, matrCongelados)
-                  Object.assign(newObj, matrTotal)
-        
-                  let result = Object.assign(obj, newObj);
-        
-                  console.log(result)
-                  console.log("RESULT")
-        
-                }).catch((err) => {
-                  console.log(err)
-                  let msg = "Error en sistema";
-                  return res.redirect("/error672/PYT-672");
+                  numTotal += 1;
                 });
+      
+                let newObj = {}
+      
+                matrActivos = {
+                  activos: numActivos
+                }
+                matrIncorporados = {
+                  incorporados: numIncorporados
+                }
+                matrInscritos = {
+                  inscritos: numInscritos
+                }
+                matrFusionados = {
+                  fusionados: numFusionados
+                }
+                matrCongelados = {
+                  congelados: numCongelados
+                }
+                matrTotal = {
+                  total: numTotal
+                }
+      
+                Object.assign(newObj, matrActivos)
+                Object.assign(newObj, matrIncorporados)
+                Object.assign(newObj, matrInscritos)
+                Object.assign(newObj, matrFusionados)
+                Object.assign(newObj, matrCongelados)
+                Object.assign(newObj, matrTotal)
+      
+                let result = Object.assign(obj, newObj);
+                
+              }).catch((err) => {
+                console.log(err)
+                let msg = "Error en sistema";
+                return res.redirect("/error672/PYT-672");
               });
-            }
-    
+            });
+          }
+
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
       dashboardPage: true,
       dashboard: true,
       py672: true,
       grupos: true,
-      gruposApertura,
+      gruposTodos,
       gruposDesde0,
+      response2,
       gruposIntensivo,
-      gruposTodos
+      response3,
+      gruposApertura,
+      response4,
     });
   }).catch((err) => {
     console.log(err)
@@ -399,6 +400,266 @@ exports.grupos = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+};
+
+// * AJAX
+exports.obtenergruposapertura = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  var dataFinal;
+
+  DataBase.ObtenerGruposEnApertura().then(async (response) => {
+    let gruposApertura = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    //console.log(gruposApertura)
+    //console.log("EN APERTURA")
+    
+    for (let index = 0; index < gruposApertura.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposApertura[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposApertura[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposApertura.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    console.log(gruposArr2)
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+};
+
+// * AJAX
+exports.obtenergruposdesde0 = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let dataFinal;
+
+  DataBase.ObtenerGruposDesdeCero().then(async (response) => {
+    let gruposDesde0 = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    //console.log(gruposDesde0)
+    //console.log("DESDE CERO INICIADO")
+    
+    for (let index = 0; index < gruposDesde0.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposDesde0[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposDesde0[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposDesde0.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+};
+
+// * AJAX
+exports.obtenergruposintensivos = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let dataFinal;
+
+  DataBase.ObtenerGruposIntensivo().then(async (response) => {
+    let gruposIntensivo = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    console.log(gruposIntensivo)
+    console.log("INTENSIVOS INICIADOS")
+    
+    for (let index = 0; index < gruposIntensivo.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposIntensivo[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposIntensivo[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposIntensivo.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
 };
 
 // * VERIFICAR GRUPOS
@@ -763,12 +1024,14 @@ exports.historial = (req, res) => {
 
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
-    console.log(matriculas)
+    //console.log(matriculas)
     /*console.log("TODA LA MATRICULA")*/
     let arrString;
 
     matriculas.forEach(element => {
-      let notas = {
+      let userInfo = {
+        leccActual: 0,
+        nivelActualGrupo: 1,
         leccion9: '',
         leccion17: '',
         leccion18: '',
@@ -776,72 +1039,226 @@ exports.historial = (req, res) => {
         leccion31: '',
         leccion32: '',
         participacion: '',
-        asistencias: ''
+        asistencias: 0,
+        ausentes: 0,
+        fechaLeccionesAusentes: '',
+        notas: ''
       };
 
-      let lecciones = [9, 17, 18, 25, 31, 32];
+      DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
+        let grupo = JSON.parse(respuesta)[0]
+
+        let inicioGrupo = grupo.fecha_inicio;
+        let fechaActual = moment().format("DD-MM-YYYY");
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+        let iniciar = moment(iniciado).diff(moment(), 'days');
+
+        /*console.log(iniciado)
+        console.log(iniciar)
+        console.log("INCIAR DIAS DIFERENCIA")
+        //console.log(grupo)
+        //console.log("GRUPO ENCONTRADO")*/
+        
+        let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+        let rest; 
+
+        function EstablecerNivel () {  
+          let nivel1, nivel2, nivel3, nivel4;
+          switch (grupo.lecciones_semanales) {
+            case '1':
+              nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+      
+              /*console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("DESDE CERO")*/
+              break;
+  /*OJO*/
+            case '2':
+              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+      
+              /*console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("INTENSIVO")*/
+            break;
+          }
+            
+          if (moment().isBefore(nivel2)) {
+            userInfo.nivelActualGrupo = 1
+            
+          } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
+            userInfo.nivelActualGrupo = 2
+            
+          } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
+            userInfo.nivelActualGrupo = 3
+            
+          } else if(moment().isAfter(nivel3)) {
+            userInfo.nivelActualGrupo = 4
+
+          }
+
+          if(grupo.lecciones_semanales === '1') {
+            console.log("DESDE CERO")
+
+            if (userInfo.nivelActualGrupo === 1) {
+              if(diff < 0) {
+                rest = (224 - (-diff)) / 7; 
+              } else {
+                rest = (224 - (diff)) / 7; 
+              }
+            }
+
+            if (userInfo.nivelActualGrupo === 2) {
+              if(diff < 0) {
+                rest = (448 - (-diff)) / 14; 
+              } else {
+                rest = (448 - (diff)) / 14; 
+              }
+              console.log(diff)
+              console.log(rest)
+              console.log("NIVEL 2")
+              /*console.log(rest)
+              console.log(userInfo.nivelActualGrupo)
+              console.log("NIVEL 2")*/
+            } else if (userInfo.nivelActualGrupo === 3) {
+              
+            } else if (userInfo.nivelActualGrupo === 4) {
+              
+            }
+
+          } else {
+            if (userInfo.nivelActualGrupo === 1) {
+              if(diff < 0) {
+                rest = (112 - (-diff)) / 3.5; 
+              } else {
+                rest = (112 - (diff)) / 3.5; 
+              }
+            }
+           
+            if (userInfo.nivelActualGrupo === 2) {
+              if(diff < 0) {
+                rest = (224 - (-diff)) / 7; 
+              } else {
+                rest = (224 - (diff)) / 7; 
+              }
+  
+            } else if (userInfo.nivelActualGrupo === 3) {
+              
+            } else if (userInfo.nivelActualGrupo === 4) {
+              
+            }
+          }
+          if(rest < 0) {
+            rest = rest * (-1)
+          }
+          let numPositivo = Math.floor(rest);
+          console.log(grupo.identificador)
+          console.log(rest)
+          userInfo.leccActual = (32 - (numPositivo));
+
+          
+        }
+  
+        if (iniciar >= 1 || iniciar < 0) {
+          EstablecerNivel();
+        } 
+
+        let final = Object.assign(element, userInfo);
+
+        /*console.log(fechaActual)
+        console.log(fechaInicio)
+        console.log(diff)
+        console.log(rest)
+
+        console.log(userInfo.leccActual)
+        console.log(final)
+        console.log("OBJETO FINAL")*/
+
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+      let lecciones = [9, 17, 18, 25, 31, 32], notasArr = '';
       lecciones.forEach((item, idx) => {
+        // CREAR CONSULTA QUE MUESTRA QUE ME TRAIGA TODAS LAS NOTAS 
         DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
           let lecc = JSON.parse(leccion)[0];
           /*console.log(lecc)
           console.log("LECCION")
           console.log(item)*/
-          
+
           if(lecc !== undefined) {
+            //notasArr += leccion + ';';
             if(idx === 0) {
-              notas.leccion9 = parseInt(lecc.nota);
+              userInfo.leccion9 = parseInt(lecc.nota);
             } else if (idx === 1) {
-              notas.leccion17 = parseInt(lecc.nota);
+              userInfo.leccion17 = parseInt(lecc.nota);
             } else if (idx === 2) {
-              notas.leccion18 = parseInt(lecc.nota);
+              userInfo.leccion18 = parseInt(lecc.nota);
             } else if (idx === 3) {
-              notas.leccion25 = parseInt(lecc.nota);
+              userInfo.leccion25 = parseInt(lecc.nota);
             } else if (idx === 4) {
-              notas.leccion31 = parseInt(lecc.nota);
+              userInfo.leccion31 = parseInt(lecc.nota);
             } else if (idx === 5) {
-              notas.leccion32 = parseInt(lecc.nota);
+              userInfo.leccion32 = parseInt(lecc.nota);
             }
           } else {
             if(idx === 0) {
-              notas.leccion9 = 0;
+              userInfo.leccion9 = 0;
             } else if (idx === 1) {
-              notas.leccion17 = 0;
+              userInfo.leccion17 = 0;
             } else if (idx === 2) {
-              notas.leccion18 = 0;
+              userInfo.leccion18 = 0;
             } else if (idx === 3) {
-              notas.leccion25 = 0;
+              userInfo.leccion25 = 0;
             } else if (idx === 4) {
-              notas.leccion31 = 0;
+              userInfo.leccion31 = 0;
             } else if (idx === 5) {
-              notas.leccion32 = 0;
+              userInfo.leccion32 = 0;
             }
           }
           
-            let final = Object.assign(element, notas);
-            /*console.log(final)
-            console.log("FINAL --------- !!!!!!")*/
-    
-            arrString = JSON.stringify(matriculas);
-            /*console.log(arrString)*/ 
+          userInfo.notas = notasArr;
+          let final = Object.assign(element, userInfo);
+          /*console.log(userInfo)
+          console.log("FINAL ----- FINAL ---- !!!!!!")*/
+  
+          arrString = JSON.stringify(matriculas);
+          /*console.log(arrString)*/ 
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
           return res.redirect("/error672/PYT-672");
         });
-  
       });
+      
 
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];
         /*console.log(participacion)*/
 
         if(participacion !== undefined) {
-          notas.participacion = parseInt(participacion.porcentaje);
+          userInfo.participacion = parseInt(participacion.porcentaje);
         } else {
-          notas.participacion = 0;
+          userInfo.participacion = 0;
         }
 
-        let final = Object.assign(element, notas);
+        let final = Object.assign(element, userInfo);
         /*console.log(final)*/
 
         arrString = JSON.stringify(matriculas);
@@ -856,12 +1273,22 @@ exports.historial = (req, res) => {
         /*console.log(asistencias)*/
 
         if(asistencias !== undefined) {
-          notas.asistencias = parseInt(asistencias.length);
+          // FILTRAR AUSENCIAS CON LA LECCION ACTUAL
+          let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
+          if(result.length) {
+            userInfo.ausentes = parseInt(result.length);
+            userInfo.fechaLeccionesAusentes = asist;
+          } else {
+            userInfo.ausentes = 0;
+            userInfo.fechaLeccionesAusentes = "";
+          }
         } else {
-          notas.asistencias = 0;
+          userInfo.ausentes = 0;
         }
 
-        let final = Object.assign(element, notas);
+        userInfo.asistencias += userInfo.leccActual - userInfo.ausentes;
+
+        let final = Object.assign(element, userInfo);
         /*console.log(final)*/
 
         arrString = JSON.stringify(matriculas);
@@ -870,12 +1297,13 @@ exports.historial = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
+            
     });
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
       //console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")
+      //console.log("GRUPOS DISTINCTS")
       
       let arrGrupos = [];
       
@@ -883,7 +1311,7 @@ exports.historial = (req, res) => {
         DataBase.BuscarGrupos(element.grupoId).then((response4) => {
           let gruposFounds = JSON.parse(response4);
           //console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")
+          //console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
             arrGrupos.push(found);
@@ -916,6 +1344,35 @@ exports.historial = (req, res) => {
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * MODULO CAJA
+exports.caja = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  DataBase.ObtenerTodosGrupos().then((response) => {
+    let gruposTodos = JSON.parse(response);
+    //console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")
+    
+    res.render(proyecto+"/admin/caja", {
+      pageName: "Academia Americana - Caja",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      caja: true,
+      gruposTodos,
+    });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

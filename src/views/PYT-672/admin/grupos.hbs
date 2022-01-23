@@ -1,10 +1,24 @@
 <div class="app-content content py672">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            {{! NOTIFICACION }}
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            {{! NOTIFICACION END }}
+
             <section>
                 <div class="row match-height flex-md-row-reverse">
                     <!-- Listado de grpos -->
-                    <div class="col-12 col-md-6 col-lg-5">
+                    <div class="col-12 col-md-6 col-lg-4" >
                         <div class="card">
                             <div class="card-header pb-md-0">
                                 <h4 class="card-title">Crear grupo</h4>
@@ -29,7 +43,7 @@
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Desde cero</span>
                                                     </span>
-                                                    <small class="text">1 lección semanal.</small>
+                                                    <small class="text">1 lección &nbsp &nbsp semanal.</small>
                                                 </label>
                                             </div>
         
@@ -55,18 +69,52 @@
                                                         <select class="form-select" name="horario" required>
                                                             <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
                                                             <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
-                                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9pm</option>
+                                                            <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9:30pm</option>
                                                             <option value="Jueves: 6:30pm a 9pm"> Jueves: 6:30pm a 9pm</option>
                                                             <option value="Sábado: 8:30am a 11am"> Sábado: 8:30am a 11am</option>
                                                         </select>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <!--Prueba-->
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Fecha inicio</label>
                                                     <input type="text" id="fp-default" class="form-control flatpickr-basic" name="fechaInicio" placeholder="YYYY-MM-DD" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Monto Mensual</label>
+                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    
+                                                    <label class="form-label" for="fp-default">Profesor</label>
+                                                    <!-- 
+                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
+                                                    -->
+                                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                                        <!-- 
+                                                        {{#each gruposTodos as |item i|}}
+                                                        <option value="{{id}}">
+                                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                                                        </option>
+                                                        {{/each}}
+                                                        -->
+                                                        <option value="" selected>(opcional)</option>
+                                                        <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
+                                                        <option value="Rai Torcat"> Rai Torcat</option>
+                                                        <option value="Patricio Calderon"> Patricio Calderon</option>
+                                                        <option value="Boris Melgarejo"> Boris Melgarejo</option>
+                                                        <option value="Jose Arzolay"> Jose Arzolay</option>
+
+                                                    </select>
                                                 </div>
                                             </div>
                                                                                                     
@@ -99,6 +147,20 @@
                                                     <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" name="fechaInicio" required>
                                                 </div>
                                             </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Monto Mensual</label>
+                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Profesor</label>
+                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
+                                                </div>
+                                            </div>
                                                                                                     
                                             <div class="row">
                                                 <div class="col-12">
@@ -114,7 +176,7 @@
                     <!--/ Fin Listado de grpos -->
 
                     <!-- Formulario de grpos -->
-                    <div class="col-12 col-md-6 col-lg-7">
+                    <div class="col-12 col-md-6 col-lg-8">
                         <div class="card">
                             <div class="card-header">
                                 <h4 class="card-title">Grupos</h4>
@@ -133,133 +195,37 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="aperturas" aria-labelledby="aperturas-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable ">
                                             <div class="TipoCurso-grupos mb-1">
                                                 <label class="form-label" for="">Tipo de curso</label>
                                                 <select id="filtroApertura" class="form-select text-capitalize mb-md-0 mb-2">
-                                                    <option value="todos">Todos</option>
-                                                    <option value="desde cero" class="text-capitalize">Desde cero</option>
-                                                    <option value="intensivo" class="text-capitalize">Intensivo</option>
+                                                    <option value="">Todos</option>
+                                                    <option value="Desde cero" class="text-capitalize">Desde cero</option>
+                                                    <option value="Intensivo" class="text-capitalize">Intensivo</option>
                                                 </select>
                                             </div>
-                                            <table class="user-list-table-Tabla-Aperturas table">
-                                                <tbody>
-                                                    {{#if gruposApertura}}
-                                                    {{#each gruposApertura as |grupo i|}}
-                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}}">
-                                                        <td>
-                                                            <div>
-                                                                <div class="d-flex align-items-center mb-1">
-                                                                    <div class="me-75">
-                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
-                                                                    </div>
-
-                                                                    <div class="d-flex align-items-center justify-content-between w-100">
-                                                                        <div class="d-flex">
-                                                                            <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
-                                                                                {{grupo.activos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                    
-                                                                            <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
-                                                                                {{grupo.incorporados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
-                                                                                {{grupo.inscritos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
-                                                                                {{grupo.fusionados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
-                                                                                {{grupo.congelados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
-                                                                                {{grupo.total}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                        <div>
-                                                                            <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
-                                                                                <form action="/borrargrupopy672" method="POST">
-                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a>
-                                                                                        <i data-feather='trash'></i>
-                                                                                    </a>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex">
-                                                                    <!---- PROF ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                                                        <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
-                                                                    </div>
-
-                                                                    <!---- PAGOS ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-dollar-sign me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign font-small-4"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
-
-                                                                        <small class="emp_post text-muted">Pagos</small><br><small class="emp_post">{{dia_pagos}}</small>
-                                                                    </div>
-
-                                                                    <div class="me-1">
-                                                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
-                                                                        
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
-                                                                        
-                                                                        </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Fin</small><br><small class="emp_post">{{fecha_finalizacion}}</small>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                    {{/each}}
-                                                    {{else}}
+                                            <table class="table table-responsive dataTable" id="tabla-aperturas">
+                                                <thead>
                                                     <tr>
-                                                        <td>No existen grupos en apertura actualmente.</td>
+                                                        <th>Nombre</th>
                                                     </tr>
-                                                    {{/if}}
+                                                </thead>
+                                                <tbody>
+                                                    
                                                 </tbody>
                                             </table>
                                         </div>
                                     </div>
                                     <!-- GRUPOS DESDE CERO -->
+                                    
                                     <div class="tab-pane" id="desdecero" aria-labelledby="desdecero-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable">
                                             <div class="row p-0 mb-1">
                                                 <!-- FILTRO DESDE CERO -->
                                                 <div class="col-4 niveles-grupos">
                                                     <label class="form-label" for="">Niveles</label>
                                                     <select id="nivelesGrupo1" class="form-select text-capitalize mb-md-0 mb-2">
-                                                        <option value="todos">Todos</option>
+                                                        <option value="">Todos</option>
                                                         <option value="Principiante" class="text-capitalize">Principiante</option>
                                                         <option value="Básico" class="text-capitalize">Básico</option>
                                                         <option value="Intermedio" class="text-capitalize">Intermedio</option>
@@ -275,130 +241,34 @@
                                                 <div class="col-4 pagos-grupos">
                                                     <label class="form-label" for="">Fecha de pago</label>
                                                     <select id="pagosGrupo1" class="form-select text-capitalize mb-md-0 mb-2xx">
-                                                        <option value="todos">Todos</option>
-                                                        <option value="01">01 de cada mes</option>
-                                                        <option value="15">15 de cada mes</option>
+                                                        <option value="">Todos</option>
+                                                        <option value="01 de cada mes">01 de cada mes</option>
+                                                        <option value="15 de cada mes">15 de cada mes</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="user-list-table-Tabla-DesdeCero table" id="tablaDesde0">
-                                                {{#if gruposDesde0}}
-                                                {{#each gruposDesde0 as |grupo i|}}
-                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
-                                                        <td>
-                                                            <div>
-                                                                <div class="d-flex align-items-center mb-1">
-                                                                    <div class="me-75">
-                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-horario="{{dia_horario}}" data-nombre="{{nombre}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
-                                                                    </div>
-
-                                                                    <div class="d-flex align-items-center justify-content-between w-100">
-                                                                        <div class="d-flex">
-                                                                            <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
-                                                                                {{grupo.activos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                    
-                                                                            <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
-                                                                                {{grupo.incorporados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
-                                                                                {{grupo.inscritos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
-                                                                                {{grupo.fusionados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
-                                                                                {{grupo.congelados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
-                                                                                {{grupo.total}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                                                        
-                                                                        </div>
-                                                                        <div>
-                                                                            <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
-                                                                                <form action="/borrargrupopy672" method="POST">
-                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a>
-                                                                                        <i data-feather='trash'></i>
-                                                                                    </a>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex">
-                                                                    <!---- PROF ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                                                        <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
-                                                                    </div>
-
-                                                                    <!---- PAGOS ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-dollar-sign me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign font-small-4"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
-
-                                                                        <small class="emp_post text-muted">Pagos</small><br><small class="emp_post">{{dia_pagos}}</small>
-                                                                    </div>
-
-                                                                    <div class="me-1">
-                                                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
-                                                                        
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
-                                                                        
-                                                                        </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Fin</small><br><small class="emp_post">{{fecha_finalizacion}}</small>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                {{/each}}
-                                                {{else}}
+                                            <table class="table table-responsive dataTable" id="tablaDesde0">
+                                                <thead>
                                                     <tr>
-                                                        <td>No existen grupos desde cero actualmente.</td>
+                                                        <th>Nombre</th>
                                                     </tr>
-                                                {{/if}}
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
 
                                     <!-- GRUPOS INTENSIVO -->
                                     <div class="tab-pane" id="intensivo" aria-labelledby="intensivo-tab" role="tabpanel">
-                                        <div class="card-datatable table-responsive pt-0">
+                                        <div class="card-datatable">
                                             <div class="row p-0 mb-1">
                                                 <!-- FILTRO INTENSIVO -->
                                                 <div class="col-4 niveles-grupos">
                                                     <label class="form-label" for="">Niveles</label>
                                                     <select id="nivelesGrupo2" class="form-select text-capitalize mb-md-0 mb-2">
-                                                        <option value="todos">Todos</option>
+                                                        <option value="">Todos</option>
                                                         <option value="Principiante" class="text-capitalize">Principiante</option>
                                                         <option value="Básico" class="text-capitalize">Básico</option>
                                                         <option value="Intermedio" class="text-capitalize">Intermedio</option>
@@ -414,118 +284,21 @@
                                                 <div class="col-4 pagos-grupos">
                                                     <label class="form-label" for="">Fecha de pago</label>
                                                     <select id="pagosGrupo2" class="form-select text-capitalize mb-md-0 mb-2xx">
-                                                        <option value="todos">Todos</option>
-                                                        <option value="01">01 de cada mes</option>
-                                                        <option value="15">15 de cada mes</option>
+                                                        <option value="">Todos</option>
+                                                        <option value="01 de cada mes">01 de cada mes</option>
+                                                        <option value="15 de cada mes">15 de cada mes</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                            <table class="user-list-table-Tabla-DesdeCero table" id="tablaIntensivo">
-                                                {{#if gruposIntensivo}}
-                                                {{#each gruposIntensivo as |grupo i|}}
-                                                    <tr class="{{#clasesGruposPY672 nombre}}{{/clasesGruposPY672}} {{nivel}}" data-pagos="{{dia_pagos}}">
-                                                        <td>
-                                                            <div>
-                                                                <div class="d-flex align-items-center mb-1">
-                                                                    <div class="me-75">
-                                                                        <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="{{id}}" data-nombre="{{nombre}}" data-horario="{{dia_horario}}" data-fecha="{{fecha_inicio}}"><b>{{identificador}}</b></a>
-                                                                    </div>
-
-                                                                    <div class="d-flex align-items-center justify-content-between w-100">
-                                                                        <div class="d-flex">
-                                                                            <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
-                                                                                {{grupo.activos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                    
-                                                                            <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
-                                                                                {{grupo.incorporados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
-                                                                                {{grupo.inscritos}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
-                                                                                {{grupo.fusionados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
-                                                                                {{grupo.congelados}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                            
-                                                                            <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" role="button" data-consulta="todos">
-                                                                                {{grupo.total}}
-                                                                                <form action="">
-                                                                                    <input type="text" class="d-none" name="id" value="{{id}}">
-                                                                                </form>
-                                                                            </div>
-                                                                           
-                                                                        </div>
-                                                                        <div>
-                                                                            <div role="button" class="btn btn-sm btn-outline-danger borrar-btn">
-                                                                                <form action="/borrargrupopy672" method="POST">
-                                                                                    <input type="text" name="id" class="new-todo-item-title form-control d-none" value="{{id}}" required>
-                                                                                    <a>
-                                                                                        <i data-feather='trash'></i>
-                                                                                    </a>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="d-flex">
-                                                                    <!---- PROF ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                                                        <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
-                                                                    </div>
-
-                                                                    <!---- PAGOS ---->
-                                                                    <div class="me-1">
-                                                                        <span class="item-dollar-sign me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign font-small-4"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
-
-                                                                        <small class="emp_post text-muted">Pagos</small><br><small class="emp_post">{{dia_pagos}}</small>
-                                                                    </div>
-
-                                                                    <div class="me-1">
-                                                                        <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
-                                                                        
-                                                                        <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">{{dia_horario}}</small>
-                                                                        
-                                                                        </div><div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">{{fecha_inicio}}</small>
-                                                                    </div>
-                                                                    <div class="">
-                                                                        <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
-                                                                        <small class="emp_post text-muted">Fin</small><br><small class="emp_post">{{fecha_finalizacion}}</small>
-                                                                    </div>
-                                                                                                            
-                                                                </div>
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                {{/each}}
-                                                {{else}}
+                                            <table class="table table-responsive dataTable" id="tablaIntensivo">
+                                                <thead>
                                                     <tr>
-                                                        <td>No existen grupos intensivos actualmente.</td>
+                                                        <th>Nombre</th>
                                                     </tr>
-                                                {{/if}}
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
                                             </table>
                                         </div>
                                     </div>
@@ -630,4 +403,4 @@
     </div>
 </div>
 
-<script src="../../assets/js/PYT672/grupos.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
