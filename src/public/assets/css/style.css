@@ -1565,7 +1565,7 @@ table tr td {
 }
 .py672 .texto-horario {
     display: block;
-    min-width: 200px;
+    min-width: 168px;
 }
 .py672 .borrar-btn, .py672 .edit-btn {
     cursor: pointer;

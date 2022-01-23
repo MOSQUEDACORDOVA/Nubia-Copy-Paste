@@ -32,7 +32,7 @@
   width: 11px; }
 
 .vertical-layout.vertical-menu-modern.menu-expanded .main-menu {
-  width: 260px; }
+  width: 230px; }
 
 .vertical-layout.vertical-menu-modern.menu-expanded .main-menu .navigation .navigation-header .feather-more-horizontal {
   display: none; }
@@ -72,7 +72,7 @@
   display: none; }
 
 .vertical-layout.vertical-menu-modern.menu-collapsed .navbar .navbar-header.expanded {
-  width: 260px;
+  width: 230px;
   z-index: 1000; }
 
 .vertical-layout.vertical-menu-modern.menu-collapsed .navbar .navbar-header.expanded .modern-nav-toggle {
@@ -109,7 +109,7 @@
   color: #565656; }
 
 .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu.expanded {
-  width: 260px; }
+  width: 230px; }
 
 .vertical-layout.vertical-menu-modern.menu-collapsed .main-menu.expanded .navigation > li.navigation-header span {
   display: block; }
