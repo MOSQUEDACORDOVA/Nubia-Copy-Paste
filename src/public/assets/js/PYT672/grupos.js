@@ -21,7 +21,6 @@ function FetchData (tabla) {
             .then(response => response.json())
             .then(data => {
                 gruposIntensivos = data[0]
-                console.log(gruposIntensivos)
                 cargarTablaIntensivos();
             });
     }
@@ -70,12 +69,18 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        let identif;
+                        if(full['identificador'].includes("C")) {
+                            identif = `<b class="text-primary">${full.identificador}</b>`
+                        } else {
+                            identif = `<b class="text-danger">${full.identificador}</b>`
+                        }
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nombre}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}">${identif}</a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -176,10 +181,10 @@ function cargarTablaAperturas() {
             lengthMenu: [5, 10, 25, 50, 75, 100],
             language: {
                 "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Total _TOTAL_ registros",
-                "infoEmpty": "Total _TOTAL_ registros",
-                "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+                "emptyTable": "No existen grupos",
+                "info": "Total _TOTAL_ grupos",
+                "infoEmpty": "Total _TOTAL_ grupos",
+                "infoFiltered": "(Filtrado de _MAX_ grupos totales)",
                 "infoPostFix": "",
                 "thousands": ",",
                 "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -231,7 +236,7 @@ function cargarTablaDesde0() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-primary">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -340,10 +345,10 @@ function cargarTablaDesde0() {
             lengthMenu: [5, 10, 25, 50, 75, 100],
             language: {
                 "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Total _TOTAL_ registros",
-                "infoEmpty": "Total _TOTAL_ registros",
-                "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+                "emptyTable": "No existen grupos",
+                "info": "Total _TOTAL_ grupos",
+                "infoEmpty": "Total _TOTAL_ grupos",
+                "infoFiltered": "(Filtrado de _MAX_ grupos totales)",
                 "infoPostFix": "",
                 "thousands": ",",
                 "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -395,7 +400,7 @@ function cargarTablaIntensivos() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-danger">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -496,10 +501,10 @@ function cargarTablaIntensivos() {
             lengthMenu: [5, 10, 25, 50, 75, 100],
             language: {
                 "decimal": "",
-                "emptyTable": "No hay información",
-                "info": "Total _TOTAL_ registros",
-                "infoEmpty": "Total _TOTAL_ registros",
-                "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+                "emptyTable": "No existen grupos",
+                "info": "Total _TOTAL_ grupos",
+                "infoEmpty": "Total _TOTAL_ grupos",
+                "infoFiltered": "(Filtrado de _MAX_ grupos totales)",
                 "infoPostFix": "",
                 "thousands": ",",
                 "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -528,7 +533,100 @@ function cargarTablaIntensivos() {
 let inputDesde0 = document.querySelector('.desde0'),
 desde0Form = document.getElementById('desde0Form'),
 inputIntensivo = document.querySelector('.intensivo'),
-intensivoForm = document.getElementById('intensivoForm');
+intensivoForm = document.getElementById('intensivoForm'),
+actualizarForm = document.getElementById('actualizarForm');
+
+actualizarForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(actualizarForm);
+    fetch('/actualizargrupospty672', {
+        method: 'POST',
+        body: data, 
+    }).then(res => res.json())
+        .catch(error => {
+            //console.error('Error:', error);
+            Toast("Error");
+        })
+        .then(response => {
+            //console.log('Success:', response)
+            $('.edit-modal .btn-outline-danger').click();
+            Toast("Grupo Actualizado");
+            UpdateTables();
+        });
+});
+
+desde0Form.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(desde0Form);
+    CrearGruposFetch(data)
+});
+
+intensivoForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(intensivoForm);
+    CrearGruposFetch(data)
+});
+
+function CrearGruposFetch (data) {
+    fetch('/creargrupopy672', {
+        method: 'POST',
+        body: data, 
+    }).then(res => res.json())
+        .catch(error => {
+            //console.error('Error:', error);
+            Toast("Error");
+        })
+        .then(response => {
+            //console.log('Success:', response)
+            Toast("Grupo Agregado");
+            UpdateTables();
+        });
+}
+
+function UpdateTables() {
+    let selectsHorario = document.querySelectorAll('.horario');
+    selectsHorario.forEach(select => {
+        select.options[0].selected = true;
+    });
+    $('.horario').trigger('change');
+    
+    $('.fecha-inicio').val("")
+    $('.monto-mensual').val("")
+
+    $('.profesor').val("")
+    $('.profesor').trigger('change');
+
+    $('#tabla-aperturas').dataTable().fnDestroy();
+    $('#tabla-aperturas').empty();
+    $('#tabla-aperturas').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+
+    $('#tablaDesde0').dataTable().fnDestroy();
+    $('#tablaDesde0').empty();
+    $('#tablaDesde0').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+    
+    $('#tablaIntensivo').dataTable().fnDestroy();
+    $('#tablaIntensivo').empty();
+    $('#tablaIntensivo').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+    
+    FetchData(1);
+    FetchData(2);
+    FetchData(3);
+}
 
 inputDesde0.addEventListener('change', () => {
     Reset(1);

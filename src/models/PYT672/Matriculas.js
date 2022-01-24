@@ -15,11 +15,7 @@ const Matriculas = db672.define('matriculas', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
-	primer_apellido: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	segundo_apellido: {
+	apellidos: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},

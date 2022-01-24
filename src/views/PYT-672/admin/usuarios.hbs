@@ -1,9 +1,22 @@
 <div class="app-content content py672">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
+            {{! NOTIFICACION }}
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            {{! NOTIFICACION END }}
+            
             <div class="row match-height flex-md-row-reverse">
 
-                <input type="text" class="d-none" id="arrayUsuarios" value="{{stringUsuarios}}">
                 <!-- Listado de grpos -->
                 <div class="col-12 col-lg-4">
                     <div class="card">
@@ -50,90 +63,7 @@
                                             <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">DNI</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Nacimiento</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">F. Inicio</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Mosqueda Cordova</td>
-                                                <td>201581105</td>
-                                                <td>mosquedac@gmail.com</td>
-                                                <td>Chile</td>
-                                                <td>
-                                                    <span class="badge badge-light-warning">Vendedor</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">1996/07/19</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">22/02/10</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#" class="btn btn-sm text-primary"><i data-feather='edit'></i></a>
-                                                        <a href="#" class="btn btn-sm ms-1 text-primary"><i data-feather='trash'></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Borys Lopez</td>
-                                                <td>26708053</td>
-                                                <td>bjlm@gmail.com</td>
-                                                <td>Venezuela</td>
-                                                <td>
-                                                    <span class="badge badge-light-info">Profesor</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">1999/02/23</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">22/04/18</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#" class="btn btn-sm text-primary"><i data-feather='edit'></i></a>
-                                                        <a href="#" class="btn btn-sm ms-1 text-primary"><i data-feather='trash'></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Isaac Mosqueda</td>
-                                                <td>654218486</td>
-                                                <td>prueba@gmail.com</td>
-                                                <td>Argentina</td>
-                                                <td>
-                                                    <span class="badge badge-light-warning">Vendedor</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">1994/06/03</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">22/09/02</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#" class="btn btn-sm text-primary"><i data-feather='edit'></i></a>
-                                                        <a href="#" class="btn btn-sm ms-1 text-primary"><i data-feather='trash'></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lorem Ipsum</td>
-                                                <td>5664511</td>
-                                                <td>lorem@gmail.com</td>
-                                                <td>Bolivia</td>
-                                                <td>
-                                                    <span class="badge badge-light-warning">Vendedor</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">1995/04/12</span>
-                                                </td>
-                                                <td>
-                                                    <span class="badge badge-light-primary">22/03/08</span>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <a href="#" class="btn btn-sm text-primary"><i data-feather='edit'></i></a>
-                                                        <a href="#" class="btn btn-sm ms-1 text-primary"><i data-feather='trash'></i></a>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
@@ -156,7 +86,7 @@
                                 <p>Ingresé los detalles de la nueva cuenta</p>
                             </div>
 
-                            <form class="" method="POST" action="/reguserpy672">
+                            <form class="" method="POST" id="regUsuarioForm" action="/reguserpy672">
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="nombre">Nombres</label>
@@ -212,7 +142,8 @@
                                     </div>
 
                                     <div class="col-12">
-                                    <input type="submit" value="Registrar" class="btn btn-primary">
+                                        <input type="submit" value="Registrar" class="btn btn-primary">
+                                        <input type="reset" value="Registrar" class="btn resetBtn d-none">
                                     </div>
                                 </div>
                             </form>

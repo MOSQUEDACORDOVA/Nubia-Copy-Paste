@@ -234,67 +234,79 @@ let ArrayGral = Object.entries(Newcorte2);
     {
       // REFILL
       targets:2,render: function (data, type, full, meta) {
-        let total=0;
+        let total=0; let ResOcultoRefill;
+        
         for (let i = 0; i < data.length; i++) {
           total += parseInt(data[i]['data']['total_refill_pedido']);
-          
+          if (data[i]['tipo'] == "Residencial") {
+            ResOcultoRefill="ResOcultoRefill"     
+          }
         }
+        
+             
         if (total == 0) {
           total = "-"
         }
-        return (`<span class="refill">${total}</span>`)
-        }  
+        return (`<span class="refill ${ResOcultoRefill}">${total}</span>`)
+      }  
   },
   {
     // canje
     targets:3,render: function (data, type, full, meta) {
-      let total=0;
+      let total=0 , ResOcultoCanje; 
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_canje_pedido']);
-        
+        if (data[i]['tipo'] == "Residencial") {
+          ResOcultoCanje="ResOcultoCanje"     
+        }
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="canje">${total}</span>`)}  
+      return (`<span class="canje ${ResOcultoCanje}">${total}</span>`)
+      
+    }  
+
 },
 {
   // nuevo
   targets:4,render: function (data, type, full, meta) {
-    let total=0;
+    let total=0, ResOcultoNuevo;
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_nv_pedido']);
-        
+        ResOcultoNuevo="ResOcultoNuevo"
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="nuevo">${total}</span>`)}  
+      return (`<span class="nuevo ${ResOcultoNuevo}">${total}</span>`)}  
 },
 {
   // dañados
   targets:5,render: function (data, type, full, meta) {
-          let danados = 0, garrafones_prestamos=0;
+          let danados = 0, garrafones_prestamos=0, ResOcultoDanados;
     for (let i = 0; i < data.length; i++) {
       danados += parseInt(data[i]['data']['danados']);
+      ResOcultoDanados="ResOcultoDanados";
   }
   if (danados == 0) {
     danados = "-"
   }
-    return (`<span class="danados">${danados}</span>`)}  
+    return (`<span class="danados ${ResOcultoDanados}">${danados}</span>`)}  
   },
   {
     // prestados
     targets:6,render: function (data, type, full, meta) {
       
-    let danados = 0, garrafones_prestamos=0;
+    let danados = 0, garrafones_prestamos=0, ResOcultoPrestados;
     for (let i = 0; i < data.length; i++) {
     garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+    ResOcultoPrestados="ResOcultoPrestados"
   }
   if (garrafones_prestamos == 0) {
     garrafones_prestamos = "-"
   }
-    return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+    return (`<span class="prestados ${ResOcultoPrestados} ">${garrafones_prestamos}</span>`)}  
     },
 
     {          
@@ -456,7 +468,7 @@ let ArrayGral = Object.entries(Newcorte2);
       cantDepositos++
     }    
 });
-  $('.efectivo').each(function(){
+$('.efectivo').each(function(){
     if ($(this).text() == "-") {
       subefectivo
     }else{
@@ -516,21 +528,21 @@ $('.descuentogral').html(`<span >$${descuentos}</span>`)
 
 console.log(subefectivo)
 efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-  $('.refill').each(function(){
+dt_Gral_t.$('.refill').each(function(){
     if ($(this).text() == "-") {
       sumaRefill
     }else{
           sumaRefill += parseFloat($(this).text());
     }    
 });
-$('.canje').each(function(){
+dt_Gral_t.$('.canje').each(function(){
   if ($(this).text() == "-") {
     sumacanje 
   }else{
   sumacanje += parseFloat($(this).text());
   }     
 });
-$('.nuevo').each(function(){
+dt_Gral_t.$('.nuevo').each(function(){
   if ($(this).text() == "-") {
     sumanuevo
   }else{
@@ -538,14 +550,14 @@ $('.nuevo').each(function(){
   }   
 });
 
-$('.danados').each(function(){
+dt_Gral_t.$('.danados').each(function(){
   if ($(this).text() == "-") {
     sumadanados
   }else{
   sumadanados += parseFloat($(this).text());
   }    
 });
-$('.prestados').each(function(){
+dt_Gral_t.$('.prestados').each(function(){
   if ($(this).text() == "-") {
     sumaprestados
   }else{
@@ -566,7 +578,7 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
   
 
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
-  $('tr.d-none .refill').each(function(){
+  dt_Gral_t.$('.ResOcultoRefill').each(function(){
     if ($(this).text() == "-") {
       sumaRefillres
     }else{
@@ -574,14 +586,14 @@ subtotal =parseFloat(efectivoPre)-parseFloat(subDepositos)
     }    
 });
 
-$('tr.d-none .canje').each(function(){
+dt_Gral_t.$('.ResOcultoCanje').each(function(){
   if ($(this).text() == "-") {
     resCanje 
   }else{
   resCanje += parseFloat($(this).text());
   }     
 });
-$('tr.d-none .nuevo').each(function(){
+dt_Gral_t.$('.ResOcultoNuevos').each(function(){
   if ($(this).text() == "-") {
     resNuevos
   }else{
@@ -589,14 +601,14 @@ $('tr.d-none .nuevo').each(function(){
   }   
 });
 
-$('tr.d-none .danados').each(function(){
+dt_Gral_t.$('.ResOcultoDanados').each(function(){
   if ($(this).text() == "-") {
     resdanados
   }else{
   resdanados += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .prestados').each(function(){
+dt_Gral_t.$('.ResOcultoPrestados').each(function(){
   if ($(this).text() == "-") {
     resprestados
   }else{
@@ -609,13 +621,13 @@ $('tr.d-none .prestados').each(function(){
   $('.canje_gral').html(resCanje)
   $('.nuevo_gral').html(resNuevos)
   $('.danados_gral').html(resdanados)
-$('.prestados_gral').html(resprestados)
+  $('.prestados_gral').html(resprestados)
 
-$('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
-$('.depositosF').text(subDepositos)
-$('.cantdepositosF').text(cantDepositos)
-$('.descuentosF').text(resdescuentos)
+  $('.adeudoF').text(subadeudo)
+  $('.subtotalF').text(efectivoPre)
+  $('.depositosF').text(subDepositos)
+  $('.cantdepositosF').text(cantDepositos)
+  $('.descuentosF').text(resdescuentos)
 total =  parseFloat(subtotal) - parseFloat(resdescuentos)
 $('.totalefectivoF').text(total)
     // Refilter the table
@@ -625,6 +637,7 @@ $('.totalefectivoF').text(total)
       });
   }
  }
+
  function cargaTablaResidencial(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()

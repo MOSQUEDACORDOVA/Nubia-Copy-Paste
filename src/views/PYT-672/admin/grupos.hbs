@@ -39,7 +39,7 @@
                                         <div class="row custom-options-checkable g-1 mb-1">
                                             <div class="col-md-6">
                                                 <input class="custom-option-item-check desde0" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios1" checked/>
-                                                <label class="custom-option-item p-1" for="customOptionsCheckableRadios1">
+                                                <label class="custom-option-item p-1" for="customOptionsCheckableRadios1" id="labelDesde0">
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Desde cero</span>
                                                     </span>
@@ -49,7 +49,7 @@
         
                                             <div class="col-md-6">
                                                 <input class="custom-option-item-check intensivo" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios2" value="" />
-                                                <label class="custom-option-item p-1" for="customOptionsCheckableRadios2">
+                                                <label class="custom-option-item p-1" for="customOptionsCheckableRadios2" id="labelIntensivo">
                                                     <span class="d-flex justify-content-between flex-wrap mb-50">
                                                         <span class="fw-bolder">Intensivo</span>
                                                     </span>
@@ -66,7 +66,7 @@
                                                         <label class="form-label" for="first-name-column">Día y Horario</label>
                                                         <input type="text" class="d-none" value="Desde cero" name="nombre"/>
                                                         <input type="text" class="d-none" value="1" name="lecciones"/>
-                                                        <select class="form-select" name="horario" required>
+                                                        <select class="form-select select2 horario" name="horario" required>
                                                             <option value="Lunes: 6:30pm a 9pm"> Lunes: 6:30pm a 9pm</option>
                                                             <option value="Martes: 6:30pm a 9pm"> Martes: 6:30pm a 9pm</option>
                                                             <option value="Miércoles: 6:30pm a 9pm"> Miércoles: 6:30pm a 9:30pm</option>
@@ -81,14 +81,14 @@
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Fecha inicio</label>
-                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic" name="fechaInicio" placeholder="YYYY-MM-DD" required/>
+                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic fecha-inicio" name="fechaInicio" placeholder="YYYY-MM-DD" required/>
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Monto Mensual</label>
-                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                    <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" placeholder="0.00" required/>
                                                 </div>
                                             </div>
 
@@ -99,7 +99,7 @@
                                                     <!-- 
                                                     <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
                                                     -->
-                                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                                    <select class="select2 form-select profesor" tabindex="-1" name="profesor" aria-hidden="true" required>
                                                         <!-- 
                                                         {{#each gruposTodos as |item i|}}
                                                         <option value="{{id}}">
@@ -133,7 +133,7 @@
                                                                                                                                                                      <input type="text" class="d-none" name="nombre" value="Intensivo"/>
                                                         <input type="text" class="d-none" value="2" name="lecciones"/>
                                                         <label class="form-label" for="first-name-column">Día y Horario</label>
-                                                        <select class="form-select" name="horario" id="" required>
+                                                        <select class="form-select select2 horario" name="horario" id="" required>
                                                             <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
                                                             <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
                                                         </select>
@@ -144,21 +144,28 @@
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Fecha inicio</label>
-                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" name="fechaInicio" required>
+                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input fecha-inicio" placeholder="YYYY-MM-DD" name="fechaInicio" required>
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Monto Mensual</label>
-                                                    <input type="number" id="fp-default" class="form-control" name="montoMensual" placeholder="0.00" required/>
+                                                    <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" placeholder="0.00" required/>
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Profesor</label>
-                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
+                                                    <select class="select2 form-select profesor" tabindex="-1" name="profesor" aria-hidden="true" required>
+                                                        <option value="" selected>(opcional)</option>
+                                                        <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
+                                                        <option value="Rai Torcat"> Rai Torcat</option>
+                                                        <option value="Patricio Calderon"> Patricio Calderon</option>
+                                                        <option value="Boris Melgarejo"> Boris Melgarejo</option>
+                                                        <option value="Jose Arzolay"> Jose Arzolay</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                                                                                     
@@ -204,7 +211,7 @@
                                                     <option value="Intensivo" class="text-capitalize">Intensivo</option>
                                                 </select>
                                             </div>
-                                            <table class="table table-responsive dataTable" id="tabla-aperturas">
+                                            <table class="table table-responsive dataTable timeline" id="tabla-aperturas">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
@@ -310,10 +317,10 @@
                 </div>
             </section>
 
-            <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal" aria-modal="true" role="dialog">
+            <div class="modal modal-slide-in sidebar-todo-modal fade edit-modal" id="new-task-modal" aria-modal="true" role="dialog">
                 <div class="modal-dialog sidebar-lg">
                     <div class="modal-content p-0">
-                        <form class="todo-modal needs-validation" action="/actualizargrupospty672" method="POST">
+                        <form class="todo-modal needs-validation" action="/actualizargrupospty672" method="POST" id="actualizarForm">
                             <div class="modal-header align-items-center mb-1">
                                 <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x cursor-pointer" data-bs-dismiss="modal"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
