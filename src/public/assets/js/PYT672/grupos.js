@@ -21,7 +21,6 @@ function FetchData (tabla) {
             .then(response => response.json())
             .then(data => {
                 gruposIntensivos = data[0]
-                console.log(gruposIntensivos)
                 cargarTablaIntensivos();
             });
     }
@@ -529,6 +528,79 @@ let inputDesde0 = document.querySelector('.desde0'),
 desde0Form = document.getElementById('desde0Form'),
 inputIntensivo = document.querySelector('.intensivo'),
 intensivoForm = document.getElementById('intensivoForm');
+
+desde0Form.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(desde0Form);
+    CrearGruposFetch(data)
+});
+
+intensivoForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(intensivoForm);
+    CrearGruposFetch(data)
+});
+
+function CrearGruposFetch (data) {
+    fetch('/creargrupopy672', {
+        method: 'POST',
+        body: data, 
+    }).then(res => res.json())
+        .catch(error => {
+            console.error('Error:', error);
+            Toast("Error");
+        })
+        .then(response => {
+            console.log('Success:', response)
+            UpdateTables();
+        });
+}
+
+function UpdateTables() {
+    let selectsHorario = document.querySelectorAll('.horario');
+    selectsHorario.forEach(select => {
+        select.options[0].selected = true;
+    });
+    $('.horario').trigger('change');
+    
+    $('.fecha-inicio').val("")
+    $('.monto-mensual').val("")
+
+    $('.profesor').val("")
+    $('.profesor').trigger('change');
+
+    $('#tabla-aperturas').dataTable().fnDestroy();
+    $('#tabla-aperturas').empty();
+    $('#tabla-aperturas').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+
+    $('#tablaDesde0').dataTable().fnDestroy();
+    $('#tablaDesde0').empty();
+    $('#tablaDesde0').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+    
+    $('#tablaIntensivo').dataTable().fnDestroy();
+    $('#tablaIntensivo').empty();
+    $('#tablaIntensivo').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+    
+    FetchData(1);
+    FetchData(2);
+    FetchData(3);
+    Toast("Grupo Agregado");
+}
 
 inputDesde0.addEventListener('change', () => {
     Reset(1);

@@ -1511,7 +1511,11 @@ exports.creargrupos = (req, res) => {
   
   if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/verificargrupos/PYT-672');
+    let error = {
+      msg: 'complete todos los campos'
+    }
+
+    return res.send(error);
   } else {
     if (lecciones === '1') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
@@ -1555,7 +1559,7 @@ exports.creargrupos = (req, res) => {
           console.log(grupoId)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send({success: 'creado'});
 
         }).catch((err) => {
           console.log(err)
@@ -1609,7 +1613,8 @@ exports.creargrupos = (req, res) => {
           console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send(grupoCreado);
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";

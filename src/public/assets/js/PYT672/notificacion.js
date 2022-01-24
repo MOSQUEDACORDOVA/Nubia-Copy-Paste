@@ -37,13 +37,19 @@ function Toast (notif) {
         toastHeaderText.classList.add('text-danger');
         toastHeaderText.innerText = 'Lo sentimos, algo ah ocurrido !';
         toastText.innerText = 'Estimado usuario, se presento un error al realizar la tarea';
-
+        
     } else if (notif === "Grupo Eliminado") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
         toastHeaderText.innerText = 'Grupo Eliminado !';
         toastText.innerText = 'Grupo Eliminado satisfactoriamente !';
-
+        
+    } else if (notif === "Grupo Agregado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Grupo Creado !';
+        toastText.innerText = 'Estimado usuario, el grupo fue creado satisfactoriamente';
+        
     }
     btnToast.click();
 }
