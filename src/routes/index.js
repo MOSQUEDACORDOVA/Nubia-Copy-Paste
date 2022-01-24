@@ -555,6 +555,7 @@ router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin,
 router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
 router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
 router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
+router.get('/obtenerusuariospy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
 router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);

@@ -50,6 +50,18 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Grupo Creado !';
         toastText.innerText = 'Estimado usuario, el grupo fue creado satisfactoriamente';
         
+    } else if (notif === "Grupo Actualizado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Grupo Actualizado !';
+        toastText.innerText = 'Estimado usuario, el grupo fue actualizado satisfactoriamente';
+        
+    } else if (notif === "Usuario Registrado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Registrado !';
+        toastText.innerText = 'Estimado usuario, el usuario fue registrado satisfactoriamente';
+
     }
     btnToast.click();
 }

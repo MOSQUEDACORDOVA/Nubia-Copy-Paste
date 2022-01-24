@@ -533,7 +533,27 @@ function cargarTablaIntensivos() {
 let inputDesde0 = document.querySelector('.desde0'),
 desde0Form = document.getElementById('desde0Form'),
 inputIntensivo = document.querySelector('.intensivo'),
-intensivoForm = document.getElementById('intensivoForm');
+intensivoForm = document.getElementById('intensivoForm'),
+actualizarForm = document.getElementById('actualizarForm');
+
+actualizarForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(actualizarForm);
+    fetch('/actualizargrupospty672', {
+        method: 'POST',
+        body: data, 
+    }).then(res => res.json())
+        .catch(error => {
+            //console.error('Error:', error);
+            Toast("Error");
+        })
+        .then(response => {
+            //console.log('Success:', response)
+            $('.edit-modal .btn-outline-danger').click();
+            Toast("Grupo Actualizado");
+            UpdateTables();
+        });
+});
 
 desde0Form.addEventListener('submit', e => {
     e.preventDefault();
@@ -553,11 +573,12 @@ function CrearGruposFetch (data) {
         body: data, 
     }).then(res => res.json())
         .catch(error => {
-            console.error('Error:', error);
+            //console.error('Error:', error);
             Toast("Error");
         })
         .then(response => {
-            console.log('Success:', response)
+            //console.log('Success:', response)
+            Toast("Grupo Agregado");
             UpdateTables();
         });
 }
@@ -605,7 +626,6 @@ function UpdateTables() {
     FetchData(1);
     FetchData(2);
     FetchData(3);
-    Toast("Grupo Agregado");
 }
 
 inputDesde0.addEventListener('change', () => {

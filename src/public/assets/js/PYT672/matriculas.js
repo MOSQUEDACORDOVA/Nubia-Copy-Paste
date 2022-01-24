@@ -100,29 +100,28 @@ function cargarTablaMatricula(editada) {
       ],
       columnDefs: [
         {
-            targets: 0, render: function (data, type, full) {
-
-            let micampo = full.nombre +" "+ full.segundo_apellido;
-            return micampo
-            }
+          targets: 0, render: function (data, type, full) {
+            let nombreAlumno = full.nombre +" "+ full.apellidos;
+            return nombreAlumno
+          }
         },
         {
-            targets: 2, render: function (data, type, full) {
-            let micampo; 
-            if (full['grupo']) {
-              micampo = `
-              <div class="badge-wrapper me-1">
-                  <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
-              </div>`;
-            } else {
-              micampo = `
-              <div class="badge-wrapper me-1">
-                  <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-              </div>`;
-            }
-            
-            return micampo
-            }
+          targets: 2, render: function (data, type, full) {
+          let grupo; 
+          if (full['grupo']) {
+            grupo = `
+            <div class="badge-wrapper me-1">
+                <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
+            </div>`;
+          } else {
+            grupo = `
+            <div class="badge-wrapper me-1">
+                <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
+            </div>`;
+          }
+          
+          return grupo
+          }
         },
         {
           targets: 3, render: function (data, type, full) {
@@ -136,24 +135,24 @@ function cargarTablaMatricula(editada) {
           }
         },
         {
-            targets: 4, render: function (data, type, full) {
-              let micampo;
-              if(full['estado']['id'] === 1) {
-                micampo = `
-                  <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-success">${full['estado']['estado']}</span>
-                  </div>
-                `; 
-              } else if(full['estado']['id'] === 5) {
-                micampo = `
-                  <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-danger">${full['estado']['estado']}</span>
-                  </div>
-                `; 
-              }
-              
-              return micampo
+          targets: 4, render: function (data, type, full) {
+            let estado;
+            if(full['estado']['id'] === 1) {
+              estado = `
+                <div class="badge-wrapper me-1">
+                  <span class="badge rounded-pill badge-light-success">${full['estado']['estado']}</span>
+                </div>
+              `; 
+            } else if(full['estado']['id'] === 5) {
+              estado = `
+                <div class="badge-wrapper me-1">
+                  <span class="badge rounded-pill badge-light-danger">${full['estado']['estado']}</span>
+                </div>
+              `; 
             }
+            
+            return estado
+          }
         },
         
       ],
