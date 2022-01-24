@@ -69,12 +69,18 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        let identif;
+                        if(full['identificador'].includes("C")) {
+                            identif = `<b class="text-primary">${full.identificador}</b>`
+                        } else {
+                            identif = `<b class="text-danger">${full.identificador}</b>`
+                        }
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nombre}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}">${identif}</a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -230,7 +236,7 @@ function cargarTablaDesde0() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-primary">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -394,7 +400,7 @@ function cargarTablaIntensivos() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b>${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-danger">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
