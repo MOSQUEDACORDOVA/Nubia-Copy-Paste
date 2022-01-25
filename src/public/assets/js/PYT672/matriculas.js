@@ -21,6 +21,8 @@ function cargarTablaMatricula(editada) {
   if (matriculaTable.length) {
     
     var tableMatr = matriculaTable.DataTable({
+      ordering: false,
+      paging: false,
       data: estudiantesParsed,
       columns: [
         { data: 'nombre' },

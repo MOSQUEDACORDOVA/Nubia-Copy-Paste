@@ -335,7 +335,7 @@ module.exports = {
 	},
 	fechamenumatriculapy672: (fecha) => {
 		moment.locale('es');
-		let format = moment(fecha, "DD-MM-YYYY").format("MMM D YYYY");
+		let format = moment(fecha, "DD-MM-YYYY").format("D MMM YYYY");
 		return format;
 	},
 	totalth: (totalth) => {

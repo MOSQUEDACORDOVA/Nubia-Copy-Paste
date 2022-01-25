@@ -33,35 +33,14 @@ FetchData(3)
 function cargarTablaAperturas() {
     let tableApert;
 
-    let aperturas = ''
-    //console.log(aperturas)
-  
-    /*let aperturasGruposParsed = ""
-    if (editada) {
-        
-        aperturasGruposParsed = JSON.parse(aperturas)
-
-    } else{
-        aperturasGruposParsed = JSON.parse(aperturas.replace(/&quot;/g,'"'))
-    }
-
-    if ($('body').attr('data-framework') === 'laravel') {
-        assetPath = $('body').attr('data-asset-path');
-    }*/
-
-    // --------------------------------------------------------------------
-
     if (aperturasTable.length) {
         $('#filtroApertura').on('keyup change', function(){
             tableApert.search(this.value).draw();   
         });  
 
-        /* $('.buscar-grupos').on('change', function(){
-            tableApert.search(this.value).draw();   
-        }); */
-
         tableApert = aperturasTable.DataTable({
             ordering: false,
+            paging:   false,
             data: gruposApertura,
             columns: [
                 {data: 'nombre'},
@@ -223,6 +202,7 @@ function cargarTablaDesde0() {
 
         tableDesde0 = desde0Table.DataTable({
             ordering: false,
+            paging:   false,
             data: gruposDesde0,
             columns: [
                 {data: 'nombre'},
@@ -387,6 +367,7 @@ function cargarTablaIntensivos() {
 
         tableIntensivos = intensivosTable.DataTable({
             ordering: false,
+            paging:   false,
             data: gruposIntensivos,
             columns: [
                 {data: 'nombre'},
