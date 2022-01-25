@@ -15,10 +15,6 @@ const Matriculas = db672.define('matriculas', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
-	apellidos: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
 	nro_identificacion: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
