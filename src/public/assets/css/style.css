@@ -1469,6 +1469,18 @@ table tr td {
     border-color: #7367f0 !important;
 }
 /*---------- py672 ----------*/
+.py672 .navbar-brand .brand-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    transition: .3s ease all;
+}
+.py672 .navbar-header.expanded .brand-logo {
+    opacity: 1;
+}
+.py672 .navbar-header .brand-logo {
+    opacity: 0;
+}
 .py672.main-menu .navbar-header .navbar-brand .brand-text {
     color: #0833a2 !important;
 }

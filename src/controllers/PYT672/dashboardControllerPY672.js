@@ -42,11 +42,15 @@ exports.controlroles = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-  console.log(req.user)
-  if (req.user.puesto === 'Administrador') {
-    return res.redirect("../grupos/PYT-672");
+  if(req.user) {
+    console.log(req.user)
+    if (req.user.puesto === 'Administrador') {
+      return res.redirect("../grupos/PYT-672");
+    } else {
+      return res.redirect("../board672/PYT-672");
+    }
   } else {
-    return res.redirect("../board672/PYT-672");
+    return res.redirect("../loginpy672/PYT-672");
   }
 };
 
