@@ -187,6 +187,7 @@ function cargarTablaAperturas() {
         document.getElementById('tabla-aperturas_info').parentElement.parentElement.classList.add('align-items-center')
     }
 
+    $('#totalAperturas').text(gruposApertura.length);
 }
 
 function cargarTablaDesde0() {
@@ -352,6 +353,7 @@ function cargarTablaDesde0() {
         document.getElementById('tablaDesde0_info').parentElement.parentElement.classList.add('align-items-center')
     }
 
+    $('#totalDesde0').text(gruposDesde0.length);
 }
 
 function cargarTablaIntensivos() {
@@ -509,6 +511,7 @@ function cargarTablaIntensivos() {
         document.getElementById('tablaIntensivo_info').parentElement.parentElement.classList.add('align-items-center')
     }
 
+    $('#totalIntensivo').text(gruposIntensivos.length);
 }
 
 let inputDesde0 = document.querySelector('.desde0'),
