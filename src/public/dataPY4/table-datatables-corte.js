@@ -244,7 +244,7 @@ let ArrayGral = Object.entries(Newcorte2);
 
           }
 
-        
+        }
              
         if (total == 0) {
           total = "-"
@@ -336,19 +336,21 @@ let ArrayGral = Object.entries(Newcorte2);
       // Label
       targets: 8,
       render: function (data, type, full, meta) {
-        var suma = 0, deuda = 0
+        let sumaD = 0, deuda = 0,ResOcultoDeuda
           for (let i = 0; i < data.length; i++) {
-              if (data[i]['data']['deuda_anterior'] != "0") {
-                if (Array.isArray(data[i]['data']['deuda_anterior'])) {
-                  deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+              if (data[i]['data']['status_pago'] == "Por verificar") {
+                ResOcultoDeuda="ResOcultoDeuda";
+                if (Array.isArray(data[i]['data']['monto_total'])) {
+                  sumaD += countArray(parseInt(data[i]['data']['data']['monto_total']));
               } else {
-                  deuda += parseInt(data[i]['data']['deuda_anterior']);
+                  sumaD += parseInt(data[i]['data']['monto_total']);
               }
               }
-            
+           
         }
+
         let total = parseInt(deuda)
-        return `$<span class="deuda">${total}</span>`;
+        return `$<span class="deuda ${ResOcultoDeuda}">${sumaD}</span>`;
       }
     },
 
@@ -400,8 +402,7 @@ let ArrayGral = Object.entries(Newcorte2);
         let totalrefill=0;
         for (let i = 0; i < data[1].length; i++) {
           if (data[1][i]['tipo'] == "Residencial") {
-            console.log(data)
-        console.log(row)
+            
        $(row).addClass('d-none');      
        
     }         
@@ -417,9 +418,7 @@ let ArrayGral = Object.entries(Newcorte2);
           .column(0, { page: 'current' })
           .data()
           .each(function (group, i,full) {
-            console.log(full)
-              console.log(group)
-              console.log(last)
+            
             if (last !== group) {
               if (group =="Residencial") {
                 $(rows)
@@ -509,7 +508,7 @@ $('tr.d-none .efectivo').each(function(){
     resEfectivo += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .deuda').each(function(){
+dt_Gral_t.$('.ResOcultoDeuda').each(function(){
 if ($(this).text() == "-") {
   resDeuda
 }else{
@@ -911,8 +910,7 @@ if (garrafones_prestamos == 0) {
       
       for (let i = 0; i < data[1].length; i++) {
         if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-          console.log(row)
+         
           // $(row).addClass('d-none');
 
         }
@@ -1327,8 +1325,7 @@ if (garrafones_prestamos == 0) {
       
       for (let i = 0; i < data[1].length; i++) {
         if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-      console.log(row)
+        
      // $(row).addClass('d-none');
 
         }
@@ -1737,8 +1734,7 @@ if (garrafones_prestamos == 0) {
       
       for (let i = 0; i < data[1].length; i++) {
         if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-      console.log(row)
+          
      // $(row).addClass('d-none');
 
         }
