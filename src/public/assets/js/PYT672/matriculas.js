@@ -103,7 +103,7 @@ function cargarTablaMatricula(editada) {
       columnDefs: [
         {
           targets: 0, render: function (data, type, full) {
-            let nombreAlumno = full.nombre +" "+ full.apellidos;
+            let nombreAlumno = full.nombre;
             return nombreAlumno
           }
         },

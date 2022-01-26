@@ -615,6 +615,7 @@ function UpdateTables() {
 inputDesde0.addEventListener('change', () => {
     Reset(1);
 });
+
 inputIntensivo.addEventListener('change', () => {
     Reset(2);
 });
@@ -723,7 +724,7 @@ tablaGrupos.forEach(tabla => {
                                 }
                                 newRow.innerHTML = 
                                 `
-                                    <td>${row.nombre} ${row.primer_apellido}</td>
+                                    <td>${row.nombre}</td>
                                     <td>${row.email}</td>
                                     <td>${row.tipo_estudiante.tipo}</td>
                                     <td>${row.nro_identificacion}</td>
@@ -775,7 +776,7 @@ tablaGrupos.forEach(tabla => {
                                     }
                                     newRow.innerHTML = 
                                     `
-                                        <td>${row.nombre} ${row.primer_apellido}</td>
+                                        <td>${row.nombre}</td>
                                         <td>${row.email}</td>
                                         <td>${row.tipo_estudiante.tipo}</td>
                                         <td>${row.nro_identificacion}</td>
@@ -827,7 +828,7 @@ tablaGrupos.forEach(tabla => {
                                     }
                                     newRow.innerHTML = 
                                     `
-                                        <td>${row.nombre} ${row.primer_apellido}</td>
+                                        <td>${row.nombre}</td>
                                         <td>${row.email}</td>
                                         <td>${row.tipo_estudiante.tipo}</td>
                                         <td>${row.nro_identificacion}</td>
@@ -879,7 +880,7 @@ tablaGrupos.forEach(tabla => {
                                     }
                                     newRow.innerHTML = 
                                     `
-                                        <td>${row.nombre} ${row.primer_apellido}</td>
+                                        <td>${row.nombre}</td>
                                         <td>${row.email}</td>
                                         <td>${row.tipo_estudiante.tipo}</td>
                                         <td>${row.nro_identificacion}</td>
@@ -931,7 +932,7 @@ tablaGrupos.forEach(tabla => {
                                     }
                                     newRow.innerHTML = 
                                     `
-                                        <td>${row.nombre} ${row.primer_apellido}</td>
+                                        <td>${row.nombre}</td>
                                         <td>${row.email}</td>
                                         <td>${row.tipo_estudiante.tipo}</td>
                                         <td>${row.nro_identificacion}</td>
@@ -983,7 +984,7 @@ tablaGrupos.forEach(tabla => {
                                     }
                                     newRow.innerHTML = 
                                     `
-                                        <td>${row.nombre} ${row.primer_apellido}</td>
+                                        <td>${row.nombre}</td>
                                         <td>${row.email}</td>
                                         <td>${row.tipo_estudiante.tipo}</td>
                                         <td>${row.nro_identificacion}</td>

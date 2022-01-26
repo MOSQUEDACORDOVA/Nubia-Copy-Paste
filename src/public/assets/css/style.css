@@ -1494,6 +1494,9 @@ table tr td {
 .py672 .bg-primary {
     background-color: #0833a2 !important;
 }
+.py672 .bg-primary-indigo {
+    background-color: #7367f0 !important;
+}
 .py672 .auth-img {
     object-fit: contain;
     max-width: 500px;
@@ -1562,16 +1565,30 @@ table tr td {
     color: #fff;
     border-color: #0833a2 !important;
 }
+.py672 .nav-item.position-relative .position-absolute {
+    top: 50%;
+    right: -8px;
+    margin: -10px 0 0 0;
+}
 .py672 .badge-light-primary {
     color: #0833a2 !important;
 }
 .py672 .nav-tabs .nav-link.active { 
     color: #6e6b7b !important;
 }
+.py672 .nav-tabs .nav-link + .badge { 
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: .3s ease all;
+}
 .py672 .nav-tabs .nav-link.active, .py672 .nav-tabs .nav-item.show .nav-link {
     color: #0833a2;
     background-color: transparent;
     border-color: #dae1e7 #dae1e7 transparent;
+}
+.py672 .nav-tabs .nav-link.active + .badge {
+    transform: translateY(0);
+    opacity: 1;
 }
 .py672 .custom-option-item-check:checked + .custom-option-item {
     color: #0833a2;
@@ -1773,6 +1790,9 @@ table tr td {
     border-radius: 0.5rem;
 }
 
+.py672 #aperturas-tab.nav-link:after {
+    background: linear-gradient(30deg, #7367f0, rgb(115, 103, 240, 0.5)) !important;
+}
 .py672 #desdecero-tab.nav-link:after {
     background: linear-gradient(30deg, #0833a2, rgb(8, 51, 162, 0.5)) !important;
 }
