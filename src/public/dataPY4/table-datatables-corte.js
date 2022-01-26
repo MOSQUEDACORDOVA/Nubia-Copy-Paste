@@ -477,7 +477,7 @@ $('.efectivo').each(function(){
       subefectivo += parseFloat($(this).text());
     }    
 });
-$('.deuda').each(function(){
+dt_Gral_t.$('.deuda').each(function(){
   if ($(this).text() == "-") {
     subadeudo
   }else{
