@@ -234,20 +234,23 @@ let ArrayGral = Object.entries(Newcorte2);
     {
       // REFILL
       targets:2,render: function (data, type, full, meta) {
+
         let total=0; let ResOcultoRefill;
-        
+
         for (let i = 0; i < data.length; i++) {
           total += parseInt(data[i]['data']['total_refill_pedido']);
           if (data[i]['tipo'] == "Residencial") {
             ResOcultoRefill="ResOcultoRefill"     
+
           }
-        }
+
         
              
         if (total == 0) {
           total = "-"
         }
         return (`<span class="refill ${ResOcultoRefill}">${total}</span>`)
+
       }  
   },
   {
@@ -399,7 +402,7 @@ let ArrayGral = Object.entries(Newcorte2);
           if (data[1][i]['tipo'] == "Residencial") {
             console.log(data)
         console.log(row)
-       $(row).addClass('d-none');       
+       $(row).addClass('d-none');      
        
     }         
         }
