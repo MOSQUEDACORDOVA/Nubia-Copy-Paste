@@ -2071,21 +2071,40 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = (req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, telefono4, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     return res.redirect('/matriculas/PYT-672');
   } else {
+    let phone1, phone2;
+    if(!telefono1 && telefono3) {
+      phone1 = telefono3;
+      if(!telefono4) {
+        phone2 = '';
+      } else {
+        phone2 = telefono4;
+      }
+    } 
+
     if(!telefono2) {
-      telefono2 = '-'
+      phone2 = '-'
+    } else {
+      if(!telefono2 && telefono4) {
+        phone2 = telefono4;
+      } else {
+        phone2 = telefono2;
+      }
     }
+    
     if(!telefono3) {
       telefono3 = '-'
     }
+
+
     tipo = parseInt(tipo)
-    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
+    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, phone1, phone2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
       console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
