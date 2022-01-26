@@ -120,6 +120,8 @@ $(document).ready(function() {
 <label id="msgs" hidden>{{msg}}</label>
 {{/if}}
 <input type="text" id="carga_" hidden value="{{carga_}}">
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
 
 <div class="app-content content py4">
     <div class="content-wrapper container-xxxl p-0">
@@ -133,6 +135,7 @@ $(document).ready(function() {
                         <span id="p1" class="d-none">ss</span>
                         <div class="col-sm-12">
                         </div>
+                        
                                 <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-primary me-2">
@@ -270,7 +273,7 @@ $(document).ready(function() {
                                                 
                                             
                                                 <th>oculto choferes </th> 
-                                                <th>oculto etiqueta </th> 
+                                                <th>oculto asentamiento </th> 
                                             </tr>
                                         </thead>
                                     </table>
@@ -385,7 +388,7 @@ $(document).ready(function() {
                                                 
                                             
                                             <th>oculto choferes </th> 
-                                            <th>oculto etiqueta </th> 
+                                            <th>oculto asentamiento </th> 
                                             </tr>
                                         </thead>
                                     </table>

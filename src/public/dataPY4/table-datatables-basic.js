@@ -26,9 +26,11 @@ console.log(array)
     $('.dt-column-searchClientes thead tr').clone(true).appendTo('.dt-column-searchClientes thead');
     $('.dt-column-searchClientes thead tr:eq(0) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="'+title+i+'"/>');
   
       $('input', this).on('keyup change', function () {
+        $('#filterPosition').val(this.id)
+        $('#filterValue').val(this.value)
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
         }
@@ -371,6 +373,10 @@ $('#exampleClientes').append(`  <thead>
 </tr>
 </thead>`);
 cargaTabla('si')
+if ($('#filterPosition').val() != "") {
+  console.log($('#filterValue').val())
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+}
 $('.modal').modal('hide');
 Swal.fire('Se asignó con éxito la(s) etiqueta al cliente')
     },
@@ -444,6 +450,10 @@ $("#id_ad_tag_cliente").val(valoresCheck);
                                         </tr>
                                     </thead>`);
   cargaTabla('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito la(s) Zona')
       },
@@ -478,6 +488,10 @@ console.log('entro aqui')
                                         </tr>
                                     </thead>`);
   cargaTabla('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
   $('.modal').modal('hide');
   Swal.fire('Se editó con éxito la información del cliente')
       },

@@ -890,7 +890,9 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ]
+    ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
       },)
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -911,7 +913,9 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ]
+    ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
       },)
         .then((data) => {
           let data_p = JSON.stringify(data);
