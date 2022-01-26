@@ -30,6 +30,7 @@ function cargarTablaMatricula(editada) {
 
     tableMatr = historialTable.DataTable({
       ordering: false,
+      paging:   false,
       data: matriculaParsed,
       columns: [
         { data: 'nombre' },

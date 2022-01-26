@@ -1,27 +1,24 @@
-let usuariosTable = $('#usuarios');
+let usuariosTable = $('#usuarios'), usuarios;
 
-function cargarTablaUsuarios(editada) {
+function FetchData () {
+  fetch('/obtenerusuariospy672')
+      .then(response => response.json())
+      .then(data => {
+          usuarios = data.usuarios
+          cargarTablaUsuarios();
+      });
+}
 
-  let usuarios = $('#arrayUsuarios').val()
+FetchData();
+
+function cargarTablaUsuarios() {
   
-  let usuariosParsed = ""
-  if (editada) {
-    
-    usuariosParsed = JSON.parse(usuarios)
-
-  }else{
-    usuariosParsed = JSON.parse(usuarios.replace(/&quot;/g,'"'))
-  }
- if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
-
-  // --------------------------------------------------------------------
- 
   if (usuariosTable.length) {
     
     let tableUsuarios = usuariosTable.DataTable({
-      data: usuariosParsed,
+      ordering: false,
+      paging: false,
+      data: usuarios,
       columns: [
         { data: 'nombre' },
         { data: 'dni' }, // used for sorting so will hide this column
@@ -54,60 +51,60 @@ function cargarTablaUsuarios(editada) {
       ],
       columnDefs: [
         {
-            targets: 0, render: function (data, type, full) {
-                let nombre = full.nombre;
-                return nombre
-            }
+          targets: 0, render: function (data, type, full) {
+              let nombre = full.nombre;
+              return nombre
+          }
         },
         {
-            targets: 1, render: function (data, type, full) {
-                let dni = full.dni;
-                return dni
-            }
+          targets: 1, render: function (data, type, full) {
+              let dni = full.dni;
+              return dni
+          }
         },
         {
-            targets: 2, render: function (data, type, full) {
-                let email = full.email;
-                return email
-            }
+          targets: 2, render: function (data, type, full) {
+              let email = full.email;
+              return email
+          }
         },
         {
-            targets: 3, render: function (data, type, full) {
-                let pais = full.pais;
-                return pais
-            }
+          targets: 3, render: function (data, type, full) {
+              let pais = full.pais;
+              return pais
+          }
         },
         {
-            targets: 4, render: function (data, type, full) {
-                let puesto = full.puesto;
-                if(puesto === "Vendedor") {
-                    puesto = `<span class="badge badge-light-warning">${puesto}</span>`
-                } else if(puesto === "Administrador") {
-                    puesto = `<span class="badge badge-light-success">${puesto}</span>`
-                } else {
-                    puesto = `<span class="badge badge-light-info">${puesto}</span>`
-                }
-                return puesto;
-            }
+          targets: 4, render: function (data, type, full) {
+              let puesto = full.puesto;
+              if(puesto === "Vendedor") {
+                  puesto = `<span class="badge badge-light-warning">${puesto}</span>`
+              } else if(puesto === "Administrador") {
+                  puesto = `<span class="badge badge-light-success">${puesto}</span>`
+              } else {
+                  puesto = `<span class="badge badge-light-info">${puesto}</span>`
+              }
+              return puesto;
+          }
         },
         {
-            targets: 5, render: function (data, type, full) {
-                let nacimiento = full.fecha_nacimiento;
-                return `
-                <span class="badge badge-light-primary">${nacimiento}</span>
-                `;
-            }
+          targets: 5, render: function (data, type, full) {
+              let nacimiento = full.fecha_nacimiento;
+              return `
+              <span class="badge badge-light-primary">${nacimiento}</span>
+              `;
+          }
         },
         {
-            targets: 6, render: function (data, type, full) {
-                let inicio = full.fecha_inicio;
-                if(inicio === null) {
-                    inicio = '<span class="badge badge-light-danger">No Establecida</span>'
-                } else {
-                    inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
-                }
-                return inicio;
-            }
+          targets: 6, render: function (data, type, full) {
+              let inicio = full.fecha_inicio;
+              if(inicio === null) {
+                  inicio = '<span class="badge badge-light-danger">No Establecida</span>'
+              } else {
+                  inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
+              }
+              return inicio;
+          }
         },
         
       ],
@@ -118,10 +115,10 @@ function cargarTablaUsuarios(editada) {
       lengthMenu: [5, 10, 25, 50, 75, 100],
       language: {
       "decimal": "",
-      "emptyTable": "No hay información",
-      "info": "Total _TOTAL_ registros",
-      "infoEmpty": "Total _TOTAL_ registros",
-      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "emptyTable": "No existen usuarios",
+      "info": "Total _TOTAL_ usuarios",
+      "infoEmpty": "Total _TOTAL_ usuarios",
+      "infoFiltered": "(Filtrado de _MAX_ usuarios totales)",
       "infoPostFix": "",
       "thousands": ",",
       "lengthMenu": "Mostrar _MENU_ Entradas",
@@ -143,14 +140,53 @@ function cargarTablaUsuarios(editada) {
 
 }
 
-$(function () {
-  'use strict';
-  cargarTablaUsuarios()
- 
-  $('.odd').addClass('selector');
-  $('.even').addClass('selector'); 
+let regUserForm = document.getElementById('regUsuarioForm')
 
-    
+regUserForm.addEventListener('submit', e => {
+  e.preventDefault();
+  let data = new FormData(regUserForm);
+  RegistrarUsuario(data);
+});
+
+function RegistrarUsuario (data) {
+  fetch('/reguserpy672', {
+      method: 'POST',
+      body: data, 
+  }).then(res => res.json())
+      .catch(error => {
+          console.error('Error:', error);
+          Toast("Error");
+      })
+      .then(response => {
+          console.log('Success:', response)
+          $('#registrarUsuario .resetBtn').click();
+          $('#registrarUsuario .btn-close').click();
+          Toast("Usuario Registrado");
+          UpdateTables();
+      });
+}
+
+function UpdateTables() {
+  $('#usuarios').dataTable().fnDestroy();
+  $('#usuarios').empty();
+  $('#usuarios').html(`
+  <thead>
+      <tr>
+          <th>Nombre</th>
+          <th>DNI</th>
+          <th>Email</th>
+          <th>País</th>
+          <th>Puesto</th>
+          <th>F. Nacimiento</th>
+          <th>F. Inicio</th>
+          <th>Acciones</th>
+      </tr>
+  </thead>`);
+  
+  FetchData();
+}
+
+$(function () {
   /*$('.borrar-btn').on('click', (e)=>{
     let data = e.target.childNodes[1];
     data.submit()

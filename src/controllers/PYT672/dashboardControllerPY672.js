@@ -42,11 +42,15 @@ exports.controlroles = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-  console.log(req.user)
-  if (req.user.puesto === 'Administrador') {
-    return res.redirect("../grupos/PYT-672");
+  if(req.user) {
+    console.log(req.user)
+    if (req.user.puesto === 'Administrador') {
+      return res.redirect("../grupos/PYT-672");
+    } else {
+      return res.redirect("../board672/PYT-672");
+    }
   } else {
-    return res.redirect("../board672/PYT-672");
+    return res.redirect("../loginpy672/PYT-672");
   }
 };
 
@@ -75,10 +79,10 @@ exports.reguser = (req, res) => {
   let msg = false;
   if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
-    return res.redirect('/usuarios672/PYT-672');
+    return res.send({error: 'Lo sentimos algo ah ocurrido'});
   } else {
     DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password).then((respuesta) =>{
-      return res.redirect('/usuarios672/PYT-672');
+      return res.send({success: 'Usuario Registrado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -1404,7 +1408,6 @@ exports.usuarios = (req, res) => {
       py672:true,
       usuarios: true,
       gruposTodos,
-      usuarios,
       stringUsuarios
     });
   }).catch((err) => {
@@ -1416,6 +1419,26 @@ exports.usuarios = (req, res) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * AJAX
+exports.obtenerusuarios = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+    DataBase.ObtenerTodosUsuarios().then((response) => {
+      let usuarios = JSON.parse(response);
+      return res.send({usuarios});
+
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.send({error: 'Error al realizar la tarea'});
   });
 };
 
@@ -1511,7 +1534,11 @@ exports.creargrupos = (req, res) => {
   
   if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/verificargrupos/PYT-672');
+    let error = {
+      msg: 'complete todos los campos'
+    }
+
+    return res.send(error);
   } else {
     if (lecciones === '1') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
@@ -1555,7 +1582,7 @@ exports.creargrupos = (req, res) => {
           console.log(grupoId)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send({success: 'creado'});
 
         }).catch((err) => {
           console.log(err)
@@ -1609,7 +1636,8 @@ exports.creargrupos = (req, res) => {
           console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send(grupoCreado);
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -1646,7 +1674,7 @@ exports.actualizargrupos = (req, res) => {
   
   if (id.trim() === '' || nombre.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/verificargrupos/PYT-672');
+    return res.send({error: 'Lo sentimos algo ah ocurrido'});
   } else {
     if (nombre === 'Desde cero') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
@@ -1689,7 +1717,7 @@ exports.actualizargrupos = (req, res) => {
           console.log(respuesta)
           console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send({success: 'Grupo Actualizado'});
        
         }).catch((err) => {
           console.log(err)
@@ -1744,7 +1772,8 @@ exports.actualizargrupos = (req, res) => {
           console.log(respuesta)
           console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
-          return res.redirect("/verificargrupos/PYT-672");
+          return res.send({success: 'Grupo Actualizado'});
+
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
@@ -2042,21 +2071,40 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = (req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, apellido1, apellido2, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, telefono4, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || apellido1.trim() === "" || apellido2.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     return res.redirect('/matriculas/PYT-672');
   } else {
+    let phone1, phone2;
+    if(!telefono1 && telefono3) {
+      phone1 = telefono3;
+      if(!telefono4) {
+        phone2 = '';
+      } else {
+        phone2 = telefono4;
+      }
+    } 
+
     if(!telefono2) {
-      telefono2 = '-'
+      phone2 = '-'
+    } else {
+      if(!telefono2 && telefono4) {
+        phone2 = telefono4;
+      } else {
+        phone2 = telefono2;
+      }
     }
+    
     if(!telefono3) {
       telefono3 = '-'
     }
+
+
     tipo = parseInt(tipo)
-    DataBase.RegistrarMatricula(nombre, apellido1, apellido2, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
+    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, phone1, phone2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
       console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id

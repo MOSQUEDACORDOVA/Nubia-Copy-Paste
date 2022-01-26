@@ -12,187 +12,9 @@
         <ul class="nav navbar-nav align-items-center ms-auto">
             {{#if roleUser}}{{else}}
             <li class="nav-item dropdown dropdown-notification me-25">
-                <a class="nav-link" href="#" data-bs-toggle="dropdown">
+                <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registrarAlumno">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus ficon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end drop-main-menu">
-                    <form  class="form" action="/registrarestudiantepy672" method="POST">
-                        <li class="dropdown-menu-header">
-                            <div class="dropdown-header d-flex">
-                                <h4 class="notification-title mb-0 me-auto">Registrar alumno</h4>
-                            </div>
-                        </li>
-                        <li class="scrollable-container media-list">
-                            <div>
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label">Grupo</label>
-
-                                        <div class="position-relative">
-                                            <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
-                                                {{#each gruposTodos as |item i|}}
-                                                <option value="{{id}}">
-                                                    {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
-                                                </option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
-                                        
-                                    </div>
-                                </div>
-                                
-                                
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label">Nombres</label>
-                                        <input type="text" class="form-control" placeholder="Nombres" name="nombre" required>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">1er apellido</label>
-                                        <input type="text" class="form-control" placeholder="1er apellido" name="apellido1" required>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">2do apellido</label>
-                                        <input type="text" class="form-control" placeholder="2do apellido" name="apellido2" required>
-                                    </div>
-                                </div>
-                                
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Nacional</label>
-                                        <div class="demo-inline-spacing">
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
-                                                <label class="form-check-label" for="inlineRadio1">Nacional</label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="2">
-                                                <label class="form-check-label" for="inlineRadio2">Extranjero</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white d-flex flex-column" id="nacionalCampos">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">No. Identificación</label>
-                                    </div>
-                                    <div class="list-item-body flex-grow-1 d-flex">
-                                        <input type="text" class="d-none" name="dni" id="nacionalDni" value="">
-
-                                        <input type="text" class="form-control" id="primerCampo" minlength="1" maxlength="1">
-                                        <input type="text" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4">
-                                        <input type="text" class="form-control" id="tercerCampo" minlength="4" maxlength="4">
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white" id="ExtranjeroCampo">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">No. Identificación</label>
-                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni">
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Sexo</label>
-                                        <select class="form-select" name="genero" required>
-                                            <option value="Femenino">Femenino</option>
-                                            <option value="Masculino">Masculino</option>
-                                        </select>                                    
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Fecha de nacimiento</label>
-                                        <input type="text" id="fp-default" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" name="nacimiento" required>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Teléfono 1</label>
-                                        <input type="text" class="form-control" name="telefono1" required>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Teléfono 2</label>
-                                        <input type="text" class="form-control" name="telefono2">
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Teléfono 3</label>
-                                        <input type="text" class="form-control" name="telefono3">
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Email</label>
-                                        <input type="text" class="form-control" name="email" required>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="">Vendedor</label>
-                                        <select type="text" class="form-select select2" name="vendedor">
-                                            <option value="">Seleccione un Vendedor</option>
-                                            <option value="">Isaac Mosqueda</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Provincia</label>
-                                        <div class="position-relative">
-                                            <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" id="select-provincia" required>
-                                                <option value="">Seleccione una Provincia</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Cantón</label>
-                                        <div class="position-relative">
-                                            <select class="select2 form-select" id="select-canton" tabindex="-1" name="canton" aria-hidden="true" disabled required>
-                                                <option value="">Seleccione un Canton</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="list-item bg-white">
-                                    <div class="list-item-body flex-grow-1">
-                                        <label class="form-label" for="fp-default">Distrito</label>
-                                        <select class="select2 form-select" id="select-distrito" tabindex="-1" name="distrito" aria-hidden="true" disabled required>
-                                            <option value="">Seleccione un Distrito</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                        <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></li>
-                        <li class="dropdown-menu-footer">
-                            <input type="submit" class="btn btn-primary" value="Registrar">
-                        </li>
-                    </form>
-                </ul>
             </li>
             {{/if}}
             <li class="nav-item dropdown dropdown-user">
@@ -219,12 +41,12 @@
 <!-- END: Header-->
 
 <!-- BEGIN: Main Menu-->
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
-    <div class="navbar-header">
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow py672" data-scroll-to-active="true">
+    <div class="navbar-header expanded">
         <ul class="nav navbar-nav flex-row">
             <li class="nav-item me-auto">
-                <a class="navbar-brand" href="#">
-                    <h2 class="brand-text">Logo</h2>
+                <a class="navbar-brand mt-0" href="#">
+                    <img class="img-fluid brand-logo m-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
                 </a>
             </li>
             <li class="nav-item nav-toggle">
@@ -237,7 +59,7 @@
     </div>
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
-        <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+        <ul class="navigation navigation-main mt-3" id="main-menu-navigation" data-menu="menu-navigation">
             <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{#if role}}{{role}}{{else}}Dashboard{{/if}}</span><i
                     data-feather="more-horizontal"></i>
             {{#if roleUser}}
@@ -284,12 +106,6 @@
                     <span class="menu-title text-truncate">Usuarios</span>
                 </a>
             </li>
-            {{!--<li class="{{#if calificaciones}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/calificaciones/PYT-672">
-                    <i data-feather='book-open'></i>
-                    <span class="menu-title text-truncate">Calificaciones</span>
-                </a>
-            </li>--}}
             {{/if}}
         </ul>
     </div>
@@ -297,13 +113,216 @@
 <!-- END: Main Menu-->
 {{/if}}
 
+<div class="modal fade py672" id="registrarAlumno" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-transparent">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pb-5 px-sm-4 mx-50">
+                <h1 class="address-title text-center mb-1" id="addNewAddressTitle">Registrar Alumno</h1>
+
+                <form  class="form" action="/registrarestudiantepy672" method="POST">
+                    <div class="row">
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="list-item-body flex-grow-1">
+                                <label class="form-label">Grupo</label>
+
+                                <div class="position-relative">
+                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                        {{#each gruposTodos as |item i|}}
+                                        <option value="{{id}}">
+                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                                        </option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="list-item-body flex-grow-1">
+                                <label class="form-label">Nombre Completo</label>
+                                <input type="text" class="form-control" placeholder="Nombre Completo" name="nombre" required>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mb-1">
+                            <div class="flex-grow-1 mb-1">
+                                <label class="form-label" for="">Nacional</label>
+                                <div class="demo-inline-spacing">
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
+                                        <label class="form-check-label" for="inlineRadio1">Nacional</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="2">
+                                        <label class="form-check-label" for="inlineRadio2">Extranjero</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-0 p-0">
+                                <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">No. Identificación</label>
+                                    </div>
+                                    <div class="flex-grow-1 d-flex">
+                                        <input type="text" class="d-none" name="dni" id="nacionalDni" value="">
+
+                                        <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
+                                        <input type="number" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4" autocomplete="off">
+                                        <input type="number" class="form-control" id="tercerCampo" minlength="4" maxlength="4" autocomplete="off">
+                                    </div>
+                                </div>
+
+                                <div id="ExtranjeroCampo" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">No. Identificación</label>
+                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni">
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 ps-md-0 pe-md-1 ps-xl-1 pe-xl-0">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">Fecha de nacimiento</label>
+                                        <input type="text" id="fp-default" class="form-control flatpickr-basic" placeholder="YYYY-MM-DD" name="nacimiento" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 pe-md-0 ps-md-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">Sexo</label>
+                                        <select class="form-select select2" name="genero" required>
+                                            <option value="">Seleccionar Género</option>
+                                            <option value="Femenino">Femenino</option>
+                                            <option value="Masculino">Masculino</option>
+                                        </select>                                    
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Nacional</label>
+                                <div class="demo-inline-spacing">
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" name="tlf" id="inlineRadioTlf1" value="4" checked="">
+                                        <label class="form-check-label" for="inlineRadioTlf1">Nacional</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" id="inlineRadioTlf2" name="tlf" value="3">
+                                        <label class="form-check-label" for="inlineRadioTlf2">Extranjero</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1 nacionalTlf">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 1</label>
+                                <input type="text" maxlength="8" class="form-control" name="telefono1">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1 nacionalTlf">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 2</label>
+                                <input type="text" maxlength="8" class="form-control" name="telefono2">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1 extranjeroTlf">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 1</label>
+                                <input type="text" class="form-control" name="telefono3">
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1 extranjeroTlf">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 2</label>
+                                <input type="text" class="form-control" name="telefono4">
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Email</label>
+                                <input type="text" class="form-control" name="email" required>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Vendedor</label>
+                                <select type="text" class="form-select select2" name="vendedor">
+                                    <option value="">Seleccione un Vendedor</option>
+                                    <option value="">Isaac Mosqueda</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Provincia</label>
+                                <div class="position-relative">
+                                    <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" id="select-provincia" required>
+                                        <option value="">Seleccione una Provincia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Cantón</label>
+                                <div class="position-relative">
+                                    <select class="select2 form-select" id="select-canton" tabindex="-1" name="canton" aria-hidden="true" disabled required>
+                                        <option value="">Seleccione un Canton</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Distrito</label>
+                                <select class="select2 form-select" id="select-distrito" tabindex="-1" name="distrito" aria-hidden="true" disabled required>
+                                    <option value="">Seleccione un Distrito</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-primary" value="Registrar">
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     let radio1 = document.getElementById('inlineRadio1'),
     radio2 = document.getElementById('inlineRadio2'),
+    radioTlf3 = document.getElementById('inlineRadioTlf1'),
+    radioTlf4 = document.getElementById('inlineRadioTlf2'),
     nacionalC = document.getElementById('nacionalCampos'),
     exC = document.getElementById('ExtranjeroCampo'),
     nacionalDni = document.getElementById('nacionalDni'),
     exDni = document.getElementById('exDni'),
+    tlfNacional = document.querySelectorAll('.nacionalTlf'),
+    tlfNacionalInput = document.querySelectorAll('.nacionalTlf input'),
+    tlfExtranjero = document.querySelectorAll('.extranjeroTlf'),
     primerC = document.getElementById('primerCampo'),
     segundoC = document.getElementById('segundoCampo'),
     tercerC = document.getElementById('tercerCampo');
@@ -347,6 +366,26 @@
         SetRadio2();
     });
 
+    radioTlf3.addEventListener('change', e => {
+        SetRadio3();
+    });
+
+    radioTlf4.addEventListener('change', e => {
+        SetRadio4();
+    });
+
+    tlfNacionalInput.forEach(input => {
+        input.addEventListener('keydown', e => {
+            let texto = ''
+            if(!input.value.match(exp)) {
+                texto += texto.slice(1,-1)
+            } else {
+                texto += input.value 
+            }
+            input.value = texto 
+        });
+    });
+
     const SetRadio1 = () => {
         nacionalC.classList.remove('d-none');
         nacionalC.classList.add('d-block');
@@ -363,7 +402,31 @@
         nacionalC.classList.add('d-none');
     }
 
+    const SetRadio3 = () => {
+        tlfNacional.forEach(tlf => {
+            tlf.classList.remove('d-none');
+            tlf.disabled = false;
+        });
+        tlfExtranjero.forEach(tlf => {
+            tlf.classList.add('d-none');
+            tlf.disabled = true;
+        });
+    }
+
+    const SetRadio4 = () => {
+        tlfExtranjero.forEach(tlf => {
+            tlf.classList.remove('d-none');
+            tlf.disabled = false;
+        });
+        tlfNacional.forEach(tlf => {
+            tlf.classList.add('d-none');
+            tlf.disabled = true;
+        });
+    }
+
     SetRadio1();
+
+    SetRadio3();
 
     exDni.addEventListener('keydown', e => {
         nacionalDni.value = exDni.value;

@@ -3210,7 +3210,8 @@ table.dataTable.table-responsive:not(.datatables-ajax) {
 
 table.dataTable td,
 table.dataTable th {
-  padding: 0.72rem 1.5rem;
+  padding-top: 0.72rem;
+  padding-bottom: 0.72rem;
   vertical-align: middle; }
 
 table.dataTable thead .sorting,
