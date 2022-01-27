@@ -94,7 +94,7 @@ case 4:
                             <div>
                                 <h1 class="my-1 text-white text-center">Total del día</h1>
                                 <p class="card-text mb-1">Ventas: <strong> {{cont_ventas_del_dia}}</strong></p>
-                                    <p class="card-text mb-1">Garrafones: <strong> {{total_garrafones}}</strong></p>
+                                    <p class="card-text mb-1">Garrafones: <strong class="totalGarrafG"> {{total_garrafones}}</strong></p>
                                 <p class="card-text"> Ingreso: <strong>$ {{ventas_del_dia}}</strong></p>
                             </div>
                             {{#if admin}}
@@ -122,7 +122,7 @@ case 4:
                             </div>
                             <h2 class="fw-bolder my-1">Residenciales</h2>
                             <p class="card-text mb-1">Ventas: <strong> {{residencial_cont}}</strong></p>
-                                <p class="card-text mb-1">Garrafones: <strong> {{residencial_cont_garrafones}}</strong></p>
+                                <p class="card-text mb-1">Garrafones: <strong class="totalGarrafR"> {{residencial_cont_garrafones}}</strong></p>
                             <p>Ingreso: <strong>$ {{residencial_mont}}</strong></p>
                         </div>
                     </div>
@@ -140,7 +140,7 @@ case 4:
                             </div>
                             <h2 class="fw-bolder my-1">Negocio</h2>
                             <p class="card-text mb-1">Ventas del día: <strong> {{negocio_cont}}</strong></p>
-                            <p class="card-text mb-1">Garrafones: <strong> {{negocio_cont_garrafones}}</strong></p>
+                            <p class="card-text mb-1">Garrafones: <strong class="totalGarrafN"> {{negocio_cont_garrafones}}</strong></p>
                             <p>Ingreso: <strong>$ {{negocio_mont}}</strong></p>
                         </div>
                     </div>
@@ -156,7 +156,7 @@ case 4:
                             </div>
                             <h2 class="fw-bolder my-1">Puntos de Venta</h2>
                             <p class="mb-1">Ventas del día: <strong> {{ptoVenta_cont}}</strong></p>
-                            <p class="card-text mb-1">Garrafones: <strong> {{ptoventa_cont_garrafones}}</strong></p>
+                            <p class="card-text mb-1">Garrafones: <strong class="totalGarrafV"> {{ptoventa_cont_garrafones}}</strong></p>
                             <p>Ingreso: <strong>$ {{ptoVenta_mont}}</strong></p>
                         </div>
                     </div>
@@ -386,14 +386,9 @@ case 4:
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card mb-4">
                                 <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
-                                <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
-
-                                <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
-                                
-                                <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
-                                <li class="list-group-item">Descuentos: $<span class="descuentosF"></span></li>
-                                <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
+                                    <li class="list-group-item">Total de Pedidos: <span class="totalPedidosG">0</span></li> 
+                                    <li class="list-group-item">Total de Garrafones: <span class="totalGarrafonesGeneral">0</span></li> 
+                                    <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF">0</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -403,14 +398,13 @@ case 4:
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card mb-4">
                                 <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
-                                <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
+                                <li class="list-group-item">Sub-Total: $<span class="subtotalF">0</span></li>          
+                                <li class="list-group-item">Depósitos: $<span class="depositosF">0</span></li>
+                                <li class="list-group-item">Por Verificar: $<span class="adeudoF">0</span></li> 
+                                <li class="list-group-item">Adeudo Anterior: $<span class="adeudoA">0</span></li> 
+                                <li class="list-group-item">Descuentos: $<span class="descuentosF">0</span></li>
+                                <li class="list-group-item">Total efectivo: $<span class="totalefectivoF">0</span></li>
 
-                                <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
-                                
-                                <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
-                                <li class="list-group-item">Descuentos: $<span class="descuentosF"></span></li>
-                                <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
                                 </ul>
                             </div>
                         </div>
@@ -422,6 +416,7 @@ case 4:
         </div>
       </div>
     </div>
+
  <div class="modal fade" id="corte_modal_residencial_tabla" tabindex="-1" aria-labelledby="corte_modal_residencial_tabla"
       style="display: none;" aria-hidden="corte_modal">
       <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -464,7 +459,7 @@ case 4:
                                             <th>Dañados</th>
                                             <th>Prestados</th>
                                             <th>Depositos</th>
-                                            <th>Adeudo</th>
+                                            <th>Por verificar</th>
                                             <th>Subtotal</th>
                                             <th>Descuento</th>
                                         </tr>
@@ -488,24 +483,42 @@ case 4:
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card mb-4" style="max-width: 350px; min-width: 300px; margin-left: auto; margin-right: 0">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
-                    <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
 
-                    <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
-                    
-                    <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
-                    <li class="list-group-item">Descuentos: $<span class="descuentosF"></span></li>
-                    <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
-                </ul>
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card mb-4">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Total de Pedidos: <span class="totalPedidosR">0</span></li> 
+                            <li class="list-group-item">Total de Garrafones: <span class="totalGarrafonesResidencial">0</span></li> 
+                            <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF">0</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 d-none d-lg-block"></div>
+
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card mb-4">
+                        <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Sub-Total: $<span class="subtotalF">0</span></li>          
+                        <li class="list-group-item">Depósitos: $<span class="depositosF">0</span></li>
+                        <li class="list-group-item">Por Verificar: $<span class="adeudoF">0</span></li> 
+                        <li class="list-group-item">Adeudo Anterior: $<span class="adeudoA">0</span></li> 
+                        <li class="list-group-item">Descuentos: $<span class="descuentosF">0</span></li>
+                        <li class="list-group-item">Total efectivo: $<span class="totalefectivoF">0</span></li>
+
+                        </ul>
+                    </div>
+                </div>
+
             </div>
+
+
           </div>
           </div>
         </div>
       </div>
     </div>
+
  <div class="modal fade" id="corte_modal_negocio" tabindex="-1" aria-labelledby="corte_modal_residencial_tabla"
       style="display: none;" aria-hidden="corte_modal">
       <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -548,7 +561,7 @@ case 4:
                                                     <th>Dañados</th>
                                                     <th>Prestados</th>
                                                     <th>Depositos</th>
-                                                    <th>Adeudo</th>
+                                                    <th>Por verificar</th>
                                                     <th>Subtotal</th>
                                                     <th>Descuentos</th>
                                                 </tr>
@@ -572,19 +585,35 @@ case 4:
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card mb-4" style="max-width: 350px; min-width: 300px; margin-left: auto; margin-right: 0">
-        <ul class="list-group list-group-flush">
-           <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
-           <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
 
-          <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
-          
-          <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
-          <li class="list-group-item">Descuentos: $<span class="descuentosF"></span></li>
-          <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
-        </ul>
-      </div>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card mb-4">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Total de Pedidos: <span class="totalPedidosN">0</span></li> 
+                                    <li class="list-group-item">Total de Garrafones: <span class="totalGarrafonesNegocios">0</span></li> 
+                                    <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block"></div>
+
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card mb-4">
+                                <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Sub-Total: $<span class="subtotalF">0</span></li>          
+                                <li class="list-group-item">Depósitos: $<span class="depositosF">0</span></li>
+                                <li class="list-group-item">Por Verificar: $<span class="adeudoF">0</span></li> 
+                                <li class="list-group-item">Adeudo Anterior: $<span class="adeudoA">0</span></li> 
+                                <li class="list-group-item">Descuentos: $<span class="descuentosF">0</span></li>
+                                <li class="list-group-item">Total efectivo: $<span class="totalefectivoF">0</span></li>
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                    
                 </div>
           </div>
         </div>
@@ -632,7 +661,7 @@ case 4:
                                                     <th>Dañados</th>
                                                     <th>Prestados</th>
                                                     <th>Depositos</th>
-                                                    <th>Adeudo</th>
+                                                    <th>Por verificar</th>
                                                     <th>Subtotal</th>
                                                     <th>Descuento</th>
                                                 </tr>
@@ -656,19 +685,34 @@ case 4:
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card mb-4" style="max-width: 350px; min-width: 300px; margin-left: auto; margin-right: 0">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">Adeudo: $<span class="adeudoF"></span></li> 
-                            <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF"></span></li>
 
-                            <li class="list-group-item">Sub-Total: $<span class="subtotalF"></span></li>          
-                            
-                            <li class="list-group-item">Depósitos: $<span class="depositosF"></span></li>
-                            <li class="list-group-item">Descuentos: $<span class="descuentosF"></span></li>
-                            <li class="list-group-item">Total efectivo: $<span class="totalefectivoF"></span></li>
-                        </ul>
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card mb-4">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">Total de Pedidos: <span class="totalPedidosV">0</span></li> 
+                                    <li class="list-group-item">Total de Garrafones: <span class="totalGarrafonesVenta">0</span></li> 
+                                    <li class="list-group-item">Cantidad de Depósitos: <span class="cantdepositosF">0</span></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 d-none d-lg-block"></div>
+
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card mb-4">
+                                <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Sub-Total: $<span class="subtotalF">0</span></li>          
+                                <li class="list-group-item">Depósitos: $<span class="depositosF">0</span></li>
+                                <li class="list-group-item">Por Verificar: $<span class="adeudoF">0</span></li> 
+                                <li class="list-group-item">Adeudo Anterior: $<span class="adeudoA">0</span></li> 
+                                <li class="list-group-item">Descuentos: $<span class="descuentosF">0</span></li>
+                                <li class="list-group-item">Total efectivo: $<span class="totalefectivoF">0</span></li>
+
+                                </ul>
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
           </div>
         </div>

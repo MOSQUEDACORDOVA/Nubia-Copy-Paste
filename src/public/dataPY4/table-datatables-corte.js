@@ -111,6 +111,7 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
+
  function cargaTablas(id_chofer) {
     console.log(id_chofer)
   let corte = $('#array_corte').val()
@@ -455,6 +456,10 @@ let ArrayGral = Object.entries(Newcorte2);
         }
       }
     });
+
+    $('#pedidos_corteGral_info').addClass('d-none')
+    $('.totalPedidosG').text(ArrayGral.length)
+    $('.totalGarrafonesGeneral').text($('.totalGarrafG').text())
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -956,6 +961,8 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
+    $('.totalPedidosR').text(ArrayRes.length)
+    $('.totalGarrafonesResidencial').text($('.totalGarrafR').text())
   // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
     // on key up from input field
 /* $('input.dt-input').on('keyup change', function () {
@@ -1058,6 +1065,7 @@ $('.totalefectivoF').text(total)
     });
 }  
 }
+
 function cargaTablaNegocio(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
@@ -1371,6 +1379,8 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
+  $('.totalPedidosN').text(ArrayNeg.length)
+  $('.totalGarrafonesNegocios').text($('.totalGarrafN').text())
   // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
     // on key up from input field
 /* $('input.dt-input').on('keyup change', function () {
@@ -1470,6 +1480,7 @@ $('.totalefectivoF').text(total)
     });
 }  
 }
+
 function cargaTablaPto(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
@@ -1780,6 +1791,8 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
+  $('.totalPedidosV').text(ArrayPto.length)
+  $('.totalGarrafonesVenta').text($('.totalGarrafV').text())
   // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
     // on key up from input field
 /* $('input.dt-input').on('keyup change', function () {
@@ -2004,7 +2017,7 @@ $('#pedidos_corteGral').html(`<thead>
     <th>Dañados</th>
     <th>Prestados</th>
     <th>Depositos</th>
-    <th>Adeudo</th>
+    <th>Por verificar</th>
     <th>Subtotal</th>
     <th>Descuento</th>
 </tr>
@@ -2032,7 +2045,7 @@ cargaTablas(id)
     var nombre = triggerLink.data("nombre");
     var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#residencial_table').dataTable().fnDestroy();
  $('#residencial_table').empty();
@@ -2046,7 +2059,7 @@ $('#residencial_table').html(`<thead>
     <th>Dañados</th>
     <th>Prestados</th>
     <th>Depositos</th>
-    <th>Adeudo</th>
+    <th>Por verificar</th>
     <th>Subtotal</th>
     <th>Descuentos</th>
 </tr>
@@ -2074,7 +2087,7 @@ $("#corte_modal_negocio").on('show.bs.modal', function (e) {
   var nombre = triggerLink.data("nombre");
   var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#negocio_table').dataTable().fnDestroy();
 $('#negocio_table').empty();
@@ -2088,7 +2101,7 @@ $('#negocio_table').html(`<thead>
   <th>Dañados</th>
   <th>Prestados</th>
   <th>Depositos</th>
-  <th>Adeudo</th>
+  <th>Por verificar</th>
   <th>Subtotal</th>
   <th>Descuentos</th>
 </tr>
@@ -2116,7 +2129,7 @@ $("#corte_modal_ptovta").on('show.bs.modal', function (e) {
   var nombre = triggerLink.data("nombre");
   var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#Pto_table').dataTable().fnDestroy();
 $('#Pto_table').empty();
@@ -2130,7 +2143,7 @@ $('#Pto_table').html(`<thead>
   <th>Dañados</th>
   <th>Prestados</th>
   <th>Depositos</th>
-  <th>Adeudo</th>
+  <th>Por verificar</th>
   <th>Subtotal</th>
   <th>Descuentos</th>
 </tr>
