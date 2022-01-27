@@ -270,7 +270,7 @@ let ArrayGral = Object.entries(Newcorte2);
       
     }  
 
-},
+  },
 {
   // nuevo
   targets:4,render: function (data, type, full, meta) {
