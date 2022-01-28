@@ -1,4 +1,4 @@
-let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), gruposApertura, gruposDesde0, gruposIntensivos;
+let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposApertura, gruposDesde0, gruposIntensivos, gruposKids;
 
 function FetchData (tabla) {
     if(tabla === 1) {
@@ -8,6 +8,7 @@ function FetchData (tabla) {
                 gruposApertura = data[0]
                 cargarTablaAperturas();
             });
+
     } else if (tabla === 2) {
         fetch('/obtenergruposdesde0')
             .then(response => response.json())
@@ -23,12 +24,22 @@ function FetchData (tabla) {
                 gruposIntensivos = data[0]
                 cargarTablaIntensivos();
             });
+
+    } else if (tabla === 4) {
+        fetch('/obtenergruposkids')
+            .then(response => response.json())
+            .then(data => {
+                gruposKids = data[0]
+                cargarTablaKids();
+            });
+
     }
 }
 
 FetchData(1) 
 FetchData(2) 
 FetchData(3) 
+FetchData(4) 
 
 function cargarTablaAperturas() {
     let tableApert;
@@ -51,8 +62,10 @@ function cargarTablaAperturas() {
                         let identif;
                         if(full['identificador'].includes("C")) {
                             identif = `<b class="text-primary">${full.identificador}</b>`
-                        } else {
+                        } else if (full['identificador'].includes("I")) {
                             identif = `<b class="text-danger">${full.identificador}</b>`
+                        } else {
+                            identif = `<b class="text-success">${full.identificador}</b>`
                         }
                         let grupo = `
                         <div>
@@ -524,10 +537,175 @@ function cargarTablaIntensivos() {
     $('#totalIntensivo').text(gruposIntensivos.length);
 }
 
+function cargarTablaKids() {
+    let tablaKids;
+    if (kidsTable.length) {
+        $('#nivelesGrupo3').on('change', function(){
+            tablaKids.search(this.value).draw();   
+        });  
+
+        $('#pagosGrupo3').on('change', function(){
+            tablaKids.search(this.value).draw();   
+        });  
+
+        tablaKids = kidsTable.DataTable({
+            ordering: false,
+            paging:   false,
+            data: gruposKids,
+            columns: [
+                {data: 'nombre'},
+            ],
+            columnDefs: [
+                {
+                    targets: 0, render: function (data, type, full) {
+                        let grupo = `
+                        <div>
+                            <p class="d-none">${full.nivel}</p>
+                            <p class="d-none">${full.dia_pagos}</p>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="me-75">
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-success">${full.identificador}</b></a>
+                                </div>
+
+                                <div class="d-flex align-items-center justify-content-between w-100">
+                                    <div class="d-flex">
+                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                            ${full.activos}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                
+                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                            ${full.incorporados}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                        
+                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                            ${full.inscritos}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                        
+                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                            ${full.fusionados}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                        
+                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                            ${full.congelados}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                        
+                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                            ${full.total}
+                                            <form action="">
+                                                <input type="text" class="d-none" name="id" value="${full.id}">
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div role="button" class="btn btn-sm text-primary borrar-btn">
+                                            <form action="/borrargrupopy672" method="POST">
+                                                <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full.id}" required>
+                                                <a>
+                                                    ${feather.icons['trash'].toSvg()}
+                                                </a>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex">
+                            <!---- HORARIO ---->
+                            <div class="me-1">
+                                <span class="item-clock me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock font-small-4"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                                
+                                <small class="emp_post text-muted">Horario</small><br><small class="emp_post texto-horario">${full.dia_horario}</small>
+                                
+                            </div>
+
+                            <!---- FECHAS ---->
+                            <div class="me-1"><span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                <small class="emp_post text-muted">Inicio</small><br><small class="emp_post">${full.fecha_inicio}</small>
+                            </div>
+
+                            <div class="me-1">
+                                <span class="item-calendar me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar font-small-4"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></span>
+                                <small class="emp_post text-muted">Fin</small><br><small class="emp_post">${full.fecha_finalizacion}</small>
+                            </div>
+
+                            <!---- PAGOS ---->
+                            <div class="me-1">
+                                <span class="item-dollar-sign me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign font-small-4"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></span>
+
+                                <small class="emp_post text-muted">Pagos</small><br><small class="emp_post">${full.dia_pagos}</small>
+                            </div>
+
+                            <!---- PROF ---->
+                            <div class="">
+                                <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
+                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                            </div>
+                            </div>
+                        </div>
+                        `;
+
+                        return grupo
+                    }
+                },
+            ],
+            order: [[0, 'asc']],
+            dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+            orderCellsTop: true,
+            displayLength: 5,
+            lengthMenu: [5, 10, 25, 50, 75, 100],
+            language: {
+                "decimal": "",
+                "emptyTable": "No existen grupos",
+                "info": "Total _TOTAL_ grupos",
+                "infoEmpty": "Total _TOTAL_ grupos",
+                "infoFiltered": "(Filtrado de _MAX_ grupos totales)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ Entradas",
+                "loadingRecords": "Cargando...",
+                "processing": "Procesando...",
+                "search": "Buscar:",
+                "zeroRecords": "Sin resultados encontrados",
+                paginate: {
+                    // remove previous & next text from pagination
+                    previous: '&nbsp;',
+                    next: '&nbsp;'
+                }
+            }
+        });
+
+        $('#tablaKids_wrapper .card-header').addClass('d-none');
+        $('#tablaKids thead').addClass('d-none');
+        $('#tablaKids_wrapper .d-flex.justify-content-between.align-items-center.mx-0.row').addClass('d-none');
+        document.getElementById('tablaKids_info').classList.add('py-2')
+        document.getElementById('tablaKids_filter').classList.add('d-none')
+        document.getElementById('tablaKids_info').parentElement.parentElement.classList.add('align-items-center')
+    }
+
+    $('#totalKids').text(gruposKids.length);
+}
+
 let inputDesde0 = document.querySelector('.desde0'),
 desde0Form = document.getElementById('desde0Form'),
 inputIntensivo = document.querySelector('.intensivo'),
+inputKids = document.querySelector('.kids'),
 intensivoForm = document.getElementById('intensivoForm'),
+kidsForm = document.getElementById('kidsForm'),
 actualizarForm = document.getElementById('actualizarForm');
 
 actualizarForm.addEventListener('submit', e => {
@@ -561,6 +739,12 @@ intensivoForm.addEventListener('submit', e => {
     CrearGruposFetch(data)
 });
 
+kidsForm.addEventListener('submit', e => {
+    e.preventDefault();
+    let data = new FormData(kidsForm);
+    CrearGruposFetch(data)
+});
+
 function CrearGruposFetch (data) {
     fetch('/creargrupopy672', {
         method: 'POST',
@@ -585,7 +769,6 @@ function UpdateTables() {
     $('.horario').trigger('change');
     
     $('.fecha-inicio').val("")
-    $('.monto-mensual').val("")
 
     $('.profesor').val("")
     $('.profesor').trigger('change');
@@ -617,9 +800,19 @@ function UpdateTables() {
         </tr>
     </thead>`);
     
+    $('#tablaKids').dataTable().fnDestroy();
+    $('#tablaKids').empty();
+    $('#tablaKids').html(`
+    <thead>
+        <tr>
+            <th>Nombre</th>
+        </tr>
+    </thead>`);
+    
     FetchData(1);
     FetchData(2);
     FetchData(3);
+    FetchData(4);
 }
 
 inputDesde0.addEventListener('change', () => {
@@ -630,16 +823,22 @@ inputIntensivo.addEventListener('change', () => {
     Reset(2);
 });
 
+inputKids.addEventListener('change', () => {
+    Reset(3);
+});
+
 const Reset = (num) => {
     if (num === 1) {
         desde0Form.classList.remove('d-none')
-        desde0Form.classList.add('d-block')
-        intensivoForm.classList.remove('d-block')
         intensivoForm.classList.add('d-none')
-    } else {
+        kidsForm.classList.add('d-none')
+    } else if(num === 2) {
         intensivoForm.classList.remove('d-none')
-        intensivoForm.classList.add('d-block')
-        desde0Form.classList.remove('d-block')
+        desde0Form.classList.add('d-none')
+        kidsForm.classList.add('d-none')
+    } else {
+        kidsForm.classList.remove('d-none')
+        intensivoForm.classList.add('d-none')
         desde0Form.classList.add('d-none')
     }
 }
@@ -649,15 +848,20 @@ idIn = document.querySelectorAll('.id'),
 tituloIn = document.getElementById('titulo'),
 horarioDesdeCero = document.getElementById('horarioDesdeCero'),
 horarioIntensivo = document.getElementById('horarioIntensivo'),
+horarioKids = document.getElementById('horarioKids'),
 fechaIn = document.getElementById('date');
 
 tituloIn.addEventListener('change', e => {
     horarioDesdeCero.classList.add('d-none')
     horarioIntensivo.classList.add('d-none')
+    horarioKids.classList.add('d-none')
+
     if(tituloIn.value === "Desde cero") {
         horarioDesdeCero.classList.remove('d-none')
-    } else {
+    } else if (tituloIn.value === "Intensivo") {
         horarioIntensivo.classList.remove('d-none')
+    } else {
+        horarioKids.classList.remove('d-none')
     }
 });
 
@@ -682,9 +886,12 @@ tablaGrupos.forEach(tabla => {
             if(e.target.getAttribute('data-nombre') === "Desde cero") {
                 horarioDesdeCero.classList.remove('d-none')
                 horarioDesdeCero.value = e.target.getAttribute('data-horario')
-            } else {
+            } else if (e.target.getAttribute('data-nombre') === "Intensivo") {
                 horarioIntensivo.classList.remove('d-none')
                 horarioIntensivo.value = e.target.getAttribute('data-horario')
+            } else {
+                horarioKids.classList.remove('d-none')
+                horarioKids.value = e.target.getAttribute('data-horario')
             }
         }
     
@@ -729,9 +936,6 @@ tablaGrupos.forEach(tabla => {
                                 if (row.telefono2 != '-' && row.telefono2) {
                                     telefonos += ', ' + row.telefono2;
                                 } 
-                                if (row.telefono3 != '-' && row.telefono3) {
-                                    telefonos += ', ' + row.telefono3;
-                                }
                                 newRow.innerHTML = 
                                 `
                                     <td>${row.nombre}</td>
@@ -781,9 +985,6 @@ tablaGrupos.forEach(tabla => {
                                     if (row.telefono2 != '-') {
                                         telefonos += ', ' + row.telefono2;
                                     } 
-                                    if (row.telefono3 != '-') {
-                                        telefonos += ', ' + row.telefono3;
-                                    }
                                     newRow.innerHTML = 
                                     `
                                         <td>${row.nombre}</td>
@@ -833,9 +1034,6 @@ tablaGrupos.forEach(tabla => {
                                     if (row.telefono2 != '-') {
                                         telefonos += ', ' + row.telefono2;
                                     } 
-                                    if (row.telefono3 != '-') {
-                                        telefonos += ', ' + row.telefono3;
-                                    }
                                     newRow.innerHTML = 
                                     `
                                         <td>${row.nombre}</td>
@@ -885,9 +1083,6 @@ tablaGrupos.forEach(tabla => {
                                     if (row.telefono2 != '-') {
                                         telefonos += ', ' + row.telefono2;
                                     } 
-                                    if (row.telefono3 != '-') {
-                                        telefonos += ', ' + row.telefono3;
-                                    }
                                     newRow.innerHTML = 
                                     `
                                         <td>${row.nombre}</td>
@@ -937,9 +1132,6 @@ tablaGrupos.forEach(tabla => {
                                     if (row.telefono2 != '-') {
                                         telefonos += ', ' + row.telefono2;
                                     } 
-                                    if (row.telefono3 != '-') {
-                                        telefonos += ', ' + row.telefono3;
-                                    }
                                     newRow.innerHTML = 
                                     `
                                         <td>${row.nombre}</td>
@@ -989,9 +1181,6 @@ tablaGrupos.forEach(tabla => {
                                     if (row.telefono2 != '-') {
                                         telefonos += ', ' + row.telefono2;
                                     } 
-                                    if (row.telefono3 != '-') {
-                                        telefonos += ', ' + row.telefono3;
-                                    }
                                     newRow.innerHTML = 
                                     `
                                         <td>${row.nombre}</td>
@@ -1051,6 +1240,9 @@ tablaGrupos.forEach(tabla => {
                         
                     } else if (current === "tablaIntensivo") {
                         FetchData(3);
+                        
+                    } else if (current === "tablaKids") {
+                        FetchData(4);
 
                     }
                 } 
@@ -1059,4 +1251,4 @@ tablaGrupos.forEach(tabla => {
             });
         }
     });
-})
+});

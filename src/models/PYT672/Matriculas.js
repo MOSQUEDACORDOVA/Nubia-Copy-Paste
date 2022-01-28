@@ -35,10 +35,6 @@ const Matriculas = db672.define('matriculas', {
 		type: DataTypes.STRING(200),
 		allowNull: true,
 	},
-	telefono3: {
-		type: DataTypes.STRING(200),
-		allowNull: true,
-	},
 	email: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
