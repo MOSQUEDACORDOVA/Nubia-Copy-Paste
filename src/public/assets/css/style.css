@@ -1805,6 +1805,9 @@ table tr td {
 .py672 #kids-tab.nav-link:after {
     background: linear-gradient(30deg, #28c76f, rgb(40, 199, 111, 0.5)) !important; 
 }
+.py672 table.dataTable {
+    margin: 0 !important;
+}
 .py672 .custom-options-checkable #labelDesde0 {
     border: 1px solid #0833a2;
 }
