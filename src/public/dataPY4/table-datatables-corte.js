@@ -115,7 +115,7 @@
  function cargaTablas(id_chofer) {
     console.log(id_chofer)
   let corte = $('#array_corte').val()
-  
+  let deudas_pagas= $('#pago_deudoresChoferes').val()
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
   console.log('aaa')
 
@@ -123,13 +123,14 @@
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
+  deudas_pagas = JSON.parse(deudas_pagas.replace(/&quot;/g,'"'))
     //let stproductos = JSON.parse(corte.productos)
    let corte3 = corte2.filter(status => status.personalId == id_chofer); // return implicito
 
   let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial' && status.personalId == id_chofer); // return implicito
   let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
   let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
-
+let filter_deudas_pagas = deudas_pagas.filter(ids => ids.personalId == id_chofer);
   var dt_residencial = $('.datatables-basic'),
   dt_negocio = $('.datatables-basicNegocio'),
   dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
@@ -166,7 +167,8 @@ let ArrayGral = Object.entries(Newcorte2);
   // DataTable with buttons
   // --------------------------------------------------------------------
   console.log(ArrayGral)
-  console.log(corte2)
+  console.log('-----deudas----')
+  console.log(filter_deudas_pagas)
   if (dt_Gral.length) {
     $('.dt-column-searchGral thead tr').clone(true).appendTo('.dt-column-searchGral thead');
     $('.dt-column-searchGral thead tr:eq(1) th').each(function (i) {
@@ -459,7 +461,7 @@ let ArrayGral = Object.entries(Newcorte2);
 
     $('#pedidos_corteGral_info').addClass('d-none')
     $('.totalPedidosG').text(ArrayGral.length)
-    $('.totalGarrafonesGeneral').text($('.totalGarrafG').text())
+    
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
@@ -636,6 +638,9 @@ dt_Gral_t.$('.ResOcultoPrestados').each(function(){
   $('.cantdepositosF').text(cantDepositos)
   $('.descuentosF').text(resdescuentos)
 total =  parseFloat(subtotal) - parseFloat(resdescuentos)
+let totalGarrafonesGeneral  = parseInt(sumaRefillres)+parseInt(resCanje)+parseInt(resNuevos)
+$('.totalGarrafonesGeneral').text(totalGarrafonesGeneral)
+
 $('.totalefectivoF').text(total)
     // Refilter the table
     $('#min1, #max1').on('change', function () {
@@ -643,6 +648,13 @@ $('.totalefectivoF').text(total)
       dt_basic.draw();
       });
   }
+  let sumaDeudaAnterior = 0
+  for (let i = 0; i < filter_deudas_pagas.length; i++) {
+    if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
+      sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
+    }   
+  }
+  $('.adeudoA').text(sumaDeudaAnterior)
  }
 
  function cargaTablaResidencial(id_chofer) {
