@@ -59,7 +59,7 @@ function cargarTablaMatricula(editada) {
             <div class="d-flex flex-column">
 
               <div class="d-flex align-items-center mb-1">
-                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']} ${full['primer_apellido']}</span>
+                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']}</span>
 
                 <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Presente" data-consulta="presente" role="button">
                   ${full['asistencias']}

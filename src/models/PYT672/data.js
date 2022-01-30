@@ -134,6 +134,40 @@ module.exports = {
           });
       });
     },
+    ObtenerGruposKids() {
+      return new Promise((resolve, reject) => {
+        Grupos.findAll({where:
+          { nombre: {
+            [Op.eq]: 'Kids',
+          }, estadosGrupoId: {
+            [Op.eq]: 2,
+          }}
+        })
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    ObtenerTodosGruposKids() {
+      return new Promise((resolve, reject) => {
+        Grupos.findAll({where:
+          { nombre: {
+            [Op.eq]: 'Kids',
+          }}
+        })
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
     ObtenerTodosGruposIntensivo() {
       return new Promise((resolve, reject) => {
         Grupos.findAll({where:
@@ -222,9 +256,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, telefono3, email, provincia, canton, distrito, tipo, grupoId) {
+    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, telefono3: telefono3, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1})
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);

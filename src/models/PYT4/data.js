@@ -729,12 +729,12 @@ console.log(hoy)
         });
     });
   },
-  agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago) {
+  agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago, monto) {
     return new Promise((resolve, reject) => {
         
       Pagos_deudores.create(
         {fecha_pago:fecha_pago,
-          modo_pago:tipo_pago,pedidoId:id_pedido,personalId:chofer_r},)
+          modo_pago:tipo_pago,pedidoId:id_pedido,personalId:chofer_r, monto:monto},)
         .then((data) => {
           let data_set = JSON.stringify(data);
                        resolve(data_set);
@@ -2164,6 +2164,24 @@ clienteId:id_cliente
         .catch((err) => {
           reject(err)
         });
+      });
+    },
+
+    //PAGO DEUDORES
+    GetPagoDeudp(fecha) {
+      return new Promise((resolve, reject) => {
+          
+        Pagos_deudores.findAll({where:{fecha_pago:fecha}},)
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+                         resolve(data_set);
+              
+            //console.log(planes);
+          })
+          .catch((err) => {
+            console.log(err)
+            reject(err)
+          });
       });
     },
 

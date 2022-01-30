@@ -124,6 +124,7 @@
 
                 <form  class="form" action="/registrarestudiantepy672" method="POST">
                     <div class="row">
+
                         <div class="col-12 col-xl-6 mb-1">
                             <div class="list-item-body flex-grow-1">
                                 <label class="form-label">Grupo</label>
@@ -206,48 +207,39 @@
                             </div>
                         </div>
 
-                        <div class="col-12 mb-1">
+                        <div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
-                                <label class="form-label" for="">Nacional</label>
-                                <div class="demo-inline-spacing">
-                                    <div class="form-check form-check-inline mt-0">
-                                        <input class="form-check-input" type="radio" name="tlf" id="inlineRadioTlf1" value="4" checked="">
-                                        <label class="form-check-label" for="inlineRadioTlf1">Nacional</label>
-                                    </div>
-                                    <div class="form-check form-check-inline mt-0">
-                                        <input class="form-check-input" type="radio" id="inlineRadioTlf2" name="tlf" value="3">
-                                        <label class="form-check-label" for="inlineRadioTlf2">Extranjero</label>
+                                <label class="form-label" for="">Teléfono 1 - <span class="nacional1text">Nacional</span><span class="d-none extranjero1text">Extranjero</span></label>
+                                <div class="col-md">
+                                    <div class="mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tlf1Check">
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control tlfNacional"  name="telefono1" id="inputTlf1" required>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <div class="col-12 col-md-6 col-lg-4 mb-1 nacionalTlf">
+                        <div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
-                                <label class="form-label" for="">Teléfono 1</label>
-                                <input type="text" maxlength="8" class="form-control" name="telefono1">
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4 mb-1 nacionalTlf">
-                            <div class="flex-grow-1">
-                                <label class="form-label" for="">Teléfono 2</label>
-                                <input type="text" maxlength="8" class="form-control" name="telefono2">
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4 mb-1 extranjeroTlf">
-                            <div class="flex-grow-1">
-                                <label class="form-label" for="">Teléfono 1</label>
-                                <input type="text" class="form-control" name="telefono3">
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-md-6 col-lg-4 mb-1 extranjeroTlf">
-                            <div class="flex-grow-1">
-                                <label class="form-label" for="">Teléfono 2</label>
-                                <input type="text" class="form-control" name="telefono4">
+                                <label class="form-label" for="">Teléfono 2 - <span class="nacional2text">Nacional</span><span class="d-none extranjero2text">Extranjero</span></label>
+                                <div class="col-md">
+                                    <div class="mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tlf2Check">
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control tlfNacional"  name="telefono2" id="inputTlf2">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -303,6 +295,7 @@
                         <div class="col-12">
                             <input type="submit" class="btn btn-primary" value="Registrar">
                         </div>
+
                     </div>
 
                 </form>
@@ -314,21 +307,20 @@
 <script>
     let radio1 = document.getElementById('inlineRadio1'),
     radio2 = document.getElementById('inlineRadio2'),
-    radioTlf3 = document.getElementById('inlineRadioTlf1'),
-    radioTlf4 = document.getElementById('inlineRadioTlf2'),
+    tlf1Check = document.getElementById('tlf1Check'),
+    tlf2Check = document.getElementById('tlf2Check'),
+    tlf1 = document.getElementById('inputTlf1'),
+    tlf2 = document.getElementById('inputTlf2'),
     nacionalC = document.getElementById('nacionalCampos'),
     exC = document.getElementById('ExtranjeroCampo'),
     nacionalDni = document.getElementById('nacionalDni'),
     exDni = document.getElementById('exDni'),
-    tlfNacional = document.querySelectorAll('.nacionalTlf'),
-    tlfNacionalInput = document.querySelectorAll('.nacionalTlf input'),
-    tlfExtranjero = document.querySelectorAll('.extranjeroTlf'),
     primerC = document.getElementById('primerCampo'),
     segundoC = document.getElementById('segundoCampo'),
     tercerC = document.getElementById('tercerCampo');
 
     let exp =  /^[0-9]+$/;
-    primerC.addEventListener('keydown', e => {
+    primerC.addEventListener('keyup', e => {
         nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
         if (primerC.value.match(exp)) {
             segundoC.focus();
@@ -337,7 +329,7 @@
         }
     });
 
-    segundoC.addEventListener('keydown', e => {
+    segundoC.addEventListener('keyup', e => {
         nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
         if (segundoC.value.match(exp)){
             if(segundoC.value.length === 4) {
@@ -348,7 +340,7 @@
         }
     });
 
-    tercerC.addEventListener('keydown', e => {
+    tercerC.addEventListener('keyup', e => {
         nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
         let current = '';
         if (!tercerC.value.match(exp)){
@@ -365,27 +357,69 @@
     radio2.addEventListener('change', e => {
         SetRadio2();
     });
-
-    radioTlf3.addEventListener('change', e => {
-        SetRadio3();
-    });
-
-    radioTlf4.addEventListener('change', e => {
-        SetRadio4();
-    });
-
-    tlfNacionalInput.forEach(input => {
-        input.addEventListener('keydown', e => {
-            let texto = ''
-            if(!input.value.match(exp)) {
-                texto += texto.slice(1,-1)
+    
+    tlf1.addEventListener('keyup', e => {
+        let texto = '';
+        if(tlf1.classList.contains('tlfNacional')) {
+            if (!tlf1.value.match(exp)) {
+                tlf1.value = '';
             } else {
-                texto += input.value 
+                texto += tlf1.value;
+                if (texto.length > 8) {
+                    texto = texto.slice(1,-1)
+                }
             }
-            input.value = texto 
-        });
+            tlf1.value = texto;
+        }
     });
 
+    tlf2.addEventListener('keyup', e => {
+        let texto = '';
+        if(tlf2.classList.contains('tlfNacional')) {
+            if (!tlf2.value.match(exp)) {
+                tlf2.value = '';
+            } else {
+                texto += tlf2.value;
+                if (texto.length > 8) {
+                    texto = texto.slice(1,-1)
+                }
+            }
+            tlf2.value = texto;
+        }
+    });
+
+    tlf1Check.addEventListener('change', e => {
+        let text = document.querySelector('.nacional1text'),
+        text2 = document.querySelector('.extranjero1text');
+
+        tlf1.value = '';
+        if(tlf1Check.checked === false) {
+            text.classList.remove('d-none');
+            text2.classList.add('d-none');
+            tlf1.classList.add('tlfNacional')
+        } else {
+            text.classList.add('d-none');
+            text2.classList.remove('d-none');
+            tlf1.classList.remove('tlfNacional')
+        }
+    });
+
+    tlf2Check.addEventListener('change', e => {
+        let text = document.querySelector('.nacional2text'),
+        text2 = document.querySelector('.extranjero2text');
+
+        tlf2.value = '';
+        if(tlf2Check.checked === false) {
+            text.classList.remove('d-none');
+            text2.classList.add('d-none');
+            tlf2.classList.add('tlfNacional')
+        } else {
+            text.classList.add('d-none');
+            text2.classList.remove('d-none');
+            tlf2.classList.remove('tlfNacional')
+        }
+    });
+    
     const SetRadio1 = () => {
         nacionalC.classList.remove('d-none');
         nacionalC.classList.add('d-block');
@@ -402,31 +436,7 @@
         nacionalC.classList.add('d-none');
     }
 
-    const SetRadio3 = () => {
-        tlfNacional.forEach(tlf => {
-            tlf.classList.remove('d-none');
-            tlf.disabled = false;
-        });
-        tlfExtranjero.forEach(tlf => {
-            tlf.classList.add('d-none');
-            tlf.disabled = true;
-        });
-    }
-
-    const SetRadio4 = () => {
-        tlfExtranjero.forEach(tlf => {
-            tlf.classList.remove('d-none');
-            tlf.disabled = false;
-        });
-        tlfNacional.forEach(tlf => {
-            tlf.classList.add('d-none');
-            tlf.disabled = true;
-        });
-    }
-
     SetRadio1();
-
-    SetRadio3();
 
     exDni.addEventListener('keydown', e => {
         nacionalDni.value = exDni.value;

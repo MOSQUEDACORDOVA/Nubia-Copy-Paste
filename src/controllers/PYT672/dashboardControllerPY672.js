@@ -666,6 +666,92 @@ exports.obtenergruposintensivos = async (req, res) => {
   
 };
 
+// * AJAX
+exports.obtenergruposkids = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+
+  let dataFinal;
+
+  DataBase.ObtenerGruposKids().then(async (response) => {
+    let gruposKids = JSON.parse(response), gruposArr = [], gruposArr2 = [];
+    console.log(gruposKids)
+    console.log("NIÑOS INICIADOS")
+    
+    for (let index = 0; index < gruposKids.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposKids[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {}
+  
+        matrActivos = {
+          activos: numActivos
+        }
+        matrIncorporados = {
+          incorporados: numIncorporados
+        }
+        matrInscritos = {
+          inscritos: numInscritos
+        }
+        matrFusionados = {
+          fusionados: numFusionados
+        }
+        matrCongelados = {
+          congelados: numCongelados
+        }
+        matrTotal = {
+          total: numTotal
+        }
+  
+        Object.assign(newObj, matrActivos)
+        Object.assign(newObj, matrIncorporados)
+        Object.assign(newObj, matrInscritos)
+        Object.assign(newObj, matrFusionados)
+        Object.assign(newObj, matrCongelados)
+        Object.assign(newObj, matrTotal)
+  
+        let result = Object.assign(gruposKids[index], newObj);
+        gruposArr.push(result)
+  
+        return JSON.stringify(gruposArr)
+      })
+      let count = gruposKids.length - 1
+      if(count === index) {
+        gruposArr2.push(JSON.parse(data));
+      }
+    }
+
+    return res.send(gruposArr2);
+    
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+};
+
 // * VERIFICAR GRUPOS
 exports.verificargrupos = (req, res) => {
   let msg = false;
@@ -689,34 +775,56 @@ exports.verificargrupos = (req, res) => {
       let nivelCode, nivel;
     
       function EstablecerNivel () {  
-        switch (row.lecciones_semanales) {
-          case '1':
-            nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-            nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
-    
-            console.log("NIVELES")
-            console.log(nivel1)
-            console.log(nivel2)
-            console.log(nivel3)
-            console.log(nivel4)
-            console.log("DESDE CERO")
-            break;
+        if (row.nombre === "Desde cero") {
+          switch (row.lecciones_semanales) {
+            case '1':
+              nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+      
+              console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("DESDE CERO")
+              break;
+          }
 
-          case '2':
-            nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
-            nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
-    
-            console.log("NIVELES")
-            console.log(nivel1)
-            console.log(nivel2)
-            console.log(nivel3)
-            console.log(nivel4)
-            console.log("INTENSIVO")
-          break;
+        } else if (row.nombre === "Intensivo") {
+          switch (row.lecciones_semanales) {
+            case '2':
+              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+      
+              console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("INTENSIVO")
+            break;
+          }
+          
+        } else {
+          switch (row.lecciones_semanales) {
+            case '1':
+              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+      
+              console.log("NIVELES")
+              console.log(nivel1)
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("KIDS")
+            break;
+          }
+
         }
           
         if (moment().isBefore(nivel2)) {
@@ -734,11 +842,13 @@ exports.verificargrupos = (req, res) => {
           nivelCode = '-3';
           nivel = 'Intermedio';
           
-        } else if(moment().isAfter(nivel3)) {
-          fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
-          nivelCode = '-4';
-          nivel = 'Avanzado';
+        } else if(row.nombre !== "Kids") {
+          if(moment().isAfter(nivel3)) {
+            fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
+            nivelCode = '-4';
+            nivel = 'Avanzado';
 
+          }
         }
       }
 
@@ -1541,59 +1651,116 @@ exports.creargrupos = (req, res) => {
     return res.send(error);
   } else {
     if (lecciones === '1') {
-      DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
-        let grupos = JSON.parse(response);
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
-
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
-
-        numGrupo += count;
-
-        nivelCode = '-1';
-        nivel = 'Principiante';
-                                      // 224
-        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
-        finNivel = "32 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `C${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
-          let grupoCreado = JSON.parse(respuesta)
-          let grupoId = grupoCreado.id
-          console.log(grupoId)
-          console.log("GRUPO CREADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'creado'});
-
+      if(nombre === "Desde cero") {
+        DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio).format("DD-MM-YYYY")
+          count = 0;
+          // FILTRAR POR AÑO
+          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+            console.log(numAño)
+            console.log(añoGrupo)
+            console.log("MOMENTO INICIO")
+  
+            if (numAño === añoGrupo) {
+              count++;
+              console.log("CONTIENEN EL MISMO AÑO")
+              console.log(count)
+              console.log("NUMERO DE IDENTIFICADOR")
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          nivelCode = '-1';
+          nivel = 'Principiante';
+                                        // 224
+          fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
+          finNivel = "32 Semanas";      
+          console.log(fechaFin)
+          console.log("FECHAR FINALIZAR")
+          numId += numGrupo;
+          identificador = `C${numAño}${numId}${nivelCode}`;
+          console.log(identificador)
+          console.log("IDENTIFICADOR GENERADO")
+          
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+            let grupoCreado = JSON.parse(respuesta)
+            let grupoId = grupoCreado.id
+            console.log(grupoId)
+            console.log("GRUPO CREADO SATISFACTORIAMENTE")
+  
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
         }).catch((err) => {
           console.log(err)
           let msg = "Error en sistema";
           return res.redirect("/error672/PYT-672");
         });
-      }).catch((err) => {
-        console.log(err)
-        let msg = "Error en sistema";
-        return res.redirect("/error672/PYT-672");
-      });
+      } else {
+        console.log("GRUPOS KIDS")
+        DataBase.ObtenerTodosGruposKids().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio).format("DD-MM-YYYY")
+          count = 0;
+          // FILTRAR POR AÑO
+          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+            console.log(numAño)
+            console.log(añoGrupo)
+            console.log("MOMENTO INICIO")
+  
+            if (numAño === añoGrupo) {
+              count++;
+              console.log("CONTIENEN EL MISMO AÑO")
+              console.log(count)
+              console.log("NUMERO DE IDENTIFICADOR")
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          nivelCode = '-1';
+          nivel = 'Principiante';
+                                        // 112
+          fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+          finNivel = "16 Semanas";      
+          console.log(fechaFin)
+          console.log("FECHAR FINALIZAR")
+          numId += numGrupo;
+          identificador = `N${numAño}${numId}${nivelCode}`;
+          console.log(identificador)
+          console.log("IDENTIFICADOR GENERADO")
+          
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+            let grupoCreado = JSON.parse(respuesta)
+            let grupoId = grupoCreado.id
+            console.log(grupoId)
+            console.log("GRUPO CREADO SATISFACTORIAMENTE")
+  
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
     } else {
       DataBase.ObtenerTodosGruposIntensivo().then((response) => {
         let grupos = JSON.parse(response);
@@ -1729,7 +1896,7 @@ exports.actualizargrupos = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-    } else {
+    } else if (nombre === "Intensivo") {
       DataBase.ObtenerTodosGruposIntensivo().then((response) => {
         let grupos = JSON.parse(response);
         console.log("INTENSIVOS")
@@ -1784,7 +1951,64 @@ exports.actualizargrupos = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-    } 
+
+    } else {
+      DataBase.ObtenerTodosGruposKids().then((response) => {
+        let grupos = JSON.parse(response);
+        console.log("KIDS")
+        // FILTRAR POR AÑO
+        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+          console.log(numAño)
+          console.log(añoGrupo)
+          console.log("MOMENTO INICIO")
+
+          if (numAño === añoGrupo) {
+            count++;
+            console.log("CONTIENEN EL MISMO AÑO")
+            console.log(count)
+            console.log("NUMERO DE IDENTIFICADOR")
+          }
+        }); 
+
+        numGrupo += count;
+
+        nivelCode = '-1';
+        nivel = 'Principiante';
+        lecciones = 1;
+                                        // 112
+        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        finNivel = "16 Semanas";      
+        console.log(fechaFin)
+        console.log("FECHAR FINALIZAR")
+        numId += numGrupo;
+        identificador = `N${numAño}${numId}${nivelCode}`;
+        console.log(identificador)
+        console.log("IDENTIFICADOR GENERADO")
+        
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          console.log(respuesta)
+          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
+
+          return res.send({success: 'Grupo Actualizado'});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+
+    }
   }
 };
 
@@ -2071,40 +2295,20 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = (req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, telefono3, telefono4, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
     return res.redirect('/matriculas/PYT-672');
   } else {
-    let phone1, phone2;
-    if(!telefono1 && telefono3) {
-      phone1 = telefono3;
-      if(!telefono4) {
-        phone2 = '';
-      } else {
-        phone2 = telefono4;
-      }
-    } 
 
     if(!telefono2) {
-      phone2 = '-'
-    } else {
-      if(!telefono2 && telefono4) {
-        phone2 = telefono4;
-      } else {
-        phone2 = telefono2;
-      }
-    }
-    
-    if(!telefono3) {
-      telefono3 = '-'
-    }
-
+      telefono2 = '-'
+    } 
 
     tipo = parseInt(tipo)
-    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, phone1, phone2, telefono3, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
+    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
       console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
