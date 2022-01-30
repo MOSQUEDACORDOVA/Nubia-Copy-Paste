@@ -8,27 +8,6 @@
  var minDate, maxDate,minDate2, maxDate2;
  
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
-       
-
-     let f = data[5]
-    
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
- 
  
  // Datepicker for advanced filter
  var separator = ' - ',
