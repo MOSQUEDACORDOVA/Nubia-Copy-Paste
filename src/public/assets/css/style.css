@@ -1504,6 +1504,9 @@ table tr td {
 .py672 .auth-wrapper .brand-logo .brand-text {
     font-weight: bold !important;
 }
+.py672 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .py672 .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #0833a2;
+}
 @media (min-width: 992px) {
     .py672 .auth-box {
         min-height: 100vh;
@@ -1799,11 +1802,20 @@ table tr td {
 .py672 #intensivo-tab.nav-link:after {
     background: linear-gradient(30deg, #ea5455, rgb(234, 84, 85, 0.5)) !important; 
 }
+.py672 #kids-tab.nav-link:after {
+    background: linear-gradient(30deg, #28c76f, rgb(40, 199, 111, 0.5)) !important; 
+}
+.py672 table.dataTable {
+    margin: 0 !important;
+}
 .py672 .custom-options-checkable #labelDesde0 {
     border: 1px solid #0833a2;
 }
 .py672 .custom-options-checkable #labelIntensivo {
     border: 1px solid #ea5455;
+}
+.py672 .custom-options-checkable #labelKids {
+    border: 1px solid #28c76f;
 }
 .py672 .custom-option-item-check:checked + #labelDesde0 {
     color: #0833a2;
@@ -1814,6 +1826,11 @@ table tr td {
     color: #ea5455;
     background-color: rgb(234, 84, 85, 0.12);
     border-color: #ea5455;
+}
+.py672 .custom-option-item-check:checked + #labelKids {
+    color: #28c76f;
+    background-color: rgb(40, 199, 111, 0.12);
+    border-color: #28c76f;
 }
 .tablaAlum{
     margin-left: 12px !important;

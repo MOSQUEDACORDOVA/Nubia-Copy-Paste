@@ -8,27 +8,6 @@
  var minDate, maxDate,minDate2, maxDate2;
  
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
-       
-
-     let f = data[5]
-    
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
- 
  
  // Datepicker for advanced filter
  var separator = ' - ',
@@ -168,6 +147,7 @@ maxDate2 = new DateTime($('#max1'), {
         { data: 'id' },
         { data: 'cliente.firstName' },
         { data: 'status_pago' },
+        { data: 'monto_total' },
         { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
@@ -242,7 +222,14 @@ Env: ${Env}.</p>`
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { visible: false, targets: 6,
+        { targets: 4,
+          render: function (data, type, full) {
+            
+            return `$${data}`
+          }
+          
+        },
+        { visible: false, targets: 7,
           render: function (data, type, full) {
             
             if (full['cliente']['etiqueta'] == null) {
@@ -331,14 +318,14 @@ Env: ${Env}.</p>`
               '<span class="badge rounded-pill pago' +
               full['id'] + ' '+
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['monto_total'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
           }
         },
         {
-          targets: 4,className:'fecha_pedido',
+          targets: 5,className:'fecha_pedido',
           render:function(data, type, full){
             
            // return moment.tz(data, 'America/Mexico_City').format('L');
@@ -548,7 +535,7 @@ function filterColumn(i, val) {
   }
 }
 
-async function cambioPago(id, status) {
+async function cambioPago(id, status, monto) {
   let chof = $('#choferes').val()
   let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'))
   console.log(choferes)
@@ -668,6 +655,7 @@ $.map(arr,
     data_C.append("tipo_pago", tipo_p);
     data_C.append("chofer_r", chofer_r);
     data_C.append("fecha_pago", fecha_pago);
+    data_C.append("monto", monto);
     $.ajax({
       url: `/cambia_S_pago_deudor`,
       type: 'POST',

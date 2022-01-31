@@ -146,13 +146,14 @@ maxDate2 = new DateTime($('#max1'), {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
       $('input', this).on('keyup change', function () {
-        console.log(this.value)
+        console.log(this.id)
         let valor = this.value
-
-        console.log(valor)
+$('#filterPosition').val(this.id)
+$('#filterValue').val(this.value)
         if (dt_basic.column(i).search() !== this.value) {
+
           dt_basic.column(i).search(this.value).draw();
         }else{
           dt_basic.column(i).search(valor).draw();
@@ -229,7 +230,7 @@ Env: ${Env}.</p>`
           }, 
         },
         { data: 'personal.name' },
-        { data: 'cliente.etiqueta' },
+        { data: 'cliente.cpId' },
       ], columnDefs: [
         { visible: false, targets: groupColumn,
         },
@@ -255,14 +256,14 @@ Env: ${Env}.</p>`
         },
         { visible: false, targets: 11,
           render: function (data, type, full) {
-            
-            if (full['cliente']['etiqueta'] == null) {
-          return data
-            }else{
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
               
-              return data['etiquetas']
             }
-            
+            return asentamiento
           }
          
         },
@@ -428,7 +429,7 @@ Env: ${Env}.</p>`
       ],
      
      
-      order: [[8, 'desc'],[11,'desc']],
+      order: [[10,'asc'],[11,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -493,9 +494,11 @@ Env: ${Env}.</p>`
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
-  
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="V'+title+i+'"/>');
+
       $('input', this).on('keyup change', function () {
+        $('#filterPosition').val(this.id)
+        $('#filterValue').val(this.value)
         if (dt_basic2.column(i).search() !== this.value) {
           dt_basic2.column(i).search(this.value).draw();
         }
@@ -550,13 +553,22 @@ Env: ${Env}.</p>`
             );
           } },
           { data: 'personal.name' },
-          { data: 'cliente.etiqueta' },
+          { data: 'cliente.cpId' },
         ], columnDefs: [
           { visible: false, targets: groupColumn2,
            
           },
           { visible: false, targets: 9,
-           
+            render: function (data, type, full) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              return asentamiento
+            }
           },
           {
             // Label
@@ -700,7 +712,7 @@ Env: ${Env}.</p>`
         },
       ],
      
-      order: [[6, 'desc'],[9, 'desc']],
+      order: [[8, 'asc'],[9, 'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -1194,6 +1206,13 @@ $.contextMenu({
    </thead>`);
    
    cargaTablas('si')
+
+if ($('.select_chofer_pedidos').val() != "") {
+  $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
+}
+if ($('.select_etiqueta_pedidos').val() != "") {
+  $(".select_etiqueta_pedidos").val(`${$('.select_etiqueta_pedidos').val()}`).trigger('change');
+}
    $('.datatables-resumen').dataTable().fnDestroy();
    $('.datatables-resumen').empty();
    $('.datatables-resumen').html(`<thead>
@@ -1208,6 +1227,10 @@ $.contextMenu({
    </thead>`);
    
    cargaTableResumen('si')
+   if ($('#filterPosition').val() != "") {
+     console.log($('#filterValue').val())
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+  }
   $('#edit_pedido').modal('hide')
       },
       error: function (jqXHR, textStatus) {

@@ -37,23 +37,33 @@
                                 <div class="card-body">
                                     <div class="">
                                         <div class="row custom-options-checkable g-1 mb-1">
-                                            <div class="col-md-6">
+                                            <div class="col-12">
                                                 <input class="custom-option-item-check desde0" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios1" checked/>
                                                 <label class="custom-option-item p-1" for="customOptionsCheckableRadios1" id="labelDesde0">
-                                                    <span class="d-flex justify-content-between flex-wrap mb-50">
-                                                        <span class="fw-bolder">Desde cero</span>
+                                                    <span class="d-flex justify-content-between flex-wrap">
+                                                        <span class="fw-bolder">Ingles Desde Cero</span>
                                                     </span>
-                                                    <small class="text">1 lección &nbsp &nbsp semanal.</small>
+                                                    <small class="text">1 lección semanal.</small>
                                                 </label>
                                             </div>
         
-                                            <div class="col-md-6">
+                                            <div class="col-12">
                                                 <input class="custom-option-item-check intensivo" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios2" value="" />
                                                 <label class="custom-option-item p-1" for="customOptionsCheckableRadios2" id="labelIntensivo">
-                                                    <span class="d-flex justify-content-between flex-wrap mb-50">
-                                                        <span class="fw-bolder">Intensivo</span>
+                                                    <span class="d-flex justify-content-between flex-wrap">
+                                                        <span class="fw-bolder">Ingles Intensivo</span>
                                                     </span>
                                                     <small class="text">2 lecciones semanales.</small>
+                                                </label>
+                                            </div>
+        
+                                            <div class="col-12">
+                                                <input class="custom-option-item-check kids" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios3" value="" />
+                                                <label class="custom-option-item p-1" for="customOptionsCheckableRadios3" id="labelKids">
+                                                    <span class="d-flex justify-content-between flex-wrap">
+                                                        <span class="fw-bolder">Ingles Niños</span>
+                                                    </span>
+                                                    <small class="text">1 lección semanal.</small>
                                                 </label>
                                             </div>
                                         </div>
@@ -76,7 +86,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!--Prueba-->
 
                                             <div class="row">
                                                 <div class="col-12 mb-1">
@@ -88,7 +97,10 @@
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Monto Mensual</label>
-                                                    <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" value="17.000" step="0.005" min="0" required/>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon-search1">₡</span>
+                                                        <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" value="17.000" step="0.005" min="0" required/>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -133,6 +145,7 @@
                                                         <label class="form-label" for="first-name-column">Día y Horario</label>
                                                         <select class="form-select select2 horario" name="horario" id="" required>
                                                             <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
+                                                            <option value="Martes y Jueves de 8:30am a 11am">Martes y Jueves de 8:30am a 11am</option>
                                                             <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
                                                         </select>
                                                     </div>
@@ -149,7 +162,63 @@
                                             <div class="row">
                                                 <div class="col-12 mb-1">
                                                     <label class="form-label" for="fp-default">Monto Mensual</label>
-                                                    <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" step="0.005" value="29.000" min="0" required/>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text" id="basic-addon-search1">₡</span>
+                                                        <input type="number" id="fp-default" class="form-control monto-mensual" name="montoMensual" step="0.005" value="29.000" min="0" required/>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Profesor</label>
+                                                    <select class="select2 form-select profesor" tabindex="-1" name="profesor" aria-hidden="true" required>
+                                                        <option value="" selected>(opcional)</option>
+                                                        <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
+                                                        <option value="Rai Torcat"> Rai Torcat</option>
+                                                        <option value="Patricio Calderon"> Patricio Calderon</option>
+                                                        <option value="Boris Melgarejo"> Boris Melgarejo</option>
+                                                        <option value="Jose Arzolay"> Jose Arzolay</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                                                                                    
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <button type="submit" class="btn btn-primary me-1">Guardar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                        <!-- NIÑOS -->
+                                        <form class="form d-none" method="POST" action="/creargrupopy672" id="kidsForm">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="mb-1">
+                                                                                                                                                                     <input type="text" class="d-none" name="nombre" value="Kids"/>
+                                                        <input type="text" class="d-none" value="1" name="lecciones"/>
+                                                        <label class="form-label" for="first-name-column">Día y Horario</label>
+                                                        <select class="form-select select2 horario" name="horario" id="" required>
+                                                            <option value="Sábados 11:30am a 1:30pm"> Sábados 11:30am a 1:30pm</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default">Fecha inicio</label>
+                                                    <input type="text" id="fp-default" class="form-control flatpickr-basic flatpickr-input fecha-inicio" placeholder="YYYY-MM-DD" name="fechaInicio" required>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12 mb-1">
+                                                    <label class="form-label" for="fp-default2">Monto Mensual</label>
+                                                    <div class="input-group">
+                                                        <span class="input-group-text">₡</span>
+                                                        <input type="number" id="fp-default2" class="form-control monto-mensual" name="montoMensual" step="0.005" value="17.000" min="0" required/>
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -200,6 +269,10 @@
                                         <a class="nav-link" id="intensivo-tab" data-bs-toggle="tab" href="#intensivo" aria-controls="intensivo" role="tab" aria-selected="false">Intensivos</a>
                                         <span class="badge rounded-pill bg-danger position-absolute" id="totalIntensivo">0</span>
                                     </li>
+                                    <li class="nav-item position-relative">
+                                        <a class="nav-link" id="kids-tab" data-bs-toggle="tab" href="#kids" aria-controls="kids" role="tab" aria-selected="false">Niños</a>
+                                        <span class="badge rounded-pill bg-success position-absolute" id="totalKids">0</span>
+                                    </li>
                                 </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="aperturas" aria-labelledby="aperturas-tab" role="tabpanel">
@@ -210,9 +283,10 @@
                                                     <option value="">Todos</option>
                                                     <option value="Desde cero" class="text-capitalize">Desde cero</option>
                                                     <option value="Intensivo" class="text-capitalize">Intensivo</option>
+                                                    <option value="Kids" class="text-capitalize">Niños</option>
                                                 </select>
                                             </div>
-                                            <table class="table table-responsive dataTable" id="tabla-aperturas">
+                                            <table class="table table-responsive" id="tabla-aperturas">
                                                 <thead>
                                                     <tr>
                                                         <th>Nombre</th>
@@ -310,6 +384,50 @@
                                             </table>
                                         </div>
                                     </div>
+
+                                    <!-- GRUPOS PARA NIÑOS -->
+                                    <div class="tab-pane" id="kids" aria-labelledby="kids-tab" role="tabpanel">
+                                        <div class="card">
+                                            <div class="row p-0 mb-1">
+                                                <!-- FILTRO INTENSIVO -->
+                                                <div class="col-4 niveles-grupos">
+                                                    <label class="form-label" for="">Niveles</label>
+                                                    <select id="nivelesGrupo3" class="form-select text-capitalize mb-md-0 mb-2">
+                                                        <option value="">Todos</option>
+                                                        <option value="Principiante" class="text-capitalize">Principiante</option>
+                                                        <option value="Básico" class="text-capitalize">Básico</option>
+                                                        <option value="Intermedio" class="text-capitalize">Intermedio</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-4 profesor-grupos">
+                                                    <label class="form-label" for="">Profesor</label>
+                                                    <select id="" class="form-select text-capitalize mb-md-0 mb-2">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </div>
+                                                
+                                                <div class="col-4 pagos-grupos">
+                                                    <label class="form-label" for="">Fecha de pago</label>
+                                                    <select id="pagosGrupo3" class="form-select text-capitalize mb-md-0 mb-2">
+                                                        <option value="">Todos</option>
+                                                        <option value="01 de cada mes">01 de cada mes</option>
+                                                        <option value="15 de cada mes">15 de cada mes</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <table class="table table-responsive dataTable" id="tablaKids">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -335,6 +453,7 @@
                                         <select type="text" id="titulo" name="nombre" class="new-todo-item-title form-select" required>
                                             <option value="Desde cero">Desde cero</option>
                                             <option value="Intensivo">Intensivo</option>
+                                            <option value="Kids">Niños</option>
                                         </select>
                                     </div>
                                     <div class="mb-1">
@@ -349,6 +468,9 @@
                                         <select name="horario2" id="horarioIntensivo" class="form-select">
                                             <option value="Lunes y Míercoles: 6:30pm a 9pm"> Lunes y Míercoles: 6:30pm a 9pm</option>
                                             <option value="Martes y Jueves: 6:30pm a 9pm"> Martes y Jueves: 6:30pm a 9pm</option>
+                                        </select>
+                                        <select name="horario3" id="horarioKids" class="form-select">
+                                            <option value="Sábados 11:30am a 1:30pm">Sábados 11:30am a 1:30pm</option>
                                         </select>
                                     </div> 
                                     <div class="mb-1">

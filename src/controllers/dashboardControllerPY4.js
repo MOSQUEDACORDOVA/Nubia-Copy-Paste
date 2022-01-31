@@ -78,7 +78,7 @@ Entregados_resumen=DataBase.entregados_resumen
       let p =[]
 for (let i = 0; i < pedidos_let.length; i++) {  
   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-  console.log(reprogramado)
+ // console.log(reprogramado)
   if (reprogramado) {
     p.push(pedidos_let[i])
   }
@@ -328,7 +328,7 @@ exports.usuariosTable = (req, res) => {
       let p =[]
 for (let i = 0; i < pedidos_let.length; i++) {  
   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-  console.log(reprogramado)
+ // console.log(reprogramado)
   if (reprogramado) {
     p.push(pedidos_let[i])
   }
@@ -429,7 +429,7 @@ if (revisa_cliente != null) {
  if (telefono_familiar_2 =="") {
    telefono_familiar_2 =null
  }
-console.log(nombre_familiar_1 , apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2)
+//console.log(nombre_familiar_1 , apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2)
 const revisa_cliente_familiar = JSON.parse(await DataBase.SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1, telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,))
 
 if (revisa_cliente_familiar!= null) {
@@ -1039,12 +1039,13 @@ exports.cambia_S_pago_deudor = async (req, res) => {
   const status = req.body.status
   const tipo_pago = req.body.tipo_pago
   var chofer_r = req.body.chofer_r
+  var monto = req.body.monto
   const fecha_pago = req.body.fecha_pago
   let id_sucursal = req.session.sucursal_select
 if (chofer_r == "Null") {
   chofer_r= null
 }
-const pago_deudor = await DataBase.agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago)
+const pago_deudor = await DataBase.agregaPagoDeudp(id_pedido,tipo_pago,chofer_r, fecha_pago,monto)
   DataBase.CambiaStatusPago_deudor(id_pedido,status,tipo_pago).then((respuesta) =>{
     let msg=respuesta
     console.log(pago_deudor)
@@ -1404,6 +1405,7 @@ exports.corte_table = (req, res) => {
     ChoferesDB=DataBase.ChoferesAll
     PersonalDB=DataBase.PersonalAll
     PedidosAllGroupByChoferes=DataBase.PedidosAllGroupByChoferes
+    Pago_deudores=DataBase.GetPagoDeudp
       break;
   
     default:
@@ -1412,6 +1414,7 @@ exports.corte_table = (req, res) => {
     ChoferesDB=DataBase.ChoferesAll
     PersonalDB=DataBase.PersonalAllS
     PedidosAllGroupByChoferes=DataBase.PedidosAllGroupByChoferesS
+        Pago_deudores=DataBase.GetPagoDeudp
       break;
   }
   DataBase.CodigosP().then((cp_)=>{
@@ -1493,9 +1496,10 @@ exports.corte_table = (req, res) => {
                pedidos_byday =JSON.stringify(pedidos_byday) 
                arr_carga = JSON.stringify(arr_carga)
                total_garrafones= parseInt(residencial_cont_garrafones) +parseInt(negocio_cont_garrafones) +parseInt(ptoventa_cont_garrafones)
-               DataBase.Sucursales_ALl().then((sucursales_)=>{
+               DataBase.Sucursales_ALl().then(async (sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)  
-                       
+              let pago_deudoresChoferes =  await Pago_deudores(moment(dia).format('YYYY-MM-DD'))
+              console.log(pago_deudoresChoferes)
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -1508,7 +1512,7 @@ exports.corte_table = (req, res) => {
       ptoventa_cont_garrafones,
 choferes,chofer_pedido,
 choferes_,sucursales_let,arr_carga,
-      msg,cp_,
+      msg,cp_,pago_deudoresChoferes
     }) 
 }).catch((err) => {
   console.log(err)
@@ -1641,7 +1645,7 @@ exports.vehiculos_table = (req, res) => {
        let p =[]
  for (let i = 0; i < pedidos_let.length; i++) {  
    reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-   console.log(reprogramado)
+  // console.log(reprogramado)
    if (reprogramado) {
      p.push(pedidos_let[i])
    }
@@ -1761,7 +1765,7 @@ res.send({vehiculos_let})
     }
     vehiculosAll(id_sucursal).then((vehiculos_)=>{
       let vehiculos_let = JSON.parse(vehiculos_)
-      console.log(vehiculos_let)
+     // console.log(vehiculos_let)
       res.send({vehiculos_let})
   }).catch((err) => {
     console.log(err)
@@ -1813,7 +1817,7 @@ exports.sucursales = (req, res) => {
        let p =[]
  for (let i = 0; i < pedidos_let.length; i++) {  
    reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-   console.log(reprogramado)
+  // console.log(reprogramado)
    if (reprogramado) {
      p.push(pedidos_let[i])
    }
@@ -1922,10 +1926,10 @@ return res.redirect("/errorpy4/" + msg);
    
   const user = res.locals.user
   const {id_, nombre, telefono} = req.body
-  console.log(id_)
-  console.log(nombre)
+ // console.log(id_)
+  //console.log(nombre)
   DataBase.updSucursal(id_,nombre, telefono).then((respuesta) =>{
-    console.log(respuesta)
+   // console.log(respuesta)
     DataBase.Sucursales_ALl().then((sucursales_)=>{
       let sucursales_let = JSON.parse(sucursales_)
        let count = sucursales_let.length
@@ -1992,7 +1996,7 @@ vehiculosAll=DataBase.vehiculosAllS
        let p =[]
  for (let i = 0; i < pedidos_let.length; i++) {  
    reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-   console.log(reprogramado)
+ //  console.log(reprogramado)
    if (reprogramado) {
      p.push(pedidos_let[i])
    }
@@ -2012,7 +2016,7 @@ vehiculosAll=DataBase.vehiculosAllS
                   console.log(asignados)
                   vehiculosAll(id_sucursal).then((vehiculos_)=>{
                     let vehiculos_let = JSON.parse(vehiculos_)
-  console.log(carga_let)
+ // console.log(carga_let)
     res.render("PYT-4/carga_init", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -2104,15 +2108,15 @@ exports.save_recarga = async (req, res) => {
   const { id_carga, recarga } = req.body
   let msg = false;
   let id_sucursal = req.session.sucursal_select
-  console.log(id_carga)
+//  console.log(id_carga)
   var carga_actual = JSON.parse(await DataBase.cargaActual(id_carga))
-  console.log(carga_actual)
+ // console.log(carga_actual)
   let nueva_carga = parseInt(recarga) + parseInt(carga_actual.recarga)
-  console.log(nueva_carga)
+ // console.log(nueva_carga)
 var update_recarga = await DataBase.updcarga_inicial(id_carga,  nueva_carga);
-console.log(update_recarga)
+//console.log(update_recarga)
 var recarga_table = await DataBase.recarga_table(id_carga,  recarga)
-console.log(recarga_table)
+//console.log(recarga_table)
     switch (req.session.tipo) {
       case "Director":
       Carga_init=DataBase.Carga_init
@@ -2142,14 +2146,14 @@ console.log(recarga_table)
 exports.save_asignar_chofer = (req, res) => {
   
   const { chofer, vehiculo, zona} = req.body
-  console.log(req.body)
+ // console.log(req.body)
   let id_sucursal = req.session.sucursal_select
   DataBase.SaveAsignado(vehiculo, chofer,zona).then((respuesta) =>{
-    console.log(respuesta)
+   // console.log(respuesta)
     let respuesta_let = JSON.parse(respuesta)
 DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
             let asignados_let = JSON.parse(asignados_)
-            console.log(asignados_let)
+         //   console.log(asignados_let)
 
     return res.send({asignados_let})
 
@@ -2167,14 +2171,14 @@ return res.redirect("/errorpy4/" + msg);
 exports.save_asignar_chofer_edited = (req, res) => {
   
   const {id_asig, chofer, vehiculo, zona} = req.body
-  console.log(req.body)
+ // console.log(req.body)
   let id_sucursal = req.session.sucursal_select
   DataBase.SaveAsignadoEdited(id_asig, vehiculo, chofer,zona).then((respuesta) =>{
-    console.log(respuesta)
+   // console.log(respuesta)
     let respuesta_let = JSON.parse(respuesta)
 DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
             let asignados_let = JSON.parse(asignados_)
-            console.log(asignados_let)
+         //   console.log(asignados_let)
 
     return res.send({asignados_let})
 
@@ -2198,7 +2202,7 @@ exports.delete_asignar_chofer = (req, res) => {
   let msg = "Etiqueta Eliminada con éxito"
   DataBase.ObtenerAsignados(id_sucursal).then((asignados_)=>{
     let asignados_let = JSON.parse(asignados_)
-    console.log(asignados_let)
+   // console.log(asignados_let)
 
 return res.send({asignados_let})
 
@@ -2215,7 +2219,7 @@ exports.editar_asig_chofer = (req, res) => {
   
 DataBase.ObtenerAsignadosbyId(id_).then((asig_chofer_)=>{
   let asig_chofer_let = JSON.parse(asig_chofer_)
-  console.log(asig_chofer_let)
+ // console.log(asig_chofer_let)
 res.send({asig_chofer_let})
 }).catch((err) => {
 console.log(err)
@@ -2307,7 +2311,7 @@ exports.getCupones = (req, res) => {
        let p =[]
  for (let i = 0; i < pedidos_let.length; i++) {  
    reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-   console.log(reprogramado)
+   //console.log(reprogramado)
    if (reprogramado) {
      p.push(pedidos_let[i])
    }
@@ -2329,7 +2333,7 @@ exports.getCupones = (req, res) => {
     DataBase.obtenerCuponesUsados().then( async(total_cupones_usados) => {
       let total_cupones_usados_cupones_act = JSON.parse(total_cupones_usados);
       
-    console.log(cupones_act);
+   // console.log(cupones_act);
     res.render("PYT-4/cupones", {
       pageName: "Cupones",
       cupones: true,
@@ -2426,46 +2430,12 @@ exports.deleteCupon = async (req, res) => {
 
 exports.usar_cupon = async (req, res) => {
   const { form_id_cliente, id_cupon_selected, fecha_selected } = req.body;
-console.log(req.body);
+//console.log(req.body);
   const cupon = JSON.parse(await DataBase.consultarCupon(id_cupon_selected))
   //   let parsed = JSON.parse(resultado)[0];
   //   
       var cantidad_act = cupon.cantidad_actual - 1;
-      console.log(cantidad_act);
-  //   if (typeof parsed === "undefined") {
-  //     return res.send("El cupón no existe favor verificar");
-  //   } else { 
-  //     if (parsed.cantidad_actual == 0) {
-  //       return res.send("Cupon agotado");
-  //     } else {
-  //       Hoy = moment(); 
-  //       console.log(Hoy)
-  //           let fecha_final= moment(Hoy).isAfter(parsed.fecha_final); // true
-  //               console.log(fecha_final)
-  //               if (fecha_final == true) {
-  //                 return res.send("Cupon vencido");
-  //                 return;
-  //               } else {
-  //         console.log("Has introducido la fecha de Hoy");
-  //         var cantidad_act = parsed.cantidad_actual - 1;
-  //         var id_cupon = parsed.id;
-  //         var valor = parsed.valor;
-  //         var nombre_cupon = parsed.nombre_cupon;
-  //         var tipo = parsed.tipo;
-  //         var fecha_uso = Hoy.toISOString()
-  //         var especial =parsed.especial
-  //         let usuario_id =0
-  //         if (typeof res.locals.user.id != "undefined") {
-  //           usuario_id = res.locals.user.id
-            
-  //         }
-  //         if (especial == "SI") {
-  //           let cupon_s= {'valor':valor,'tipo':tipo, 'especial': parsed.especial}
-  //           console.log(res.locals.user.id)
-  //           if (typeof res.locals.user.id == "undefined") {
-  //             console.log('no ha iniciado sesion para aplicar cupon')
-  //             return res.send(cupon_s);
-  //           }
+     
              const usado = JSON.parse( await DataBase.consultarCuponesUsados(id_cupon_selected, form_id_cliente))
              console.log(usado)
              if (usado != null) {
@@ -2474,7 +2444,7 @@ console.log(req.body);
                return res.send(cupun_sU);
              }
              const usar=  await DataBase.UpdateUsedCupon(id_cupon_selected, cantidad_act)
-             console.log(usar)
+           //  console.log(usar)
   DataBase.CuponUsado(form_id_cliente, id_cupon_selected, fecha_selected).then((resultadoaqui) => {
               
                 return res.send({msg: resultadoaqui});
@@ -2508,7 +2478,7 @@ exports.introCup = (req, res) => {
   });
 };
 exports.sessionCuponera = (req, res) => {
- console.log(req.body)
+ //console.log(req.body)
   passport.authenticate("cuponera",  function (err, user, info) {
     if (err) {
       console.log(err)
@@ -2671,7 +2641,7 @@ LastPedidosAll=DataBase.LastPedidosAllS
       let p =[]
 for (let i = 0; i < pedidos_let.length; i++) {  
   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-  console.log(reprogramado)
+  //console.log(reprogramado)
   if (reprogramado) {
     p.push(pedidos_let[i])
   }
@@ -2732,9 +2702,6 @@ obtenernotificaciones().then((notif_)=>{
      }
      let count_deudores = pedidos_deudores.length
 
-console.log(notif3_5.length)
-console.log(notif6_12.length)
-console.log(pedidos_deudores)
 notif1_2 = JSON.stringify(notif1_2)
 notif3_5 = JSON.stringify(notif3_5)
 notif6_12  = JSON.stringify(notif6_12)
@@ -2853,7 +2820,7 @@ LastPedidosAll=DataBase.LastPedidosAllS
       let p =[]
 for (let i = 0; i < pedidos_let.length; i++) {  
   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-  console.log(reprogramado)
+  //console.log(reprogramado)
   if (reprogramado) {
     p.push(pedidos_let[i])
   }
@@ -2868,7 +2835,7 @@ obtenernotificaciones().then((notif_)=>{
           let sucursales_let = JSON.parse(sucursales_)
                    DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
-                    console.log(notifi_g)
+                 //   console.log(notifi_g)
                     LastPedidosAll(id_sucursal).then((pedidos_g)=>{
                       let pedidos_letG = JSON.parse(pedidos_g)
                        let notif1_2=[], notif3_5=[], notif6_12=[], notificacion_g =[]
@@ -2905,14 +2872,7 @@ obtenernotificaciones().then((notif_)=>{
                     let count_sin_pedido_nuevo = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(notif6_12.length)
               notificacion_g.push({notif1_2: notif1_2, notif3_5:notif3_5,notif6_12:notif6_12})
                 
-/*console.log(notif1_2.length)
-console.log(notif3_5.length)
-console.log(notif6_12.length)
-console.log(notifi_g.length)
-notif1_2 = JSON.stringify(notif1_2)
-notif3_5 = JSON.stringify(notif3_5)
-notif6_12  = JSON.stringify(notif6_12)
-notificacion_g = JSON.stringify(notificacion_g)*/
+
 let count_clientes_cuponera = notifi_g.length
     res.render("PYT-4/reportes", {
       pageName: "Bwater",
