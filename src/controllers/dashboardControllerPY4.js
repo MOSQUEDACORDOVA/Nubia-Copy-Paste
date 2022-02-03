@@ -1393,7 +1393,7 @@ exports.corte_table = (req, res) => {
     
     dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
   }else{
-    dia = moment()
+    dia = moment().tz("America/Mexico_city")
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
@@ -1500,6 +1500,8 @@ exports.corte_table = (req, res) => {
                 let sucursales_let = JSON.parse(sucursales_)  
               let pago_deudoresChoferes =  await Pago_deudores(moment(dia).format('YYYY-MM-DD'))
               console.log(dia)
+              var currentUserTimezone = moment.tz.guess();
+              console.log(currentUserTimezone)
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
