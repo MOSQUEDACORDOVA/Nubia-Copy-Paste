@@ -779,10 +779,7 @@ Env: ${Env}.</p>`
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
-  $('.cambia_status').on('click',async (e)=>{
-   let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
-    
-  })
+
   //CAMBIA CHOFER TABLA PEDIDOS
   $("#button_change_chofer").on('click', function (e) {
     let valoresCheck = [];
@@ -1112,40 +1109,6 @@ $.contextMenu({
 });
  
 
-  // Add New record
-  // ? Remove/Update this code as per your requirements ?
-  var count = 101;
-  $('.data-submit').on('click', function () {
-    var $new_name = $('.add-new-record .dt-full-name').val(),
-      $new_post = $('.add-new-record .dt-post').val(),
-      $new_email = $('.add-new-record .dt-email').val(),
-      $new_date = $('.add-new-record .dt-date').val(),
-      $new_salary = $('.add-new-record .dt-salary').val();
-
-    if ($new_name != '') {
-      dt_basic.row
-        .add({
-          responsive_id: null,
-          id: count,
-          full_name: $new_name,
-          post: $new_post,
-          email: $new_email,
-          start_date: $new_date,
-          salary: '$' + $new_salary,
-          status: 5
-        })
-        .draw();
-      count++;
-      $('.modal').modal('hide');
-    }
-  });
-
-
-
-  // Responsive Table
-  // --------------------------------------------------------------------
-
-
   // Filter form control to default size for all tables
   $('.dataTables_filter .form-control').removeClass('form-control-sm');
   $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
@@ -1334,6 +1297,7 @@ function filterColumn2(i, val) {
 }
 // cambiar estados
  async function cambioSP(id, status) {
+   console.log('hello')
  const { value: estado } = await Swal.fire({
   title: 'Seleccione un nuevo Status',
   input: 'select',
@@ -1466,6 +1430,10 @@ $('.datatables-resumen').html(`<thead>
 </thead>`);
 
 cargaTableResumen('si')
+if ($('#filterPosition').val() != "") {
+  console.log($('#filterValue').val())
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+}
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)
@@ -1554,6 +1522,10 @@ async function cambioPago(id, status) {
 </thead>`);
   
   cargaTablas('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
       },
       error: function (jqXHR, textStatus) {
         console.log('error:' + jqXHR)
@@ -1707,6 +1679,10 @@ function delete_pedido(id_, tabla) {
       Swal.fire({
         title: `Pedido ${id} borrado con éxito`,
       })
+      if ($('#filterPosition').val() != "") {
+        console.log($('#filterValue').val())
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+     }
     }
   })
 }
