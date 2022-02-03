@@ -1393,7 +1393,7 @@ exports.corte_table = (req, res) => {
     
     dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
   }else{
-    dia = new Date()
+    dia = moment()
   }
   let id_sucursal = req.session.sucursal_select
   //DATA-COMUNES
