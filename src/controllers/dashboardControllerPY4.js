@@ -1499,7 +1499,7 @@ exports.corte_table = (req, res) => {
                DataBase.Sucursales_ALl().then(async (sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)  
               let pago_deudoresChoferes =  await Pago_deudores(moment(dia).format('YYYY-MM-DD'))
-              console.log(pago_deudoresChoferes)
+              console.log(dia)
     res.render("PYT-4/corte", {
       pageName: "Bwater",
       dashboardPage: true,
