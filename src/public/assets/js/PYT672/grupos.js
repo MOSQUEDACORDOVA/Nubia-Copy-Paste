@@ -1,3 +1,4 @@
+
 let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposApertura, gruposDesde0, gruposIntensivos, gruposKids;
 
 function FetchData (tabla) {
@@ -730,22 +731,63 @@ actualizarForm.addEventListener('submit', e => {
 desde0Form.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(desde0Form);
+    if ($(`#desde0Form input[name="fechaInicio"]`).val() == "") {
+        console.log('hither')
+        Swal.fire('Debe seleccionar una fecha para poder continuar')
+        
+        return $(`#desde0Form input[name="fechaInicio"]`).focus()
+    }
+
+    if ($(`#desde0Form input[name="montoMensual"]`).val() == "") {
+        console.log('hi')
+        Swal.fire('Debe un monto mensual para poder continuar')
+        
+        return $(`#desde0Form input[name="montoMensual"]`).focus()
+    }
     CrearGruposFetch(data)
 });
 
 intensivoForm.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(intensivoForm);
+    if ($(`#intensivoForm input[name="fechaInicio"]`).val() == "") {
+        console.log('hi')
+        Swal.fire('Debe seleccionar una fecha para poder continuar')
+        
+        return $(`#intensivoForm input[name="fechaInicio"]`).focus()
+    }
+
+    if ($(`#intensivoForm input[name="montoMensual"]`).val() == "") {
+        console.log('hi')
+        Swal.fire('Debe un monto mensual para poder continuar')
+        
+        return $(`#intensivoForm input[name="montoMensual"]`).focus()
+    }
     CrearGruposFetch(data)
 });
 
 kidsForm.addEventListener('submit', e => {
     e.preventDefault();
+    
     let data = new FormData(kidsForm);
+    if ($(`#kidsForm input[name="fechaInicio"]`).val() == "") {
+        console.log('hithere2')
+        Swal.fire('Debe seleccionar una fecha para poder continuar')
+        
+        return $(`input[name="fechaInicio"]`).focus()
+    }
+
+    if ($(`#kidsForm input[name="montoMensual"]`).val() == "") {
+        console.log('hi')
+        Swal.fire('Debe un monto mensual para poder continuar')
+        
+        return $(`#kidsForm input[name="montoMensual"]`).focus()
+    }
     CrearGruposFetch(data)
 });
 
 function CrearGruposFetch (data) {
+    
     fetch('/creargrupopy672', {
         method: 'POST',
         body: data, 
@@ -755,7 +797,7 @@ function CrearGruposFetch (data) {
             Toast("Error");
         })
         .then(response => {
-            //console.log('Success:', response)
+            console.log('Success:', response)
             Toast("Grupo Agregado");
             UpdateTables();
         });

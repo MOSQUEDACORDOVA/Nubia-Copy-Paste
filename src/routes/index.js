@@ -549,7 +549,8 @@ router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 // TODO: ADMIN
 router.get('/grupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.verificargrupos);
-router.get('/matriculas/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas);
+router.get('/matriculas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas);
+router.get('/matriculas/:msg', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas)
 router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
 router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
