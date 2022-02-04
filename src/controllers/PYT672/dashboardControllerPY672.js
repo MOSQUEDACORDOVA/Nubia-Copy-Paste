@@ -892,22 +892,23 @@ exports.verificargrupos = (req, res) => {
 
 exports.matriculas = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    msg = req.params.msg;
   }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
+   // console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
     DataBase.GruposYMatriculas().then((response2) => {
       let arr = JSON.parse(response2);
-      console.log(arr)
+      //console.log(arr)
 
   let proyecto = req.params.id  
-  console.log(proyecto)
-    res.render(proyecto+"/admin/matricula", {
+  console.log(msg)
+ // console.log(proyecto)
+    res.render("PYT-672/admin/matricula", {
       pageName: "Academia Americana - Matriculas",
       dashboardPage: true,
       dashboard: true,
@@ -915,7 +916,7 @@ exports.matriculas = (req, res) => {
       matric: true,
       gruposTodos,
       arr,
-      response2
+      response2,msg
     });
 
   }).catch((err) => {
@@ -2023,7 +2024,7 @@ exports.obtenermatriculagrupo = (req, res) => {
 
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    res.redirect('/matriculas');
   } else {
     DataBase.ObtenerMatriculaGrupo(id).then((response) => {
       let find = JSON.parse(response);
@@ -2277,12 +2278,12 @@ exports.borrarestudiantes = (req, res) => {
 
   if (id.trim() === '') {
     console.log('complete todos los campos')
-    return res.redirect('/matriculas/PYT-672');
+    return res.redirect('/matriculas');
   } else {
     DataBase.BorrarEstudiantes(id).then((response) =>{
       console.log(response)
       
-      return res.redirect('/matriculas/PYT-672');
+      return res.redirect('/matriculas');
 
     }).catch((err) => {
       console.log(err)
@@ -2293,14 +2294,14 @@ exports.borrarestudiantes = (req, res) => {
 };
 
 // * REGISTRAR ESTUDIANTES ADMIN
-exports.registrarmatricula = (req, res) => {
+exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
   let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito } = req.body;
   let msg = false;
 
-  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || dni.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
-    return res.redirect('/matriculas/PYT-672');
+    return res.redirect('/matriculas');
   } else {
 
     if(!telefono2) {
@@ -2308,13 +2309,24 @@ exports.registrarmatricula = (req, res) => {
     } 
 
     tipo = parseInt(tipo)
+    let countGroupAlumnos = JSON.parse(await DataBase.ObtenerMatriculaGrupo(grupoId))
+    console.log(countGroupAlumnos.length)
+    if (countGroupAlumnos.length > 40) {
+      msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
+      return res.redirect('/matriculas/'+msg);
+    }
     DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
-      console.log(resp)
+    //  console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      return res.redirect('/matriculas/PYT-672');
+      if (countGroupAlumnos.length >= 25) {
+        let countNew = parseInt(countGroupAlumnos.length)+1
+        msg = `El grupo seleccionado ya cuenta con ${countNew} registrados`
+        return res.redirect('/matriculas/'+msg);
+      }
+      return res.redirect('/matriculas');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -2332,12 +2344,12 @@ exports.congelarestudiante = (req, res) => {
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    res.redirect('/matriculas');
   } else {
     DataBase.CongelarEstudiante(id).then((resp) => {
       console.log(resp)
   
-      return res.redirect("/matriculas/PYT-672");
+      return res.redirect("/matriculas");
   
     }).catch((err) => {
       console.log(err)
@@ -2356,12 +2368,12 @@ exports.activarestudiantecongelado = (req, res) => {
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    res.redirect('/matriculas');
   } else {
     DataBase.ActivarEstudianteCongelado(id).then((resp) => {
       console.log(resp)
       
-      return res.redirect("/matriculas/PYT-672");
+      return res.redirect("/matriculas");
   
     }).catch((err) => {
       console.log(err)
@@ -2379,13 +2391,13 @@ exports.eliminarestudiantegrupo = (req, res) => {
 
   if (id.trim() === "") {
     console.log('complete todos los campos')
-    res.redirect('/matriculas/PYT-672');
+    res.redirect('/matriculas');
   } else {
    
     DataBase.EliminarGrupoEstudiante(id).then((resp) => {
       console.log(resp)
 
-      return res.redirect("/matriculas/PYT-672");
+      return res.redirect("/matriculas");
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -2400,15 +2412,15 @@ exports.obtenerdirecciones = (req, res) => {
 
   DataBase.ObtenerTodasProvincias().then((response) =>{
     provincias = JSON.parse(response);
-    console.log(provincias)
+    //console.log(provincias)
 
     DataBase.ObtenerTodosCanton().then((response2) =>{
       canton = JSON.parse(response2);
-      console.log(canton)
+      //console.log(canton)
       
       DataBase.ObtenerTodosDistritos().then((response3) =>{
         distritos = JSON.parse(response3);
-        console.log(distritos)
+       // console.log(distritos)
 
         return res.send({provincias, canton, distritos});
       }).catch((err) => {

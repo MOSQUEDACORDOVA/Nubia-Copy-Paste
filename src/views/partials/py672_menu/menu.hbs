@@ -77,7 +77,7 @@
                 </a>
             </li>
             <li class="{{#if matric}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/matriculas/PYT-672">
+                <a class="d-flex align-items-center" href="/matriculas">
                     <i data-feather='trending-up'></i>
                     <span class="menu-title text-truncate">Alumnos</span>
                 </a>
@@ -171,18 +171,18 @@
                                         <label class="form-label" for="fp-default">No. Identificación</label>
                                     </div>
                                     <div class="flex-grow-1 d-flex">
-                                        <input type="text" class="d-none" name="dni" id="nacionalDni" value="">
+                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación nacional"/>
 
-                                        <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
+                                        {{!-- <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
                                         <input type="number" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4" autocomplete="off">
-                                        <input type="number" class="form-control" id="tercerCampo" minlength="4" maxlength="4" autocomplete="off">
+                                        <input type="number" class="form-control" id="tercerCampo" minlength="4" maxlength="4" autocomplete="off" maxlength="15" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"> --}}
                                     </div>
                                 </div>
 
                                 <div id="ExtranjeroCampo" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
                                     <div class="flex-grow-1">
                                         <label class="form-label" for="fp-default">No. Identificación</label>
-                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni">
+                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni" >
                                     </div>
                                 </div>
 
@@ -303,7 +303,7 @@
         </div>
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     let radio1 = document.getElementById('inlineRadio1'),
     radio2 = document.getElementById('inlineRadio2'),
@@ -320,35 +320,7 @@
     tercerC = document.getElementById('tercerCampo');
 
     let exp =  /^[0-9]+$/;
-    primerC.addEventListener('keyup', e => {
-        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
-        if (primerC.value.match(exp)) {
-            segundoC.focus();
-        } else {
-            primerC.value = '';
-        }
-    });
 
-    segundoC.addEventListener('keyup', e => {
-        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
-        if (segundoC.value.match(exp)){
-            if(segundoC.value.length === 4) {
-                tercerC.focus();
-            }
-        } else {
-            segundoC.value.slice(0,-1);
-        }
-    });
-
-    tercerC.addEventListener('keyup', e => {
-        nacionalDni.value = primerC.value + segundoC.value + tercerC.value;
-        let current = '';
-        if (!tercerC.value.match(exp)){
-            tercerC.value = current;
-        } else {
-            tercerC.value.slice(0,-1);
-        }
-    });
 
     radio1.addEventListener('change', e => {
         SetRadio1();
@@ -424,16 +396,30 @@
         nacionalC.classList.remove('d-none');
         nacionalC.classList.add('d-block');
 
+        nacionalDni.classList.remove('d-none');
+        nacionalDni.classList.add('d-block');
+
+       
+
         exC.classList.remove('d-block');
         exC.classList.add('d-none');
+
+         $(`#nacionalDni`).attr('name','dni')
+         $(`#exDni`).removeAttr('name')
     }
 
     const SetRadio2 = () => {
         exC.classList.remove('d-none');
         exC.classList.add('d-block');
 
+        $(`#nacionalDni`).removeAttr('name')
+        $(`#exDni`).attr('name','dni')
+
         nacionalC.classList.remove('d-block');
         nacionalC.classList.add('d-none');
+
+        nacionalDni.classList.remove('d-block');
+        nacionalDni.classList.add('d-none');
     }
 
     SetRadio1();
