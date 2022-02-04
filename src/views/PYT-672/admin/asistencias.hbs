@@ -23,7 +23,7 @@
                         <p class="lead">fecha actual: {{fechaActual}}</p>
                         <p class="lead">fecha inicio: {{fechaInicio}}</p>
                     </div>--}}
-                    
+
                     <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
                     <input type="text" class="d-none" value="{{numLeccion}}" id="numeroLeccion">
                     <input type="text" class="d-none" value="{{matri}}" id="matriculaGrupo">
@@ -187,7 +187,7 @@
 
                     <section class="row m-0 p-0" id="estudiantes"></section>
 
-                    <template id="template">            
+                    <template id="template">
                         <div class="col-12">
                             <div class="card card-statistics border-success" id="estudiante{{id}}">
                                 <div class="row m-0 p-0">
@@ -204,12 +204,12 @@
                                                         <div class="d-flex flex-column mb-1 me-md-1">
                                                             <p class="text-success"><b>Calificación</b></p>
                                                             <div class="d-flex align-items-center">
-                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos{{id}}" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
-                                                                
+                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion calific{{id}}" value="0" min="0" max="100">%</p>
 
-                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas{{id}}" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                                                             </div>
                                                         </div>
 
@@ -219,13 +219,13 @@
                                                                 <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
                                                                 <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
-                                                                
+
 
                                                                 <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>                            
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -284,9 +284,9 @@ $(document).ready(function() {
         let fragment = new DocumentFragment(), esContainer = document.getElementById('estudiantes');
         esContainer.innerHTML = '';
 
-        matriculaGrupo.forEach(matricula => {  
+        matriculaGrupo.forEach(matricula => {
             let div = document.createElement('div');
-            div.classList.add('col-12');      
+            div.classList.add('col-12');
             let lecc = null, idAusentes = null;
 
             if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
@@ -298,7 +298,7 @@ $(document).ready(function() {
                 $('#ausenteNumLeccion').val($('#filtrosIntensivo .select2.leccion').val());
                 $('#ausenteGrupoId').val($('#filtrosIntensivo .select2.grupo').val());
             }
-            
+
             $('#ausenteMatriculaId').val('');
             $('#ausenteMatriculaId').val(matricula.id);
             let form = new FormData(document.getElementById('procesarAusente'));
@@ -316,12 +316,12 @@ $(document).ready(function() {
                 console.log(response2)
                 if(response.length) {
                     idAusentes = response[0].matriculaId;
-                } 
+                }
                 //console.log(idAusentes);
 
                 let result = matriculaGrupo.filter(item => {
                     return item.id === idAusentes;
-                }); 
+                });
 
                 let calif = '', participacion = '', notas = 0, participacionPorcentaje = 0;
 
@@ -331,19 +331,33 @@ $(document).ready(function() {
                     }
                     participacionPorcentaje = response2[0].participacion;
                 }
-                
                 if(lecc === 9 || lecc === 17 || lecc === 18 || lecc === 25 || lecc === 31 || lecc === 32) {
+                    if(result.length) {
                     calif = `
                     <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
                         <div class="d-flex align-items-center">
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-                            <p class="h3 mb-0 mx-1"><input type="number" class="calificacion" value="${notas}" min="0" max="100">%</p>
-                            
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" readonly>%</p>
+
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
-                    </div>`;
+                    </div>`;  
+                    }else{
+                      calif = `
+                    <div class="d-flex flex-column mb-1 me-1">
+                        <p class="text-success"><b>Calificación</b></p>
+                        <div class="d-flex align-items-center">
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                            <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
+
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                        </div>
+                    </div>`;  
+                    }
+                    
                     if(lecc === 32) {
                         participacion = `
                         <div class="d-flex flex-column me-1">
@@ -352,7 +366,7 @@ $(document).ready(function() {
                                 <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
                                 <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
-                                
+
                                 <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                             </div>
                         </div>
@@ -371,7 +385,7 @@ $(document).ready(function() {
                                                 <div class="d-flex flex-column mb-1 mb-md-0">
                                                     <h5><span class="badge badge-light-secondary">Ausente</span></h5>
                                                     <h1 class="mb-0"><b>${matricula.nombre}</b></h1>
-                                                </div> 
+                                                </div>
                                                 <div class="d-flex flex-row">
                                                     ${calif}
 
@@ -422,7 +436,7 @@ $(document).ready(function() {
                         </div>
                     `;
                 }
-            });  
+            });
 
             fragment.appendChild(div);
         });
@@ -438,7 +452,7 @@ $(document).ready(function() {
             }
         }, 1000);
     }
-    
+
     let checkDesde0 = document.getElementById('inlineRadio3'),
     checkIntensivo = document.getElementById('inlineRadio4'),
     filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
@@ -458,7 +472,7 @@ $(document).ready(function() {
     if($('#grupoId').val() != "") {
         let arr = Object.values(selectDesdeCero.options),
         arr2 = Object.values(selectIntensivo.options);
-        
+
         arr.forEach(item => {
             if (item.value === $('#grupoId').val()) {
                 $('#filtrosDesdeCero select.grupo').val($('#grupoId').val());
@@ -551,7 +565,7 @@ $(document).ready(function() {
             } else {
                 leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
             }
-            
+
             let form = new FormData(document.getElementById('procesarNotas'));
 
             fetch('/registrarNotas', {
@@ -591,7 +605,7 @@ $(document).ready(function() {
             } else {
                 leccion.value = parseInt($('#filtrosIntensivo .select2.leccion').val());
             }
-            
+
             let form = new FormData(document.getElementById('procesarParticipacion'));
 
             fetch('/registrarParticipacion', {
@@ -615,7 +629,7 @@ $(document).ready(function() {
     }
 
     let controlEstudiantes = document.getElementById('estudiantes');
-    
+
     controlEstudiantes.addEventListener('click', e => {
         if(e.target.classList.contains('btnAsistencia')) {
             let target = e.target.getAttribute('data-id');
@@ -630,9 +644,22 @@ $(document).ready(function() {
             badge.classList.toggle('badge-light-secondary');
             if(badge.classList.contains('badge-light-success')) {
                 badge.innerText = 'Presente';
+                 $(`.caliMenos${target}`).removeAttr('disabled')
+                $(`.calific${target}`).removeAttr('readonly')
+                $(`.caliMas${target}`).removeAttr('disabled')
                 EliminarMatriculaAusente(target);
             } else {
                 badge.innerText = 'Ausente';
+                //caliMenos
+                //calific
+                //caliMas
+                console.log($(`.calific${target}`).val())
+                $(`.caliMenos${target}`).attr('disabled', true)
+                $(`.calific${target}`).val(0)
+                $(`.calific${target}`).attr('readonly', true)
+                $(`.caliMas${target}`).attr('disabled', true)
+            clearTimeout(guardarNota);
+            guardarNotas(target, $(`.calific${target}`).val());
                 GuardarMatriculaAusente(target);
             }
         } else if (e.target.classList.contains('btnCalificacionMas')) {
@@ -665,7 +692,7 @@ $(document).ready(function() {
             }
             clearTimeout(guardarParticip);
             guardarParticipacion(target, participacion.value);
-            
+
         } else if(e.target.classList.contains('btnParticipacionMenos')) {
             let target = e.target.getAttribute('data-id');
             let participacion = document.querySelector(`#estudiante${target} .participacion`);
@@ -676,6 +703,8 @@ $(document).ready(function() {
             }
             clearTimeout(guardarParticip);
             guardarParticipacion(target, participacion.value);
+
+
         }
     });
 
@@ -698,7 +727,7 @@ $(document).ready(function() {
         $('#ausenteMatriculaId').val(id)
         /*console.log($('#filtrosDesdeCero .select2.grupo').val())
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
-        
+
         let form = new FormData(document.getElementById('procesarAusente'));
 
         fetch('/registrarMatriculaAusente', {
@@ -727,7 +756,7 @@ $(document).ready(function() {
         $('#ausenteMatriculaId').val(id);
         /*console.log($('#filtrosDesdeCero .select2.grupo').val())
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
-        
+
         let form = new FormData(document.getElementById('procesarAusente'));
         //console.log(form)
 
@@ -744,7 +773,7 @@ $(document).ready(function() {
             }
         })
         .then(data => console.log(data));
-    } 
-    
+    }
+
 });
 </script>
