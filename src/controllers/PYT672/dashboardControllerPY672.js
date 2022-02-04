@@ -2321,7 +2321,7 @@ exports.registrarmatricula = async(req, res) => {
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
       console.log("ESTUDIANTE REGISTRADO")
-      if (countGroupAlumnos.length > 25) {
+      if (countGroupAlumnos.length >= 25) {
         let countNew = parseInt(countGroupAlumnos.length)+1
         msg = `El grupo seleccionado ya cuenta con ${countNew} registrados`
         return res.redirect('/matriculas/'+msg);
