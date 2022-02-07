@@ -904,7 +904,7 @@ exports.matriculas = (req, res) => {
     DataBase.GruposYMatriculas().then((response2) => {
       let arr = JSON.parse(response2);
       //console.log(arr)
-
+let gruposTodosStr = JSON.stringify(gruposTodos)
   let proyecto = req.params.id  
   console.log(msg)
  // console.log(proyecto)
@@ -916,7 +916,7 @@ exports.matriculas = (req, res) => {
       matric: true,
       gruposTodos,
       arr,
-      response2,msg
+      response2,msg,gruposTodosStr
     });
 
   }).catch((err) => {
@@ -971,7 +971,8 @@ exports.control = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       });
-
+      console.log('gruposDesde0')
+console.log(gruposDesde0)
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
       dashboardPage: true,
@@ -1646,7 +1647,7 @@ exports.creargrupos = (req, res) => {
   if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
     console.log('complete todos los campos')
     let error = {
-      msg: 'complete todos los campos'
+      msg: 'complete todos los campos 1650'
     }
 
     return res.send(error);
@@ -1872,7 +1873,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                       // 224
-        fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(224, 'd').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1927,7 +1928,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 2;
                                         // 112
-        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1983,7 +1984,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                         // 112
-        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -2023,7 +2024,7 @@ exports.obtenermatriculagrupo = (req, res) => {
   console.log("ID GRUPO")
 
   if (id.trim() === '') {
-    console.log('complete todos los campos')
+    console.log('complete todos los campos ')
     res.redirect('/matriculas');
   } else {
     DataBase.ObtenerMatriculaGrupo(id).then((response) => {
@@ -2048,7 +2049,7 @@ exports.registrarparticipacion = (req, res) => {
 
   if (porcentaje.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos" };
+    let err = { error: "complete todos los campos 2052" };
     res.send({err});
   } else {
     DataBase.BuscarParticipacionMatricula(leccion, grupoId, matriculaId).then((response) => {
@@ -2091,7 +2092,7 @@ exports.registrarnotas = (req, res) => {
 
   if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos" };
+    let err = { error: "complete todos los campos 2095" };
     res.send({err});
   } else {
     DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
@@ -2134,7 +2135,7 @@ exports.registrarmatriculausente = (req, res) => {
 
   if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos" };
+    let err = { error: "complete todos los campos 2138" };
     res.send({err});
   } else {
     DataBase.RegistrarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
@@ -2156,7 +2157,7 @@ exports.eliminarmatriculausente = (req, res) => {
 
   if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos" };
+    let err = { error: "complete todos los campos 2160" };
     res.send({err});
   } else {
     DataBase.EliminarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
@@ -2178,7 +2179,7 @@ exports.obtenermatriculausente = (req, res) => {
 
   if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos" };
+    let err = { error: "complete todos los campos 2182" };
     res.send({err});
   } else {
     let matricula = JSON.parse(arr);
