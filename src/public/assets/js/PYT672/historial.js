@@ -72,7 +72,7 @@ function cargarTablaMatricula(editada) {
                 <div class="badge rounded-pill badge-light-info me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Nivel" data-consulta="nivel" role="button">
                   ${full['nivelActualGrupo']}
                 </div>
-               
+              
                 <div class="badge rounded-pill badge-light-warning me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Lección" data-consulta="leccion" role="button">
                   ${full['leccActual']}
                 </div>
