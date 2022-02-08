@@ -770,6 +770,8 @@ exports.verificargrupos = (req, res) => {
       let inicioGrupo = row.fecha_inicio;
       let actual = moment();
       let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+      console.log('LINEA 773 VERIFICA FECHA INICIADO')
+      console.log(iniciado)
       let iniciar = moment(iniciado).diff(actual, 'days');
 
       let nivelCode, nivel;
@@ -778,10 +780,10 @@ exports.verificargrupos = (req, res) => {
         if (row.nombre === "Desde cero") {
           switch (row.lecciones_semanales) {
             case '1':
-              nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+              nivel1 = moment(iniciado).add(31, 'w').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(62, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(124, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(248, 'w').format('YYYY-MM-DD')
       
               console.log("NIVELES")
               console.log(nivel1)
@@ -795,10 +797,10 @@ exports.verificargrupos = (req, res) => {
         } else if (row.nombre === "Intensivo") {
           switch (row.lecciones_semanales) {
             case '2':
-              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+              nivel1 = moment(iniciado).add(15, 'w').add(2,'d').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(30, 'w').add(2,'d').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(45, 'w').add(2,'d').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(60, 'w').add(2,'d').format('YYYY-MM-DD')
       
               console.log("NIVELES")
               console.log(nivel1)
@@ -812,9 +814,9 @@ exports.verificargrupos = (req, res) => {
         } else {
           switch (row.lecciones_semanales) {
             case '1':
-              nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+              nivel1 = moment(iniciado).add(15, 'w').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(30, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(45, 'w').format('YYYY-MM-DD')
       
               console.log("NIVELES")
               console.log(nivel1)
@@ -1629,12 +1631,13 @@ exports.creargrupos = (req, res) => {
   console.log(req.body);
   const { nombre, lecciones, horario, fechaInicio } = req.body;
   let msg = false;
-  let diaActual = moment(fechaInicio).format('DD');
+  console.log(moment(fechaInicio,'DD-MM-YYYY'));
+  let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
   let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio).format('DD-MM-YYYY');
+  inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
 
-  numAño = moment(fechaInicio).format('YY');
+  numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
   console.log(numAño)
   console.log("AÑO DE IDENTIFICADOR")
 
@@ -1656,7 +1659,7 @@ exports.creargrupos = (req, res) => {
       if(nombre === "Desde cero") {
         DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
           let grupos = JSON.parse(response);
-          inicio = moment(fechaInicio).format("DD-MM-YYYY")
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
           // FILTRAR POR AÑO
           console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -1680,7 +1683,7 @@ exports.creargrupos = (req, res) => {
           nivelCode = '-1';
           nivel = 'Principiante';
                                         // 224
-          fechaFin = moment(fechaInicio).add(217, 'd').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(31, 'w').format('DD-MM-YYYY');
           finNivel = "32 Semanas";      
           console.log(fechaFin)
           console.log("FECHAR FINALIZAR")
@@ -1711,7 +1714,7 @@ exports.creargrupos = (req, res) => {
         console.log("GRUPOS KIDS")
         DataBase.ObtenerTodosGruposKids().then((response) => {
           let grupos = JSON.parse(response);
-          inicio = moment(fechaInicio).format("DD-MM-YYYY")
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
           // FILTRAR POR AÑO
           console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -1735,7 +1738,7 @@ exports.creargrupos = (req, res) => {
           nivelCode = '-1';
           nivel = 'Principiante';
                                         // 112
-          fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').format('DD-MM-YYYY');
           finNivel = "16 Semanas";      
           console.log(fechaFin)
           console.log("FECHAR FINALIZAR")
@@ -1768,7 +1771,7 @@ exports.creargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("INTENSIVOS")
         // FILTRAR POR AÑO
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -1792,7 +1795,7 @@ exports.creargrupos = (req, res) => {
         nivelCode = '-1';
         nivel = 'Principiante';
                                         // 112
-        fechaFin = moment(fechaInicio).add(107, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1829,7 +1832,7 @@ exports.actualizargrupos = (req, res) => {
   let diaActual = moment(fechaInicio).format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio, "DD-MM-YYYY").format('DD-MM-YYYY');
+  inicio = moment(fechaInicio).format('DD-MM-YYYY');
 
   numAño = moment(fechaInicio).format('YY');
   console.log(numAño)
@@ -1873,7 +1876,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                       // 224
-        fechaFin = moment(fechaInicio).add(224, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(31, 'w').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1928,7 +1931,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 2;
                                         // 112
-        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(15, 'w').add(2,'d').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1984,7 +1987,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                         // 112
-        fechaFin = moment(fechaInicio).add(112, 'd').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio).add(15, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
