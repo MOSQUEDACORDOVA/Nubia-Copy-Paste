@@ -245,6 +245,7 @@ $(function () {
     let inicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(my_object["grupo"]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
+    let tipo = my_object["grupo"]["nombre"];
     let leccionFecha,
       addf,
       leccionactual,
@@ -252,57 +253,138 @@ $(function () {
       newFormatAnt,
       newFormatBef,
       leccionFecha2,
+      leccionFecha3="",
       html = "",
       html2 = "",
+      j = "",
       html3 = "";
-    for (let i = 0; i < diferencia2; i++) {
-      if (i == 0) {
-        leccionFecha = inicio;
-        fecha_ant = inicio;
-        newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
-        leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
-        newFormatBef = leccionFecha2;
-      } else {
-        addf = moment(leccionFecha, "DD-MM-YYYY");
-        fecha_ant = leccionFecha;
-        leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
-        newFormatAnt = moment(addf).format("YYYY-MM-DD");
-        newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
-      }
-      leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
+      console.log(tipo)
 
-      if (i == 0) {
-        html += `<div class="col-3" ">
-      <div class="p-1 border-secondary rounded-1 " id="leccion${
-        i + 1
-      }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")}</div>
-  </div>`;
-      }
-      if (i > 0 && i < 12) {
-        html += `<div class="col-3" >
-      <div class="p-1 border-secondary rounded-1" id="leccion${
-        i + 1
-      }">Lección ${i + 1} <br> ${leccionFecha}</div>
-  </div>`;
-      }
-      if (i > 11 && i < 24) {
-        html2 += `<div class="col-3" >
-      <div class="p-1 border-secondary rounded-1" id="leccion${
-        i + 1
-      }">Lección ${i + 1} <br> ${leccionFecha}</div>
-  </div>`;
-      }
-      if (i > 23 && i < 33) {
-        html3 += `<div class="col-3" >
-      <div class="p-1 border-secondary rounded-1" id="leccion${
-        i + 1
-      }">Lección ${i + 1} <br> ${leccionFecha}</div>
-  </div>`;
-      }
-      if (leccionactual) {
-        $(`#leccionActual`).text(i + 1);
-      }
-    }
+      if (tipo == "Intensivo") {
+        console.log((diferencia2*2)+1)
+          for (let i = 0; i < (diferencia2*2)+2; i++) {  
+                if (i == 0) {
+                leccionFecha = inicio;
+                fecha_ant = inicio;
+                newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
+                leccionFecha2 = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+                newFormatBef = leccionFecha2;
+      
+                html += `<div class="col-3" ">
+                <div class="p-1 border-secondary rounded-1 " id="leccion${
+                  i + 1
+                }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} </div>
+            </div>`;
+              } else {
+                addf = moment(leccionFecha, "DD-MM-YYYY");
+      
+                fecha_ant = leccionFecha;
+                
+              
+                if (j==2) {
+                  leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
+                  newFormatAnt = moment(addf).format("YYYY-MM-DD");
+                newFormatBef = moment(leccionFecha).add(5, "d").format("YYYY-MM-DD");
+                }else{
+                   leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
+                   newFormatAnt = moment(addf).format("YYYY-MM-DD");
+                newFormatBef = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+                }
+                 j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
+              
+              }
+              console.log('-----')
+              console.log(newFormatBef)
+              console.log(newFormatAnt)
+              leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
+              console.log(leccionactual)
+              if (i > 0 && i < 12) {
+                html += `<div class="col-3" ">
+                <div class="p-1 border-secondary rounded-1 " id="leccion${
+                  i + 1
+                }">Lección ${i + 1} <br> ${leccionFecha} </div>
+            </div>`;
+              }
+      
+              if (i > 11 && i < 24) {
+                html2 += `<div class="col-3" >
+              <div class="p-1 border-secondary rounded-1" id="leccion${
+                i + 1
+              }">Lección ${i + 1} <br> ${leccionFecha}</div>
+          </div>`;
+              }
+              if (i > 23 && i < 33) {
+                html3 += `<div class="col-3" >
+              <div class="p-1 border-secondary rounded-1" id="leccion${
+                i + 1
+              }">Lección ${i + 1} <br> ${leccionFecha}</div>
+          </div>`;
+              }
+              if (leccionactual) {
+                console.log(leccionactual)
+                console.log(i + 1)
+                 $(`#leccionActual`).text(i + 1);
+              }
+          }
+        }else{
+         for (let i = 0; i < (diferencia2)+1; i++) {  
+              //32 SEMANAS
+              if (i == 0) {
+                leccionFecha = inicio;
+                fecha_ant = inicio;
+                newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
+                leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
+                newFormatBef = leccionFecha2;
+              } else {
+                addf = moment(leccionFecha, "DD-MM-YYYY");
+                fecha_ant = leccionFecha;
+                leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
+                newFormatAnt = moment(addf).format("YYYY-MM-DD");
+                newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
+              }
+              console.log('-----')
+              console.log(newFormatBef)
+              console.log(newFormatAnt)
+              leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
+                if (i == 0) {
+              html += `<div class="col-3" ">
+            <div class="p-1 border-secondary rounded-1 " id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} <br> ${leccionFecha3}</div>
+        </div>`;
+            }
+            if (i > 0 && i < 12) {
+              html += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
+            }
+            if (i > 11 && i < 24) {
+              html2 += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
+            }
+            if (i > 23 && i < 33) {
+              html3 += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
+            }
+            
+            if (leccionactual) {
+              console.log(leccionactual)
+              console.log(i + 1)
+               $(`#leccionActual`).text(i + 1);
+            }
+            
+      
+          
+          }  
+        }
 
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
@@ -324,14 +406,14 @@ $(function () {
     console.log(filter_group);
     console.log(filter_group_alumnos);
 
-    $(`#grupoReag`).text(`${filter_group[0]["identificador"]}`);
-    $(`.horarioreag`).text(`${filter_group[0]["dia_horario"]} `);
+    //$(`#grupoReag`).text(`${filter_group[0]["identificador"]}`);
+   // $(`.horarioreag`).text(`${filter_group[0]["dia_horario"]} `);
     $(`#tipogrupoReag`).text(
       `${filter_group[0]["nombre"]}- ${filter_group[0]["identificador"]}`
     );
     $(`#fechaPagoReag`).text(`${filter_group[0]["dia_pagos"]}`);
     $(`#cantAlumnos`).text(`${filter_group_alumnos}`);
-
+    let tipo = filter_group[0]["nombre"];
     let inicio = moment(filter_group[0]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(filter_group[0]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
@@ -346,34 +428,79 @@ $(function () {
       leccionFecha3="",
       html = "",
       html2 = "",
+      j = "",
       html3 = "";
-    for (let i = 0; i < diferencia2; i++) {
-      if (diferencia2 == 16 || diferencia2 == 15) {
-        //INTENSIVO
-        if (i == 0) {
+      console.log(tipo)
+
+ 
+if (tipo == "Intensivo") {
+  console.log((diferencia2*2)+1)
+    for (let i = 0; i < (diferencia2*2)+2; i++) {  
+          if (i == 0) {
           leccionFecha = inicio;
           fecha_ant = inicio;
-          newFormatAnt = moment(leccionFecha).format('YYYY-MM-DD')
-          leccionFecha3 = moment(leccionFecha).add(2, "d").format("DD-MM-YYYY");
+          newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
+          leccionFecha2 = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+          newFormatBef = leccionFecha2;
 
-          newFormatBef = moment(leccionFecha3, "DD-MM-YYYY").format("YYYY-MM-DD");
+          html += `<div class="col-3" ">
+          <div class="p-1 border-secondary rounded-1 " id="leccion${
+            i + 1
+          }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} </div>
+      </div>`;
         } else {
-          addf = moment(leccionFecha3, "DD-MM-YYYY");
+          addf = moment(leccionFecha, "DD-MM-YYYY");
 
-          fecha_ant = leccionFecha3;
-          leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
-
-          leccionFecha3 = moment(leccionFecha, "DD-MM-YYYY")
-            .add(2, "d")
-            .format("DD-MM-YYYY");
-            newFormatAnt = moment(leccionFecha, "DD-MM-YYYY").add(8, "d").format("YYYY-MM-DD");
-          newFormatBef = moment(leccionFecha3, "DD-MM-YYYY").format("YYYY-MM-DD");
+          fecha_ant = leccionFecha;
+          
+        
+          if (j==2) {
+            leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
+            newFormatAnt = moment(addf).format("YYYY-MM-DD");
+          newFormatBef = moment(leccionFecha).add(5, "d").format("YYYY-MM-DD");
+          }else{
+             leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
+             newFormatAnt = moment(addf).format("YYYY-MM-DD");
+          newFormatBef = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+          }
+           j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
+        
         }
-        console.log(newFormatAnt);
-        console.log(newFormatBef);
-        leccionactual = moment().isBetween(newFormatBef, newFormatAnt);
+        console.log('-----')
+        console.log(newFormatBef)
+        console.log(newFormatAnt)
+        leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
         console.log(leccionactual)
-      } else {
+        if (i > 0 && i < 12) {
+          html += `<div class="col-3" ">
+          <div class="p-1 border-secondary rounded-1 " id="leccion${
+            i + 1
+          }">Lección ${i + 1} <br> ${leccionFecha} </div>
+      </div>`;
+        }
+
+        if (i > 11 && i < 24) {
+          html2 += `<div class="col-3" >
+        <div class="p-1 border-secondary rounded-1" id="leccion${
+          i + 1
+        }">Lección ${i + 1} <br> ${leccionFecha}</div>
+    </div>`;
+        }
+        if (i > 23 && i < 33) {
+          html3 += `<div class="col-3" >
+        <div class="p-1 border-secondary rounded-1" id="leccion${
+          i + 1
+        }">Lección ${i + 1} <br> ${leccionFecha}</div>
+    </div>`;
+        }
+        if (leccionactual) {
+          console.log(leccionactual)
+          console.log(i + 1)
+           $(`#leccionActual`).text(i + 1);
+        }
+    }
+  }else{
+   for (let i = 0; i < (diferencia2)+1; i++) {  
         //32 SEMANAS
         if (i == 0) {
           leccionFecha = inicio;
@@ -388,10 +515,11 @@ $(function () {
           newFormatAnt = moment(addf).format("YYYY-MM-DD");
           newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
         }
-        leccionactual = moment().isBetween(newFormatBef, newFormatAnt);
-      }
-
-      if (i == 0) {
+        console.log('-----')
+        console.log(newFormatBef)
+        console.log(newFormatAnt)
+        leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
+          if (i == 0) {
         html += `<div class="col-3" ">
       <div class="p-1 border-secondary rounded-1 " id="leccion${
         i + 1
@@ -423,10 +551,13 @@ $(function () {
       if (leccionactual) {
         console.log(leccionactual)
         console.log(i + 1)
-        $(`#leccionActual`).text(i + 1);
+         $(`#leccionActual`).text(i + 1);
       }
-    }
+      
 
+    
+    }  
+  }
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
     $(`#25_32Line1`).empty();
