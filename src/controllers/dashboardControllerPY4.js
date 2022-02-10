@@ -39,7 +39,7 @@ exports.dashboard = (req, res) => {
     
     dia =moment(req.params.day, 'YYYY-DD-MM').format('YYYY-MM-DD');
   }else{
-    dia = new Date()
+    dia = moment()
   }
  let id_sucursal = req.session.sucursal_select
  console.log(req.session.tipo)
@@ -156,7 +156,9 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                   }
                   
                 }
+                console.log(prestamos_byday)
                    prestamos_byday =JSON.stringify(prestamos_byday)
+                   
                    DataBase.EtiquetasAll(id_sucursal).then((etiquetas_)=>{
                     let etiquetas_let = JSON.parse(etiquetas_)
                     let forma_hoy = hoy.format('L')
@@ -165,8 +167,10 @@ let cont_not = parseInt(notif1_2.length) + parseInt(notif3_5.length)+ parseInt(n
                       let carga_let = JSON.parse(carga_) 
                         if (!carga_let.length) {
                         console.log('sin carga inicial')
+                        msg="No se ha realizado la carga inicial, verificar"
                       }
-/*console.log(clientes_arr)*/
+
+
     res.render("PYT-4/home", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -470,6 +474,7 @@ if (telefono_familiar_2 ==null) {
   });
 }
 
+//general reportes
 exports.gerenalReportes =  (req, res) => {
   
   DataBase.ObtenerVentasDistinct().then(async(respuesta) =>{
@@ -689,7 +694,7 @@ for (let i = 0; i < ids.length; i++) {
 });
 }
 
-
+//Registrar usuarios
 exports.reguserPy4 = (req, res) => {
   const { tipo, nombre, email, password,zona} = req.body
   let msg = false;
@@ -718,7 +723,9 @@ exports.closeSesioncuponera = (req, res) => {
   });
 };
 
-exports.regPedidoPy4 = (req, res) => {
+
+//REGISTRAR PEDIDO
+exports.regPedidoPy4 = async (req, res) => {
   
   let garrafon19L ={refill_cant: req.body.refill_cant_garrafon, refill_mont: req.body.refill_garrafon_mont, canje_cant: req.body.canje_cant_garrafon, canje_mont:req.body.canje_garrafon_mont, nuevo_cant:req.body.enNew_cant_garrafon, nuevo_mont: req.body.nuevo_garrafon_mont, total_cant: req.body.total_garrafon_cant, total_cost: req.body.total_garrafon, enobsequio_cant_garrafon: req.body.enobsequio_cant_garrafon}
 
@@ -746,7 +753,16 @@ exports.regPedidoPy4 = (req, res) => {
     PedidosDB=DataBase.PedidosAllS
       break;
   }
-  DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido).then(async (respuesta) =>{
+
+  var verificaPedido = JSON.parse(await DataBase.VerificaDuplicado(fecha_pedido,id_cliente))
+  console.log('verificaPedido')
+  console.log(verificaPedido)
+  if (verificaPedido != null) {
+    msg="El cliente ya cuenta con un pedido, para el día de hoy!"
+    return res.send({msg:msg,fail:"duplicado"})
+  }
+
+  await DataBase.PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago,   status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, user.id, sucursal, deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido,total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido).then(async (respuesta) =>{
     
     let id_sucursal = req.session.sucursal_select
    await PedidosDB(id_sucursal).then((pedidos_)=>{
@@ -755,7 +771,7 @@ exports.regPedidoPy4 = (req, res) => {
       let p =[]
 for (let i = 0; i < pedidos_let.length; i++) {  
   reprogramado = moment(dia).isSameOrAfter(moment(pedidos_let[i].fecha_pedido), 'day'); // true
-  console.log(reprogramado)
+  //console.log(reprogramado)
   if (reprogramado) {
     p.push(pedidos_let[i])
   }
@@ -1474,7 +1490,14 @@ exports.corte_table = (req, res) => {
                 switch (pedidos_let[i].cliente.tipo) {
                   case 'Residencial':
                     residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
-                    residencial_cont_garrafones= parseInt(residencial_cont_garrafones) + parseInt(pedidos_let[i].total_garrafones_pedido)
+                    residencial_cont_garrafones+=parseInt(pedidos_let[i].total_garrafones_pedido)
+                    console.log(residencial_cont_garrafones)
+                   residencial_cont ++
+                    break;
+                    case 'Independiente':
+                    residencial_mont= parseInt(residencial_mont) + parseInt(pedidos_let[i].monto_total)
+                    residencial_cont_garrafones+=parseInt(pedidos_let[i].total_garrafones_pedido)
+                    console.log(residencial_cont_garrafones)
                    residencial_cont ++
                     break;
                     case 'Negocio':
@@ -1488,6 +1511,8 @@ exports.corte_table = (req, res) => {
                         ptoVenta_cont++
                         break;
                   default:
+                    console.log('chek')
+                    console.log(pedidos_let[i].cliente.tipo)
                     break;
                 }
               }
@@ -1495,6 +1520,7 @@ exports.corte_table = (req, res) => {
 
                pedidos_byday =JSON.stringify(pedidos_byday) 
                arr_carga = JSON.stringify(arr_carga)
+               console.log(pedidos_let.length)
                total_garrafones= parseInt(residencial_cont_garrafones) +parseInt(negocio_cont_garrafones) +parseInt(ptoventa_cont_garrafones)
                DataBase.Sucursales_ALl().then(async (sucursales_)=>{
                 let sucursales_let = JSON.parse(sucursales_)  

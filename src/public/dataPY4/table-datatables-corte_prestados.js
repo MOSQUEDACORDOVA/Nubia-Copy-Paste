@@ -85,10 +85,6 @@
   let corte_prestados = $('#array_corte_prestados').val()
   
   let corte_prestados2 = JSON.parse(corte_prestados.replace(/&quot;/g,'"'))
-    //let stproductos = JSON.parse(corte.productos)
-  let Residencial = corte_prestados2.filter(status => status.cliente.tipo == 'Residencial'); // return implicito
-  let Negocio = corte_prestados2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
-  let PuntoVenta = corte_prestados2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
 
 //TABLA GRAL
 let Newcorte2 = {}
@@ -118,7 +114,7 @@ maxDate_ = new DateTime($('#max_'), {
 
   // DataTable with buttons
   // --------------------------------------------------------------------
- 
+ console.log(ArrayGral)
   if (dt_Gral.length) {
     $('.dt-column-searchPrestados thead tr').clone(true).appendTo('.dt-column-searchPrestados thead');
     $('.dt-column-searchPrestados thead tr:eq(1) th').each(function (i) {
@@ -287,11 +283,7 @@ maxDate_ = new DateTime($('#max_'), {
       
     }
   });
-    // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
-      // on key up from input field
- /* $('input.dt-input').on('keyup change', function () {
-    filterColumn($(this).attr('data-column'), $(this).val());
-  });**/  
+
  
   }
 
@@ -319,35 +311,7 @@ maxDate_ = new DateTime($('#max_'), {
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
-  /*$('.datatables-basic tbody').on('click', '.delete-record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
-    var id = e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = `//${id}`;
-      }
-    })
 
-  });
-  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
-    var id_edit = e.target.classList[0]
-    console.log(id_edit)
-    if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
-    }
-  window.location.href = `//${id_edit}`;
-
-  });*/
 
 
 });

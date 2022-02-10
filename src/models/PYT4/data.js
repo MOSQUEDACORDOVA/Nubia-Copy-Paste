@@ -562,7 +562,27 @@ module.exports = {
       reject(err)
     })})
   },
-
+  VerificaDuplicado(fecha,id_cliente){
+    return new Promise((resolve, reject) => {
+      Pedidos.findOne({where: {
+        fecha_pedido:fecha, clienteId:id_cliente
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   CambiaStatus(id_pedido,status, motivo) {
     return new Promise((resolve, reject) => {
         
@@ -1130,6 +1150,8 @@ console.log(hoy)
         });
     });
   },
+
+
   //RESUMEN
   entregados_resumen(id,dia){
     return new Promise((resolve, reject) => {
