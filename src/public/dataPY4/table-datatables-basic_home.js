@@ -712,7 +712,7 @@ Env: ${Env}.</p>`
         },
       ],
      
-      order: [[8, 'asc'],[9, 'asc']],
+      order: [[8, 'asc'],[6, 'desc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -908,6 +908,12 @@ Env: ${Env}.</p>`
       data: $('#reg_pedido_modal1').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
+
+        if (data.fail) {
+          Swal.fire(data.msg)
+          return
+          
+        }
         if ($('#carga_').length>0) {
           $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
