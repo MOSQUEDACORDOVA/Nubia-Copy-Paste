@@ -56,7 +56,7 @@ module.exports = {
     },
     ObtenerTodosGrupos() {
       return new Promise((resolve, reject) => {
-        Grupos.findAll()
+        Grupos.findAll({order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -72,7 +72,7 @@ module.exports = {
           estadosGrupoId: {
             [Op.eq]: 1
           }
-        }})
+        }},{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -90,7 +90,7 @@ module.exports = {
           }, estadosGrupoId: {
             [Op.eq]: 2,
           }}
-        })
+        },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -124,7 +124,7 @@ module.exports = {
           }, estadosGrupoId: {
             [Op.eq]: 2,
           }}
-        })
+        },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -142,7 +142,7 @@ module.exports = {
           }, estadosGrupoId: {
             [Op.eq]: 2,
           }}
-        })
+        },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -268,6 +268,19 @@ module.exports = {
           });
       });
     },
+       // * EDITAR ESTUDIANTES ADMIN
+       EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante) {
+        return new Promise((resolve, reject) => {
+          Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1}, {where:{id:id_estudiante}})
+              .then((data) => {
+                let data_set = JSON.stringify(data);
+                resolve(data_set);
+              })
+              .catch((err) => {
+                reject(err)
+              });
+          });
+        },
     // * ELIMINAR ESTUDIANTES ADMIN
     BorrarEstudiantes(id){
       return new Promise((resolve, reject) => {

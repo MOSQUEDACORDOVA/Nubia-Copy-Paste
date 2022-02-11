@@ -51,7 +51,7 @@ function cargarTablaAperturas() {
         });  
 
         tableApert = aperturasTable.DataTable({
-            ordering: false,
+            ordering: true,
             paging:   false,
             data: gruposApertura,
             columns: [
@@ -172,7 +172,7 @@ function cargarTablaAperturas() {
                     }
                 },
             ],
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -221,7 +221,7 @@ function cargarTablaDesde0() {
         });  
 
         tableDesde0 = desde0Table.DataTable({
-            ordering: false,
+            ordering: true,
             paging:   false,
             data: gruposDesde0,
             columns: [
@@ -338,7 +338,7 @@ function cargarTablaDesde0() {
                     }
                 },
             ],
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -387,7 +387,7 @@ function cargarTablaIntensivos() {
         });  
 
         tableIntensivos = intensivosTable.DataTable({
-            ordering: false,
+            ordering: true,
             paging:   false,
             data: gruposIntensivos,
             columns: [
@@ -501,7 +501,7 @@ function cargarTablaIntensivos() {
                     }
                 },
             ],
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -550,7 +550,7 @@ function cargarTablaKids() {
         });  
 
         tablaKids = kidsTable.DataTable({
-            ordering: false,
+            ordering: true,
             paging:   false,
             data: gruposKids,
             columns: [
@@ -664,7 +664,7 @@ function cargarTablaKids() {
                     }
                 },
             ],
-            order: [[0, 'asc']],
+            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,

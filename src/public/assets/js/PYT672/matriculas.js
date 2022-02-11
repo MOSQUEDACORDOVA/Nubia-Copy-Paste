@@ -46,7 +46,17 @@ function cargarTablaMatricula(editada) {
                         Congelar
                     </form>
                   </a>
-                  <a class="dropdown-item eliminar-estudiante-grupo" href="#">
+                  <a class="dropdown-item eliminar-estudiante" href="#">
+                    <form action="/borrarestudiantespy672" method="POST" id="form${
+                      full["id"]
+                    }">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${
+                          full["id"]
+                        }" required>
+                        Eliminar Alumno
+                    </form>
+                </a>
+                  <a class="dropdown-item eliminar-estudiante-grupo d-none" href="#">
                     <form action="/eliminarestudiantedegrupopy672" method="POST">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
                         Eliminar de Grupo
@@ -60,7 +70,17 @@ function cargarTablaMatricula(editada) {
                       Activar
                   </form>
                 </a>
-                <a class="dropdown-item eliminar-estudiante-grupo" href="#">
+                <a class="dropdown-item eliminar-estudiante" href="#">
+                    <form action="/borrarestudiantespy672" method="POST" id="form${
+                      full["id"]
+                    }">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${
+                          full["id"]
+                        }" required>
+                        Eliminar Alumno
+                    </form> 
+                </a>
+                <a class="dropdown-item eliminar-estudiante-grupo d-none" href="#">
                 <form action="/eliminarestudiantedegrupopy672" method="POST">
                     <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
                     Eliminar de Grupo
@@ -76,16 +96,10 @@ function cargarTablaMatricula(editada) {
             var arrData = encodeURIComponent(JSON.stringify(full));
 
             return `<div class="d-inline-flex align-items-center">
-                <div role="button" class="text-primary borrar-btn me-1">
-                    <form action="/borrarestudiantespy672" method="POST" id="form${
-                      full["id"]
-                    }">
-                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${
-                          full["id"]
-                        }" required>
-                        
-                        ${feather.icons["trash"].toSvg()}
-                    </form>
+                <div role="button" class="text-primary edit-btn-alumno me-1" data-bs-id="${
+                  full["id"]
+                }">
+                ${feather.icons["edit"].toSvg()}
                 </div>
                 <div class="">
                     <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
@@ -205,9 +219,55 @@ $(function () {
   $(".odd").addClass("selector");
   $(".even").addClass("selector");
 
-  $(".borrar-btn").on("click", (e) => {
-    let data = e.target.childNodes[1];
-    data.submit();
+  $(".edit-btn-alumno").on("click", (e) => {
+    let data = e.currentTarget["dataset"]["bsId"];
+   console.log(data)
+  
+   let filterStudiante =estudiantesParsed.filter(element => element.id == data)
+   console.log(filterStudiante);
+   $('#edit-title-modal').text('Editar Alumno')
+   $('#formregalumno').removeAttr('action')
+
+   $('#formregalumno').attr('action','/edit-estudiantepy627')
+   $('#grupos-edit').addClass('d-none')
+   $('#id-alumno-edit').append(`<input type="text" value="${filterStudiante[0]['id']}" name="id_estudiante">`)
+
+$('#name-for-edit').val(`${filterStudiante[0]['nombre']}`)
+ if (filterStudiante[0]['tipoEstudianteId']==1) {
+   $('#inlineRadio1').prop('checked', true);
+
+ }else{
+  $('#inlineRadio2').prop('checked', true);
+ }
+
+$('#nacionalDni').val(`${filterStudiante[0]['nro_identificacion']}`)
+$('#fecha-nacimiento-edit').val(`${filterStudiante[0]['fecha_nacimiento']}`)
+$(`#genero-edit option[value='${filterStudiante[0]['genero']}']`).attr("selected", true);
+$("#genero-edit").val(`${filterStudiante[0]['genero']}`).trigger('change');
+
+//$('#tlf1Check').val()
+$('#inputTlf1').val(`${filterStudiante[0]['telefono1']}`)
+
+//$('#tlf2Check').val()
+$('#inputTlf2').val(`${filterStudiante[0]['telefono2']}`)
+
+$('#email-edit').val(`${filterStudiante[0]['email']}`)
+
+$(`#vendedor-edit option[value='Isaac']`).attr("selected", true);
+$("#vendedor-edit").val('Isaac').trigger('change');
+console.log(filterStudiante[0]['provincia'])
+$(`#select-provincia option[value='${filterStudiante[0]['provincia']}']`).attr("selected", true);
+$("#select-provincia").val(`${filterStudiante[0]['provincia']}`).trigger('change');
+
+$(`#select-canton option[value='${filterStudiante[0]['canton']}']`).attr("selected", true);
+$("#select-canton").val(`${filterStudiante[0]['canton']}`).trigger('change');
+
+$(`#select-distrito option[value='${filterStudiante[0]['distrito']}']`).attr("selected", true);
+$("#select-distrito").val(`${filterStudiante[0]['distrito']}`).trigger('change');
+
+$('#btn-submit-form-estudiante').val("Guardar")
+
+   $('#registrarAlumno').modal('show')
   });
 
   $(".congelar-estudiante").on("click", (e) => {
@@ -219,6 +279,11 @@ $(function () {
   $(".eliminar-estudiante-grupo").on("click", (e) => {
     console.log(e.target);
     let form = e.target;
+  });
+  $(".eliminar-estudiante").on("click", (e) => {
+    console.log(e.target);
+    let form = e.target;
+    form.submit();
   });
 
   $("#createAppModal").on("show.bs.modal", function (e) {

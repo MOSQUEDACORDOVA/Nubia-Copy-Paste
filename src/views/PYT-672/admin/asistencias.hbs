@@ -38,6 +38,10 @@
                                 <input class="form-check-input" type="radio" id="inlineRadio4" name="tipo" value="2">
                                 <label class="form-check-label" for="inlineRadio4">Intensivo</label>
                             </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="inlineRadio5" name="tipo" value="3">
+                                <label class="form-check-label" for="inlineRadio5">Kids</label>
+                            </div>
                         </div>
                     </div>
 
@@ -201,7 +205,85 @@
                             </div>
                         </div>
                     </div>
+ <div class="col-12 p-0 d-none" id="filtrosKids">
+                        <div class="row m-0 p-0">
+                            <div class="col-3 col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposKids as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
 
+                            <div class="col-3 col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
+                                <select name="" id="" class="form-select select2 leccion">
+                                    <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
+                                </select>
+                            </div>
+
+                            <div class="col-3 col-md-3 mb-1">
+                                <label for="" class="form-label">Nivel</label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+
+                            <div class="col-3 col-md-3 mb-1">
+                                <label for="" class="form-label">Buscar</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" id="basic-addon-search1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                                    <input type="text" class="form-control buscar-matricula" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <section class="row m-0 p-0" id="estudiantes"></section>
 
                     <template id="template">
@@ -472,24 +554,28 @@ $(document).ready(function() {
 
     let checkDesde0 = document.getElementById('inlineRadio3'),
     checkIntensivo = document.getElementById('inlineRadio4'),
+     checkKids = document.getElementById('inlineRadio5'),
     filtrosDesdeCero = document.getElementById('filtrosDesdeCero'),
     selectDesdeCero = document.querySelector('#filtrosDesdeCero select.grupo'),
     filtrosIntensivo = document.getElementById('filtrosIntensivo'),
     selectIntensivo = document.querySelector('#filtrosIntensivo select.grupo'),
+    filtrosKids = document.getElementById('filtrosKids'),
+    selectKids = document.querySelector('#filtrosKids select.grupo'),
     grupoForm = document.getElementById('grupoForm'),
     grupoFormInput = document.querySelector('#grupoForm input.grupoId');
 
     checkDesde0.addEventListener('change', e => {
         if(checkDesde0.checked === true) {
             filtrosDesdeCero.classList.remove('d-none');
+            filtrosKids.classList.add('d-none');
             filtrosIntensivo.classList.add('d-none');
         }
     });
 
     if($('#grupoId').val() != "") {
         let arr = Object.values(selectDesdeCero.options),
-        arr2 = Object.values(selectIntensivo.options);
-
+        arr2 = Object.values(selectIntensivo.options),
+        arr3 = Object.values(selectKids.options);
         arr.forEach(item => {
             if (item.value === $('#grupoId').val()) {
                 $('#filtrosDesdeCero select.grupo').val($('#grupoId').val());
@@ -515,8 +601,29 @@ $(document).ready(function() {
                 }
                 checkDesde0.checked = false;
                 checkIntensivo.checked = true;
+                checkKids.checked = false;
                 filtrosIntensivo.classList.remove('d-none');
+                filtrosKids.classList.add('d-none');
                 filtrosDesdeCero.classList.add('d-none');
+            }
+        });
+
+         arr3.forEach(item => {
+            if (item.value === $('#grupoId').val()) {
+                $('#filtrosKids select.grupo').val($('#grupoId').val());
+                $('#filtrosKids select.grupo').trigger('change');
+                $('#filtrosKids select.leccion').val($('#numeroLeccion').val());
+                $('#filtrosKids select.leccion').trigger('change');
+                let numLecciones = parseInt($('#numeroLeccion').val());
+                for(i = 0; i <= numLecciones; i++) {
+                    $('#filtrosKids select.leccion')[0].options[i].disabled = false;
+                }
+                checkDesde0.checked = false;
+                checkIntensivo.checked = false;
+                checkKids.checked = true;
+                filtrosIntensivo.classList.add('d-none');
+                filtrosDesdeCero.classList.add('d-none');
+                filtrosKids.classList.remove('d-none');
             }
         });
     }
@@ -542,6 +649,7 @@ $(document).ready(function() {
     checkIntensivo.addEventListener('change', e => {
         if(checkIntensivo.checked === true) {
             filtrosIntensivo.classList.remove('d-none');
+            filtrosKids.classList.add('d-none');
             filtrosDesdeCero.classList.add('d-none');
         }
     });
@@ -562,6 +670,26 @@ $(document).ready(function() {
         grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
         grupoForm.submit();
     });*/
+
+checkKids.addEventListener('change', e => {
+        if(checkKids.checked === true) {
+            filtrosDesdeCero.classList.add('d-none');
+            filtrosIntensivo.classList.add('d-none');
+            filtrosKids.classList.remove('d-none');
+        }
+    });
+
+    
+    $('#filtrosKids .select2.grupo').on('select2:select', function (e) {
+        let select = selectKids.options[selectKids.selectedIndex].value;
+        let data = e.params.data;
+        let id = data.id;
+        //console.log(data);
+
+        grupoFormInput.value = select;
+        grupoForm.action = `/controlgrupo/PYT-672/${id}`;
+        grupoForm.submit();
+    });
 
     let guardarNota;
 
