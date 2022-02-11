@@ -2782,13 +2782,13 @@ var(--bs-primary)
   padding-bottom: 1.8rem; }
 
 .timeline .timeline-item .timeline-point {
-  position: absovar(--bs-primary)
+  position: absolute;
   left: -0.85rem;
   top: 0;
   z-index: 2;
   display: flex;
-  justify-content: cvar(--bs-primary)
-  align-items: cvar(--bs-primary)
+  justify-content: center;
+  align-items: center;
   height: 1.75rem;
   width: 1.75rem;
   text-align: center;
@@ -2802,7 +2802,7 @@ var(--bs-primary)
   height: 12px;
   width: 12px;
   border: 0;
-  background-color: #7367f0; }
+  background-color: #0833a2; }
 
 .timeline .timeline-item .timeline-point.timeline-point-indicator:before {
   content: '';

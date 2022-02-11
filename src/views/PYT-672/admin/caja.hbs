@@ -1,6 +1,9 @@
 <style>
-    .min-height{
+    .min-height {
         min-height: 165px;
+    }
+    .mb-tl {
+        margin-bottom: 0.5rem !important;
     }
 </style>
 <div class="app-content content ecommerce-application py672">
@@ -10,13 +13,15 @@
                 <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
                     <div class="toast-header">
                         <strong class="me-auto"></strong>
-                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
                     </div>
                     <div class="toast-body"></div>
                 </div>
             </div>
 
-            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none"
+                id="btnToast">Toast</button>
 
             <section class="row">
                 <!-- Checkout Place Order Left starts -->
@@ -24,12 +29,13 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Servicios Disponibles</h4>
-                        </div>  
+                        </div>
                         <div class="row m-0 justify-content-end">
                             <!-- FILTRO -->
                             <div class="col-12 col-lg-7">
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
-                                <select class="select2 form-select alumno" tabindex="-1" name="alumno" aria-hidden="true" required>
+                                <select class="select2 form-select alumno" tabindex="-1" name="alumno"
+                                    aria-hidden="true" required>
                                     <!-- 
                                     {{#each gruposTodos as |item i|}}
                                     <option value="{{id}}">
@@ -46,175 +52,209 @@
                                 </select>
                             </div>
                         </div>
-    
-                            <div class="card-body">
-                                <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                    <div class="ecommerce-card">
-                                        <div class="card-body">
-                                            <div class="name">
-                                                <h6 class="mb-0.5 text-danger"><b>Reposicion de Examen</b></h6>
-                                            </div>
-                                            
-                                            <span class="text-muted">El alumno puede recuperar una prueba perdida.</span>
 
-                                            
-                                                <select class="form-select mt-1" id="basicSelect">
-                                                    <option>Seleccione Leccion</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </select>
-
+                        <div class="card-body">
+                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
+                                <div class="ecommerce-card">
+                                    <div class="card-body">
+                                        <div class="name">
+                                            <h6 class="mb-0.5 text-danger"><b>Reposicion de Examen</b></h6>
                                         </div>
 
-                                        <div class="item-options text-center">
-                                            <div class="item-wrapper">
-                                                <div class="item-cost d-flex align-items-center justify-content-center">
-                                                    <h5>Precio</h5>
-                                                    <h4 class="item-price text-primary ms-1">₡ 10,000</h4>
-                                                </div>
-                                            </div>
+                                        <span class="text-muted">El alumno puede recuperar una prueba perdida.</span>
 
-                                            <button type="button" class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
-                                                <span class="text-truncate">Habilitar</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>    
-                                            </button>
-                                        </div>
+
+                                        <select class="form-select mt-1" id="basicSelect">
+                                            <option>Seleccione Leccion</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+
                                     </div>
-                                </div>
-                            </div>  
 
-                            <div class="card-body">
-                                <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                    <div class="ecommerce-card">
-                                        <div class="card-body">
-                                            <div class="name">
-                                                <h6 class="mb-0.5 text-primary"><b>Reasignacion de Grupo</b></h6>
+                                    <div class="item-options text-center">
+                                        <div class="item-wrapper">
+                                            <div class="item-cost d-flex align-items-center justify-content-center">
+                                                <h5>Precio</h5>
+                                                <h4 class="item-price text-primary ms-1">₡ 10,000</h4>
                                             </div>
-                                            
-                                            <span class="text-muted">El alumno desea cambiar el grupo donde se encuentra.</span>
-
                                         </div>
 
-                                        <div class="item-options text-center">
-                                            <div class="item-wrapper">
-                                                <div class="item-cost d-flex align-items-center justify-content-center">
-                                                    <h5>Precio</h5>
-                                                    <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
-                                                </div>
-                                            </div>
-
-                                            <button type="button" class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
-                                                <span class="text-truncate">Habilitar</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>    
-                                            </button>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>  
-
-                            <div class="card-body">
-                                <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                    <div class="ecommerce-card">
-                                        <div class="card-body">
-                                            <div class="name">
-                                                <h6 class="mb-0.5 text-primary"><b>Constancia de Estudios</b></h6>
-                                            </div>
-                                            
-                                            <span class="text-muted">Documento que certifica al alumno como matriculado.</span>
-
-                                        </div>
-
-                                        <div class="item-options text-center">
-                                            <div class="item-wrapper">
-                                                <div class="item-cost d-flex align-items-center justify-content-center">
-                                                    <h5>Precio</h5>
-                                                    <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
-                                                </div>
-                                            </div>
-
-                                            <button type="button" class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
-                                                <span class="text-truncate">Habilitar</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>    
-                                            </button>
-
-                                            <button type="button" class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
-                                                <span>Generar Constancia</span>
-                                            </button>
-
-                                        </div>
+                                        <button type="button"
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            <span class="text-truncate">Habilitar</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-check">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="card-body">
-                                <div class="list-view m-0 border-light-secondary rounded-2  min-height">
-                                    <div class="ecommerce-card">
-                                        <div class="card-body">
-                                            <div class="name">
-                                                <h6 class="mb-0.5 text-primary"><b>Titulo Academico</b></h6>
-                                            </div>
-                                            
-                                            <span class="text-muted">Certificado de aprobacion de estudios.</span>
-
-                                            
-                                                <select class="form-select mt-1" id="basicSelect">
-                                                    <option>Seleccione Nivel</option>
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                </select>
-
+                        <div class="card-body">
+                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
+                                <div class="ecommerce-card">
+                                    <div class="card-body">
+                                        <div class="name">
+                                            <h6 class="mb-0.5 text-primary"><b>Reasignacion de Grupo</b></h6>
                                         </div>
 
-                                        <div class="item-options text-center">
-                                            <div class="item-wrapper">
-                                                <div class="item-cost d-flex align-items-center justify-content-center">
-                                                    <h5>Precio</h5>
-                                                    <h4 class="item-price text-primary ms-1">₡ 20,000</h4>
-                                                </div>
+                                        <span class="text-muted">El alumno desea cambiar el grupo donde se
+                                            encuentra.</span>
+
+                                    </div>
+
+                                    <div class="item-options text-center">
+                                        <div class="item-wrapper">
+                                            <div class="item-cost d-flex align-items-center justify-content-center">
+                                                <h5>Precio</h5>
+                                                <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
                                             </div>
-
-                                            <button type="button" class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
-                                                <span class="text-truncate">Habilitar</span>
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>    
-                                            </button>
-
-                                            <button type="button" class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
-                                                <span>Descargar Titulo</span>
-                                            </button>
-
                                         </div>
+
+                                        <button type="button"
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            <span class="text-truncate">Habilitar</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-check">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
+
                                     </div>
                                 </div>
-                            </div>    
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
+                                <div class="ecommerce-card">
+                                    <div class="card-body">
+                                        <div class="name">
+                                            <h6 class="mb-0.5 text-primary"><b>Constancia de Estudios</b></h6>
+                                        </div>
+
+                                        <span class="text-muted">Documento que certifica al alumno como
+                                            matriculado.</span>
+
+                                    </div>
+
+                                    <div class="item-options text-center">
+                                        <div class="item-wrapper">
+                                            <div class="item-cost d-flex align-items-center justify-content-center">
+                                                <h5>Precio</h5>
+                                                <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
+                                            </div>
+                                        </div>
+
+                                        <button type="button"
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            <span class="text-truncate">Habilitar</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-check">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
+
+                                        <button type="button"
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
+                                            <span>Generar Constancia</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="list-view m-0 border-light-secondary rounded-2  min-height">
+                                <div class="ecommerce-card">
+                                    <div class="card-body">
+                                        <div class="name">
+                                            <h6 class="mb-0.5 text-primary"><b>Titulo Academico</b></h6>
+                                        </div>
+
+                                        <span class="text-muted">Certificado de aprobacion de estudios.</span>
+
+
+                                        <select class="form-select mt-1" id="basicSelect">
+                                            <option>Seleccione Nivel</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="item-options text-center">
+                                        <div class="item-wrapper">
+                                            <div class="item-cost d-flex align-items-center justify-content-center">
+                                                <h5>Precio</h5>
+                                                <h4 class="item-price text-primary ms-1">₡ 20,000</h4>
+                                            </div>
+                                        </div>
+
+                                        <button type="button"
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            <span class="text-truncate">Habilitar</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-check">
+                                                <polyline points="20 6 9 17 4 12"></polyline>
+                                            </svg>
+                                        </button>
+
+                                        <button type="button"
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
+                                            <span>Descargar Titulo</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
                 <!-- Checkout Place Order Left ends -->
 
                 <!-- Checkout Place Order Right starts -->
-                <div class="checkout-options col-12 col-lg-5">    
+                <div class="checkout-options col-12 col-lg-5">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">Isaac Mosqueda</h5>
                             <div class="price-details">
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>DNI:</b> 75888948</div>
+                                        <div class="detail-title"><b>Grupos:</b> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Direccion:</b> Av. Melgarejo 241, San Isidro</div>
+                                        <div class="detail-title"><b>Horario:</b> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Telefonos:</b> 939167453</div>
+                                        <div class="detail-title"><b>Profesor:</b> </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title"><b>Telefonos:</b> </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title"><b>Fecha de Pago:</b> </div>
                                     </li>
                                 </ul>
                             </div>
-                            
+
                             <div class="d-flex justify-content-between">
                                 <h5 class="m-0">Pagos</h5>
                                 <b class="text-primary">Agregar</b>
@@ -231,25 +271,124 @@
                                         <div class="detail-title">Cuota pago atrasado</div>
                                         <div class="detail-amt discount-amt text-danger">₡ 1,000</div>
                                     </li>
-                                    
+
                                 </ul>
                                 <hr>
-                                <ul class="list-unstyled">
-                                    <li class="price-detail">
-                                        <div class="detail-title detail-total">Total</div>
-                                        <div class="detail-amt fw-bolder">₡ 18,000</div>
-                                    </li>
-                                </ul>
-                                <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light">Generar Factura</button>
-                            </div>
 
+                                <div class="price-details">
+                                    <h6 class="price-title">Detalles de Servicios</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="price-detail">
+                                            <div class="detail-title text-danger">Servicio</div>
+                                        </li>
+                                        <li class="price-detail">
+                                            <div class="detail-title">Servicio</div>
+                                        </li>
+                                    </ul>
+                                    <hr>
+
+                                    <ul class="list-unstyled">
+                                        <li class="price-detail">
+                                            <div class="detail-title detail-total">Total</div>
+                                            <div class="detail-amt fw-bolder">₡ 18,000</div>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light">
+                                        Generar Factura
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- Checkout Place Order Right ends -->
+                    </div>
+
+                    <div class="col-12">
+                        <div class="card card-user-timeline">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                        class="feather feather-list user-timeline-title-icon">
+                                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                    </svg>
+                                    <h4 class="card-title">Historial de servicios</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="timeline ms-50">
+                                    
+                                    <li class="timeline-item">
+                                        <span class="timeline-point timeline-point-indicator"></span>
+                                        <div class="timeline-event">
+                                            <div class="d-flex justify-content-between">
+                                                <h6>Reposicion de Examen</h6>
+                                                <p class="mb-tl"><strong> Grupo:</strong> <span>1</span></p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-tl">24-12-2020</p>
+                                                <h6 class="more-info mb-0">₡ 10,000</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="timeline-item">
+                                        <span class="timeline-point timeline-point-indicator"></span>
+                                        <div class="timeline-event">
+                                            <div class="d-flex justify-content-between">
+                                                <h6>Reasignacion de Grupo</h6>
+                                                <p class="mb-tl"><strong> Grupo:</strong> <span>1</span></p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-tl">24-11-2020</p>
+                                                <h6 class="more-info mb-0">₡ 5,000</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="timeline-item">
+                                        <span class="timeline-point timeline-point-indicator"></span>
+                                        <div class="timeline-event">
+                                            <div class="d-flex justify-content-between">
+                                                <h6>Constancia de Estudios</h6>
+                                                <p class="mb-tl"><strong> Grupo:</strong> <span>1</span></p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-tl">12-10-2020</p>
+                                                <h6 class="more-info mb-0">₡ 5,000</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="timeline-item">
+                                        <span class="timeline-point timeline-point-indicator"></span>
+                                        <div class="timeline-event">
+                                            <div class="d-flex justify-content-between">
+                                                <h6>Mensualidad</h6>
+                                                <p class="mb-tl"><strong> Grupo:</strong> <span>1</span></p>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-tl">15-09-2020</p>
+                                                <h6 class="more-info mb-0">₡ 17,000</h6>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <!-- Checkout Place Order Right ends -->
+
+                    
+                    
+
                 </div>
-                
             </section>
-                   
         </div>
     </div>
 </div>
