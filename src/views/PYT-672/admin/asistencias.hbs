@@ -386,6 +386,7 @@ $(document).ready(function() {
         matriculaGrupo.forEach(matricula => {
             let div = document.createElement('div');
             div.classList.add('col-12');
+            div.classList.add('item');
             let lecc = null, idAusentes = null;
 
             if ($('#filtrosDesdeCero .select2.grupo').val() != "-") {
@@ -475,6 +476,7 @@ $(document).ready(function() {
 
                 if(result.length) {
                     div.innerHTML = `
+                    <label class="card-title estudiante" hidden>${matricula.nombre}</label>
                         <div class="card card-statistics border-secondary" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
                                 <div class="col-10 col-xl-11">
@@ -505,6 +507,7 @@ $(document).ready(function() {
                     `;
                 } else {
                     div.innerHTML = `
+                    <label class="card-title estudiante" hidden>${matricula.nombre}</label>
                         <div class="card card-statistics border-success" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
                                 <div class="col-10 col-xl-11">
@@ -920,5 +923,31 @@ checkKids.addEventListener('change', e => {
         .then(data => console.log(data));
     }
 
+//BUSCADOR
+    jQuery(".buscar-matricula").on('keyup',function(e){
+	console.log(e.target.value)
+   // $(".select_cat").removeClass("active"); 
+    $(e.target).addClass("active"); 
+     //this.attr("class", "nav-link select_cat active");
+  var estudiante = $('.estudiante');
+   var buscando =  (e.target.value).toLowerCase();
+   var item='';
+   for( var i = 0; i < estudiante.length; i++ ){
+       item = $(estudiante[i]).html().toLowerCase();
+        for(var x = 0; x < item.length; x++ ){
+          
+            if(buscando ==""){
+                $(estudiante[i]).parents('.item').show(); 
+            }else if( buscando.length == 0 || item.indexOf( buscando ) > -1 ){
+               console.log(item.indexOf( buscando ))
+                $(estudiante[i]).parents('.item').show(); 
+                $(estudiante[i]).parents('.item').attr('active');
+            }else{
+              
+                 $(estudiante[i]).parents('.item').hide();
+            }
+        }
+   }
+});
 });
 </script>
