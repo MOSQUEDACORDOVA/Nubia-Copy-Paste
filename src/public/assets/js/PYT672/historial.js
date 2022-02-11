@@ -17,7 +17,7 @@ function cargarTablaMatricula(editada) {
   }
 
   // --------------------------------------------------------------------
-
+console.log(matriculaParsed)
   if (historialTable.length) {
     let tableMatr;
     $('.buscar-matricula').on('keyup change', function(){
@@ -54,12 +54,13 @@ function cargarTablaMatricula(editada) {
                     <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
                 </div>`;*/
             }
+            var arrData = encodeURIComponent(JSON.stringify(full));
 
             let nombreEst = `
             <div class="d-flex flex-column">
 
               <div class="d-flex align-items-center mb-1">
-                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">${full['nombre']}</span>
+                <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}" data-arrEstudiante = "${arrData}">${full['nombre']}</span>
 
                 <div class="badge rounded-pill badge-light-success me-1" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Presente" data-consulta="presente" role="button">
                   ${full['asistencias']}
@@ -275,14 +276,13 @@ $(function () {
   $('.even').addClass('selector'); 
   
   $('.btnHistorialDetalles').on('click', function () {
+
+    var Array = this.getAttribute('data-arrEstudiante');
+    var my_object = JSON.parse(decodeURIComponent(Array));
+
     let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
     
-    /*console.log(arrayLeccionesAusentes)
-    console.log(presentes)
-    console.log(idGrupo)
-    console.log(ausentes)
-    console.log(nivel)
-    console.log(leccion)*/
+    console.log(my_object)
     if(arrayLeccionesAusentes.includes("[{")) {
       arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
     }
@@ -388,6 +388,12 @@ $(function () {
       row.innerHTML = td;
       content.appendChild(row);
     }
+$(`#nombre-historial`).text(my_object['nombre'])
+$(`#dni-historial`).text(my_object['nro_identificacion'])
+$(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
+$(`#email-historial`).text(my_object['email'])
+$(`#grupo-historial`).text(my_object['grupo']['identificador'])
+$(`#horario-historial`).text(my_object['grupo']['dia_horario'])
 
     $('#tablaHistorialDetalles').append(content);
 
