@@ -240,13 +240,7 @@
                             aria-hidden="true"
                             
                           >
-                            <!-- 
-                                                        {{#each gruposTodos as |item i|}}
-                                                        <option value="{{id}}">
-                                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
-                                                        </option>
-                                                        {{/each}}
-                                                        -->
+                            
                             <option value="" selected>
                               (opcional)
                             </option>
@@ -1000,7 +994,7 @@
                     <select
                       name="horario1"
                       id="horarioDesdeCero"
-                      class="form-select"
+                      class="form-select d-none"
                     >
                       <option value="Lunes: 6:30pm a 9pm">
                         Lunes: 6:30pm a 9pm
@@ -1018,10 +1012,11 @@
                         Sábado: 8:30am a 11am
                       </option>
                     </select>
+
                     <select
                       name="horario2"
                       id="horarioIntensivo"
-                      class="form-select"
+                      class="form-select d-none"
                     >
                       <option value="Lunes y Míercoles: 6:30pm a 9pm">
                         Lunes y Míercoles: 6:30pm a 9pm
@@ -1030,15 +1025,17 @@
                         Martes y Jueves: 6:30pm a 9pm
                       </option>
                     </select>
+					
                     <select
                       name="horario3"
                       id="horarioKids"
-                      class="form-select"
+                      class="form-select d-none"
                     >
                       <option value="Sábados 11:30am a 1:30pm">
                         Sábados 11:30am a 1:30pm
                       </option>
                     </select>
+
                   </div>
                   <div class="mb-1">
                     <label for="" class="form-label">
@@ -1053,6 +1050,33 @@
                     />
                   </div>
                 </div>
+				<div class="row">
+                        <div class="col-12 mb-1">
+                          <label class="form-label" for="fp-default">
+                            Profesor
+                          </label>
+                          <select class="select2 form-select profesor"  tabindex="-1" name="profesor" aria-hidden="true" >
+                            <option value="" selected>
+                              (opcional)
+                            </option>
+                            <option value="Isaac Mosqueda">
+                              Isaac Mosqueda
+                            </option>
+                            <option value="Rai Torcat">
+                              Rai Torcat
+                            </option>
+                            <option value="Patricio Calderon">
+                              Patricio Calderon
+                            </option>
+                            <option value="Boris Melgarejo">
+                              Boris Melgarejo
+                            </option>
+                            <option value="Jose Arzolay">
+                              Jose Arzolay
+                            </option>
+                          </select>
+                        </div>
+                      </div>
                 <div class="my-1">
                   <button type="submit" class="btn btn-primary">
                     Actualizar
