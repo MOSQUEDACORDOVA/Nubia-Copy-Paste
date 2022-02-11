@@ -584,6 +584,8 @@ router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, d
 router.post('/borrargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrargrupo);
 // * REGISTRAR ESTUDIANTES
 router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatricula);
+// * EDITAR ESTUDIANTES
+router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
 // * BORRAR ESTUDIANTES
 router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES

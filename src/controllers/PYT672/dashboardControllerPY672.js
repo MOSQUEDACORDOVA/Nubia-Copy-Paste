@@ -951,7 +951,7 @@ exports.control = (req, res) => {
       console.log(gruposDist)
       console.log("GRUPOS DISTINCTS")
       
-      let gruposDesde0 = [], gruposIntensivo = [];
+      let gruposDesde0 = [], gruposIntensivo = [], gruposKids = [];
       
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response3) => {
@@ -960,10 +960,18 @@ exports.control = (req, res) => {
           console.log("GRUPOS ENCONTRADOS")
 
           gruposFounds.forEach(found => {
-            if(found.nombre === "Desde cero") {
-              gruposDesde0.push(found);
-            } else {
-              gruposIntensivo.push(found);
+            switch (found.nombre) {
+              case "Desde cero":
+                gruposDesde0.push(found);
+                break;
+            case "Intensivo":
+                gruposIntensivo.push(found);
+                break;
+                 case "Desde cero":
+                  gruposKids.push(found);
+                break;
+              default:
+                break;
             }
           });
 
@@ -973,8 +981,8 @@ exports.control = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       });
-      console.log('gruposDesde0')
-console.log(gruposDesde0)
+      console.log('gruposKids')
+console.log(gruposKids)
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
       dashboardPage: true,
@@ -984,6 +992,7 @@ console.log(gruposDesde0)
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
+      gruposKids
     });
   }).catch((err) => {
     console.log(err)
@@ -1016,7 +1025,7 @@ exports.controlgrupo = (req, res) => {
       console.log(gruposDist)
       console.log("GRUPOS DISTINCTS")
       
-      let gruposDesde0 = [], gruposIntensivo = [];
+      let gruposDesde0 = [], gruposIntensivo = [], gruposKids=[];
       
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response3) => {
@@ -1026,10 +1035,18 @@ exports.controlgrupo = (req, res) => {
 
           gruposFounds.forEach(found => {
             if(found.estadosGrupoId === 2) {
-              if(found.nombre === "Desde cero") {
-                gruposDesde0.push(found);
-              } else {
-                gruposIntensivo.push(found);
+              switch (found.nombre) {
+                case "Desde cero":
+                  gruposDesde0.push(found);
+                  break;
+              case "Intensivo":
+                  gruposIntensivo.push(found);
+                  break;
+                   case "Desde cero":
+                    gruposKids.push(found);
+                  break;
+                default:
+                  break;
               }
             }
           });
@@ -1082,11 +1099,7 @@ exports.controlgrupo = (req, res) => {
 
           numLeccion = (32 - Math.floor(rest))
 
-          console.log(fechaActual)
-          console.log(fechaInicio)
-          console.log(diff)
-          console.log(rest)
-          console.log(numLeccion)
+         
 
     res.render(proyecto+"/admin/asistencias", {
       pageName: "Academia Americana - Asistencias",
@@ -1097,6 +1110,7 @@ exports.controlgrupo = (req, res) => {
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
+      gruposKids,
       matri,
       grupoId,
       numLeccion,
@@ -2331,6 +2345,36 @@ exports.registrarmatricula = async(req, res) => {
         return res.redirect('/matriculas/'+msg);
       }
       return res.redirect('/matriculas');
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+// * EDITAR ESTUDIANTES ADMIN
+exports.editarmatricula = async(req, res) => {
+  console.log(req.body);
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante } = req.body;
+  let msg = false;
+
+  if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
+    console.log('complete todos los campos')
+    msg="Complete todos los campos"
+    return res.redirect('/matriculas/'+msg);
+  } else {
+
+    if(!telefono2) {
+      telefono2 = '-'
+    } 
+
+    tipo = parseInt(tipo)
+  
+    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante).then((resp) => {
+    console.log(resp)
+      console.log("ESTUDIANTE EDITADO")
+      msg="Datos del estudiante "+nombre+" actualizados con éxito"
+      return res.redirect('/matriculas/'+msg);
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
