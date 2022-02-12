@@ -321,7 +321,42 @@
                     window.location.href = value;
                 }
             })
-		})
+		
+        $('#grupoId-reg .select2').select2()
+  $('#grupoId-reg .select2').on('select2:select', function(e) {
+    var data = e.params.data;
+    console.log(data);
+    console.log(data.element.dataset.bsIden);
+     switch (data.element.dataset.bsIden) {
+          case 'Desde cero':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #0833a2 !important; ');
+    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+            break;
+             case 'Intensivo':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #ea5455 !important; ');
+    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+            break;
+         case 'Kids':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #48cf84 !important; ');
+    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+            break;
+          default:
+            break;
+        }
+    
+   // CheckValues(data.element.value)
+    
+  });
+  $('.select2').on('select2:open', function(e) {
+     console.log(e); 
+    var data = e.params.data;
+    console.log(data);
+    //$(".select2-selection").removeClass("defaultColor blueColor blueColor");
+   // CheckValues(data.element.value)
+    
+  });
+        })
+
     </script>
 </body>
 <!-- END: Body-->
