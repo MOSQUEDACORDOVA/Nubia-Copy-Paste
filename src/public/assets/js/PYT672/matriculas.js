@@ -524,7 +524,7 @@ if (tipo == "Intensivo") {
 
           fecha_ant = leccionFecha;
           
-        
+       
           if (j==2) {
             leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
             newFormatAnt = moment(addf).format("YYYY-MM-DD");
