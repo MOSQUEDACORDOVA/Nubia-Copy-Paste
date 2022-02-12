@@ -822,7 +822,7 @@ exports.verificargrupos = (req, res) => {
               console.log(nivel1)
               console.log(nivel2)
               console.log(nivel3)
-              console.log(nivel4)
+              //console.log(nivel4)
               console.log("KIDS")
             break;
           }

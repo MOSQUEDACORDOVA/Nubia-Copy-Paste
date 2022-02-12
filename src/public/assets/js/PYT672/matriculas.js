@@ -324,7 +324,7 @@ $('#btn-submit-form-estudiante').val("Guardar")
       j = "",
       html3 = "";
       console.log(tipo)
-
+      var leccionTrue = false,nLeccion
       if (tipo == "Intensivo") {
         console.log((diferencia2*2)+1)
           for (let i = 0; i < (diferencia2*2)+2; i++) {  
@@ -441,8 +441,8 @@ $('#btn-submit-form-estudiante').val("Guardar")
             }
             
             if (leccionactual) {
-              console.log(leccionactual)
-              console.log(i + 1)
+              leccionTrue = true
+        nLeccion =i + 1
                $(`#leccionActual`).text(i + 1);
             }
             
@@ -450,7 +450,13 @@ $('#btn-submit-form-estudiante').val("Guardar")
           
           }  
         }
-
+        if (leccionTrue) {
+          console.log(leccionactual)
+          console.log(nLeccion)
+           $(`#leccionActual`).text(nLeccion);
+        } else{
+          $(`#leccionActual`).text(0);
+        }
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
     $(`#25_32Line1`).empty();
@@ -496,7 +502,7 @@ $('#btn-submit-form-estudiante').val("Guardar")
       j = "",
       html3 = "";
       console.log(tipo)
-
+var leccionTrue = false,nLeccion
  
 if (tipo == "Intensivo") {
   console.log((diferencia2*2)+1)
@@ -505,7 +511,7 @@ if (tipo == "Intensivo") {
           leccionFecha = inicio;
           fecha_ant = inicio;
           newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
-          leccionFecha2 = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+          leccionFecha2 = moment(leccionFecha).add(1, "2").format("YYYY-MM-DD");
           newFormatBef = leccionFecha2;
 
           html += `<div class="col-3" ">
@@ -522,11 +528,11 @@ if (tipo == "Intensivo") {
           if (j==2) {
             leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
             newFormatAnt = moment(addf).format("YYYY-MM-DD");
-          newFormatBef = moment(leccionFecha).add(5, "d").format("YYYY-MM-DD");
+          newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
           }else{
              leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
              newFormatAnt = moment(addf).format("YYYY-MM-DD");
-          newFormatBef = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+             newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
           }
            j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
         
@@ -560,7 +566,8 @@ if (tipo == "Intensivo") {
         }
         if (leccionactual) {
           console.log(leccionactual)
-          console.log(i + 1)
+          leccionTrue = true
+          nLeccion =i + 1
            $(`#leccionActual`).text(i + 1);
         }
     }
@@ -614,15 +621,20 @@ if (tipo == "Intensivo") {
       }
       
       if (leccionactual) {
-        console.log(leccionactual)
-        console.log(i + 1)
+        leccionTrue = true
+        nLeccion =i + 1
          $(`#leccionActual`).text(i + 1);
-      }
-      
-
-    
+      } 
     }  
   }
+  if (leccionTrue) {
+    console.log(leccionactual)
+    console.log(nLeccion)
+     $(`#leccionActual`).text(nLeccion);
+  } else{
+    $(`#leccionActual`).text(0);
+  }
+  
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
     $(`#25_32Line1`).empty();
