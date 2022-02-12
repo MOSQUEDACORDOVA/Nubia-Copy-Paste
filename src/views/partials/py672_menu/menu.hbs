@@ -1,5 +1,6 @@
 <!-- BEGIN: Header-->
 {{#if login}}{{else}}
+
 <nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py672">
     <div class="navbar-container d-flex content">
         <div class="bookmark-wrapper d-flex align-items-center">
@@ -130,11 +131,16 @@
                         <div class="col-12 col-xl-6 mb-1" id="grupos-edit">
                             <div class="list-item-body flex-grow-1">
                                 <label class="form-label">Grupo</label>
-
-                                <div class="position-relative">
-                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+<style>
+    .select2-container--default .select2-results__option--highlighted[data-select2-id="select2-grupoId-we-result-uwd9-98"] {
+    background-color: yellowgreen !important;
+    color: white;
+}
+</style>
+                                <div class="position-relative" id="grupoId-reg">
+                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true"  required>
                                         {{#each gruposTodos as |item i|}}
-                                        <option value="{{id}}">
+                                        <option value="{{id}}" data-bs-iden="{{nombre}}">
                                             {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
                                         </option>
                                         {{/each}}
@@ -306,6 +312,7 @@
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
     let radio1 = document.getElementById('inlineRadio1'),
     radio2 = document.getElementById('inlineRadio2'),
@@ -439,4 +446,6 @@ $('#registrarAlumno').modal('show')
     exDni.addEventListener('keydown', e => {
         nacionalDni.value = exDni.value;
     });
+
+      
 </script>
