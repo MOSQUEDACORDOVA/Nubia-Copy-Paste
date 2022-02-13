@@ -141,13 +141,13 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  let groupColumn = 10;
+  let groupColumn = 11;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
-      $('input', this).on('keyup change', function () {
+      $('input', this).on('keyup', function () {
         console.log(this.id)
         let valor = this.value
 $('#filterPosition').val(this.id)
@@ -179,6 +179,7 @@ $('#filterValue').val(this.value)
         { data: 'deuda_anterior'},
         { data: 'status_pedido' },
         { data: 'status_pago' },
+        { data: 'metodo_pago' },
         { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
@@ -254,7 +255,7 @@ Env: ${Env}.</p>`
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { visible: false, targets: 11,
+        { visible: false, targets: 12,
           render: function (data, type, full) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -417,7 +418,7 @@ Env: ${Env}.</p>`
           }
         },
         {
-          targets: 8,className:'fecha_pedido',
+          targets: 9,className:'fecha_pedido',
           render:function(data, type, full){
             
            // return moment.tz(data, 'America/Mexico_City').format('L');
@@ -429,7 +430,7 @@ Env: ${Env}.</p>`
       ],
      
      
-      order: [[10,'asc'],[11,'asc']],
+      order: [[11,'asc'],[12,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -446,7 +447,7 @@ Env: ${Env}.</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="10"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="11"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
@@ -490,13 +491,13 @@ Env: ${Env}.</p>`
       });
   }
   if (dt_basic_table2.length) {
-  let groupColumn2 = 8
+  let groupColumn2 = 9
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="V'+title+i+'"/>');
 
-      $('input', this).on('keyup change', function () {
+      $('input', this).on('keyup', function () {
         $('#filterPosition').val(this.id)
         $('#filterValue').val(this.value)
         if (dt_basic2.column(i).search() !== this.value) {
@@ -521,6 +522,7 @@ Env: ${Env}.</p>`
         { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
+        { data: 'metodo_pago' },
         { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
@@ -558,7 +560,7 @@ Env: ${Env}.</p>`
           { visible: false, targets: groupColumn2,
            
           },
-          { visible: false, targets: 9,
+          { visible: false, targets: 10,
             render: function (data, type, full) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
@@ -704,7 +706,7 @@ Env: ${Env}.</p>`
             );
           }
         },{
-          targets: 6,
+          targets: 7,
           render:function(data){
            // return moment(data).format('L');
             return moment(data).format('L');
@@ -712,7 +714,7 @@ Env: ${Env}.</p>`
         },
       ],
      
-      order: [[8, 'asc'],[6, 'desc']],
+      order: [[9, 'asc'],[7, 'desc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -731,7 +733,7 @@ Env: ${Env}.</p>`
               $(rows)
                 .eq(i)
 
-                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
 
 
               last = group;
@@ -814,23 +816,24 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-        <tr>                                                
-            <th></th>
-            <th>Nº Pedido</th>
-            <th>Cliente</th>
-            <th>Total garrafones</th>
-            <th>Monto Total</th>
-            <th>Adeudo</th>
-            <th>Status del Pedido</th>
-            <th>Status de Pago</th>
-            <th>Fecha</th>
-            <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
-        <th>oculto etiqueta </th> 
-        </tr>
-    </thead>`);
+                                            <tr>                                                
+                                                <th></th>
+                                                <th>#Pedido</th>
+                                                <th class="cliente">Cliente</th>
+                                                <th>To. garr.</th>
+                                                <th>Monto Total</th>
+                                                <th>Adeudo</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Forma de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                                <th>oculto choferes </th> 
+                                                <th>oculto asentamiento </th> 
+                                            </tr>
+                                        </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -841,12 +844,13 @@ Env: ${Env}.</p>`
             <th>Monto Total</th>
             <th>Status del Pedido</th>
             <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
             
         
         <th>oculto choferes </th> 
-        <th>oculto etiqueta </th> 
+        <th>oculto asentamiento </th> 
         </tr>
     </thead>`);
         
@@ -919,23 +923,24 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-        <tr>                                                
-            <th></th>
-            <th>Nº Pedido</th>
-            <th>Cliente</th>
-            <th>Total garrafones</th>
-            <th>Monto Total</th>
-            <th>Adeudo</th>
-            <th>Status del Pedido</th>
-            <th>Status de Pago</th>
-            <th>Fecha</th>
-            <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
-        <th>oculto etiqueta </th> 
-        </tr>
-    </thead>`);
+                                            <tr>                                                
+                                                <th></th>
+                                                <th>#Pedido</th>
+                                                <th class="cliente">Cliente</th>
+                                                <th>To. garr.</th>
+                                                <th>Monto Total</th>
+                                                <th>Adeudo</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Forma de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                                <th>oculto choferes </th> 
+                                                <th>oculto asentamiento </th> 
+                                            </tr>
+                                        </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -946,12 +951,13 @@ Env: ${Env}.</p>`
             <th>Monto Total</th>
             <th>Status del Pedido</th>
             <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
             
         
         <th>oculto choferes </th> 
-        <th>oculto etiqueta </th> 
+        <th>oculto asentamiento </th> 
         </tr>
     </thead>`);
         
@@ -1139,19 +1145,20 @@ $.contextMenu({
    $('.datatables-basic').html(`<thead>
    <tr>                                                
        <th></th>
-       <th>Nº Pedido</th>
-       <th>Cliente</th>
-       <th>Total garrafones</th>
+       <th>#Pedido</th>
+       <th class="cliente">Cliente</th>
+       <th>To. garr.</th>
        <th>Monto Total</th>
        <th>Adeudo</th>
        <th>Status del Pedido</th>
        <th>Status de Pago</th>
+       <th>Forma de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
        
    
-   <th>oculto choferes </th> 
-   <th>oculto etiqueta </th> 
+       <th>oculto choferes </th> 
+       <th>oculto asentamiento </th> 
    </tr>
 </thead>`);
    
@@ -1165,14 +1172,15 @@ $.contextMenu({
        <th>Monto Total</th>
        <th>Status del Pedido</th>
        <th>Status de Pago</th>
+       <th>Metodo de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
        
    
    <th>oculto choferes </th> 
-   <th>oculto etiqueta </th> 
+   <th>oculto asentamiento </th> 
    </tr>
-   </thead>`);
+</thead>`);
    
    cargaTablas('si')
 
@@ -1412,12 +1420,13 @@ $('.datatables-basic2').html(`<thead>
     <th>Monto Total</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
+    <th>Metodo de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
     
 
 <th>oculto choferes </th> 
-<th>oculto etiqueta </th> 
+<th>oculto asentamiento </th> 
 </tr>
 </thead>`);
 
@@ -1518,12 +1527,13 @@ async function cambioPago(id, status) {
       <th>Monto Total</th>
       <th>Status del Pedido</th>
       <th>Status de Pago</th>
+      <th>Metodo de Pago</th>
       <th>Fecha</th>
       <th>Opciones</th>
       
   
   <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
+  <th>oculto asentamiento </th> 
   </tr>
 </thead>`);
   
