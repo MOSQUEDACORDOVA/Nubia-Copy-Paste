@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
+const maquilaControllerPY4 = require('../controllers/maquilaControllerPY4');
 const landingController = require('../controllers/landingController');
 const passport = require('passport');
 
@@ -192,7 +193,12 @@ router.post('/ad_tag_cliente', authControllerPY4.authenticatedUser,dashboardCont
 router.post('/change_zone_client', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_zona_client);
 router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_cupon);
 
+/** HERE INIT MAQUILA**/
+router.get('/maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_clientes_maquila);
 
+
+/* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/
 router.get('/login/:id', dashboardControllerPY21.login);

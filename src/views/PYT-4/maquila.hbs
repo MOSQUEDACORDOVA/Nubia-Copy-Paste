@@ -1,0 +1,275 @@
+<style>
+    .none {
+        display: none;
+    }
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #001871 !important;
+    }
+    .select2-selection__rendered {
+        color: #001871 !important;
+        font-weight: 500;
+    }
+    #home_modal .modal-dialog .list-group-item {
+        border: none;
+        border-bottom: 1px solid rgba(34, 41, 47, 0.125);
+    }
+    table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+    
+    @media(min-width: 768px) {
+        #home_modal .modal-dialog {
+           max-width: 600px; 
+        }
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
+<script>
+
+$(document).ready(function() {
+  
+    $('.odd').addClass('dt-head-center');
+     $('.even').addClass('dt-head-center'); 
+   
+
+    $('#btnpedidos').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#btnclientes').on('click', (e)=> {
+        Reset(2);
+    });
+
+    function Reset(num) {
+        $('#pedidostable').removeClass('show');
+        $('#pedidostable').addClass('collpase');
+
+        $('#clientes-table').removeClass('show');
+        $('#clientes-table').addClass('collpase');
+        
+        switch (num){
+            case 1:
+                $('#pedidostable').removeClass('collpase');
+                $('#pedidostable').addClass('show');
+            break;
+            case 2:
+                $('#clientes-table').removeClass('collpase');
+                $('#clientes-table').addClass('show');
+            break;
+        }
+    }
+});
+
+</script>
+{{#if msg}}
+<label id="msgs" hidden>{{msg}}</label>
+{{/if}}
+<input type="text" id="clientes_maquila" hidden value="{{clientes_maquila_st}}">
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
+
+<div class="app-content content py4">
+    <div class="content-wrapper container-xxxl p-0">
+        <div class="content-body">
+            <!-- CONTENIDO -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                        <div class="row">
+                        <span id="p1" class="d-none">ss</span>
+                        <div class="col-sm-12">
+                        </div>                       
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='clipboard' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Pedidos</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnclientes" type="button" data-bs-toggle="collapse" href="#clientes-table" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='users' class="feather feather-trending-up  avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Clientes</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card collapse show" id="pedidostable">
+                <div class="card-body">
+                    <h4 class="card-title">Pedidos</h4>
+                    <p class="card-text"> Todos los pedidos de la plataforma están acá, pronto podrás filtrarlos y
+                    modificarlos rápidamente.</p>
+                </div>
+                <section id="column-search-datatable">
+                    <div class="card-body">
+                        <form class="dt_adv_search" method="POST">
+                            <div class="row">
+                                <!--<div class="col-md-4">
+                                    <label class="form-label">City:</label>
+                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
+                                </div>-->
+                                <div class="col-md-4">
+                                    <label class="form-label">Fecha:</label>
+                                    <div class="mb-0 d-flex">
+                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                        <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
+                                        <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row m-0">
+                                <div class="col-12">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_chofer_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar choferes</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <option >{{name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_etiqueta_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar etiquetas</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each etiquetas_let as |etiqueta i|}}
+                                        <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic table dt-column-search" id="example">
+                                        <thead>
+                                            <tr>                                                
+                                                <th></th>
+                                                <th>#Pedido</th>
+                                                <th class="cliente">Cliente</th>
+                                                <th>To. garr.</th>
+                                                <th>Monto Total</th>
+                                                <th>Adeudo</th>
+                                                <th>Status del Pedido</th>
+                                                <th>Status de Pago</th>
+                                                <th>Forma de Pago</th>
+                                                <th>Fecha</th>
+                                                <th>Opciones</th>
+                                                
+                                            
+                                                <th>oculto choferes </th> 
+                                                <th>oculto asentamiento </th> 
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="row collapse" id="clientes-table">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Clientes</h4>
+                        </div>
+                        <div class="table-responsive">
+                            <div class="card">
+                                <table class="table-clientes-maquila table dt-column-search-clientes-maquila">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Nombre</th>
+                                            <th>Teléfono</th>
+                                            <th>Placa</th>
+                                            <th>Vehiculo</th>
+                                            <th>Opciones</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modales-->
+<div class="modal fade" id="add_cliente-maquila" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente Maquila</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-cliente"></button>
+            </div>
+            <div class="modal-body">
+                <form class="" action="#" method="post" id="reg-cliente-maquila-form">
+                    <div class="form-group"><label for="name-maquila" class="form-label">Nombre</label>
+                        <input type="text" name="name" placeholder="Nombre completo" autofocus="" class="form-control mb-2" id="name-maquila" required>
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="tlf-maquila" class="form-label">Teléfono</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                            </div>
+                            <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00" class="form-control" id="tlf-maquila" required >
+                        </div>
+                    </div>
+                    <div class="form-group"><label for="vehiculo-maquila" class="form-label">Vehículo</label>
+                        <input type="text" name="vehiculo" placeholder="Vehiculo" autofocus="" class="form-control mb-2" id="vehiculo-maquila" required>
+                    </div>
+                    <div class="form-group"><label for="placa-maquila" class="form-label">Placa</label>
+                        <input type="text" name="placa" placeholder="Placa" autofocus="" class="form-control mb-2" id="placa-maquila" required>
+                    </div>
+                    <div class="form-group d-none"><label for="register-email" class="form-label">Correo</label><input
+                            type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email"
+                            tabindex="25" class="form-control mb-2"></div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" type="button" class="btn btn-primary btn-block waves-effect waves-float waves-light btnreg-client-maquila">Regístrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

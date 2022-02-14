@@ -25,35 +25,12 @@
     }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
-<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
-<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 <script>
 
 $(document).ready(function() {
-    $('#home_modal .modal-dialog').mouseleave(function(e) {
-        $('#home_modal').removeClass('show');
-        $('#home_modal').addClass('fade');
-        $('#home_modal .btn-close').click();
-    });
-
-    $('#modal_detail_garrafones .modal-dialog').mouseleave(function(e) {
-        $('#modal_detail_garrafones').removeClass('show');
-        $('#modal_detail_garrafones').addClass('fade');
-        $('#modal_detail_garrafones .btn-close').click();
-    });
-
-    $('#detail_monto .modal-dialog').mouseleave(function(e) {
-        $('#detail_monto').removeClass('show');
-        $('#detail_monto').addClass('fade');
-        $('#detail_monto .btn-close').click();
-    });
-
-    /*$('#edit_pedido .modal-dialog').mouseleave(function(e) {
-        $('#edit_pedido').removeClass('show');
-        $('#edit_pedido').addClass('fade');
-        $('#edit_pedido .btn-close').click();
-    });*/
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
@@ -122,7 +99,6 @@ $(document).ready(function() {
 <input type="text" id="carga_" hidden value="{{carga_}}">
 <input id="filterPosition" type="text" hidden>
 <input id="filterValue" type="text" hidden>
-
 <div class="app-content content py4">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
@@ -192,7 +168,6 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-
             <div class="card collapse show" id="pedidostable">
                 <div class="card-body">
                     <h4 class="card-title">Pedidos</h4>
@@ -203,14 +178,9 @@ $(document).ready(function() {
                     <div class="card-body">
                         <form class="dt_adv_search" method="POST">
                             <div class="row">
-                                <!--<div class="col-md-4">
-                                    <label class="form-label">City:</label>
-                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                                </div>-->
                                 <div class="col-md-4">
                                     <label class="form-label">Fecha:</label>
                                     <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                         <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
                                         <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
                                     </div>
@@ -271,8 +241,6 @@ $(document).ready(function() {
                                                 <th>Forma de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                
-                                            
                                                 <th>oculto choferes </th> 
                                                 <th>oculto asentamiento </th> 
                                             </tr>
@@ -295,9 +263,8 @@ $(document).ready(function() {
                             <div class="col-md-6 col-lg-4">
                                 <p class="m-0">Cambiar fecha de corte (prestados):</p>
                                 <div class="my-1 d-flex">
-                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
-                                    <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
+                                    
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-4">
@@ -333,14 +300,9 @@ $(document).ready(function() {
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
                         <div class="row">
-                            <!--<div class="col-md-4">
-                                <label class="form-label">City:</label>
-                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                            </div>-->
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
-                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
                                     <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
                                 </div>
@@ -354,8 +316,7 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                       <select class="select2 form-select select_chofer_ventas">
+                                         <select class="select2 form-select select_chofer_ventas">
                                            <option value="">Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
                                            <option >{{name}}</option>
@@ -387,9 +348,7 @@ $(document).ready(function() {
                                                 <th>Metodo de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                
-                                            
-                                            <th>oculto choferes </th> 
+                                                <th>oculto choferes </th> 
                                             <th>oculto asentamiento </th> 
                                             </tr>
                                         </thead>
@@ -404,20 +363,13 @@ $(document).ready(function() {
             <div class="card collapse" id="resumenTable">
                 <div class="card-body">
                     <h4 class="card-title">Resumen</h4>
-                    {{!-- <p class="card-text">Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
-                    modificarlos rápidamente.</p> --}}
                 </div>
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
                         <div class="row">
-                            <!--<div class="col-md-4">
-                                <label class="form-label">City:</label>
-                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                            </div>-->
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
-                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_resumen"/>
                                     <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_resumen"/>
                                 </div>
@@ -431,7 +383,6 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                        <select class="select2 form-select select_chofer_ventas">
                                            <option value="">Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
@@ -483,54 +434,6 @@ $(document).ready(function() {
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" id='corte_modalBody'>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="home_modal" tabindex="-1" aria-labelledby="home_modal"
-            style="display: none;" aria-hidden="home_modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="home_modalTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnModalHome" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='home_modalBody'>
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
-            style="display: none;" aria-hidden="modal_detail_garrafones">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="modal_detail_garrafonesTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='modal_detail_garrafonesBody'>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="modal fade" id="detail_monto" tabindex="-1" aria-labelledby="detail_monto"
-            style="display: none;" aria-hidden="detail_monto">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="detail_monto_title"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='detail_monto_body'>
                         
                         </div>
                         <div class="modal-footer">
@@ -936,6 +839,3 @@ $(document).ready(function() {
         </div>
       </div>
     </div>
-<script>
-   
-</script>

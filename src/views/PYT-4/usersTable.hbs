@@ -18,16 +18,7 @@
       <section id="basic-datatable">
         <div class="row">
           <div class="scrolling-inside-modal">
-
-            <!-- Button trigger modal -->
-            {{!-- <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
-              data-bs-target="#exampleModalScrollable">
-              Agregar Cliente
-            </button> --}}
-
-
-
-          </div>
+                      </div>
           <div class="col-12">
               <div class="card">
 
@@ -56,9 +47,7 @@
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
 
                 </div>
-                <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
-
-              <section id="basic-datatable">
+               <section id="basic-datatable">
                       <div class="row">
                           <div class="col-12">
                             <div class="table-responsive">
@@ -163,68 +152,7 @@
 
             </div>
           </main>
-          <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaxdYMH4POsU0qYQSoAUEigIb4bKZ0sAE"></script>
-<script>
-    var markers = [
-        ['Brooklyn Museum, NY', 40.671531, -73.963588],
-        ['Brooklyn Public Library, NY', 40.672587, -73.968146],
-        ['Prospect Park Zoo, NY', 40.665588, -73.965336]
-    ];
-        var vMarker
-        var map
-         var bounds = new google.maps.LatLngBounds();
-           var mapOptions = {
-        mapTypeId: 'roadmap'
-    };
-         /*   map = new google.maps.Map(document.getElementById('map_canvas'), {
-                zoom: 14,
-                center: new google.maps.LatLng(19.4326296, -99.1331785),
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            });
-            vMarker = new google.maps.Marker({
-                position: new google.maps.LatLng(19.4326296, -99.1331785),
-                draggable: true
-            });*/
-              for( i = 0; i < markers.length; i++ ) {
-        var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
-        bounds.extend(position);
-        marker = new google.maps.Marker({
-            position: position,
-            map: map,
-            title: markers[i][0]
-        });
-              }
-            google.maps.event.addListener(vMarker, 'dragend', function (evt) {
-                $("#txtLat").val(evt.latLng.lat().toFixed(6));
-                $("#txtLng").val(evt.latLng.lng().toFixed(6));
 
-                map.panTo(evt.latLng);
-            });
-            map.setCenter(vMarker.position);
-            vMarker.setMap(map);
-
-            $("#txtCiudad, #txtEstado, #txtDireccion").change(function () {
-                movePin();
-            });
-
-            function movePin() {
-            var geocoder = new google.maps.Geocoder();
-            var textSelectM = $("#txtCiudad").text();
-            var textSelectE = $("#txtEstado").val();
-            var inputAddress = $("#txtDireccion").val() + ' ' + textSelectM + ' ' + textSelectE;
-            geocoder.geocode({
-                "address": inputAddress
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    vMarker.setPosition(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
-                    map.panTo(new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng()));
-                    $("#txtLat").val(results[0].geometry.location.lat());
-                    $("#txtLng").val(results[0].geometry.location.lng());
-                }
-
-            });
-        }
-        </script>
                         </div>
         </div>
       </section>
