@@ -20,6 +20,11 @@ const Recargas = require("../../models/PYT4/Recargas");
 const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
 
+//**FOR MAQUILA */
+const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
+const Pedidos_maquila = require("../../models/PYT4/Pedidos_maquila");
+
+
 module.exports = {
   //USUARIO
   RegUser(tipo, nombre, email, password, zona) {
@@ -2207,4 +2212,60 @@ clienteId:id_cliente
       });
     },
 
+
+
+
+          //***ALL MAQUILA HERE */
+//**CLIENTES MAQUILA */
+ //CLIENTE
+Reg_cliente_maquila(name,phone,placa,vehiculo) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findOrCreate({
+      where: { phone:phone, placa: placa },
+      defaults: {name: name,phone: phone,placa: placa,vehiculo: vehiculo}
+    }).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Edit_cliente_maquila(name,phone,placa,vehiculo, id) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.update({name: name,phone: phone,placa: placa,vehiculo: vehiculo},{where: { id:id },
+    }).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Todos_cliente_maquila() {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findAll().then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Cliente_maquila_byID(id) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findOne({where:{id:id}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
 };

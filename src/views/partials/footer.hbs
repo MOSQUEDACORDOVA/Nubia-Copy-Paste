@@ -16,81 +16,27 @@
 
     <!-- BEGIN: Vendor JS-->
     <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-    <!-- BEGIN Vendor JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-    <!-- END: Page Vendor JS-->
-
-    <!-- BEGIN: Theme JS-->
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <!-- END: Theme JS-->
-
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-    <!-- END: Page Vendor JS-->
   
-   
-  
-     <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
-
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
-
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
-
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-    <!-- END: Page JS-->
  <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
 <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
     {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
     <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
 
-    {{#if py21}}
-        <script src="../../../assets/js/scripts.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-    {{/if}}
 {{#if py4}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
-    <!-- END: Page Vendor JS-->
     <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
- <!-- BEGIN: Page JS-->
     <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
-
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
-    
-    <!-- BEGIN: Page Vendor JS-->
      <script src="../../../app-assets/vendors/js/extensions/jquery.contextMenu.min.js"></script>
     <script src="../../../app-assets/vendors/js/extensions/jquery.ui.position.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
     <script src="../../../app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
-    <!-- END: Page Vendor JS-->
-    
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>
-
-    
+    <script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>   
    
     <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
@@ -98,16 +44,16 @@
     <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/jszip.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/pdfmake.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/vfs_fonts.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
     <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
     <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+
+   {{#if maquila}}
+    <script src="../../../dataPY4/datatable-clientes_maquila.js"></script>
+    {{/if}}
 
      {{#if disabled_chofer}}
     {{else}}
@@ -167,10 +113,12 @@
     {{/if}}
     {{#if users1}}
     <!-- END: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
     <script src="../../../dataPY4/table-datatables-basic.js"></script>  
         <script src="../../../dataPY4/table-datatables-etiquetas.js"></script>
-        <script src="../../../app-assets/vendors/js/maps/leaflet.min.js"></script>
-<script src="../../../dataPY4/map-leaflet.js"></script>
+        
+        {{!-- <script src="../../../app-assets/vendors/js/maps/leaflet.min.js"></script>
+<script src="../../../dataPY4/map-leaflet.js"></script> --}}
     
     <!-- END: Page JS-->
         {{/if}}
@@ -183,22 +131,63 @@
     <!-- END: Page JS-->
     {{/if}}
     {{#if dash}}
-     <!-- BEGIN: Page JS-->
-    <!-- END: Page Vendor JS-->
-      
-    <!-- END: Page JS-->
     {{/if}}
     {{#if sucursales}}
         <script src="../../../dataPY4/table-datatables-sucursales.js"></script>
     {{/if}}
-    <script src="../../../assets/js/datarepit.js"></script>
+    {{!-- <script src="../../../assets/js/datarepit.js"></script> --}}
     <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script>
+    {{!-- <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script> --}}
     <!-- END: Page JS-->  
     {{/if}}
 
+    {{#if py21}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+        <script src="../../../assets/js/scripts.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+    {{/if}}
 
     {{#if py24}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
@@ -219,6 +208,25 @@
         <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
     {{/if}}
     {{#if py27}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
         <script src="../../../assets/js/scripts.js"></script>
         <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
@@ -233,6 +241,25 @@
         <!-- END: Page Vendor JS-->
     {{/if}}
     {{#if pasarela}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
         <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
         <script src="../../../assets/js/scripts.js"></script>
         <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
@@ -245,7 +272,25 @@
         <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
         <!-- END: Page Vendor JS-->
     {{/if}}
-    {{#if py672}}
+    {{#if py672}}    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
         <script src="../../../app-assets/js/scripts/pages/auth-register.js"></script>
         <script src="../../../app-assets/vendors/js/extensions/jquery.rateyo.min.js"></script>
         <script src="../../../app-assets/js/scripts/extensions/ext-component-ratings.js"></script>
@@ -350,11 +395,7 @@
   $('.select2').on('select2:open', function(e) {
      console.log(e); 
     var data = e.params.data;
-    console.log(data);
-    //$(".select2-selection").removeClass("defaultColor blueColor blueColor");
-   // CheckValues(data.element.value)
-    
-  });
+    console.log(data);});
         })
 
     </script>
