@@ -14,7 +14,17 @@ $(function () {
     let enNew_garrafon_mont = $('#count_enNew_garrafon').val()
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_canje_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
+
+
     let monto = parseInt(cant) * 35
+
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
+
     $('#refill_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -40,6 +50,13 @@ $(function () {
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
     let monto = parseInt(cant) * 55
+
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#canje_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -64,6 +81,12 @@ $(function () {
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(count_canje_garrafon) + parseInt(count_enobsequio_garrafon)
     let monto = parseInt(cant) * 105
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -102,6 +125,12 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_canje_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 35
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#refill_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -127,6 +156,12 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 55
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#canje_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -151,6 +186,12 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(count_canje_botella) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 105
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -189,6 +230,12 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_canje_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 35
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#refill_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -214,6 +261,12 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 55
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#canje_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -238,6 +291,12 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(count_canje_garrafon11l) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 105
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -262,7 +321,15 @@ $(function () {
     let count_canje_garrafon11l = $('#count_canje_garrafon11l').val()
     let count_enNew_garrafon11l = $('#count_enNew_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(count_canje_garrafon11l) + parseInt(count_enNew_garrafon11l)
+
     let monto = parseInt(cant) * 105
+    
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -300,6 +367,12 @@ $(function () {
     let count_enobsequio_botella5l = $('#count_enobsequio_botella5l').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(enNew_botella5l_mont) + parseInt(count_enobsequio_botella5l)
     let monto = parseInt(cant) * 55
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#canje_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -325,6 +398,12 @@ $(function () {
 
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enobsequio_botella5l)
     let monto = parseInt(cant) * 105
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -351,6 +430,12 @@ $(function () {
     let count_enNew_botella5l = $('#count_enNew_botella5l').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enNew_botella5l)
     let monto = parseInt(cant) * 105
+    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+      monto = parseInt(cant) * 30
+    }
+    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
+      monto = parseInt(cant) * 28
+    }
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -364,7 +449,7 @@ $(function () {
     let id_ = e.target.value
     console.log(id_)
     var found = array.find(element => element.id == id_);
-
+$('#tipo_c_pedido').val(found.tipo)
     $('#nombre_c_pedido').val(found.firstName)
     $('#apellido_c_pedido').val(found.lastName)
     $('#cp_select_pedido').val(found.estado)
