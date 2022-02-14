@@ -179,7 +179,7 @@ $('.btnreg-client-maquila').on('click', async (e)=>{
       console.log($('#filterValue').val())
      $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
    }
-   $('#reg-cliente-maquila-form').reset()
+   $('#reg-cliente-maquila-form')[0].reset()
     $('.modal').modal('hide');
     Swal.fire('Se guardo con éxito la información del cliente maquila')
         },
