@@ -1514,10 +1514,15 @@ console.log(matricula)
 };
 
 exports.guarda_pago = async(req, res) => {
+  console.log(req.body)
   var {id_alumno, concepto,fecha_pago, monto, mora, observacion} = req.body
-
-  const save_pago = await DataBase.guardar_caja(concepto,fecha_pago, monto, mora, observacion,id_alumno)
+  
+for (let i = 0; i < concepto.length; i++) {
+    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago[i], monto[i], mora[i], observacion[i],id_alumno)
   console.log(save_pago)
+  
+}
+
   return res.send({response:'Se guardo bien'})
 };
 

@@ -322,7 +322,7 @@
                                             <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
                                         </li>
                                     </ul>
-                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-pago">
+                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-modal">
                                         Guardar Pago
                                     </button>
                                 </div>
@@ -454,7 +454,7 @@
 						<div class="col-12">
 							<div class="card">
 								<div class="table-responsive">
-									<table class="table">
+									<table class="table" id="table-pagos">
 										<thead>
 											<tr>
 												<th>Concepto</th>
@@ -464,30 +464,8 @@
 												<th>Accion</th>
 											</tr>
 										</thead>
-										<tbody>
-											<tr>
-												<td>
-													<span class="fw-bold">Mensualidad</span>
-												</td>
-												<td>Febrero 2022</td>
-												<td>
-													14-02-2021
-												</td>
-												<td>17,000</td>
-												<td>
-													<a class="item" href="#">
-														<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-															fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-															stroke-linejoin="round" class="feather feather-trash me-50">
-															<polyline points="3 6 5 6 21 6"></polyline>
-															<path
-																d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-															</path>
-														</svg>
-														<span>Eliminar</span>
-													</a>
-												</td>
-											</tr>
+										<tbody id="body-table-pago"><!--SE CARGARA DINAMICAMENTE -->
+
 										</tbody>
 									</table>
 								</div>
@@ -498,7 +476,7 @@
 			</div>
                             
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-dismiss="modal">Guardar</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="btn-guardar-pago">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -510,11 +488,5 @@
 </div>
 
 <form id="form-reg-pago" hidden>
-    <input type="text" name="id_alumno" id="id-alumno-form">
-    <input type="text" name="concepto" id="concepto-form">
-    <input type="text" name="fecha_pago" id="fecha_pago-form">
-    <input type="text" name="monto" id="monto-form">
-    <input type="text" name="mora" id="mora-form">
-    <input type="text" name="observacion" id="observacion-form">
 
 </form>
