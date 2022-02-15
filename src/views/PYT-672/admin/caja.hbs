@@ -375,128 +375,134 @@
                                 <h1 class="mb-1">Agregar Pagos</h1>
                             </div>
 
-							<div class="col-12">
-				<div class="card">
-					<div class="card-header d-flex justify-content-start">
-						<h4 class="card-title me-2">Pagos</h4>
-						<div class="">
-							<button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button"
-								data-repeater-create="">
-								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-									stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-									class="feather feather-plus me-25">
-									<line x1="12" y1="5" x2="12" y2="19"></line>
-									<line x1="5" y1="12" x2="19" y2="12"></line>
-								</svg>
-								<span>Agregar Pago</span>
-							</button>
-						</div>
-					</div>
-					<div class="card-body">
-						<form action="#" class="invoice-repeater">
-							<div data-repeater-list="invoice">
-								<div data-repeater-item="">
-									<div class="row d-flex align-items-end">
-										<div class="col-md-4 col-12">
-											<div class="mb-1">
-												<label class="form-label" for="itemname">Nombre del Pago</label>
-												<input type="text" class="form-control" id="itemname" aria-describedby="itemname"
-													placeholder="">
-											</div>
-										</div>
-			
-										<div class="col-md-2 col-12">
-											<div class="mb-1">
-												<label class="form-label" for="itemcost">Año</label>
-												<input type="number" class="form-control" id="itemcost" aria-describedby="itemcost"
-													placeholder="Año">
-											</div>
-										</div>
-			
-										<div class="col-md-2 col-12">
-											<div class="mb-1">
-												<label class="form-label" for="itemquantity">N° Orden</label>
-												<input type="number" class="form-control" id="itemquantity"
-													aria-describedby="itemquantity" placeholder="000000">
-											</div>
-										</div>
-			
-										<div class="col-md-2 col-12">
-											<div class="mb-1">
-												<label class="form-label" for="itemquantity">Precio</label>
-												<input type="number" class="form-control" id="itemquantity"
-													aria-describedby="precio" placeholder="0.00">
-											</div>
-										</div>
-			
-										<div class="col-md-2 col-12 mb-50">
-											<div class="mb-1">
-												<button class="btn btn-outline-danger text-nowrap px-1 waves-effect"
-													data-repeater-delete="" type="button">
-													<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-														viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-														stroke-linecap="round" stroke-linejoin="round"
-														class="feather feather-x me-25">
-														<line x1="18" y1="6" x2="6" y2="18"></line>
-														<line x1="6" y1="6" x2="18" y2="18"></line>
-													</svg>
-													<span>Eliminar</span>
-												</button>
-											</div>
-										</div>
-									</div>
-									<hr>
-								</div>
-							</div>
-						</form>
-					</div>
-					<div class="row" id="basic-table">
-						<div class="col-12">
-							<div class="card">
-								<div class="table-responsive">
-									<table class="table">
-										<thead>
-											<tr>
-												<th>Concepto</th>
-												<th>Mes</th>
-												<th>Fecha de Pago</th>
-												<th>Monto</th>
-												<th>Accion</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>
-													<span class="fw-bold">Mensualidad</span>
-												</td>
-												<td>Febrero 2022</td>
-												<td>
-													14-02-2021
-												</td>
-												<td>17,000</td>
-												<td>
-													<a class="item" href="#">
-														<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-															fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-															stroke-linejoin="round" class="feather feather-trash me-50">
-															<polyline points="3 6 5 6 21 6"></polyline>
-															<path
-																d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-															</path>
-														</svg>
-														<span>Eliminar</span>
-													</a>
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-start">
+                                        <h4 class="card-title me-2">Pagos</h4>
+                                        <div class="">
+                                            <button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button"
+                                                data-repeater-create="">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-plus me-25">
+                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                </svg>
+                                                <span>Agregar Pago</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <form action="#" class="invoice-repeater">
+                                            <div data-repeater-list="invoice">
+                                                <div data-repeater-item="">
+                                                    <div class="row d-flex align-items-end">
+                                                        <div class="col-md-4 col-12">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemname">Mes</label>
+																<select class="form-select">
+																	<option>Seleccione</option>
+																	<option>Enero</option>
+																	<option>Febrero</option>
+																	<option>Marzo</option>
+																	<option>Abril</option>
+																	<option>Mayo</option>
+																	<option>Junio</option>
+																	<option>Julio</option>
+																	<option>Agosto</option>
+																	<option>Septiembre</option>
+																	<option>Octubre</option>
+																	<option>Noviembre</option>
+																	<option>Diciembre</option>
+																</select>
+                                                            </div>
+                                                        </div>
                             
+                                                        <div class="col-md-2 col-12">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemcost">Año</label>
+                                                                <input type="number" class="form-control" id="itemcost" aria-describedby="itemcost"
+                                                                    placeholder="Año">
+                                                            </div>
+                                                        </div>
+                            
+                                                        
+                            
+                                                        <div class="col-md-4 col-12">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">Precio</label>
+                                                                <input type="text" class="form-control" id="itemPrice"
+                                                                    aria-describedby="precio" readonly value="₡ 10,000">
+                                                            </div>
+                                                        </div>
+                            
+                                                        <div class="col-md-2 col-12">
+                                                            <div class="mb-1">
+                                                                <button class="btn btn-outline-danger text-nowrap px-1 waves-effect"
+                                                                    data-repeater-delete="" type="button">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                        stroke-linecap="round" stroke-linejoin="round"
+                                                                        class="feather feather-x">
+                                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                                    </svg>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <hr>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row" id="basic-table">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Concepto</th>
+                                                                <th>Mes</th>
+                                                                <th>Fecha de Pago</th>
+                                                                <th>Monto</th>
+                                                                <th>Accion</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class="fw-bold">Mensualidad</span>
+                                                                </td>
+                                                                <td>Febrero 2022</td>
+                                                                <td>
+                                                                    14-02-2021
+                                                                </td>
+                                                                <td>₡ 17,000</td>
+                                                                <td>
+                                                                    <a class="item" href="#">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                                            class="feather feather-trash me-50">
+                                                                            <polyline points="3 6 5 6 21 6"></polyline>
+                                                                            <path
+                                                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                                                            </path>
+                                                                        </svg>
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+	
                             <div class="d-flex justify-content-end">
                                 <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-dismiss="modal">Guardar</button>
                             </div>
