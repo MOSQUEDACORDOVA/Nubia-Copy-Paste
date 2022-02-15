@@ -1298,22 +1298,51 @@ tablaGrupos.forEach(tabla => {
 
 let hoy = moment()
 $('.fecha-inicio').on('change',(e)=>{
-    let dia = ($('.horario').val()).split(':')
+    var dia,dia_fechaSelect,fecha_anterior,fecha_h
+                
+    if($('#customOptionsCheckableRadios1').is(':checked')){
+    dia = ($('#horario-cero').val()).split(':')
+    }
+    if($('#customOptionsCheckableRadios2').is(':checked')){
+       dia = ($('#horario-intensivo').val()).split(':')  
+       console.log(dia)
+       dia = dia[0].toString()
+       dia = dia.split('y')  
+       console.log(dia) 
+    }
+    if($('#customOptionsCheckableRadios3').is(':checked')){
+       dia = ($('#horario-kids').val()).split(':')  
+       console.log(dia)
+    }
+
     
-    let dia_fechaSelect = moment(e.target.value,'DD-MM-YYYY').locale('es').format('dddd')
+    dia_fechaSelect = moment(e.target.value,'DD-MM-YYYY').locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].toLowerCase())
+    console.log(dia[0].trim().toLowerCase())    
     console.log(dia_fechaSelect)
 
-	let fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
-			if (dia_fechaSelect != dia[0].toLowerCase()) {
+	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
+    if($('#customOptionsCheckableRadios2').is(':checked')){
+        console.log(dia[1].trim().toLowerCase())
+        if (dia_fechaSelect == dia[0].trim().toLowerCase() || dia_fechaSelect == dia[1].trim().toLowerCase()) {
+                return
+        }else {
+            swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
+                            $('#date').val('')
+                return
+        }
+
+     }else{
+         if (dia_fechaSelect != dia[0].trim().toLowerCase()) {
                 swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
-								$('.fecha-inicio').val('')
+								$('#date').val('')
 					return
             }
+     }
+			
 				if (fecha_anterior == true){
 					swal.fire('Debe seleccionar una fecha superior a la actual.')		
-								$('.fecha-inicio').val('')
+								$('#date').val('')
 					return
 				}
 })
