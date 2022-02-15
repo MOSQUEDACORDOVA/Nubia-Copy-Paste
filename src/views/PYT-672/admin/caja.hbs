@@ -6,6 +6,7 @@
         margin-bottom: 0.5rem !important;
     }
 </style>
+<input type="text" value="{{matricula_st}}" id="matricula_st">
 <div class="app-content content ecommerce-application py672">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
@@ -34,21 +35,20 @@
                             <!-- FILTRO -->
                             <div class="col-12 col-lg-7">
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
-                                <select class="select2 form-select alumno" tabindex="-1" name="alumno"
+                                <select class="select2 form-select alumno-select" tabindex="-1" name="alumno"
                                     aria-hidden="true" required>
-                                    <!-- 
-                                    {{#each gruposTodos as |item i|}}
+                                    <option value="" selected>Escriba el nombre de un alumno!</option>
+                                    {{#each matricula as |item i|}}
                                     <option value="{{id}}">
-                                        {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                                        {{nombre}}
                                     </option>
                                     {{/each}}
-                                    -->
-                                    <option value="" selected>Escriba el nombre de un alumno!</option>
-                                    <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
+                                    
+                                    {{!-- <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
                                     <option value="Rai Torcat"> Rai Torcat</option>
                                     <option value="Patricio Calderon"> Patricio Calderon</option>
                                     <option value="Boris Melgarejo"> Boris Melgarejo</option>
-                                    <option value="Jose Arzolay"> Jose Arzolay</option>
+                                    <option value="Jose Arzolay"> Jose Arzolay</option> --}}
                                 </select>
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-traslado">
                                             <span class="text-truncate">Habilitar</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -261,23 +261,23 @@
                 <div class="checkout-options col-12 col-lg-5">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Isaac Mosqueda</h5>
+                            <h5 class="card-title" id="nombre-alumno"> </h5>
                             <div class="price-details">
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Grupo:</b> </div>
+                                        <div class="detail-title"><b>Grupo:</b> <span id="grupo-alumno"></span> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Horario:</b> </div>
+                                        <div class="detail-title"><b>Horario:</b> <span id="horario-alumno"></span> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Profesor:</b> </div>
+                                        <div class="detail-title"><b>Profesor:</b> <span id="profesor-alumno"></span> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Telefonos:</b> </div>
+                                        <div class="detail-title"><b>Telefonos:</b> <span id="telefonos-alumno"></span> </div>
                                     </li>
                                     <li class="price-detail">
-                                        <div class="detail-title"><b>Fecha de Pago:</b> </div>
+                                        <div class="detail-title"><b>Fecha de Pago:</b> <span id="fecha-pago-alumno"></span> </div>
                                     </li>
                                 </ul>
                             </div>
@@ -294,11 +294,11 @@
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
                                         <div class="detail-title">Pago Mensual</div>
-                                        <div class="detail-amt">₡ 17,000</div>
+                                        <div class="detail-amt">₡ <span id="pago-mensual-detail"></span></div>
                                     </li>
                                     <li class="price-detail">
                                         <div class="detail-title">Cuota pago atrasado</div>
-                                        <div class="detail-amt discount-amt text-danger">₡ 1,000</div>
+                                        <div class="detail-amt discount-amt text-danger">₡ <span id="mora-pago-detail"></span></div>
                                     </li>
 
                                 </ul>
@@ -306,23 +306,23 @@
 
                                 <div class="price-details">
                                     <h6 class="price-title">Detalles de Servicios</h6>
-                                    <ul class="list-unstyled">
-                                        <li class="price-detail">
+                                    <ul class="list-unstyled" id="detalle-servicios">
+                                        {{!-- <li class="price-detail">
                                             <div class="detail-title text-danger">Servicio</div>
                                         </li>
                                         <li class="price-detail">
                                             <div class="detail-title">Servicio</div>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                     <hr>
 
                                     <ul class="list-unstyled">
                                         <li class="price-detail">
                                             <div class="detail-title detail-total">Total</div>
-                                            <div class="detail-amt fw-bolder">₡ 18,000</div>
+                                            <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
                                         </li>
                                     </ul>
-                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light">
+                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-pago">
                                         Guardar Pago
                                     </button>
                                 </div>
@@ -351,67 +351,11 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <ul class="timeline ms-50">
-                                    
-                                    <li class="timeline-item">
-                                        <span class="timeline-point timeline-point-indicator"></span>
-                                        <div class="timeline-event">
-                                            <div class="d-flex justify-content-between">
-                                                <h6>Reposicion de Examen</h6>
-                                                <p class="mb-tl">24-12-2020</p>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-tl"><strong> Grupo:</strong> <span>C22105-1</span></p>
-                                                <h6 class="more-info mb-0">₡ 10,000</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="timeline-item">
-                                        <span class="timeline-point timeline-point-indicator"></span>
-                                        <div class="timeline-event">
-                                            <div class="d-flex justify-content-between">
-                                                <h6>Traslado</h6>
-                                                <p class="mb-tl">24-11-2020</p>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-tl"><strong> Grupo:</strong> <span>C22105-1</span></p>
-                                                <h6 class="more-info mb-0">₡ 5,000</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="timeline-item">
-                                        <span class="timeline-point timeline-point-indicator"></span>
-                                        <div class="timeline-event">
-                                            <div class="d-flex justify-content-between">
-                                                <h6>Constancia</h6>
-                                                <p class="mb-tl">12-10-2020</p>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-tl"><strong> Grupo:</strong> <span>C22105-1</span></p>
-                                                <h6 class="more-info mb-0">₡ 5,000</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-
-                                    <li class="timeline-item">
-                                        <span class="timeline-point timeline-point-indicator"></span>
-                                        <div class="timeline-event">
-                                            <div class="d-flex justify-content-between">
-                                                <h6>Mensualidad</h6>
-                                                <p class="mb-tl">15-09-2020</p>
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-tl"><strong> Grupo:</strong> <span>C22105-1</span></p>
-                                                <h6 class="more-info mb-0">₡ 17,000</h6>
-                                            </div>
-                                        </div>
-                                    </li>
-
+                                <ul class="timeline ms-50" id="historial-list"><!--ESTO SE ESTA CARGANDO DINAMICAMENTE -->
+                                
                                 </ul>
 
-                                <a class="btn btn-primary w-100 mb-75 waves-effect mt-2" href="./app-invoice-print.html" target="_blank"> Descargar </a>
+                                {{!-- <a class="btn btn-primary w-100 mb-75 waves-effect mt-2" href="./app-invoice-print.html" target="_blank"> Descargar </a> --}}
                             </div>
                         </div>
                     </div>
@@ -565,9 +509,12 @@
     </div>
 </div>
 
+<form id="form-reg-pago" hidden>
+    <input type="text" name="id_alumno" id="id-alumno-form">
+    <input type="text" name="concepto" id="concepto-form">
+    <input type="text" name="fecha_pago" id="fecha_pago-form">
+    <input type="text" name="monto" id="monto-form">
+    <input type="text" name="mora" id="mora-form">
+    <input type="text" name="observacion" id="observacion-form">
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-
-</script>
+</form>

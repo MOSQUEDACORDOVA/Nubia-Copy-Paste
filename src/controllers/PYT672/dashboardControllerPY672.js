@@ -1484,32 +1484,49 @@ exports.historial = (req, res) => {
 };
 
 // * MODULO CAJA
-exports.caja = (req, res) => {
+exports.caja = async(req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-
+var matricula = JSON.parse(await DataBase.GruposYMatriculas())
+console.log(matricula)
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
     //console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
-    
+    let matricula_st = JSON.stringify(matricula)
     res.render(proyecto+"/admin/caja", {
       pageName: "Academia Americana - Caja",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       caja: true,
-      gruposTodos,
+      gruposTodos,matricula,matricula_st
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+};
+
+exports.guarda_pago = async(req, res) => {
+  var {id_alumno, concepto,fecha_pago, monto, mora, observacion} = req.body
+
+  const save_pago = await DataBase.guardar_caja(concepto,fecha_pago, monto, mora, observacion,id_alumno)
+  console.log(save_pago)
+  return res.send({response:'Se guardo bien'})
+};
+
+exports.historial_caja = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_historia = JSON.parse(await DataBase.historial_caja(id_alumno))
+  console.log(obtener_historia)
+  return res.send({obtener_historia})
 };
 
 // * MODULO USUARIOS

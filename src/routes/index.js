@@ -570,6 +570,11 @@ router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0)
 router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
 router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
 
+
+//** ADMIN CAJA */
+router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
+router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
+
 // TODO: USUARIOS
 router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.boardUser);
 
