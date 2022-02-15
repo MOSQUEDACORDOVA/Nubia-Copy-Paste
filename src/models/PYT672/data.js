@@ -9,7 +9,7 @@ const Provincias = require("../../models/PYT672/Provincias");
 const Canton = require("../../models/PYT672/Canton");
 const Distritos = require("../../models/PYT672/Distritos");
 const Usuarios = require("../../models/PYT672/Usuarios");
-
+const Caja = require("../../models/PYT672/Caja");
 module.exports = {
     // * REGISTRO DE USUARIOS
     RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password) {
@@ -800,4 +800,31 @@ module.exports = {
         });
       });
     },
+
+
+/** TODO CAJA */    
+guardar_caja(concepto,fecha_pago,monto,mora,observacion, id_alumno) {
+  return new Promise((resolve, reject) => {
+    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion, matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+historial_caja(id_alumno) {
+  return new Promise((resolve, reject) => {
+    Caja.findAll({where:{matriculaId:id_alumno} })
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
 }
