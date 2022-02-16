@@ -322,7 +322,7 @@
                                             <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
                                         </li>
                                     </ul>
-                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-pago">
+                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-modal">
                                         Guardar Pago
                                     </button>
                                 </div>
@@ -374,6 +374,7 @@
                             <div class="text-center mb-2">
                                 <h1 class="mb-1">Agregar Pagos</h1>
                             </div>
+
 
                             <div class="col-12">
                                 <div class="card">
@@ -460,7 +461,7 @@
                                         <div class="col-12">
                                             <div class="card">
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="table-pagos">
                                                         <thead>
                                                             <tr>
                                                                 <th>Concepto</th>
@@ -470,7 +471,7 @@
                                                                 <th>Accion</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="body-table-pago"><!--SE CARGARA DINAMICAMENTE -->
                                                             <tr>
                                                                 <td>
                                                                     <span class="fw-bold">Mensualidad</span>
@@ -504,7 +505,7 @@
                             </div>
 	
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-dismiss="modal">Guardar</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="btn-guardar-pago">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -516,11 +517,5 @@
 </div>
 
 <form id="form-reg-pago" hidden>
-    <input type="text" name="id_alumno" id="id-alumno-form">
-    <input type="text" name="concepto" id="concepto-form">
-    <input type="text" name="fecha_pago" id="fecha_pago-form">
-    <input type="text" name="monto" id="monto-form">
-    <input type="text" name="mora" id="mora-form">
-    <input type="text" name="observacion" id="observacion-form">
 
 </form>
