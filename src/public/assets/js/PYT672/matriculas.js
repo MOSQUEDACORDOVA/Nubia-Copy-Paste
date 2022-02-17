@@ -654,15 +654,11 @@ var jjaa
     let tipo = grupos[i]["nombre"];
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(grupos[i]["fecha_finalizacion"], "DD-MM-YYYY");
-    let diferencia2 = final.diff(inicio, "w");
-    console.log(tipo)
-    
+    let diferencia2 = final.diff(inicio, "w");    
    let dia = (grupos[i]["dia_horario"]).split(':')
        dia = dia[0].toString()
        dia = dia.split('y') 
        if (tipo == "Intensivo") {
-        console.log(dia)
-   console.log((diferencia2*2)+1)
      for (let i = 0; i < (diferencia2*2)+2; i++) {  
            if (i == 0) {
            leccionFecha = inicio;
@@ -680,10 +676,8 @@ var jjaa
             j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
          
          }
-         console.log('-----')
         let dia_fechaSelect = moment(leccionFecha,'DD-MM-YYYY').locale('es').format('dddd')
-         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('"YYYY-MM-DD"')
- 
+         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('"YYYY-MM-DD"') 
          leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
  
          if (leccionactual) {
@@ -707,10 +701,8 @@ var jjaa
            fecha_ant = leccionFecha;
            leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
          }
-         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('YYYY-MM-DD')
-         
-         leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
-   
+         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('YYYY-MM-DD')         
+         leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);  
        
        if (leccionactual) {
          leccionTrue = true
