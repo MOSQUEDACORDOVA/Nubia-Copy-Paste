@@ -281,6 +281,19 @@ module.exports = {
               });
           });
         },
+           // * REASIGNA GRUPO ESTUDIANTES ADMIN
+           ReasignarGrupoEstudiante(grupoId, id_estudiante) {
+            return new Promise((resolve, reject) => {
+              Matriculas.update({grupoId: grupoId}, {where:{id:id_estudiante}})
+                  .then((data) => {
+                    let data_set = JSON.stringify(data);
+                    resolve(data_set);
+                  })
+                  .catch((err) => {
+                    reject(err)
+                  });
+              });
+            },
     // * ELIMINAR ESTUDIANTES ADMIN
     BorrarEstudiantes(id){
       return new Promise((resolve, reject) => {

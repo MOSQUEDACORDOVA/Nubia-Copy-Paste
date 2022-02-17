@@ -2405,6 +2405,25 @@ exports.editarmatricula = async(req, res) => {
   }
 };
 
+// * REASIGNAR GRUPO ESTUFDIANDO
+exports.reasignarGrupo = async(req, res) => {
+  console.log(req.body);
+  let { grupoId, id_estudiante,nombre } = req.body;
+  let msg = false;
+  
+    DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then((resp) => {
+    console.log(resp)
+      console.log("REASIGNADOR GRUPO")
+      msg="Grupo reasignado al estudiante "+nombre+" con éxito"
+      return res.redirect('/matriculas/'+msg);
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+
+};
+
 // * CONGELAR ESTUDIANTES ADMIN
 exports.congelarestudiante = (req, res) => {
   let { id } = req.body;
