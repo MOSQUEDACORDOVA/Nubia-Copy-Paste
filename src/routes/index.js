@@ -195,9 +195,11 @@ router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,d
 
 /** HERE INIT MAQUILA**/
 router.get('/maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila/:msg',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
 router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_clientes_maquila);
-
-
+router.get('/delete_cliente_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_cliente_maquila);
+router.post('/editar_cliente_manila', authControllerPY4.authenticatedUser,maquilaControllerPY4.edit_cliente_manila);
+router.post('/save-edit-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_cliente_edit);
 /* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/

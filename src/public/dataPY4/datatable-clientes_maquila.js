@@ -62,13 +62,13 @@ console.log(arr_clientes)
           render: function (data, type, full, meta) {
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_cliente("'+full['id']+'")\'>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_cliente_maquila("'+full['id']+'")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente_maquila("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  +
-              '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
+              '<a href="javascript:;" title="Etiqueta" class="d-none '+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
               feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' 
             );
@@ -148,16 +148,162 @@ console.log(arr_clientes)
 
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
+  $('#btnadd_cliente-maquila').on('click',()=>{
+    $('.btnreg-client-maquila').text('Registrar')
+    $('.btn-maquila').remove()
+    $('#add_cliente-maquila .modal-footer').append(`<button tabindex="26" type="button" class="btn btn-primary btn-block waves-effect waves-float waves-light btnreg-client-maquila btn-maquila" onclick="registrarclienteMa()">Registrar</button>`)
+    $('#title-cliente-maquila').text('Agregar Cliente Maquila')
+    $('#reg-cliente-maquila-form')[0].reset()
+
+  })
+
+});
+function edit_cliente_maquila(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_cliente_manila`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data) 
+$('#id_cliente-maquila').val(data['cliente_let']['id'])
+$('#name_maquila').val(data['cliente_let']['name'])
+$('#tlf_maquila').val(data['cliente_let']['phone'])
+$('#vehiculo_maquila').val(data['cliente_let']['vehiculo'])
+$('#placa_maquila').val(data['cliente_let']['placa'])
+$('#title-cliente-maquila').text('Editar Cliente Maquila')
+$('.btnreg-client-maquila').text('Guardar')
+$('.btn-maquila').remove()
+$('#add_cliente-maquila .modal-footer').append(`<button tabindex="26" type="button" class="btn btn-primary btn-block waves-effect waves-float waves-light btnedit-client-maquila btn-maquila" onclick="saveEditarclienteMa()">Guardar</button>`)
+$('#add_cliente-maquila').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
+function delete_cliente_maquila(id_) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  if (typeof id_ =="undefined") {
+    return console.log(id_)
+  }
+  var id = id_
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_cliente_maquila/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.table-clientes-maquila').DataTable().row($(`.table-clientes-maquila tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Cliente ${id} borrado con éxito`,
+      })
+    }
+  })
+}
+const  registrarclienteMa = ()=>{
+  if ($('#name_maquila').val()=="") {
+      $('#name_maquila').focus()
+      return
+  }
+  if ($('#tlf_maquila').val()=="") {
+$('#tlf_maquila').focus() 
+return
+  }
+  if ($('#vehiculo_maquila').val()=="") {
+$('#vehiculo_maquila').focus()
+return
+  }
+  if ($('#placa_maquila').val()=="") {
+$('#placa_maquila').focus()
+return
+  }
+    $.ajax({
+      url: `/save-cliente-maquila`,
+      type: 'POST',
+      data: $('#reg-cliente-maquila-form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if(data.msg){
+          swal.fire(data.msg)
+          return
+        }
+        let data2 = JSON.stringify(data.clientes_maquila_st)          
+        data2.replace(/\//g, "")
+        console.log(data2)
+  $('#clientes_maquila').val(data2)
+  $('.table-clientes-maquila').dataTable().fnDestroy();
+  $('.table-clientes-maquila').empty();
+  $('.table-clientes-maquila').append(`<thead>
+  <tr>
+      <th></th>
+      <th>Nombre</th>
+      <th>Teléfono</th>
+      <th>Placa</th>
+      <th>Vehiculo</th>
+      <th>Opciones</th>
+  </tr>
+</thead>`);
+  ClientesMaquilaTable('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
+ $('#reg-cliente-maquila-form')[0].reset()
+  $('.modal').modal('hide');
+  Swal.fire('Se guardo con éxito la información del cliente maquila')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
   
-/** GRABAR DATOS**/
-$('.btnreg-client-maquila').on('click', async (e)=>{
+      
+}
+const  saveEditarclienteMa = ()=>{
   console.log('entro aqui')
       $.ajax({
-        url: `/save-cliente-maquila`,
+        url: `/save-edit-cliente-maquila`,
         type: 'POST',
         data: $('#reg-cliente-maquila-form').serialize(),
         success: function (data, textStatus, jqXHR) {
           console.log(data)
+          if(data.msg){
+            swal.fire(data.msg)
+            return
+          }
           let data2 = JSON.stringify(data.clientes_maquila_st)          
           data2.replace(/\//g, "")
           console.log(data2)
@@ -181,166 +327,10 @@ $('.btnreg-client-maquila').on('click', async (e)=>{
    }
    $('#reg-cliente-maquila-form')[0].reset()
     $('.modal').modal('hide');
-    Swal.fire('Se guardo con éxito la información del cliente maquila')
+    Swal.fire('Se actualizó con éxito la información del cliente maquila')
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
         }
       });
-      
-    })
-
-    /** EDITAR DATOS **/
-  $('#btn_save_edit_cliente').on('click', async (e)=>{
-console.log('entro aqui')
-    $.ajax({
-      url: `/editar_cliente`,
-      type: 'POST',
-      data: $('#edit_cliente_form').serialize(),
-      success: function (data, textStatus, jqXHR) {
-        console.log(data)
-  $('#array').val(JSON.stringify(data.clientes_arr))
-  $('#table-clientes-maquila').dataTable().fnDestroy();
-  $('#table-clientes-maquila').empty();
-  $('#table-clientes-maquila').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Nuevo </th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
-  ClientesMaquilaTable('si')
-  if ($('#filterPosition').val() != "") {
-    console.log($('#filterValue').val())
-   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
- }
-  $('.modal').modal('hide');
-  Swal.fire('Se editó con éxito la información del cliente')
-      },
-      error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
-      }
-    });
-    
-  })
-});
-function edit_cliente(id_edit) {
-  if (typeof id_edit =="undefined") {
-    return console.log(id_edit)
-  }
- //window.location.href = `/editar_pedido/${id_edit2}`;
- console.log(id_edit)
-const data_C = new FormData();
-data_C.append("id", id_edit);
-$.ajax({
-  url: `/editar_cliente_id`,
-  type: 'POST',
-  data: data_C,
-  cache: false,
-  contentType: false,
-  processData: false,
-  success: function (data, textStatus, jqXHR) {
-console.log(data)
-$('#cliente_nuevo_edited').attr('checked', false);  
-$('#id_cliente_edited').val(data['cliente_let']['id'])
-$('#firstName_edited').val(data['cliente_let']['firstName'])
-$('#lastName_edited').val(data['cliente_let']['lastName'])
-$('#cp_select_edited').val(data['cliente_let']['estado'])
-$('#municipio_edited').val(data['cliente_let']['municipio'])
-
-if ( $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id']+ "']").length == 0 ){
-console.log(data['cliente_let']['tipo'])
-$('#select_asentamiento_edited').prepend('<option selected value="' + data['cliente_let']['cp']['id'] + '">' + data['cliente_let']['cp']['asentamiento'] + '</option>');  
-}else{
-//  $('#tipo_edit').find('option:selected').remove().end();
-  $("#select_asentamiento_edited option[value='" + data['cliente_let']['cp']['id'] + "']").attr("selected", true);
-}
-
-$('#coto_edited').val(data['cliente_let']['coto'])
-$('#casa_edited').val(data['cliente_let']['casa'])
-$('#calle_edited').val(data['cliente_let']['calle'])
-$('#avenida_edited').val(data['cliente_let']['avenida'])
-$('#referencia_edited').val(data['cliente_let']['referencia'])
-$('#telefono_edited').val(data['cliente_let']['telefono'])
-
-$('#nombre_familiar_1_edited').val(data['cliente_let']['nombre_familiar_1'])
-$('#apellido_familiar_1_edited').val(data['cliente_let']['apellido_familiar_1'])
-$('#telefono_familiar_1_edited').val(data['cliente_let']['telefono_familiar_1'])
-$('#nombre_familiar_2_edited').val(data['cliente_let']['nombre_familiar_2'])
-$('#apellido_familiar_2_edited').val(data['cliente_let']['apellido_familiar_2'])
-$('#telefono_familiar_2_edited').val(data['cliente_let']['telefono_familiar_2'])
-
-if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").length == 0 ){
-  $('#tipo_cliente_edited').prepend('<option selected value="' + data['cliente_let']['tipo'] + '">' + data['cliente_let']['tipo'] + '</option>');  
-  }else{
-  //  $('#metodo_pago_edit').find('option:selected').remove().end();
-    $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
-  }
-  if ( data['cliente_let']['nuevo']=="SI" ){
-    $('#cliente_nuevo_edited').attr('checked', true);  
-    }
-$('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
-$('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
-
-if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").length == 0 ){
-  $('#zona_clientes_edited').prepend('<option selected value="' + data['cliente_let']['sucursaleId'] + '">' + data['cliente_let']['sucursaleId'] + '</option>');  
-  }else{
-  //  $('#metodo_pago_edit').find('option:selected').remove().end();
-    $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId'] + "']").attr("selected", true);
-  }
-  $('#correo_edit_cliente_edited').val(data['cliente_let']['email'])
-$('#edit_cliente').modal('show')
-  },
-  error: function (jqXHR, textStatus) {
-    console.log('error:' + jqXHR)
-  }
-});
-}
-function delete_cliente(id_) {
-  if ($('#otro_rol').length) {
-    console.log('no eres admin')
-    Swal.fire("Función valida solo para directores")
-    return
-  }
-  if (typeof id_ =="undefined") {
-    return console.log(id_)
-  }
-  var id = id_
-  Swal.fire({
-    title: 'Eliminar',
-    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Eliminar',
-    showLoaderOnConfirm: true,
-    preConfirm: (login) => {
-      return fetch(`/delete_cliente/${id}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(response.statusText)
-          }
-          return response.json()
-        })
-        .catch(error => {
-          Swal.showValidationMessage(
-            `Request failed: ${error}`              
-          )
-        })
-    },
-    allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
-    if (result.isConfirmed) {
-      console.log(result)
-      $('.table-clientes').DataTable().row($(`.table-clientes tbody .delete-record${id}`).parents('tr')).remove().draw();
-      Swal.fire({
-        title: `Cliente ${id} borrado con éxito`,
-      })
-    }
-  })
 }

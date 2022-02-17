@@ -2233,9 +2233,9 @@ Reg_cliente_maquila(name,phone,placa,vehiculo) {
     });
   });
 },
-Edit_cliente_maquila(name,phone,placa,vehiculo, id) {
+Edit_cliente_maquila(name, telefono,  placa,vehiculo,id_cliente) {
   return new Promise((resolve, reject) => {
-    Clientes_maquila.update({name: name,phone: phone,placa: placa,vehiculo: vehiculo},{where: { id:id },
+    Clientes_maquila.update({name: name,phone: telefono,placa: placa,vehiculo: vehiculo},{where: { id:id_cliente },
     }).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);
@@ -2268,4 +2268,35 @@ Cliente_maquila_byID(id) {
     });
   });
 },
-};
+BuscaClienteMaquilaRepeat(telefono, placa) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findOne({where:{phone:telefono, placa:placa}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Delete_cliente_maquila(id){
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.destroy({where:{
+      id: id
+    }
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve('data_p');
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
+
+
+
+/**END OF EXPORT */};

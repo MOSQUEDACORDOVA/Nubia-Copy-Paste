@@ -175,7 +175,7 @@ $('#bell_not').on('click', ()=>{
     {{/if}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}">
+                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}" {{#if maquila}}id="btnadd_cliente-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather='user-plus'></i>
                     <span class="menu-title text-truncate añadir">Añadir <br>Cliente {{#if maquila}}maquila{{/if}}</span>
                 </a>
