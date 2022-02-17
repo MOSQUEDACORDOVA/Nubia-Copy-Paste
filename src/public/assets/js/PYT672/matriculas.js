@@ -643,6 +643,7 @@ $('#guarda-grupoNew').click(()=>{
 })
 
 const leccionActualGrupos = async ()=>{
+  console.log('Entro aqui')
   var leccionTrue = false,nLeccion
 var startDate = moment().startOf('week');
 var endDate = moment().endOf('week');
