@@ -287,6 +287,7 @@ $('#btn-submit-form-estudiante').val("Guardar")
   });
 
   $("#createAppModal").on("show.bs.modal", async function (e) {
+   
     $('#guarda-grupoNew').addClass('d-none')
     var Array = e.relatedTarget["dataset"]["bsArrdata"];
     var my_object = JSON.parse(decodeURIComponent(Array));
@@ -446,7 +447,7 @@ console.log(endDate)
     $(`#25_32Line1`).append(html3);
     $(`.bg-success`).removeClass("bg-success");
     $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
-
+    $(`#leccion_actual_reasig`).val($("#leccionActual").text());
    var historial =  await fetch('/historia-caja-academy/'+my_object['id'])
      .then(response => response.json())
      .then(data => {
@@ -458,7 +459,7 @@ for (let i = 0; i < historial.length; i++) {
   if (historial[i]['concepto'] == "Traslado") {
     $('#guarda-grupoNew').removeClass('d-none')
   }
-  
+  await leccionActualGrupos()
 }
  /**fin carga modal alumno */ });
 
@@ -623,6 +624,7 @@ if (tipo == "Intensivo") {
     $(`#25_32Line1`).append(html3);
     $(`.bg-success`).removeClass("bg-success");
     $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
+    $(`#leccion_nueva_reasig`).val($("#leccionActual").text());
 
 $('#grupoId').val(e.target.value)
 
@@ -639,3 +641,96 @@ $('#guarda-grupoNew').click(()=>{
   }
   $('#form-reasignar-grupo').submit()
 })
+
+const leccionActualGrupos = async ()=>{
+  var leccionTrue = false,nLeccion
+var startDate = moment().startOf('week');
+var endDate = moment().endOf('week');
+let hoy = moment().locale('es').format('dddd')
+let leccionFecha, addf, leccionactual, fecha_ant, leccionFecha2, j = "";   
+var jjaa
+ for (let i = 0; i < grupos.length; i++) {
+   
+    let tipo = grupos[i]["nombre"];
+    let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
+    let final = moment(grupos[i]["fecha_finalizacion"], "DD-MM-YYYY");
+    let diferencia2 = final.diff(inicio, "w");
+    console.log(tipo)
+    
+   let dia = (grupos[i]["dia_horario"]).split(':')
+       dia = dia[0].toString()
+       dia = dia.split('y') 
+       if (tipo == "Intensivo") {
+        console.log(dia)
+   console.log((diferencia2*2)+1)
+     for (let i = 0; i < (diferencia2*2)+2; i++) {  
+           if (i == 0) {
+           leccionFecha = inicio;
+           fecha_ant = inicio;
+           leccionFecha2 = moment(leccionFecha).add(1, "2").format("YYYY-MM-DD");
+           
+         } else {
+           addf = moment(leccionFecha, "DD-MM-YYYY");
+           fecha_ant = leccionFecha;                 
+           if (j==2) {
+             leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
+           }else{
+              leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
+           }
+            j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
+         
+         }
+         console.log('-----')
+        let dia_fechaSelect = moment(leccionFecha,'DD-MM-YYYY').locale('es').format('dddd')
+         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('"YYYY-MM-DD"')
+ 
+         leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+ 
+         if (leccionactual) {
+           if (leccionFecha) {
+             
+           }
+           leccionTrue = true
+           nLeccion =i + 1
+            $(`#leccionActual`).text(i + 1);
+         }
+     }
+   }else{
+    for (let i = 0; i < (diferencia2)+1; i++) {  
+         //32 SEMANAS
+         if (i == 0) {
+           leccionFecha = inicio;
+           fecha_ant = inicio;
+           leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
+         } else {
+           addf = moment(leccionFecha, "DD-MM-YYYY");
+           fecha_ant = leccionFecha;
+           leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
+         }
+         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format('YYYY-MM-DD')
+         
+         leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+   
+       
+       if (leccionactual) {
+         leccionTrue = true
+         nLeccion =i + 1
+          $(`#leccionActual`).text(i + 1);
+       } 
+     }  
+   }
+    if (leccionTrue) {
+     jjaa= nLeccion;
+  } else{
+    jjaa= 0;
+  }
+  console.log($('#leccion_actual_reasig').val())
+  if (jjaa > $('#leccion_actual_reasig').val()) {
+    console.log('Grupo:' + grupos[i]["identificador"])
+  console.log('Leccion'+jjaa)
+  $('#selectGroup option[value="'+grupos[i]["id"]+'"]').attr("disabled", true);
+  }
+  
+ }
+    
+}
