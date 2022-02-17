@@ -459,8 +459,9 @@ for (let i = 0; i < historial.length; i++) {
   if (historial[i]['concepto'] == "Traslado") {
     $('#guarda-grupoNew').removeClass('d-none')
   }
-  await leccionActualGrupos()
+  
 }
+await leccionActualGrupos()
  /**fin carga modal alumno */ });
 
   $(`#selectGroup`).change((e) => {    
