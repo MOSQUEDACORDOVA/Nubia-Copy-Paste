@@ -319,6 +319,7 @@
                           </div>
                           <h2 class="fw-bolder">10</h2>
                           <p class="card-text">Grupos</p>
+                          <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="guarda-grupoNew" disabled>Guardar cambios</button>
                         </div>
                       </div>
                     
@@ -594,5 +595,10 @@
     </div>
   </div>
 </div>
-
+<form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
+  <input type="text" id="grupoId_actual" name="_actual">
+  <input type="text" id="grupoId" name="grupoId">
+  <input type="text" id="nombre_reaginador" name="nombre_reaginador">
+  <input type="text" id="id_estudiante" name="id_estudiante">
+</form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
