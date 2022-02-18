@@ -200,6 +200,10 @@ router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquila
 router.get('/delete_cliente_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_cliente_maquila);
 router.post('/editar_cliente_manila', authControllerPY4.authenticatedUser,maquilaControllerPY4.edit_cliente_manila);
 router.post('/save-edit-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_cliente_edit);
+
+router.post('/reg-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_maquila);
+
+
 /* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/

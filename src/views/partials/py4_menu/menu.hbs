@@ -182,9 +182,9 @@ $('#bell_not').on('click', ()=>{
             </li>
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido {{#if maquila}}maquila{{/if}}</span>
                 </a>
             </li>
             <li class="nav-item border mx-1">
@@ -215,9 +215,9 @@ $('#bell_not').on('click', ()=>{
                         Añadir Cliente {{#if maquila}}maquila{{/if}}
                     </a>
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal-maquila"{{/if}}>
                         <i class="ficon me-1" data-feather="shopping-cart"></i>
-                        Añadir Pedido
+                        Añadir Pedido {{#if maquila}}maquila{{/if}}
                     </a>
                 </div>
             </li>

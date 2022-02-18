@@ -2297,6 +2297,35 @@ Delete_cliente_maquila(id){
   });
 },
 
-
+//PEDIDOS MAQUILA
+PedidosMaquila() {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Reg_pedido_maquila(monto_total,fecha_pedido, metodo_pago,status_pago,status_pedido,observacion,rellenos, bwater,total_garrafones_pedido,total_monto_rellenos,
+  total_monto_bwater,id_cliente) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.create({monto_total: monto_total,fecha_pedido: fecha_pedido, metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,observacion: observacion,rellenos: rellenos, bwater: bwater,total_garrafones_pedido: total_garrafones_pedido,total_monto_rellenos: total_monto_rellenos,
+      total_monto_bwater: total_monto_bwater, clientesMaquilaId: id_cliente}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
 
 /**END OF EXPORT */};

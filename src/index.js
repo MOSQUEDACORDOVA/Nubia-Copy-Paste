@@ -64,7 +64,6 @@ dbPasarela.sync()
 });
 // Crear el servidor de express
 const app = express();
-
 // Habilitar body parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileupload());
