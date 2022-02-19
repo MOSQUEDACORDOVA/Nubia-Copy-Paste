@@ -157,7 +157,34 @@ $('#bell_not').on('click', ()=>{
                     </div>
                   </div></a>
                       {{/each}}
-                  
+
+
+                  {{#each notif_maquila_relleno as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre}}</span></p>
+                      <small class="notification-text"> Alcanzó los {{total_rellenos}} rellenos.
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+                       {{#each notif_maquila_bwater as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre}}</span></p>
+                      <small class="notification-text"> Alcanzó los {{total_bwaters}} bwaters.
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
 
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px; height: 350px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 285px;"></div></div>
               </li>
@@ -175,16 +202,16 @@ $('#bell_not').on('click', ()=>{
     {{/if}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}">
+                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}" {{#if maquila}}id="btnadd_cliente-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather='user-plus'></i>
                     <span class="menu-title text-truncate añadir">Añadir <br>Cliente {{#if maquila}}maquila{{/if}}</span>
                 </a>
             </li>
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido {{#if maquila}}maquila{{/if}}</span>
                 </a>
             </li>
             <li class="nav-item border mx-1">
@@ -215,9 +242,9 @@ $('#bell_not').on('click', ()=>{
                         Añadir Cliente {{#if maquila}}maquila{{/if}}
                     </a>
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal-maquila"{{/if}}>
                         <i class="ficon me-1" data-feather="shopping-cart"></i>
-                        Añadir Pedido
+                        Añadir Pedido {{#if maquila}}maquila{{/if}}
                     </a>
                 </div>
             </li>
@@ -319,7 +346,7 @@ padding-left: 0.7rem;
                         data-i18n="Notificaciones ">Notificaciones</span></a>
             </li>
              <li class="{{#if maquila}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/maquila"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Maquila</span></a>
+                    href="/maquila"><i data-feather='truck'></i><span class="menu-title text-truncate">Maquila</span></a>
             </li>
             <li class="{{#if reportes}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/reportes"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Reportes</span></a>

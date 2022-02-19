@@ -2233,9 +2233,9 @@ Reg_cliente_maquila(name,phone,placa,vehiculo) {
     });
   });
 },
-Edit_cliente_maquila(name,phone,placa,vehiculo, id) {
+Edit_cliente_maquila(name, telefono,  placa,vehiculo,id_cliente) {
   return new Promise((resolve, reject) => {
-    Clientes_maquila.update({name: name,phone: phone,placa: placa,vehiculo: vehiculo},{where: { id:id },
+    Clientes_maquila.update({name: name,phone: telefono,placa: placa,vehiculo: vehiculo},{where: { id:id_cliente },
     }).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);
@@ -2268,4 +2268,144 @@ Cliente_maquila_byID(id) {
     });
   });
 },
-};
+BuscaClienteMaquilaRepeat(telefono, placa) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findOne({where:{phone:telefono, placa:placa}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Delete_cliente_maquila(id){
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.destroy({where:{
+      id: id
+    }
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve('data_p');
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
+
+//PEDIDOS MAQUILA
+PedidosMaquila() {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+SumRellenosPedidos() {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({
+      attributes: [
+        'clientesMaquilaId',
+        [Sequelize.fn('sum', Sequelize.col('rellenos')), 'total_rellenos'],
+        [Sequelize.fn('sum', Sequelize.col('bwater')), 'total_bwaters'],
+      ],
+      group: ['clientesMaquilaId'],
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Reg_pedido_maquila(monto_total,fecha_pedido, metodo_pago,status_pago,status_pedido,observacion,rellenos, bwater,total_garrafones_pedido,total_monto_rellenos,
+  total_monto_bwater,id_cliente) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.create({monto_total: monto_total,fecha_pedido: fecha_pedido, metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,observacion: observacion,rellenos: rellenos, bwater: bwater,total_garrafones_pedido: total_garrafones_pedido,total_monto_rellenos: total_monto_rellenos,
+      total_monto_bwater: total_monto_bwater, clientesMaquilaId: id_cliente}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+PedidosMaquilaByID(id) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findOne({where:{id:id}},{include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Delete_Pedido_maquila(id){
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.destroy({where:{
+      id: id
+    }
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve('data_p');
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
+Edit_pedido_maquila(monto_total,fecha_pedido, metodo_pago,status_pago,status_pedido,observacion,rellenos, bwater,total_garrafones_pedido,total_monto_rellenos,
+  total_monto_bwater,id_cliente,id_pedido) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.update({monto_total: monto_total,fecha_pedido: fecha_pedido, metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,observacion: observacion,rellenos: rellenos, bwater: bwater,total_garrafones_pedido: total_garrafones_pedido,total_monto_rellenos: total_monto_rellenos,
+      total_monto_bwater: total_monto_bwater, clientesMaquilaId: id_cliente}, {where:{id: id_pedido}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+PedidosMaquilaByDay(fecha_pedido) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({where:{fecha_pedido:fecha_pedido}},{include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+
+/**END OF EXPORT */};

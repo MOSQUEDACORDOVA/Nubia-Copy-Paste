@@ -195,9 +195,19 @@ router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,d
 
 /** HERE INIT MAQUILA**/
 router.get('/maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila/:msg',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila-qr/:id_cliente',authControllerPY4.authenticatedQR, maquilaControllerPY4.maquila_principal);
 router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_clientes_maquila);
+router.get('/delete_cliente_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_cliente_maquila);
+router.post('/editar_cliente_manila', authControllerPY4.authenticatedUser,maquilaControllerPY4.edit_cliente_manila);
+router.post('/save-edit-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_cliente_edit);
 
+router.post('/reg-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_maquila);
+router.post('/editar_pedido_maquila', authControllerPY4.authenticatedUser,maquilaControllerPY4.editar_pedido_maquila);
+router.get('/delete_pedido_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_pedido_maquila);
+router.post('/save-edit-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_edit);
 
+router.get('/ventas-del-dia/:dia_select',authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 /* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/
