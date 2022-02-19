@@ -204,7 +204,7 @@ function cargarTablaMatricula(editada) {
         },
       },
     });
-    $("div.head-label").html('<h6 class="mb-0">Alumnos inscritos</h6>');
+    $("div.head-label").html('<h4 class="mb-0">Alumnos inscritos</h4>');
     document.getElementById("matricula_info").classList.add("py-2");
     document
       .getElementById("matricula_info")
