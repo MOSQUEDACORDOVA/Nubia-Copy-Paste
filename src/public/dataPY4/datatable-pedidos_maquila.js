@@ -485,7 +485,12 @@ $.contextMenu({
 $('#btnregistro_pedido_modal-maquila').on('click',()=>{
   $('#btn_reg_pedido-maquila').text('Registrar')
   $('.btn-pedido-maquila').remove()
-  $(`#id_cliente_reg_pedido-maquila`).val('default').trigger('change')
+  if ($('#id_cliente_qr').length >0) {
+   $(`#id_cliente_reg_pedido-maquila`).val($('#id_cliente_qr').val()).trigger('change')
+  }else{
+    $(`#id_cliente_reg_pedido-maquila`).val('default').trigger('change')
+  }
+  
   $('#registro_pedido_modal-maquila .modal-footer').append(`<button tabindex="26" rippleeffect=""
   class="btn btn-primary btn-block waves-effect waves-float waves-light btn-pedido-maquila" type="button"  id="btn_reg_pedido-maquila" onclick="guardar_pedido_maquila()">Regístrar</button>`)
   $('#title-pedido-maquila').text('Agregar Cliente Maquila')
