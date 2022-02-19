@@ -69,6 +69,10 @@ $(document).ready(function() {
 {{/if}}
 <input type="text" id="clientes_maquila" hidden value="{{clientes_maquila_st}}">
 <input type="text" id="pedidos_maquila_st" hidden value="{{pedidos_maquila_st}}">
+{{#if msg}}
+<input type="text" id="id_cliente_qr" hidden value="{{id_cliente_qr}}">
+{{/if}}
+
 <input id="filterPosition" type="text" hidden>
 <input id="filterValue" type="text" hidden>
 
@@ -116,12 +120,11 @@ $(document).ready(function() {
             </div>
 
             <div class="card collapse show" id="pedidostable">
-                <div class="card-body">
-                    <h4 class="card-title">Pedidos Maquila</h4>
+                <div class="card-body" style="padding-bottom: 0.5rem;">
+                    <h4 class="">Pedidos Maquila</h4>
                 </div>
                 <section id="column-search-datatable">
                     <div class="card-body">
-                        <form class="dt_adv_search" method="POST">
                             <div class="row">
                                 <!--<div class="col-md-4">
                                     <label class="form-label">City:</label>
@@ -135,25 +138,47 @@ $(document).ready(function() {
                                         <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="col-12">
-                            <div class="row m-0">
-                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
-                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                                <div class="col-md-4">
+                    <div class="d-flex">
+                        <div class="text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
+                            <div class="avatar avatar-xl bg-light shadow">
+                                <div class="avatar-content">
+                                    <i data-feather="award" class="font-large-1 text-primary"></i>
                                 </div>
                             </div>
+                          
                         </div>
+                          <div>
+                                {{!-- <h1 class="my-1 text-white text-center">Total del día</h1> --}}
+                                <p class="card-text mb-1">Ventas del día: <strong id="ventas_del_dia"> {{ventas_del_dia}}</strong></p>
+                                <p class="card-text mb-1">Rellenos: <strong id="rellenos"> {{rellenos}}</strong></p>
+                                <p class="card-text mb-1">Bwaters: <strong id="bwaters"> {{bwaters}}</strong></p>
+                                <p class="card-text"> Ingreso: <strong>$ <span id="ingresos">{{ingresos}}</span></strong></p>
+                            </div>
+                            {{#if admin}}
+                            <div class="col" style=" margin-left: 1rem;">
+                                <label class="card-text mt-2 text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
+                                <div class="mb-0 d-flex">
+                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
+                                    <input type="text" class="form-control  ventas dt-input" name="value_from_ventas" data-column="5" data-column-index="4" placeholder="Ventas del día" id="ventas_day"/>
+                                </div>
+                            </div>
+                            {{/if}}
                     </div>
+                </div>
+                <div class="col-md-4 d-grid align-content-center justify-content-start">
+                        <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button> 
+                    </div>
+                            </div>
+                    </div>
+
+                    
 
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic table dt-column-search" id="pedidos-maquila-table">
+                                    <table class="datatables-basic table dt-column-search-maquila" id="pedidos-maquila-table">
                                         <thead>
                                             <tr>                                                
                                                 <th></th>
@@ -243,18 +268,19 @@ $(document).ready(function() {
     </div>
 </div>
 
-<div class="modal fade" id="registro_pedido_modal-maquila" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+<div class="modal fade" id="registro_pedido_modal-maquila" tabindex="-1" aria-labelledby="title-pedido-maquila"
     style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido Maquila</h5>
+                <h5 class="modal-title" id="title-pedido-maquila">Registrar Pedido Maquila</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-pedido"></button>
             </div>
             <div class="modal-body">
 
                 <form class="needs-validation was-validated repeater" method="post" id="form-reg-pedido-maquila">
+                    <input type="text" name="id_pedido" id="id_pedido-maquila" hidden>
                     <div class="form-group">
                         <label class="form-label" for="id_cliente_reg_pedido">Cliente</label>
                         <select class="select2 form-select" id="id_cliente_reg_pedido-maquila" name="id_cliente_select">
@@ -297,7 +323,7 @@ $(document).ready(function() {
                     </div>
                     <div class="form-group mb-2"><label for="register-firstName" class="form-label">Fecha:</label>
                         <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
-                            id="fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
+                            id="fecha_pedido-maquila" {{#if admin}}{{else}}readonly{{/if}}>
                     </div>
                     <div class="divider">
                         <div class="divider-text">Productos</div>
@@ -358,9 +384,9 @@ $(document).ready(function() {
                     <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
                         <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
                             tabindex="3" class="form-control mb-2" id="metodo_pago-maquila">
-                            <option selected="">Efectivo</option>
-                            <option>Tarjeta</option>
-                            <option>Transferencia</option>
+                            <option selected="" value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
                         </select>
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
@@ -369,18 +395,33 @@ $(document).ready(function() {
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
                         <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
-                            value="Por entregar">
+                            value="Por entregar" id="status_pedido-maquila">
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                         <input type="text" name="observacion" placeholder="Observación"
-                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" id="observacion-maquila" required>
                     </div>
                  </form>   </div>
             <div class="modal-footer">
-                <button tabindex="26" rippleeffect=""
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido-maquila">Regístrar</button>
+                {{!-- <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido-maquila">Regístrar</button> --}}
             </div>
             
         </div>
     </div>
 </div>
+<div class="modal fade" id="ver_qr" tabindex="-1" aria-labelledby="ver_qrTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ver_qrTitle">QR</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+<div id="qrcode"></div>
+          </div>
+          
+        </div>
+      </div>
+    </div>

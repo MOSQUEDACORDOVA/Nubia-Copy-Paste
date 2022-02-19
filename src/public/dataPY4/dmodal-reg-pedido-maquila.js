@@ -51,6 +51,9 @@ $(function () {
   $('#id_cliente_reg_pedido-maquila').on('change', (e) => {
     let id_ = e.target.value
     console.log(id_)
+    if (id_=='default') {
+      return
+    }
     var found = array.find(element => element.id == id_);
     $('#id_cliente-pedido-maquila').val(found.id)
     $('#name_maquila-pedido').val(found.name)
@@ -75,60 +78,7 @@ $(function () {
       }
       $('#status_pago-maquila').val('Pagado')
     }
-  })
-
-// $('#btn_reg_pedido-maquila').click((e)=>{
-// e.preventDefault()
-// console.log(e)
-
-// e.currentTarget.submit();
-
-// })
-
-
- //ACA REGISTRA PEDIDO AJAX
- $('#btn_reg_pedido-maquila').on('click', async (e)=>{
-  if ($('#id_cliente_reg_pedido-maquila').val() =="default") {
-    Swal.fire('Debe seleccionar un cliente')
-    $('#id_cliente_reg_pedido').focus()
-    return
-  }
-if ($('#total_total_inp-maquila').val() == "0") {
-    Swal.fire('Debe agregar al menos un producto para continuar')
-    return
-  }
-  $.ajax({
-    url: `/reg-pedido-maquila`,
-    type: 'POST',
-    data: $('#form-reg-pedido-maquila').serialize(),
-    success: function (data, textStatus, jqXHR) {
-      console.log(data)
-     
-        Swal.fire('Se creó con éxito el pedido en maquila')
-$('.modal').modal('hide');
-$('#form-reg-pedido-maquila').trigger("reset");
-let hoy= moment().format('YYYY-MM-DD')
-$('#fecha_pedido').val(hoy)
-$('#cant_garrafon').text('0')
-$('#monto_garrafon').text('0')
-$('#sub_total_total').text('0')
-$('#deuda_verf').text('0')
- $('#total_total').text('0')
- $('#deuda_box').attr('style','display:none')
- $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
- $("#id_cliente_reg_pedido").val('default').trigger('change');
-
-      
-      
-
-    },
-    error: function (jqXHR, textStatus) {
-      console.log('error:' + jqXHR)
-    }
-  });
-  
-})
-
+  }) 
 
 $('#btn-close-pedido').on('click', ()=>{
   $('#reg_pedido_modal1').trigger("reset");

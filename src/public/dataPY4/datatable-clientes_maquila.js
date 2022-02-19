@@ -68,8 +68,8 @@ console.log(arr_clientes)
               '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente_maquila("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'  +
-              '<a href="javascript:;" title="Etiqueta" class="d-none '+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
-              feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '<a href="javascript:;" title="QR" class="'+full['id']+' dropdown-item edit_tag " onclick=\'verQRCliente("'+full['id']+'")\'>' +
+              feather.icons['slack'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' 
             );
           }  },
@@ -333,4 +333,15 @@ const  saveEditarclienteMa = ()=>{
           console.log('error:' + jqXHR)
         }
       });
+}
+function verQRCliente(id) {
+  $('#qrcode').empty()
+  new QRCode(document.getElementById("qrcode"), {
+    text: "https://plataforma.bwater.mx/maquila-qr/"+id,
+    width: 128,
+    height: 128,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+});
+$('#ver_qr').modal('show')
 }
