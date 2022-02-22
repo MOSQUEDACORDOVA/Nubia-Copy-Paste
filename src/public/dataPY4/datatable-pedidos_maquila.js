@@ -620,6 +620,8 @@ if ($('#total_total_inp-maquila').val() == "0") {
              Swal.fire('Se creó con éxito el pedido en maquila')
           }
         })
+      }else{
+        Swal.fire('Se creó con éxito el pedido en maquila')
       }
       if (( data['revisa_bwater_relleno'][0]['total_bwaters'] % 500 ) == 0 || data['revisa_bwater_relleno'][0]['total_bwaters'] >500) {
         swal.fire(`El cliente de este pedido, alcanzó los ${data['revisa_bwater_relleno'][0]['total_bwaters']} bwaters`).then((response)=>{
@@ -628,6 +630,8 @@ if ($('#total_total_inp-maquila').val() == "0") {
              Swal.fire('Se creó con éxito el pedido en maquila')
           }
         })
+      }else{
+        Swal.fire('Se creó con éxito el pedido en maquila')
       }
        
 
