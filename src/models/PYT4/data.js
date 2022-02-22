@@ -2360,6 +2360,23 @@ PedidosMaquilaByID(id) {
     });
   });
 },
+PedidosMaquilaByIDClientCountRB(id) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({attributes: [
+      'clientesMaquilaId',
+      [Sequelize.fn('sum', Sequelize.col('rellenos')), 'total_rellenos'],
+      [Sequelize.fn('sum', Sequelize.col('bwater')), 'total_bwaters'],
+    ],
+    where:{clientesMaquilaId:id},
+  },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
 Delete_Pedido_maquila(id){
   return new Promise((resolve, reject) => {
     Pedidos_maquila.destroy({where:{

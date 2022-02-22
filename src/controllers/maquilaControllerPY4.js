@@ -64,16 +64,17 @@ for (let i = 0; i < suma_rellenos_bwaters.length; i++) {
       json.nombre = clientes_maquila[i]['name'];
     }    
   }
-  if (( suma_rellenos_bwaters[i]['total_rellenos'] % 1000 ) == 0 ) {
+  if (( suma_rellenos_bwaters[i]['total_rellenos'] % 1000 ) == 0 || suma_rellenos_bwaters[i]['total_rellenos'] >1000) {
     notif_maquila_relleno.push(suma_rellenos_bwaters[i])
   }
-  if (( suma_rellenos_bwaters[i]['total_bwaters'] % 500 ) == 0 ) {
+  if (( suma_rellenos_bwaters[i]['total_bwaters'] % 500 ) == 0 || suma_rellenos_bwaters[i]['total_bwaters'] >500) {
     notif_maquila_bwater.push(suma_rellenos_bwaters[i])
   }
 }
 let cont_not = parseInt(notif_maquila_relleno.length) + parseInt(notif_maquila_bwater.length)
 console.log(notif_maquila_relleno)
 console.log(notif_maquila_bwater)
+
      res.render("PYT-4/maquila", {
       pageName: "Bwater",
       dashboardPage: true,
@@ -203,6 +204,8 @@ exports.save_pedido_maquila = async(req, res) => {
    
 //  }
 let total_garrafones_pedido= parseInt(relleno_cant_garrafon)+parseInt(bwaters_cant_garrafon)
+
+
  var save_pedido_maquila = JSON.parse(await DataBase.Reg_pedido_maquila(total_total_inp, fecha_pedido,  metodo_pago,status_pago, status_pedido, observacion,relleno_cant_garrafon, bwaters_cant_garrafon,total_garrafones_pedido,relleno_garrafon_mont,  bwaters_garrafon_mont,id_cliente).then((response)=>{return response}))
  console.log(save_pedido_maquila)
  let id_sucursal = req.session.sucursal_select
@@ -220,7 +223,10 @@ let total_garrafones_pedido= parseInt(relleno_cant_garrafon)+parseInt(bwaters_ca
  //var clientes_maquila = JSON.parse(await ClientesDB(id_sucursal))
  var pedidos_maquila = JSON.parse(await PedidosDB(id_sucursal))
 let pedidos_maquila_st = JSON.stringify(pedidos_maquila)
- return res.send({pedidos_maquila_st})
+
+let revisa_bwater_relleno = JSON.parse(await DataBase.PedidosMaquilaByIDClientCountRB(id_cliente))
+console.log(revisa_bwater_relleno)
+ return res.send({pedidos_maquila_st,revisa_bwater_relleno})
 };
 exports.editar_pedido_maquila = (req, res) => {
   const user = res.locals.user;
@@ -322,5 +328,35 @@ for (let i = 0; i < pedidos_maquila.length; i++) {
 }
 console.log('------')
    return res.send({ventas_del_dia:ventas_del_dia,rellenos:rellenos,bwaters:bwaters,ingresos:ingresos })
+};
+
+/**NOTIFICACIONES AJAX */
+exports.notificaciones_ajax = async (req, res) => {
+
+  var notif_maquila_relleno=[],notif_maquila_bwater=[]
+  var suma_rellenos_bwaters = JSON.parse(await SumRellenosPedidos())
+  
+  console.log(suma_rellenos_bwaters)
+  var json
+  for (let i = 0; i < suma_rellenos_bwaters.length; i++) {
+    json=suma_rellenos_bwaters[i]
+    for (let j = 0; j < clientes_maquila.length; j++) {
+      if (suma_rellenos_bwaters[i]['clientesMaquilaId'] ==clientes_maquila[i]['id'] ) {
+        json.nombre = clientes_maquila[i]['name'];
+      }    
+    }
+    if (( suma_rellenos_bwaters[i]['total_rellenos'] % 1000 ) == 0 ) {
+      notif_maquila_relleno.push(suma_rellenos_bwaters[i])
+    }
+    if (( suma_rellenos_bwaters[i]['total_bwaters'] % 500 ) == 0 ) {
+      notif_maquila_bwater.push(suma_rellenos_bwaters[i])
+    }
+  }
+  let cont_not = parseInt(notif_maquila_relleno.length) + parseInt(notif_maquila_bwater.length)
+  console.log(notif_maquila_relleno)
+  console.log(notif_maquila_bwater)
+  
+console.log('------')
+   return res.send({notif_maquila_relleno,notif_maquila_bwater,cont_not:cont_not})
 };
 
