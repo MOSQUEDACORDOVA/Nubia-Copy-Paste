@@ -1,0 +1,987 @@
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
+<div class="app-content content py24">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div id="loading3">
+                <div id="progressBar1" class='progress-bar' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+                </div>
+            </div>
+
+            <section id="pricing-plan">    
+                {{#if roleClient}}
+                <div class="text-center">
+                    <h1 class="mt-5">Precios de Paquetes</h1>
+                    <button class="d-none" id="btnmodal" data-bs-toggle="modal" data-bs-target="#addNewCard2"></button>
+
+                    <div class="d-flex align-items-center justify-content-center mb-5 pb-50">
+                        <h6 class="me-1 mb-0">12 Meses</h6>
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="selectorPlanes">
+                            <label class="form-check-label" for=""></label>
+                        </div>
+                        <h6 class="ms-50 mb-0">24 Meses</h6>
+                    </div>
+                </div>
+
+                <div class="row pricing-card">
+                    <div class="col-12 col-sm-offset-2 col-sm-10 col-md-12 col-lg-offset-2 col-lg-10 mx-auto">
+                        <div class="row">
+                            <div class="col-12 mb-2">
+                                <a class="btn btn-outline-warning me-1 waves-effect waves-float waves-light collapsed" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                    Personalizar paquete
+                                </a>
+                            </div>
+                            <div class="col-md-8 collapse" id="collapseExample">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="card-title">Paquete personalizado</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex p-1">
+                                            <form class="form form-horizontal" id="personalizadosform">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3">
+                                                                <label class="col-form-label" for="">Meses de Minería</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <select name="duration" id="durationpers" class="form-select">
+                                                                    <option value="12">12 Meses</option>
+                                                                    <option value="18">24 Meses</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3">
+                                                                <label class="col-form-label" for="">Cantidad de TH</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <input type="number" id="amountth" class="form-control" name="amount" placeholder="13" value="" min="0" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3">
+                                                                <label class="col-form-label" for="">Costo USD</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{data_th.price}}" min="0" >
+                                                                <input type="number" id="price_" class="form-control" name="price" placeholder="600 USD" value="" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="mb-1 row">
+                                                            <div class="col-sm-3">
+                                                                <label class="col-form-label" for="">Costo de Mantenimiento</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="{{data_th.percentage_maintance}}" readonly>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-9 offset-sm-3">
+                                                        {{#if verify}}
+                                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" id="personalizado">Comprar</button>
+                                                        {{else}}
+                                                        <button type="button" class="btn btn-primary me-1 waves-effect waves-float waves-light" role="button" data-bs-toggle="modal" data-bs-target="#verificar">Comprar</button>
+                                                        {{/if}}
+                                                        <button type="reset" class="btn btn-outline-secondary waves-effect">Cancelar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12"></div>
+                            <!-- PLANS -->
+                            {{#if verify}}
+                            {{#each data as |item i|}}       
+                            <div class="col-12 col-md-4 {{#duracionplanespy24 item.duration}}{{/duracionplanespy24}}">
+                                <div class="card {{#planesclasepy24 item.amount_th}}{{/planesclasepy24}} text-center">
+                                    <div class="card-body paquetes">
+                                        {{#planesinfopy24 item.amount_th item.name}}
+                                        {{/planesinfopy24}}
+
+                                        <!-- NOMBRE DEL PLAN -->
+                                        <div class="annual-plan">
+                                            <div class="plan-price mt-2">
+                                                <sup class="font-medium-1 fw-bold text-primary">USD</sup>
+                                                <span class="pricing-basic-value fw-bolder text-primary">{{item.price}}</span>
+                                            </div>
+                                            <small class="annual-pricing d-none text-muted"></small>
+                                        </div>
+                                        <ul class="list-group list-group-circle text-start">
+                                            <li class="list-group-item">{{item.duration}} meses Minería</li>
+                                            <li class="list-group-item">Cantidad de TH: {{item.amount_th}} </li>
+                                            <li class="list-group-item">Coste de mantenimiento: {{item.maintance_charge}}%</li>
+                                        </ul>
+                                        <button class="btn w-100 btn-primary comprarBtn mt-2 waves-effect waves-float waves-light" role="button" data-id="{{item.id}}" data-amount-th="{{item.amount_th}}">Comprar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--- MODAL VERIFICACION DISPONIBLES -->
+                            <button class="d-none" data-bs-toggle="modal" id="btnDis" data-bs-target="#addNewCard2" role="button"></button>
+
+                            <button class="d-none" data-bs-toggle="modal" id="btnNoDis" data-bs-target="#addNewCard3" role="button" aria-controls="addNewCard2"></button>
+                            <!-- MODAL VERIFICACION DISPONIBLES -->
+                            {{/each}}
+                            {{else}}
+                            {{#each data as |item i|}} 
+                            <div class="col-12 col-md-4">
+                                <div class="card {{#planesclasepy24 item.amount_th}} {{/planesclasepy24}} text-center">
+                                    <div class="card-body paquetes">
+
+                                        {{#planesinfopy24 item.amount_th item.name}}
+                                        {{/planesinfopy24}}
+
+                                        <!-- NOMBRE DEL PLAN -->
+                                        <div class="annual-plan">
+                                            <div class="plan-price mt-2">
+                                                <sup class="font-medium-1 fw-bold text-primary">USD</sup>
+                                                <span class="pricing-basic-value fw-bolder text-primary">{{item.price}}</span>
+                                            </div>
+                                            <small class="annual-pricing d-none text-muted"></small>
+                                        </div>
+                                        <ul class="list-group list-group-circle text-start">
+                                            <li class="list-group-item">{{item.duration}} meses Minería</li>
+                                            <li class="list-group-item">Cantidad de TH: {{item.amount_th}} </li>
+                                            <li class="list-group-item">Coste de mantenimiento: {{item.maintance_charge}}%</li>
+                                        </ul>
+                                        <button class="btn w-100 btn-primary mt-2 waves-effect waves-float waves-light" role="button" role="button" data-bs-toggle="modal" data-bs-target="#verificar">Comprar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/each}}
+                            {{/if}}
+
+                            {{#if data}} {{else}}
+                            <div class="alert alert-warning my-1 alert-validation-msg" role="alert">
+                                <div class="alert-body d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-info me-50"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                                    <span>No existen paquetes actualmente</span>
+                                </div>
+                            </div>
+                            {{/if}}
+                            <!-- PLANS --> 
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+
+            {{#if verify}}
+                {{#if allpays}}
+                {{!-- MODAL PAGAR --}}
+                <div class="modal fade" id="addNewCard2" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-0">
+                                <div class="text-center">
+                                    <h1>Pago a realizar</h1>
+                                    <p class="mb-3"></p>
+                                </div>
+
+                                <section class="vertical-wizard">
+                                    <div class="bs-stepper vertical vertical-wizard-example">
+                                        <div class="bs-stepper-header">
+                                            <h4>Elige un metodo de pago</h4>
+                                            <!--<div class="step" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="true">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">2</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago Móvil</span>
+                                                    </span>
+                                                </button>
+                                            </div>-->
+                                            <div class="step active" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago en Criptomonendas</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <!--<div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">4</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago en Billetera digital</span>
+                                                    </span>
+                                                </button>
+                                            </div>-->
+                                        </div>
+                                        <div class="bs-stepper-content">
+                                            <!--- TRANSFERENCIAS BANCARIAS -->
+                                            <form id="account-details-vertical" method="POST" action="/deposits" class="content dstepper-block" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Transferencia Bancaria</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <select class="form-select" id="selectBanks" tabindex="-1" aria-hidden="true" required>
+                                                            <option value="" selected>Cuentas disponibles</option>
+                                                            {{#each allbanks as |item i|}}
+                                                            <option data-bank-name="{{item.bank_name}}" data-bank-num-account="{{item.num_account}}" data-bank-type-account="{{item.type_account}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" data-id="{{item.id}}" value="{{item.id}}">{{item.bank_name}} - {{item.num_account}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Nombre Completo</label>
+                                                        <input type="text" name="ttype" class="d-none" value="Transferencia Bancaria" required readonly>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
+                                                        <input type="text" id="fullname1" class="form-control" placeholder="" name="name" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Documento de identificación</label>
+                                                        <input type="text" id="dni1" class="form-control" placeholder="" name="dni" value="" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Tipo de Banco</label>
+                                                        <input type="text" id="bank_name1" class="form-control" placeholder="" name="bank_name" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Tipo de Cuenta</label>
+                                                        <input type="text" name="type_account" id="type_account" class="form-control" placeholder="" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Nro de Cuenta Bancaria</label>
+                                                        <input type="text" id="num_account" class="form-control" placeholder="" name="num_account" value="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Adjuntar imagen del comprobante</label>
+                                                        <input type="text" name="voucher" id="voucher" class="d-none">
+                                                        
+                                                        <input type="file" id="img1" class="form-control" placeholder="" required>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Nro de referencia</label>
+                                                        <input type="text" name="ref" id="ref" class="form-control" placeholder="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Enviar pago a verificación
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            <!--- BTC -->
+                                            <form action="/deposits" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Retiro en BTC</h5>
+                                                </div>
+                                                <select class="form-select mb-1" id="btc" tabindex="-1" aria-hidden="true">
+                                                    <option value="" selected>Cuentas disponibles</option>
+                                                    {{#each allbtc as |item i|}}
+                                                    <option data-code-wallet="{{item.code_wallet}}" data-id="{{item.id}}" value="{{item.id}}">{{item.code_wallet}}</option>
+                                                    {{/each}}
+                                                </select>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Codigo de la Billetera</label>
+                                                        <input type="text" name="ttype" class="d-none" value="BTC" required readonly>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            <!--- BILLETERA DIGITAL -->
+                                            <form action="/deposits" method="POST" id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Retiro en Billetera digital</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <select class="form-select" id="digWallet" tabindex="-1" aria-hidden="true" required>
+                                                            <option value="" selected>Cuentas disponibles</option>
+                                                            {{#each allwallet as |item i|}}
+                                                            <option data-id="{{item.id}}" data-email="{{item.digital_wallet_email}}" value="{{item.id}}">{{item.digital_wallet_email}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Email</label>
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>                                                    
+                                                        <input type="text" name="ttype" class="d-none" value="Billetera Digital" required readonly>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>
+                                                        <input type="email" id="wallet_email" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>
+
+                                            <!--- PAGO MOVIL -->
+                                            <form action="/deposits" method="POST" id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Pago Móvil</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <select class="form-select" id="selectPaym" tabindex="-1" aria-hidden="true" required>
+                                                            <option value="" selected>Cuentas disponibles</option>
+                                                            {{#each allpaym as |item i|}}
+                                                            <option data-bank-name="{{item.bank_name}}" data-phone="{{item.phone}}" data-id="{{item.id}}" data-fullname="{{item.full_name}}" data-dni="{{item.dni}}" value="{{item.id}}">{{item.bank_name}} - {{item.phone}}</option>
+                                                            {{/each}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Nombre Completo</label>
+                                                        <input type="text" name="ttype" class="d-none" value="Pago Movil" required readonly>
+                                                        <input type="text" name="id" class="d-none id" value="" required readonly>  
+                                                        <input type="text" name="methodid" class="d-none methodid" value="" required readonly>     
+                                                        <input type="text" name="th" class="d-none amountth" value="" required readonly>                    
+                                                        <input type="text" id="fullname2" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Documento de identicicación</label>
+                                                        <input type="text" id="dni2" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Banco</label>
+                                                        <input type="text" id="bank_name2" class="form-control" placeholder="" required readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Telefono</label>
+                                                        <input type="text" id="phone" class="form-control" placeholder="" required>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Adjuntar imagen del comprobante</label>
+                                                        <input type="file" id="img2" class="form-control" placeholder="" required>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Monto USD</label>
+                                                        <input type="text" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Nro de referencia</label>
+                                                        <input type="text" id="ref2" name="ref" class="form-control" placeholder="" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-12">
+                                <div class="text-center">
+                                    <h1>Proyección de Ganancias</h1>
+                                </div>
+                                <div class="card-body">
+                                    <div style="height:450px"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div><canvas class="line-area-chart-ex chartjs chartjs-render-monitor" data-height="450" width="991" height="450" style="display: block; width: 991px; height: 450px;"></canvas></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- END MODAL PAGAR --}}
+                {{/if}}
+                {{!-- MODAL TH DISPONIBLE --}}
+                {{#if machine}}
+                <div class="modal fade" id="addNewCard3" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Lo sentimos !</h1>
+                                    <p>No contamos con la capacidad de th deseada, puedes comprar en un rango de <span class="text-primary">{{#totalthdisponibles machine}}{{/totalthdisponibles}} TH disponibles</span>, o mantente atento a que aumentemos la capacidad de minado. Muchas gracias!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
+                <div class="modal fade" id="addNewCard3" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Lo sentimos !</h1>
+                                    <p>No contamos con maquinas de minado, mantente atento. Muchas gracias!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                {{!-- END MODAL TH DISPONIBLE --}}
+            {{else}}
+                <div class="modal fade" id="addNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body px-sm-5 mx-50 pb-5">
+                                <div class="text-center">
+                                    <h1>Pago a realizar</h1>
+                                    <p class="mb-3"></p>
+                                </div>
+
+                                <section class="vertical-wizard">
+                                    <div class="bs-stepper vertical vertical-wizard-example">
+                                        <div class="bs-stepper-header">
+                                            <h4>Elige un metodo de retiro</h4>
+                                            <div class="step active" data-target="#account-details-vertical" role="tab" id="account-details-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="true">
+                                                    <span class="bs-stepper-box">1</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Transferencia Bancaria</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="step" data-target="#address-step-vertical2" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">2</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Pago Móvil</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="step" data-target="#personal-info-vertical" role="tab" id="personal-info-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">3</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en Criptomonendas</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                            <div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
+                                                <button type="button" class="step-trigger" aria-selected="false">
+                                                    <span class="bs-stepper-box">4</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">Retiro en Billetera digital</span>
+                                                    </span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="bs-stepper-content">
+                                            <!-- TRANSFERENCIA BANCARIA -->
+                                            <div id="account-details-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="account-details-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Transferencia Bancaria</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <select class="form-select" id="selectBanks" tabindex="-1" aria-hidden="true">
+                                                            <option value="" selected>No existen cuentas disponibles</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Nombre Completo</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" value="" readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Documento de identificación</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" value="" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Tipo de Banco</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" value="" readonly>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Tipo de Cuenta</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" value="" readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Nro de Cuenta Bancaria</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" value="" readonly>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Adjuntar imagen del comprobante</label>
+                                                        <input type="file" id="img" class="form-control" placeholder="" required>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Monto</label>
+                                                        <input type="text" id="amount" class="form-control" placeholder="" required>
+                                                    </div>
+                                                    <div class="mb-1">
+                                                        <label class="form-label" for="">Nro de referencia</label>
+                                                        <input type="text" id="ref" class="form-control" placeholder="" required>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Enviar pago a verificación
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- BTC -->
+                                            <div id="personal-info-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Retiro en BTC</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="vertical-first-name">Codigo de la Billetera</label>
+                                                        <input type="text" class="d-none" value="BTC">
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- BILLETERA DIGITAL -->
+                                            <div id="address-step-vertical" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Retiro en Billetera digital</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="vertical-first-name">Email</label>
+                                                        <input type="text" class="d-none" value="">
+                                                        <input type="email" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <!-- PAGO MOVIL -->
+                                            <div id="address-step-vertical2" class="content dstepper-block" role="tabpanel" aria-labelledby="address-step-vertical-trigger">
+                                                <div class="content-header">
+                                                    <h5 class="mb-0">Pago Móvil</h5>
+                                                </div>
+                                                <div class="row">
+                                                    <select class="form-select" id="" tabindex="-1" aria-hidden="true">
+                                                        <option value="" selected>Cuentas disponibles</option>
+                                                    </select>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Nombre Completo</label>
+                                                        <input type="text" class="d-none" value="">
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Documento de identicicación</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Banco</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                    <div class="mb-1 col-12">
+                                                        <label class="form-label" for="">Telefono</label>
+                                                        <input type="text" id="" class="form-control" placeholder="" readonly required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="d-flex">
+                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1">
+                                                        Realizar Pago
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{!-- END MODAL PAGAR --}}
+            {{/if}}
+                <!--- MODAL VERIFICAR --->
+                <div class="modal fade" id="verificar" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h1 class="text-center mb-1">Su cuenta no ah sido verificada!</h1>
+                                <p class="text-center">Para disfrutar de todos nuestros servicios, Ingrese una foto de su documento de identidad, legible, con ambas caras.</p>
+                                <form action="/solicitverify" method="POST" class="card-body">
+                                    <p class="card-text mb-0">Parte frontal</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher1">-->
+                        
+                                    <input type="file" id="img1" name="voucher1" class="form-control mb-1" placeholder="" required>
+
+                                    <p class="card-text mb-0">Parte posterior</p>
+
+                                    <!--<input type="text" class="form-control d-none" id="voucher2">-->
+                        
+                                    <input type="file" id="img2" name="voucher2" class="form-control mb-1" placeholder="" required>
+                                    
+                                    <input type="submit" class="btn btn-primary" value="Enviar verificación">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--- END MODAL --->
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    let selectBanks = document.getElementById('selectBanks'),
+    selectPayms = document.getElementById('selectPaym'),
+    selectWallets = document.getElementById('digWallet'),
+    selectorPlanes = document.getElementById('selectorPlanes'),
+    selectBtc = document.getElementById('btc');
+
+    let AnualP = document.querySelectorAll('.docemeses'),
+    AnualP2 = document.querySelectorAll('.veinticuatromeses');
+
+    AnualP2.forEach(e => {
+        e.classList.add('d-none');
+    });
+
+    AnualP2.forEach(e => {
+        e.classList.add('d-none');
+    });
+
+    selectorPlanes.addEventListener('change', (e) => {
+        if(selectorPlanes.checked) {
+            Set24Meses();
+        } else {
+            Set12Meses();
+        }
+    });
+
+    const Set12Meses = () => {
+        AnualP.forEach(e => {
+            e.classList.remove('d-none');
+        });
+        AnualP2.forEach(e => {
+            e.classList.add('d-none');
+        });
+    }
+
+    const Set24Meses = () => {
+        AnualP.forEach(e => {
+            e.classList.add('d-none');
+        });
+        AnualP2.forEach(e => {
+            e.classList.remove('d-none');
+        });
+    }
+
+    // Trasnferencias
+    selectBanks.addEventListener('change', (e) => {
+        try {
+            let idx = e.target.value;
+            for(i = 0; i <= selectBanks.options.length; i++) {
+                if(selectBanks[i].value === idx) {
+                    SetValuesBankSelected(selectBanks[i]);
+                }
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    });
+
+    // Pago movil
+    selectPayms.addEventListener('change', (e) => {
+        try {
+            let idx = e.target.value;
+            for(i = 0; i <= selectPayms.options.length; i++) {
+                if(selectPayms[i].value === idx) {
+                    SetValuesPaymSelected(selectPayms[i]);
+                }
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    });
+
+    // BTC
+    selectBtc.addEventListener('change', (e) => {
+        try {
+            let idx = e.target.value;
+            for(i = 0; i <= selectBtc.options.length; i++) {
+                if(selectBtc[i].value === idx) {
+                    SetValuesBTCWalletSelected(selectBtc[i]);
+                }
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    });
+
+    // Billetera Digital
+    selectWallets.addEventListener('change', (e) => {
+        try {
+            let idx = e.target.value;
+            for(i = 0; i <= selectWallets.options.length; i++) {
+                if(selectWallets[i].value === idx) {
+                    SetValuesWalletSelected(selectWallets[i]);
+                }
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    });
+
+    // Transferencias
+    const SetValuesBankSelected = (index) => {
+        const fname1 = document.getElementById('fullname1'),
+        dni1 = document.getElementById('dni1'),
+        bankName1 = document.getElementById('bank_name1'),
+        typeAccount = document.getElementById('type_account'),
+        numAccount = document.getElementById('num_account');
+
+        let Methodid = document.querySelectorAll('.d-none.methodid');
+
+        fname1.value = index.getAttribute('data-fullname')
+        bankName1.value = index.getAttribute('data-bank-name')
+        dni1.value = index.getAttribute('data-dni')
+        numAccount.value = index.getAttribute('data-bank-num-account')
+        typeAccount.value = index.getAttribute('data-bank-type-account')
+
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
+    }
+    
+    // Pago Movil
+    const SetValuesPaymSelected = (index) => {
+        const fname2 = document.getElementById('fullname2'),
+        dni2 = document.getElementById('dni2'),
+        bankName2 = document.getElementById('bank_name2'),
+        phone = document.getElementById('phone');
+
+        fname2.value = index.getAttribute('data-fullname')
+        bankName2.value = index.getAttribute('data-bank-name')
+        dni2.value = index.getAttribute('data-dni')
+        phone.value = index.getAttribute('data-phone')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
+    }
+    
+    // BTC
+    const SetValuesBTCWalletSelected = (index) => {
+        const code = document.getElementById('code_wallet')
+        code.value = index.getAttribute('data-code-wallet')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+              
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
+    }
+    
+    // Billetera Digital
+    const SetValuesWalletSelected = (index) => {
+        const email = document.getElementById('wallet_email')
+        email.value = index.getAttribute('data-email')
+
+        let Methodid = document.querySelectorAll('.d-none.methodid'); 
+              
+        Methodid.forEach(meth => {
+            meth.value = index.getAttribute('data-id');
+            console.log(meth.value)
+            console.log("METODOS")
+        })
+    }
+    
+    $(function (){
+        let amountModal = $('.amount');
+        let idModal = $('.modal .d-none.id');
+        let idMethod = $('.modal .d-none.methodid');
+        let paq = $('.card-body.paquetes');
+
+        paq.each(function (index) {
+            $(this).on('click', (e) => {
+                let current = 0;    
+                if(e.target.classList.contains('btn')) {
+                    current = e.target.previousElementSibling.previousElementSibling.children[0].children[1].innerText;
+                    console.log(e.target.previousElementSibling.previousElementSibling.children[0].children[1].innerText)
+                    amountModal.each(function (index) {
+                        $(this).val(current);
+                    });
+                    idModal.each(function (index) {
+                        $(this).val(e.target.getAttribute('data-id'));
+                        console.log(e.target.getAttribute('data-id'))
+                    });
+                    idMethod.each(function (index) {
+                        $(this).val(e.target.getAttribute('data-id'));
+                        console.log("ID METODO")
+                        console.log(e.target.getAttribute('data-id'));
+                    });
+                }
+            });
+        });
+
+        $('input[name="amount"]').on('keyup', (e)=>{
+            let valor =  e.target.value;
+            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
+            $('#price_').val(price_)
+
+            amountModal.each(function (index) {
+                $(this).val(price_);
+            });
+        });
+
+        let btnComp = $('.comprarBtn');
+        let inTh = $('.amountth');
+
+        btnComp.on('click', (e) => {
+            console.log(e.target)
+            let cantidad = parseInt(e.target.getAttribute('data-amount-th'));
+            inTh.each(function (index) {
+                $(this).val(cantidad);
+            });
+            GetDatos(cantidad);
+        })
+
+        const GetDatos = (num) => {
+            $.ajax({
+                url: '/getmachines',
+                type: 'GET',
+                data: '',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data.thavalible);
+                    console.log("DISPONIBLE");
+
+                    let disponible = parseInt(data.thavalible);
+                    if(num <= disponible) {
+                        $('#btnDis').click();
+                    } else {
+                        console.log("MAYOR")
+                        $('#btnNoDis').click();
+                    }
+                    return disponible;
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
+            });
+        }
+
+        let form = document.getElementById('personalizadosform');
+
+        $('#personalizado').on('click', (e) => {
+            console.log(e.target)
+            console.log("TH")
+            let value = document.getElementById('amountth').value;
+            let cantidad = parseInt(value);
+            console.log(value)
+            console.log(cantidad)
+            if(cantidad) {
+                inTh.each(function (index) {
+                    $(this).val(cantidad);
+                });
+                GetDatos(cantidad);
+            }
+        });
+    
+        $('#personalizado').on('click', () => {
+            const data = new FormData(form);
+            $.ajax({
+                url: '/createpackagespers',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                    console.log(data.response);
+                    console.log("RESPUESTA");
+
+                    try {
+                        $('.d-none.id').each(function (index) {
+                            $(this).val(data.response.id);
+                        });
+                    } catch (err) {
+                        console.log(err)
+                    }
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
+            });
+        });
+    });
+</script>

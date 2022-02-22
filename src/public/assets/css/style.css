@@ -490,7 +490,7 @@ body {
         display: inline-block;
         padding: 10px;
         border-radius: 8px;
-    }
+    } 
     .py27.landheader .menu.nav .nav-item .nav-link {
         transition: .3s ease all;
     }
@@ -507,6 +507,28 @@ body {
         opacity: 1;
     }
     .py27.landheader .menu .nav-item .nav-link {
+        display: inline-block;
+        padding: 10px;
+        border-radius: 8px;
+    }
+    /*28*/
+    
+    .py28.landheader .menu.nav .nav-item .nav-link {
+        transition: .3s ease all;
+    }
+    .py28.landheader .menu .nav-item .nav-link:hover {
+        background: #D9A443 !important;
+        box-shadow: 0 8px 25px -8px #D9A443  !important;
+    }
+    .py28.es.landheader .menu .nav-item .nav-link:hover {
+        background: #ce0011 !important;
+        box-shadow: 0 8px 25px -8px #ce0011 !important;
+    }
+    .py28.landheader .menu .nav-item:hover .nav-link {
+        color: white !important;
+        opacity: 1;
+    }
+    .py28.landheader .menu .nav-item .nav-link {
         display: inline-block;
         padding: 10px;
         border-radius: 8px;
@@ -597,8 +619,71 @@ body {
 .py24.banner h1 {
     font-weight: bold;
 }
+/* 28 */
+
+.py28.banner {
+    display: block;
+    margin-top: 80px;
+    background-image: url(../../../app-assets/images/py24/home.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py28.banner .img-fluid {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    max-width: 400px;
+}
+.py28.banner, .py24.acerca, .py24.inversion {
+    position: relative;
+    padding: 140px 0;
+}
+.py28 .box {
+    position: relative;
+}
+.py28.banner span {
+    display: block;
+    width: 120px;
+    height: 3px;
+    background: white;
+    margin: auto;
+}
+/* BTN LIGHT */
+.py28.banner .btn-outline-light:hover, .py28.pagos .btn-outline-light:hover, .py28.inversion .btn-outline-light:hover {
+    color: #D9A443 !important
+}
+.py28.banner::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: #795a219d;
+}
+.py28.banner {
+    width: 100%;
+    height: 100%;
+    max-height: 600px;
+    background-image: url(https://hardzone.es/app/uploads-hardzone.es/2020/10/PortadamineriaAMD.jpg);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.py28.banner .row {
+    position: relative;
+    z-index: 3;
+}
+.py28.banner h1 {
+    font-weight: bold;
+}
 @media (min-width: 768px) {
     .py24.banner p {
+        font-size: 1rem; 
+    }   
+    .py28.banner p {
         font-size: 1rem; 
     }   
 }
@@ -606,16 +691,26 @@ body {
     .py24.banner h1 {
         font-size: 3rem; 
     }   
-    .py24 .auth-wrapper .logo, .py24.banner .logo {
+    .py28.banner h1 {
+        font-size: 3rem; 
+    }   
+    .py24 .auth-wrapper .logo, .py28 .auth-wrapper .logo, .py24.banner .logo, .py28.banner .logo {
         font-size: 35px;
     }
-    .py24 .auth-wrapper .logo-text, .py24.banner .logo-text {
+    .py24 .auth-wrapper .logo-text, .py24.banner .logo-text, .py28.banner .logo-text {
         font-size: 25px;
     }
     .py27 .auth-wrapper .logo, .py27.banner .logo {
         font-size: 35px;
     }
     .py27 .auth-wrapper .logo-text, .py27.banner .logo-text {
+        font-size: 25px;
+    }
+    /* 28 */
+    .py28 .auth-wrapper .logo, .py27.banner .logo {
+        font-size: 35px;
+    }
+    .py28 .auth-wrapper .logo-text, .py27.banner .logo-text {
         font-size: 25px;
     }
     .py24 .box .d-flex .btn-secondary {
@@ -629,10 +724,23 @@ body {
     .py24.banner .logo-text {
         font-size: 35px;
     }
+    .py28.banner .logo {
+        font-size: 45px;
+    }
+    .py28.banner .logo-text {
+        font-size: 35px;
+    }
     .py27.banner .logo {
         font-size: 45px;
     }
     .py27.banner .logo-text {
+        font-size: 35px;
+    }
+    /* 28 */
+    .py28.banner .logo {
+        font-size: 45px;
+    }
+    .py28.banner .logo-text {
         font-size: 35px;
     }
 }
@@ -753,7 +861,7 @@ body {
 .py24.testimonios .carousel .carousel-item .col-12 .d-block.w-100:hover {
     transform: scale(1.1)
 }
-.py24.webfooter, .py27.webfooter {
+.py24.webfooter, .py27.webfooter, .py28.webfooter {
     margin-left: 0;
 } 
 .py24.webfooter .nav-link {
@@ -777,7 +885,7 @@ body {
 .py24.webfooter, .py24.webfooter {
     text-align: center;
 }
-.py24.webfooter a img, .py27.webfooter a img {
+.py24.webfooter a img, .py27.webfooter a img, .py28.webfooter a img {
     width: 25px;
     height: 25px;
     object-fit: contain;
@@ -792,6 +900,12 @@ body {
         font-size: 100px;
     }
     .py27.pagos .text-center h3 {
+        font-size: 60px;
+    }
+    .py28.pagos .text-center h2 {
+        font-size: 100px;
+    }
+    .py28.pagos .text-center h3 {
         font-size: 60px;
     }
     .py24.testimonios .carousel .carousel-item .col-12 .text {
@@ -813,6 +927,9 @@ body {
         right: 130px;
     }
     .py27.pagos .btn-secondary {
+        font-size: 1.5rem;
+    }
+    .py28.pagos .btn-secondary {
         font-size: 1.5rem;
     }
 }
@@ -1466,6 +1583,538 @@ table tr td {
     display: none !important;
 }
 .py27 .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #7367f0 !important;
+}
+/*---------------------------- py28 ----------------------------*/
+table tr td {
+    white-space: nowrap !important;
+}
+.py28 .email h3 {
+    font-family: 'Conthrax Sb';
+}
+.py28 .email p {
+    font-weight: 600;
+}
+.py28 .email .logo {
+    width: 150px;
+}
+.py28 .carousel .carousel-item .img-fluid {
+    display: block;
+    width: 100%;
+    min-height: 300px;
+    object-fit: contain;
+}
+@media (min-width: 900px) {
+    .py28 .carousel .carousel-item .img-fluid {
+        height: 300px;
+        object-fit: cover;
+    }
+}
+.py28.es .navbar-brand .img-fluid {
+    max-width: 150px;
+    object-fit: cover;
+}
+.py28.landheader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: white;
+    width: 100%;
+    padding: 5px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+}
+.py28.vertical.vertical-menu-modern .main-menu::after {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #D9A443;
+}
+.py28.landheader::after {
+    content: ' ';
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    background: #D9A443;
+}
+.py28.landheader.es::after {
+    background: #ce0011;
+}
+.py28 .horizontal-menu-wrapper .main-menu::after {
+    content: ' ';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #D9A443;
+}
+.py28 .horizontal-menu-wrapper.es .main-menu::after {
+    background: #ce0011;
+}
+.py28 .nav-item .nav-link {
+    font-family: 'Conthrax Sb';
+    color: #d0d2d6 !important;
+    font-weight: 700;
+    transition: rgb(186, 223, 253)e all;
+}
+.py28.es .main-menu.menu-light .navigation > li.active > a {
+    background: linear-gradient(118deg, #ce0011, #e62435);
+    box-shadow: 0 0 10px 1px #ce0011b6;
+    color: #fff !important;
+    font-weight: 400;
+    border-radius: 4px;
+}
+.py28.es .nav-item .nav-link {
+    color: #ce0011 !important;
+}
+.py28.banner {
+    display: block;
+    background-image: url(../../../app-assets/images/py28/home.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py28.banner.es {
+    margin-top: 70px;
+    min-height: 350px;
+    display: block;
+    background-image: url(../../../app-assets/images/py28/nella/bg.jpg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.py28.notice.es {
+    background: linear-gradient(30deg, #ce0011 20%, rgb(255, 71, 71));
+}
+.py28 .board .btn {
+    font-weight: 700;
+}
+.py28 .card .list-group li {
+    list-style: none;
+}
+.py28.notice.es h2, .py28.notice.es p {
+    font-family: 'Conthrax Sb';
+}
+.py28.notice.es p {
+    line-height: 25px;
+}
+.py28.notice.es .btn {
+    font-family: 'Conthrax Sb';
+}
+.py28 .qr-img {
+    display: block;
+    width: 200px;
+    object-fit: contain;
+}
+.py28 .img-user-cap {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.py28.notice.es .img-fluid {
+    display: block;
+    margin: auto;
+    object-fit: cover;
+    width: 100%;
+    max-height: 300px;
+}
+.py28.compras.es .text-dark {
+    color: #000 !important;
+}
+@media (min-width: 768px) {
+    .py28.banner.es {
+        min-height: 450px;
+    }
+}
+.py28.banner.es .btn-danger {
+    margin-bottom: -300px !important;
+}
+.py28.banner.es .btn-danger, .py28.acerca.es .btn-danger, .py28.bolivia .btn-danger, .py28.compras.es .btn-danger {
+    font-family: 'Conthrax Sb';
+    text-transform: capitalize;
+    background: #ce0011 !important;
+    color: white;
+}
+.py28.bolivia {
+    position: relative;
+    padding: 80px 0;
+    display: block;
+    background-attachment: fixed;
+    background-image: url(../../../app-assets/images/py28/nella/ciudad.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py28.bolivia::before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.609);
+}
+.py28.bolivia .box {
+    position: relative;
+}
+.py28.bolivia .text h3, .py28.compras.es h2 {
+    font-family: 'Conthrax Sb';
+}
+.py28.compras.es .btn-outline-light {
+    font-weight: 700;
+}
+.py28.compras.es .text-center {
+    color: #ce0011 !important;
+}
+.py28.compras.es .btn-outline-light:hover {
+    color: #ce0011;
+}
+.py28.bolivia .text h3, .py28.bolivia .text p {
+    color: #000;
+}
+.py28.bolivia .img-fluid {
+    width: 80%;
+    max-width: 500px;
+} 
+.py28.banner .img-fluid {
+    display: block;
+    width: 100%;
+    object-fit: contain;
+    max-width: 400px;
+}
+.py28 .btn.btn-primary {
+    text-transform: capitalize;
+    color: #000 !important;
+    background: #c6c6c6 !important;
+    border-color: #c6c6c6 !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py28 .btn.btn-outline-primary {
+    text-transform: capitalize;
+    color: #04246d !important;
+    border-color: #04246d !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py28 .modal .btn.btn-outline-primary {
+    text-transform: capitalize;
+    color: #04246d !important;
+    border-color: #04246d !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py28 .form-check-primary .form-check-input:not(:disabled):focus {
+    border-color: #04246d !important;
+}
+.py28 .btn.btn-outline-primary:hover {
+    color: white !important;
+    background: #04246d !important;
+}
+.py28 .btn.btn-outline-secondary {
+    text-transform: capitalize;
+    color: #8f9299!important;
+    border-color: #8f9299 !important;
+    font-weight: 700;
+    transition: .3s ease all;
+}
+.py28 .btn.btn-outline-secondary:hover {
+    color: white !important;
+    background: #8f9299 !important;
+}
+.py28 .btn.btn-primary:hover {
+    color: white !important;
+    background: #04246d !important;
+    border-color: #04246d !important;
+}
+.py28 .dni-img .img-fluid {
+    display: block;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.py28 .progress-bar {
+    background-color: #04246d !important;
+}
+.py672 .flatpickr-day.selected {
+    background: #04246d !important;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    color: #fff;
+    border-color: #04246d !important;
+}
+@media (min-width: 768px) {
+    .py28 .dni-img .img-fluid {
+        height: 300px;
+    }
+}
+.py28.acerca .btn {
+    text-transform: capitalize;
+    font-family: 'Conthrax Sb';
+}
+.py28.acerca .card h4 {
+    font-family: 'Qualy';
+    color: #04246d;
+}
+.py28.acerca .card .img-fluid {
+    transition: .3s ease all;
+}
+.py28.acerca .card:hover .img-fluid {
+    transform: scale(0.9);
+}
+.py28.acerca.es .card h4 {
+    color: #ce0011;
+    font-family: 'Conthrax Sb';
+}
+.py28.acerca, .py28.inversion {
+    position: relative;
+    padding: 140px 0;
+}
+.py28 .auth-wrapper .logo, .py28.banner .logo {
+    font-size: 30px;
+    font-family: 'Conthrax Sb';
+}
+.py28 .auth-wrapper .logo-text, .py28.banner .logo-text {
+    font-size: 20px;
+    font-family: 'Qualy';
+}
+.py28 .box .d-flex .btn-secondary {
+    text-transform: capitalize;
+    background: #fff !important;
+    color: #04246d !important;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Qualy';
+    font-size: 1.3rem;
+    transition: .3s ease all;
+}
+.py28 .flatpickr-calendar .flatpickr-day.today {
+    border-color: #04246d;
+}
+.py28 .flatpickr-calendar .flatpickr-day.selected, .flatpickr-calendar .flatpickr-day.selected:hover {
+    background: #04246d;
+    border-color: #04246d;
+}
+.py28.es.webfooter .form-control:focus {
+    border-color: #ce0011;
+}
+.py28 .step .img-fluid {
+    width: 70px;
+    object-fit: contain;
+}
+.py28 .auth-wrapper .auth-login-form {
+    padding-right: 5px;
+    overflow: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+.py28 .auth-wrapper .btn-group .btn-flags {
+    padding: 0 5px;
+}
+.py28 .auth-wrapper .btn-group .img-fluid {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+.py28 .auth-wrapper .btn-group .icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+.py28 .form-check-primary .form-check-input:not(:disabled):checked, .form-check-primary .form-check-input:not(:disabled):focus {
+    border-color: #D9A443;
+}
+.py28 .auth-login-form::-webkit-scrollbar {
+    background: #dedede;
+    width: 8px;
+    border-radius: 5px;
+}
+.py28 #drop img, .py28 #drop span {
+    pointer-events: none;
+}
+.py28 .main-menu.menu-light .navigation > li.active > a {
+    background: linear-gradient(118deg, #D9A443, #e2c081);
+    box-shadow: 0 0 10px 1px #04236dbc;
+    color: #fff !important;
+    font-weight: 400;
+    border-radius: 4px;
+}
+.py28 .form-check-input:checked {
+    background-color: #D9A443;
+    border-color: #D9A443;
+}
+.py28 .form-check-input:focus {
+    border-color: #D9A443;
+}
+
+.py28 .dropdown-item:active {
+    color: #fff !important;
+    background-color: #D9A443 !important;
+}.py28 .dropdown-item:hover{
+    color: #fff !important;
+    background-color: #D9A443 !important;
+}
+.py28 .modal .bs-stepper {
+    box-shadow: none !important;
+}
+.py28 .dropdown-item:focus {
+    color: #D9A443 !important;
+    background-color: #0080e82a !important;
+}
+.py28 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
+    background: linear-gradient(118deg, #D9A443, #e2c081);
+    color: #fff;
+    box-shadow: 0 3px 6px 0 #D9A443;
+}
+.py28 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
+    background-color: #0080e82a;
+    color: #D9A443 !important;
+}
+.py28 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
+    color: #D9A443 !important;
+}
+.py28 .text-primary {
+    color: #D9A443  !important;
+}
+.py28 .alert-primary {
+    background-color: rgba(255, 166, 0, 0.198) !important;
+}
+
+.py28 .form-control:focus, .py28 .form-select:focus, .py28 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
+    border-color: #D9A443;
+}
+.py28 .auth-login-form::-webkit-scrollbar-thumb {
+    background: #dedede;
+    border-radius: 5px;
+    background-color: #D9A443;
+}
+.py28 .auth-login-form::-webkit-scrollbar:hover {
+    background: #e7e7e7;
+}
+.py28.acerca .col-md-6 {
+    transition: .3s ease all;
+}
+.py28.acerca .col-md-6:hover {
+    transform: translateY(-10px);
+}
+.py28.pagos {
+    position: relative;
+    padding: 80px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py28/buynow.jpg);
+}
+.py28.pagos.es {
+    background-image: url(../../../app-assets/images/py28/nella/sky.jpg);
+}
+.py28.compras.es {
+    position: relative;
+    padding: 80px 0;
+    background-image: url(../../../app-assets/images/py28/nella/sky.jpg);
+    background-size: cover;
+    background-position: center;
+}
+.py28.pagos.roadmap {
+    position: relative;
+    padding: 60px 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../../app-assets/images/py28/line.jpg);
+}
+.py28.pagos .text-center, .py28.inversion .text-center {
+    position: relative;
+    z-index: 3;
+    font-family: 'Qualy';
+}
+.py28.pagos .text-center h2, .py28.inversion .text-center h2 {
+    font-weight: bold;
+}
+.py28.pagos .text-center h2 {
+    font-size: 80px;
+}
+.py28.pagos .text-center h3 {
+    font-size: 50px;
+}
+.py28.pagos .btn-secondary {
+    background: #c6c6c6 !important;
+    color: #000 !important;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.3rem;
+}
+.py28.webfooter h3 {
+    color: #003A69;
+    font-family: 'Qualy';
+}
+.py28.webfooter p {
+    color: #005DA8;
+}
+.py28.es.webfooter h3 {
+    color: #ce0011;
+    font-family: 'Qualy';
+}
+.py28.es.webfooter p {
+    color: #ce0011;
+}
+.py28 .btn.btn-outline-primary:hover {
+    color: #005DA8;
+    border: 1px solid #005DA8;
+}
+.py28.webfooter .nav-link:hover {
+    color: rgb(51, 82, 255);
+    border: 1px solid #0080E8;
+}
+.py28.es.webfooter .nav-link {
+    color: #ce0011;
+}
+.py28.es.webfooter .nav-link:hover {
+    color: white;
+    background: #ce0011;
+    border: 1px solid #ce0011;
+    box-shadow: 0 8px 25px -8px #ce0011 !important;
+}
+.py28.es.webfooter .btn-outline-danger {
+    border-color: #ce0011 !important;
+    color: #ce0011 !important;
+    font-weight: 700;
+}
+.py28.es.webfooter .btn-outline-danger:hover {
+    background: #ce0011 !important;
+    color: white !important;
+}
+.py28.webfooter .nav-link {
+    color: #003A69;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: 'Conthrax Sb';
+    font-weight: 700;
+    border: 1px solid rgba(0,0,0,0);
+    transition: .6s ease all;
+}
+.py28.webfooter .nav-link:hover {
+    background: #003A69;
+    color: white;
+    box-shadow: 0 8px 25px -8px #003A69 !important;
+}
+.py28 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: #003A69 !important;
+    outline: 0;
+}
+.py28 .select2-results__option[aria-selected='true'] {
+    background-color: #003A69 !important;
+}
+.py28 .select2 b {
+    display: none !important;
+}
+.py28 .select2-container--default.select2-container--open .select2-selection--single {
     border-color: #7367f0 !important;
 }
 /*---------- py672 ----------*/

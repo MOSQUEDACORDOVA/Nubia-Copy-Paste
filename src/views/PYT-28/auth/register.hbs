@@ -1,0 +1,213 @@
+<div class="py28">
+  <div class="auth-wrapper auth-v2">
+    <div class="row auth-inner m-0">
+      <a href="/py28/PYT-28" target="_self" class="brand-logo py-2 d-lg-none">
+          <h2 class="brand-text text-primary"><b>Minner</b></h2>
+      </a>
+      <div class="d-none d-lg-flex flex-column px-5 pb-5 py-3 col-lg-8">
+        <a href="/py28/PYT-28" target="_self" class="brand-logo">
+            <h2 class="brand-text text-primary"><b>Minner</b></h2>
+        </a>
+        <img class="img-fluid auth-img mx-auto" src="../../../app-assets/images/pages/register-v2-dark.svg" alt="">
+      </div>
+      <div class="d-flex align-items-center auth-bg px-2 p-lg-5 col-lg-4 py-3 py-lg-4 vh-100">
+        <div class="px-xl-2 mx-auto col-sm-8 col-md-6 col-lg-12">
+            <h2 class="card-title font-weight-bold mb-1">La aventura comienza aquí</h2>
+            <p class="card-text mb-2">¡Haga que la administración de su aplicación sea fácil y divertida!</p>  
+
+
+            <form class="auth-login-form mt-2" action="/reguserpy28" method="POST">
+                <div class="mb-1">
+                    <label class="form-label" for="">Username</label>
+                    <input class="form-control" id="username" type="text" name="username" placeholder="Username" autofocus required>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="email">Email</label>
+                    <input class="form-control" id="email" type="text" name="email" placeholder="Email" required>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">First Name</label>
+                    <input class="form-control" id="" type="text" name="fname" placeholder="First Name" required>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Last Name</label>
+                    <input class="form-control" id="" type="text" name="lname" placeholder="Last Name" required>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Date of Birth</label>
+                    <input type="date" name="bdate" id="fp-default" class="form-control flatpickr-basic flatpickr-input" required />
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Gender</label>
+                    <select name="gender" class="form-select" required>
+                      <option value=""></option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Document Type</label>
+                    <select name="dtype" class="form-select" required>
+                      <option value=""></option>
+                       <option value="DRIVER'S LICENSE">DRIVER'S LICENSE</option>
+                      <option value="PASAPORT">PASAPORT</option>
+                      <option value="DNI">DNI</option>
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Document Number</label>
+                    <input type="text" class="form-control" name="numdoc" placeholder="Document Number" required>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Country</label>
+                    <select name="country" id="country" class="form-select" required>
+                      <option>Select your Nationality</option>
+                    </select>
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Area</label>
+                    <select id="nacionalidad" name="nationality" class="form-select" required>
+                      <option value="-">Country of residence</option>
+                    </select>
+                </div>
+                <div class="mb-1 d-none">
+                    <label class="form-label" for="">City</label>
+                    <input type="text" class="form-control" name="city" placeholder="City" value="-" required>
+                </div>
+                <div class="mb-1">
+                  
+                  <label class="form-label" for="">Phone</label>                   
+                  <div class="row p-0">
+                    <div class="col-4">
+                       <div class="btn-group">
+                          <button type="button" class="btn btn-outline-secondary btn-flags">
+                            <img src="https://flagcdn.com/w320/um.png" class="img-fluid p-0" id="flag">
+                          </button>
+                          <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden">Toggle Dropdown</span>
+                          </button>
+                          {{!--- BANDERAS ---}}
+                          <div class="dropdown-menu dropdown-menu-end" id="drop">
+                          </div>
+                        </div>
+                    </div>
+                     <div class="col-8">
+                        <input type="text" id="phone" class="form-control" name="phone" value="+246" placeholder="Phone" required>
+                     </div>
+                </div>
+              
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="">Address</label>
+                    <input type="text" class="form-control" name="address" placeholder="Address" required>
+                </div>
+                <div class="mb-1">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label" for="password">Password</label>
+                    </div>
+                    <div class="input-group input-group-merge form-password-toggle">
+                        <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="············" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                    </div>
+                </div>
+                <div class="mb-1">
+                  
+                    <div class="form-check form-check-primary">
+                        <input class="form-check-input" id="remember-me" type="checkbox" tabindex="16">
+                        <label class="form-check-label" for="remember-me"> I agree with <a href="/privacy/PYT-27" target="_blank" class="text-primary">privacy policy and terms.</a></label>
+                    </div>
+                </div>
+                <button id="boton" class="btn btn-primary w-100 waves-effect waves-float waves-light" disabled >Register Now</button>
+            </form>
+          </span>
+          <p class="font-weight-bold"><span>¿Ya tienes una cuenta?</span><a href="/login28/PYT-28" target="_self"><span class="text-primary">&nbsp; Iniciar sesión en su lugar</span></a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('remember-me').onclick = function() {
+  document.getElementById('boton').toggleAttribute('disabled')
+}
+</script>
+
+<script>
+  let currentFlag = document.getElementById('flag'),
+  lista = document.getElementById('drop'),
+  nacionalidad = document.getElementById('nacionalidad'),
+  country = document.getElementById('country'),
+  fragment1 = new DocumentFragment(),
+  fragment2 = new DocumentFragment(),
+  fragment3 = new DocumentFragment(),
+  input = document.getElementById('phone');
+
+  let estados = [], paises = [];
+
+  fetch('/getallpaises28')
+  .then(response => response.json())
+  .then(data => {
+    paises.push(data.paises);
+    paises[0].forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.paisnombre;
+      option.innerText = row.paisnombre;
+      option.setAttribute('data-id', row.id);
+      fragment2.appendChild(option);
+    });
+    country.appendChild(fragment2);
+  });
+
+  fetch('/getallestados28')
+  .then(response => response.json())
+  .then(data => {
+    estados.push(data.estados);
+  });
+
+  country.addEventListener('change', e => {
+    let selected = parseInt(country.options[country.selectedIndex].getAttribute('data-id'));
+    console.log(selected)
+    nacionalidad.innerHTML = "<option value="-">Country of residence</option>";
+    estados[0].forEach(item => {
+      console.log(item)
+      if(item.paiseId === selected) {
+          let option = document.createElement('option');
+          option.value = item.estadonombre;
+          option.innerText = item.estadonombre;
+          fragment3.appendChild(option);
+      } 
+    });
+    nacionalidad.appendChild(fragment3);
+  });
+
+  fetch('https://restcountries.com/v2/all')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    data.forEach(item => {
+      let a = document.createElement('a'),
+      option = document.createElement('option');
+      a.innerHTML = `
+        <img src="${item.flags.png}" class="img-fluid p-0 me-1">
+        <span>${item.name} - +${item.callingCodes[0]}</span>
+      `;
+      a.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+      a.setAttribute('data-flag', item.flags.png)
+      a.setAttribute('data-titulo', item.name)
+      a.setAttribute('data-code', item.callingCodes[0]);
+      option.setAttribute('value', item.name)
+      option.innerText = item.name;
+
+      fragment1.appendChild(a);
+    });
+
+    lista.appendChild(fragment1);
+  });
+
+  drop.addEventListener('click', e => {
+    currentFlag.src = e.target.getAttribute('data-flag');
+    if(e.target.getAttribute('data-code')) {
+      input.value = '+'+e.target.getAttribute('data-code');
+    }
+  });
+</script>

@@ -1,0 +1,403 @@
+<div class="app-content content py27">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section id="basic-datatable">               
+                <div class="row">
+                    {{!--- VERIFICADOS ---}}
+                    <div class="col-12">
+                        <div class="card">
+                            <div id="" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Verified Users</h6></div></div>
+                                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex align-items-center">Show 
+                                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="7">7</option>
+                                                    <option value="10">10</option><option value="25">25</option>
+                                                    <option value="50">50</option><option value="75">75</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 mb-1 mb-md-0">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                    <thead>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px; white-space:nowrap" aria-label="Date: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Details</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Type user</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Aerocoins</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Verified account</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Status</th></tr>
+                                    </thead>
+                                    <tbody id="table-user">
+                                        {{#if allusers}}
+                                        {{#each allusers as |user i|}}      
+                                        <tr class="even">
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{user.username}}</td>
+                                            <td style="white-space: nowrap;">{{user.email}}</td>
+                                            <td>
+                                                <form action="/getuserinfopy27" method="POST" id="form{{user.id}}">
+                                                    <input class="d-none" type="text" name="id" value="{{user.id}}">
+                                                    <button type="button" class="btn btn-outline-primary info-user" data-id="{{user.id}}">Info</button>
+                                                </form>
+                                            </td>
+                                            <td class="type_user">
+                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
+                                            </td>
+                                            <td>{{avalible_balance}}</td>
+                                            <td>
+                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
+                                            </td>
+                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                <p>No existen usuarios pendientes por verificación.</p>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
+                                        
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 tickets</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="d-none" id="btn-info" role="button" data-bs-toggle="modal" data-bs-target="#AddNewCard2"></button>
+
+                    {{!--- PENDIENTES POR VERIFICAR ---}}
+                    <div class="col-12">
+                        <div class="card">
+                            <div id="referidos" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Pending Verification</h6></div></div>
+                                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                                            <label class="d-flex align-items-center">Show 
+                                                <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                    <option value="7">7</option>
+                                                    <option value="10">10</option><option value="25">25</option>
+                                                    <option value="50">50</option><option value="75">75</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                            <label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                    <thead>
+                                        <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 102px; white-space: nowrap" aria-label="Name: activate to sort column ascending">User</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 121px; white-space: nowrap" aria-label="Salary: activate to sort column ascending">Type user</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px; white-space: nowrap" aria-label="Actions">Verified Account</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Status</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Action</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#if allunverif}}
+                                        {{#each allunverif as |user i|}}      
+                                        <tr class="even">
+                                            <td class=" control" tabindex="0" style="display: none;"></td><td class=" dt-checkboxes-cell"><div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="" id="checkbox100"><label class="form-check-label" for="checkbox100"></label></div></td>
+                                            <td style="white-space: nowrap;">{{user.username}}</td>
+                                            <td style="white-space: nowrap;">{{user.email}}</td>
+                                            <td>
+                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
+                                            </td>
+                                            <td>
+                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
+                                            </td>
+                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
+
+                                            {{#if user.front_img_dni}}
+                                            <td>
+                                                <a href="#" role="button" class="btn btn-outline-primary btn-verify" role="button" data-id="{{user.id}}" data-dni-front="{{user.front_img_dni}}" data-dni-back="{{user.back_img_dni}}" data-bs-toggle="modal" data-bs-target="#AddNewCard3">Check</a>
+                                            </td>
+                                            {{else}}
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-danger">No verification data</span>
+                                            </td>
+                                            {{/if}}
+                                        </tr>
+                                        {{/each}}
+                                        {{else}}
+                                        <tr>
+                                            <td style="white-space: nowrap;">
+                                                <p>There are no users pending for verification.</p>
+                                            </td>
+                                        </tr>
+                                        {{/if}}
+
+                                    </tbody>
+                                </table>
+                                <div class="d-flex justify-content-between mx-0 row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 0 to 7 of 100 entries</div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                            <ul class="pagination">
+                                                <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {{!-- MODAL --}}
+            <div class="modal fade" id="AddNewCard2" tabindex="-1" aria-labelledby="pricingModalTitle" style="padding-left: 0px;" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-5 px-sm-5 pt-50">
+                            <div class="text-center mb-2">
+                                <h1 class="mb-1">User Information</h1>
+                            </div>
+                            <form id="editUserForm" class="row gy-1 pt-75">
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">First Name</label>
+                                    <input type="text" id="fname" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Last Name</label>
+                                    <input type="text" id="lname" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Username</label>
+                                    <input type="text" id="username" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Email</label>
+                                    <input type="text" id="email" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Date of Birth</label>
+                                    <input type="text" id="birth" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Gender</label>
+                                    <input type="text" id="gender" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Document Type</label>
+                                    <input type="text" id="tdoc" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI</label>
+                                    <input type="text" id="numdoc" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Phone</label>
+                                    <input type="text" id="phone" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Country</label>
+                                    <input type="text" id="country" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Nationality</label>
+                                    <input type="text" id="nationality" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">City</label>
+                                    <input type="text" id="city" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Address</label>
+                                    <input type="text" id="address" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">Status</label>
+                                    <input type="text" id="status" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI Front</label>
+                                    <a href="" target="_blank" id="frontlink">
+                                        <img src="" id="front" class="img-fluid rounded-1 img-user-cap">
+                                    </a>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label" for="">DNI Back</label>
+                                    <a href="" target="_blank" id="backlink">
+                                        <img src="" id="back" class="img-fluid rounded-1 img-user-cap">
+                                    </a>
+                                </div>
+
+                                <div class="col-12 text-center mt-2 pt-50">
+                                    <button type="reset" class="btn btn-outline-secondary waves-effect" data-bs-dismiss="modal" aria-label="Close">
+                                        Close
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- END MODAL --}}
+
+            {{!-- MODAL VERIFICACION --}}
+            <div class="modal fade" id="AddNewCard3" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <h1 class="text-center mb-1">Account Verification</h1>
+                            <p class="text-center">Data supplied by the client</p>
+                            <form action="/verifyuserpy27" method="POST" class="card-body">
+                                <input type="text" name="id" id="iduser" class="d-none" required>
+                                <p class="card-text mb-0">DNI Front</p>
+                                <a target="_blank" id="link1">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_front">
+                                </a>
+                                
+                                <p class="card-text mb-0">DNI Back</p>
+                                <a target="_blank" id="link2">
+                                    <img src="" class="img-fluid mb-2 rounded-1" id="dni_back">
+                                </a>
+                                
+                                <button type="submit" class="btn btn-outline-primary">Validate verification</button>
+
+                                <button type="button" class="btn btn-outline-secondary deny-btn">Deny</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- END MODAL VERIFICACION --}}
+            
+            {{!-- DENEGAR VERIFICACION DE USUARIO --}}
+            <form action="/denyverificationpy27" method="post" id="denyForm" class="d-none">
+                <input type="text" id="denyIdUser" name="id"required>
+            </form>
+        </div>
+    </div>  
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>      
+<script>
+    let btnVerify = document.querySelectorAll('.btn-verify'),
+    denyBtn = document.querySelector('.deny-btn');
+
+    btnVerify.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            let current = event.target
+            SetVerifyModal(current);
+        });
+    });
+
+    const SetVerifyModal = (target) => {
+        const id = document.getElementById('iduser'), 
+        link1 = document.getElementById('link1'), 
+        dni1 = document.getElementById('dni_front'), 
+        link2 = document.getElementById('link2'), 
+        dni2 = document.getElementById('dni_back'); 
+
+        id.value = target.getAttribute('data-id');
+        link1.href = `/assets/img_up/${target.getAttribute('data-dni-front')}`;
+        dni1.src = `/assets/img_up/${target.getAttribute('data-dni-front')}`;
+        link2.href = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
+        dni2.src = `/assets/img_up/${target.getAttribute('data-dni-back')}`;
+    }
+
+    denyBtn.addEventListener('click', e => {
+        let form = document.getElementById('denyForm'),
+        inpDenyUserId = document.getElementById('denyIdUser'),
+        inpIdUser = document.getElementById('iduser');
+
+        inpDenyUserId.value = inpIdUser.value;
+        form.submit();
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        let btnModal = $('#btn-info');
+
+        let name = document.getElementById('fname'),
+        lname = document.getElementById('lname'),
+        username = document.getElementById('username'),
+        email = document.getElementById('email'),
+        birth = document.getElementById('birth'),
+        gender = document.getElementById('gender'),
+        tdoc = document.getElementById('tdoc'),
+        numdoc = document.getElementById('numdoc'),
+        phone = document.getElementById('phone'),
+        country = document.getElementById('country'),
+        nationality = document.getElementById('nationality'),
+        city = document.getElementById('city'),
+        address = document.getElementById('address'),
+        status = document.getElementById('status'),
+        frontlink = document.getElementById('frontlink'),
+        front = document.getElementById('front'),
+        backlink = document.getElementById('backlink');
+        back = document.getElementById('back');
+        
+        $('.info-user').click(function(e) {
+            let iduser = e.target.getAttribute('data-id');
+            let form = document.getElementById(`form${iduser}`);
+            const data = new FormData(form);
+            console.log(data)
+            $.ajax({
+                url: '/getuserinfopy27',
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (resp, textStatus, jqXHR) {
+                    let user = resp.user;
+                    console.log(user)
+                    console.log(address)
+                    name.value = user.first_name
+                    lname.value = user.last_name
+                    username.value = user.username
+                    email.value = user.email
+                    birth.value = user.date_of_birth
+                    gender.value = user.gender
+                    tdoc.value = user.doc_type
+                    numdoc.value = user.num_document
+                    phone.value = user.phone
+                    country.value = user.country
+                    city.value = user.city
+                    address.value = user.address
+                    nationality.value = user.nationality
+                    status.value = user.status
+
+                    frontlink.href = `/assets/img_up/${user.front_img_dni}`;
+                    front.src = `/assets/img_up/${user.front_img_dni}`;
+                    backlink.href = `/assets/img_up/${user.back_img_dni}`;
+                    back.src = `/assets/img_up/${user.back_img_dni}`;
+                    btnModal.click();
+                },
+                error: function (jqXHR, textStatus) {
+                    console.log('error:' + jqXHR);
+                }
+            });
+        });
+      
+        
+    });
+</script>

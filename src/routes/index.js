@@ -28,6 +28,13 @@ const authControllerPY27 = require('../controllers/PYT27/authControllerPY27');
 const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControllerPY27');
 /*---------------------------------*/
 
+/*------------- PYT28 -------------*/
+const MailerController28 = require('../controllers/PYT28/mailerController');
+const userControllerPY28 = require('../controllers/PYT28/userControllerPY28');
+const authControllerPY28 = require('../controllers/PYT28/authControllerPY28');
+const dashboardControllerPY28 = require('../controllers/PYT28/dashboardControllerPY28');
+/*---------------------------------*/
+
 /*------------- PYT672 -------------*/
 const userControllerPY672 = require('../controllers/PYT672/userControllerPY672');
 const authControllerPY672 = require('../controllers/PYT672/authControllerPY672');
@@ -537,6 +544,136 @@ router.get('/getallpaises', dashboardControllerPY27.getallpaises);
 
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
+
+
+/*------------ PYT-28-----------------*/
+// ! ADMIN
+router.get('/paympy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.paymanag);
+router.get('/paymethodspy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.paymethods);
+router.get('/userspy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.users);
+
+
+// ? POST ADMIN 
+// VERIFICAR USUARIO
+router.post('/verifyuserpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.verifyuser);
+// VERIFICAR USUARIO
+router.post('/denyverificationpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.denyverificationuser);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addbtcpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addbnbpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addusdtpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addusdt);
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+router.post('/updatestatuspaymethodpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updatestatuspaymethod);
+// ACTUALIZAR METODOS DE PAGO
+router.post('/updatepaymethodpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updatepaymethod);
+// ELIMINAR METODOS DE PAGO
+router.post('/deletepaymethodpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.deletepaymethod);
+
+router.get('/py28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.dashboard);
+
+// ! USUARIOS
+router.get('/retreats28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.retreats);
+
+// ? POST
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/updateprofilepy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.updateprofile);
+// ENVIAR DATOS DNI DE VERIFICACION
+router.post('/solicitverifypy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.solicitverify);
+// METODOS DE PAGO, RETIRO EN BTC
+router.post('/addretreatsbtcpy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.addretreatsbtc);
+// METODOS DE PAGO, RETIRO EN BNB
+router.post('/addretreatsbnbpy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.addretreatsbnb);
+// METODOS DE PAGO, RETIRO EN USDT
+router.post('/addretreatsusdtpy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.addretreatsusdt);
+// ACTUALIZAR METODOS DE RETIROS
+router.post('/updatemretreatspy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.updatemretreats);
+// ELIMINAR METODOS DE RETIRO
+router.post('/deletemretreatspy28', authControllerPY28.authenticatedUser, dashboardControllerPY28.deletemretreats);
+
+router.get('/controlrolespy28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.controlroles);
+router.get('/boardpresalepy28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.boardpresale);
+router.get('/depositsminneradmin/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.depositsaeroadmin);
+router.get('/getallpendingdeposits/:id', dashboardControllerPY28.getallpendingdeposits);
+
+router.get('/profile28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.profile);
+
+router.get('/webpy28/:id', dashboardControllerPY28.web);
+router.get('/webespy28/:id', dashboardControllerPY28.webes);
+router.get('/privacy28/:id', dashboardControllerPY28.privacy);
+router.get('/register28/:id', dashboardControllerPY28.register);
+// prueba
+router.get('/login28/:id', dashboardControllerPY28.login);
+router.get('/loginverify28/:token', dashboardControllerPY28.formLogin);
+router.get('/error28/:id', dashboardControllerPY28.error);
+// AEROCOIN PRESALE
+router.get('/minnerpresale/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.aeropresale);
+router.get('/depositaero/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.depositaero);
+// CONTROL DE MONEDA AERO COIN
+router.get('/minner/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.Minner);
+
+// AUTH
+router.post('/loginpy28', dashboardControllerPY28.sesionstart);
+router.post('/reguserpy28', dashboardControllerPY28.reguserpy28);
+
+
+
+// APROBAR
+router.post('/startdepositaero', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.startdepositaero);
+
+// AÑADIR PRECIO DE AEROCOIN
+router.post('/addminner', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addMinner);
+// AÑADIR PRECIO DE BTC
+router.post('/addbtcpricepy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbtcprice);
+// AÑADIR PRECIO DE BNB
+router.post('/addbnbpricepy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbnbprice);
+// ACTUALIZAR PRECIO AEROCOIN
+router.post('/updateMinner', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateMinner);
+// ACTUALIZAR PRECIO BTC
+router.post('/updateaebtcpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateaebtc);
+// ACTUALIZAR PRECIO BNB
+router.post('/updateaebnbpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateaebnb);
+// COMPRAR AEROCOINS
+router.post('/buyminner', authControllerPY28.authenticatedUser, dashboardControllerPY28.buyMinners);
+// OBTENER INFORMACIÓN DE USUARIO
+router.post('/getuserinfopy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.getuserinfopy28);
+
+// TRAER DEPOSITO USUARIO
+router.post('/getdeposituser', authControllerPY28.authenticatedUser, dashboardControllerPY28.getdeposituser);
+
+router.post('/rejectdeposit', pasarelaController.rejectdeposit);
+
+// VERIFICAR EMAIL
+router.get('/verifyemail28/:id', dashboardControllerPY28.formSearchAccountToken);
+// RESTABLECER CONTRASEÑA
+router.get('/forgotpasswordpy28/:id', dashboardControllerPY28.forgotpassword);
+// ? VERIFICACIÓN
+//router.get('/search-account-token', userControllerPY28.formSearchAccountToken);
+
+// ! EMAIL REGISTER
+router.get('/emailregsend/:id/:email', dashboardControllerPY28.emailregsend);
+router.get('/emaildeposits/:id', dashboardControllerPY28.emaildeposit);
+router.get('/emailretreats/:id', dashboardControllerPY28.emailretreats);
+router.get('/test/:id', dashboardControllerPY28.test);
+
+router.get('/emailverifynotifypy28/:id', MailerController.emailVerificado);
+
+router.get('/mailBienvenidapy28/:mail/:token', MailerController.bienvenidaMail);
+router.get('/mailDepositRejectedpy28/:iduser', MailerController.depositoRechazado);
+router.get('/mailDepositApprovey28/:userid/:total', MailerController.depositoAprovado);
+
+router.post('/resendemailverifypy28', dashboardControllerPY28.resendemailverify);
+// ESTADOS PAISES
+router.get('/getallestados28', dashboardControllerPY28.getallestados);
+router.get('/getallpaises28', dashboardControllerPY28.getallpaises);
+
+
+
+// Cerrar Sesión
+router.get('/logout/PYT-28', userControllerPY28.closeSesion);
+
+
 
 /*------------ PYT-672-----------------*/
 // TODO: AUTH  

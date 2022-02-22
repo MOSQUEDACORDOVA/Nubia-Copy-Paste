@@ -1,0 +1,58 @@
+<div class="py24">
+  <div class="auth-wrapper auth-v2">
+    <div class="row auth-inner m-0">
+      <a href="/py28/PYT-28" target="_self" class="brand-logo py-2 d-lg-none">
+          <h2 class="brand-text text-primary"><b>Minner</b></h2>
+      </a>
+      <div class="d-none d-lg-flex flex-column px-5 pb-5 py-3 col-lg-8">
+        <a href="/py28/PYT-28" target="_self" class="brand-logo">
+            <h2 class="brand-text text-primary"><b>Minner</b></h2>
+        </a>
+        <img class="img-fluid auth-img mx-auto" src="../../../app-assets/images/pages/login-v2-dark.svg">
+      </div>
+      <div class="d-flex align-items-center auth-bg px-2 p-lg-5 col-lg-4 py-3 vh-100">
+        <div class="px-xl-2 mx-auto col-sm-8 col-md-6 col-lg-12">
+          <h2 class="card-title font-weight-bold mb-1">Bienvenid@ a Minner!</h2>
+          <p class="card-text mb-2">Inicia sesión y comienza tu aventura. . .</p> 
+          <div role="alert" class="alert show alert-primary fade position-relative">
+              <div class="alert-body font-small-2"><p><small class="mr-50 text-primary">
+                  <span class="font-weight-bold">Administrador:</span> admin@demo.com | Contraseña: admin@demo.com</small></p><p><small class="mr-50 text-primary"><span class="font-weight-bold">Cliente:</span> cliente@demo.com | Contraseña: client@demo.com</small></p>
+              </div>
+              <svg class="bi flex-shrink-0 me-2 position-absolute top-0 start-100 translate-middle" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+          </div>
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                <symbol id="info-fill" fill="#D9A443" viewBox="0 0 16 16">
+                    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                </symbol>
+              </svg>
+            </span>
+
+            <form class="auth-login-form mt-2" action="/loginpy28" method="POST">
+                <div class="none">
+                    <input class="form-control" id="register-username" type="text" name="proyect" placeholder="johndoe" aria-describedby="register-username" value="PYT28" tabindex="1" hidden />
+                </div>
+                <div class="mb-1">
+                    <label class="form-label" for="login-email">Email</label>
+                    <input class="form-control" id="login-email" type="email" name="email" placeholder="Email" tabindex="1" autofocus required>
+                </div>
+                <div class="mb-1">
+                    <div class="d-flex justify-content-between">
+                        <label class="form-label" for="login-password">Password</label>
+                        <a href="/forgotpasswordpy28/PYT-28" class="text-primary">
+                          <small>Forgot your password?</small>
+                        </a>
+                    </div>
+                    <div class="input-group input-group-merge form-password-toggle">
+                        <input class="form-control form-control-merge" id="login-password" type="password" name="password" placeholder="············" tabindex="2" autocomplete="off" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary w-100 waves-effect waves-float waves-light" tabindex="4">Log In</button>
+            </form>
+          </span>
+          <p class="text-center mt-2"><span>¿Aún no tienes cuenta?</span><a href="/register28/PYT-28" target="_self"><span class="text-primary">&nbsp; ¡create una ahora!</span></a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

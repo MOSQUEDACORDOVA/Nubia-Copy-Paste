@@ -6,6 +6,7 @@ const db = require('./config/db');
 const db21 = require('./config/dbPY21');
 const db24 = require('./config/dbPY24');
 const db27 = require('./config/dbPY27');
+const db28 = require('./config/dbPY28');
 const db672 = require('./config/dbPY672');
 const dbPasarela = require('./config/dbPasarela');
 const bodyParser = require('body-parser');
@@ -47,6 +48,11 @@ require('./models/PYT24/Usuarios');
 db27.sync()
 .then(() => {
 	console.log('Base de datos conectada PY27');
+})
+// Conectar con la base de datos PYT28
+db28.sync()
+.then(() => {
+	console.log('Base de datos conectada PY28');
 })
 // Conectar con la base de datos PYT672
 db672.sync()
