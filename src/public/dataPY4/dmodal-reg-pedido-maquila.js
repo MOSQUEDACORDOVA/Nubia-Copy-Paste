@@ -31,7 +31,7 @@ $(function () {
     let cant = e.target.value
     let count_relleno_garrafon = $('#count_relleno_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_relleno_garrafon)
-    let monto = parseInt(cant) * 20
+    let monto = parseInt(cant) * 15
    
     $('#bwaters_garrafon_mont').val(monto)
    // $('#total_garrafon').val(suma)
@@ -62,6 +62,26 @@ $(function () {
     $('#placa_maquila-pedido').val(found.placa)    
 
   })
+
+  if ($('#id_cliente_qr').length >0) {
+    console.log('testing here')
+    $('#btnregistro_pedido_modal-maquila').trigger('click')
+    $('#registro_pedido_modal-maquila').modal('show')
+    $("#id_cliente_reg_pedido-maquila option[value="+ $('#id_cliente_qr').val() +"]").attr("selected",true);
+    $(`#id_cliente_reg_pedido-maquila option[value="${$('#id_cliente_qr').val()}]"`).trigger('change')    
+    $("#id_cliente_reg_pedido-maquila").trigger("change");
+    let id_ = $("#id_cliente_reg_pedido-maquila").val();
+    console.log(id_)
+    if (id_=='default') {
+      return
+    }
+    var found = array.find(element => element.id == id_);
+    $('#id_cliente-pedido-maquila').val(found.id)
+    $('#name_maquila-pedido').val(found.name)
+    $('#tlf_maquila-pedido').val(found.phone)
+    $('#vehiculo_maquila-pedido').val(found.vehiculo)
+    $('#placa_maquila-pedido').val(found.placa)    
+  }
 
   $('#metodo_pago-maquila').on('change', (e) => {
     let metodo = e.target.value

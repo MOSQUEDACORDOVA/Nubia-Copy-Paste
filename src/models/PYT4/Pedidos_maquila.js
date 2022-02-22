@@ -12,7 +12,7 @@ const Pedidos_maquila = db.define('pedidos_maquila', {
 		autoIncrement: true
 	},
 	monto_total: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.FLOAT,
 		allowNull: true,
 	},
 		fecha_pedido: {
@@ -58,7 +58,7 @@ const Pedidos_maquila = db.define('pedidos_maquila', {
 		defaultValue: 0
 	},
 	deuda_anterior: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.FLOAT,
 		allowNull: true,
 		defaultValue: 0
 	},
@@ -68,12 +68,12 @@ const Pedidos_maquila = db.define('pedidos_maquila', {
 		defaultValue: 0
 	},
 	total_monto_rellenos: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.FLOAT,
 		allowNull: true,
 		defaultValue: 0
 	},
 	total_monto_bwater: {
-		type: DataTypes.DECIMAL,
+		type: DataTypes.FLOAT,
 		allowNull: true,
 		defaultValue: 0
 	},

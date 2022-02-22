@@ -136,13 +136,12 @@ if (fecha_final == true) {
               '</a>' +
              `<p id="CopyPedido${full['id']}" class="d-none">
 --------------------------------------------------------------
-#Pedido:${full['id']} -
-Cliente: --.
-Dirección: .
-Referencia:--.
-Rf:$--.
-CJ: $--.
-Env: $--.</p>`  
+#RECIBO B•Water -
+Cliente: ${full['clientes_maquila']['name']}.
+Relleno: ${full['rellenos']} .
+Bwater: ${full['bwater']} .
+Total Pagado: $${full['monto_total']}.
+Tipo de pago: ${full['metodo_pago']}.</p>`  
             );
           }, 
         },
@@ -535,12 +534,7 @@ $('#bwaters').text(ventas_day.bwaters)
 $('#ingresos').text(ventas_day.ingresos)
 })
 
-if ($('#id_cliente_qr').length >0) {
-  console.log('testing here')
-  $(`#id_cliente_reg_pedido-maquila`).val($('#id_cliente_qr').val()).trigger('change')
-  $('#btnregistro_pedido_modal-maquila').trigger('click')
-  $('#registro_pedido_modal-maquila').modal('show')
-}
+
 
 /**FIN DEL READY FUNCTION */});
 // Filter column wise function
@@ -609,6 +603,7 @@ if ($('#total_total_inp-maquila').val() == "0") {
     data: $('#form-reg-pedido-maquila').serialize(),
     success: function (data, textStatus, jqXHR) {
       console.log(data)
+
       if(data.msg){
         swal.fire(data.msg)
         return
@@ -617,7 +612,25 @@ if ($('#total_total_inp-maquila').val() == "0") {
       data2.replace(/\//g, "")
       console.log(data2)
 
-        Swal.fire('Se creó con éxito el pedido en maquila')
+      console.log(data['revisa_bwater_relleno'][0]['total_rellenos'])
+      if (( data['revisa_bwater_relleno'][0]['total_rellenos'] % 1000 ) == 0 || data['revisa_bwater_relleno'][0]['total_rellenos'] > 1000) {
+        swal.fire(`El cliente de este pedido, alcanzó los ${data['revisa_bwater_relleno'][0]['total_rellenos']} rellenos`).then((response)=>{
+          console.log(response)
+          if (response.isConfirmed) {
+             Swal.fire('Se creó con éxito el pedido en maquila')
+          }
+        })
+      }
+      if (( data['revisa_bwater_relleno'][0]['total_bwaters'] % 500 ) == 0 || data['revisa_bwater_relleno'][0]['total_bwaters'] >500) {
+        swal.fire(`El cliente de este pedido, alcanzó los ${data['revisa_bwater_relleno'][0]['total_bwaters']} bwaters`).then((response)=>{
+          console.log(response)
+          if (response.isConfirmed) {
+             Swal.fire('Se creó con éxito el pedido en maquila')
+          }
+        })
+      }
+       
+
 $('.modal').modal('hide');
 $('#form-reg-pedido-maquila').trigger("reset");
 let hoy= moment().format('YYYY-MM-DD')
@@ -647,6 +660,8 @@ $('#deuda_verf').text('0')
  </tr>
 </thead>`);
 carga_tabla_pedido_maquila('si')
+recargaIngresos()
+
  if ($('#filterPosition').val() != "") {
    console.log($('#filterValue').val())
   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
@@ -828,4 +843,19 @@ function share_record(id_) {
     /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
     $('#p1').text(direction_copy)*/
     copyToClipboard(`#CopyPedido${id_edit}`)
+}
+async function recargaIngresos() {
+  let dia = moment().format('YYYY-MM-DD')
+var ventas_day =  await fetch('/ventas-del-dia/'+dia)
+     .then(response => response.json())
+     .then(data => {
+         console.log(data)
+      return data
+     });
+console.log(ventas_day)
+$('#ventas_del_dia').text(ventas_day.ventas_del_dia)
+$('#rellenos').text(ventas_day.rellenos)
+$('#bwaters').text(ventas_day.bwaters)
+$('#ingresos').text(ventas_day.ingresos)
+  
 }

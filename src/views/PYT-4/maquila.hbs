@@ -176,9 +176,10 @@ $(document).ready(function() {
 
                     <div class="row">
                         <div class="col-12">
+                            <div class="card">
                             <div class="table-responsive">
-                                <div class="card">
-                                    <table class="datatables-basic table dt-column-search-maquila" id="pedidos-maquila-table">
+                                
+                                    <table class="datatables-basic table dt-column-search-maquila table-responsive" id="pedidos-maquila-table">
                                         <thead>
                                             <tr>                                                
                                                 <th></th>
@@ -192,7 +193,8 @@ $(document).ready(function() {
                                             </tr>
                                         </thead>
                                     </table>
-                                </div>
+                                
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -207,7 +209,7 @@ $(document).ready(function() {
                         </div>
                         <div class="table-responsive">
                             <div class="card">
-                                <table class="table-clientes-maquila table dt-column-search-clientes-maquila">
+                                <table class="table-clientes-maquila table dt-column-search-clientes-maquila table-responsive">
                                     <thead>
                                         <tr>
                                             <th></th>
@@ -284,7 +286,7 @@ $(document).ready(function() {
                     <div class="form-group">
                         <label class="form-label" for="id_cliente_reg_pedido">Cliente</label>
                         <select class="select2 form-select" id="id_cliente_reg_pedido-maquila" name="id_cliente_select">
-                            <option selected="" value="default"> Seleccione un cliente </option>
+                            <option value="default" selected> Seleccione un cliente </option>
                             {{#each clientes_maquila as |cliente i|}}
                             <option value="{{id}}"> {{name}}/ {{vehiculo}}/{{placa}}</option>
                             {{/each}}
