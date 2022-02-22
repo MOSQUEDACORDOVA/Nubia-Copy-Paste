@@ -92,7 +92,7 @@
   }
   let codigosP = $('#array_cp').val()
  let hoy = moment().format('YYYY-MM-DD')
-  let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy);
+  let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
   console.log(array_resumen_carga)
   console.log(pedidos_resumen)
