@@ -2,6 +2,11 @@
   .none{
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}

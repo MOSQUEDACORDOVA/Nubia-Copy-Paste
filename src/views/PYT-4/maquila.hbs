@@ -27,6 +27,9 @@
         #home_modal .modal-dialog {
            max-width: 600px; 
         }
+        table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
     }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
@@ -148,9 +151,9 @@ $(document).ready(function() {
                         <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button> 
                     </div>
                                 </div>
-                                                <div class="col-md-4">
-                    <div class="d-flex">
-                        <div class="text-center d-none" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
+                                                <div class="col-md-2">
+                    <div class="card card-congratulation" style="margin-bottom: 0;">
+                        <div class="text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
                             <div class="avatar avatar-xl bg-light shadow">
                                 <div class="avatar-content">
                                     <i data-feather="award" class="font-large-1 text-primary"></i>
@@ -158,15 +161,16 @@ $(document).ready(function() {
                             </div>
                           
                         </div>
-                          <div class="card card-congratulation" style="margin-bottom: 0;">
-                                {{!-- <h1 class="my-1 text-white text-center">Total del día</h1> --}}
+                          <div class="" >
+
+                                <h1 class="my-1 text-white text-center">Total del día</h1> 
                                 <p class="card-text mb-1">Ventas del día: <strong id="ventas_del_dia"> {{ventas_del_dia}}</strong></p>
                                 <p class="card-text mb-1">Rellenos: <strong id="rellenos"> {{rellenos}}</strong></p>
                                 <p class="card-text mb-1">Bwaters: <strong id="bwaters"> {{bwaters}}</strong></p>
                                 <p class="card-text"> Ingreso: <strong>$ <span id="ingresos">{{ingresos}}</span></strong></p>
                                 {{#if admin}}
                             <div class="col" style=" margin-left: 1rem;">
-                                <label class="card-text text-white w-100">Fecha: {{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
+                                <label class="card-text text-white w-100">{{#formatoFecha2 dia}}{{/formatoFecha2}}</label>
                                 <div class="mb-0 d-flex">
                                     <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  ventas dt-input" name="value_from_ventas" data-column="5" data-column-index="4" placeholder="Ventas del día" id="ventas_day"/>

@@ -2,6 +2,11 @@
   .none{
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 <script>
   $(document).ready(function(){
@@ -347,7 +352,7 @@ case 4:
                                         <div class="card-header p-1">
                                             <div class="head-label"><h6 class="mb-0">General</h6></div>
                                         </div>
-                                        <table class="datatables-basicGral table dt-column-searchGral" id="pedidos_corteGral" >
+                                        <table class="datatables-basicGral table dt-column-searchGral table-responsive" id="pedidos_corteGral" >
                                             <thead>
                                                 <tr>
                                                     <th>Tipo oculto</th>
@@ -449,7 +454,7 @@ case 4:
                                 <div class="card-header p-1">
                                     <div class="head-label"><h6 class="mb-0">Residenciales</h6></div>
                                 </div>
-                                <table class="datatables-basic table dt-column-searchRes" id="residencial_table" >
+                                <table class="datatables-basic table dt-column-searchRes table-responsive" id="residencial_table" >
                                     <thead>
                                         <tr>
                                             <th>Tipo oculto</th>
@@ -551,7 +556,7 @@ case 4:
                                         <div class="card-header p-1">
                                             <div class="head-label"><h6 class="mb-0">CORTE NEGOCIOS</h6></div>
                                         </div>
-                                        <table class="datatables-basicnegocio table dt-column-searchnegocio" id="negocio_table" >
+                                        <table class="datatables-basicnegocio table dt-column-searchnegocio table-responsive" id="negocio_table" >
                                             <thead>
                                                 <tr>
                                                     <th>Tipo oculto</th>
@@ -651,7 +656,7 @@ case 4:
                                         <div class="card-header p-1">
                                             <div class="head-label"><h6 class="mb-0">Punto de Venta</h6></div>
                                         </div>
-                                        <table class="datatables-basicPto table dt-column-searchPto" id="Pto_table" >
+                                        <table class="datatables-basicPto table dt-column-searchPto table-responsive" id="Pto_table" >
                                             <thead>
                                                 <tr>
                                                     <th>Tipo oculto</th>

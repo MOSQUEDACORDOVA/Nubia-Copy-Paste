@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
@@ -76,7 +81,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_asig_chofer dt-column-asig_chofer">
+                        <table class="datatables-basic_asig_chofer dt-column-asig_chofer table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -141,7 +146,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_carga_init dt-column-search_carga_init">
+                        <table class="datatables-basic_carga_init dt-column-search_carga_init table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>

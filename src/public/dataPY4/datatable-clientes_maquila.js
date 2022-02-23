@@ -156,6 +156,14 @@ console.log(arr_clientes)
     $('#reg-cliente-maquila-form')[0].reset()
 
   })
+  $('#btnadd_cliente_res-maquila').on('click',()=>{
+    $('.btnreg-client-maquila').text('Registrar')
+    $('.btn-maquila').remove()
+    $('#add_cliente-maquila .modal-footer').append(`<button tabindex="26" type="button" class="btn btn-primary btn-block waves-effect waves-float waves-light btnreg-client-maquila btn-maquila" onclick="registrarclienteMa()">Registrar</button>`)
+    $('#title-cliente-maquila').text('Agregar Cliente Maquila')
+    $('#reg-cliente-maquila-form')[0].reset()
+
+  })
 
 });
 function edit_cliente_maquila(id_edit) {

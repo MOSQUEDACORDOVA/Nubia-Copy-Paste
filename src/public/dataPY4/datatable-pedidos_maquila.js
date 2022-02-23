@@ -498,6 +498,23 @@ $('#btnregistro_pedido_modal-maquila').on('click',()=>{
   $('#fecha_pedido-maquila').val(hoy)
 
 })
+$('#btnregistro_pedido_modal_res-maquila').on('click',()=>{
+  $('#btn_reg_pedido-maquila').text('Registrar')
+  $('.btn-pedido-maquila').remove()
+  if ($('#id_cliente_qr').length >0) {
+   $(`#id_cliente_reg_pedido-maquila`).val($('#id_cliente_qr').val()).trigger('change')
+  }else{
+    $(`#id_cliente_reg_pedido-maquila`).val('default').trigger('change')
+  }
+  
+  $('#registro_pedido_modal-maquila .modal-footer').append(`<button tabindex="26" rippleeffect=""
+  class="btn btn-primary btn-block waves-effect waves-float waves-light btn-pedido-maquila" type="button"  id="btn_reg_pedido-maquila" onclick="guardar_pedido_maquila()">Regístrar</button>`)
+  $('#title-pedido-maquila').text('Agregar Cliente Maquila')
+  $('#form-reg-pedido-maquila')[0].reset()
+  let hoy = moment().format('YYYY-MM-DD')
+  $('#fecha_pedido-maquila').val(hoy)
+
+})
   // Filter form control to default size for all tables
   $('.dataTables_filter .form-control').removeClass('form-control-sm');
   $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
