@@ -383,7 +383,7 @@ module.exports = {
 		 return out;
 		},
 			formatoFecha2: (fecha, user) => {
-				var fecha_dia =moment(fecha).locale('es').format("dddd, Do MMMM  YYYY, h:mm a");
+				var fecha_dia =moment(fecha).locale('es').format("dddd, Do MMMM  YYYY");
 
 						//console.log(fecha_)
 					 return fecha_dia;

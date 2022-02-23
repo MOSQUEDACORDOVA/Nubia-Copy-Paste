@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
@@ -65,7 +70,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_personal">
+                        <table class="datatables-basic_personal table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -109,7 +114,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_usuarios">
+                        <table class="datatables-basic_usuarios table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>

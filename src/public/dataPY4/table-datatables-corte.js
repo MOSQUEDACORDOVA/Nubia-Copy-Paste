@@ -546,9 +546,10 @@ dt_Gral_t.$('.ResOcultodescuento').each(function(){
         descuentos += parseFloat($(this).text());
   }    
   });
+  let subtotal_residencial = parseFloat(resDpositos)+parseFloat(resEfectivo)
 $('.depositos_gral').html(`<span style="color:red">$${resDpositos}</span>`)
 $('.adeudo_gral').html(`<span >$${resDeuda}</span>`)
-$('.subtotal').html(`<span >$${resEfectivo}</span>`)
+$('.subtotal').html(`<span >$${subtotal_residencial}</span>`)
 $('.descuentogral').html(`<span >$${descuentos}</span>`)
 
 
@@ -596,9 +597,9 @@ dt_Gral_t.$('.prestados').each(function(){
   $( dt_Gral_t.column(5 ).footer() ).html(sumadanados);
   $( dt_Gral_t.column(6 ).footer() ).html(sumaprestados);
   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-    subtotal =parseFloat(subDepositos)-parseFloat(subefectivo)
+    subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
   }else{
-subtotal =parseFloat(subefectivo)-parseFloat(subDepositos)
+subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
   }
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
   dt_Gral_t.$('.ResOcultoRefill').each(function(){
@@ -647,7 +648,7 @@ dt_Gral_t.$('.ResOcultoPrestados').each(function(){
   $('.prestados_gral').html(resprestados)
 
   $('.adeudoF').text(subadeudo)
-  $('.subtotalF').text(subefectivo)
+  $('.subtotalF').text(subtotal)
   $('.depositosF').text(subDepositos)
   $('.cantdepositosF').text(cantDepositos)
   $('.descuentosF').text(resdescuentos)
@@ -657,6 +658,12 @@ dt_Gral_t.$('.ResOcultoPrestados').each(function(){
       sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
     }   
   }
+  if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+    subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+  }else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
+  }
+
   $('.adeudoA').text(sumaDeudaAnterior)
   if (parseFloat(subtotal) < parseFloat(subadeudo)) {
     subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
@@ -1073,12 +1080,12 @@ $( dt_residencial_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_residencial_t.column(5 ).footer() ).html(sumadanados);
 $( dt_residencial_t.column(6 ).footer() ).html(sumaprestados);
 if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-  subtotal =parseFloat(subDepositos)-parseFloat(subefectivo)
+  subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
 }else{
-subtotal =parseFloat(subefectivo)-parseFloat(subDepositos)
+subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
 }
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(subefectivo)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
 $('.descuentosF').text(descuentos)
@@ -1088,6 +1095,11 @@ for (let i = 0; i < filter_deudas_pagas.length; i++) {
   if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
     sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
   }   
+}
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
 }
 $('.adeudoA').text(sumaDeudaAnterior)
 if (parseFloat(subtotal) < parseFloat(subadeudo)) {
@@ -1498,12 +1510,12 @@ $( dt_negocio_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_negocio_t.column(5 ).footer() ).html(sumadanados);
 $( dt_negocio_t.column(6 ).footer() ).html(sumaprestados);
 if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-  subtotal =parseFloat(subDepositos)-parseFloat(subefectivo)
+  subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
 }else{
-subtotal =parseFloat(subefectivo)-parseFloat(subDepositos)
+subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
 }
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(subefectivo)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
 $('.descuentosF').text(descuentos)
@@ -1512,6 +1524,11 @@ for (let i = 0; i < filter_deudas_pagas.length; i++) {
   if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
     sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
   }   
+}
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
 }
 $('.adeudoA').text(sumaDeudaAnterior)
 if (parseFloat(subtotal) < parseFloat(subadeudo)) {
@@ -1920,12 +1937,12 @@ $( dt_PuntoVenta_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_PuntoVenta_t.column(5 ).footer() ).html(sumadanados);
 $( dt_PuntoVenta_t.column(6 ).footer() ).html(sumaprestados);
 if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-  subtotal =parseFloat(subDepositos)-parseFloat(subefectivo)
+  subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
 }else{
-subtotal =parseFloat(subefectivo)-parseFloat(subDepositos)
+subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
 }
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(subefectivo)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
 $('.descuentosF').text(descuentos)
@@ -1934,6 +1951,11 @@ for (let i = 0; i < filter_deudas_pagas.length; i++) {
   if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
     sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
   }   
+}
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
 }
 $('.adeudoA').text(sumaDeudaAnterior)
 if (parseFloat(subtotal) < parseFloat(subadeudo)) {

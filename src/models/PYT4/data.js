@@ -1017,6 +1017,27 @@ console.log(hoy)
         });
     });
   },
+  Verf_deuda_pedidoNULL(id,id_sucursal){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        clienteId: id,
+        status_pago:'Por verificar',
+      },include:[
+        {association:Pedidos.Clientes },
+       // {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   Delete_Pedido(id){
     return new Promise((resolve, reject) => {
       Pedidos.destroy({where:{

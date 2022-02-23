@@ -6,7 +6,8 @@ const passport = require("passport");
 //const {getStreamUrls} = require('mixcloud-audio')
 //var moment = require('moment'); // require
 var moment = require('moment-timezone');
-const Push = require('push.js')
+const Push = require('push.js');
+const { VerificaDuplicado } = require("../models/PYT4/data");
 
 exports.change_sucursal = (req, res) => {
 let nuevo_id = req.body.cambia_sucursal
@@ -1605,7 +1606,13 @@ exports.corte_prestados_table = (req, res) => {
   //DEUDA PEDIDO
   exports.verifica_deuda_pedido = (req, res) => {
     let id_cliente = req.body.id_cliente
-    DataBase.Verf_deuda_pedido(id_cliente, req.session.sucursal_select).then((desc_)=>{
+    let Verf_deuda_pedido
+    if (req.session.sucursal_select == null) {
+      Verf_deuda_pedido= DataBase.Verf_deuda_pedidoNULL
+    }else{
+      Verf_deuda_pedido= DataBase.Verf_deuda_pedido
+    }
+    Verf_deuda_pedido(id_cliente, req.session.sucursal_select).then((desc_)=>{
       let deuda = JSON.parse(desc_)
       let deuda_monto = 0, prestados = 0;
       for (let i = 0; i < deuda.length; i++) {
