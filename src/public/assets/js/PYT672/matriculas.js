@@ -729,7 +729,10 @@ var gruposAct = []
   console.log('Leccion'+jjaa)
   $('#selectGroup option[value="'+grupos[i]["id"]+'"]').attr('disabled', true);
   }else{
-    let filter_group_alumnos = estudiantesParsed.filter(
+    if ($('#grupoReag').text() == grupos[i]["identificador"]) {
+      console.log('mismo grupo')
+    }else{
+      let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == grupos[i]["id"]
     ).length;
     console.log(filter_group_alumnos);
@@ -745,8 +748,12 @@ var gruposAct = []
     <td>${filter_group_alumnos}</td>
     <td>Isaac</td>
 </tr>`)
+    }
+    
   }
-  
+  console.log(gruposAct.length)
+  $('#countGrupos').text('0')
+  $('#countGrupos').text(gruposAct.length)
  }
 
    console.log('activos') 
