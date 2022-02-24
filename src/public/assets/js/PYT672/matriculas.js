@@ -631,6 +631,7 @@ $('#grupoId').val(e.target.value)
 
   /**end of select group */});
 
+
 }); //END OF READY FUNCTION
 
 $('#guarda-grupoNew').click(()=>{
@@ -645,12 +646,16 @@ $('#guarda-grupoNew').click(()=>{
 
 const leccionActualGrupos = async ()=>{
   console.log('Entro aqui')
+  $(`#gruposAct`).empty()
+  console.log(grupos)
   var leccionTrue = false,nLeccion
 var startDate = moment().startOf('week');
 var endDate = moment().endOf('week');
 let hoy = moment().locale('es').format('dddd')
 let leccionFecha, addf, leccionactual, fecha_ant, leccionFecha2, j = "";   
 var jjaa
+var gruposAct = []
+
  for (let i = 0; i < grupos.length; i++) {
    
     let tipo = grupos[i]["nombre"];
@@ -722,9 +727,35 @@ var jjaa
   if (jjaa > $('#leccion_actual_reasig').val()) {
     console.log('Grupo:' + grupos[i]["identificador"])
   console.log('Leccion'+jjaa)
-  $('#selectGroup option[value="'+grupos[i]["id"]+'"]').attr("disabled", true);
+  $('#selectGroup option[value="'+grupos[i]["id"]+'"]').attr('disabled', true);
+  }else{
+    let filter_group_alumnos = estudiantesParsed.filter(
+      (filter2) => filter2.grupo.id == grupos[i]["id"]
+    ).length;
+    console.log(filter_group_alumnos);
+    console.log('Grupoac:' + grupos[i]["identificador"])
+  console.log('Leccion ac'+jjaa)
+    gruposAct.push(grupos[i])
+    $(`#gruposAct`).append(`<tr>
+    <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
+    <td>${grupos[i]["identificador"]}</td>
+    <td>${jjaa}</td>
+    <td>${grupos[i]["dia_horario"]}</td>
+    <td>${grupos[i]["dia_pagos"]}</td>
+    <td>${filter_group_alumnos}</td>
+    <td>Isaac</td>
+</tr>`)
   }
   
  }
-    
+
+   console.log('activos') 
+   console.log(gruposAct)
+   var dt_gruposActi = $('#grupos_table')
+
+}
+function grupoSelected(valor) {
+   $('#grupoId').val(valor)
+   $('#guarda-grupoNew').removeAttr('disabled')
+
 }
