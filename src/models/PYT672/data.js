@@ -328,6 +328,22 @@ module.exports = {
           });
       });
     },
+    BuscarEstudianteConstancia(id){
+      return new Promise((resolve, reject) => {
+        Matriculas.findOne({where:{
+          id: id
+        }
+        },)
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            console.log('ESTUDIANTE ENCONTRADO')
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // * ACTIVAR ESTUDIANTE CONGELADO ADMIN
     ActivarEstudianteCongelado(id){
       return new Promise((resolve, reject) => {
@@ -831,6 +847,18 @@ guardar_caja(concepto,fecha_pago,monto,mora,observacion, id_alumno) {
 historial_caja(id_alumno) {
   return new Promise((resolve, reject) => {
     Caja.findAll({where:{matriculaId:id_alumno} })
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+update_constancia(id_caja, fecha_download) {
+  return new Promise((resolve, reject) => {
+    Caja.update({observacion:fecha_download},{where:{id:id_caja} })
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

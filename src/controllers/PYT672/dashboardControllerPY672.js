@@ -5,6 +5,7 @@ const DataBase = require("../../models/PYT672/data");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
+var pdf = require('html-pdf');
 
 // TODO: AUTH
 // * LOGIN
@@ -1534,6 +1535,79 @@ exports.historial_caja = async(req, res) => {
   return res.send({obtener_historia})
 };
 
+/**GENERAL PDF CONSTANCIA */
+exports.genera_pdf_constancia = async (req, res) => {
+  console.log(req.params.id_estudiante)
+  var fech = moment().format('DD/MM/YYYY')
+  var estudiante =  JSON.parse(await DataBase.BuscarEstudianteConstancia(req.params.id_estudiante))
+  console.log(estudiante)
+  var contenido = `<html>
+  <head>
+  
+  </head>
+  <body style="font-family: 'Poppins', sans-serif; font-size: 1.4em;">
+  <div style="width: 100%;margin-left: auto;margin-right: auto;padding: 25px;">    
+
+    <div>
+    <div  style="font-weight: bold;display: inline-flex; padding-top: .3125rem;padding-bottom: .3125rem; margin-right: 1rem;font-size: 3rem;   line-height: inherit;white-space: nowrap;align-items: center; "> 
+      <img src="" style="vertical-align: middle; border-style: none;width: 9rem;" alt="..." />
+      <div>
+          Academy
+      </div>
+    </div>
+      <div style="top: -100px;position: relative;left: 450px;width: 30%;border: solid 1px;margin: 0;padding: 1rem;border-radius: 15px;">
+          Fecha: ${fech}
+      </div>
+    </div>
+    <h3>CONSTANCIA</h3>
+    <div style="border: solid 1px;border-radius: 15px;padding: 1rem;width: 90%;">
+        
+<div style="margin-bottom: 10px;">Nombre: <span>${estudiante.nombre}</span></div>
+<div>Correo: <span></span></div>
+    </div>	
+
+<div style="text-align: center; margin-top: 20px;"> 
+      <label style="font-size: 1.8rem;font-weight: bold;color: darkgoldenrod;"><i class="fas fa-exclamation-circle"></i> Gracias!!</label><br> 
+    </div>
+</div>
+</body>
+
+</html>
+`;
+let fechaaa=Number(moment())
+var envio
+var check_constancia = JSON.parse(await DataBase.historial_caja(req.params.id_estudiante))
+console.log(check_constancia)
+for (let i = 0; i < check_constancia.length; i++) {
+ if (check_constancia[i]['concepto']== "Constancia" && check_constancia[i]['observacion']== "-") {
+    let update_contancia = await DataBase.update_constancia(check_constancia[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+pdf.create(contenido).toStream(function (err, stream) {
+    if (err) {
+        console.log(err);
+    }
+    res.writeHead(200, {
+        'Content-Type': 'application/force-download',
+        'Content-disposition': 'attachment; filename=constancia.pdf'
+    });
+    stream.pipe(res);
+  });
+
+// pdf.create(contenido).toFile(`./public/sa${fechaaa}.pdf`, function(err, rest) {
+//     if (err){
+//         console.log(err);
+//     } else {
+//         console.log(rest);
+//         res.send(`./sa${fechaaa}.pdf`)
+//       return  envio = rest
+//     }
+// });
+
+
+};
+
 // * MODULO USUARIOS
 exports.usuarios = (req, res) => {
   let msg = false;
@@ -2409,10 +2483,16 @@ exports.editarmatricula = async(req, res) => {
 exports.reasignarGrupo = async(req, res) => {
   console.log(req.body);
   let { grupoId, id_estudiante,nombre } = req.body;
-  let msg = false;
+  let msg = false;  
+    DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then(async (resp) => {
+      var check_newGroup = JSON.parse(await DataBase.historial_caja(id_estudiante))
+for (let i = 0; i < check_newGroup.length; i++) {
+  var hora_registro_pago = moment(check_newGroup[i]['createdAt']);
+ if (check_newGroup[i]['concepto']== "Traslado" && check_newGroup[i]['observacion']== "-" && moment().isAfter(hora_registro_pago, 'd') == false) {
+    let update_contancia = await DataBase.update_constancia(check_newGroup[i]['id'],moment().format('YYYY-MM-DD'))
+ }
   
-    DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then((resp) => {
-    console.log(resp)
+}
       console.log("REASIGNADOR GRUPO")
       msg="Grupo reasignado al estudiante "+nombre+" con éxito"
       return res.redirect('/matriculas/'+msg);

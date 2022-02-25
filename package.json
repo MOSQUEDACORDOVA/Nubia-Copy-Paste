@@ -22,6 +22,7 @@
     "express-session": "^1.17.1",
     "fbgraph": "^1.4.4",
     "firebase": "^9.0.1",
+    "html-pdf": "^3.0.1",
     "mercadopago": "^1.5.7",
     "mixcloud-audio": "0.0.3",
     "moment": "^2.29.1",
