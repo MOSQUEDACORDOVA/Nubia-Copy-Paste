@@ -1330,9 +1330,10 @@ exports.historial = (req, res) => {
         // CREAR CONSULTA QUE MUESTRA QUE ME TRAIGA TODAS LAS NOTAS 
         DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
           let lecc = JSON.parse(leccion)[0];
-          /*console.log(lecc)
-          console.log("LECCION")
-          console.log(item)*/
+          // console.log(lecc)
+          // console.log("LECCION")
+          // console.log(item)
+          // console.log(idx)
 
           if(lecc !== undefined) {
             //notasArr += leccion + ';';
@@ -1350,6 +1351,10 @@ exports.historial = (req, res) => {
               userInfo.leccion32 = parseInt(lecc.nota);
             }
           } else {
+            console.log(lecc)
+          console.log("LECCION")
+          console.log(item)
+          console.log(idx)
             if(idx === 0) {
               userInfo.leccion9 = 0;
             } else if (idx === 1) {
@@ -1540,40 +1545,111 @@ exports.genera_pdf_constancia = async (req, res) => {
   console.log(req.params.id_estudiante)
   var fech = moment().format('DD/MM/YYYY')
   var estudiante =  JSON.parse(await DataBase.BuscarEstudianteConstancia(req.params.id_estudiante))
-  console.log(estudiante)
-  var contenido = `<html>
-  <head>
+  console.log('CONSTANCIA')
   
+  let fecha_nacimiento = moment(estudiante.fecha_nacimiento, 'DD-MM-YYYY')
+  let hoy = moment()
+  console.log(fecha_nacimiento)
+  console.log(hoy)
+  let edad = hoy.diff(fecha_nacimiento, 'years')
+  console.log('edad:' + edad)
+  var contenido = `<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+      <title>PDF Constancia</title>
+      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
+      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
   </head>
-  <body style="font-family: 'Poppins', sans-serif; font-size: 1.4em;">
-  <div style="width: 100%;margin-left: auto;margin-right: auto;padding: 25px;">    
-
-    <div>
-    <div  style="font-weight: bold;display: inline-flex; padding-top: .3125rem;padding-bottom: .3125rem; margin-right: 1rem;font-size: 3rem;   line-height: inherit;white-space: nowrap;align-items: center; "> 
-      <img src="" style="vertical-align: middle; border-style: none;width: 9rem;" alt="..." />
-      <div>
-          Academy
+  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+      <div class="app-content content ">
+          <div class="content-overlay"></div>
+          <div class="header-navbar-shadow"></div>
+          <div class="content-wrapper">
+              <div class="content-header row">
+              </div>
+              <div class="content-body">
+                  <div class="invoice-print p-3">
+                      <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
+                              <div class="d-flex mb-1">
+                                  <img src="../../../app-assets/images/logo/logoAA.png" alt="" style="width: 100px; height: auto;">
+                                  <div class="d-flex align-items-center ms-2">
+                                      <h1 class="text-primary fw-bold">Academia Americana</h1>
+                                  </div>
+                              </div>                           
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h1>CONSTANCIA DE ESTUDIOS</h1>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p>El director del Centro de Educacion "Academia Americana" de Costa Rica </p>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h4><u>HACE CONSTAR:</u></h4>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p class="text-center">
+                              Que el alumno: 
+                              ${estudiante.nombre}, 
+                              identificado con documento de identidad:
+                              ${estudiante.nro_identificacion},
+                              de 
+                              ${edad} años de edad,
+                              viene cursando el
+                              ${estudiante.grupo.nivel} 
+                              en la forma 
+                              ${estudiante.grupo.identificador}
+                              de
+                              ${estudiante.grupo.dia_horario},
+                              asistiendo en forma regular a clases
+                              en esta institución.
+                              <br>
+                              <br>
+                              Se expide la presente a solicitud de la parte interesada para los fines convenientes.
+                          </p>
+                      </div>
+                      <div class="d-flex justify-content-end my-5 p-4">
+                          <p>
+                              Costa Rica, ${fech}
+                          </p>
+                      </div>                     
+                      <div class="d-flex justify-content-around p-4">
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Coordinador
+                                  Administrativo
+                              </p>
+                          </div>
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Director
+                              </p>
+                          </div>
+                      </div>
+                      <hr class="my-2"/>
+                  </div>
+              </div>
+          </div>
       </div>
-    </div>
-      <div style="top: -100px;position: relative;left: 450px;width: 30%;border: solid 1px;margin: 0;padding: 1rem;border-radius: 15px;">
-          Fecha: ${fech}
-      </div>
-    </div>
-    <h3>CONSTANCIA</h3>
-    <div style="border: solid 1px;border-radius: 15px;padding: 1rem;width: 90%;">
-        
-<div style="margin-bottom: 10px;">Nombre: <span>${estudiante.nombre}</span></div>
-<div>Correo: <span></span></div>
-    </div>	
-
-<div style="text-align: center; margin-top: 20px;"> 
-      <label style="font-size: 1.8rem;font-weight: bold;color: darkgoldenrod;"><i class="fas fa-exclamation-circle"></i> Gracias!!</label><br> 
-    </div>
-</div>
-</body>
-
-</html>
-`;
+      <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+      <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
+      <script src="../../../app-assets/js/core/app-menu.js"></script>
+      <script src="../../../app-assets/js/core/app.js"></script>
+      <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+  </body></html>`;
 let fechaaa=Number(moment())
 var envio
 var check_constancia = JSON.parse(await DataBase.historial_caja(req.params.id_estudiante))
@@ -2628,4 +2704,166 @@ exports.boardUser = (req, res) => {
       role, 
       nombre
     })
+};
+
+
+//NOTAS PARA TITULO
+exports.notas_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_notas = JSON.parse(await DataBase.BuscarNotasTitulo(id_alumno))
+  console.log(obtener_notas)
+  return res.send({obtener_notas})
+};
+
+//PARTICIPACION PARA TITULO
+exports.participacion_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_participacion = JSON.parse(await DataBase.BuscarParticipacionTitulo(id_alumno))
+  console.log(obtener_participacion)
+  return res.send({obtener_participacion})
+};
+
+//AUSENCIAS PARA TITULO
+exports.ausencias_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_ausencias = JSON.parse(await DataBase.BuscarausenciasTitulo(id_alumno))
+  console.log(obtener_ausencias)
+  return res.send({obtener_ausencias})
+};
+
+/**GENERAL PDF TITULO */
+exports.genera_pdf_titulo = async (req, res) => {
+  console.log(req.params.id_estudiante)
+  var fech = moment().format('DD/MM/YYYY')
+  var estudiante =  JSON.parse(await DataBase.BuscarEstudianteConstancia(req.params.id_estudiante))
+  console.log('TITULO')
+  
+  let fecha_nacimiento = moment(estudiante.fecha_nacimiento, 'DD-MM-YYYY')
+  let hoy = moment()
+  console.log(fecha_nacimiento)
+  console.log(hoy)
+  let edad = hoy.diff(fecha_nacimiento, 'years')
+  console.log('edad:' + edad)
+  var contenido = `<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+      <title>PDF Constancia</title>
+      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
+      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
+  </head>
+  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+      <div class="app-content content ">
+          <div class="content-overlay"></div>
+          <div class="header-navbar-shadow"></div>
+          <div class="content-wrapper">
+              <div class="content-header row">
+              </div>
+              <div class="content-body">
+                  <div class="invoice-print p-3">
+                      <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
+                              <div class="d-flex mb-1">
+                                  <img src="../../../app-assets/images/logo/logoAA.png" alt="" style="width: 100px; height: auto;">
+                                  <div class="d-flex align-items-center ms-2">
+                                      <h1 class="text-primary fw-bold">Academia Americana</h1>
+                                  </div>
+                              </div>                           
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h1>TITULO</h1>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p>El director del Centro de Educacion "Academia Americana" de Costa Rica </p>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h4><u>HACE CONSTAR:</u></h4>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p class="text-center">
+                              Que el alumno: 
+                              ${estudiante.nombre}, 
+                              identificado con documento de identidad:
+                              ${estudiante.nro_identificacion},
+                              de 
+                              ${edad} años de edad,
+                              viene cursando el
+                              ${estudiante.grupo.nivel} 
+                              en la forma 
+                              ${estudiante.grupo.identificador}
+                              de
+                              ${estudiante.grupo.dia_horario},
+                              asistiendo en forma regular a clases
+                              en esta institución.
+                              <br>
+                              <br>
+                              Se expide la presente a solicitud de la parte interesada para los fines convenientes.
+                          </p>
+                      </div>
+                      <div class="d-flex justify-content-end my-5 p-4">
+                          <p>
+                              Costa Rica, ${fech}
+                          </p>
+                      </div>                     
+                      <div class="d-flex justify-content-around p-4">
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Coordinador
+                                  Administrativo
+                              </p>
+                          </div>
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Director
+                              </p>
+                          </div>
+                      </div>
+                      <hr class="my-2"/>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+      <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
+      <script src="../../../app-assets/js/core/app-menu.js"></script>
+      <script src="../../../app-assets/js/core/app.js"></script>
+      <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+  </body></html>`;
+let fechaaa=Number(moment())
+var envio
+var check_constancia = JSON.parse(await DataBase.historial_caja(req.params.id_estudiante))
+console.log(check_constancia)
+for (let i = 0; i < check_constancia.length; i++) {
+ if (check_constancia[i]['concepto']== "Titulo" && check_constancia[i]['observacion']== "-") {
+    let update_contancia = await DataBase.update_constancia(check_constancia[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+pdf.create(contenido).toStream(function (err, stream) {
+    if (err) {
+        console.log(err);
+    }
+    res.writeHead(200, {
+        'Content-Type': 'application/force-download',
+        'Content-disposition': 'attachment; filename=titulo.pdf'
+    });
+    stream.pipe(res);
+  });
+
+
 };

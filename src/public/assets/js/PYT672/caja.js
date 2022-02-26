@@ -20,9 +20,7 @@ $(function () {
       filter[0]["telefono1"] + " - " + filter[0]["telefono2"]
     );
     $("#fecha-pago-alumno").text(filter[0]["grupo"]["dia_pagos"]);
-
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
-
     /**OBTENER HISTORIAL DE CAJA */
     historial = await fetch("/historia-caja-academy/" + filter[0]["id"])
       .then((response) => response.json())
@@ -30,42 +28,9 @@ $(function () {
         console.log(data);
         return data.obtener_historia;
       });
-    console.log(historial);
     let fecha_pago_historial,
-      pago_mensualidad = [];      
-            $('#btn-genera-constancia').addClass('btn-light')
-            $('#btn-genera-constancia').removeClass('btn-primary')
-            $('#btn-genera-constancia').attr('disabled', true)
-    for (let i = 0; i < historial.length; i++) {
-        if (historial[i]['concepto'] != 'Mensualidad' && historial[i]['observacion'] != '-') {
-           fecha_pago_historial = moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY");
-      $("#historial-list").append(`<li class="timeline-item">
-<span class="timeline-point timeline-point-indicator"></span>
-<div class="timeline-event">
-    <div class="d-flex justify-content-between">
-        <h6>${historial[i]["concepto"]}</h6>
-        <p class="mb-tl">${fecha_pago_historial}</p>
-    </div>
-    <div class="d-flex justify-content-between">
-        <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
-        <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
-    </div>
-</div>
-</li>`); 
-        }
-        // Find the duration between two dates
-        var hora_registro_pago = moment(historial[i]['createdAt']);
-        console.log(moment().isAfter(hora_registro_pago, 'd'))
-        if (moment().isAfter(hora_registro_pago, 'd') == false && historial[i]['concepto'] == 'Constancia') {
-            console.log('habilita el boton')
-            $('#btn-genera-constancia').removeClass('btn-light')
-            $('#btn-genera-constancia').addClass('btn-primary')
-            $('#btn-genera-constancia').removeAttr('disabled')
-        }
-
-      
-    }
-
+      pago_mensualidad = [];
+ 
     if (today_day <= dias_pago[0]) {
       $("#pago-mensual-detail").text("17000");
     } else {
@@ -147,6 +112,7 @@ $(function () {
     </a>
 </td>
 </tr>`);
+updateHistorial(e.target.value)
     }
 
     /**FIN DEL SELECT ALUMNO */
@@ -236,9 +202,9 @@ $(function () {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
     }
-    if ($("#concepto-form-traslado").length > 0) {
+    if ($("#concepto-form-constancia").length > 0) {
       swal.fire(
-        "Ya ha seleccionado un traslado para este alumno, guarde los cambios"
+        "Ya ha seleccionado una constancia para este alumno, guarde los cambios"
       );
       return;
     }
@@ -299,48 +265,216 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
     /**FIN BNT TRASLADO */
   });
 
-/**BTN GENERAR CONSTANCIA */
-
-$('#btn-genera-constancia').click(async ()=>{
-    let id_estudiante = $('#id-alumno-form').val()
-    console.log(id_estudiante)
+  /**BTN GENERAR CONSTANCIA */
+  $("#btn-genera-constancia").click(async () => {
+    let id_estudiante = $("#id-alumno-form").val();
+    console.log(id_estudiante);
     $.ajax({
-        type: "GET",
-        url: `/genera-pdf-constancia/${id_estudiante}`,
-        xhrFields: {
-         // specify response type as "blob" to handle objects
-         responseType: "blob",
-        },
-        success: function (data) {      
-         // creating a hidden <a> tag
-         var a = document.createElement("a");      
-         // creating a reference to the file
-         var url = window.URL.createObjectURL(data);      
-         // setting anchor tag's href attribute to the blob's URL
-         a.href = url;      
-         // setting anchor tag's download attribute to the filename
-         a.download = "constancia.pdf";
-         document.body.append(a);      
-         // click on the <a> tag
-         a.click();
-      
-         // after clicking it, remove it from the DOM
-         a.remove();
-         // release an existing object URL which was previously 
-         // created by calling URL.createObjectURL()
-         // once we have finished using an object URL, let the
-         // browser know not to keep the reference to the file any longer.
-         window.URL.revokeObjectURL(url);
-        },
-        complete: function (params) {
-            updateHistorial(id_estudiante)
-        },
-        error: function (result) {
-         alert("error");
-        },
-       });
+      type: "GET",
+      url: `/genera-pdf-constancia/${id_estudiante}`,
+      xhrFields: {
+        // specify response type as "blob" to handle objects
+        responseType: "blob",
+      },
+      success: function (data) {
+        // creating a hidden <a> tag
+        var a = document.createElement("a");
+        // creating a reference to the file
+        var url = window.URL.createObjectURL(data);
+        // setting anchor tag's href attribute to the blob's URL
+        a.href = url;
+        // setting anchor tag's download attribute to the filename
+        a.download = "constancia.pdf";
+        document.body.append(a);
+        // click on the <a> tag
+        a.click();
+
+        // after clicking it, remove it from the DOM
+        a.remove();
+        // release an existing object URL which was previously
+        // created by calling URL.createObjectURL()
+        // once we have finished using an object URL, let the
+        // browser know not to keep the reference to the file any longer.
+        window.URL.revokeObjectURL(url);
+      },
+      complete: function (params) {
+        updateHistorial(id_estudiante);
+      },
+      error: function (result) {
+        alert("error");
+      },
+    });
     //window.location.href=`/genera-pdf-constancia/${id_estudiante}`
-})
+  });
+
+  /**BTN HABILITAR TITULO */
+  $("#btn-habilitar-titulo").click(async () => {
+    let id_alumno = $("#id-alumno-form").val();
+
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+    if ($("#concepto-form-titulo").length > 0) {
+      swal.fire(
+        "Ya ha seleccionado un titulo para este alumno, guarde los cambios"
+      );
+      return;
+    }
+    //VERIFICAR QUE LE CORRESPONDE TITULO:
+    notas = await fetch("/notas-titulo-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.obtener_notas;
+      });
+    console.log(notas);
+
+    nota_participacion= await fetch("/participacion-titulo-academy/" + id_alumno)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_participacion;
+    });
+    console.log(nota_participacion);
+
+    ausencias = await fetch("/ausencias-titulo-academy/" + id_alumno)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_ausencias;
+    });
+  console.log(parseInt(ausencias.length));
+    if (nota_participacion.length == 0) {
+      swal.fire('Aún no cumple con el total de lecciones para obtar al Titulo')
+      return
+    }
+    if (notas.length < 6) {
+      swal.fire('Le falta al menos 1 o mas notas para obtar al Titulo')
+      return
+    }
+    let total_nota = 0
+
+    for (let i = 0; i < notas.length; i++) {
+      if (notas[i]['nota'] == 'undefined') {
+        total_nota += 0
+      }else{
+        total_nota += parseInt(notas[i]['nota']) 
+      }
+           
+    }
+    console.log(total_nota);
+
+    let asistencias = 32-parseInt(ausencias.length)
+    console.log(asistencias);
+    let porcentaje_asist = (asistencias * 100)/32
+    console.log(porcentaje_asist);
+    if (porcentaje_asist < 70) {
+      swal.fire('Su asistencia es menor a 70%, no obta a Titulo')
+      return
+    }
+
+    if (total_nota < 80) {
+      swal.fire('Su nota final es menor a 80%, no obta a Titulo')
+      return
+    }
+    
+    //CONTINUA HABILITANDO EL TITULO
+    var filter = matricula.filter((element) => element.id == id_alumno);
+    const { value: fecha_pago } = await Swal.fire({
+      title: "Indique la fecha de pago",
+      html: `<input id="swal-input2" class="swal2-input" type="date" value="${moment().format(
+        "YYYY-MM-DD"
+      )}">`,
+      focusConfirm: false,
+      preConfirm: () => {
+        return [document.getElementById("swal-input2").value];
+      },
+    });
+
+    let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
+    let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
+    if (fecha_sup == true) {
+      swal.fire("La fecha seleccionada es superior a la actual");
+      return;
+    }
+    $("#form-reg-pago")
+      .append(`<div id="Titulo"><input type="text" name="concepto[]" id="concepto-form-Titulo" value="Titulo">
+<input type="text" name="fecha_pago[]" id="fecha_pago-form-Titulo" value="${fecha_pago}">
+<input type="text" name="monto[]" id="monto-form-Titulo" value="20000">
+<input type="text" name="mora[]" id="mora-form-Titulo" value="-">
+<input type="text" name="observacion[]" id="observacion-form-Titulo" value="-"></div>`);
+
+    $("#body-table-pago").append(`<tr id="tr-Titulo">
+<td>
+<span class="fw-bold">Titulo</span>
+</td>
+<td></td>
+<td>
+${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
+</td>
+<td>20000</td>
+<td>
+<a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" class="feather feather-trash me-50">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+      </path>
+  </svg>
+  <span>Eliminar</span>
+</a>
+</td>
+</tr>`);
+
+    $("#detalle-servicios").append(`<li class="price-detail">
+<div class="detail-title">Titulo</div>
+</li>`);
+    $("#total-servicios").text("20000");
+
+    /**FIN BNT TITULO */
+  });
+
+ /**BTN GENERAR TITULO */
+ $("#btn-descarga-titulo").click(async () => {
+  let id_estudiante = $("#id-alumno-form").val();
+  console.log(id_estudiante);
+  $.ajax({
+    type: "GET",
+    url: `/genera-pdf-titulo/${id_estudiante}`,
+    xhrFields: {
+      // specify response type as "blob" to handle objects
+      responseType: "blob",
+    },
+    success: function (data) {
+      // creating a hidden <a> tag
+      var a = document.createElement("a");
+      // creating a reference to the file
+      var url = window.URL.createObjectURL(data);
+      // setting anchor tag's href attribute to the blob's URL
+      a.href = url;
+      // setting anchor tag's download attribute to the filename
+      a.download = "titulo.pdf";
+      document.body.append(a);
+      // click on the <a> tag
+      a.click();
+
+      // after clicking it, remove it from the DOM
+      a.remove();
+      // release an existing object URL which was previously
+      // created by calling URL.createObjectURL()
+      // once we have finished using an object URL, let the
+      // browser know not to keep the reference to the file any longer.
+      window.URL.revokeObjectURL(url);
+    },
+    complete: function (params) {
+      updateHistorial(id_estudiante);
+    },
+    error: function (result) {
+      alert("error");
+    },
+  });
+  //window.location.href=`/genera-pdf-constancia/${id_estudiante}`
+});
 
   /**INICIO GUARDAR PAGO MODAL */
   $("#btn-guardar-modal").click(() => {
@@ -358,7 +492,7 @@ $('#btn-genera-constancia').click(async ()=>{
         console.log(data);
 
         Swal.fire("Se guardó el pago con éxito");
-        updateHistorial($('#id-alumno-form').val())
+        updateHistorial($("#id-alumno-form").val());
       },
       error: function (jqXHR, textStatus) {
         console.log("error:" + jqXHR);
@@ -382,26 +516,36 @@ function borrarFila(t, identificador) {
   $(`#${identificador}`).remove();
 }
 async function updateHistorial(id_estudiante) {
-    $("#historial-list").empty() 
-var matricula = JSON.parse($("#matricula_st").val());
-var filter = matricula.filter((element) => element.id == id_estudiante);
-/**OBTENER HISTORIAL DE CAJA */
-historial = await fetch("/historia-caja-academy/" + id_estudiante)
-.then((response) => response.json())
-.then((data) => {
-  console.log(data);
-  return data.obtener_historia;
-});
-console.log(historial);
-let fecha_pago_historial,
-pago_mensualidad = [];      
-      $('#btn-genera-constancia').addClass('btn-light')
-      $('#btn-genera-constancia').removeClass('btn-primary')
-      $('#btn-genera-constancia').attr('disabled', true)
-for (let i = 0; i < historial.length; i++) {
-  if (historial[i]['concepto'] != 'Mensualidad' && historial[i]['observacion'] != '-') {
-     fecha_pago_historial = moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY");
-$("#historial-list").append(`<li class="timeline-item">
+  $("#historial-list").empty();
+  var matricula = JSON.parse($("#matricula_st").val());
+  var filter = matricula.filter((element) => element.id == id_estudiante);
+  /**OBTENER HISTORIAL DE CAJA */
+  historial = await fetch("/historia-caja-academy/" + id_estudiante)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      return data.obtener_historia;
+    });
+  console.log(historial);
+  let fecha_pago_historial,
+    pago_mensualidad = [];
+  $("#btn-genera-constancia").addClass("btn-light");
+  $("#btn-genera-constancia").removeClass("btn-primary");
+  $("#btn-genera-constancia").attr("disabled", true);
+
+  $("#btn-descarga-titulo").addClass("btn-light");
+  $("#btn-descarga-titulo").removeClass("btn-primary");
+  $("#btn-descarga-titulo").attr("disabled", true);
+
+  for (let i = 0; i < historial.length; i++) {
+    if (
+      historial[i]["concepto"] != "Mensualidad" &&
+      historial[i]["observacion"] != "-"
+    ) {
+      fecha_pago_historial = moment(historial[i]["fecha_pago"]).format(
+        "DD-MM-YYYY"
+      );
+      $("#historial-list").append(`<li class="timeline-item">
 <span class="timeline-point timeline-point-indicator"></span>
 <div class="timeline-event">
 <div class="d-flex justify-content-between">
@@ -413,16 +557,29 @@ $("#historial-list").append(`<li class="timeline-item">
   <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
 </div>
 </div>
-</li>`); 
+</li>`);
+    }
+    var hora_registro_pago = moment(historial[i]["createdAt"]);
+    console.log(moment().isAfter(hora_registro_pago, "d"));
+    if (
+      moment().isAfter(hora_registro_pago, "d") == false &&
+      historial[i]["concepto"] == "Constancia"
+    ) {
+      console.log("habilita el boton");
+      $("#btn-genera-constancia").removeClass("btn-light");
+      $("#btn-genera-constancia").addClass("btn-primary");
+      $("#btn-genera-constancia").removeAttr("disabled");
+    }
+
+    if (
+      moment().isAfter(hora_registro_pago, "d") == false &&
+      historial[i]["concepto"] == "Titulo"
+    ) {
+      console.log("habilita el boton");
+      $("#btn-descarga-titulo").removeClass("btn-light");
+      $("#btn-descarga-titulo").addClass("btn-primary");
+      $("#btn-descarga-titulo").removeAttr("disabled");
+    }
   }
-  var hora_registro_pago = moment(historial[i]['createdAt']);
-  console.log(moment().isAfter(hora_registro_pago, 'd'))
-  if (moment().isAfter(hora_registro_pago, 'd') == false && historial[i]['concepto'] == 'Constancia') {
-      console.log('habilita el boton')
-      $('#btn-genera-constancia').removeClass('btn-light')
-      $('#btn-genera-constancia').addClass('btn-primary')
-      $('#btn-genera-constancia').removeAttr('disabled')
-  }
-  }
-  $('#editUser').modal('hide')
+  $("#editUser").modal("hide");
 }
