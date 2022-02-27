@@ -332,7 +332,13 @@ module.exports = {
       return new Promise((resolve, reject) => {
         Matriculas.findOne({where:{
           id: id
-        }
+        }, include:[
+          {association: Matriculas.TipoEstudiante},
+          {association: Matriculas.Grupos},
+          {association: Matriculas.Estado},
+        ],order: [
+          ["id", "DESC"],
+        ]
         },)
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -669,6 +675,60 @@ module.exports = {
           let data_p = JSON.stringify(data);
           console.log(data)
           console.log("PARTICIPACION ENCONTRADA")
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarParticipacionTitulo(matriculaId) {
+      return new Promise((resolve, reject) => {
+        Participacion.findAll({
+          where: { matriculaId: matriculaId
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarNotasTitulo(matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {  [Op.or]: [ {n_leccion: '9'},{n_leccion: '17'},{n_leccion: '18'},{n_leccion: '25'},{n_leccion: '31'},{n_leccion: '32'},
+          ],[Op.and]: [
+                { matriculaId: matriculaId,},
+              ]
+            
+            
+          }
+        },{order: [
+            // Will escape title and validate DESC against a list of valid direction parameters
+            ["n_leccion", "DESC"],
+          ],
+          })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarausenciasTitulo(matriculaId) {
+      return new Promise((resolve, reject) => {
+        Asistencia.findAll({
+          where: { matriculaId: matriculaId
+          }
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
           resolve(data_p);
         })
         .catch((err) => {

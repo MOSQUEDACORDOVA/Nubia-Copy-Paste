@@ -1,6 +1,7 @@
 {{#if login}}{{else}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" ></script>
+        
 <script>
     function ucwords(str,force){ 
         str=force ? str.toLowerCase() : str; 
@@ -85,6 +86,7 @@ $('#bell_not').on('click', ()=>{
     $('#bell_not .badge').attr('style', 'display:none')
 })
     })
+
 </script>
 {{#if admin}}{{else}}<span id="otro_rol" hidden>Admin</span>{{/if}}
 <input type="text" id="array" hidden value="{{clientes_d}}">
@@ -520,7 +522,7 @@ padding-left: 0.7rem;
                     </div>
                     <div class="form-group mb-2"><label for="register-firstName" class="form-label">Fecha:</label>
                         <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
-                            id="fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
+                            id="fecha_pedido" >
                     </div>
                     <div class="divider">
                         <div class="divider-text">Productos</div>
