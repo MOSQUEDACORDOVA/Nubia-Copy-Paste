@@ -17,12 +17,13 @@ exports.web = (req, res) => {
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-    res.render(proyecto+"/landing/web", {
+    res.render(proyecto+"/landing/minner", {
       pageName: "Minner",
       dashboardPage: true,
       dashboard: true,
       py28:true,
-      login: true
+      login: true,
+      webmenu: true
     })
 };
 
