@@ -79,7 +79,12 @@ console.log(array)
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
               feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
+              feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' +
+             `<a id="CopyPedido${full['id']}" class="d-none">https://localhost:3001/referido-bwater/${full['id']}</a>`  
+             //https://plataforma.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
       ],
@@ -616,3 +621,22 @@ function delete_cliente(id_) {
     }
   })
 }
+function share_record(id_) {
+  //dt_basic.row($(this).parents('tr')).remove().draw();
+  var id_edit = id_
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+  /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+  $('#p1').text(direction_copy)*/
+  copyToClipboard(`#CopyPedido${id_edit}`)
+}
+function copyToClipboard(elemento) {
+  var $temp = $("<textarea>")
+  var brRegex = /<br\s*[\/]?>/gi;
+  $("body").append($temp);
+  $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
+  document.execCommand("copy");
+  $temp.remove();
+  Swal.fire('Link de referido copiado en el portapapeles')
+  }
