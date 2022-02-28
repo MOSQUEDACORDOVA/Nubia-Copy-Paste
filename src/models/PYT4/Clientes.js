@@ -134,6 +134,15 @@ const Clientes = db.define('clientes', {
 		allowNull: true,
 		defaultValue: ""
 	},
+	referido_de: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+	},
+	cantidad_referidos: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
 
 
 

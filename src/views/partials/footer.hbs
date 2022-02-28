@@ -65,9 +65,13 @@
     <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
     <script src="../../../dataPY4/editar_pedido.js"></script>
     {{#if dash}}
+    {{#if referidos}}
+    <script src="../../../dataPY4/table-datatables-home-referido.js"></script>
+    {{else}}
     <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
     <script src="../../../dataPY4/table-datatables-resumen_home.js"></script>
     <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+    {{/if}}
     {{/if}}
     
     {{/if}}
