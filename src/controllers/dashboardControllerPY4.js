@@ -3,6 +3,7 @@ const path = require("path");
 const Swal = require("sweetalert2");
 const DataBase = require("../models/PYT4/data");
 const passport = require("passport");
+const request = require("request");
 //const {getStreamUrls} = require('mixcloud-audio')
 //var moment = require('moment'); // require
 var moment = require("moment-timezone");
@@ -3746,6 +3747,9 @@ exports.save_cliente_referido = async (req, res) => {
     id_cliente_bwater,
     agrega_cantidad
   );
+
+  res.redirect(307, '/login-referido');//redireccionar por post el contenido de este req
+
 };
 
 exports.home_referidos = async(req, res) => {
@@ -3779,6 +3783,8 @@ exports.home_referidos = async(req, res) => {
   });
 };
 exports.sessionReferido = (req, res) => {
+  console.log('req.body')
+  console.log(req.body)
   passport.authenticate("referido", function (err, user, info) {
     if (err) {
       console.log(err);
