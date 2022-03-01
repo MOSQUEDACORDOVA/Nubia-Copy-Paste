@@ -635,7 +635,7 @@ async function share_record(id_) {
     return data.id_referido;
   });
   console.log(codigo_referido)
-  $(`#CopyPedido${id_edit}`).text(`https://localhost:3001/referido-bwater/${codigo_referido}`)
+  $(`#CopyPedido${id_edit}`).text(`https://plataforma.bwater.mx/referido-bwater/${codigo_referido}`)
   copyToClipboard(`#CopyPedido${id_edit}`)
 }
 function copyToClipboard(elemento) {
