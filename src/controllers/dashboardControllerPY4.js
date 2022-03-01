@@ -6,8 +6,14 @@ const passport = require("passport");
 //const {getStreamUrls} = require('mixcloud-audio')
 //var moment = require('moment'); // require
 var moment = require("moment-timezone");
-const Push = require("push.js");
-const { VerificaDuplicado } = require("../models/PYT4/data");
+const { encrypt, decrypt } = require("./crypto"); //Encrypt / decrypt
+
+exports.crea_codigo_ref = (req, res) => {
+  let id_referido = req.params.id_referido;
+
+  id_referido = encrypt(id_referido);
+  res.send({ id_referido });
+};
 
 exports.change_sucursal = (req, res) => {
   let nuevo_id = req.body.cambia_sucursal;
@@ -179,7 +185,7 @@ exports.dashboard = (req, res) => {
                         .then((sucursales_) => {
                           let sucursales_let = JSON.parse(sucursales_);
                           PrestadosGroupByCliente(id_sucursal)
-                            .then((prestamos_) => {
+                            .then(async (prestamos_) => {
                               let prestamos_let = JSON.parse(prestamos_);
                               let prestamos_byday = [];
                               let prestamos_del_dia = 0,
@@ -218,7 +224,6 @@ exports.dashboard = (req, res) => {
                                   }
                                 }
                               }
-                              console.log(prestamos_byday);
                               prestamos_byday = JSON.stringify(prestamos_byday);
 
                               DataBase.EtiquetasAll(id_sucursal)
@@ -233,7 +238,10 @@ exports.dashboard = (req, res) => {
                                         msg =
                                           "No se ha realizado la carga inicial, verificar";
                                       }
-
+                                     let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido())
+                                     console.log('verifica_pedidos_referido')
+                                     console.log(verifica_pedidos_referido)
+                                     cont_not = cont_not + parseInt(verifica_pedidos_referido.length)
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
                                         dashboardPage: true,
@@ -258,7 +266,7 @@ exports.dashboard = (req, res) => {
                                         notif6_12,
                                         etiquetas_let,
                                         msg,
-                                        carga_,
+                                        carga_,verifica_pedidos_referido
                                       });
                                     })
                                     .catch((err) => {
@@ -3593,6 +3601,325 @@ exports.introCupValidate = (req, res) => {
       console.log(err);
     });
 };
+
+//REFERIDOS
+exports.formRegReferidos = (req, res) => {
+  const { error } = res.locals.messages;
+  let id_referido = req.params.id_referido;
+
+  let msg = false;
+  id_referido = decrypt(id_referido);
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  res.render("PYT-4/reg_refe", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4: true,
+    login: true,
+    msg,
+    error,
+    id_referido,
+  });
+};
+
+exports.save_cliente_referido = async (req, res) => {
+  console.log(req.body);
+  var {
+    id_cliente_bwater,
+    firstName,
+    cp,
+    asentamiento,
+    lastName,
+    ciudad,
+    municipio,
+    fraccionamiento,
+    coto,
+    casa,
+    calle,
+    avenida,
+    referencia,
+    telefono,
+    nombre_familiar_1,
+    apellido_familiar_1,
+    telefono_familiar_1,
+    tipo_cliente,
+    cliente_nuevo,
+    sucursal,
+    email,
+    color,
+  } = req.body;
+  let msg = false;
+  var modo_cliente = "SI";
+  if (cliente_nuevo == null) {
+    modo_cliente = "NO";
+  }
+  const revisa_cliente = JSON.parse(
+    await DataBase.SearchClientePedido(
+      firstName,
+      cp,
+      asentamiento,
+      lastName,
+      ciudad,
+      municipio,
+      fraccionamiento,
+      coto,
+      casa,
+      calle,
+      avenida,
+      referencia,
+      telefono
+    )
+  );
+  if (revisa_cliente != null) {
+    msg =
+      "Ya éxiste el cliente: " +
+      revisa_cliente.firstName +
+      " " +
+      revisa_cliente.lastName +
+      ", con los datos indicados";
+    res.redirect("/referido-bwater-exist/" + msg);
+    return;
+  }
+  if (nombre_familiar_1 == "") {
+    nombre_familiar_1 = null;
+  }
+  if (apellido_familiar_1 == "") {
+    apellido_familiar_1 = null;
+  }
+  if (telefono_familiar_1 == "") {
+    telefono_familiar_1 = null;
+  }
+  const revisa_cliente_familiar = JSON.parse(
+    await DataBase.SearchClientePedidoFamiliarReferido(telefono_familiar_1)
+  );
+
+  if (revisa_cliente_familiar != null) {
+    msg =
+      "Ya cliente: " +
+      revisa_cliente_familiar.firstName +
+      " " +
+      revisa_cliente_familiar.lastName +
+      ", contiene los datos del familiar indicado";
+    res.redirect("/referido-bwater-exist/" + msg);
+    return;
+  }
+  if (nombre_familiar_1 == null) {
+    nombre_familiar_1 = "";
+  }
+  if (apellido_familiar_1 == null) {
+    apellido_familiar_1 = "";
+  }
+  if (telefono_familiar_1 == null) {
+    telefono_familiar_1 = "";
+  }
+  let registra_cliente = await DataBase.registrar_cliente_referido(
+    firstName,
+    cp,
+    asentamiento,
+    lastName,
+    ciudad,
+    municipio,
+    fraccionamiento,
+    coto,
+    casa,
+    calle,
+    avenida,
+    referencia,
+    telefono,
+    nombre_familiar_1,
+    apellido_familiar_1,
+    telefono_familiar_1,
+    tipo_cliente,
+    modo_cliente,
+    sucursal,
+    email,
+    color,
+    id_cliente_bwater
+  );
+  let consulta_cantidad = JSON.parse(
+    await DataBase.ClientebyIdforReferidos(id_cliente_bwater)
+  );
+  let agrega_cantidad = parseInt(consulta_cantidad["cantidad_referidos"]) + 1;
+  let guarda_referido = await DataBase.guardaReferidoACliente(
+    id_cliente_bwater,
+    agrega_cantidad
+  );
+};
+
+exports.home_referidos = async(req, res) => {
+  let msg = false;
+  let admin = false;
+  if (req.params.msg) {
+    msg = req.params.msg;
+  }
+  console.log('Entro aqui')
+  console.log(res.locals.user)
+  let user =res.locals.user
+  let hoy = moment();
+  let pedidos_ = JSON.parse(await DataBase.PedidosReferido(user.id));
+  console.log(pedidos_)
+  if (pedidos_.length > 0) {
+    let msg = "Ya realizó su pedido como referido."
+    return res.redirect('/referido-bwater-exist/'+user.id+'/'+msg)
+  }
+  let cp_ = await DataBase.CodigosP();
+
+  res.render("PYT-4/home_referido", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4: true,
+    dash: true,
+    referidos:true,
+    admin,
+    cp_,
+    msg,user
+  });
+};
+exports.sessionReferido = (req, res) => {
+  passport.authenticate("referido", function (err, user, info) {
+    if (err) {
+      console.log(err);
+      return next(err);
+    }
+    if (!user) {
+      console.log("no existe usuario");
+      let msg = "No se ha registrado en nuestro sistema (tel. errado o referido errado)"
+      return res.redirect('/referido-bwater-exist/'+user.id+'/'+msg)
+    }
+    req.logIn(user, async function (err) {
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+        return res.redirect("/home-referido");
+    });
+  })(req, res);
+};
+exports.regPedidoReferido = async (req, res) => {
+console.log(req.body)
+  let garrafon19L = {
+    refill_cant: req.body.refill_cant_garrafon,
+    refill_mont: req.body.refill_garrafon_mont,
+    canje_cant: req.body.canje_cant_garrafon,
+    canje_mont: req.body.canje_garrafon_mont,
+    nuevo_cant: req.body.enNew_cant_garrafon,
+    nuevo_mont: req.body.nuevo_garrafon_mont,
+    total_cant: req.body.total_garrafon_cant,
+    total_cost: req.body.total_garrafon,
+    enobsequio_cant_garrafon: req.body.enobsequio_cant_garrafon,
+  };
+  let botella1L = {
+    refill_cant: 0,
+    refill_mont: 0,
+    canje_cant: 0,
+    canje_mont: 0,
+    nuevo_cant: 0,
+    nuevo_mont: 0,
+    total_cant: 0,
+    total_cost: 0,
+    enobsequio_cant_botella: 0,
+  };
+
+  let garrafon11L = {
+    refill_cant: 0,
+    refill_mont: 0,
+    canje_cant: 0,
+    canje_mont: 0,
+    nuevo_cant: 0,
+    nuevo_mont: 0,
+    total_cant: 0,
+    total_cost: 0,
+    enobsequio_cant_garrafon11l: 0,
+  };
+
+  let botella5L = {
+    refill_cant: 0,
+    refill_mont: 0,
+    canje_cant: 0,
+    canje_mont: 0,
+    nuevo_cant: 0,
+    nuevo_mont: 0,
+    total_cant: 0,
+    total_cost: 0,
+    enobsequio_cant_botella5l: 0,
+  };
+  const user = res.locals.user;
+  const {
+    id_cliente_referido,
+    id_chofer,
+    fecha_pedido,
+    total_total_inp,
+    metodo_pago,
+    status_pago,
+    status_pedido,
+    deuda_anterior,
+  } = req.body;
+
+  let total_garrafones_pedido =
+    parseInt(garrafon19L.total_cant)
+  let total_refill_cant_pedido =
+    parseInt(garrafon19L.refill_cant)
+  let total_canje_cant_pedido =
+    parseInt(garrafon19L.canje_cant)
+  let total_nuevo_cant_pedido =
+    parseInt(garrafon19L.nuevo_cant)
+  let total_obsequio_pedido =
+    parseInt(garrafon19L.enobsequio_cant_garrafon) 
+
+  var verificaPedido = JSON.parse(
+    await DataBase.VerificaDuplicado(fecha_pedido, id_cliente_referido)
+  );
+  console.log("verificaPedido");
+  console.log(verificaPedido);
+  if (verificaPedido != null) {
+    msg = "El cliente ya cuenta con un pedido, para el día de hoy!";
+    return res.send({ msg: msg, fail: "duplicado" });
+  }
+
+  let registra_pedido = await DataBase.RegPedidoReferido(id_cliente_referido, id_chofer, fecha_pedido, total_total_inp, metodo_pago, status_pago, status_pedido, deuda_anterior,garrafon19L,total_garrafones_pedido,  total_refill_cant_pedido, total_canje_cant_pedido,  total_nuevo_cant_pedido,  total_obsequio_pedido,botella1L,  garrafon11L,
+    botella5L)
+  console.log(registra_pedido)
+
+  return res.send({registra_pedido})
+    
+};
+
+exports.checkClienteParaDescuento = async (req, res) => {
+  console.log(req.body);
+  var {id_cliente} = req.body;
+
+  const revisa_cliente = JSON.parse(
+    await DataBase.ClientebyId(id_cliente )
+  );
+  console.log(revisa_cliente);
+  console.log(revisa_cliente['cantidad_referidos']);
+  if (revisa_cliente['cantidad_referidos'] > 0) {
+    let busca_referidos = JSON.parse(
+      await DataBase.ReferidosdelCliente(id_cliente )
+    );
+    console.log('Referidos del cleinte');
+    console.log(busca_referidos);
+    for (let i = 0; i < busca_referidos.length; i++) {
+      //let pedidos_validos
+      
+    }
+  }
+  
+  let consulta_cantidad = JSON.parse(
+    await DataBase.ClientebyIdforReferidos(id_cliente_bwater)
+  );
+  let agrega_cantidad = parseInt(consulta_cantidad["cantidad_referidos"]) + 1;
+  let guarda_referido = await DataBase.guardaReferidoACliente(
+    id_cliente_bwater,
+    agrega_cantidad
+  );
+};
+
+
+//----FIN REFERIDOS
 
 //NOTIFICACIONES
 exports.notificaciones_table = (req, res) => {

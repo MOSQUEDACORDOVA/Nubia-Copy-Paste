@@ -1,6 +1,7 @@
 /**
  * DataTables Basic
  */
+ 
 function cargaTabla(rechar) {
   let valor = $('#array').val()
   let array =""
@@ -83,7 +84,7 @@ console.log(array)
               '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-             `<a id="CopyPedido${full['id']}" class="d-none">https://localhost:3001/referido-bwater/${full['id']}</a>`  
+             `<a id="CopyPedido${full['id']}" class="d-none"></a>`  
              //https://plataforma.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
@@ -621,14 +622,20 @@ function delete_cliente(id_) {
     }
   })
 }
-function share_record(id_) {
+async function share_record(id_) {
   //dt_basic.row($(this).parents('tr')).remove().draw();
   var id_edit = id_
   if (typeof id_edit =="undefined") {
     return console.log(id_edit)
   }
-  /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
-  $('#p1').text(direction_copy)*/
+  let codigo_referido = await fetch("/crea_codigo_ref/" + id_)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    return data.id_referido;
+  });
+  console.log(codigo_referido)
+  $(`#CopyPedido${id_edit}`).text(`https://localhost:3001/referido-bwater/${codigo_referido}`)
   copyToClipboard(`#CopyPedido${id_edit}`)
 }
 function copyToClipboard(elemento) {
