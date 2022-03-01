@@ -101,7 +101,7 @@ $(document).ready(function() {
 {{/if}}
 <input id="filterPosition" type="text" hidden>
 <input id="filterValue" type="text" hidden>
-<div class="app-content content py4">
+<div class="app-content content py4" style="margin-left: auto;">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
             <!-- CONTENIDO -->
@@ -113,434 +113,142 @@ $(document).ready(function() {
                         <span id="p1" class="d-none">ss</span>
                         <div class="col-sm-12">
                         </div>
-                        
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
-                                    <div class="d-flex flex-row">
-                                        <div class="avatar bg-light-primary me-2">
-                                            <div class="avatar-content">
-                                                <i data-feather='clipboard' class="feather feather-trending-up text-primary avatar-icon"></i>
-                                            </div>
-                                        </div>
-                                        <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0">Pedidos</h4>
-                                        </div>
-                                    </div>
-                                </div>
+                        <img src="../../../dataPY4/images/bwater.png" class="img-fluid" alt="Responsive image">
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card collapse show" id="pedidostable">
-                <div class="card-body">
-                    <h4 class="card-title">Pedidos</h4>
-                </div>
-                <section id="column-search-datatable">
-                    <div class="card-body d-none">
-                        <form class="dt_adv_search" method="POST">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <label class="form-label">Fecha:</label>
-                                    <div class="mb-0 d-flex">
-                                        <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
-                                        <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card">
-                                    <table class="datatables-basic table dt-column-search table-responsive" id="example">
-                                        <thead>
-                                            <tr>                                                
-                                                <th></th>
-                                                <th>#Pedido</th>
-                                                <th>To. garr.</th>
-                                                <th>Monto Total</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Forma de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </div>
         </div>
     </div>
 </div>
 <!-- modales-->
-              <div class="modal fade" id="edit_pedido" tabindex="-1" aria-labelledby="edit_pedido"
-            style="display: none;" aria-hidden="edit_pedido">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="edit_pedido_title"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='edit_pedido_body'>
-                            <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido_save"
-                        method="post" id="form_edit_pedido">
-                        <input type="hidden" name="id_pedido" id="edit_pedido_id">
-                        <input type="hidden" name="id_cliente" id="edit_pedido_id_cliente">
-                         <div class="form-group">
-                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
-                        <select
-                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
-                            class="form-control mb-2 chofer">
-                            {{#each choferes_ as |chofer2 j |}}
-                            <option data-id="{{id}}" value="{{id}}">{{name}} {{lastName}}</option>
-                            {{/each}}
-                        </select>
-                        <input type="hidden" id="id_chofer_edit" name="id_chofer" class="id_chofer" >
-                    </div>
+<div class="modal fade" id="registro_pedido_modal_referido" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-pedido"></button>
+            </div>
+            <div class="modal-body">
+
+                <form class="needs-validation was-validated repeater" method="post" id="reg_pedido_modal1">
+                <input type="text" name="id_cliente_referido"  id="id_cliente_referido" value="{{user.id}}"hidden>
+                <input type="text" id="id_chofer" name="id_chofer" value="1"hidden>
+                <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
+                            id="fecha_pedido" hidden>
+
                     <div class="divider">
-                        <div class="divider-text">Fecha Pedido</div>
+                        <div class="divider-text">Productos</div>
                     </div>
-                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
-                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input mb-2" 
-                            id="edit_fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
-                    </div>
-                        <div class="divider">
-                            <div class="divider-text">Productos</div>
-                        </div>
 
-                        <div class="mb-1">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon2"
-                                        aria-expanded="true">Garrafon 19L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella2"
-                                        aria-expanded="false">Botella 1L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l2"
-                                        aria-expanded="false">Garrafon 11L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l2"
-                                        aria-expanded="false">Botella 5L</a>
-                                </li>
-                            </ul>
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon"
+                                    aria-expanded="true">Garrafon 19L</a>
+                            </li>
+                        </ul>
 
-                            <div class="tab-content mt-2">
-                                <div role="tabpanel" class="tab-pane active" id="garrafon2"
-                                    aria-labelledby="garrafon-tab" aria-expanded="true">
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab"
+                                aria-expanded="true">
 
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_garrafon"
-                                                    id="count_refill_garrafon" name="refill_cant_garrafon"
-                                                    />
-                                            </div>
+                                <div class="d-none"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_refill_garrafon"
+                                                name="refill_cant_garrafon" />
                                         </div>
-                                        <input type="text" class="form-control mb-1 w-50 refill_garrafon_mont"
-                                            id="refill_garrafon_mont" readonly="readonly" name="refill_garrafon_mont"
-                                             hidden>
                                     </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_garrafon"
-                                                    id="count_canje_garrafon" name="canje_cant_garrafon"
-                                                    />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 canje_garrafon_mont"
-                                            id="canje_garrafon_mont" readonly="readonly" name="canje_garrafon_mont"
-                                             hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_garrafon"
-                                                     id="count_enNew_garrafon"
-                                                    name="enNew_cant_garrafon" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon_mont"
-                                            id="enNew_garrafon_mont" readonly="readonly"
-                                             name="nuevo_garrafon_mont" hidden>
-                                    </div>
-                                     <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                    <p class="m-0">Obsequio</p>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont"
+                                        readonly="readonly" value="0" name="refill_garrafon_mont" hidden>
+                                </div>
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_garrafon" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
-                                                </div>
-                                    </div>
-                                </div>
-                                    <input type="number" class=" total_garrafon" 
-                                        id="total_garrafon" name="total_garrafon_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon"
-                                            class=" cant_garrafon"></span></p>
-                                    <input type="number" class="monto_garrafon_input"
-                                        id="monto_garrafon_input" name="total_garrafon" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon"
-                                            class=" monto_garrafon"></span></p>
-                                </div>
-
-
-
-                                <div class="tab-pane" id="botella2" role="tabpanel" aria-labelledby="botella-tab"
-                                    aria-expanded="false">
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_botella"
-                                                     id="count_refill_botella"
-                                                    name="refill_cant_botella" />
-                                            </div>
-
+                                            <input type="number" class="touchspin" value="0" id="count_canje_garrafon"
+                                                name="canje_cant_garrafon" />
                                         </div>
-                                        <input type="text" class="form-control mb-1 w-50 refill_botella_mont"
-                                            id="refill_botella_mont" readonly="readonly"
-                                             name="refill_botella_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_botella"
-                                                    id="count_canje_botella"
-                                                    name="canje_cant_botella" />
-                                            </div>
-
-                                        </div> <input type="text" class="form-control mb-1 w-50 canje_botella_mont"
-                                            id="canje_botella_mont" readonly="readonly" 
-                                            name="canje_botella_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_botella"
-                                                    id="count_enNew_botella"
-                                                    name="enNew_cant_botella" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella_mont"
-                                            id="enNew_botella_mont" readonly="readonly" 
-                                            name="nuevo_botella_mont" hidden>
-                                    </div>
-                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont"
+                                        readonly="readonly" value="0" name="canje_garrafon_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_enNew_garrafon"
+                                                name="enNew_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont"
+                                        readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden>
+                                </div>
+                                <div class="d-none"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_botella" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella" />
-                                                </div>
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
+                                        </div>
                                     </div>
                                 </div>
-                                    <input type="number" class=" total_botella" 
-                                        id="total_botella" name="total_botella_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_botella"
-                                            class=" cant_botella"></span></p>
-                                    <input type="number" class=" monto_botella_input" 
-                                        id="monto_botella_input" name="total_botella" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella"
-                                            class=" monto_botella"></span></p>
-                                </div>
-
-                                <div class="tab-pane" id="garrafon11l2" role="tabpanel"
-                                    aria-labelledby="garrafon11l-tab" aria-expanded="false">
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_garrafon11l"
-                                                    id="count_refill_garrafon11l"
-                                                    name="refill_cant_garrafon11l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 refill_garrafon11l_mont"
-                                            id="refill_garrafon11l_mont" readonly="readonly"
-                                             name="refill_garrafon11l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_garrafon11l"
-                                                     id="count_canje_garrafon11l"
-                                                    name="canje_cant_garrafon11l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 canje_garrafon11l_mont"
-                                            id="canje_garrafon11l_mont" readonly="readonly"
-                                             name="canje_garrafon11l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_garrafon11l"
-                                                     id="count_enNew_garrafon11l"
-                                                    name="enNew_cant_garrafon11l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon11l_mont"
-                                            id="enNew_garrafon11l_mont" readonly="readonly"
-                                             name="nuevo_garrafon11l_mont" hidden>
-                                    </div>
-                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                    <p class="m-0">Obsequio</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_garrafon11l" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l" />
-                                                </div>
-                                    </div>
-                                </div>
-                                    <input type="number" class=" total_garrafon11l" 
-                                        id="total_garrafon11l" name="total_garrafon11l_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l"
-                                            class=" cant_garrafon11l"></span></p>
-                                    <input type="number" class=" monto_garrafon11l_input"
-                                         id="monto_garrafon11l_input"
-                                        name="total_garrafon11l" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l"
-                                            class=" monto_garrafon11l"></span></p>
-                                </div>
-
-                                <div class="tab-pane" id="botella5l2" role="tabpanel" aria-labelledby="botella5l-tab"
-                                    aria-expanded="false">
-
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_botella5l"
-                                                     id="count_refill_botella5l"
-                                                    name="refill_cant_botella5l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 refill_botella5l_mont"
-                                            id="refill_botella5l_mont" readonly="readonly"
-                                             name="refill_botella5l_mont" hidden>
-
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_botella5l"
-                                                     id="count_canje_botella5l"
-                                                    name="canje_cant_botella5l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 canje_botella5l_mont"
-                                            id="canje_botella5l_mont" readonly="readonly"
-                                             name="canje_botella5l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_botella5l"
-                                                     id="count_enNew_botella5l"
-                                                    name="enNew_cant_botella5l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella5l_mont"
-                                            id="enNew_botella5l_mont" readonly="readonly"
-                                             name="nuevo_botella5l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                    <p class="m-0">Obsequio</p>
-                                    <div class="input-group bootstrap-touchspin">
-                                        <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_botella5l" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" />
-                                                </div>
-                                    </div>
-                                </div>
-                                    <input type="number" class=" total_botella5l" 
-                                        id="total_botella5l" name="total_botella5l_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_botella5l"
-                                            class=" cant_botella5l"></span></p>
-                                    <input type="number" class=" monto_botella5l_input" 
-                                        id="monto_botella5l_input" name="total_botella5l" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella5l"
-                                            class=" monto_botella5l"></span></p>
-                                </div>
+                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant"
+                                    hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon"
+                                    hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
                             </div>
                         </div>
-        {{#if admin}}                <div class="d-flex">
-                            <label for="register-firstName" class="form-label">
-                                {{!-- <input type="checkbox" class="" id="descuento-check">--}} Descuento: $
-                               </label>
-                            <input type="number" name="descuento" placeholder="Descuento"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control" id="descuento_edit" style="height: 16px;width: 15%;margin-left: 5px;">
-                                
-                        </div>
-                        
-{{/if}}
-                        <div class="d-flex m-0">
-                            <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}"
-                                id="total_total_inp" name="total_total_inp" hidden />
-                            <b class="m-0">Monto Total: $<span id="total_total"
-                                    class="total_total">{{pedido_let.monto_total}}</span></b>
-                        </div>
-                        <div class="d-flex m-0 d-none" id="monto_descuento">
-                            <b class="m-0">Monto Total incl. desc.: $<span id="total_desc"
-                                    class="total_total"></span></b>
-                        </div>
-
-                        <div class="divider">
-                            <hr>
-                        </div>
-
-                        <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
-                            <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
-                                tabindex="3" class="form-control mb-2 metodo_pago" id="metodo_pago_edit">
-                                <option value="Efectivo">Efectivo</option>
-                                <option value="Tarjeta">Tarjeta</option>
-                                <option value="Transferencia">Transferencia</option>
-                            </select>
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
-                                Pago</label>
-                            <input type="text" name="status_pago" tabindex="1" class="form-control mb-2 status_pago"
-                                readonly id="status_pago" >
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
-                                Pedido</label>
-                            <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
-                                value="Por entregar" id="status_pedido_edit">
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
-                                prestados(S/R)</label>
-                            <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="prestados_edit">
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
-                               dañados</label>
-                            <input type="text" name="danados" placeholder="Garrafones Dañados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="danados_edit">
-                        </div>
-
-
-                        <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
-                            <input type="text" name="observacion" placeholder="Observación"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="observacion_edit">
-                        </div>
-                        <div class="modal-footer">
-                            <button tabindex="26" rippleeffect="" type="submit"
-                                class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
-                        </div>
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
                     </div>
-                </div>
+                    
+                      <div class="form-group" style="display: none;" id="deuda_box">
+                        <b class="m-0" id="subTotal_pedido">Sub Total: $<span id="sub_total_total">0</span></b><br>
+                        <label for="register-firstName" class="form-label" style="color: red">Adeudo de: <strong>$<span id="deuda_verf"></span></strong></label><br>
+                        <label for="register-firstName" class="form-label">Prestados: <span id="prestados_anterior"></span> garrafones</label><br>
+                         <input type="text" name="deuda_anterior" class="d-none" >   
+                        </div>
+                    <div class="d-flex m-0">
+                        
+                        <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden />
+                        <b class="m-0">Monto Total: $<span id="total_total">0</span></b>
+                    </div>
+
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                        <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                            tabindex="3" class="form-control mb-2" id="metodo_pago">
+                            <option selected=""> Efectivo </option>
+                            <option> Tarjeta </option>
+                            <option> Transferencia </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
+                        <input type="text" name="status_pago" tabindex="1" class="form-control mb-2" readonly
+                            id="status_pago" value="Pagado">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
+                        <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
+                            value="Por entregar">
+                    </div>
             </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido_referido">Regístrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -550,6 +550,21 @@ module.exports = {
         });
     });
   },
+  ReferidosdelCliente(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{
+        referido_de: id
+      }})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
 
    //Pedidos
    PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido) {
@@ -1090,6 +1105,68 @@ console.log(hoy)
           //console.log(data)
           resolve(data_p);
           ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  verificaPedidosReferido(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{usuarioId: {
+        [Op.is]: null,
+      }
+    },
+        include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  RegPedidoReferido(id_cliente_referido, id_chofer, fecha_pedido, total_total_inp, metodo_pago, status_pago, status_pedido, deuda_anterior,garrafon19L,total_garrafones_pedido,  total_refill_cant_pedido, total_canje_cant_pedido,  total_nuevo_cant_pedido,  total_obsequio_pedido,botella1L,  garrafon11L,
+    botella5L ) {
+    return new Promise(async (resolve, reject) => {
+      let garrafon19L_ = JSON.stringify(garrafon19L)
+      let botella1L_ = JSON.stringify(botella1L);
+      let garrafon11L_ = JSON.stringify(garrafon11L);
+      let botella5L_ = JSON.stringify(botella5L);
+      const Last = await Last_p.findOne({where:{clienteId: id_cliente_referido}}).then((las_)=>{
+        return las_
+       })
+       console.log(Last)
+      Pedidos.create(
+        {
+          chofer: id_chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente_referido,personalId: id_chofer, total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
+          total_canje_pedido:total_canje_cant_pedido,
+          total_nv_pedido:total_nuevo_cant_pedido,
+          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido })
+        .then(async (data) => {
+          let data_set = JSON.stringify(data);
+          console.log('pedidos save')
+                console.log(data.dataValues.id)
+            console.log('pedidos cre')
+           Last_p.create({chofer: id_chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,clienteId: id_cliente_referido,personalId: id_chofer, total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,
+              total_refill_pedido:total_refill_cant_pedido,
+              total_canje_pedido:total_canje_cant_pedido,
+              total_nv_pedido:total_nuevo_cant_pedido,
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},).then(()=>{
+                resolve(data_set);
+              })
+          
         })
         .catch((err) => {
           reject(err)

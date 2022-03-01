@@ -72,10 +72,12 @@ router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cupone
 //REFERIDOS
 router.get('/crea_codigo_ref/:id_referido', dashboardControllerPY4.crea_codigo_ref);
 router.get('/referido-bwater/:id_referido', dashboardControllerPY4.formRegReferidos);
-router.get('/referido-bwater-exist/:id_referido', dashboardControllerPY4.formRegReferidos);
+router.get('/referido-bwater-exist/:id_referido/:msg', dashboardControllerPY4.formRegReferidos);
 router.post('/save_cliente_referido', dashboardControllerPY4.save_cliente_referido);
 router.get('/home-referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.home_referidos);
 router.post('/login-referido', dashboardControllerPY4.sessionReferido);
+router.post('/reg_pedido_referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.regPedidoReferido);
+
 //NOTIFICACIONES
 router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
 
