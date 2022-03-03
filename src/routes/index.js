@@ -179,8 +179,8 @@ router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardContr
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
 router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago_deudor);
 
-
-router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Etiquetas
 router.post('/save_etiqueta', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_etiquetas);
 router.get('/delete_etiqueta/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_etiqueta);

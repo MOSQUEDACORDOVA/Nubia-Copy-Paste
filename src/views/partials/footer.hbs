@@ -6,7 +6,12 @@
             <!-- BEGIN: Footer-->    
             <footer class="footer footer-static footer-light {{#if py21}}py21{{/if}} {{#if py24}}py24{{/if}}">
                 <p class="clearfix mb-0">
+                    {{#if py4}}
+                    <span class="float-md-start d-block d-md-inline-block mt-25">BWATER &copy; 2021</span>
+                    {{else}}
                     <span class="float-md-start d-block d-md-inline-block mt-25">MOSQUEDA CORDOVA &copy; 2021</span>
+                    {{/if}}
+                    
                 </p>
             </footer>
             <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
@@ -369,18 +374,34 @@
             $('#fecha_pedido').val(hoy)
             {{#if py4}}
                 $('#fecha_pedido').change((e)=>{
-        console.log(e.target.value)
+
+                    if ($('#otro_rol').length) {
+     console.log(e.target.value)
         fecha_anterior = moment(hoy).isAfter(moment(e.target.value, 'YYYY-MM-DD'),'d'); // true
         if (fecha_anterior == true){
 					swal.fire('Debe seleccionar una fecha superior a la actual.')		
 								$('#fecha_pedido').val(hoy)
 					return
 				}
+  }
+       
     }){{/if}}
                 
             if ( $("#msgs").length ) {
                 let mensaje = $('#msgs').text();
             Swal.fire(mensaje)
+            }
+             if ( $("#msgsRef").length ) {
+                let mensaje = $('#msgsRef').text();
+            Swal.fire({
+  title: '<strong style="color: white">CLIENTE EXISTENTE</strong>',
+  icon: 'info',
+  html:`<span style="color: white">FAVOR DE CONTACTAR 
+A B•WATER SERVICIO AL CLIENTE 
+<a href="https://wa.me/message/ZXC4B3BHH6ZCA1" target="_blank" style="-webkit-text-stroke: 1px greenyellow;">ESPERAMOS TU MENSAJE 😄</a></span> `,
+  showCancelButton: false,
+  focusConfirm: false,
+})
             }
             $('#basicSelect').on('change',(e)=>{
                 var value = $('#basicSelect').val()
