@@ -374,13 +374,17 @@
             $('#fecha_pedido').val(hoy)
             {{#if py4}}
                 $('#fecha_pedido').change((e)=>{
-        console.log(e.target.value)
+
+                    if ($('#otro_rol').length) {
+     console.log(e.target.value)
         fecha_anterior = moment(hoy).isAfter(moment(e.target.value, 'YYYY-MM-DD'),'d'); // true
         if (fecha_anterior == true){
 					swal.fire('Debe seleccionar una fecha superior a la actual.')		
 								$('#fecha_pedido').val(hoy)
 					return
 				}
+  }
+       
     }){{/if}}
                 
             if ( $("#msgs").length ) {
