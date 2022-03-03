@@ -1,5 +1,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<style>
+    .swal2-popup{
+        background: linear-gradient(rgb(0, 24, 103) 0%, rgb(1, 12, 112) 51%, rgb(0, 146, 174) 100%);
+    }
+</style>
 <script>
     $(function () {
         console.log('aja')
@@ -54,7 +58,7 @@
 </script>
 
 {{#if msg}}
-<label id="msgs" hidden>{{msg}}</label>
+<label id="msgsRef" hidden>{{msg}}</label>
 {{/if}}
 <div class="app-content content py4" style="transition:none">
     <div class="content-overlay"></div>
@@ -99,12 +103,12 @@
                                     tabindex="4" type="button" id="open_m_reg">Registrarme</button>
                             </form>
 
-                            <div class="modal fade " id="reg_cliente_referido" tabindex="-1"
+<div class="modal fade " id="reg_cliente_referido" tabindex="-1"
                                 aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-scrollable">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente
+                                            <h5 class="modal-title" id="exampleModalScrollableTitle">B•Water Alcalina
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
