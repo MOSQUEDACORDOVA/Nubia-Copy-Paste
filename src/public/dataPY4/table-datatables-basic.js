@@ -477,7 +477,7 @@ console.log('entro aqui')
       data: $('#edit_cliente_form').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-  $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#array').val(JSON.stringify(data.clientes))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(` <thead>
@@ -506,6 +506,77 @@ console.log('entro aqui')
       }
     });
     
+  })
+
+  $('#add_cliente_modal').click(()=>{
+    if ($('#nombre-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un nombre al cliente')
+      return $('#nombre-cliente-reg').focus()
+      
+    }
+    if ($('#apellido-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+      return $('#apellido-cliente-reg').focus()
+      
+    }
+    if ($('#select_asentamiento').val() == null) {
+      Swal.fire('Debe ingresar el código postal')
+     return $('#cp_select').focus()
+    }
+    if ($('#tlf-add-cliente').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+     return $('#tlf-add-cliente').focus()
+    }
+if ($('#reg_zona_cliente').val() == '0') {
+      Swal.fire('Debe colocar una zona de cliente')
+    return  $('#reg_zona_cliente').focus()
+    }
+
+if ($('#color_tag_reg_cliente').val() == '0') {
+      Swal.fire('Debe colocar una etiqueta al cliente')
+     return $('#color_tag_reg_cliente').focus()
+    }
+
+    $.ajax({
+      url: `/save_cliente_py4`,
+      type: 'POST',
+      data: $('#form_reg_cliente').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('.modal').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#form_reg_cliente')[0].reset()
+        $('#array').val(JSON.stringify(data.clientes))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(` <thead>
+                                              <tr>
+                                                  <th> </th>
+                                                  <th>Nombre</th>
+                                                  <th>Zona</th>
+                                                  <th>Etiqueta</th>
+                                                  <th>Titulo</th>
+                                                  <th>Teléfono</th>
+                                                  <th>Correo</th>  
+                                                  <th>Nuevo </th>
+                                                  <th>Opciones</th>
+                                              </tr>
+                                          </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+        $('.modal').modal('hide');
+        Swal.fire('Se creó con éxito al cliente')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
   })
 });
 function edit_cliente(id_edit) {

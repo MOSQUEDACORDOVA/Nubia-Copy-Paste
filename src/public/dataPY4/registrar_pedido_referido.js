@@ -131,7 +131,19 @@ $('#btn_reg_pedido_referido').on('click', ()=>{
         return
         
       }
-      Swal.fire('Se creó con éxito el pedido')
+      Swal.fire({
+        title: '<strong style="color: white">PEDIDO CREADO</strong>',
+        icon: 'success',
+        html:`<span style="color: white">¡Muchas gracias! 
+
+        Su pedido estará en su 🏠 en el transcurso 
+        del día 🔆
+        
+        B•Water 💦 Servicio al cliente!</span> `,
+        showCancelButton: false,
+        focusConfirm: false,
+      })
+
 $('.modal').modal('hide');
 $('#reg_pedido_modal1').trigger("reset");
 let hoy= moment().format('YYYY-MM-DD')
@@ -141,8 +153,7 @@ $('#monto_garrafon').text('0')
 $('#sub_total_total').text('0')
 $('#deuda_verf').text('0')
  $('#total_total').text('0')
- $('#deuda_box').attr('style','display:none')
-      
+ $('#deuda_box').attr('style','display:none')      
 
     },
     error: function (jqXHR, textStatus) {

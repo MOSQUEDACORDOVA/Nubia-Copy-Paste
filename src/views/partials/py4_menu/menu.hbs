@@ -85,6 +85,10 @@ $('#bell_not').on('click', ()=>{
     console.log($('#bell_not .badge').text())
     $('#bell_not .badge').attr('style', 'display:none')
 })
+
+$('.referido-notif').mouseleave((e)=>{
+    $(e.target).remove()
+})
     })
 
 </script>
@@ -155,7 +159,7 @@ $('#bell_not').on('click', ()=>{
               </li>
               <li class="scrollable-container media-list ps ps--active-y">
                   {{#each verifica_pedidos_referido as |ref_pedido i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
@@ -374,7 +378,7 @@ padding-left: 0.7rem;
                         data-i18n="tablero">Tablero</span></a></li>
 
             <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
+                    href="/clientesBwater"><i data-feather="users"></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Clientes</span></a>
             </li>
            {{#if admin}} <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
@@ -904,11 +908,11 @@ padding-left: 0.7rem;
                 <form class="needs-validation was-validated" action="/save_cliente_py4" method="post" id="form_reg_cliente">
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control mb-2">
+                            tabindex="1" autofocus="" class="form-control mb-2" id="nombre-cliente-reg"> 
                     </div>
                     <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
                             type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
-                            tabindex="2" class="form-control mb-2"></div>
+                            tabindex="2" class="form-control mb-2" id="apellido-cliente-reg"></div>
                     <div class="divider">
                         <div class="divider-text">Dirección</div>
                     </div>
@@ -966,7 +970,7 @@ padding-left: 0.7rem;
                             <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
                             </div>
                             <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                                aria-describedby="register-telefono" tabindex="11" class="form-control" required>
+                                aria-describedby="register-telefono" tabindex="11" class="form-control" required id="tlf-add-cliente">
                         </div>
                     </div>
                     <div class="divider">
@@ -1070,7 +1074,7 @@ padding-left: 0.7rem;
             </div>
             <div class="modal-footer">
                 <button tabindex="26"
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="add_cliente_modal">Regístrate</button>
             </div>
             </form>
         </div>

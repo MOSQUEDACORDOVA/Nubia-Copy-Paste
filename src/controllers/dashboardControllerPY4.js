@@ -387,8 +387,8 @@ exports.sesionstart = (req, res) => {
 exports.usuariosTable = (req, res) => {
   let msg = false;
 
-  if (req.params.msg) {
-    msg = req.params.msg;
+  if (req.params.mensaje) {
+    msg = req.params.mensaje;
   }
   let admin = false;
   if (req.session.tipo == "Director") {
@@ -505,67 +505,33 @@ exports.usuariosTable = (req, res) => {
 };
 
 exports.save_cliente_py4 = async (req, res) => {
-  var {
-    firstName,
-    cp,
-    asentamiento,
-    lastName,
-    ciudad,
-    municipio,
-    fraccionamiento,
-    coto,
-    casa,
-    calle,
-    avenida,
-    referencia,
-    telefono,
-    nombre_familiar_1,
-    apellido_familiar_1,
-    telefono_familiar_1,
-    nombre_familiar_2,
-    apellido_familiar_2,
-    telefono_familiar_2,
-    tipo_cliente,
-    cliente_nuevo,
-    fecha_ultimo_pedido,
-    utimos_botellones,
-    sucursal,
-    email,
-    color,
-  } = req.body;
+  let id_sucursal = req.session.sucursal_select;
+  let ClientesDB = "";
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB = DataBase.ClientesAll;
+      break;
+
+    default:
+      ClientesDB = DataBase.ClientesAllS;
+      break;
+  }
+  var { firstName, cp, asentamiento, lastName, ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, nombre_familiar_1,  apellido_familiar_1,
+    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2, tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones, sucursal, email,
+    color} = req.body;
   let msg = false;
   var modo_cliente = "SI";
   if (cliente_nuevo == null) {
     modo_cliente = "NO";
   }
   const revisa_cliente = JSON.parse(
-    await DataBase.SearchClientePedido(
-      firstName,
-      cp,
-      asentamiento,
-      lastName,
-      ciudad,
-      municipio,
-      fraccionamiento,
-      coto,
-      casa,
-      calle,
-      avenida,
-      referencia,
-      telefono
-    )
+    await DataBase.SearchClientePedido(  firstName, cp, asentamiento,  lastName,  ciudad,  municipio,  fraccionamiento,  coto,  casa,  calle, avenida,  referencia, telefono)
   );
   console.log("revisa_cliente");
   console.log(revisa_cliente);
   if (revisa_cliente != null) {
-    msg =
-      "Ya éxiste el cliente: " +
-      revisa_cliente.firstName +
-      " " +
-      revisa_cliente.lastName +
-      ", con los datos indicados";
-    res.redirect("/homepy4/" + msg);
-    return;
+    msg ="Ya éxiste el cliente: " + revisa_cliente.firstName +  " " + revisa_cliente.lastName +", con los datos indicados";
+    return res.send({error: msg});
   }
   if (nombre_familiar_1 == "") {
     nombre_familiar_1 = null;
@@ -604,8 +570,7 @@ exports.save_cliente_py4 = async (req, res) => {
       " " +
       revisa_cliente_familiar.lastName +
       ", contiene los datos del familiar indicado";
-    res.redirect("/homepy4/" + msg);
-    return;
+      return res.send({error: msg});
   }
   if (nombre_familiar_1 == null) {
     nombre_familiar_1 = "";
@@ -625,39 +590,17 @@ exports.save_cliente_py4 = async (req, res) => {
   if (telefono_familiar_2 == null) {
     telefono_familiar_2 = "";
   }
-  DataBase.registrar_cliente(
-    firstName,
-    cp,
-    asentamiento,
-    lastName,
-    ciudad,
-    municipio,
-    fraccionamiento,
-    coto,
-    casa,
-    calle,
-    avenida,
-    referencia,
-    telefono,
-    nombre_familiar_1,
-    apellido_familiar_1,
-    telefono_familiar_1,
-    nombre_familiar_2,
-    apellido_familiar_2,
-    telefono_familiar_2,
-    tipo_cliente,
-    modo_cliente,
-    fecha_ultimo_pedido,
-    utimos_botellones,
-    sucursal,
-    email,
-    color
-  )
-    .then((respuesta) => {
+  DataBase.registrar_cliente(firstName, cp, asentamiento, lastName, ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, nombre_familiar_1,
+    apellido_familiar_1, telefono_familiar_1, nombre_familiar_2,apellido_familiar_2, telefono_familiar_2, tipo_cliente,modo_cliente, fecha_ultimo_pedido, utimos_botellones,
+    sucursal, email, color)
+    .then(async(respuesta) => {
+      let clientes = await ClientesDB(id_sucursal)
       if (req.body.dashboard) {
-        return res.redirect("/homepy4/" + respuesta);
+        
+        return res.send({clientes});
       }
-      res.redirect("/usuarios/" + respuesta);
+      clientes = JSON.parse(clientes)
+      return res.send({clientes});
     })
     .catch((err) => {
       console.log(err);
@@ -3680,7 +3623,7 @@ exports.save_cliente_referido = async (req, res) => {
       " " +
       revisa_cliente.lastName +
       ", con los datos indicados";
-    res.redirect("/referido-bwater-exist/" + msg);
+    res.redirect("/referido-bwater-exist/"+id_cliente_bwater+"/"+ msg);
     return;
   }
   if (nombre_familiar_1 == "") {
@@ -3703,7 +3646,7 @@ exports.save_cliente_referido = async (req, res) => {
       " " +
       revisa_cliente_familiar.lastName +
       ", contiene los datos del familiar indicado";
-    res.redirect("/referido-bwater-exist/" + msg);
+    res.redirect("/referido-bwater-exist/"+id_cliente_bwater+"/"+msg);
     return;
   }
   if (nombre_familiar_1 == null) {
@@ -3765,7 +3708,7 @@ exports.home_referidos = async(req, res) => {
   let pedidos_ = JSON.parse(await DataBase.PedidosReferido(user.id));
   console.log(pedidos_)
   if (pedidos_.length > 0) {
-    let msg = "Ya realizó su pedido como referido."
+    let msg = "Ya realizó su pedido. GRACIAS."
     return res.redirect('/referido-bwater-exist/'+user.id+'/'+msg)
   }
   let cp_ = await DataBase.CodigosP();
