@@ -1521,10 +1521,11 @@ console.log(matricula)
 
 exports.guarda_pago = async(req, res) => {
   console.log(req.body)
-  var {id_alumno, concepto,fecha_pago, monto, mora, observacion} = req.body
+  var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
   
 for (let i = 0; i < concepto.length; i++) {
-    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago[i], monto[i], mora[i], observacion[i],id_alumno)
+    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago[i], monto[i], mora[i], observacion[i],banco[i],
+      transaccion[i],id_alumno)
   console.log(save_pago)
   
 }

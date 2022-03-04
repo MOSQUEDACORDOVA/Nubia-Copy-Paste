@@ -327,10 +327,14 @@
                   </div>
                 </div>
               </div>
-
+<style>
+  table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+       padding-right: inherit;
+}
+</style>
               <div class="row mb-2 card">
-                <div class="col-12 p-0">
-                  <table class="table dt-column-search table-responsive" id="grupos_table">
+                <div class="col-12 p-0 ">
+                  <table class="table dt-column-search " id="grupos_table">
                                     <thead>
                                         <tr>
                                             <th></th>
