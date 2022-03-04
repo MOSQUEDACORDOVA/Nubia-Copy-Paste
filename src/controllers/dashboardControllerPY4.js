@@ -2311,7 +2311,20 @@ exports.consultaCP = (req, res) => {
       return res.redirect("/errorpy4/" + msg);
     });
 };
+exports.save_cp_new = (req, res) => {
+  var {cp,asentamiento, municipio}=req.body
+  DataBase.AddCodigosP(cp,asentamiento, municipio)
+    .then((CP_) => {
+      let cp_let = JSON.parse(CP_);
 
+      return res.status(200).send({ cp_let: cp_let });
+    })
+    .catch((err) => {
+      console.log(err);
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+};
 //VEHICULOS
 exports.vehiculos_table = (req, res) => {
   let msg = false;

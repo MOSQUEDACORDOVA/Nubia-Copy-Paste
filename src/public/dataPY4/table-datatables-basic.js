@@ -578,6 +578,41 @@ if ($('#color_tag_reg_cliente').val() == '0') {
       }
     });
   })
+  $('#btn_add_cp').click(()=>{
+    if ($('#cp_add').val() == "") {
+      Swal.fire('Debe colocar un código postal')
+     return $('#cp_add').focus()
+    }
+  if ($('#asentamiento_add').val() == '') {
+      Swal.fire('Debe colocar asentamiento')
+    return  $('#asentamiento_add').focus()
+    }
+  
+  if ($('#municipio_add').val() == '0') {
+      Swal.fire('Debe seleccionar un municipio')
+     return $('#municipio_add').focus()
+    }
+  
+    $.ajax({
+      url: `/save_cp_new`,
+      type: 'POST',
+      data: $('#agregar_cp').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('#add_cp').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#agregar_cp')[0].reset()
+  $('#add_cp').modal('hide');
+  Swal.fire('Se creó con éxito asentamiento')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  })
 });
 function edit_cliente(id_edit) {
   if (typeof id_edit =="undefined") {

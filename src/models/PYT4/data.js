@@ -1563,6 +1563,20 @@ PersonalAllS(id){
           });
       });
     },
+    AddCodigosP(cp,asentamiento, municipio){
+      return new Promise((resolve, reject) => {
+        CoP.create({cp:cp,asentamiento:asentamiento, municipio:municipio})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     
 
     //Vehiculos

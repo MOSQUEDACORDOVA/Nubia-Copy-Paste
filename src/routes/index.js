@@ -157,6 +157,7 @@ router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dash
 
 //CP
 router.post('/consultaCP', dashboardControllerPY4.consultaCP);
+router.post('/save_cp_new', dashboardControllerPY4.save_cp_new);
 //corte
 router.get('/corte_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
 router.get('/corteday_py4/:day',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
