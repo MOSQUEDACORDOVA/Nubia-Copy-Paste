@@ -1272,11 +1272,20 @@ if ($('#color_tag_reg_cliente').val() == '0') {
       type: 'POST',
       data: $('#form_reg_cliente').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
+        console.log(JSON.parse(data.clientes))
+        let clientes= JSON.parse(data.clientes)
         if (data.error) {
           $('.modal').modal('hide');
           Swal.fire(data.error)
           return
+        }
+        $('#id_cliente_reg_pedido').empty()
+        let asentamiento
+        for (let i = 0; i < clientes.length; i++) {          
+        if (clientes[i]['cp']['asentamiento']) {
+          asentamiento = clientes[i]['cp']['asentamiento']
+        }
+          $('#id_cliente_reg_pedido').append(`<option value="${clientes[i].id}"> ${clientes[i].firstName} ${clientes[i].lastName} / ${asentamiento}</option>`)
         }
         $('#form_reg_cliente')[0].reset()
   $('.modal').modal('hide');
