@@ -818,6 +818,7 @@ const leccionActualGrupos = async () => {
   console.log("activos");
   console.log(gruposAct);
   var dt_gruposActi = $("#grupos_table");
+  dt_gruposActi.DataTable({"bPaginate": false, "bFilter": false, "bInfo": false,order: [[2, 'desc']] })
 };
 function grupoSelected(valor) {
   $("#grupoId").val(valor);

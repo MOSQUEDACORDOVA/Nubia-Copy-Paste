@@ -93,7 +93,7 @@ $(function () {
 <td>
     <span class="fw-bold">Mensualidad</span>
 </td>
-<td>${mes_a_pagar}</td>
+<td class="text-capitalize">${mes_a_pagar}</td>
 <td>
     ${moment().format("DD-MM-YYYY")}
 </td>
@@ -118,10 +118,62 @@ updateHistorial(e.target.value)
     /**FIN DEL SELECT ALUMNO */
   });
 
-  /**INICIO BTON TRASLADO */
-  $("#btn-traslado").click(async () => {
+  $('#add_pago-btn').click(()=>{
     let id_alumno = $("#id-alumno-form").val();
 
+  if (!id_alumno) {
+    swal.fire("Debe seleccionar un alumno para procesar un pago");
+    return;
+  }
+    let servicio = $('#select-servicio').val()
+
+    switch (servicio) {
+      case 'Traslado':
+        translado()
+        break;
+        case 'Constancia':
+        constancia()
+          break;
+          case 'Titulo':
+        titulo()
+        break;
+      default:
+        break;
+    }
+  })
+ $('#select-servicio').change((e)=>{
+  let id_alumno = $("#id-alumno-form").val();
+
+  if (!id_alumno) {
+    swal.fire("Debe seleccionar un alumno para procesar un pago");
+    return;
+  }
+  let servicio = $('#select-servicio').val()
+  $('#fecha-servicio').val(moment().format(
+    "YYYY-MM-DD" ))
+    $('.mensualidadAdd').addClass('d-none')
+  switch (servicio) {
+    case 'Traslado':
+      
+      $('#itemPrice').val('₡ 5,000')
+      break;
+      case 'Constancia':
+        $('#itemPrice').val('₡ 5,000')
+        break;
+        case 'Titulo':
+          $('#itemPrice').val('₡ 2,0000')
+      break;
+      case 'Mensualidad':
+        $('.mensualidadAdd').removeClass('d-none')
+        $('#itemPrice').val('₡ 17,0000')
+    break;
+    default:
+      break;
+  }
+ })
+  /**INICIO HABILITAR TRASLADO */
+  const translado =async ()=>{
+    let id_alumno = $("#id-alumno-form").val();
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
@@ -138,16 +190,9 @@ updateHistorial(e.target.value)
     let value_monto = $("#monto-form").val();
     let value_mora = $("#mora-form").val();
     let value_observacion = $("#observacion-form").val();
-    const { value: fecha_pago } = await Swal.fire({
-      title: "Indique la fecha de pago",
-      html: `<input id="swal-input2" class="swal2-input" type="date" value="${moment().format(
-        "YYYY-MM-DD"
-      )}">`,
-      focusConfirm: false,
-      preConfirm: () => {
-        return [document.getElementById("swal-input2").value];
-      },
-    });
+
+   
+    const fecha_pago = $('#fecha-servicio').val()
 
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
     let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
@@ -155,12 +200,16 @@ updateHistorial(e.target.value)
       swal.fire("La fecha seleccionada es superior a la actual");
       return;
     }
+    
+
     $("#form-reg-pago")
       .append(`<div id="traslado"><input type="text" name="concepto[]" id="concepto-form-traslado" value="Traslado">
 <input type="text" name="fecha_pago[]" id="fecha_pago-form-traslado" value="${fecha_pago}">
 <input type="text" name="monto[]" id="monto-form-traslado" value="5000">
 <input type="text" name="mora[]" id="mora-form-traslado" value="-">
-<input type="text" name="observacion[]" id="observacion-form-traslado" value="-"></div>`);
+<input type="text" name="observacion[]" id="observacion-form-traslado" value="-">
+<input type="text" name="banco[]" id="banco-form-traslado" value="${$('#bank-serv').val()}">
+<input type="text" name="transaccion[]" id="transaccion-form-traslado" value="${$('#trans-serv').val()}"></div>`);
 
     $("#body-table-pago").append(`<tr id="tr-traslado">
 <td>
@@ -190,14 +239,11 @@ updateHistorial(e.target.value)
 <div class="detail-title">Traslado</div>
 </li>`);
     $("#total-servicios").text("5000");
+  }/**FIN BNT TRASLADO */
 
-    /**FIN BNT TRASLADO */
-  });
-
-  /**BTN HABILITAR CONSTANCIA */
-  $("#btn-habilitar-constancia").click(async () => {
+/**HABILITAR CONSTANCIA */
+  const constancia =async ()=>{
     let id_alumno = $("#id-alumno-form").val();
-
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
@@ -209,16 +255,8 @@ updateHistorial(e.target.value)
       return;
     }
     var filter = matricula.filter((element) => element.id == id_alumno);
-    const { value: fecha_pago } = await Swal.fire({
-      title: "Indique la fecha de pago",
-      html: `<input id="swal-input2" class="swal2-input" type="date" value="${moment().format(
-        "YYYY-MM-DD"
-      )}">`,
-      focusConfirm: false,
-      preConfirm: () => {
-        return [document.getElementById("swal-input2").value];
-      },
-    });
+
+    const fecha_pago = $('#fecha-servicio').val()
 
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
     let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
@@ -231,7 +269,10 @@ updateHistorial(e.target.value)
 <input type="text" name="fecha_pago[]" id="fecha_pago-form-Constancia" value="${fecha_pago}">
 <input type="text" name="monto[]" id="monto-form-Constancia" value="5000">
 <input type="text" name="mora[]" id="mora-form-Constancia" value="-">
-<input type="text" name="observacion[]" id="observacion-form-Constancia" value="-"></div>`);
+<input type="text" name="observacion[]" id="observacion-form-Constancia" value="-">
+<input type="text" name="banco[]" id="banco-form-Constancia" value="${$('#bank-serv').val()}">
+<input type="text" name="transaccion[]" id="transaccion-form-Constancia" value="${$('#trans-serv').val()}">
+</div>`);
 
     $("#body-table-pago").append(`<tr id="tr-Constancia">
 <td>
@@ -261,9 +302,118 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
 <div class="detail-title">Constancia</div>
 </li>`);
     $("#total-servicios").text("5000");
+  }/**FIN BNT TRASLADO */
 
-    /**FIN BNT TRASLADO */
-  });
+/**BTN HABILITAR TITULO */
+  const titulo =async ()=>{
+    let id_alumno = $("#id-alumno-form").val();
+
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+    if ($("#concepto-form-titulo").length > 0) {
+      swal.fire(
+        "Ya ha seleccionado un titulo para este alumno, guarde los cambios"
+      );
+      return;
+    }
+    //VERIFICAR QUE LE CORRESPONDE TITULO:
+    notas = await fetch("/notas-titulo-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.obtener_notas;
+      });
+    nota_participacion= await fetch("/participacion-titulo-academy/" + id_alumno)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_participacion;
+    });
+    ausencias = await fetch("/ausencias-titulo-academy/" + id_alumno)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_ausencias;
+    });
+    if (nota_participacion.length == 0) {
+      swal.fire('Aún no cumple con el total de lecciones para obtar al Titulo')
+      return
+    }
+    if (notas.length < 6) {
+      swal.fire('Le falta al menos 1 o mas notas para obtar al Titulo')
+      return
+    }
+    let total_nota = 0
+
+    for (let i = 0; i < notas.length; i++) {
+      if (notas[i]['nota'] == 'undefined') {
+        total_nota += 0
+      }else{
+        total_nota += parseInt(notas[i]['nota']) 
+      }
+           
+    }
+
+    let asistencias = 32-parseInt(ausencias.length)
+    let porcentaje_asist = (asistencias * 100)/32
+    if (porcentaje_asist < 70) {
+      swal.fire('Su asistencia es menor a 70%, no obta a Titulo')
+      return
+    }
+
+    if (total_nota < 80) {
+      swal.fire('Su nota final es menor a 80%, no obta a Titulo')
+      return
+    }
+    
+    //CONTINUA HABILITANDO EL TITULO
+    var filter = matricula.filter((element) => element.id == id_alumno);
+    const fecha_pago = $('#fecha-servicio').val()
+
+    let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
+    let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
+    if (fecha_sup == true) {
+      swal.fire("La fecha seleccionada es superior a la actual");
+      return;
+    }
+    $("#form-reg-pago")
+      .append(`<div id="Titulo"><input type="text" name="concepto[]" id="concepto-form-Titulo" value="Titulo">
+<input type="text" name="fecha_pago[]" id="fecha_pago-form-Titulo" value="${fecha_pago}">
+<input type="text" name="monto[]" id="monto-form-Titulo" value="20000">
+<input type="text" name="mora[]" id="mora-form-Titulo" value="-">
+<input type="text" name="observacion[]" id="observacion-form-Titulo" value="-">
+<input type="text" name="banco[]" id="banco-form-Titulo" value="${$('#bank-serv').val()}">
+<input type="text" name="transaccion[]" id="transaccion-form-Titulo" value="${$('#trans-serv').val()}">
+</div>`);
+
+    $("#body-table-pago").append(`<tr id="tr-Titulo">
+<td>
+<span class="fw-bold">Titulo</span>
+</td>
+<td></td>
+<td>
+${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
+</td>
+<td>20000</td>
+<td>
+<a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" class="feather feather-trash me-50">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+      </path>
+  </svg>
+  <span>Eliminar</span>
+</a>
+</td>
+</tr>`);
+
+    $("#detalle-servicios").append(`<li class="price-detail">
+<div class="detail-title">Titulo</div>
+</li>`);
+    $("#total-servicios").text("20000");
+  }/**FIN BNT TITULO */
 
   /**BTN GENERAR CONSTANCIA */
   $("#btn-genera-constancia").click(async () => {
@@ -305,133 +455,6 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
       },
     });
     //window.location.href=`/genera-pdf-constancia/${id_estudiante}`
-  });
-
-  /**BTN HABILITAR TITULO */
-  $("#btn-habilitar-titulo").click(async () => {
-    let id_alumno = $("#id-alumno-form").val();
-
-    if (!id_alumno) {
-      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
-      return;
-    }
-    if ($("#concepto-form-titulo").length > 0) {
-      swal.fire(
-        "Ya ha seleccionado un titulo para este alumno, guarde los cambios"
-      );
-      return;
-    }
-    //VERIFICAR QUE LE CORRESPONDE TITULO:
-    notas = await fetch("/notas-titulo-academy/" + id_alumno)
-      .then((response) => response.json())
-      .then((data) => {
-        return data.obtener_notas;
-      });
-    console.log(notas);
-
-    nota_participacion= await fetch("/participacion-titulo-academy/" + id_alumno)
-    .then((response) => response.json())
-    .then((data) => {
-      return data.obtener_participacion;
-    });
-    console.log(nota_participacion);
-
-    ausencias = await fetch("/ausencias-titulo-academy/" + id_alumno)
-    .then((response) => response.json())
-    .then((data) => {
-      return data.obtener_ausencias;
-    });
-  console.log(parseInt(ausencias.length));
-    if (nota_participacion.length == 0) {
-      swal.fire('Aún no cumple con el total de lecciones para obtar al Titulo')
-      return
-    }
-    if (notas.length < 6) {
-      swal.fire('Le falta al menos 1 o mas notas para obtar al Titulo')
-      return
-    }
-    let total_nota = 0
-
-    for (let i = 0; i < notas.length; i++) {
-      if (notas[i]['nota'] == 'undefined') {
-        total_nota += 0
-      }else{
-        total_nota += parseInt(notas[i]['nota']) 
-      }
-           
-    }
-    console.log(total_nota);
-
-    let asistencias = 32-parseInt(ausencias.length)
-    console.log(asistencias);
-    let porcentaje_asist = (asistencias * 100)/32
-    console.log(porcentaje_asist);
-    if (porcentaje_asist < 70) {
-      swal.fire('Su asistencia es menor a 70%, no obta a Titulo')
-      return
-    }
-
-    if (total_nota < 80) {
-      swal.fire('Su nota final es menor a 80%, no obta a Titulo')
-      return
-    }
-    
-    //CONTINUA HABILITANDO EL TITULO
-    var filter = matricula.filter((element) => element.id == id_alumno);
-    const { value: fecha_pago } = await Swal.fire({
-      title: "Indique la fecha de pago",
-      html: `<input id="swal-input2" class="swal2-input" type="date" value="${moment().format(
-        "YYYY-MM-DD"
-      )}">`,
-      focusConfirm: false,
-      preConfirm: () => {
-        return [document.getElementById("swal-input2").value];
-      },
-    });
-
-    let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
-    let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
-    if (fecha_sup == true) {
-      swal.fire("La fecha seleccionada es superior a la actual");
-      return;
-    }
-    $("#form-reg-pago")
-      .append(`<div id="Titulo"><input type="text" name="concepto[]" id="concepto-form-Titulo" value="Titulo">
-<input type="text" name="fecha_pago[]" id="fecha_pago-form-Titulo" value="${fecha_pago}">
-<input type="text" name="monto[]" id="monto-form-Titulo" value="20000">
-<input type="text" name="mora[]" id="mora-form-Titulo" value="-">
-<input type="text" name="observacion[]" id="observacion-form-Titulo" value="-"></div>`);
-
-    $("#body-table-pago").append(`<tr id="tr-Titulo">
-<td>
-<span class="fw-bold">Titulo</span>
-</td>
-<td></td>
-<td>
-${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
-</td>
-<td>20000</td>
-<td>
-<a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
-  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-      stroke-linejoin="round" class="feather feather-trash me-50">
-      <polyline points="3 6 5 6 21 6"></polyline>
-      <path
-          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-      </path>
-  </svg>
-  <span>Eliminar</span>
-</a>
-</td>
-</tr>`);
-
-    $("#detalle-servicios").append(`<li class="price-detail">
-<div class="detail-title">Titulo</div>
-</li>`);
-    $("#total-servicios").text("20000");
-
-    /**FIN BNT TITULO */
   });
 
  /**BTN GENERAR TITULO */
@@ -484,14 +507,24 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
 
   /**GURDAR PAGO */
   $("#btn-guardar-pago").click(() => {
+    let id_alumno = $("#id-alumno-form").val();
+
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para procesar un pago");
+      return;
+    }
+
     $.ajax({
       url: `/guardar-pago-academy`,
       type: "POST",
       data: $("#form-reg-pago").serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data);
-
+        $('#body-table-pago').empty()
+        $('#itemPrice').val('')
+        $('#select-servicio').val('Seleccione')
         Swal.fire("Se guardó el pago con éxito");
+
         updateHistorial($("#id-alumno-form").val());
       },
       error: function (jqXHR, textStatus) {
@@ -566,6 +599,7 @@ async function updateHistorial(id_estudiante) {
       historial[i]["concepto"] == "Constancia"
     ) {
       console.log("habilita el boton");
+
       $("#btn-genera-constancia").removeClass("btn-light");
       $("#btn-genera-constancia").addClass("btn-primary");
       $("#btn-genera-constancia").removeAttr("disabled");

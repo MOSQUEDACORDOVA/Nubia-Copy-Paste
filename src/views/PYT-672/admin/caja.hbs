@@ -58,7 +58,7 @@
 									<div class="card-header d-flex justify-content-start">
 										<div class="">
 											<button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button"
-												data-repeater-create="">
+												id="add_pago-btn">
 												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
 													stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
 													class="feather feather-plus me-25">
@@ -75,10 +75,10 @@
 											<div data-repeater-list="invoice">
 												<div data-repeater-item="">
 													<div class="row d-flex align-items-end">
-														<div class="col-md-4 col-12">
+														<div class="col-md-3 col-12">
 															<div class="mb-1">
 																<label class="form-label" for="itemname">Tipo Servicio</label>
-																<select class="form-select">
+																<select class="form-select" id="select-servicio">
 																	<option>Seleccione</option>
                                                                     <option>Mensualidad</option>
                                                                     <option>Recargo</option>
@@ -92,27 +92,67 @@
 														<div class="col-md-3 col-12">
 															<div class="mb-1">
 																<label class="form-label" for="itemcost">Fecha</label>
-																<input type="text" id="fecha-nacimiento-edit" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
+																<input type="text" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
 															</div>
 														</div>
-						
-						
-						
-														<div class="col-md-3 col-12">
+						                                <div class="col-md-2 col-12 d-none mensualidadAdd" >
 															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Precio</label>
-																<input type="text" class="form-control" id="itemPrice" aria-describedby="precio" readonly="" value="₡ 10,000">
+																<label class="form-label" for="itemquantity">Mes</label>
+																<select class="form-select" id="select-servicio">
+																	<option>Seleccione</option>
+                                                                    <option>Enero</option>
+                                                                    <option>Febrero</option>
+																	<option>Marzo</option>
+																	<option>Abril</option>
+																	<option>Mayo</option>
+                                                                    <option>Junio</option>
+                                                                    <option>Julio</option>
+																	<option>Agosto</option>
+																	<option>Septiembre</option>
+																	<option>Octubre</option>
+                                                                    <option>Noviembre</option>
+																	<option>Diciembre</option>
+																</select>
 															</div>
 														</div>
+                                                        <div class="col-md-2 col-12 d-none mensualidadAdd" >
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Año</label>
+																<select class="form-select" id="select-servicio">
+																	<option>Seleccione</option>
+                                                                    <option>2021</option>
+                                                                    <option>2022</option>
+																	<option>2023</option>
+																	<option>2024</option>
+																	<option>2025</option>
+                                                                    <option>2026</option>
+																</select>
+															</div>
+														</div>
+						
 						
 														<div class="col-md-2 col-12">
 															<div class="mb-1">
-																<button class="btn btn-outline-danger text-nowrap px-1 waves-effect" data-repeater-delete="" type="button">
-																	<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x">
-																		<line x1="18" y1="6" x2="6" y2="18"></line>
-																		<line x1="6" y1="6" x2="18" y2="18"></line>
-																	</svg>
-																</button>
+																<label class="form-label" for="itemquantity">Precio</label>
+																<input type="text" class="form-control" id="itemPrice" aria-describedby="precio" readonly="" value="">
+															</div>
+														</div>
+                                                        <div class="col-md-2 col-12">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Banco</label>
+                                                                <select class="form-select" id="bank-serv">
+																	<option>Seleccione</option>
+                                                                    <option>BNA</option>
+                                                                    <option>BCR</option>
+																	<option>BAC</option>
+																	<option>BPO</option>																	
+																</select>
+															</div>
+														</div>
+                                                        <div class="col-md-2 col-12">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Transaccion #:</label>
+																<input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
 															</div>
 														</div>
 													</div>
@@ -137,31 +177,6 @@
 															</tr>
 														</thead>
 														<tbody id="body-table-pago">
-															<tr id="tr-mensualidad-marzo">
-																<td>
-																	<span class="fw-bold">Mensualidad</span>
-																</td>
-																<td>marzo</td>
-																<td>
-																	01-03-2022
-																</td>
-																<td>17000</td>
-																<td>
-																	<a class="item borrar mensualidad-marzo" data-observacion="marzo"
-																		onclick="borrarFila('tr-mensualidad-marzo','mensualidad-marzo')">
-																		<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-																			viewBox="0 0 24 24" fill="none" stroke="currentColor"
-																			stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-																			class="feather feather-trash me-50">
-																			<polyline points="3 6 5 6 21 6"></polyline>
-																			<path
-																				d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-																			</path>
-																		</svg>
-																		<span>Eliminar</span>
-																	</a>
-																</td>
-															</tr>
 														</tbody>
 													</table>
 												</div>
@@ -423,7 +438,7 @@
                                         <div class="detail-title">Mensualidad</div>
                                         <div class="detail-amt">₡ <span id="pago-mensual-detail"></span></div>
                                     </li>
-                                    <li class="price-detail">
+                                    <li class="price-detail d-none">
                                         <div class="detail-title">Recargo</div>
                                         <div class="detail-amt discount-amt text-danger">₡ <span id="mora-pago-detail"></span></div>
                                     </li>
@@ -443,9 +458,14 @@
                                             <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
                                         </li>
                                     </ul> --}}
-                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-modal">
-                                        Guardar Pago
-                                    </button>
+                                    <button type="button"
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
+                                            <span>Descargar Titulo</span>
+                                        </button>
+                                    <button type="button"
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
+                                            <span>Generar Constancia</span>
+                                        </button>
                                 </div>
 
                             </div>
