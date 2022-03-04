@@ -151,26 +151,51 @@ updateHistorial(e.target.value)
   let servicio = $('#select-servicio').val()
   $('#fecha-servicio').val(moment().format(
     "YYYY-MM-DD" ))
-    $('.mensualidadAdd').addClass('d-none')
   switch (servicio) {
+    case 'Mensualidad':
+      addMensualidadFormat()
+      $('#itemPrice').val('')
+      break;
+    case 'Recargo':
+      removeMensualidadFormat()
+      $("#itemPrice").prop("readonly", false);
+      $('#itemPrice').val('')
+      break;
     case 'Traslado':
-      
-      $('#itemPrice').val('₡ 5,000')
+      removeMensualidadFormat()
+      $('#itemPrice').val(5000)
       break;
-      case 'Constancia':
-        $('#itemPrice').val('₡ 5,000')
-        break;
-        case 'Titulo':
-          $('#itemPrice').val('₡ 2,0000')
+    case 'Constancia':
+      removeMensualidadFormat()
+      $('#itemPrice').val(5000)
       break;
-      case 'Mensualidad':
-        $('.mensualidadAdd').removeClass('d-none')
-        $('#itemPrice').val('₡ 17,0000')
-    break;
+    case 'Titulo':
+      removeMensualidadFormat()
+      $('#itemPrice').val(20000)
+      break;
     default:
       break;
   }
  })
+
+  function addMensualidadFormat() {
+    $("#itemPrice").prop("readonly", true);
+    document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
+    document.getElementById("precio").classList.replace("col", "col-4");
+    document.getElementById("banco").classList.replace("col-6", "col-4");
+    document.getElementById("transct").classList.replace("col-6", "col-4");
+    $('.mensualidadAdd').removeClass('d-none');
+  }
+
+  function removeMensualidadFormat() {
+    $("#itemPrice").prop("readonly", true);
+    document.getElementById("mContenedor").classList.replace("row-cols-4", "row-cols-3");
+    document.getElementById("precio").classList.replace("col-4", "col");
+    document.getElementById("banco").classList.replace("col-4", "col-6");
+    document.getElementById("transct").classList.replace("col-4", "col-6");
+    $('.mensualidadAdd').addClass('d-none')
+  }
+
   /**INICIO HABILITAR TRASLADO */
   const translado =async ()=>{
     let id_alumno = $("#id-alumno-form").val();

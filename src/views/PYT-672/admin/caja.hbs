@@ -55,27 +55,21 @@
 						
 							<div class="col-12">
 								<div class="card">
-									<div class="card-header d-flex justify-content-start">
+									<div class="card-header d-flex justify-content-start px-0">
 										<div class="">
-											<button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button"
-												id="add_pago-btn">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-													stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-													class="feather feather-plus me-25">
-													<line x1="12" y1="5" x2="12" y2="19"></line>
-													<line x1="5" y1="12" x2="19" y2="12"></line>
-												</svg>
-												<span>Agregar Pago</span>
-											</button>
+											<h3>Agregar Pago</h3>
 										</div>
 									</div>
-									<div class="card-body">
+									<div class="card-body px-0">
 
 										<form action="#" class="invoice-repeater">
 											<div data-repeater-list="invoice">
 												<div data-repeater-item="">
-													<div class="row d-flex align-items-end">
-														<div class="col-md-3 col-12">
+													
+													<button class="mb-1" id="botonPrueba" onclick="sMensualidad">Cuando seleccione Mensualidad o Recargo se debe ver asi (el js te lo deje al final de caja.hbs)</button>
+
+													<div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
+														<div id="tipoServicio" class="col">
 															<div class="mb-1">
 																<label class="form-label" for="itemname">Tipo Servicio</label>
 																<select class="form-select" id="select-servicio">
@@ -88,14 +82,7 @@
 																</select>
 															</div>
 														</div>
-						
-														<div class="col-md-3 col-12">
-															<div class="mb-1">
-																<label class="form-label" for="itemcost">Fecha</label>
-																<input type="text" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-															</div>
-														</div>
-						                                <div class="col-md-2 col-12 d-none mensualidadAdd" >
+														<div id="mes" class="col d-none mensualidadAdd" >
 															<div class="mb-1">
 																<label class="form-label" for="itemquantity">Mes</label>
 																<select class="form-select" id="select-servicio">
@@ -115,7 +102,8 @@
 																</select>
 															</div>
 														</div>
-                                                        <div class="col-md-2 col-12 d-none mensualidadAdd" >
+
+                                                        <div id="ano" class="col d-none mensualidadAdd" >
 															<div class="mb-1">
 																<label class="form-label" for="itemquantity">Año</label>
 																<select class="form-select" id="select-servicio">
@@ -129,15 +117,26 @@
 																</select>
 															</div>
 														</div>
-						
-						
-														<div class="col-md-2 col-12">
+
+														<div id="fecha" class="col">
 															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Precio</label>
-																<input type="text" class="form-control" id="itemPrice" aria-describedby="precio" readonly="" value="">
+																<label class="form-label" for="itemcost">Fecha</label>
+																<input type="text" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
 															</div>
 														</div>
-                                                        <div class="col-md-2 col-12">
+    
+														<div id="precio" class="col">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Precio</label>
+																<div class="input-group">
+																	<span class="input-group-text" id="basic-addon-search1">₡</span>
+																	<input type="number" class="form-control" id="itemPrice" aria-describedby="precio" readonly="true" value="">
+																</div>
+																
+															</div>
+														</div>
+
+														<div id="banco" class="col-6">
 															<div class="mb-1">
 																<label class="form-label" for="itemquantity">Banco</label>
                                                                 <select class="form-select" id="bank-serv">
@@ -149,13 +148,15 @@
 																</select>
 															</div>
 														</div>
-                                                        <div class="col-md-2 col-12">
+														
+                                                        <div id="transct" class="col-6">
 															<div class="mb-1">
 																<label class="form-label" for="itemquantity">Transaccion #:</label>
 																<input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
 															</div>
 														</div>
-													</div>
+
+                                                    </div>
 													<hr>
 												</div>
 											</div>
@@ -446,7 +447,7 @@
                                 </ul>
                                 <hr>
 
-                                <div class="price-details">
+                                <div class="price-details d-grid gap-2">
                                    {{!--  <h6 class="price-title">Detalles de Servicios</h6>
                                     <ul class="list-unstyled" id="detalle-servicios">
                                     </ul>
@@ -459,11 +460,11 @@
                                         </li>
                                     </ul> --}}
                                     <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
+                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
                                             <span>Descargar Titulo</span>
                                         </button>
                                     <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
+                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
                                             <span>Generar Constancia</span>
                                         </button>
                                 </div>
@@ -660,3 +661,18 @@
 <form id="form-reg-pago" hidden>
 
 </form>
+
+<script>
+
+	function sMensualidad() {
+		document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
+		document.getElementById("precio").classList.replace("col", "col-4");
+		document.getElementById("banco").classList.replace("col-6", "col-4");
+		document.getElementById("transct").classList.replace("col-6", "col-4");
+		document.getElementById("mes").classList.remove("d-none");
+		document.getElementById("ano").classList.remove("d-none");
+	}
+
+	document.getElementById("botonPrueba").addEventListener("click", holaMensualidad);
+
+</script>
