@@ -482,12 +482,13 @@ $(document).ready(function() {
                         <div class="card card-statistics border-secondary" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
                                 <div class="col-10 col-xl-11">
-                                    <div class="row card-header">
+                                    <div class="row card-header p-1">
                                         <div class="col-12">
                                             <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-                                                <div class="d-flex flex-column mb-1 mb-md-0">
+
+                                                <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                    <h1 class="me-1"><b>${matricula.nombre}</b></h1>
                                                     <h5><span class="badge badge-light-secondary">Ausente</span></h5>
-                                                    <h1 class="mb-0"><b>${matricula.nombre}</b></h1>
                                                 </div>
                                                 <div class="d-flex flex-row">
                                                     ${calif}
@@ -531,13 +532,13 @@ $(document).ready(function() {
                         <div class="card card-statistics border-success" id="estudiante${matricula.id}">
                             <div class="row m-0 p-0">
                                 <div class="col-10 col-xl-11">
-                                    <div class="row card-header">
+                                    <div class="row card-header p-1">
                                         <div class="col-12">
                                             <div class="d-flex flex-column flex-md-row justify-content-sm-between">
                                                 
-                                                <div class="d-flex flex-column mb-1 mb-md-0">
+                                                <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                    <h1 class="me-1"><b>${matricula.nombre}</b></h1>
                                                     <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                    <h1 class="mb-0"><b>${matricula.nombre}</b></h1>
                                                 </div>
 
                                                 <div class="d-flex flex-row">
