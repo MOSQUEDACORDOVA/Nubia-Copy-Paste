@@ -113,6 +113,7 @@ $(function () {
 </td>
 </tr>`);
 updateHistorial(e.target.value)
+verificareposicion(e.target.value)
     }
 
     /**FIN DEL SELECT ALUMNO */
@@ -137,6 +138,9 @@ updateHistorial(e.target.value)
           case 'Titulo':
         titulo()
         break;
+        case 'Reposicion':
+          reposicion()
+        break;
       default:
         break;
     }
@@ -151,6 +155,7 @@ updateHistorial(e.target.value)
   let servicio = $('#select-servicio').val()
   $('#fecha-servicio').val(moment().format(
     "YYYY-MM-DD" ))
+    $('.select-reposicion').addClass(`d-none`) 
   switch (servicio) {
     case 'Mensualidad':
       addMensualidadFormat()
@@ -172,6 +177,11 @@ updateHistorial(e.target.value)
     case 'Titulo':
       removeMensualidadFormat()
       $('#itemPrice').val(20000)
+      break;
+      case 'Reposicion':
+        removeMensualidadFormat()
+        $('.select-reposicion').removeClass(`d-none`)  
+      $('#itemPrice').val(10000)
       break;
     default:
       break;
@@ -195,6 +205,7 @@ updateHistorial(e.target.value)
     document.getElementById("transct").classList.replace("col-4", "col-6");
     $('.mensualidadAdd').addClass('d-none')
   }
+  
 
   /**INICIO HABILITAR TRASLADO */
   const translado =async ()=>{
@@ -439,7 +450,67 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
 </li>`);
     $("#total-servicios").text("20000");
   }/**FIN BNT TITULO */
+/**BTN HABILITAR TITULO */
+const reposicion =async ()=>{
+  let id_estudiante = $("#id-alumno-form").val();
 
+  if (!id_estudiante) {
+    swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+    return;
+  }
+  let leccion = $('#select-reposicion').val()
+  if ($(`#reposicion${leccion}`).length>0) {
+    swal.fire("Ya la lección esta agregada, seleccione otra o guarde el pago");
+    return;
+  } else {
+   
+$('#fecha-servicio').val(`${moment().format(
+  "YYYY-MM-DD"
+)}`)
+    $("#form-reg-pago")
+    .append(`<div id="reposicion${leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
+<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${leccion}" value="${$('#fecha-servicio').val()}">
+<input type="text" name="monto[]" id="monto-form-reposicion${leccion}" value="10000">
+<input type="text" name="mora[]" id="mora-form-reposicion${leccion}" value="-">
+<input type="text" name="observacion[]" id="observacion-form-reposicion${leccion}" value="-">
+<input type="text" name="banco[]" id="banco-form-reposicion${leccion}" value="${$('#bank-serv').val()}">
+<input type="text" name="transaccion[]" id="transaccion-form-reposicion${leccion}" value="${$('#trans-serv').val()}"></div>`);
+
+  $("#body-table-pago").append(`<tr id="tr-reposicion${leccion}">
+<td>
+  <span class="fw-bold">Reposicion,L-${leccion}</span>
+</td>
+<td></td>
+<td>
+${$('#fecha-servicio').val()}
+</td>
+<td>10000</td>
+<td>
+  <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="feather feather-trash me-50">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+          </path>
+      </svg>
+      <span>Eliminar</span>
+  </a>
+</td>
+</tr>`);
+
+  $("#detalle-servicios").append(`<li class="price-detail">
+<div class="detail-title">Reposicion,L-${leccion}</div>
+</li>`);
+  $("#total-servicios").text("10000");
+  
+
+
+  }
+  
+}/**FIN BNT TITULO */
+  
   /**BTN GENERAR CONSTANCIA */
   $("#btn-genera-constancia").click(async () => {
     let id_estudiante = $("#id-alumno-form").val();
@@ -548,6 +619,9 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
         $('#body-table-pago').empty()
         $('#itemPrice').val('')
         $('#select-servicio').val('Seleccione')
+        $('.select-reposicion').addClass(`d-none`) 
+        $('#bank-serv').val('Seleccione')
+        $('#trans-serv').val(``) 
         Swal.fire("Se guardó el pago con éxito");
 
         updateHistorial($("#id-alumno-form").val());
@@ -641,4 +715,79 @@ async function updateHistorial(id_estudiante) {
     }
   }
   $("#editUser").modal("hide");
+}
+async function verificareposicion(id_estudiante) {
+  //VERIFICAR QUE LE CORRESPONDE TITULO:
+  notas = await fetch("/notas-titulo-academy/" + id_estudiante)
+  .then((response) => response.json())
+  .then((data) => {
+    return data.obtener_notas;
+  });
+nota_participacion= await fetch("/participacion-titulo-academy/" + id_estudiante)
+.then((response) => response.json())
+.then((data) => {
+  return data.obtener_participacion;
+});
+ausencias = await fetch("/ausencias-titulo-academy/" + id_estudiante)
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_ausencias;
+    });
+console.log(notas)
+console.log(nota_participacion)
+$('#fecha-servicio').val(`${moment().format(
+  "YYYY-MM-DD"
+)}`)
+if (notas.length >0) {  
+for (let i = 0; i < notas.length; i++) {
+  if (notas[i].nota == 0) {
+    $('#select-servicio').append(`<option>Reposicion</option>`)
+    //$('.select-reposicion').removeClass(`d-none`)    
+    $('#select-reposicion').append(`<option>${notas[i].n_leccion}</option>`)
+
+    $("#form-reg-pago")
+    .append(`<div id="reposicion${notas[i].n_leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,L-${notas[i].n_leccion}">
+<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${notas[i].n_leccion}" value="${moment().format(
+  "YYYY-MM-DD"
+)}">
+<input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
+<input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
+<input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="-">
+<input type="text" name="banco[]" id="banco-form-reposicion${notas[i].n_leccion}" value="${$('#bank-serv').val()}">
+<input type="text" name="transaccion[]" id="transaccion-form-reposicion${notas[i].n_leccion}" value="${$('#trans-serv').val()}"></div>`);
+
+  $("#body-table-pago").append(`<tr id="tr-reposicion${notas[i].n_leccion}">
+<td>
+  <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+</td>
+<td></td>
+<td>
+${moment().format(
+  "YYYY-MM-DD"
+)}
+</td>
+<td>10000</td>
+<td>
+  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round" class="feather feather-trash me-50">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+          </path>
+      </svg>
+      <span>Eliminar</span>
+  </a>
+</td>
+</tr>`);
+
+  $("#detalle-servicios").append(`<li class="price-detail">
+<div class="detail-title">Reposicion,L-${notas[i].n_leccion}</div>
+</li>`);
+  $("#total-servicios").text("10000");
+  
+  }
+  }
+}
 }
