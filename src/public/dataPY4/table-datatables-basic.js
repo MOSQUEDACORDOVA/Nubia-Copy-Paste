@@ -64,6 +64,7 @@ console.log(array)
         { data: 'id' },
         { data: 'telefono' },
         { data: 'email' }, 
+        { data: 'cantidad_referidos' }, 
         { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
@@ -201,7 +202,7 @@ console.log(array)
           }
         },
         {
-          targets: 7,visible: false
+          targets: 8,visible: false
         },
         {
           // Label
@@ -365,7 +366,7 @@ $('#btn_asignar_tag').on('click', async (e)=>{
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
-$('#exampleClientes').append(`  <thead>
+$('#exampleClientes').append(`<thead>
 <tr>
     <th> </th>
     <th>Nombre</th>
@@ -373,7 +374,8 @@ $('#exampleClientes').append(`  <thead>
     <th>Etiqueta</th>
     <th>Titulo</th>
     <th>Teléfono</th>
-    <th>Correo</th>  
+    <th>Correo</th> 
+    <th>Referidos</th>  
     <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
@@ -442,19 +444,20 @@ $("#id_ad_tag_cliente").val(valoresCheck);
   $('#array').val(JSON.stringify(data.clientes_arr))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Nuevo </th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
+  $('#exampleClientes').append(`<thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   if ($('#filterPosition').val() != "") {
     console.log($('#filterValue').val())
@@ -480,19 +483,20 @@ console.log('entro aqui')
         $('#array').val(JSON.stringify(data.clientes))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Nuevo </th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
+  $('#exampleClientes').append(`<thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   if ($('#filterPosition').val() != "") {
     console.log($('#filterValue').val())
@@ -552,19 +556,20 @@ if ($('#color_tag_reg_cliente').val() == '0') {
         $('#array').val(JSON.stringify(data.clientes))
         $('#exampleClientes').dataTable().fnDestroy();
         $('#exampleClientes').empty();
-        $('#exampleClientes').append(` <thead>
-                                              <tr>
-                                                  <th> </th>
-                                                  <th>Nombre</th>
-                                                  <th>Zona</th>
-                                                  <th>Etiqueta</th>
-                                                  <th>Titulo</th>
-                                                  <th>Teléfono</th>
-                                                  <th>Correo</th>  
-                                                  <th>Nuevo </th>
-                                                  <th>Opciones</th>
-                                              </tr>
-                                          </thead>`);
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Referidos</th>  
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
         cargaTabla('si')
         if ($('#filterPosition').val() != "") {
           console.log($('#filterValue').val())

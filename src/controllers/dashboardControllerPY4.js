@@ -1047,7 +1047,7 @@ exports.regPedidoPy4 = async (req, res) => {
     id_chofer,
     sucursal,
     deuda_anterior,
-    fecha_pedido,
+    fecha_pedido,desc_referido,id_referenciado
   } = req.body;
 
   let total_garrafones_pedido =
@@ -1095,7 +1095,16 @@ exports.regPedidoPy4 = async (req, res) => {
     msg = "El cliente ya cuenta con un pedido, para el día de hoy!";
     return res.send({ msg: msg, fail: "duplicado" });
   }
-
+if (desc_referido > 0) {
+  var cliente = JSON.parse(
+    await DataBase.ClientebyId(id_cliente));
+    let descontar_ref = parseInt(cliente.cantidad_referidos)-1
+    var post_descontar = JSON.parse(
+      await DataBase.DescontarCantidadDesc( descontar_ref,id_cliente));
+      var post_descontar_referido = JSON.parse(
+        await DataBase.DescontarReferido( id_referenciado,id_cliente));
+        console.log(post_descontar_referido)
+}
   await DataBase.PedidosReg(
     id_cliente,
     firstName,
@@ -1130,7 +1139,7 @@ exports.regPedidoPy4 = async (req, res) => {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido
+    fecha_pedido,desc_referido
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
