@@ -160,7 +160,8 @@
                             />
                             <select
                               class="form-select select2 horario"
-                              name="horario" id="horario-cero"
+                              name="horario"
+                              id="horario-cero"
                               required
                             >
                               <option value="Lunes: 6:30pm a 9pm">
@@ -230,35 +231,11 @@
                           <label class="form-label" for="fp-default">
                             Profesor
                           </label>
-                          <!-- 
-                                                    <input type="text" id="fp-default" class="form-control" name="profesor" placeholder="Profesor (opcional)" required/>
-                                                    -->
-                          <select
-                            class="select2 form-select profesor"
-                            tabindex="-1"
-                            name="profesor"
-                            aria-hidden="true"
-                            
-                          >
-                            
+                          <select class="select2 form-select profesor"  tabindex="-1"  name="profesor" aria-hidden="true">
                             <option value="" selected>
                               (opcional)
                             </option>
-                            <option value="Isaac Mosqueda">
-                              Isaac Mosqueda
-                            </option>
-                            <option value="Rai Torcat">
-                              Rai Torcat
-                            </option>
-                            <option value="Patricio Calderon">
-                              Patricio Calderon
-                            </option>
-                            <option value="Boris Melgarejo">
-                              Boris Melgarejo
-                            </option>
-                            <option value="Jose Arzolay">
-                              Jose Arzolay
-                            </option>
+                            
                           </select>
                         </div>
                       </div>
@@ -364,25 +341,16 @@
                           <label class="form-label" for="fp-default">
                             Profesor
                           </label>
-                          <select    class="select2 form-select profesor"  tabindex="-1"          name="profesor"        aria-hidden="true"       >
+                          <select
+                            class="select2 form-select profesor"
+                            tabindex="-1"
+                            name="profesor"
+                            aria-hidden="true"
+                          >
                             <option value="" selected>
                               (opcional)
                             </option>
-                            <option value="Isaac Mosqueda">
-                              Isaac Mosqueda
-                            </option>
-                            <option value="Rai Torcat">
-                              Rai Torcat
-                            </option>
-                            <option value="Patricio Calderon">
-                              Patricio Calderon
-                            </option>
-                            <option value="Boris Melgarejo">
-                              Boris Melgarejo
-                            </option>
-                            <option value="Jose Arzolay">
-                              Jose Arzolay
-                            </option>
+                            
                           </select>
                         </div>
                       </div>
@@ -484,26 +452,11 @@
                             tabindex="-1"
                             name="profesor"
                             aria-hidden="true"
-                            
                           >
                             <option value="" selected>
                               (opcional)
                             </option>
-                            <option value="Isaac Mosqueda">
-                              Isaac Mosqueda
-                            </option>
-                            <option value="Rai Torcat">
-                              Rai Torcat
-                            </option>
-                            <option value="Patricio Calderon">
-                              Patricio Calderon
-                            </option>
-                            <option value="Boris Melgarejo">
-                              Boris Melgarejo
-                            </option>
-                            <option value="Jose Arzolay">
-                              Jose Arzolay
-                            </option>
+                            
                           </select>
                         </div>
                       </div>
@@ -700,9 +653,8 @@
                             Profesor
                           </label>
                           <select
-                            id=""
-                            class="form-select text-capitalize mb-md-0 mb-2"
-                          >
+                            class="form-select text-capitalize mb-md-0 mb-2 profesor"
+                         id="profesoresGrupo1" >
                             <option value=""></option>
                           </select>
                         </div>
@@ -787,7 +739,7 @@
                           </label>
                           <select
                             id=""
-                            class="form-select text-capitalize mb-md-0 mb-2"
+                            class="form-select text-capitalize mb-md-0 mb-2 profesor"
                           >
                             <option value=""></option>
                           </select>
@@ -871,7 +823,7 @@
                           </label>
                           <select
                             id=""
-                            class="form-select text-capitalize mb-md-0 mb-2"
+                            class="form-select text-capitalize mb-md-0 mb-2 profesor"
                           >
                             <option value=""></option>
                           </select>
@@ -1025,7 +977,7 @@
                         Martes y Jueves: 6:30pm a 9pm
                       </option>
                     </select>
-					
+
                     <select
                       name="horario3"
                       id="horarioKids"
@@ -1035,7 +987,6 @@
                         Sábados 11:30am a 1:30pm
                       </option>
                     </select>
-
                   </div>
                   <div class="mb-1">
                     <label for="" class="form-label">
@@ -1050,33 +1001,23 @@
                     />
                   </div>
                 </div>
-				<div class="row">
-                        <div class="col-12 mb-1">
-                          <label class="form-label" for="fp-default">
-                            Profesor
-                          </label>
-                          <select class="select2 form-select profesor"  tabindex="-1" name="profesor" aria-hidden="true" >
-                            <option value="" selected>
-                              (opcional)
-                            </option>
-                            <option value="Isaac Mosqueda">
-                              Isaac Mosqueda
-                            </option>
-                            <option value="Rai Torcat">
-                              Rai Torcat
-                            </option>
-                            <option value="Patricio Calderon">
-                              Patricio Calderon
-                            </option>
-                            <option value="Boris Melgarejo">
-                              Boris Melgarejo
-                            </option>
-                            <option value="Jose Arzolay">
-                              Jose Arzolay
-                            </option>
-                          </select>
-                        </div>
-                      </div>
+                <div class="row">
+                  <div class="col-12 mb-1">
+                    <label class="form-label" for="fp-default">
+                      Profesor
+                    </label>
+                    <select
+                      class="select2 form-select profesor"
+                      tabindex="-1"
+                      name="profesor"
+                      aria-hidden="true"
+                    >
+                      <option value="" selected>
+                        (opcional)
+                      </option>                      
+                    </select>
+                  </div>
+                </div>
                 <div class="my-1">
                   <button type="submit" class="btn btn-primary">
                     Actualizar

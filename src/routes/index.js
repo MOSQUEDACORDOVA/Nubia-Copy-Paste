@@ -568,6 +568,7 @@ router.get('/py672/:id', dashboardControllerPY672.controlroles);
 // ? POST ------------------!
 router.post('/login672', dashboardControllerPY672.sesionstart);
 router.post('/reguserpy672', dashboardControllerPY672.reguser);
+router.post('/deleteUserpy672', dashboardControllerPY672.deleteuser);
 
 // * CERRAR SESION
 router.get('/logout/PYT-672', userControllerPY672.closeSesion);

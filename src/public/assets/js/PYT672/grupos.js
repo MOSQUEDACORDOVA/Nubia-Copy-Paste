@@ -1,8 +1,22 @@
 
-let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposApertura, gruposDesde0, gruposIntensivos, gruposKids;
+let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposApertura, gruposDesde0, gruposIntensivos, gruposKids,usuarios;
 
 function FetchData (tabla) {
-    if(tabla === 1) {
+    if(tabla === 0) {
+        fetch('/obtenerusuariospy672')
+        .then(response => response.json())
+        .then(data => {
+            usuarios = data.usuarios
+            console.log(usuarios)
+            for (let i = 0; i < usuarios.length; i++) {
+                if (usuarios[i]['puesto']=="Profesor") {
+                   $('.profesor').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
+                }                
+            }
+            
+        });
+
+    }else  if(tabla === 1) {
         fetch('/obtenergruposapertura')
             .then(response => response.json())
             .then(data => {
@@ -36,7 +50,8 @@ function FetchData (tabla) {
 
     }
 }
-
+  
+FetchData(0);
 FetchData(1) 
 FetchData(2) 
 FetchData(3) 
@@ -60,6 +75,7 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        console.log(full)
                         let identif;
                         if(full['identificador'].includes("C")) {
                             identif = `<b class="text-primary">${full.identificador}</b>`
@@ -219,6 +235,9 @@ function cargarTablaDesde0() {
         $('#pagosGrupo1').on('change', function(){
             tableDesde0.search(this.value).draw();   
         });  
+        $('#profesoresGrupo1').on('change', function(){
+            tableDesde0.search(this.value).draw();   
+        });
 
         tableDesde0 = desde0Table.DataTable({
             ordering: true,

@@ -24,10 +24,23 @@ module.exports = {
         });
       });
     }, 
+    // * DELETE DE USUARIOS
+    DeleteUser(id) {
+      return new Promise((resolve, reject) => {
+      Usuarios.destroy({where:{id:id} })
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario eliminado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    },
     // * CREAR GRUPOS ADMIN
-    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel) {
+    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel, estadosGrupoId: 1 })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,profesor:profesor, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
             console.log('NUEVO GRUPO CREADO')
@@ -222,10 +235,10 @@ module.exports = {
       });
     },
     // ACTUALIZAR GRUPOS
-    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin) {
+    ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin,nivel,profesor) {
       return new Promise((resolve, reject) => {
         Grupos.update({
-          nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin
+          profesor:profesor, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin,nivel:nivel
         }, { where: {
           id: id
         }})

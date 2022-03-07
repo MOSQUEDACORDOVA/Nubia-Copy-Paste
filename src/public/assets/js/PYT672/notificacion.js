@@ -62,6 +62,13 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Registrado !';
         toastText.innerText = 'Estimado usuario, el usuario fue registrado satisfactoriamente';
 
+    }else if (notif === "Usuario Eliminado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Eliminado !';
+        toastText.innerText = 'Estimado usuario, el usuario fue eliminado satisfactoriamente';
+
     }
+
     btnToast.click();
 }
