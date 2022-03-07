@@ -24,6 +24,19 @@ module.exports = {
         });
       });
     }, 
+      // * EDIT DE USUARIOS
+      EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario) {
+        return new Promise((resolve, reject) => {
+        Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI },{where:{id:id_usuario}})
+          .then((data) => {
+              let data_set = JSON.stringify(data);
+              resolve('Usuario actualizado con éxito');
+          })
+          .catch((err) => {
+              reject(err)
+          });
+        });
+      }, 
     // * DELETE DE USUARIOS
     DeleteUser(id) {
       return new Promise((resolve, reject) => {

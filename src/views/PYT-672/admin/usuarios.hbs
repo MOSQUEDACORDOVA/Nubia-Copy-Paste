@@ -83,38 +83,40 @@
                             </div>
 
                             <form class="" method="POST" id="regUsuarioForm" action="/reguserpy672">
+                            <div class="col-md-6 mb-1" id="id-user-edit">
+                                    </div>
                                 <div class="row">
                                     <div class="col-md-6 mb-1">
-                                        <label class="form-label" for="nombre">Nombres</label>
-                                        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Mosqueda">
+                                        <label class="form-label" for="nombre">Nombres y Apellido</label>
+                                        <input type="text" name="nombre" id="nombre-user" class="form-control" placeholder="Mosqueda">
                                     </div>
-                                    <div class="col-md-6 mb-1">
+                                    <div class="col-md-6 mb-1 d-none">
                                         <label class="form-label" for="apellidos">Apellidos</label>
-                                        <input type="text" name="apellidos" id="apellidos" class="form-control" placeholder="Cordova">
+                                        <input type="text" name="apellidos" id="apellidos-user" class="form-control" placeholder="Cordova">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="dni">DNI</label>
-                                        <input type="text" name="dni" id="dni" class="form-control">
+                                        <input type="text" name="dni" id="dni-user" class="form-control">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="email">Email</label>
-                                        <input type="email" name="email" id="email" class="form-control" placeholder="mosqueda.cordova@email.com">
+                                        <input type="email" name="email" id="email-user" class="form-control" placeholder="mosqueda.cordova@email.com">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="pais">País</label>
-                                        <input type="text" class="form-control" name="pais" id="pais">
+                                        <input type="text" class="form-control" name="pais" id="pais-user">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="fechaN">Fecha de Nacimiento</label>
-                                        <input type="text" name="fechaN" id="fechaN" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                        <input type="text" name="fechaN" id="fechaN-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="fechaI">Fecha de Inicio</label>
-                                        <input type="text" name="fechaI" id="fechaI" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                        <input type="text" name="fechaI" id="fechaI-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
                                     </div>
                                     <div class="col-md-6 mb-1">
                                         <label class="form-label" for="">Puesto</label>
-                                        <select name="puesto" id="" class="form-select select2">
+                                        <select name="puesto" id="puesto-user" class="form-select select2">
                                             <option value="">Seleccione un Puesto</option>
                                             <option value="Profesor">Profesor</option>
                                             <option value="Vendedor">Vendedor</option>
@@ -138,7 +140,7 @@
                                     </div>
 
                                     <div class="col-12">
-                                        <input type="submit" value="Registrar" class="btn btn-primary">
+                                        <input type="submit" value="Guardar" class="btn btn-primary">
                                         <input type="reset" value="Registrar" class="btn resetBtn d-none">
                                     </div>
                                 </div>
