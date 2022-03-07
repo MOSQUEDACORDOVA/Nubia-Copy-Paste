@@ -91,7 +91,19 @@ exports.reguser = (req, res) => {
     });
   }
 };
+exports.deleteuser = (req, res) => {
+  console.log(req.body);
+  let { id_usuario } = req.body;
+  let msg = false;
+    DataBase.DeleteUser(id_usuario).then((respuesta) =>{
 
+      return res.send({success: 'Usuario Eliminado'});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+};
 // * VISTA LOGIN
 exports.login = (req, res) => {
   let msg = false;
@@ -1816,7 +1828,7 @@ exports.error = (req, res) => {
 // * CREAR GRUPOS ADMIN
 exports.creargrupos = (req, res) => {
   console.log(req.body);
-  const { nombre, lecciones, horario, fechaInicio } = req.body;
+  const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
   let msg = false;
   console.log(moment(fechaInicio,'DD-MM-YYYY'));
   let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
@@ -1879,7 +1891,7 @@ exports.creargrupos = (req, res) => {
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
           
-          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
             console.log(grupoId)
@@ -1934,7 +1946,7 @@ exports.creargrupos = (req, res) => {
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
           
-          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
             console.log(grupoId)
@@ -1991,7 +2003,7 @@ exports.creargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
@@ -2014,7 +2026,7 @@ exports.creargrupos = (req, res) => {
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, horario1, horario2, fechaInicio } = req.body;
+  const { id, nombre, horario1, horario2, fechaInicio,profesor } = req.body;
   let msg = false;
   let diaActual = moment(fechaInicio).format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
@@ -2072,7 +2084,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -2127,7 +2139,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -2183,7 +2195,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -2487,7 +2499,7 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,vendedor } = req.body;
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
@@ -2506,7 +2518,7 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
+    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
     //  console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
@@ -2528,7 +2540,7 @@ exports.registrarmatricula = async(req, res) => {
 // * EDITAR ESTUDIANTES ADMIN
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
@@ -2543,7 +2555,7 @@ exports.editarmatricula = async(req, res) => {
 
     tipo = parseInt(tipo)
   
-    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante).then((resp) => {
+    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
     console.log(resp)
       console.log("ESTUDIANTE EDITADO")
       msg="Datos del estudiante "+nombre+" actualizados con éxito"
@@ -2559,7 +2571,7 @@ exports.editarmatricula = async(req, res) => {
 // * REASIGNAR GRUPO ESTUFDIANDO
 exports.reasignarGrupo = async(req, res) => {
   console.log(req.body);
-  let { grupoId, id_estudiante,nombre } = req.body;
+  let { grupoId, id_estudiante,nombre_reaginador } = req.body;
   let msg = false;  
     DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then(async (resp) => {
       var check_newGroup = JSON.parse(await DataBase.historial_caja(id_estudiante))
@@ -2571,7 +2583,7 @@ for (let i = 0; i < check_newGroup.length; i++) {
   
 }
       console.log("REASIGNADOR GRUPO")
-      msg="Grupo reasignado al estudiante "+nombre+" con éxito"
+      msg="Grupo reasignado al alumno "+nombre_reaginador+" con éxito"
       return res.redirect('/matriculas/'+msg);
     }).catch((err) => {
       console.log(err)

@@ -34,7 +34,7 @@ function cargarTablaUsuarios() {
           render: function (data, type, full, meta) {
             return `
             <div class="d-flex align-items-center">
-              <a href="#" class="btn btn-sm ms-1 text-primary">${feather.icons['trash'].toSvg()}</a>
+              <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
               <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
                 ${feather.icons['more-vertical'].toSvg()}
               </a>
@@ -50,30 +50,6 @@ function cargarTablaUsuarios() {
         },
       ],
       columnDefs: [
-        {
-          targets: 0, render: function (data, type, full) {
-              let nombre = full.nombre;
-              return nombre
-          }
-        },
-        {
-          targets: 1, render: function (data, type, full) {
-              let dni = full.dni;
-              return dni
-          }
-        },
-        {
-          targets: 2, render: function (data, type, full) {
-              let email = full.email;
-              return email
-          }
-        },
-        {
-          targets: 3, render: function (data, type, full) {
-              let pais = full.pais;
-              return pais
-          }
-        },
         {
           targets: 4, render: function (data, type, full) {
               let puesto = full.puesto;
@@ -165,7 +141,23 @@ function RegistrarUsuario (data) {
           UpdateTables();
       });
 }
-
+function deleteUser (id) {
+  let data = new FormData(regUserForm);
+  data.append('id_usuario', id)
+  fetch('/deleteUserpy672', {
+      method: 'POST',
+      body: data, 
+  }).then(res => res.json())
+      .catch(error => {
+          console.error('Error:', error);
+          Toast("Error");
+      })
+      .then(response => {
+          console.log('Success:', response)
+          Toast("Usuario Eliminado");
+          UpdateTables();
+      });
+}
 function UpdateTables() {
   $('#usuarios').dataTable().fnDestroy();
   $('#usuarios').empty();
@@ -203,3 +195,4 @@ $(function () {
     let form = e.target;
   });*/
 });
+
