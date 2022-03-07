@@ -816,24 +816,22 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-                                            <tr>                                                
-                                                <th></th>
-                                                <th>#Pedido</th>
-                                                <th class="cliente">Cliente</th>
-                                                <th>To. garr.</th>
-                                                <th>Monto Total</th>
-                                                <th>Adeudo</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Forma de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                                <th>oculto choferes </th> 
-                                                <th>oculto asentamiento </th> 
-                                            </tr>
-                                        </thead>`);
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -923,24 +921,22 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-                                            <tr>                                                
-                                                <th></th>
-                                                <th>#Pedido</th>
-                                                <th class="cliente">Cliente</th>
-                                                <th>To. garr.</th>
-                                                <th>Monto Total</th>
-                                                <th>Adeudo</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Forma de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                                <th>oculto choferes </th> 
-                                                <th>oculto asentamiento </th> 
-                                            </tr>
-                                        </thead>`);
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -1155,8 +1151,6 @@ $.contextMenu({
        <th>Forma de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
-       
-   
        <th>oculto choferes </th> 
        <th>oculto asentamiento </th> 
    </tr>
@@ -1272,13 +1266,13 @@ if ($('#color_tag_reg_cliente').val() == '0') {
       type: 'POST',
       data: $('#form_reg_cliente').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(JSON.parse(data.clientes))
-        let clientes= JSON.parse(data.clientes)
+        console.log(data)        
         if (data.error) {
           $('.modal').modal('hide');
           Swal.fire(data.error)
           return
         }
+        let clientes= JSON.parse(data.clientes)
         $('#id_cliente_reg_pedido').empty()
         let asentamiento
         for (let i = 0; i < clientes.length; i++) {          
@@ -1486,19 +1480,18 @@ $('.datatables-basic').dataTable().fnDestroy();
 $('.datatables-basic').html(`<thead>
 <tr>                                                
     <th></th>
-    <th>Nº Pedido</th>
-    <th>Cliente</th>
-    <th>Total garrafones</th>
+    <th>#Pedido</th>
+    <th class="cliente">Cliente</th>
+    <th>To. garr.</th>
     <th>Monto Total</th>
     <th>Adeudo</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
+    <th>Forma de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
-<th>oculto etiqueta </th> 
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
 </tr>
 </thead>`);
 
@@ -1594,19 +1587,18 @@ async function cambioPago(id, status) {
   $('.datatables-basic').html(`<thead>
   <tr>                                                
       <th></th>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
+      <th>#Pedido</th>
+      <th class="cliente">Cliente</th>
+      <th>To. garr.</th>
       <th>Monto Total</th>
       <th>Adeudo</th>
       <th>Status del Pedido</th>
       <th>Status de Pago</th>
+      <th>Forma de Pago</th>
       <th>Fecha</th>
       <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
+      <th>oculto choferes </th> 
+      <th>oculto asentamiento </th> 
   </tr>
 </thead>`);
   $('.datatables-basic2').dataTable().fnDestroy();
