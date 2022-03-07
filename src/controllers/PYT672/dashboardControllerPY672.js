@@ -104,6 +104,24 @@ exports.deleteuser = (req, res) => {
       return res.redirect("/error672/PYT-672");
     });
 };
+exports.editUser = (req, res) => {
+  console.log(req.body);
+  let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  let msg = false;
+  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '') {
+    console.log('complete todos los campos')
+    return res.send({error: 'Lo sentimos algo ah ocurrido. Uno o mas campos vacios'});
+  } else {
+    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario).then((respuesta) =>{
+      return res.send({success: 'Usuario actualizado'});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+
 // * VISTA LOGIN
 exports.login = (req, res) => {
   let msg = false;

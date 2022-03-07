@@ -40,8 +40,8 @@ function cargarTablaUsuarios() {
               </a>
 
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
-                <a class="dropdown-item" href="#">
-                  Eliminar Grupo
+                <a class="dropdown-item" href="#" onclick="edituser('${full['id']}')">
+                  Editar
                 </a>
               </div>
               
@@ -121,7 +121,12 @@ let regUserForm = document.getElementById('regUsuarioForm')
 regUserForm.addEventListener('submit', e => {
   e.preventDefault();
   let data = new FormData(regUserForm);
+  if ($('#user-id').length > 0) {    
+    EditarUsuario(data);
+  } else {
   RegistrarUsuario(data);
+  }
+  
 });
 
 function RegistrarUsuario (data) {
@@ -138,6 +143,23 @@ function RegistrarUsuario (data) {
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
           Toast("Usuario Registrado");
+          UpdateTables();
+      });
+}
+function EditarUsuario (data) {
+  fetch('/editUserpy672', {
+      method: 'POST',
+      body: data, 
+  }).then(res => res.json())
+      .catch(error => {
+          console.error('Error:', error);
+          Toast("Error");
+      })
+      .then(response => {
+          console.log('Success:', response)
+          $('#registrarUsuario .resetBtn').click();
+          $('#registrarUsuario .btn-close').click();
+          Toast("Usuario actualizado");
           UpdateTables();
       });
 }
@@ -158,6 +180,33 @@ function deleteUser (id) {
           UpdateTables();
       });
 }
+function edituser (id) {
+  let filteruser = usuarios.filter(
+    (element) => element.id == id
+  );
+  console.log(filteruser);
+  $("#id-user-edit").empty()
+  $("#id-user-edit").append(
+    `<input type="text" value="${filteruser[0]["id"]}" name="id_usuario" id="user-id">`
+  );
+
+  $("#nombre-user").val(`${filteruser[0]["nombre"]}`);
+  $("#apellidos-user").val(``);
+  $("#dni-user").val(`${filteruser[0]["dni"]}`);
+  $("#email-user").val(`${filteruser[0]["email"]}`);
+  $("#pais-user").val(`${filteruser[0]["pais"]}`);
+  $("#fechaN-user").val(`${filteruser[0]["fecha_nacimiento"]}`);
+$("#fechaI-user").val(`${filteruser[0]["fecha_inicio"]}`);
+  
+  $(`#puesto-user option[value='${filteruser[0]["puesto"]}']`).attr(
+    "selected",
+    true
+  );
+  $("#puesto-user").val(`${filteruser[0]["puesto"]}`).trigger("change");
+
+  $("#registrarUsuario").modal("show");
+}
+
 function UpdateTables() {
   $('#usuarios').dataTable().fnDestroy();
   $('#usuarios').empty();
