@@ -2028,15 +2028,14 @@ exports.actualizargrupos = (req, res) => {
   console.log(req.body);
   const { id, nombre, horario1, horario2, fechaInicio,profesor } = req.body;
   let msg = false;
-  let diaActual = moment(fechaInicio).format('DD');
+  let diaActual = moment(fechaInicio,'DD-MM-YYY').format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio).format('DD-MM-YYYY');
-
-  numAño = moment(fechaInicio).format('YY');
+  inicio = moment(fechaInicio,'DD-MM-YYY').format('DD-MM-YYYY');
+  
+  numAño = moment(fechaInicio,'DD-MM-YYY').format('YY');
   console.log(numAño)
   console.log("AÑO DE IDENTIFICADOR")
-
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
   } else {
@@ -2050,7 +2049,7 @@ exports.actualizargrupos = (req, res) => {
     if (nombre === 'Desde cero') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
         let grupos = JSON.parse(response);
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -2075,7 +2074,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                       // 224
-        fechaFin = moment(fechaInicio).add(31, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -2105,7 +2104,7 @@ exports.actualizargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("INTENSIVOS")
         // FILTRAR POR AÑO
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -2130,7 +2129,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 2;
                                         // 112
-        fechaFin = moment(fechaInicio).add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -2161,7 +2160,7 @@ exports.actualizargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("KIDS")
         // FILTRAR POR AÑO
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -2186,7 +2185,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                         // 112
-        fechaFin = moment(fechaInicio).add(15, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")

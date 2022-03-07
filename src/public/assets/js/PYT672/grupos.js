@@ -967,6 +967,7 @@ tablaGrupos.forEach(tabla => {
             
             horarioDesdeCero.classList.add('d-none')
             horarioIntensivo.classList.add('d-none')
+            let horario = moment(e.target.getAttribute('data-horario'),'DD-MM-YYYY').format('YYYY-MM-DD')
             if(e.target.getAttribute('data-nombre') === "Desde cero") {
                 horarioDesdeCero.classList.remove('d-none')
                 horarioDesdeCero.value = e.target.getAttribute('data-horario')
