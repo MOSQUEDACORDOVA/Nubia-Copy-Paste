@@ -27,7 +27,7 @@ function cargarTablaMatricula(editada) {
         { data: "nombre" },
         { data: "email" }, // used for sorting so will hide this column
         { data: "grupoId" },
-        { data: "vendedores" },
+        { data: "usuario.nombre" },
         { data: "estado" },
         {
           // Actions
@@ -139,8 +139,12 @@ function cargarTablaMatricula(editada) {
         {
           targets: 3,
           render: function (data, type, full) {
+            let vendedores = data
+            if (data == null) {
+              vendedores = 'Sin vendedor'
+            }
             let vendedor =
-              '<span class="badge badge-light-info">Sin Vendedor</span>';
+              `<span class="badge badge-light-info">${vendedores}</span>`;
             /*if(inicio === null) {
                   inicio = '<span class="badge badge-light-danger">No Establecida</span>'
               } else {
@@ -213,8 +217,6 @@ $(function () {
 
   $(".edit-btn-alumno").on("click", (e) => {
     let data = e.currentTarget["dataset"]["bsId"];
-    console.log(data);
-
     let filterStudiante = estudiantesParsed.filter(
       (element) => element.id == data
     );
@@ -252,10 +254,12 @@ $(function () {
     $("#inputTlf2").val(`${filterStudiante[0]["telefono2"]}`);
 
     $("#email-edit").val(`${filterStudiante[0]["email"]}`);
-
-    $(`#vendedor-edit option[value='Isaac']`).attr("selected", true);
-    $("#vendedor-edit").val("Isaac").trigger("change");
-    console.log(filterStudiante[0]["provincia"]);
+    let vendedor
+      if (filterStudiante[0]["usuario"] != null) {
+        vendedor =filterStudiante[0]["usuario"]["id"]
+      }
+    $(`#vendedor-edit option[value='${vendedor}']`).attr("selected", true);
+    $("#vendedor-edit").val(`${vendedor}`).trigger("change");
     $(
       `#select-provincia option[value='${filterStudiante[0]["provincia"]}']`
     ).attr("selected", true);
@@ -284,17 +288,14 @@ $(function () {
   });
 
   $(".congelar-estudiante").on("click", (e) => {
-    // console.log(e.target)
     let form = e.target;
     //  form.submit();
   });
 
   $(".eliminar-estudiante-grupo").on("click", (e) => {
-    console.log(e.target);
     let form = e.target;
   });
   $(".eliminar-estudiante").on("click", (e) => {
-    console.log(e.target);
     let form = e.target;
     form.submit();
   });
@@ -303,8 +304,7 @@ $(function () {
     $("#guarda-grupoNew").addClass("d-none");
     var Array = e.relatedTarget["dataset"]["bsArrdata"];
     var my_object = JSON.parse(decodeURIComponent(Array));
-    console.log(estudiantesParsed);
-    console.log(my_object["grupo"]["identificador"]);
+    console.log(my_object["grupo"]);
     $(`#nombreReagrupar`).text(`${my_object["nombre"]}`);
     $(`#tlfReagrupar`).text(
       `${my_object["telefono1"]} - ${my_object["telefono2"]}`
@@ -312,7 +312,6 @@ $(function () {
     let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
     );
-    console.log(filter_group_alumnos);
 
     $("#id_estudiante").val(my_object["id"]);
     $("#nombre_reaginador").val(my_object["nombre"]);
@@ -320,6 +319,7 @@ $(function () {
 
     $(`#grupoReag`).text(`${my_object["grupo"]["identificador"]}`);
     $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
+    $(`#profesorreag`).text(`${my_object["grupo"]["usuario"]["nombre"]} `);
     $(`#tipogrupoReag`).text(
       `${my_object["grupo"]["nombre"]}- ${my_object["grupo"]["identificador"]}`
     );
@@ -340,13 +340,10 @@ $(function () {
       html2 = "",
       j = "",
       html3 = "";
-    console.log(tipo);
     var leccionTrue = false,
       nLeccion;
     var startDate = moment().startOf("week");
     var endDate = moment().endOf("week");
-    console.log(startDate);
-    console.log(endDate);
     if (tipo == "Intensivo") {
       for (let i = 0; i < diferencia2 * 2 + 2; i++) {
         if (i == 0) {
@@ -372,7 +369,6 @@ $(function () {
             "d"
           );
         }
-        console.log("-----I");
         let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
           '"YYYY-MM-DD"'
         );
@@ -401,8 +397,6 @@ $(function () {
           </div>`;
         }
         if (leccionactual) {
-          console.log(leccionactual);
-          console.log(i + 1);
           $(`#leccionActual`).text(i + 1);
         }
       }
@@ -482,10 +476,8 @@ $(function () {
         console.log(data);
         return data.obtener_historia;
       });
-    console.log(historial);
     for (let i = 0; i < historial.length; i++) {
       var hora_registro_pago = moment(historial[i]["createdAt"]);
-      console.log(moment().isAfter(hora_registro_pago, "d"));
       if (
         historial[i]["concepto"] == "Traslado" &&
         historial[i]["observacion"] == "-" &&
@@ -538,8 +530,6 @@ $(function () {
     var endDate = moment().endOf("week");
     let hoy = moment().locale("es").format("dddd");
     if (tipo == "Intensivo") {
-      console.log(dia);
-      console.log(diferencia2 * 2 + 1);
       for (let i = 0; i < diferencia2 * 2 + 2; i++) {
         if (i == 0) {
           leccionFecha = inicio;
@@ -563,7 +553,6 @@ $(function () {
             "d"
           );
         }
-        console.log("-----");
         let dia_fechaSelect = moment(leccionFecha, "DD-MM-YYYY")
           .locale("es")
           .format("dddd");
@@ -691,6 +680,22 @@ $("#guarda-grupoNew").click(() => {
 });
 
 const leccionActualGrupos = async () => {
+  
+  $('#grupos_table').dataTable().fnDestroy();
+  $('#grupos_table').empty();
+  $('#grupos_table').html(`<thead>
+  <tr>
+      <th></th>
+      <th>Tipo</th>
+      <th>Leccion Actual</th>
+      <th>Horario</th>
+      <th>Fecha Pago</th>
+      <th>Alumnos</th>
+      <th>Profesor</th>
+  </tr>
+</thead><tbody id="gruposAct">
+                                      
+</tbody>`);
   console.log("Entro aqui");
   $(`#gruposAct`).empty();
   console.log(grupos);
@@ -780,10 +785,7 @@ const leccionActualGrupos = async () => {
     } else {
       jjaa = 0;
     }
-    console.log($("#leccion_actual_reasig").val());
     if (jjaa > $("#leccion_actual_reasig").val()) {
-      console.log("Grupo:" + grupos[i]["identificador"]);
-      console.log("Leccion" + jjaa);
       $('#selectGroup option[value="' + grupos[i]["id"] + '"]').attr(
         "disabled",
         true
@@ -792,12 +794,10 @@ const leccionActualGrupos = async () => {
       if ($("#grupoReag").text() == grupos[i]["identificador"]) {
         console.log("mismo grupo");
       } else {
+        console.log("other grupo");
         let filter_group_alumnos = estudiantesParsed.filter(
           (filter2) => filter2.grupo.id == grupos[i]["id"]
         ).length;
-        console.log(filter_group_alumnos);
-        console.log("Grupoac:" + grupos[i]["identificador"]);
-        console.log("Leccion ac" + jjaa);
         gruposAct.push(grupos[i]);
         $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
@@ -806,18 +806,14 @@ const leccionActualGrupos = async () => {
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
     <td>${filter_group_alumnos}</td>
-    <td>Isaac</td>
+    <td>${grupos[i]["usuario"]['nombre']}</td>
 </tr>`);
       }
     }
-    console.log(gruposAct.length);
     $("#countGrupos").text("0");
     $("#countGrupos").text(gruposAct.length);
   }
-
-  console.log("activos");
-  console.log(gruposAct);
-  var dt_gruposActi = $("#grupos_table");
+  var dt_gruposActi = $("#grupos_table");  
   dt_gruposActi.DataTable({"bPaginate": false, "bFilter": false, "bInfo": false,order: [[2, 'desc']] })
 };
 function grupoSelected(valor) {

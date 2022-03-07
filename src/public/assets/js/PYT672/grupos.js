@@ -10,7 +10,8 @@ function FetchData (tabla) {
             console.log(usuarios)
             for (let i = 0; i < usuarios.length; i++) {
                 if (usuarios[i]['puesto']=="Profesor") {
-                   $('.profesor').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
+                   $('.profesor').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
+                   $('.profesor2').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
                 }                
             }
             
@@ -75,7 +76,10 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        console.log(full)
+                        let profesor
+                        if (full.usuario!=null) {
+                            profesor = full.usuario.nombre
+                        }
                         let identif;
                         if(full['identificador'].includes("C")) {
                             identif = `<b class="text-primary">${full.identificador}</b>`
@@ -178,7 +182,7 @@ function cargarTablaAperturas() {
                             <!---- PROF ---->
                             <div class="">
                                 <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">${profesor}</small>
                             </div>
                             </div>
                         </div>
@@ -236,6 +240,7 @@ function cargarTablaDesde0() {
             tableDesde0.search(this.value).draw();   
         });  
         $('#profesoresGrupo1').on('change', function(){
+            console.log(this.value)
             tableDesde0.search(this.value).draw();   
         });
 
@@ -249,6 +254,10 @@ function cargarTablaDesde0() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        let profesor
+                        if (full.usuario!=null) {
+                            profesor = full.usuario.nombre
+                        }
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>
@@ -345,7 +354,7 @@ function cargarTablaDesde0() {
                                 <!---- PROF ---->
                                 <div class="">
                                     <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                    <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                                    <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">${profesor}</small>
                                 </div>
 
 
@@ -403,7 +412,10 @@ function cargarTablaIntensivos() {
 
         $('#pagosGrupo2').on('change', function(){
             tableIntensivos.search(this.value).draw();   
-        });  
+        }); 
+        $('#profesorGrupo2').on('change', function(){
+            tableIntensivos.search(this.value).draw();   
+        }); 
 
         tableIntensivos = intensivosTable.DataTable({
             ordering: true,
@@ -415,6 +427,10 @@ function cargarTablaIntensivos() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        let profesor
+                        if (full.usuario!=null) {
+                            profesor = full.usuario.nombre
+                        }
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>
@@ -510,7 +526,7 @@ function cargarTablaIntensivos() {
                             <!---- PROF ---->
                             <div class="">
                                 <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">${profesor}</small>
                             </div>
                             </div>
                         </div>
@@ -567,7 +583,9 @@ function cargarTablaKids() {
         $('#pagosGrupo3').on('change', function(){
             tablaKids.search(this.value).draw();   
         });  
-
+$('#profesorGrupo3').on('change', function(){
+            tablaKids.search(this.value).draw();   
+        }); 
         tablaKids = kidsTable.DataTable({
             ordering: true,
             paging:   false,
@@ -578,6 +596,10 @@ function cargarTablaKids() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
+                        let profesor
+                        if (full.usuario!=null) {
+                            profesor = full.usuario.nombre
+                        }
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>
@@ -673,7 +695,7 @@ function cargarTablaKids() {
                             <!---- PROF ---->
                             <div class="">
                                 <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                                <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">${profesor}</small>
                             </div>
                             </div>
                         </div>

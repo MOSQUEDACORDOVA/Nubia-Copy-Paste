@@ -40,7 +40,7 @@ module.exports = {
     // * CREAR GRUPOS ADMIN
     CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,profesor:profesor, estadosGrupoId: 1 })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,usuarioId:profesor, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
             console.log('NUEVO GRUPO CREADO')
@@ -69,7 +69,10 @@ module.exports = {
     },
     ObtenerTodosGrupos() {
       return new Promise((resolve, reject) => {
-        Grupos.findAll({order:[['id', 'DESC']]})
+        Grupos.findAll({include:[
+          {association: Grupos.EstadoGrupos},
+          {association: Grupos.Usuarios},
+        ],order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -85,7 +88,10 @@ module.exports = {
           estadosGrupoId: {
             [Op.eq]: 1
           }
-        }},{order:[['id', 'DESC']]})
+        }, include:[
+          {association: Grupos.EstadoGrupos},
+          {association: Grupos.Usuarios},
+        ]},{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);
@@ -102,7 +108,10 @@ module.exports = {
             [Op.eq]: 'Desde cero',
           }, estadosGrupoId: {
             [Op.eq]: 2,
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -118,7 +127,10 @@ module.exports = {
         Grupos.findAll({where:
           { nombre: {
             [Op.eq]: 'Desde cero',
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -136,7 +148,10 @@ module.exports = {
             [Op.eq]: 'Intensivo',
           }, estadosGrupoId: {
             [Op.eq]: 2,
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -154,7 +169,10 @@ module.exports = {
             [Op.eq]: 'Kids',
           }, estadosGrupoId: {
             [Op.eq]: 2,
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         },{order:[['id', 'DESC']]})
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -170,7 +188,10 @@ module.exports = {
         Grupos.findAll({where:
           { nombre: {
             [Op.eq]: 'Kids',
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -186,7 +207,10 @@ module.exports = {
         Grupos.findAll({where:
           { nombre: {
             [Op.eq]: 'Intensivo',
-          }}
+          }}, include:[
+            {association: Grupos.EstadoGrupos},
+            {association: Grupos.Usuarios},
+          ]
         })
           .then((data) => {
               let data_p = JSON.stringify(data);
@@ -238,7 +262,7 @@ module.exports = {
     ActualizarGrupos(id, identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin,nivel,profesor) {
       return new Promise((resolve, reject) => {
         Grupos.update({
-          profesor:profesor, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin,nivel:nivel
+          usuarioId:profesor, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin,nivel:nivel
         }, { where: {
           id: id
         }})
@@ -269,9 +293,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId) {
+    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1})
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1,usuarioId:vendedor})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);
@@ -282,9 +306,9 @@ module.exports = {
       });
     },
        // * EDITAR ESTUDIANTES ADMIN
-       EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante) {
+       EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
         return new Promise((resolve, reject) => {
-          Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1}, {where:{id:id_estudiante}})
+          Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1, usuarioId:vendedor}, {where:{id:id_estudiante}})
               .then((data) => {
                 let data_set = JSON.stringify(data);
                 resolve(data_set);
@@ -349,6 +373,7 @@ module.exports = {
           {association: Matriculas.TipoEstudiante},
           {association: Matriculas.Grupos},
           {association: Matriculas.Estado},
+          {association: Matriculas.Usuarios},
         ],order: [
           ["id", "DESC"],
         ]
@@ -505,8 +530,9 @@ module.exports = {
         Matriculas.findAll({
         include:[
           {association: Matriculas.TipoEstudiante},
-          {association: Matriculas.Grupos},
+          {association: Matriculas.Grupos, include:[{association:Grupos.Usuarios}]},
           {association: Matriculas.Estado},
+          {association: Matriculas.Usuarios},
         ],order: [
           ["id", "DESC"],
         ],})
@@ -528,7 +554,8 @@ module.exports = {
         include:[
           {association: Matriculas.TipoEstudiante},
           {association: Matriculas.Grupos},
-          {association: Matriculas.Estado},
+          {association: Matriculas.Estado},          
+          {association: Matriculas.Usuarios},
         ],order: [
           ["id", "DESC"],
         ],})

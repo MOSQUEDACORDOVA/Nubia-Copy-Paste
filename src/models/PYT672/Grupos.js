@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
 const EstadoGrupos = require('../../models/PYT672/EstadoGrupos');
-
+const Usuarios = require('./Usuarios');
 // GRUPOS
 const Grupos = db672.define('grupos', {
     id: {
@@ -57,4 +57,5 @@ const Grupos = db672.define('grupos', {
 });
 
 Grupos.EstadoGrupos = Grupos.belongsTo(EstadoGrupos);
+Grupos.Usuarios = Grupos.belongsTo(Usuarios)
 module.exports = Grupos;
