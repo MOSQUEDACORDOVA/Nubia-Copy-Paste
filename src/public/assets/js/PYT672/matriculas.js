@@ -750,6 +750,7 @@ const leccionActualGrupos = async () => {
 
         if (leccionactual) {
           if (leccionFecha) {
+
           }
           leccionTrue = true;
           nLeccion = i + 1;
@@ -776,7 +777,9 @@ const leccionActualGrupos = async () => {
         if (leccionactual) {
           leccionTrue = true;
           nLeccion = i + 1;
+          console.log(nLeccion)
           $(`#leccionActual`).text(i + 1);
+          
         }
       }
     }
@@ -795,6 +798,7 @@ const leccionActualGrupos = async () => {
         console.log("mismo grupo");
       } else {
         console.log("other grupo");
+        console.log(jjaa);
         let filter_group_alumnos = estudiantesParsed.filter(
           (filter2) => filter2.grupo.id == grupos[i]["id"]
         ).length;
