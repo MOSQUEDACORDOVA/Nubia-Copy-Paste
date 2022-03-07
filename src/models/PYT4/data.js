@@ -358,6 +358,46 @@ module.exports = {
         });
     });
   },
+  DescontarCantidadDesc(descontar_ref,id) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          cantidad_referidos:descontar_ref},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  DescontarReferido(id_referenciado,id_cliente) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          referido_de:id_cliente+'-'},{
+            where:
+            {
+              id: id_referenciado
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   actualizarZonaCliente(id,id_sucursal) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -567,7 +607,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -588,7 +628,7 @@ module.exports = {
           chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
           total_canje_pedido:total_canje_cant_pedido,
           total_nv_pedido:total_nuevo_cant_pedido,
-          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido })
+          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido, descuento: desc_referido })
         .then(async (data) => {
           let data_set = JSON.stringify(data);
           console.log('pedidos save')
@@ -599,13 +639,13 @@ module.exports = {
               total_refill_pedido:total_refill_cant_pedido,
               total_canje_pedido:total_canje_cant_pedido,
               total_nv_pedido:total_nuevo_cant_pedido,
-              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},)
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},)
           }else{
             console.log('pedidos upd')
             Last_p.update({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,total_refill_pedido:total_refill_cant_pedido,
               total_canje_pedido:total_canje_cant_pedido,
               total_nv_pedido:total_nuevo_cant_pedido,
-              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},{where:{clienteId: id_cliente,}})
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},{where:{clienteId: id_cliente,}})
           }
 
           Clientes.update(
@@ -1114,7 +1154,7 @@ console.log(hoy)
   verificaPedidosReferido(id){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where:{usuarioId: {
-        [Op.is]: null,
+        [Op.is]: null, status_pedido:'Por entregar'
       }
     },
         include:[

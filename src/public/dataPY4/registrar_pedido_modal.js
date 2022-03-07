@@ -40,6 +40,15 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
+    
   })
 
 
@@ -72,6 +81,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enNew_garrafon').on('change', (e) => {
@@ -103,6 +120,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enobsequio_garrafon').on('change', (e) => {
@@ -146,6 +171,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
 
@@ -177,6 +210,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enNew_botella').on('change', (e) => {
@@ -208,6 +249,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enobsequio_botella').on('change', (e) => {
@@ -251,6 +300,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
 
@@ -282,6 +339,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enNew_garrafon11l').on('change', (e) => {
@@ -313,6 +378,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enobsequio_garrafon11l').on('change', (e) => {
@@ -357,6 +430,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
 
@@ -388,6 +469,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
   $('#count_enNew_botella5l').on('change', (e) => {
@@ -420,6 +509,14 @@ $(function () {
       
     }
     $('#total_total').text(sumar_totales)
+    if ($('#descuento_referido_box').is(':visible')) {
+      let descuento = sumar_totales*0.25
+      $('#desc_referido').text(descuento)
+      $('#inp_desc_ref').val(descuento)
+      let total_desc = sumar_totales - descuento
+      $('#total_total').text(total_desc)
+      $('#total_total_inp').val(total_desc)
+    }
   })
 
 
@@ -446,9 +543,21 @@ $(function () {
   var valor = $('#array').val()
   var array = JSON.parse(valor.replace(/&quot;/g, '"'))
   $('#id_cliente_reg_pedido').on('change', (e) => {
+    $('#descuento_referido_box').addClass('d-none')
     let id_ = e.target.value
-    console.log(id_)
+    let pedidos = $('#array_pedido').val()
+    var array_pedidos = JSON.parse(pedidos.replace(/&quot;/g, '"'))    
     var found = array.find(element => element.id == id_);
+    console.log(found.cantidad_referidos)
+    if (found.cantidad_referidos > 0) {
+      let pedidos_refido_entregado = array_pedidos.filter(status => status.status_pedido == "Entregado" && status.cliente.referido_de == id_); // return implicito
+      console.log(pedidos_refido_entregado)  
+      if (pedidos_refido_entregado.length > 0) {
+        $('#id_referenciado').val(pedidos_refido_entregado[0]['cliente']['id'])
+        $('#descuento_referido_box').removeClass('d-none')
+        $('#observaciion-reg-pedido').val('Descuento por referido')
+      }
+    }
 $('#tipo_c_pedido').val(found.tipo)
     $('#nombre_c_pedido').val(found.firstName)
     $('#apellido_c_pedido').val(found.lastName)
