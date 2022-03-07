@@ -3,6 +3,18 @@
     .swal2-popup{
         background: linear-gradient(rgb(0, 24, 103) 0%, rgb(1, 12, 112) 51%, rgb(0, 146, 174) 100%);
     }
+    .imgd {
+    filter: blur(10px);
+    content: "";
+    position: absolute;
+    height: 110%;
+    width: 110%;
+    background: url('../../../dataPY4/images/bwater_test.jpg');
+    background-size: cover;
+    z-index: -1;
+    -webkit-transform-origin: top left;
+    background-position: center;
+  }
 </style>
 <script>
     $(function () {
@@ -61,7 +73,7 @@
 <label id="msgsRef" hidden>{{msg}}</label>
 {{/if}}
 <div class="app-content content py4" style="transition:none">
-    <div class="content-overlay"></div>
+    <div class="content-overlay imgd"></div>
     <content class="ng-tns-c185-1 ng-star-inserted">
         <div class="ng-tns-c185-1 ng-trigger ng-trigger-zoomIn">
             <div class="auth-wrapper auth-v2">
