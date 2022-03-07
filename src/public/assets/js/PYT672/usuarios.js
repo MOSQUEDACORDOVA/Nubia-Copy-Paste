@@ -187,7 +187,7 @@ function edituser (id) {
   console.log(filteruser);
   $("#id-user-edit").empty()
   $("#id-user-edit").append(
-    `<input type="text" value="${filteruser[0]["id"]}" name="id_usuario" id="user-id">`
+    `<input type="text" value="${filteruser[0]["id"]}" name="id_usuario" id="user-id" hidden>`
   );
 
   $("#nombre-user").val(`${filteruser[0]["nombre"]}`);
