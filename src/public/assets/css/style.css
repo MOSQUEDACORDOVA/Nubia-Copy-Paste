@@ -368,11 +368,14 @@ body {
     color: white;
 }
 .py24 .select2-container--classic .select2-results__option[aria-selected='true'], .select2-container--default .select2-results__option[aria-selected='true'] {
-    background-color: #D9A443 !important;
+    background-color: #0833a2 !important;
     color: #fff !important;
 }
 .py24 .pricing-card .docemeses, .py24 .pricing-card .veinticuatromeses {
     animation: showCards .4s ease alternate both;
+}
+.tooltip-content {
+	position: absolute;
 }
 @keyframes showCards {
     0% {
