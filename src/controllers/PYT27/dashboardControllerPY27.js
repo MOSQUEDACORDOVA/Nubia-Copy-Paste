@@ -1030,6 +1030,31 @@ exports.paymethods = (req, res) => {
   return res.redirect("/error27/PYT-27");
   });  
 };
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+exports.apruebaPago = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  let {id,amountAero,
+    usuarioId} = req.body; //reCueRda aqui rescatas los  valores que Mandas por el poSt
+let usuario = JSON.parse(await DataBase.GetBalanceCoinsUser2(usuarioId))
+console.log(usuario)
+let saldo_actual = usuario.avalible_balance
+let nuevo_saldo= parseFloat(saldo_actual)+parseFloat(amountAero)
+    //aqui mandas a la funcion que conecta con la base de datos y por ende tieneS que mandarlE loS paramertros que QuiereS guardar
+    DataBase.AprobarPago(id,nuevo_saldo,
+      usuarioId).then((respuesta) =>{
+      console.log(respuesta)
+      res.send(respuesta)
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error27/PYT-27");
+    }); 
+};
 
 // ACTUALIZAR METODOS DE PAGO
 exports.updatepaymethod = (req, res) => {
@@ -1130,7 +1155,7 @@ exports.deletepaymethod = (req, res) => {
 };
 
 // GESTION DE PAGOS ADMIN
-exports.paymanag = (req, res) => {
+exports.paymanag =async (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -1139,7 +1164,10 @@ exports.paymanag = (req, res) => {
   console.log(proyecto)
 
   let roleAdmin = true;
-
+  let pays = JSON.parse(await DataBase.GetPaymenthsAdmin())
+  let pendindPays = JSON.parse(await DataBase.GetPendingPaymenthsAdmin())
+  console.log(pays)
+  console.log(pendindPays)
   res.render(proyecto+"/admin/pay-managment", {
     pageName: "AeroCoin - Pay Managment",
     dashboardPage: true,
@@ -1149,7 +1177,8 @@ exports.paymanag = (req, res) => {
     paym: true,
     username: req.user.username,
     typeUser: req.user.type_user,
-    roleAdmin,
+    roleAdmin,pays,
+    pendindPays
   });
 };
 

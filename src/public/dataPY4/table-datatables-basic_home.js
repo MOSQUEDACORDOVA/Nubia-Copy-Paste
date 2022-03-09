@@ -816,24 +816,22 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-                                            <tr>                                                
-                                                <th></th>
-                                                <th>#Pedido</th>
-                                                <th class="cliente">Cliente</th>
-                                                <th>To. garr.</th>
-                                                <th>Monto Total</th>
-                                                <th>Adeudo</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Forma de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                                <th>oculto choferes </th> 
-                                                <th>oculto asentamiento </th> 
-                                            </tr>
-                                        </thead>`);
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -923,24 +921,22 @@ Env: ${Env}.</p>`
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
         $('.datatables-basic').html(`<thead>
-                                            <tr>                                                
-                                                <th></th>
-                                                <th>#Pedido</th>
-                                                <th class="cliente">Cliente</th>
-                                                <th>To. garr.</th>
-                                                <th>Monto Total</th>
-                                                <th>Adeudo</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Forma de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                                <th>oculto choferes </th> 
-                                                <th>oculto asentamiento </th> 
-                                            </tr>
-                                        </thead>`);
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -1155,8 +1151,6 @@ $.contextMenu({
        <th>Forma de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
-       
-   
        <th>oculto choferes </th> 
        <th>oculto asentamiento </th> 
    </tr>
@@ -1238,7 +1232,99 @@ $('#edit_pedido').modal('show')
 
   });
 
+  $('#add_cliente_modal').click(()=>{
+    if ($('#nombre-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un nombre al cliente')
+      return $('#nombre-cliente-reg').focus()
+      
+    }
+    if ($('#apellido-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+      return $('#apellido-cliente-reg').focus()
+      
+    }
+    if ($('#select_asentamiento').val() == null) {
+      Swal.fire('Debe ingresar el código postal')
+     return $('#cp_select').focus()
+    }
+    if ($('#tlf-add-cliente').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+     return $('#tlf-add-cliente').focus()
+    }
+if ($('#reg_zona_cliente').val() == '0') {
+      Swal.fire('Debe colocar una zona de cliente')
+    return  $('#reg_zona_cliente').focus()
+    }
 
+if ($('#color_tag_reg_cliente').val() == '0') {
+      Swal.fire('Debe colocar una etiqueta al cliente')
+     return $('#color_tag_reg_cliente').focus()
+    }
+
+    $.ajax({
+      url: `/save_cliente_py4`,
+      type: 'POST',
+      data: $('#form_reg_cliente').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)        
+        if (data.error) {
+          $('.modal').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        let clientes= JSON.parse(data.clientes)
+        $('#id_cliente_reg_pedido').empty()
+        let asentamiento
+        for (let i = 0; i < clientes.length; i++) {          
+        if (clientes[i]['cp']['asentamiento']) {
+          asentamiento = clientes[i]['cp']['asentamiento']
+        }
+          $('#id_cliente_reg_pedido').append(`<option value="${clientes[i].id}"> ${clientes[i].firstName} ${clientes[i].lastName} / ${asentamiento}</option>`)
+        }
+        $('#form_reg_cliente')[0].reset()
+  $('.modal').modal('hide');
+  Swal.fire('Se creó con éxito al cliente')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  })
+$('#btn_add_cp').click(()=>{
+  if ($('#cp_add').val() == "") {
+    Swal.fire('Debe colocar un código postal')
+   return $('#cp_add').focus()
+  }
+if ($('#asentamiento_add').val() == '') {
+    Swal.fire('Debe colocar asentamiento')
+  return  $('#asentamiento_add').focus()
+  }
+
+if ($('#municipio_add').val() == '0') {
+    Swal.fire('Debe seleccionar un municipio')
+   return $('#municipio_add').focus()
+  }
+
+  $.ajax({
+    url: `/save_cp_new`,
+    type: 'POST',
+    data: $('#agregar_cp').serialize(),
+    success: function (data, textStatus, jqXHR) {
+      console.log(data)
+      if (data.error) {
+        $('#add_cp').modal('hide');
+        Swal.fire(data.error)
+        return
+      }
+      $('#agregar_cp')[0].reset()
+$('#add_cp').modal('hide');
+Swal.fire('Se creó con éxito asentamiento')
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+})
 });
 // Filter column wise function
 function filterColumn(i, val) {
@@ -1394,19 +1480,18 @@ $('.datatables-basic').dataTable().fnDestroy();
 $('.datatables-basic').html(`<thead>
 <tr>                                                
     <th></th>
-    <th>Nº Pedido</th>
-    <th>Cliente</th>
-    <th>Total garrafones</th>
+    <th>#Pedido</th>
+    <th class="cliente">Cliente</th>
+    <th>To. garr.</th>
     <th>Monto Total</th>
     <th>Adeudo</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
+    <th>Forma de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
-<th>oculto etiqueta </th> 
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
 </tr>
 </thead>`);
 
@@ -1502,19 +1587,18 @@ async function cambioPago(id, status) {
   $('.datatables-basic').html(`<thead>
   <tr>                                                
       <th></th>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
+      <th>#Pedido</th>
+      <th class="cliente">Cliente</th>
+      <th>To. garr.</th>
       <th>Monto Total</th>
       <th>Adeudo</th>
       <th>Status del Pedido</th>
       <th>Status de Pago</th>
+      <th>Forma de Pago</th>
       <th>Fecha</th>
       <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
+      <th>oculto choferes </th> 
+      <th>oculto asentamiento </th> 
   </tr>
 </thead>`);
   $('.datatables-basic2').dataTable().fnDestroy();

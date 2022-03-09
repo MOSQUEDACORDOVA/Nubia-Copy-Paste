@@ -1,4 +1,4 @@
-<div class="app-content content py27">
+<div class="app-content content py28">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <section id="basic-datatable">               
@@ -38,19 +38,19 @@
                                             <td style="white-space: nowrap;">{{user.username}}</td>
                                             <td style="white-space: nowrap;">{{user.email}}</td>
                                             <td>
-                                                <form action="/getuserinfopy27" method="POST" id="form{{user.id}}">
+                                                <form action="/getuserinfopy28" method="POST" id="form{{user.id}}">
                                                     <input class="d-none" type="text" name="id" value="{{user.id}}">
                                                     <button type="button" class="btn btn-outline-primary info-user" data-id="{{user.id}}">Info</button>
                                                 </form>
                                             </td>
                                             <td class="type_user">
-                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
+                                                {{#roleuserpy28 user.type_user}}{{/roleuserpy28}}
                                             </td>
                                             <td>{{avalible_balance}}</td>
                                             <td>
-                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
+                                                {{#accountverifiedpy28 user.account_verified}}{{/accountverifiedpy28}}
                                             </td>
-                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
+                                            <td style="white-space: nowrap;">{{#statususerpy28 user.status}}{{/statususerpy28}}</td>
                                         </tr>
                                         {{/each}}
                                         {{else}}
@@ -117,12 +117,12 @@
                                             <td style="white-space: nowrap;">{{user.username}}</td>
                                             <td style="white-space: nowrap;">{{user.email}}</td>
                                             <td>
-                                                {{#roleuserpy27 user.type_user}}{{/roleuserpy27}}
+                                                {{#roleuserpy28 user.type_user}}{{/roleuserpy28}}
                                             </td>
                                             <td>
-                                                {{#accountverifiedpy27 user.account_verified}}{{/accountverifiedpy27}}
+                                                {{#accountverifiedpy28 user.account_verified}}{{/accountverifiedpy28}}
                                             </td>
-                                            <td style="white-space: nowrap;">{{#statususerpy27 user.status}}{{/statususerpy27}}</td>
+                                            <td style="white-space: nowrap;">{{#statususerpy28 user.status}}{{/statususerpy28}}</td>
 
                                             {{#if user.front_img_dni}}
                                             <td>
@@ -267,7 +267,7 @@
                         <div class="modal-body">
                             <h1 class="text-center mb-1">Account Verification</h1>
                             <p class="text-center">Data supplied by the client</p>
-                            <form action="/verifyuserpy27" method="POST" class="card-body">
+                            <form action="/verifyuserpy28" method="POST" class="card-body">
                                 <input type="text" name="id" id="iduser" class="d-none" required>
                                 <p class="card-text mb-0">DNI Front</p>
                                 <a target="_blank" id="link1">
@@ -290,7 +290,7 @@
             {{!-- END MODAL VERIFICACION --}}
             
             {{!-- DENEGAR VERIFICACION DE USUARIO --}}
-            <form action="/denyverificationpy27" method="post" id="denyForm" class="d-none">
+            <form action="/denyverificationpy28" method="post" id="denyForm" class="d-none">
                 <input type="text" id="denyIdUser" name="id"required>
             </form>
         </div>
@@ -361,7 +361,7 @@
             const data = new FormData(form);
             console.log(data)
             $.ajax({
-                url: '/getuserinfopy27',
+                url: '/getuserinfopy28',
                 type: 'POST',
                 data: data,
                 cache: false,

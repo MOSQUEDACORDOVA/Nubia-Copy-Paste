@@ -91,13 +91,12 @@
     array_pedido = JSON.parse(valor_pedido.replace(/&quot;/g,'"'))
   }
   let codigosP = $('#array_cp').val()
-  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
-  //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto");
-  let status_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" ); // return implicito
+ let hoy = moment().format('YYYY-MM-DD')
+  let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
+  let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
   console.log(array_resumen_carga)
-  console.log(status_pedido)
-  console.log(status_entregados)
+  console.log(pedidos_resumen)
+  console.log(pedidos_entregados)
   var dt_table_resumen = $('.datatables-resumen'),
     assetPath = '../../dataPY4/';
 
@@ -157,16 +156,16 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
         },
         { targets: 1, render: function (data, type, full) {
           let suma =0,suma_entregados = 0
-          for (let i = 0; i < status_pedido.length; i++) {
-            if (status_pedido[i]['personalId'] == full['personalId']) {
-              suma += parseInt(status_pedido[i]['total_garrafones_pedido'])
+          for (let i = 0; i < pedidos_resumen.length; i++) {
+            if (pedidos_resumen[i]['personalId'] == full['personalId']) {
+              suma += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])
               
             }
             
           }
-          for (let i = 0; i < status_entregados.length; i++) {
-            if (status_entregados[i]['personalId'] == full['personalId']) {
-              suma_entregados+= parseInt(status_entregados[i]['total_garrafones_pedido'])              
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados+= parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
             }
             
           }
@@ -177,9 +176,9 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
         },
         { targets: 2, render: function (data, type, full) {
           let suma_entregados = 0
-          for (let i = 0; i < status_entregados.length; i++) {
-            if (status_entregados[i]['personalId'] == full['personalId']) {
-              suma_entregados += parseInt(status_entregados[i]['total_garrafones_pedido'])              
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados += parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
             }
             
           }
@@ -190,9 +189,9 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
         },
         { targets: 3, render: function (data, type, full) {
           let resto =0
-          for (let i = 0; i < status_pedido.length; i++) {
-            if (status_pedido[i]['personalId'] == full['personalId']) {
-              resto += parseInt(status_pedido[i]['total_garrafones_pedido'])              
+          for (let i = 0; i < pedidos_resumen.length; i++) {
+            if (pedidos_resumen[i]['personalId'] == full['personalId']) {
+              resto += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
             }
             
           }

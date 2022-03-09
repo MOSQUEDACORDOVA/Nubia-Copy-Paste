@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-DB_NAME="aerocoin";
+DB_NAME="minner2";
 DB_USER="root";
 DB_PASS=null;
 DB_HOST="localhost";

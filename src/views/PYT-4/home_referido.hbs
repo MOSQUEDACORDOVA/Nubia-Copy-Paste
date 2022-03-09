@@ -1,0 +1,254 @@
+<style>
+    .none {
+        display: none;
+    }
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #001871 !important;
+    }
+    .select2-selection__rendered {
+        color: #001871 !important;
+        font-weight: 500;
+    }
+    #home_modal .modal-dialog .list-group-item {
+        border: none;
+        border-bottom: 1px solid rgba(34, 41, 47, 0.125);
+    }
+    table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+    
+    @media(min-width: 768px) {
+        #home_modal .modal-dialog {
+           max-width: 600px; 
+        }
+        table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
+</style>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
+<script>
+
+$(document).ready(function() {
+
+    $('.odd').addClass('dt-head-center');
+     $('.even').addClass('dt-head-center'); 
+    fecha_corte = new DateTime($('#fecha_corte'), {
+        format: 'DD/MM/YYYY'
+    });
+        $('#fecha_corte').on('change', (e)=>{
+        console.log(e.target.value)
+        let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
+        console.log(fecha)
+     window.location.href=`/prestados/${fecha}`
+
+    });
+
+    $('#btnpedidos').on('click', (e)=> {
+        Reset(1)
+    });
+    $('#btnprestados').on('click', (e)=> {
+        Reset(2);
+    });
+    $('#btnventas').on('click', (e)=> {
+        Reset(3);
+    });
+        $('#btnresumen').on('click', (e)=> {
+        Reset(4);
+    });
+
+    function Reset(num) {
+        $('#pedidostable').removeClass('show');
+        $('#pedidostable').addClass('collpase');
+
+        $('#prestadostable').removeClass('show');
+        $('#prestadostable').addClass('collpase');
+
+        $('#ventastable').removeClass('show');
+        $('#ventastable').addClass('collpase');
+
+         $('#resumenTable').removeClass('show');
+        $('#resumenTable').addClass('collpase');
+        
+        switch (num){
+            case 1:
+                $('#pedidostable').removeClass('collpase');
+                $('#pedidostable').addClass('show');
+            break;
+            case 2:
+                $('#prestadostable').removeClass('collpase');
+                $('#prestadostable').addClass('show');
+            break;
+            case 3:
+                $('#ventastable').addClass('show');
+                $('#ventastable').removeClass('collpase');
+            break;
+              case 4:
+                $('#resumenTable').addClass('show');
+                $('#resumenTable').removeClass('collpase');
+            break;
+        }
+    }
+});
+
+</script>
+{{#if msg}}
+<label id="msgs" hidden>{{msg}}</label>
+{{/if}}
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
+<div class="app-content content py4" style="margin-left: auto;">
+    <div class="content-wrapper container-xxxl p-0">
+        <div class="content-body">
+            <!-- CONTENIDO -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                            <div class="row">
+                        <span id="p1" class="d-none">ss</span>
+                        <div class="col-sm-12">
+                        </div>
+                        <img src="../../../dataPY4/images/bwater.png" class="img-fluid" alt="Responsive image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- modales-->
+<div class="modal fade" id="registro_pedido_modal_referido" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-pedido"></button>
+            </div>
+            <div class="modal-body">
+
+                <form class="needs-validation was-validated repeater" method="post" id="reg_pedido_modal1">
+                <input type="text" name="id_cliente_referido"  id="id_cliente_referido" value="{{user.id}}"hidden>
+                <input type="text" id="id_chofer" name="id_chofer" value="1"hidden>
+                <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
+                            id="fecha_pedido" hidden>
+
+                    <div class="divider">
+                        <div class="divider-text">Productos</div>
+                    </div>
+
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon"
+                                    aria-expanded="true">Garrafón B•Water</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab"
+                                aria-expanded="true">
+
+                                <div class="d-none"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_refill_garrafon"
+                                                name="refill_cant_garrafon" />
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont"
+                                        readonly="readonly" value="0" name="refill_garrafon_mont" hidden>
+                                </div>
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_canje_garrafon"
+                                                name="canje_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont"
+                                        readonly="readonly" value="0" name="canje_garrafon_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0" id="count_enNew_garrafon"
+                                                name="enNew_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont"
+                                        readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden>
+                                </div>
+                                <div class="d-none"
+                                    readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin" value="0"
+                                                id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant"
+                                    hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon"
+                                    hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                      <div class="form-group" style="display: none;" id="deuda_box">
+                        <b class="m-0" id="subTotal_pedido">Sub Total: $<span id="sub_total_total">0</span></b><br>
+                        <label for="register-firstName" class="form-label" style="color: red">Adeudo de: <strong>$<span id="deuda_verf"></span></strong></label><br>
+                        <label for="register-firstName" class="form-label">Prestados: <span id="prestados_anterior"></span> garrafones</label><br>
+                         <input type="text" name="deuda_anterior" class="d-none" >   
+                        </div>
+                    <div class="d-flex m-0">
+                        
+                        <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden />
+                        <b class="m-0">Monto Total: $<span id="total_total">0</span></b>
+                    </div>
+
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                        <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                            tabindex="3" class="form-control mb-2" id="metodo_pago">
+                            <option selected=""> Efectivo </option>
+                            <option> Tarjeta </option>
+                            <option> Transferencia </option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none"><label for="register-firstName" class="form-label">Status del Pago</label>
+                        <input type="text" name="status_pago" tabindex="1" class="form-control mb-2" readonly
+                            id="status_pago" value="Pagado">
+                    </div>
+                    <div class="form-group d-none"><label for="register-firstName" class="form-label">Status del Pedido</label>
+                        <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
+                            value="Por entregar">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido_referido">Regístrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>

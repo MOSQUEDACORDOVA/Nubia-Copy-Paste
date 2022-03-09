@@ -19,10 +19,7 @@ exports.web = (req, res) => {
   console.log(proyecto)
     res.render(proyecto+"/landing/minner", {
       pageName: "Minner",
-      dashboardPage: true,
-      dashboard: true,
       py28:true,
-      login: true,
       webmenu: true
     })
 };
@@ -104,7 +101,7 @@ exports.formLogin = async (req, res) => {
     });
     if (!usuario) {
       req.flash("error", "Token No válido o  Vencido, favor coloque su correo para reenviar el token de confirmación");
-      return res.redirect("/verifyemail28/PYT-2");
+      return res.redirect("/verifyemail28/PYT-28");
     }
     usuario.validation="ok"
     await usuario.save();
@@ -196,6 +193,7 @@ exports.dashboard = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py28:true,
+      dasha: true,
       dash: true,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -358,7 +356,7 @@ exports.login = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
     res.render(proyecto+"/auth/login", {
-      pageName: "Login",
+      pageName: "Minner Login",
       dashboardPage: true,
       dashboard: true,
       py28: true,
@@ -649,6 +647,7 @@ exports.retreats = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py28:true,
+      dash:true,
       login:false,
       username: user.username,
       typeUser: user.type_user,
@@ -806,6 +805,7 @@ exports.users = (req, res) => {
       pageName: "Minner - Users",
       dashboardPage: true,
       dashboard: true,
+      dash:true,
       py28:true,
       login: false,
       users: true,
@@ -1006,6 +1006,7 @@ exports.paymethods = (req, res) => {
       pageName: "Minner - Pay Methods",
       dashboardPage: true,
       dashboard: true,
+      dash:true,
       py28:true,
       login: false,
       pay: true,
@@ -1030,6 +1031,31 @@ exports.paymethods = (req, res) => {
   let msg = "Error en sistema";
   return res.redirect("/error28/PYT-28");
   });  
+};
+// HABILITAR / DESHABILITAR METODOS DE PAGO
+exports.apruebaPago = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+  let {id,amountAero,
+    usuarioId} = req.body; //reCueRda aqui rescatas los  valores que Mandas por el poSt
+let usuario = JSON.parse(await DataBase.GetBalanceCoinsUser2(usuarioId))
+console.log(usuario)
+let saldo_actual = usuario.avalible_balance
+let nuevo_saldo= parseFloat(saldo_actual)+parseFloat(amountAero)
+    //aqui mandas a la funcion que conecta con la base de datos y por ende tieneS que mandarlE loS paramertros que QuiereS guardar
+    DataBase.AprobarPago(id,nuevo_saldo,
+      usuarioId).then((respuesta) =>{
+      console.log(respuesta)
+      res.send(respuesta)
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error28/PYT-28");
+    }); 
 };
 
 // ACTUALIZAR METODOS DE PAGO
@@ -1131,7 +1157,7 @@ exports.deletepaymethod = (req, res) => {
 };
 
 // GESTION DE PAGOS ADMIN
-exports.paymanag = (req, res) => {
+exports.paymanag =async (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
@@ -1140,17 +1166,22 @@ exports.paymanag = (req, res) => {
   console.log(proyecto)
 
   let roleAdmin = true;
-
+  let pays = JSON.parse(await DataBase.GetPaymenthsAdmin())
+  let pendindPays = JSON.parse(await DataBase.GetPendingPaymenthsAdmin())
+  console.log(pays)
+  console.log(pendindPays)
   res.render(proyecto+"/admin/pay-managment", {
     pageName: "Minner - Pay Managment",
     dashboardPage: true,
     dashboard: true,
     py28: true,
     login: false,
+    dash: true,
     paym: true,
     username: req.user.username,
     typeUser: req.user.type_user,
-    roleAdmin,
+    roleAdmin,pays,
+    pendindPays
   });
 };
 
@@ -1277,7 +1308,7 @@ exports.resendemailverify = (req, res) => {
   }
 };
 
-// VER TODOS LOS DEPOSITOS Minner ADMIN
+// VER TODOS LOS DEPOSITOS AEROCOIN ADMIN
 exports.depositsaeroadmin = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1302,6 +1333,7 @@ exports.depositsaeroadmin = (req, res) => {
       dashboardPage: true,
       dashboard: true,
       py28: true,
+      dash: true,
       login: false,
       username: req.user.username,
       typeUser: req.user.type_user,
@@ -1489,7 +1521,7 @@ exports.rejectdeposit = (req, res) => {
 //     })
 // };
 
-// Minner PRESALE CLIENTE
+// AEROCOIN PRESALE CLIENTE
 exports.aeropresale = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -1518,9 +1550,9 @@ exports.aeropresale = (req, res) => {
     let allpays = JSON.parse(all);
     console.log(allpays)
 
-    DataBase.GetControlMinner().then((response)=>{
-      let Minner = JSON.parse(response)[0];
-      console.log(Minner)
+    DataBase.GetControlAeroCoin().then((response)=>{
+      let aerocoin = JSON.parse(response)[0];
+      console.log(aerocoin)
 
       // TRAER CUENTAS PARA PAGAR EN BTC
       DataBase.GetBTC().then((btc)=>{
@@ -1555,17 +1587,18 @@ exports.aeropresale = (req, res) => {
         });
 
     res.render(proyecto+"/user/aeropresale", { 
-      pageName: "AercoCoin - Buy",
+      pageName: "Minner - Buy",
       dashboardPage: true,
       dashboard: true,
       py28: true,
+      dash: true,
       login: false,
       username: user.username,
       typeUser: user.type_user,
       roleClient,
       presale,
       allpays,
-      Minner,
+      aerocoin,
       allbtc, allbnb, allusdt,
       verify, unverify, pendingverify,
       aero: true,
@@ -1608,8 +1641,8 @@ exports.aeropresale = (req, res) => {
   });
 };
 
-// COMPRAR MinnerS
-exports.buyMinners = async (req, res) => {
+// COMPRAR AEROCOINS
+exports.buyaerocoins = async (req, res) => {
   let { amountCoin, amount, priceDolar, methodid, refs } = req.body;
   let msg = false;
   const hash = await Depositos.findOne({ where: { num_reference: refs } });
@@ -1644,8 +1677,8 @@ exports.buyMinners = async (req, res) => {
   }
 }
 
-// AÑADIR PRECIO DE Minner ADMINISTRADOR
-exports.addMinner = (req, res) => {
+// AÑADIR PRECIO DE AEROCOIN ADMINISTRADOR
+exports.addaerocoin = (req, res) => {
   console.log(req.body);
   const { price } = req.body;
   let msg = false;
@@ -1653,7 +1686,7 @@ exports.addMinner = (req, res) => {
     console.log('Complete todos los campos')
     res.redirect('/aero/PYT-28');
   } else {
-    DataBase.ControlMinner(price).then((respuesta) =>{
+    DataBase.ControlAeroCoin(price).then((respuesta) =>{
       console.log("Precio de Minner establecido satisfactoriamente");
       res.redirect('/aero/PYT-28');
     }).catch((err) => {
@@ -1809,32 +1842,32 @@ exports.th = (req, res) => {
 };
 
 // OBTENER DATOS GENERALES DEL SISTEMA
-exports.Minner = (req, res) => {
+exports.aerocoin = (req, res) => {
   let msg = false;
   if (req.query.msg) {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
   console.log(proyecto)
-  console.log("Minner")
+  console.log("AEROCOIN")
 
   let roleAdmin = true;
 
-  DataBase.GetControlMinner().then((resp)=>{
-    let Minner = JSON.parse(resp)[0];
-    console.log(Minner)
+  DataBase.GetControlAeroCoin().then((resp)=>{
+    let aerocoin = JSON.parse(resp)[0];
+    console.log(aerocoin)
 
-    res.render(proyecto+"/admin/Minner", {
+    res.render(proyecto+"/admin/aerocoin", {
       pageName: "Minner - Price Managment",
       dashboardPage: true,
       dashboard: true,
       py28: true,
-      login: false,
+      dash: true,
       aero: true,
       username: req.user.username,
       typeUser: req.user.type_user,
       roleAdmin,
-      Minner,
+      aerocoin,
     });
   }).catch((err) => {
     console.log(err)
@@ -1844,10 +1877,10 @@ exports.Minner = (req, res) => {
 };
 
 // ACTUALIZAR PRECIO AERO
-exports.updateMinner = (req, res) => {
+exports.updateaerocoin = (req, res) => {
   const {id, price} = req.body
 
-  DataBase.UpdatePriceMinner(id, price).then((respuesta) =>{
+  DataBase.UpdatePriceAeroCoin(id, price).then((respuesta) =>{
     let msg = respuesta
     res.redirect('/minner/PYT-28')
   }).catch((err) => {
@@ -2582,6 +2615,7 @@ exports.boardpresale = (req, res) => {
       pageName: "Minner - Board",
       dashboardPage: true,
       dashboard: true,
+      dash: true,
       py28:true,
       login:false,
       username: user.username,

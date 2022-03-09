@@ -2,10 +2,15 @@
   .none{
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
-<label id="msgs">{{msg}}</label>
+<label id="msgs" hidden>{{msg}}</label>
 {{/if}}
 <input id="filterPosition" type="text" hidden>
 <input id="filterValue" type="text" hidden>
@@ -52,7 +57,7 @@
                           <div class="col-12">
                             <div class="table-responsive">
                               <div class="card">
-                                  <table class="datatables-basic dt-column-searchClientes table" id="exampleClientes">
+                                  <table class="datatables-basic dt-column-searchClientes table table-responsive" id="exampleClientes">
                                       <thead>
                                           <tr>
                                               <th> </th>
@@ -61,7 +66,8 @@
                                               <th>Etiqueta</th>
                                               <th>Titulo</th>
                                               <th>Teléfono</th>
-                                              <th>Correo</th>  
+                                              <th>Correo</th> 
+                                              <th>Referidos</th>  
                                               <th>Nuevo </th>
                                               <th>Opciones</th>
                                           </tr>

@@ -15,8 +15,7 @@
             <h2 class="card-title font-weight-bold mb-1">La aventura comienza aquí</h2>
             <p class="card-text mb-2">¡Haga que la administración de su aplicación sea fácil y divertida!</p>  
 
-
-            <form class="auth-login-form mt-2" action="/reguserpy28" method="POST">
+            <form class="auth-login-form mt-2" action="/reguserpy27" method="POST">
                 <div class="mb-1">
                     <label class="form-label" for="">Username</label>
                     <input class="form-control" id="username" type="text" name="username" placeholder="Username" autofocus required>
@@ -92,7 +91,7 @@
                         </div>
                     </div>
                      <div class="col-8">
-                        <input type="text" id="phone" class="form-control" name="phone" value="+246" placeholder="Phone" required>
+                        <input type="text" id="phone" class="form-control" name="phone" value="+286" placeholder="Phone" required>
                      </div>
                 </div>
               
@@ -106,7 +105,7 @@
                         <label class="form-label" for="password">Password</label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
-                        <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="············" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                        <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="············" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                     </div>
                 </div>
                 <div class="mb-1">
@@ -116,16 +115,15 @@
                         <label class="form-check-label" for="remember-me"> I agree with <a href="/privacy/PYT-27" target="_blank" class="text-primary">privacy policy and terms.</a></label>
                     </div>
                 </div>
-                <button id="boton" class="btn btn-primary w-100 waves-effect waves-float waves-light" disabled >Register Now</button>
+                <button id="boton" class="btn btn-outline-primary w-100 waves-effect waves-float waves-light mt-1 " disabled >Register Now</button>
             </form>
           </span>
-          <p class="font-weight-bold"><span>¿Ya tienes una cuenta?</span><a href="/login28/PYT-28" target="_self"><span class="text-primary">&nbsp; Iniciar sesión en su lugar</span></a></p>
+          <p class="text-center mt-2"><span>¿Do you already have an account?</span><a href="/login27/PYT-27" target="_self"><span class="text-primary">&nbsp; Sign in instead</span></a></p>
         </div>
       </div>
     </div>
   </div>
 </div>
-
 <script>
 document.getElementById('remember-me').onclick = function() {
   document.getElementById('boton').toggleAttribute('disabled')
@@ -144,7 +142,7 @@ document.getElementById('remember-me').onclick = function() {
 
   let estados = [], paises = [];
 
-  fetch('/getallpaises28')
+  fetch('/getallpaises')
   .then(response => response.json())
   .then(data => {
     paises.push(data.paises);
@@ -158,7 +156,7 @@ document.getElementById('remember-me').onclick = function() {
     country.appendChild(fragment2);
   });
 
-  fetch('/getallestados28')
+  fetch('/getallestados')
   .then(response => response.json())
   .then(data => {
     estados.push(data.estados);

@@ -3,6 +3,7 @@ const db672 = require('../../config/dbPY672');
 const Grupos = require('./Grupos');
 const Estado = require('./Estado');
 const TipoEstudiante = require('./TipoEstudiante');
+const Usuarios = require('./Usuarios');
 
 // ESTUDIANTES
 const Matriculas = db672.define('matriculas', {
@@ -56,4 +57,5 @@ const Matriculas = db672.define('matriculas', {
 Matriculas.TipoEstudiante = Matriculas.belongsTo(TipoEstudiante)
 Matriculas.Grupos = Matriculas.belongsTo(Grupos)
 Matriculas.Estado = Matriculas.belongsTo(Estado)
+Matriculas.Usuarios = Matriculas.belongsTo(Usuarios)
 module.exports = Matriculas;

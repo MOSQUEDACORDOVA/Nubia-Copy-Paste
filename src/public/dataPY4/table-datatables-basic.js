@@ -1,6 +1,7 @@
 /**
  * DataTables Basic
  */
+ 
 function cargaTabla(rechar) {
   let valor = $('#array').val()
   let array =""
@@ -63,6 +64,7 @@ console.log(array)
         { data: 'id' },
         { data: 'telefono' },
         { data: 'email' }, 
+        { data: 'cantidad_referidos' }, 
         { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
@@ -79,7 +81,12 @@ console.log(array)
               '</a>'  +
               '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
               feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
+              feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' +
+             `<a id="CopyPedido${full['id']}" class="d-none"></a>`  
+             //https://plataforma.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
       ],
@@ -195,7 +202,7 @@ console.log(array)
           }
         },
         {
-          targets: 7,visible: false
+          targets: 8,visible: false
         },
         {
           // Label
@@ -359,7 +366,7 @@ $('#btn_asignar_tag').on('click', async (e)=>{
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
-$('#exampleClientes').append(`  <thead>
+$('#exampleClientes').append(`<thead>
 <tr>
     <th> </th>
     <th>Nombre</th>
@@ -367,7 +374,8 @@ $('#exampleClientes').append(`  <thead>
     <th>Etiqueta</th>
     <th>Titulo</th>
     <th>Teléfono</th>
-    <th>Correo</th>  
+    <th>Correo</th> 
+    <th>Referidos</th>  
     <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
@@ -436,19 +444,20 @@ $("#id_ad_tag_cliente").val(valoresCheck);
   $('#array').val(JSON.stringify(data.clientes_arr))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Nuevo </th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
+  $('#exampleClientes').append(`<thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   if ($('#filterPosition').val() != "") {
     console.log($('#filterValue').val())
@@ -471,22 +480,23 @@ console.log('entro aqui')
       data: $('#edit_cliente_form').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-  $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#array').val(JSON.stringify(data.clientes))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Nuevo </th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>`);
+  $('#exampleClientes').append(`<thead>
+  <tr>
+      <th> </th>
+      <th>Nombre</th>
+      <th>Zona</th>
+      <th>Etiqueta</th>
+      <th>Titulo</th>
+      <th>Teléfono</th>
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
+      <th>Opciones</th>
+  </tr>
+</thead>`);
   cargaTabla('si')
   if ($('#filterPosition').val() != "") {
     console.log($('#filterValue').val())
@@ -500,6 +510,113 @@ console.log('entro aqui')
       }
     });
     
+  })
+
+  $('#add_cliente_modal').click(()=>{
+    if ($('#nombre-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un nombre al cliente')
+      return $('#nombre-cliente-reg').focus()
+      
+    }
+    if ($('#apellido-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+      return $('#apellido-cliente-reg').focus()
+      
+    }
+    if ($('#select_asentamiento').val() == null) {
+      Swal.fire('Debe ingresar el código postal')
+     return $('#cp_select').focus()
+    }
+    if ($('#tlf-add-cliente').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+     return $('#tlf-add-cliente').focus()
+    }
+if ($('#reg_zona_cliente').val() == '0') {
+      Swal.fire('Debe colocar una zona de cliente')
+    return  $('#reg_zona_cliente').focus()
+    }
+
+if ($('#color_tag_reg_cliente').val() == '0') {
+      Swal.fire('Debe colocar una etiqueta al cliente')
+     return $('#color_tag_reg_cliente').focus()
+    }
+
+    $.ajax({
+      url: `/save_cliente_py4`,
+      type: 'POST',
+      data: $('#form_reg_cliente').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('.modal').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#form_reg_cliente')[0].reset()
+        $('#array').val(JSON.stringify(data.clientes))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Referidos</th>  
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+        $('.modal').modal('hide');
+        Swal.fire('Se creó con éxito al cliente')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  })
+  $('#btn_add_cp').click(()=>{
+    if ($('#cp_add').val() == "") {
+      Swal.fire('Debe colocar un código postal')
+     return $('#cp_add').focus()
+    }
+  if ($('#asentamiento_add').val() == '') {
+      Swal.fire('Debe colocar asentamiento')
+    return  $('#asentamiento_add').focus()
+    }
+  
+  if ($('#municipio_add').val() == '0') {
+      Swal.fire('Debe seleccionar un municipio')
+     return $('#municipio_add').focus()
+    }
+  
+    $.ajax({
+      url: `/save_cp_new`,
+      type: 'POST',
+      data: $('#agregar_cp').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('#add_cp').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#agregar_cp')[0].reset()
+  $('#add_cp').modal('hide');
+  Swal.fire('Se creó con éxito asentamiento')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
   })
 });
 function edit_cliente(id_edit) {
@@ -616,3 +733,28 @@ function delete_cliente(id_) {
     }
   })
 }
+async function share_record(id_) {
+  //dt_basic.row($(this).parents('tr')).remove().draw();
+  var id_edit = id_
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+  let codigo_referido = await fetch("/crea_codigo_ref/" + id_)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    return data.id_referido;
+  });
+  console.log(codigo_referido)
+  $(`#CopyPedido${id_edit}`).text(`https://plataforma.bwater.mx/referido-bwater/${codigo_referido}`)
+  copyToClipboard(`#CopyPedido${id_edit}`)
+}
+function copyToClipboard(elemento) {
+  var $temp = $("<textarea>")
+  var brRegex = /<br\s*[\/]?>/gi;
+  $("body").append($temp);
+  $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
+  document.execCommand("copy");
+  $temp.remove();
+  Swal.fire('Link de referido copiado en el portapapeles')
+  }

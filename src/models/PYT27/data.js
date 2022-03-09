@@ -154,6 +154,68 @@ module.exports = {
           });
       });
     },
+     // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+     GetPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({ where: {
+          [Op.or]: [{status: 'Pagado' },{status: 'Rechazado' }],  },
+          include:[
+          {association:depositosaeros.MetodosPagos },
+          // {association:Pays.Paquetes },
+          // {association:Pays.MetodosRetiros },
+          // {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+     // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+     GetPendingPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({ where: {status: 'No verificado' },  
+          include:[
+          {association:depositosaeros.MetodosPagos },
+          // {association:Pays.Paquetes },
+          // {association:Pays.MetodosRetiros },
+          // {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+         // aprobar PAGOS REALIZADOS DE USUARIOS ADMIN
+         AprobarPago(id, amountAero, usuarioId) {
+          return new Promise(async(resolve, reject) => {
+            let updateDep = await depositosaeros.update({status:'Aprobado'},{ where: {id: id }})
+            console.log(updateDep)
+            Usuarios.update({avalible_balance: amountAero},{ where: {id: usuarioId }})
+              .then((data) => {
+                let data_p = JSON.stringify(data);
+                console.log(data_p)
+                resolve(data_p);
+              })
+              .catch((err) => {
+                console.log(err)
+                reject(err)
+              });
+          });
+        },
     // VERIFICAR CUENTA DE USUARIO
     VerifyUser(id) {
       return new Promise((resolve, reject) => {
@@ -760,6 +822,19 @@ module.exports = {
     GetBalanceCoinsUser(id){
       return new Promise((resolve, reject) => {
         Usuarios.findAll({where:{id: id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    // OBTENER BALANCE DE USUARIOS AEROCOIN
+    GetBalanceCoinsUser2(id){
+      return new Promise((resolve, reject) => {
+        Usuarios.findOne({where:{id: id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             resolve(data_p);

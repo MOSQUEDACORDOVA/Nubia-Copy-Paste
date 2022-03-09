@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db28 = require('../../config/dbPY28');
 const Usuarios = require('../../models/PYT28/Usuarios');
-const MetodosRetiros = require('../../models/PYT27/Retreats');
+const MetodosRetiros = require('../../models/PYT28/Retreats');
 
 // PAGOS
 const Pays = db28.define('pagar_usuario', {

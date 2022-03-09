@@ -27,7 +27,7 @@ function cargarTablaMatricula(editada) {
         { data: "nombre" },
         { data: "email" }, // used for sorting so will hide this column
         { data: "grupoId" },
-        { data: "vendedores" },
+        { data: "usuario.nombre" },
         { data: "estado" },
         {
           // Actions
@@ -47,12 +47,8 @@ function cargarTablaMatricula(editada) {
                     </form>
                   </a>
                   <a class="dropdown-item eliminar-estudiante" href="#">
-                    <form action="/borrarestudiantespy672" method="POST" id="form${
-                      full["id"]
-                    }">
-                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${
-                          full["id"]
-                        }" required>
+                    <form action="/borrarestudiantespy672" method="POST" id="form${full["id"]}">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
                         Eliminar Alumno
                     </form>
                 </a>
@@ -71,12 +67,8 @@ function cargarTablaMatricula(editada) {
                   </form>
                 </a>
                 <a class="dropdown-item eliminar-estudiante" href="#">
-                    <form action="/borrarestudiantespy672" method="POST" id="form${
-                      full["id"]
-                    }">
-                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${
-                          full["id"]
-                        }" required>
+                    <form action="/borrarestudiantespy672" method="POST" id="form${full["id"]}">
+                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
                         Eliminar Alumno
                     </form> 
                 </a>
@@ -147,8 +139,12 @@ function cargarTablaMatricula(editada) {
         {
           targets: 3,
           render: function (data, type, full) {
+            let vendedores = data
+            if (data == null) {
+              vendedores = 'Sin vendedor'
+            }
             let vendedor =
-              '<span class="badge badge-light-info">Sin Vendedor</span>';
+              `<span class="badge badge-light-info">${vendedores}</span>`;
             /*if(inicio === null) {
                   inicio = '<span class="badge badge-light-danger">No Establecida</span>'
               } else {
@@ -204,7 +200,7 @@ function cargarTablaMatricula(editada) {
         },
       },
     });
-    $("div.head-label").html('<h6 class="mb-0">Alumnos inscritos</h6>');
+    $("div.head-label").html('<h4 class="mb-0">Alumnos inscritos</h4>');
     document.getElementById("matricula_info").classList.add("py-2");
     document
       .getElementById("matricula_info")
@@ -221,76 +217,94 @@ $(function () {
 
   $(".edit-btn-alumno").on("click", (e) => {
     let data = e.currentTarget["dataset"]["bsId"];
-   console.log(data)
-  
-   let filterStudiante =estudiantesParsed.filter(element => element.id == data)
-   console.log(filterStudiante);
-   $('#edit-title-modal').text('Editar Alumno')
-   $('#formregalumno').removeAttr('action')
+    let filterStudiante = estudiantesParsed.filter(
+      (element) => element.id == data
+    );
+    console.log(filterStudiante);
+    $("#edit-title-modal").text("Editar Alumno");
+    $("#formregalumno").removeAttr("action");
 
-   $('#formregalumno').attr('action','/edit-estudiantepy627')
-   $('#grupos-edit').addClass('d-none')
-   $('#id-alumno-edit').append(`<input type="text" value="${filterStudiante[0]['id']}" name="id_estudiante">`)
+    $("#formregalumno").attr("action", "/edit-estudiantepy627");
+    $("#grupos-edit").addClass("d-none");
+    $("#id-alumno-edit").append(
+      `<input type="text" value="${filterStudiante[0]["id"]}" name="id_estudiante">`
+    );
 
-$('#name-for-edit').val(`${filterStudiante[0]['nombre']}`)
- if (filterStudiante[0]['tipoEstudianteId']==1) {
-   $('#inlineRadio1').prop('checked', true);
+    $("#name-for-edit").val(`${filterStudiante[0]["nombre"]}`);
+    if (filterStudiante[0]["tipoEstudianteId"] == 1) {
+      $("#inlineRadio1").prop("checked", true);
+    } else {
+      $("#inlineRadio2").prop("checked", true);
+    }
 
- }else{
-  $('#inlineRadio2').prop('checked', true);
- }
+    $("#nacionalDni").val(`${filterStudiante[0]["nro_identificacion"]}`);
+    $("#fecha-nacimiento-edit").val(
+      `${filterStudiante[0]["fecha_nacimiento"]}`
+    );
+    $(`#genero-edit option[value='${filterStudiante[0]["genero"]}']`).attr(
+      "selected",
+      true
+    );
+    $("#genero-edit").val(`${filterStudiante[0]["genero"]}`).trigger("change");
 
-$('#nacionalDni').val(`${filterStudiante[0]['nro_identificacion']}`)
-$('#fecha-nacimiento-edit').val(`${filterStudiante[0]['fecha_nacimiento']}`)
-$(`#genero-edit option[value='${filterStudiante[0]['genero']}']`).attr("selected", true);
-$("#genero-edit").val(`${filterStudiante[0]['genero']}`).trigger('change');
+    //$('#tlf1Check').val()
+    $("#inputTlf1").val(`${filterStudiante[0]["telefono1"]}`);
 
-//$('#tlf1Check').val()
-$('#inputTlf1').val(`${filterStudiante[0]['telefono1']}`)
+    //$('#tlf2Check').val()
+    $("#inputTlf2").val(`${filterStudiante[0]["telefono2"]}`);
 
-//$('#tlf2Check').val()
-$('#inputTlf2').val(`${filterStudiante[0]['telefono2']}`)
+    $("#email-edit").val(`${filterStudiante[0]["email"]}`);
+    let vendedor
+      if (filterStudiante[0]["usuario"] != null) {
+        vendedor =filterStudiante[0]["usuario"]["id"]
+      }
+    $(`#vendedor-edit option[value='${vendedor}']`).attr("selected", true);
+    $("#vendedor-edit").val(`${vendedor}`).trigger("change");
+    $(
+      `#select-provincia option[value='${filterStudiante[0]["provincia"]}']`
+    ).attr("selected", true);
+    $("#select-provincia")
+      .val(`${filterStudiante[0]["provincia"]}`)
+      .trigger("change");
 
-$('#email-edit').val(`${filterStudiante[0]['email']}`)
+    $(`#select-canton option[value='${filterStudiante[0]["canton"]}']`).attr(
+      "selected",
+      true
+    );
+    $("#select-canton")
+      .val(`${filterStudiante[0]["canton"]}`)
+      .trigger("change");
 
-$(`#vendedor-edit option[value='Isaac']`).attr("selected", true);
-$("#vendedor-edit").val('Isaac').trigger('change');
-console.log(filterStudiante[0]['provincia'])
-$(`#select-provincia option[value='${filterStudiante[0]['provincia']}']`).attr("selected", true);
-$("#select-provincia").val(`${filterStudiante[0]['provincia']}`).trigger('change');
+    $(
+      `#select-distrito option[value='${filterStudiante[0]["distrito"]}']`
+    ).attr("selected", true);
+    $("#select-distrito")
+      .val(`${filterStudiante[0]["distrito"]}`)
+      .trigger("change");
 
-$(`#select-canton option[value='${filterStudiante[0]['canton']}']`).attr("selected", true);
-$("#select-canton").val(`${filterStudiante[0]['canton']}`).trigger('change');
+    $("#btn-submit-form-estudiante").val("Guardar");
 
-$(`#select-distrito option[value='${filterStudiante[0]['distrito']}']`).attr("selected", true);
-$("#select-distrito").val(`${filterStudiante[0]['distrito']}`).trigger('change');
-
-$('#btn-submit-form-estudiante').val("Guardar")
-
-   $('#registrarAlumno').modal('show')
+    $("#registrarAlumno").modal("show");
   });
 
   $(".congelar-estudiante").on("click", (e) => {
-    // console.log(e.target)
     let form = e.target;
     //  form.submit();
   });
 
   $(".eliminar-estudiante-grupo").on("click", (e) => {
-    console.log(e.target);
     let form = e.target;
   });
   $(".eliminar-estudiante").on("click", (e) => {
-    console.log(e.target);
     let form = e.target;
     form.submit();
   });
 
-  $("#createAppModal").on("show.bs.modal", function (e) {
+  $("#createAppModal").on("show.bs.modal", async function (e) {
+    $("#guarda-grupoNew").addClass("d-none");
     var Array = e.relatedTarget["dataset"]["bsArrdata"];
     var my_object = JSON.parse(decodeURIComponent(Array));
-    console.log(estudiantesParsed);
-    console.log(my_object["grupo"]["identificador"]);
+    console.log(my_object["grupo"]);
     $(`#nombreReagrupar`).text(`${my_object["nombre"]}`);
     $(`#tlfReagrupar`).text(
       `${my_object["telefono1"]} - ${my_object["telefono2"]}`
@@ -298,9 +312,14 @@ $('#btn-submit-form-estudiante').val("Guardar")
     let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
     );
-    console.log(filter_group_alumnos);
+
+    $("#id_estudiante").val(my_object["id"]);
+    $("#nombre_reaginador").val(my_object["nombre"]);
+    $("#grupoId_actual").val(my_object["grupo"]["id"]);
+
     $(`#grupoReag`).text(`${my_object["grupo"]["identificador"]}`);
     $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
+    $(`#profesorreag`).text(`${my_object["grupo"]["usuario"]["nombre"]} `);
     $(`#tipogrupoReag`).text(
       `${my_object["grupo"]["nombre"]}- ${my_object["grupo"]["identificador"]}`
     );
@@ -315,148 +334,132 @@ $('#btn-submit-form-estudiante').val("Guardar")
       addf,
       leccionactual,
       fecha_ant,
-      newFormatAnt,
-      newFormatBef,
       leccionFecha2,
-      leccionFecha3="",
+      leccionFecha3 = "",
       html = "",
       html2 = "",
       j = "",
       html3 = "";
-      console.log(tipo)
-      var leccionTrue = false,nLeccion
-      if (tipo == "Intensivo") {
-        console.log((diferencia2*2)+1)
-          for (let i = 0; i < (diferencia2*2)+2; i++) {  
-                if (i == 0) {
-                leccionFecha = inicio;
-                fecha_ant = inicio;
-                newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
-                leccionFecha2 = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
-                newFormatBef = leccionFecha2;
-      
-                html += `<div class="col-3" ">
+    var leccionTrue = false,
+      nLeccion;
+    var startDate = moment().startOf("week");
+    var endDate = moment().endOf("week");
+    if (tipo == "Intensivo") {
+      for (let i = 0; i < diferencia2 * 2 + 2; i++) {
+        if (i == 0) {
+          leccionFecha = inicio;
+          fecha_ant = inicio;
+          leccionFecha2 = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
+          html += `<div class="col-3" ">
                 <div class="p-1 border-secondary rounded-1 " id="leccion${
                   i + 1
                 }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} </div>
             </div>`;
-              } else {
-                addf = moment(leccionFecha, "DD-MM-YYYY");
-      
-                fecha_ant = leccionFecha;
-                
-              
-                if (j==2) {
-                  leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
-                  newFormatAnt = moment(addf).format("YYYY-MM-DD");
-                newFormatBef = moment(leccionFecha).add(5, "d").format("YYYY-MM-DD");
-                }else{
-                   leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
-                   newFormatAnt = moment(addf).format("YYYY-MM-DD");
-                newFormatBef = moment(leccionFecha).add(2, "d").format("YYYY-MM-DD");
-                }
-                 j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
-              
-              }
-              console.log('-----')
-              console.log(newFormatBef)
-              console.log(newFormatAnt)
-              leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
-              console.log(leccionactual)
-              if (i > 0 && i < 12) {
-                html += `<div class="col-3" ">
+        } else {
+          addf = moment(leccionFecha, "DD-MM-YYYY");
+          fecha_ant = leccionFecha;
+
+          if (j == 2) {
+            leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
+          } else {
+            leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
+          }
+          j = moment(leccionFecha, "DD-MM-YYYY").diff(
+            moment(fecha_ant, "DD-MM-YYYY"),
+            "d"
+          );
+        }
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          '"YYYY-MM-DD"'
+        );
+
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+        if (i > 0 && i < 12) {
+          html += `<div class="col-3" ">
                 <div class="p-1 border-secondary rounded-1 " id="leccion${
                   i + 1
                 }">Lección ${i + 1} <br> ${leccionFecha} </div>
             </div>`;
-              }
-      
-              if (i > 11 && i < 24) {
-                html2 += `<div class="col-3" >
+        }
+
+        if (i > 11 && i < 24) {
+          html2 += `<div class="col-3" >
               <div class="p-1 border-secondary rounded-1" id="leccion${
                 i + 1
               }">Lección ${i + 1} <br> ${leccionFecha}</div>
           </div>`;
-              }
-              if (i > 23 && i < 33) {
-                html3 += `<div class="col-3" >
+        }
+        if (i > 23 && i < 33) {
+          html3 += `<div class="col-3" >
               <div class="p-1 border-secondary rounded-1" id="leccion${
                 i + 1
               }">Lección ${i + 1} <br> ${leccionFecha}</div>
           </div>`;
-              }
-              if (leccionactual) {
-                console.log(leccionactual)
-                console.log(i + 1)
-                 $(`#leccionActual`).text(i + 1);
-              }
-          }
-        }else{
-         for (let i = 0; i < (diferencia2)+1; i++) {  
-              //32 SEMANAS
-              if (i == 0) {
-                leccionFecha = inicio;
-                fecha_ant = inicio;
-                newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
-                leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
-                newFormatBef = leccionFecha2;
-              } else {
-                addf = moment(leccionFecha, "DD-MM-YYYY");
-                fecha_ant = leccionFecha;
-                leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
-                newFormatAnt = moment(addf).format("YYYY-MM-DD");
-                newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
-              }
-              console.log('-----')
-              console.log(newFormatBef)
-              console.log(newFormatAnt)
-              leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
-                if (i == 0) {
-              html += `<div class="col-3" ">
+        }
+        if (leccionactual) {
+          $(`#leccionActual`).text(i + 1);
+        }
+      }
+    } else {
+      for (let i = 0; i < diferencia2 + 1; i++) {
+        //32 SEMANAS
+        if (i == 0) {
+          leccionFecha = inicio;
+          fecha_ant = inicio;
+          leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
+        } else {
+          addf = moment(leccionFecha, "DD-MM-YYYY");
+          fecha_ant = leccionFecha;
+          leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
+        }
+        console.log("-----");
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          '"YYYY-MM-DD"'
+        );
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+        if (i == 0) {
+          html += `<div class="col-3" ">
             <div class="p-1 border-secondary rounded-1 " id="leccion${
               i + 1
-            }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} <br> ${leccionFecha3}</div>
+            }">Lección ${i + 1} <br> ${inicio.format(
+            "DD-MM-YYYY"
+          )} <br> ${leccionFecha3}</div>
         </div>`;
-            }
-            if (i > 0 && i < 12) {
-              html += `<div class="col-3" >
-            <div class="p-1 border-secondary rounded-1" id="leccion${
-              i + 1
-            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
-        </div>`;
-            }
-            if (i > 11 && i < 24) {
-              html2 += `<div class="col-3" >
-            <div class="p-1 border-secondary rounded-1" id="leccion${
-              i + 1
-            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
-        </div>`;
-            }
-            if (i > 23 && i < 33) {
-              html3 += `<div class="col-3" >
-            <div class="p-1 border-secondary rounded-1" id="leccion${
-              i + 1
-            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
-        </div>`;
-            }
-            
-            if (leccionactual) {
-              leccionTrue = true
-        nLeccion =i + 1
-               $(`#leccionActual`).text(i + 1);
-            }
-            
-      
-          
-          }  
         }
-        if (leccionTrue) {
-          console.log(leccionactual)
-          console.log(nLeccion)
-           $(`#leccionActual`).text(nLeccion);
-        } else{
-          $(`#leccionActual`).text(0);
+        if (i > 0 && i < 12) {
+          html += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
         }
+        if (i > 11 && i < 24) {
+          html2 += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
+        }
+        if (i > 23 && i < 33) {
+          html3 += `<div class="col-3" >
+            <div class="p-1 border-secondary rounded-1" id="leccion${
+              i + 1
+            }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
+        </div>`;
+        }
+
+        if (leccionactual) {
+          leccionTrue = true;
+          nLeccion = i + 1;
+          $(`#leccionActual`).text(i + 1);
+        }
+      }
+    }
+    if (leccionTrue) {
+      $(`#leccionActual`).text(nLeccion);
+    } else {
+      $(`#leccionActual`).text(0);
+    }
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
     $(`#25_32Line1`).empty();
@@ -466,19 +469,38 @@ $('#btn-submit-form-estudiante').val("Guardar")
     $(`#25_32Line1`).append(html3);
     $(`.bg-success`).removeClass("bg-success");
     $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
+    $(`#leccion_actual_reasig`).val($("#leccionActual").text());
+    var historial = await fetch("/historia-caja-academy/" + my_object["id"])
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        return data.obtener_historia;
+      });
+    for (let i = 0; i < historial.length; i++) {
+      var hora_registro_pago = moment(historial[i]["createdAt"]);
+      if (
+        historial[i]["concepto"] == "Traslado" &&
+        historial[i]["observacion"] == "-" &&
+        moment().isAfter(hora_registro_pago, "d") == false
+      ) {
+        $("#guarda-grupoNew").removeClass("d-none");
+      }
+    }
+    await leccionActualGrupos();
+    /**fin carga modal alumno */
   });
 
   $(`#selectGroup`).change((e) => {
-    console.log(e.target.value);
+    if (e.target.value == "Grupos Disponibles") {
+      $("#guarda-grupoNew").attr("disabled", true);
+    } else {
+      $("#guarda-grupoNew").removeAttr("disabled");
+    }
+
     let filter_group = grupos.filter((filter) => filter.id == e.target.value);
     let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == e.target.value
     ).length;
-    console.log(filter_group);
-    console.log(filter_group_alumnos);
-
-    //$(`#grupoReag`).text(`${filter_group[0]["identificador"]}`);
-   // $(`.horarioreag`).text(`${filter_group[0]["dia_horario"]} `);
     $(`#tipogrupoReag`).text(
       `${filter_group[0]["nombre"]}- ${filter_group[0]["identificador"]}`
     );
@@ -488,32 +510,31 @@ $('#btn-submit-form-estudiante').val("Guardar")
     let inicio = moment(filter_group[0]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(filter_group[0]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
-    console.log(diferencia2);
+
     let leccionFecha,
       addf,
       leccionactual,
       fecha_ant,
-      newFormatAnt,
-      newFormatBef,
       leccionFecha2,
-      leccionFecha3="",
+      leccionFecha3 = "",
       html = "",
       html2 = "",
       j = "",
       html3 = "";
-      console.log(tipo)
-var leccionTrue = false,nLeccion
- 
-if (tipo == "Intensivo") {
-  console.log((diferencia2*2)+1)
-    for (let i = 0; i < (diferencia2*2)+2; i++) {  
-          if (i == 0) {
+    let dia = filter_group[0]["dia_horario"].split(":");
+    dia = dia[0].toString();
+    dia = dia.split("y");
+    var leccionTrue = false,
+      nLeccion;
+    var startDate = moment().startOf("week");
+    var endDate = moment().endOf("week");
+    let hoy = moment().locale("es").format("dddd");
+    if (tipo == "Intensivo") {
+      for (let i = 0; i < diferencia2 * 2 + 2; i++) {
+        if (i == 0) {
           leccionFecha = inicio;
           fecha_ant = inicio;
-          newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
           leccionFecha2 = moment(leccionFecha).add(1, "2").format("YYYY-MM-DD");
-          newFormatBef = leccionFecha2;
-
           html += `<div class="col-3" ">
           <div class="p-1 border-secondary rounded-1 " id="leccion${
             i + 1
@@ -521,27 +542,25 @@ if (tipo == "Intensivo") {
       </div>`;
         } else {
           addf = moment(leccionFecha, "DD-MM-YYYY");
-
           fecha_ant = leccionFecha;
-          
-       
-          if (j==2) {
+          if (j == 2) {
             leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
-            newFormatAnt = moment(addf).format("YYYY-MM-DD");
-          newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
-          }else{
-             leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
-             newFormatAnt = moment(addf).format("YYYY-MM-DD");
-             newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
+          } else {
+            leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
           }
-           j =moment(leccionFecha, "DD-MM-YYYY").diff(moment(fecha_ant,'DD-MM-YYYY'), "d");
-        
+          j = moment(leccionFecha, "DD-MM-YYYY").diff(
+            moment(fecha_ant, "DD-MM-YYYY"),
+            "d"
+          );
         }
-        console.log('-----')
-        console.log(newFormatBef)
-        console.log(newFormatAnt)
-        leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
-        console.log(leccionactual)
+        let dia_fechaSelect = moment(leccionFecha, "DD-MM-YYYY")
+          .locale("es")
+          .format("dddd");
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          '"YYYY-MM-DD"'
+        );
+
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
         if (i > 0 && i < 12) {
           html += `<div class="col-3" ">
           <div class="p-1 border-secondary rounded-1 " id="leccion${
@@ -565,76 +584,74 @@ if (tipo == "Intensivo") {
     </div>`;
         }
         if (leccionactual) {
-          console.log(leccionactual)
-          leccionTrue = true
-          nLeccion =i + 1
-           $(`#leccionActual`).text(i + 1);
+          if (leccionFecha) {
+          }
+          leccionTrue = true;
+          nLeccion = i + 1;
+          $(`#leccionActual`).text(i + 1);
         }
-    }
-  }else{
-   for (let i = 0; i < (diferencia2)+1; i++) {  
+      }
+    } else {
+      for (let i = 0; i < diferencia2 + 1; i++) {
         //32 SEMANAS
         if (i == 0) {
           leccionFecha = inicio;
           fecha_ant = inicio;
-          newFormatAnt = moment(leccionFecha).format("YYYY-MM-DD");
           leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
-          newFormatBef = leccionFecha2;
         } else {
           addf = moment(leccionFecha, "DD-MM-YYYY");
           fecha_ant = leccionFecha;
           leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
-          newFormatAnt = moment(addf).format("YYYY-MM-DD");
-          newFormatBef = moment(leccionFecha).format("YYYY-MM-DD");
         }
-        console.log('-----')
-        console.log(newFormatBef)
-        console.log(newFormatAnt)
-        leccionactual = moment().isBetween(newFormatAnt, newFormatBef);
-          if (i == 0) {
-        html += `<div class="col-3" ">
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          '"YYYY-MM-DD"'
+        );
+
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+        if (i == 0) {
+          html += `<div class="col-3" ">
       <div class="p-1 border-secondary rounded-1 " id="leccion${
         i + 1
-      }">Lección ${i + 1} <br> ${inicio.format("DD-MM-YYYY")} <br> ${leccionFecha3}</div>
+      }">Lección ${i + 1} <br> ${inicio.format(
+            "DD-MM-YYYY"
+          )} <br> ${leccionFecha3}</div>
   </div>`;
-      }
-      if (i > 0 && i < 12) {
-        html += `<div class="col-3" >
+        }
+        if (i > 0 && i < 12) {
+          html += `<div class="col-3" >
       <div class="p-1 border-secondary rounded-1" id="leccion${
         i + 1
       }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
   </div>`;
-      }
-      if (i > 11 && i < 24) {
-        html2 += `<div class="col-3" >
+        }
+        if (i > 11 && i < 24) {
+          html2 += `<div class="col-3" >
       <div class="p-1 border-secondary rounded-1" id="leccion${
         i + 1
       }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
   </div>`;
-      }
-      if (i > 23 && i < 33) {
-        html3 += `<div class="col-3" >
+        }
+        if (i > 23 && i < 33) {
+          html3 += `<div class="col-3" >
       <div class="p-1 border-secondary rounded-1" id="leccion${
         i + 1
       }">Lección ${i + 1} <br> ${leccionFecha} <br> ${leccionFecha3}</div>
   </div>`;
+        }
+
+        if (leccionactual) {
+          leccionTrue = true;
+          nLeccion = i + 1;
+          $(`#leccionActual`).text(i + 1);
+        }
       }
-      
-      if (leccionactual) {
-        leccionTrue = true
-        nLeccion =i + 1
-         $(`#leccionActual`).text(i + 1);
-      } 
-    }  
-  }
-  if (leccionTrue) {
-    console.log(leccionactual)
-    console.log(nLeccion)
-     $(`#leccionActual`).text(nLeccion);
-  } else{
-    $(`#leccionActual`).text(0);
-  }
-  
+    }
+    if (leccionTrue) {
+      $(`#leccionActual`).text(nLeccion);
+    } else {
+      $(`#leccionActual`).text(0);
+    }
+
     $(`#1_12Line1`).empty();
     $(`#13_24Line1`).empty();
     $(`#25_32Line1`).empty();
@@ -644,9 +661,166 @@ if (tipo == "Intensivo") {
     $(`#25_32Line1`).append(html3);
     $(`.bg-success`).removeClass("bg-success");
     $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
+    $(`#leccion_nueva_reasig`).val($("#leccionActual").text());
+
+    $("#grupoId").val(e.target.value);
+
+    /**end of select group */
   });
 }); //END OF READY FUNCTION
-function reasignarView() {
-  // var Array = e.currentTarget['dataset']["arraycliente"];
-  // var my_object = JSON.parse(decodeURIComponent(Array));
+
+$("#guarda-grupoNew").click(() => {
+  if ($("#grupoId_actual").val() == $("#grupoId").val()) {
+    swal.fire(
+      "El grupo actual y el seleccionado son el mismo, elija otro grupo"
+    );
+    return;
+  }
+  $("#form-reasignar-grupo").submit();
+});
+
+const leccionActualGrupos = async () => {
+  
+  $('#grupos_table').dataTable().fnDestroy();
+  $('#grupos_table').empty();
+  $('#grupos_table').html(`<thead>
+  <tr>
+      <th></th>
+      <th>Tipo</th>
+      <th>Leccion Actual</th>
+      <th>Horario</th>
+      <th>Fecha Pago</th>
+      <th>Alumnos</th>
+      <th>Profesor</th>
+  </tr>
+</thead><tbody id="gruposAct">
+                                      
+</tbody>`);
+  console.log("Entro aqui");
+  $(`#gruposAct`).empty();
+  console.log(grupos);
+  var leccionTrue = false,
+    nLeccion;
+  var startDate = moment().startOf("week");
+  var endDate = moment().endOf("week");
+  let hoy = moment().locale("es").format("dddd");
+  let leccionFecha,
+    addf,
+    leccionactual,
+    fecha_ant,
+    leccionFecha2,
+    j = "";
+  var jjaa;
+  var gruposAct = [];
+
+  for (let i = 0; i < grupos.length; i++) {
+    let tipo = grupos[i]["nombre"];
+    let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
+    let final = moment(grupos[i]["fecha_finalizacion"], "DD-MM-YYYY");
+    let diferencia2 = final.diff(inicio, "w");
+    let dia = grupos[i]["dia_horario"].split(":");
+    dia = dia[0].toString();
+    dia = dia.split("y");
+    if (tipo == "Intensivo") {
+      for (let i = 0; i < diferencia2 * 2 + 2; i++) {
+        if (i == 0) {
+          leccionFecha = inicio;
+          fecha_ant = inicio;
+          leccionFecha2 = moment(leccionFecha).add(1, "2").format("YYYY-MM-DD");
+        } else {
+          addf = moment(leccionFecha, "DD-MM-YYYY");
+          fecha_ant = leccionFecha;
+          if (j == 2) {
+            leccionFecha = moment(addf).add(5, "d").format("DD-MM-YYYY");
+          } else {
+            leccionFecha = moment(addf).add(2, "d").format("DD-MM-YYYY");
+          }
+          j = moment(leccionFecha, "DD-MM-YYYY").diff(
+            moment(fecha_ant, "DD-MM-YYYY"),
+            "d"
+          );
+        }
+        let dia_fechaSelect = moment(leccionFecha, "DD-MM-YYYY")
+          .locale("es")
+          .format("dddd");
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          '"YYYY-MM-DD"'
+        );
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+
+        if (leccionactual) {
+          if (leccionFecha) {
+
+          }
+          leccionTrue = true;
+          nLeccion = i + 1;
+          $(`#leccionActual`).text(i + 1);
+        }
+      }
+    } else {
+      for (let i = 0; i < diferencia2 + 1; i++) {
+        //32 SEMANAS
+        if (i == 0) {
+          leccionFecha = inicio;
+          fecha_ant = inicio;
+          leccionFecha2 = moment(leccionFecha).add(1, "w").format("YYYY-MM-DD");
+        } else {
+          addf = moment(leccionFecha, "DD-MM-YYYY");
+          fecha_ant = leccionFecha;
+          leccionFecha = moment(addf).add(1, "w").format("DD-MM-YYYY");
+        }
+        let fecha_consulta = moment(leccionFecha, "DD-MM-YYYY").format(
+          "YYYY-MM-DD"
+        );
+        leccionactual = moment(fecha_consulta).isBetween(startDate, endDate);
+
+        if (leccionactual) {
+          leccionTrue = true;
+          nLeccion = i + 1;
+          console.log(nLeccion)
+          $(`#leccionActual`).text(i + 1);
+          
+        }
+      }
+    }
+    if (leccionTrue) {
+      jjaa = nLeccion;
+    } else {
+      jjaa = 0;
+    }
+    if (jjaa > $("#leccion_actual_reasig").val()) {
+      $('#selectGroup option[value="' + grupos[i]["id"] + '"]').attr(
+        "disabled",
+        true
+      );
+    } else {
+      if ($("#grupoReag").text() == grupos[i]["identificador"]) {
+        console.log("mismo grupo");
+      } else {
+        console.log("other grupo");
+        console.log(jjaa);
+        let filter_group_alumnos = estudiantesParsed.filter(
+          (filter2) => filter2.grupo.id == grupos[i]["id"]
+        ).length;
+        gruposAct.push(grupos[i]);
+        $(`#gruposAct`).append(`<tr>
+    <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
+    <td>${grupos[i]["identificador"]}</td>
+    <td>${jjaa}</td>
+    <td>${grupos[i]["dia_horario"]}</td>
+    <td>${grupos[i]["dia_pagos"]}</td>
+    <td>${filter_group_alumnos}</td>
+    <td>${grupos[i]["usuario"]['nombre']}</td>
+</tr>`);
+      }
+    }
+    $("#countGrupos").text("0");
+    $("#countGrupos").text(gruposAct.length);
+  }
+  var dt_gruposActi = $("#grupos_table");  
+  dt_gruposActi.DataTable({"bPaginate": false, "bFilter": false, "bInfo": false,order: [[2, 'desc']] })
+};
+function grupoSelected(valor) {
+  $("#grupoId").val(valor);
+  $("#guarda-grupoNew").removeAttr("disabled");
 }

@@ -22,6 +22,9 @@
         #home_modal .modal-dialog {
            max-width: 600px; 
         }
+        table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
     }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
@@ -227,7 +230,7 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic table dt-column-search" id="example">
+                                    <table class="datatables-basic table dt-column-search table-responsive" id="example">
                                         <thead>
                                             <tr>                                                
                                                 <th></th>
@@ -274,7 +277,7 @@ $(document).ready(function() {
                         </div>
                         <div class="table-responsive">
                             <div class="card">
-                                <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
+                                <table class="datatables-basicPrestados table dt-column-searchPrestados table-responsive" id="Prestados">
                                     <thead>
                                         <tr>
                                             <th>Cliente</th>
@@ -336,7 +339,7 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic2 table dt-column-search2">
+                                    <table class="datatables-basic2 table dt-column-search2 table-responsive">
                                           <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
@@ -403,7 +406,7 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-resumen table dt-column-search_resumen">
+                                    <table class="datatables-resumen table dt-column-search_resumen table-responsive">
                                           <thead>
                                             <tr>
                                                 <th>Carga Inicial</th>

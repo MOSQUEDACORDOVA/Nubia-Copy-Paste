@@ -87,6 +87,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">${role}</span>`;
 		}
 	},
+	roleuserpy28: (role) => {
+		if(role === 'Inversionista') {
+			return `<span class="badge rounded-pill badge-light-info">Investor</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-warning">${role}</span>`;
+		}
+	},
 	usertosellerpy21: (id, role) => {
 		if(role === 'Inversionista') {
 			return `<form action="/usertosellerpy21" method="POST">
@@ -130,6 +137,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
 		}
 	},
+	statususerpy28: (status) => {
+		if(status === 'activo') {
+			return `<span class="badge rounded-pill badge-light-success">Active</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
+		}
+	},
 	statususerpay: (status) => {
 		if(status === 'Pagado') {
 			return `<span class="badge rounded-pill badge-light-success">${status}</span>`;
@@ -151,6 +165,13 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
 		}
 	},
+	accountverifiedpy28: (verify) => {
+		if(verify === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-danger">Not Verified</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
+		}
+	},
 	estadodepositospy27: (status) => {
 		if(status === 'No verificado') {
 			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
@@ -162,7 +183,29 @@ module.exports = {
 			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
 		}
 	},
+	estadodepositospy28: (status) => {
+		if(status === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
+		} else if (status === 'Finalizado') {
+			return `<span class="badge rounded-pill badge-light-info">Finalized</span>`;
+		} else if (status === 'Rechazado') {
+			return `<span class="badge rounded-pill badge-light-danger">Rejected</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">Verified</span>`;
+		}
+	},
 	estadoadmindepositospy27: (status) => {
+		if(status === 'No verificado') {
+			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
+		} else if (status === 'Finalizado') {
+			return `<span class="badge rounded-pill badge-light-info">Finalized</span>`;
+		} else if (status === 'Rechazado') {
+			return `<span class="badge rounded-pill badge-light-danger">Rejected</span>`;
+		} else {
+			return `<span class="badge rounded-pill badge-light-success">Approved</span>`;
+		}
+	},
+	estadoadmindepositospy28: (status) => {
 		if(status === 'No verificado') {
 			return `<span class="badge rounded-pill badge-light-warning">Not Verified</span>`;
 		} else if (status === 'Finalizado') {
@@ -197,6 +240,13 @@ module.exports = {
 		}
 	},
 	statuspaymethodspy27: (state) => {
+		if(state === 'Deshabilitado') {
+			return 'Enable';
+		} else {
+			return 'Disable';
+		}
+	},
+	statuspaymethodspy28: (state) => {
 		if(state === 'Deshabilitado') {
 			return 'Enable';
 		} else {
@@ -383,7 +433,7 @@ module.exports = {
 		 return out;
 		},
 			formatoFecha2: (fecha, user) => {
-				var fecha_dia =moment(fecha).locale('es').format("dddd, Do MMMM  YYYY, h:mm a");
+				var fecha_dia =moment(fecha).locale('es').format("dddd, Do MMMM  YYYY");
 
 						//console.log(fecha_)
 					 return fecha_dia;

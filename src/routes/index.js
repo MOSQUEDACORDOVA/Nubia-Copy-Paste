@@ -29,7 +29,6 @@ const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControlle
 /*---------------------------------*/
 
 /*------------- PYT28 -------------*/
-const MailerController28 = require('../controllers/PYT28/mailerController');
 const userControllerPY28 = require('../controllers/PYT28/userControllerPY28');
 const authControllerPY28 = require('../controllers/PYT28/authControllerPY28');
 const dashboardControllerPY28 = require('../controllers/PYT28/dashboardControllerPY28');
@@ -75,6 +74,15 @@ router.get('/cuponera',authControllerPY4.authenticatedCliente, dashboardControll
 router.get('/cuponera/:cat',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
 router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
 router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cuponera);
+
+//REFERIDOS
+router.get('/crea_codigo_ref/:id_referido', dashboardControllerPY4.crea_codigo_ref);
+router.get('/referido-bwater/:id_referido', dashboardControllerPY4.formRegReferidos);
+router.get('/referido-bwater-exist/:id_referido/:msg', dashboardControllerPY4.formRegReferidos);
+router.post('/save_cliente_referido', dashboardControllerPY4.save_cliente_referido);
+router.get('/home-referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.home_referidos);
+router.post('/login-referido', dashboardControllerPY4.sessionReferido);
+router.post('/reg_pedido_referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.regPedidoReferido);
 
 //NOTIFICACIONES
 router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
@@ -155,6 +163,7 @@ router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dash
 
 //CP
 router.post('/consultaCP', dashboardControllerPY4.consultaCP);
+router.post('/save_cp_new', dashboardControllerPY4.save_cp_new);
 //corte
 router.get('/corte_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
 router.get('/corteday_py4/:day',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
@@ -177,8 +186,8 @@ router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardContr
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
 router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago_deudor);
 
-
-router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Etiquetas
 router.post('/save_etiqueta', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_etiquetas);
 router.get('/delete_etiqueta/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_etiqueta);
@@ -202,9 +211,19 @@ router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,d
 
 /** HERE INIT MAQUILA**/
 router.get('/maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila/:msg',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila-qr/:id_cliente',authControllerPY4.authenticatedQR, maquilaControllerPY4.maquila_principal);
 router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_clientes_maquila);
+router.get('/delete_cliente_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_cliente_maquila);
+router.post('/editar_cliente_manila', authControllerPY4.authenticatedUser,maquilaControllerPY4.edit_cliente_manila);
+router.post('/save-edit-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_cliente_edit);
 
+router.post('/reg-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_maquila);
+router.post('/editar_pedido_maquila', authControllerPY4.authenticatedUser,maquilaControllerPY4.editar_pedido_maquila);
+router.get('/delete_pedido_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_pedido_maquila);
+router.post('/save-edit-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_edit);
 
+router.get('/ventas-del-dia/:dia_select',authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 /* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/
@@ -423,7 +442,7 @@ router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 router.get('/paympy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymanag);
 router.get('/paymethodspy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymethods);
 router.get('/userspy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.users);
-
+router.post('/aprobarpagoPYT27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.apruebaPago);
 
 // ? POST ADMIN 
 // VERIFICAR USUARIO
@@ -546,12 +565,15 @@ router.get('/getallpaises', dashboardControllerPY27.getallpaises);
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 
-/*------------ PYT-28-----------------*/
+
+// PYT-28 --- MINNER
 // ! ADMIN
+
+router.post('/payuser28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.payuser);
 router.get('/paympy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.paymanag);
 router.get('/paymethodspy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.paymethods);
 router.get('/userspy28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.users);
-
+router.post('/aprobarpagoPYT28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.apruebaPago);
 
 // ? POST ADMIN 
 // VERIFICAR USUARIO
@@ -594,14 +616,14 @@ router.post('/deletemretreatspy28', authControllerPY28.authenticatedUser, dashbo
 
 router.get('/controlrolespy28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.controlroles);
 router.get('/boardpresalepy28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.boardpresale);
-router.get('/depositsminneradmin/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.depositsaeroadmin);
+router.get('/depositsaeroadmin28/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.depositsaeroadmin);
 router.get('/getallpendingdeposits/:id', dashboardControllerPY28.getallpendingdeposits);
 
 router.get('/profile28/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.profile);
 
 router.get('/webpy28/:id', dashboardControllerPY28.web);
 router.get('/webespy28/:id', dashboardControllerPY28.webes);
-router.get('/privacy28/:id', dashboardControllerPY28.privacy);
+router.get('/privacy/:id', dashboardControllerPY28.privacy);
 router.get('/register28/:id', dashboardControllerPY28.register);
 // prueba
 router.get('/login28/:id', dashboardControllerPY28.login);
@@ -611,7 +633,7 @@ router.get('/error28/:id', dashboardControllerPY28.error);
 router.get('/minnerpresale/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.aeropresale);
 router.get('/depositaero/:id', authControllerPY28.authenticatedUser, dashboardControllerPY28.depositaero);
 // CONTROL DE MONEDA AERO COIN
-router.get('/minner/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.Minner);
+router.get('/minner/:id', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.aerocoin);
 
 // AUTH
 router.post('/loginpy28', dashboardControllerPY28.sesionstart);
@@ -623,24 +645,24 @@ router.post('/reguserpy28', dashboardControllerPY28.reguserpy28);
 router.post('/startdepositaero', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.startdepositaero);
 
 // AÑADIR PRECIO DE AEROCOIN
-router.post('/addminner', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addMinner);
+router.post('/addaerocoin', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addaerocoin);
 // AÑADIR PRECIO DE BTC
 router.post('/addbtcpricepy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbtcprice);
 // AÑADIR PRECIO DE BNB
 router.post('/addbnbpricepy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.addbnbprice);
 // ACTUALIZAR PRECIO AEROCOIN
-router.post('/updateMinner', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateMinner);
+router.post('/updateminner', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateaerocoin);
 // ACTUALIZAR PRECIO BTC
 router.post('/updateaebtcpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateaebtc);
 // ACTUALIZAR PRECIO BNB
 router.post('/updateaebnbpy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.updateaebnb);
 // COMPRAR AEROCOINS
-router.post('/buyminner', authControllerPY28.authenticatedUser, dashboardControllerPY28.buyMinners);
+router.post('/buyaerocoins28', authControllerPY28.authenticatedUser, dashboardControllerPY28.buyaerocoins);
 // OBTENER INFORMACIÓN DE USUARIO
 router.post('/getuserinfopy28', authControllerPY28.authenticatedAdmin, dashboardControllerPY28.getuserinfopy28);
 
 // TRAER DEPOSITO USUARIO
-router.post('/getdeposituser', authControllerPY28.authenticatedUser, dashboardControllerPY28.getdeposituser);
+router.post('/getdeposituser28', authControllerPY28.authenticatedUser, dashboardControllerPY28.getdeposituser);
 
 router.post('/rejectdeposit', pasarelaController.rejectdeposit);
 
@@ -665,14 +687,13 @@ router.get('/mailDepositApprovey28/:userid/:total', MailerController.depositoApr
 
 router.post('/resendemailverifypy28', dashboardControllerPY28.resendemailverify);
 // ESTADOS PAISES
-router.get('/getallestados28', dashboardControllerPY28.getallestados);
-router.get('/getallpaises28', dashboardControllerPY28.getallpaises);
+router.get('/getallestados', dashboardControllerPY28.getallestados);
+router.get('/getallpaises', dashboardControllerPY28.getallpaises);
 
 
 
 // Cerrar Sesión
 router.get('/logout/PYT-28', userControllerPY28.closeSesion);
-
 
 
 /*------------ PYT-672-----------------*/
@@ -685,7 +706,8 @@ router.get('/py672/:id', dashboardControllerPY672.controlroles);
 // ? POST ------------------!
 router.post('/login672', dashboardControllerPY672.sesionstart);
 router.post('/reguserpy672', dashboardControllerPY672.reguser);
-
+router.post('/deleteUserpy672', dashboardControllerPY672.deleteuser);
+router.post('/editUserpy672', dashboardControllerPY672.editUser);
 // * CERRAR SESION
 router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 
@@ -708,9 +730,17 @@ router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposinte
 router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
 
 
+
+
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
+router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_constancia);
+router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_titulo);
+
+router.get('/notas-titulo-academy/:id_alumno', dashboardControllerPY672.notas_titulo);
+router.get('/participacion-titulo-academy/:id_alumno', dashboardControllerPY672.participacion_titulo);
+router.get('/ausencias-titulo-academy/:id_alumno', dashboardControllerPY672.ausencias_titulo);
 
 // TODO: USUARIOS
 router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.boardUser);
@@ -734,6 +764,8 @@ router.post('/borrargrupopy672', authControllerPY672.authenticatedAdmin, dashboa
 router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatricula);
 // * EDITAR ESTUDIANTES
 router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
+// * REASIGNA GRUPO ESTUDIANTES
+router.post('/reasignar-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo);
 // * BORRAR ESTUDIANTES
 router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES

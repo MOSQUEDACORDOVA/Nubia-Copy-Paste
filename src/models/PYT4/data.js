@@ -211,6 +211,32 @@ module.exports = {
         });*/
     });
   },
+  registrar_cliente_referido(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1,   tipo_cliente, cliente_nuevo, sucursal, email,color,id_cliente_bwater) {
+    return new Promise((resolve, reject) => {
+      Clientes.create({
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  tipo:tipo_cliente, email:email , nuevo:cliente_nuevo,estado:cp, cpId: asentamiento, referido_de:id_cliente_bwater
+      }).then((data)=>{
+        let data_set = JSON.stringify(data);
+        console.log(data_set);
+        resolve('Cliente registrado con éxito');
+        
+      })
+      .catch((err) => {
+        reject(err)
+      });
+    /*  Clientes.create(
+        {
+          firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, nombre_familiar_1:nombre_familiar_1,  apellido_familiar_1:apellido_familiar_1,       telefono_familiar_1:telefono_familiar_1,  nombre_familiar_2:nombre_familiar_2,  apellido_familiar_2:apellido_familiar_2,       telefono_familiar_2:telefono_familiar_2,tipo:tipo_cliente, fecha_ultimo_pedido: fecha_ultimo_pedido,   utimos_botellones: utimos_botellones,  email:email , nuevo:cliente_nuevo ,sucursaleId: sucursal,estado:cp, cpId: asentamiento})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve('Cliente registrado con éxito');
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });*/
+    });
+  },
 
   registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
@@ -291,6 +317,27 @@ module.exports = {
         });
     });
   },
+  guardaReferidoACliente(id,agrega_cantidad) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          cantidad_referidos:agrega_cantidad},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          //Notificaciones.update({estado:'1'}, {where:{clienteId:id}})
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   update_cliente_tag(id,color) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -299,6 +346,46 @@ module.exports = {
             where:
             {
               id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  DescontarCantidadDesc(descontar_ref,id) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          cantidad_referidos:descontar_ref},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+          //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  DescontarReferido(id_referenciado,id_cliente) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          referido_de:id_cliente+'-'},{
+            where:
+            {
+              id: id_referenciado
             }
           })
         .then((data) => {
@@ -398,7 +485,7 @@ module.exports = {
     return new Promise((resolve, reject) => {
       Clientes.findOne({
         where: {
-          [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono},{telefono_familiar_1: telefono}, {telefono_familiar_2: telefono}, {firstName: firstName,lastName:lastName}],  }})
+          [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono}],  }})
         .then((data) => {
           let data_p = JSON.stringify(data);
           resolve(data_p);
@@ -409,11 +496,27 @@ module.exports = {
         });
     });
   },
-  SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1,    telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,){
+  SearchClientePedidoFamiliar(nombre_familiar_1, apellido_familiar_1,   telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2,){
     return new Promise((resolve, reject) => {
       Clientes.findOne({
         where: {
           [Op.or]: [{telefono_familiar_1: telefono_familiar_1}, {telefono_familiar_2: telefono_familiar_2}],
+        },})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+              ////console.log(id_usuario);
+            })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  SearchClientePedidoFamiliarReferido(telefono_familiar_1){
+    return new Promise((resolve, reject) => {
+      Clientes.findOne({
+        where: {
+          [Op.or]: [{telefono_familiar_1: telefono_familiar_1}],
         },})
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -472,9 +575,39 @@ module.exports = {
         });
     });
   },
+  ClientebyIdforReferidos(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findOne({where:{
+        id: id
+      }})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  ReferidosdelCliente(id){
+    return new Promise((resolve, reject) => {
+      Clientes.findAll({where:{
+        referido_de: id
+      }})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -495,7 +628,7 @@ module.exports = {
           chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
           total_canje_pedido:total_canje_cant_pedido,
           total_nv_pedido:total_nuevo_cant_pedido,
-          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido })
+          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido, descuento: desc_referido })
         .then(async (data) => {
           let data_set = JSON.stringify(data);
           console.log('pedidos save')
@@ -506,13 +639,13 @@ module.exports = {
               total_refill_pedido:total_refill_cant_pedido,
               total_canje_pedido:total_canje_cant_pedido,
               total_nv_pedido:total_nuevo_cant_pedido,
-              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},)
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},)
           }else{
             console.log('pedidos upd')
             Last_p.update({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,total_refill_pedido:total_refill_cant_pedido,
               total_canje_pedido:total_canje_cant_pedido,
               total_nv_pedido:total_nuevo_cant_pedido,
-              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},{where:{clienteId: id_cliente,}})
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},{where:{clienteId: id_cliente,}})
           }
 
           Clientes.update(
@@ -995,12 +1128,118 @@ console.log(hoy)
         });
     });
   },
+  PedidosReferido(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{clienteId:id},
+        include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  verificaPedidosReferido(id){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where:{usuarioId: {
+        [Op.is]: null, status_pedido:'Por entregar'
+      }
+    },
+        include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ],order: [
+      // Will escape title and validate DESC against a list of valid direction parameters
+      ['fecha_pedido', 'DESC'],]
+      },)
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  RegPedidoReferido(id_cliente_referido, id_chofer, fecha_pedido, total_total_inp, metodo_pago, status_pago, status_pedido, deuda_anterior,garrafon19L,total_garrafones_pedido,  total_refill_cant_pedido, total_canje_cant_pedido,  total_nuevo_cant_pedido,  total_obsequio_pedido,botella1L,  garrafon11L,
+    botella5L ) {
+    return new Promise(async (resolve, reject) => {
+      let garrafon19L_ = JSON.stringify(garrafon19L)
+      let botella1L_ = JSON.stringify(botella1L);
+      let garrafon11L_ = JSON.stringify(garrafon11L);
+      let botella5L_ = JSON.stringify(botella5L);
+      const Last = await Last_p.findOne({where:{clienteId: id_cliente_referido}}).then((las_)=>{
+        return las_
+       })
+       console.log(Last)
+      Pedidos.create(
+        {
+          chofer: id_chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, clienteId: id_cliente_referido,personalId: id_chofer, total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
+          total_canje_pedido:total_canje_cant_pedido,
+          total_nv_pedido:total_nuevo_cant_pedido,
+          total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido })
+        .then(async (data) => {
+          let data_set = JSON.stringify(data);
+          console.log('pedidos save')
+                console.log(data.dataValues.id)
+            console.log('pedidos cre')
+           Last_p.create({chofer: id_chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_,clienteId: id_cliente_referido,personalId: id_chofer, total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,
+              total_refill_pedido:total_refill_cant_pedido,
+              total_canje_pedido:total_canje_cant_pedido,
+              total_nv_pedido:total_nuevo_cant_pedido,
+              total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido},).then(()=>{
+                resolve(data_set);
+              })
+          
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   Verf_deuda_pedido(id,id_sucursal){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
         clienteId: id,
         status_pago:'Por verificar',
         sucursaleId: id_sucursal
+      },include:[
+        {association:Pedidos.Clientes },
+       // {association:Pedidos.Clientes },
+        //{ model: Productos_pedidos,as:'Productos_' }
+    ]})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  Verf_deuda_pedidoNULL(id,id_sucursal){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        clienteId: id,
+        status_pago:'Por verificar',
       },include:[
         {association:Pedidos.Clientes },
        // {association:Pedidos.Clientes },
@@ -1353,6 +1592,20 @@ PersonalAllS(id){
     CodigosP(){
       return new Promise((resolve, reject) => {
         CoP.findAll()
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    AddCodigosP(cp,asentamiento, municipio){
+      return new Promise((resolve, reject) => {
+        CoP.create({cp:cp,asentamiento:asentamiento, municipio:municipio})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -2233,9 +2486,9 @@ Reg_cliente_maquila(name,phone,placa,vehiculo) {
     });
   });
 },
-Edit_cliente_maquila(name,phone,placa,vehiculo, id) {
+Edit_cliente_maquila(name, telefono,  placa,vehiculo,id_cliente) {
   return new Promise((resolve, reject) => {
-    Clientes_maquila.update({name: name,phone: phone,placa: placa,vehiculo: vehiculo},{where: { id:id },
+    Clientes_maquila.update({name: name,phone: telefono,placa: placa,vehiculo: vehiculo},{where: { id:id_cliente },
     }).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);
@@ -2268,4 +2521,161 @@ Cliente_maquila_byID(id) {
     });
   });
 },
-};
+BuscaClienteMaquilaRepeat(telefono, placa) {
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.findOne({where:{phone:telefono, placa:placa}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Delete_cliente_maquila(id){
+  return new Promise((resolve, reject) => {
+    Clientes_maquila.destroy({where:{
+      id: id
+    }
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve('data_p');
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
+
+//PEDIDOS MAQUILA
+PedidosMaquila() {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+SumRellenosPedidos() {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({
+      attributes: [
+        'clientesMaquilaId',
+        [Sequelize.fn('sum', Sequelize.col('rellenos')), 'total_rellenos'],
+        [Sequelize.fn('sum', Sequelize.col('bwater')), 'total_bwaters'],
+      ],
+      group: ['clientesMaquilaId'],
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Reg_pedido_maquila(monto_total,fecha_pedido, metodo_pago,status_pago,status_pedido,observacion,rellenos, bwater,total_garrafones_pedido,total_monto_rellenos,
+  total_monto_bwater,id_cliente) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.create({monto_total: monto_total,fecha_pedido: fecha_pedido, metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,observacion: observacion,rellenos: rellenos, bwater: bwater,total_garrafones_pedido: total_garrafones_pedido,total_monto_rellenos: total_monto_rellenos,
+      total_monto_bwater: total_monto_bwater, clientesMaquilaId: id_cliente}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+PedidosMaquilaByID(id) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findOne({where:{id:id}},{include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+PedidosMaquilaByIDClientCountRB(id) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({attributes: [
+      'clientesMaquilaId',
+      [Sequelize.fn('sum', Sequelize.col('rellenos')), 'total_rellenos'],
+      [Sequelize.fn('sum', Sequelize.col('bwater')), 'total_bwaters'],
+    ],
+    where:{clientesMaquilaId:id},
+  },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Delete_Pedido_maquila(id){
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.destroy({where:{
+      id: id
+    }
+    },)
+      .then((data) => {
+        let data_p = JSON.stringify(data);
+        //console.log(data)
+        resolve('data_p');
+        ////console.log(id_usuario);
+      })
+      .catch((err) => {
+        reject(err)
+      });
+  });
+},
+Edit_pedido_maquila(monto_total,fecha_pedido, metodo_pago,status_pago,status_pedido,observacion,rellenos, bwater,total_garrafones_pedido,total_monto_rellenos,
+  total_monto_bwater,id_cliente,id_pedido) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.update({monto_total: monto_total,fecha_pedido: fecha_pedido, metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,observacion: observacion,rellenos: rellenos, bwater: bwater,total_garrafones_pedido: total_garrafones_pedido,total_monto_rellenos: total_monto_rellenos,
+      total_monto_bwater: total_monto_bwater, clientesMaquilaId: id_cliente}, {where:{id: id_pedido}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);
+      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+PedidosMaquilaByDay(fecha_pedido) {
+  return new Promise((resolve, reject) => {
+    Pedidos_maquila.findAll({where:{fecha_pedido:fecha_pedido}},{include:[
+      {association:Pedidos_maquila.Clientes_maquila }],order: [
+    // Will escape title and validate DESC against a list of valid direction parameters
+    ['fecha_pedido', 'DESC'],]
+    },).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+
+/**END OF EXPORT */};

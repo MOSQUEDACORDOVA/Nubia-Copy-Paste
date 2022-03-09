@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db28 = require('../../config/dbPY28');
-const Pais = require('../../models/PYT28/Pais');
+const Pais = require('../PYT28/Pais');
 
 const Estados = db28.define('estados', {
     id: {

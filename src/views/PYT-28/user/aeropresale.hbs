@@ -1,6 +1,6 @@
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 
-<div class="app-content content py27">
+<div class="app-content content py28">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <div id="loading3">
@@ -138,9 +138,9 @@
                                                     </span>
                                                 </button>
                                                 <div class="pt-1">
-                                                    <img src="../../../app-assets/images/py27/paypal.png" class="img-fluid">
-                                                    <img src="../../../app-assets/images/py27/mastercard.png" class="img-fluid">
-                                                    <img src="../../../app-assets/images/py27/visa.png" class="img-fluid">
+                                                    <img src="../../../app-assets/images/py28/paypal.png" class="img-fluid">
+                                                    <img src="../../../app-assets/images/py28/mastercard.png" class="img-fluid">
+                                                    <img src="../../../app-assets/images/py28/visa.png" class="img-fluid">
                                                 </div>
                                             </div>
 
@@ -155,14 +155,14 @@
                                         </div>
                                         <div class="bs-stepper-content">
                                             <!--- BTC -->
-                                            <form action="/buyminner" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                            <form action="/buyaerocoins" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
                                                     <h5 class="mb-0">BTC</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        {{!<img src="../../../app-assets/images/py27/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
-                                                        <img src="../../../app-assets/images/py27/btc2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!<img src="../../../app-assets/images/py28/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py28/btc2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
@@ -226,14 +226,14 @@
                                                 </div>
                                             </form>
                     
-                                            <form method="POST" action="/buyminner" id="address-step-vertical3" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical3" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
                                                     <h5 class="mb-0">BSC - Binance Smart Chain (BEP20)</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        {{!<img src="../../../app-assets/images/py27/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
-                                                        <img src="../../../app-assets/images/py27/bnb2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!<img src="../../../app-assets/images/py28/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py28/bnb2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
@@ -297,14 +297,14 @@
                                                 </div>
                                             </form>
 
-                                            <form method="POST" action="/buyminner" id="address-step-vertical4" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
+                                            <form method="POST" action="/buyaerocoins" id="address-step-vertical4" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
                                                     <h5 class="mb-0">TRX - Tron (TRC20)</h5>
                                                 </div>
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
-                                                        {{!---<img src="../../../app-assets/images/py27/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">---}}
-                                                        <img src="../../../app-assets/images/py27/usdt2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                        {{!---<img src="../../../app-assets/images/py28/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">---}}
+                                                        <img src="../../../app-assets/images/py28/usdt2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
@@ -406,7 +406,7 @@
         statusForms[i].classList.add('d-none');
         continueBtns[i].classList.add('d-none');
         continueBtns[i].addEventListener('click', e => {
-            window.location.replace("/boardpresalepy27/PYT-27");
+            window.location.replace("/boardpresalepy28/PYT-28");
         });
     });
 
@@ -446,7 +446,7 @@
             
             let data = new FormData(select);
 
-            fetch('/buyminner', {
+            fetch('/buyaerocoins', {
                 method: 'POST',
                 body: data
             })
@@ -469,7 +469,7 @@
                     btnContinue.classList.add('d-block');
 
                     const VerifyDeposit = () => {
-                        fetch('/getdeposituser', {
+                        fetch('/getdeposituser28', {
                             method: 'POST',
                             body: formData
                         })

@@ -1,14 +1,14 @@
 const { Op, where } = require("sequelize");
 const db28 = require("../../config/dbPY28");
 const bcrypt = require("bcrypt-nodejs");
-const Usuarios = require("../../models/PYT28/Usuarios");
-const MPagos = require("../../models/PYT28/MetodosPago");
-const Pays = require("../../models/PYT28/Payments");
-const depositosaeros = require("../../models/PYT28/DepositosAero");
-const MetodosRetiros = require("../../models/PYT28/Retreats");
-const AeroCoin = require("../../models/PYT28/AeroCoin");
-const Pais = require("../../models/PYT28/Pais");
-const Estados = require("../../models/PYT28/Estado");
+const Usuarios = require("../PYT28/Usuarios");
+const MPagos = require("../PYT28/MetodosPago");
+const Pays = require("../PYT28/Payments");
+const depositosaeros = require("../PYT28/DepositosAero");
+const MetodosRetiros = require("../PYT28/Retreats");
+const AeroCoin = require("../PYT28/AeroCoin");
+const Pais = require("../PYT28/Pais");
+const Estados = require("../PYT28/Estado");
 
 module.exports = {
     // REGISTRO DE USUARIOS
@@ -154,6 +154,68 @@ module.exports = {
           });
       });
     },
+     // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+     GetPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({ where: {
+          [Op.or]: [{status: 'Pagado' },{status: 'Rechazado' }],  },
+          include:[
+          {association:depositosaeros.MetodosPagos },
+          // {association:Pays.Paquetes },
+          // {association:Pays.MetodosRetiros },
+          // {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+     // OBTENER PAGOS REALIZADOS DE USUARIOS ADMIN
+     GetPendingPaymenthsAdmin() {
+      return new Promise((resolve, reject) => {
+        depositosaeros.findAll({ where: {status: 'No verificado' },  
+          include:[
+          {association:depositosaeros.MetodosPagos },
+          // {association:Pays.Paquetes },
+          // {association:Pays.MetodosRetiros },
+          // {association:Pays.Depositos },
+        ],order: [
+          ["id", "DESC"],
+        ],
+        })
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+         // aprobar PAGOS REALIZADOS DE USUARIOS ADMIN
+         AprobarPago(id, amountAero, usuarioId) {
+          return new Promise(async(resolve, reject) => {
+            let updateDep = await depositosaeros.update({status:'Aprobado'},{ where: {id: id }})
+            console.log(updateDep)
+            Usuarios.update({avalible_balance: amountAero},{ where: {id: usuarioId }})
+              .then((data) => {
+                let data_p = JSON.stringify(data);
+                console.log(data_p)
+                resolve(data_p);
+              })
+              .catch((err) => {
+                console.log(err)
+                reject(err)
+              });
+          });
+        },
     // VERIFICAR CUENTA DE USUARIO
     VerifyUser(id) {
       return new Promise((resolve, reject) => {
@@ -769,6 +831,19 @@ module.exports = {
           });
       });
     },
+    // OBTENER BALANCE DE USUARIOS AEROCOIN
+    GetBalanceCoinsUser2(id){
+      return new Promise((resolve, reject) => {
+        Usuarios.findOne({where:{id: id}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            resolve(data_p);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // OBTENER TODOS LOS DEPOSITOS PENSDIENTES BTC
     GetAllPendingDepositsBTCAero(){
       return new Promise((resolve, reject) => {
@@ -1205,20 +1280,6 @@ module.exports = {
           });
         });
     },
-    // CONTROL AEROCOIN TH PRECIO ADMIN - USUARIOS
-    GetControlMinner() {
-        return new Promise((resolve, reject) => {
-          AeroCoin.findAll()
-          .then((data) => {
-            let data_p = JSON.stringify(data);
-            console.log(data)
-            resolve(data_p);
-          })
-          .catch((err) => {
-            reject(err)
-          });
-        });
-    },
     // CONTROL AEROCOIN TH PRECIO ADMIN
     ControlAeroCoin(price) {
         return new Promise((resolve, reject) => {
@@ -1234,24 +1295,6 @@ module.exports = {
     },
     // ACTUALIZAR PRECIO AEROCOIN ADMIN
     UpdatePriceAeroCoin(id, price) {
-      return new Promise((resolve, reject) => {
-        AeroCoin.update(
-          {
-            price: price
-          }, { where:{
-              id: id
-          }})
-          .then((data) => {
-            let data_set = JSON.stringify(data);
-            resolve('Precio de AeroCoin actualizado con éxito');
-          })
-          .catch((err) => {
-            reject(err)
-          });
-      });
-    },
-    // ACTUALIZAR PRECIO Minner ADMIN
-    UpdatePriceMinner(id, price) {
       return new Promise((resolve, reject) => {
         AeroCoin.update(
           {

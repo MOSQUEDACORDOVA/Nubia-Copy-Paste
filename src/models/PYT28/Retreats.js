@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db28 = require('../../config/dbPY28');
-const Usuarios = require('../../models/PYT28/Usuarios');
+const Usuarios = require('../PYT28/Usuarios');
 
 // METODOS DE RETIRO USUARIOS
 const MetodosRetiros = db28.define('metodos_retiros', {

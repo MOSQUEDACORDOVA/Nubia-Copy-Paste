@@ -7,7 +7,7 @@
     }
 </style>
 <input type="text" value="{{matricula_st}}" id="matricula_st">
-<div class="app-content content ecommerce-application py672">
+<div class="app-content content ecommerce-application py672" style="padding-top: 6rem">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
             <div class="toast-container" id="toast">
@@ -26,12 +26,9 @@
 
             <section class="row">
                 <!-- Checkout Place Order Left starts -->
-                <div class="col-12 col-lg-7">
+                <div class="col-12 col-lg-8">
                     <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Servicios Disponibles</h4>
-                        </div>
-                        <div class="row m-0 justify-content-end">
+                        <div class="row m-0 mt-1 justify-content-end">
                             <!-- FILTRO -->
                             <div class="col-12 col-lg-7">
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
@@ -52,7 +49,172 @@
                                 </select>
                             </div>
                         </div>
+						
+						<div class="modal-body pb-5 px-sm-2 pt-50">
+						
+						
+							<div class="col-12">
+								<div class="card">
+									<div class="card-header d-flex justify-content-start px-0">
+										<div class="">
+											
+										</div>
+									</div>
+									<div class="card-body px-0">
 
+										<form action="#" class="invoice-repeater">
+											<div data-repeater-list="invoice">
+												<div data-repeater-item="">
+
+                                                    <h4 class="card-title">Nuevo Pago</h4>
+
+													<div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
+														<div id="tipoServicio" class="col">
+															<div class="mb-1">
+																<label class="form-label" for="itemname">Tipo Servicio</label>
+																<select class="form-select" id="select-servicio">
+																	<option>Seleccione</option>
+                                                                    <option>Mensualidad</option>
+                                                                    <option>Recargo</option>
+																	<option>Traslado</option>
+																	<option>Constancia</option>
+																	<option>Titulo</option>
+																</select>
+															</div>
+														</div>
+                                                        <div id="mes" class="col d-none select-reposicion" >
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Lección</label>
+																<select class="form-select" id="select-reposicion">
+																	<option>Seleccione</option>
+																</select>
+															</div>
+														</div>
+														<div id="mes" class="col d-none mensualidadAdd" >
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Mes</label>
+																<select class="form-select" id="select-servicio">
+																	<option>Seleccione</option>
+                                                                    <option>Enero</option>
+                                                                    <option>Febrero</option>
+																	<option>Marzo</option>
+																	<option>Abril</option>
+																	<option>Mayo</option>
+                                                                    <option>Junio</option>
+                                                                    <option>Julio</option>
+																	<option>Agosto</option>
+																	<option>Septiembre</option>
+																	<option>Octubre</option>
+                                                                    <option>Noviembre</option>
+																	<option>Diciembre</option>
+																</select>
+															</div>
+														</div>
+
+                                                        <div id="ano" class="col d-none mensualidadAdd" >
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Año</label>
+																<select class="form-select" id="select-servicio">
+																	<option>Seleccione</option>
+                                                                    <option>2021</option>
+                                                                    <option>2022</option>
+																	<option>2023</option>
+																	<option>2024</option>
+																	<option>2025</option>
+                                                                    <option>2026</option>
+																</select>
+															</div>
+														</div>
+
+														<div id="fecha" class="col">
+															<div class="mb-1">
+																<label class="form-label" for="itemcost">Fecha</label>
+																<input type="text" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
+															</div>
+														</div>
+    
+														<div id="precio" class="col">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Precio</label>
+																<div class="input-group">
+																	<span class="input-group-text" id="basic-addon-search1">₡</span>
+																	<input type="number" class="form-control" id="itemPrice" aria-describedby="precio" readonly="true" value="">
+																</div>
+																
+															</div>
+														</div>
+
+														<div id="banco" class="col-6">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Banco</label>
+                                                                <select class="form-select" id="bank-serv">
+																	<option>Seleccione</option>
+                                                                    <option>BNA</option>
+                                                                    <option>BCR</option>
+																	<option>BAC</option>
+																	<option>BPO</option>																	
+																</select>
+															</div>
+														</div>
+														
+                                                        <div id="transct" class="col-6">
+															<div class="mb-1">
+																<label class="form-label" for="itemquantity">Transaccion #:</label>
+																<input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+															</div>
+														</div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <div class="d-flex justify-content-end">
+                                                            <button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button" id="add_pago-btn">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                                    class="feather feather-plus me-25">
+                                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                                </svg>
+                                                                <span>Agregar Pago</span>
+                                                            </button>
+                                                        </div>
+													<hr>
+												</div>
+											</div>
+										</form>
+
+									</div>
+									<div class="row" id="basic-table">
+										<div class="col-12">
+											<div class="card">
+												<div class="table-responsive">
+													<table class="table" id="table-pagos">
+														<thead>
+															<tr>
+																<th>Concepto</th>
+																<th>Mes</th>
+																<th>Fecha de Pago</th>
+																<th>Monto</th>
+																<th>Accion</th>
+															</tr>
+														</thead>
+														<tbody id="body-table-pago">
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						
+							<div class="d-flex justify-content-end">
+								<button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+									id="btn-guardar-pago">Guardar</button>
+							</div>
+						</div>
+
+						{{!-- Servicios Disponibles --}}
+						{{!-- 
                         <div class="card-body">
                             <div class="list-view m-0 border-light-secondary rounded-2 min-height">
                                 <div class="ecommerce-card">
@@ -183,7 +345,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-habilitar-constancia">
                                             <span class="text-truncate">Habilitar</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -194,7 +356,7 @@
                                         </button>
 
                                         <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
                                             <span>Generar Constancia</span>
                                         </button>
 
@@ -233,7 +395,7 @@
                                         </div>
 
                                         <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
+                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-habilitar-titulo">
                                             <span class="text-truncate">Habilitar</span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -244,21 +406,21 @@
                                         </button>
 
                                         <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light">
+                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
                                             <span>Descargar Titulo</span>
                                         </button>
 
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div>
                 <!-- Checkout Place Order Left ends -->
 
                 <!-- Checkout Place Order Right starts -->
-                <div class="checkout-options col-12 col-lg-5">
+                <div class="checkout-options col-12 col-lg-4">
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title" id="nombre-alumno"> </h5>
@@ -284,35 +446,30 @@
 
                             <hr>
 
-                            <div class="d-flex align-items-center justify-content-between">
+                            {{!-- <div class="d-flex align-items-center justify-content-between">
                                 <h5 class="m-0">Pagos</h5>
                                 <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-toggle="modal" data-bs-target="#editUser">Agregar</button>
                             </div>
-                            <hr>
+                            <hr> --}}
+                            
                             <div class="price-details">
                                 <h6 class="price-title">Detalles de Cobro</h6>
                                 <ul class="list-unstyled">
                                     <li class="price-detail">
-                                        <div class="detail-title">Pago Mensual</div>
+                                        <div class="detail-title">Mensualidad</div>
                                         <div class="detail-amt">₡ <span id="pago-mensual-detail"></span></div>
                                     </li>
-                                    <li class="price-detail">
-                                        <div class="detail-title">Cuota pago atrasado</div>
+                                    <li class="price-detail d-none">
+                                        <div class="detail-title">Recargo</div>
                                         <div class="detail-amt discount-amt text-danger">₡ <span id="mora-pago-detail"></span></div>
                                     </li>
 
                                 </ul>
                                 <hr>
 
-                                <div class="price-details">
-                                    <h6 class="price-title">Detalles de Servicios</h6>
+                                <div class="price-details d-grid gap-2">
+                                   {{!--  <h6 class="price-title">Detalles de Servicios</h6>
                                     <ul class="list-unstyled" id="detalle-servicios">
-                                        {{!-- <li class="price-detail">
-                                            <div class="detail-title text-danger">Servicio</div>
-                                        </li>
-                                        <li class="price-detail">
-                                            <div class="detail-title">Servicio</div>
-                                        </li> --}}
                                     </ul>
                                     <hr>
 
@@ -321,10 +478,15 @@
                                             <div class="detail-title detail-total">Total</div>
                                             <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
                                         </li>
-                                    </ul>
-                                    <button type="button" class="btn btn-primary w-100 btn-next place-order waves-effect waves-float waves-light" id="btn-guardar-pago">
-                                        Guardar Pago
-                                    </button>
+                                    </ul> --}}
+                                    <button type="button"
+                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
+                                            <span>Descargar Titulo</span>
+                                        </button>
+                                    <button type="button"
+                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
+                                            <span>Generar Constancia</span>
+                                        </button>
                                 </div>
 
                             </div>
@@ -374,6 +536,7 @@
                             <div class="text-center mb-2">
                                 <h1 class="mb-1">Agregar Pagos</h1>
                             </div>
+
 
                             <div class="col-12">
                                 <div class="card">
@@ -460,7 +623,7 @@
                                         <div class="col-12">
                                             <div class="card">
                                                 <div class="table-responsive">
-                                                    <table class="table">
+                                                    <table class="table" id="table-pagos">
                                                         <thead>
                                                             <tr>
                                                                 <th>Concepto</th>
@@ -470,7 +633,7 @@
                                                                 <th>Accion</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="body-table-pago"><!--SE CARGARA DINAMICAMENTE -->
                                                             <tr>
                                                                 <td>
                                                                     <span class="fw-bold">Mensualidad</span>
@@ -504,7 +667,7 @@
                             </div>
 	
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-dismiss="modal">Guardar</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="btn-guardar-pago">Guardar</button>
                             </div>
                         </div>
                     </div>
@@ -516,11 +679,19 @@
 </div>
 
 <form id="form-reg-pago" hidden>
-    <input type="text" name="id_alumno" id="id-alumno-form">
-    <input type="text" name="concepto" id="concepto-form">
-    <input type="text" name="fecha_pago" id="fecha_pago-form">
-    <input type="text" name="monto" id="monto-form">
-    <input type="text" name="mora" id="mora-form">
-    <input type="text" name="observacion" id="observacion-form">
 
 </form>
+
+<script>
+
+	function sMensualidad() {
+		document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
+		document.getElementById("precio").classList.replace("col", "col-4");
+		document.getElementById("banco").classList.replace("col-6", "col-4");
+		document.getElementById("transct").classList.replace("col-6", "col-4");
+		document.getElementById("mes").classList.remove("d-none");
+		document.getElementById("ano").classList.remove("d-none");
+	}
+	document.getElementById("botonPrueba").addEventListener("click", holaMensualidad);
+
+</script>

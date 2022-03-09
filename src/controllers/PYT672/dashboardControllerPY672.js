@@ -5,6 +5,7 @@ const DataBase = require("../../models/PYT672/data");
 const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
+var pdf = require('html-pdf');
 
 // TODO: AUTH
 // * LOGIN
@@ -83,6 +84,36 @@ exports.reguser = (req, res) => {
   } else {
     DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password).then((respuesta) =>{
       return res.send({success: 'Usuario Registrado'});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+  }
+};
+exports.deleteuser = (req, res) => {
+  console.log(req.body);
+  let { id_usuario } = req.body;
+  let msg = false;
+    DataBase.DeleteUser(id_usuario).then((respuesta) =>{
+
+      return res.send({success: 'Usuario Eliminado'});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+};
+exports.editUser = (req, res) => {
+  console.log(req.body);
+  let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  let msg = false;
+  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '') {
+    console.log('complete todos los campos')
+    return res.send({error: 'Lo sentimos algo ah ocurrido. Uno o mas campos vacios'});
+  } else {
+    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario).then((respuesta) =>{
+      return res.send({success: 'Usuario actualizado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
@@ -1329,9 +1360,10 @@ exports.historial = (req, res) => {
         // CREAR CONSULTA QUE MUESTRA QUE ME TRAIGA TODAS LAS NOTAS 
         DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
           let lecc = JSON.parse(leccion)[0];
-          /*console.log(lecc)
-          console.log("LECCION")
-          console.log(item)*/
+          // console.log(lecc)
+          // console.log("LECCION")
+          // console.log(item)
+          // console.log(idx)
 
           if(lecc !== undefined) {
             //notasArr += leccion + ';';
@@ -1349,6 +1381,10 @@ exports.historial = (req, res) => {
               userInfo.leccion32 = parseInt(lecc.nota);
             }
           } else {
+            console.log(lecc)
+          console.log("LECCION")
+          console.log(item)
+          console.log(idx)
             if(idx === 0) {
               userInfo.leccion9 = 0;
             } else if (idx === 1) {
@@ -1514,10 +1550,16 @@ console.log(matricula)
 };
 
 exports.guarda_pago = async(req, res) => {
-  var {id_alumno, concepto,fecha_pago, monto, mora, observacion} = req.body
-
-  const save_pago = await DataBase.guardar_caja(concepto,fecha_pago, monto, mora, observacion,id_alumno)
+  console.log(req.body)
+  var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
+  
+for (let i = 0; i < concepto.length; i++) {
+    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago[i], monto[i], mora[i], observacion[i],banco[i],
+      transaccion[i],id_alumno)
   console.log(save_pago)
+  
+}
+
   return res.send({response:'Se guardo bien'})
 };
 
@@ -1527,6 +1569,150 @@ exports.historial_caja = async(req, res) => {
   const obtener_historia = JSON.parse(await DataBase.historial_caja(id_alumno))
   console.log(obtener_historia)
   return res.send({obtener_historia})
+};
+
+/**GENERAL PDF CONSTANCIA */
+exports.genera_pdf_constancia = async (req, res) => {
+  console.log(req.params.id_estudiante)
+  var fech = moment().format('DD/MM/YYYY')
+  var estudiante =  JSON.parse(await DataBase.BuscarEstudianteConstancia(req.params.id_estudiante))
+  console.log('CONSTANCIA')
+  
+  let fecha_nacimiento = moment(estudiante.fecha_nacimiento, 'DD-MM-YYYY')
+  let hoy = moment()
+  console.log(fecha_nacimiento)
+  console.log(hoy)
+  let edad = hoy.diff(fecha_nacimiento, 'years')
+  console.log('edad:' + edad)
+  var contenido = `<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+      <title>PDF Constancia</title>
+      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
+      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
+  </head>
+  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+      <div class="app-content content ">
+          <div class="content-overlay"></div>
+          <div class="header-navbar-shadow"></div>
+          <div class="content-wrapper">
+              <div class="content-header row">
+              </div>
+              <div class="content-body">
+                  <div class="invoice-print p-3">
+                      <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
+                              <div class="d-flex mb-1">
+                                  <img src="../../../app-assets/images/logo/logoAA.png" alt="" style="width: 100px; height: auto;">
+                                  <div class="d-flex align-items-center ms-2">
+                                      <h1 class="text-primary fw-bold">Academia Americana</h1>
+                                  </div>
+                              </div>                           
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h1>CONSTANCIA DE ESTUDIOS</h1>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p>El director del Centro de Educacion "Academia Americana" de Costa Rica </p>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h4><u>HACE CONSTAR:</u></h4>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p class="text-center">
+                              Que el alumno: 
+                              ${estudiante.nombre}, 
+                              identificado con documento de identidad:
+                              ${estudiante.nro_identificacion},
+                              de 
+                              ${edad} años de edad,
+                              viene cursando el
+                              ${estudiante.grupo.nivel} 
+                              en la forma 
+                              ${estudiante.grupo.identificador}
+                              de
+                              ${estudiante.grupo.dia_horario},
+                              asistiendo en forma regular a clases
+                              en esta institución.
+                              <br>
+                              <br>
+                              Se expide la presente a solicitud de la parte interesada para los fines convenientes.
+                          </p>
+                      </div>
+                      <div class="d-flex justify-content-end my-5 p-4">
+                          <p>
+                              Costa Rica, ${fech}
+                          </p>
+                      </div>                     
+                      <div class="d-flex justify-content-around p-4">
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Coordinador
+                                  Administrativo
+                              </p>
+                          </div>
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Director
+                              </p>
+                          </div>
+                      </div>
+                      <hr class="my-2"/>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+      <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
+      <script src="../../../app-assets/js/core/app-menu.js"></script>
+      <script src="../../../app-assets/js/core/app.js"></script>
+      <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+  </body></html>`;
+let fechaaa=Number(moment())
+var envio
+var check_constancia = JSON.parse(await DataBase.historial_caja(req.params.id_estudiante))
+console.log(check_constancia)
+for (let i = 0; i < check_constancia.length; i++) {
+ if (check_constancia[i]['concepto']== "Constancia" && check_constancia[i]['observacion']== "-") {
+    let update_contancia = await DataBase.update_constancia(check_constancia[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+pdf.create(contenido).toStream(function (err, stream) {
+    if (err) {
+        console.log(err);
+    }
+    res.writeHead(200, {
+        'Content-Type': 'application/force-download',
+        'Content-disposition': 'attachment; filename=constancia.pdf'
+    });
+    stream.pipe(res);
+  });
+
+// pdf.create(contenido).toFile(`./public/sa${fechaaa}.pdf`, function(err, rest) {
+//     if (err){
+//         console.log(err);
+//     } else {
+//         console.log(rest);
+//         res.send(`./sa${fechaaa}.pdf`)
+//       return  envio = rest
+//     }
+// });
+
+
 };
 
 // * MODULO USUARIOS
@@ -1660,7 +1846,7 @@ exports.error = (req, res) => {
 // * CREAR GRUPOS ADMIN
 exports.creargrupos = (req, res) => {
   console.log(req.body);
-  const { nombre, lecciones, horario, fechaInicio } = req.body;
+  const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
   let msg = false;
   console.log(moment(fechaInicio,'DD-MM-YYYY'));
   let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
@@ -1723,7 +1909,7 @@ exports.creargrupos = (req, res) => {
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
           
-          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
             console.log(grupoId)
@@ -1778,7 +1964,7 @@ exports.creargrupos = (req, res) => {
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
           
-          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
             console.log(grupoId)
@@ -1835,7 +2021,7 @@ exports.creargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
@@ -1858,17 +2044,16 @@ exports.creargrupos = (req, res) => {
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, horario1, horario2, fechaInicio } = req.body;
+  const { id, nombre, horario1, horario2, fechaInicio,profesor } = req.body;
   let msg = false;
-  let diaActual = moment(fechaInicio).format('DD');
+  let diaActual = moment(fechaInicio,'DD-MM-YYY').format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio).format('DD-MM-YYYY');
-
-  numAño = moment(fechaInicio).format('YY');
+  inicio = moment(fechaInicio,'DD-MM-YYY').format('DD-MM-YYYY');
+  
+  numAño = moment(fechaInicio,'DD-MM-YYY').format('YY');
   console.log(numAño)
   console.log("AÑO DE IDENTIFICADOR")
-
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
   } else {
@@ -1882,7 +2067,7 @@ exports.actualizargrupos = (req, res) => {
     if (nombre === 'Desde cero') {
       DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
         let grupos = JSON.parse(response);
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -1907,7 +2092,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                       // 224
-        fechaFin = moment(fechaInicio).add(31, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
         finNivel = "32 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1916,7 +2101,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -1937,7 +2122,7 @@ exports.actualizargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("INTENSIVOS")
         // FILTRAR POR AÑO
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -1962,7 +2147,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 2;
                                         // 112
-        fechaFin = moment(fechaInicio).add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -1971,7 +2156,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -1993,7 +2178,7 @@ exports.actualizargrupos = (req, res) => {
         let grupos = JSON.parse(response);
         console.log("KIDS")
         // FILTRAR POR AÑO
-        inicio = moment(fechaInicio).format("DD-MM-YYYY")
+        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
         console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
@@ -2018,7 +2203,7 @@ exports.actualizargrupos = (req, res) => {
         nivel = 'Principiante';
         lecciones = 1;
                                         // 112
-        fechaFin = moment(fechaInicio).add(15, 'w').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
         console.log(fechaFin)
         console.log("FECHAR FINALIZAR")
@@ -2027,7 +2212,7 @@ exports.actualizargrupos = (req, res) => {
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
         
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel).then((respuesta) => {
+        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
@@ -2331,7 +2516,7 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,vendedor } = req.body;
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
@@ -2350,7 +2535,7 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId).then((resp) => {
+    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
     //  console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
@@ -2372,7 +2557,7 @@ exports.registrarmatricula = async(req, res) => {
 // * EDITAR ESTUDIANTES ADMIN
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
@@ -2387,7 +2572,7 @@ exports.editarmatricula = async(req, res) => {
 
     tipo = parseInt(tipo)
   
-    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante).then((resp) => {
+    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
     console.log(resp)
       console.log("ESTUDIANTE EDITADO")
       msg="Datos del estudiante "+nombre+" actualizados con éxito"
@@ -2398,6 +2583,31 @@ exports.editarmatricula = async(req, res) => {
       return res.redirect("/error672/PYT-672");
     });
   }
+};
+
+// * REASIGNAR GRUPO ESTUFDIANDO
+exports.reasignarGrupo = async(req, res) => {
+  console.log(req.body);
+  let { grupoId, id_estudiante,nombre_reaginador } = req.body;
+  let msg = false;  
+    DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then(async (resp) => {
+      var check_newGroup = JSON.parse(await DataBase.historial_caja(id_estudiante))
+for (let i = 0; i < check_newGroup.length; i++) {
+  var hora_registro_pago = moment(check_newGroup[i]['createdAt']);
+ if (check_newGroup[i]['concepto']== "Traslado" && check_newGroup[i]['observacion']== "-" && moment().isAfter(hora_registro_pago, 'd') == false) {
+    let update_contancia = await DataBase.update_constancia(check_newGroup[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+      console.log("REASIGNADOR GRUPO")
+      msg="Grupo reasignado al alumno "+nombre_reaginador+" con éxito"
+      return res.redirect('/matriculas/'+msg);
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+
 };
 
 // * CONGELAR ESTUDIANTES ADMIN
@@ -2524,4 +2734,166 @@ exports.boardUser = (req, res) => {
       role, 
       nombre
     })
+};
+
+
+//NOTAS PARA TITULO
+exports.notas_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_notas = JSON.parse(await DataBase.BuscarNotasTitulo(id_alumno))
+  console.log(obtener_notas)
+  return res.send({obtener_notas})
+};
+
+//PARTICIPACION PARA TITULO
+exports.participacion_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_participacion = JSON.parse(await DataBase.BuscarParticipacionTitulo(id_alumno))
+  console.log(obtener_participacion)
+  return res.send({obtener_participacion})
+};
+
+//AUSENCIAS PARA TITULO
+exports.ausencias_titulo = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_ausencias = JSON.parse(await DataBase.BuscarausenciasTitulo(id_alumno))
+  console.log(obtener_ausencias)
+  return res.send({obtener_ausencias})
+};
+
+/**GENERAL PDF TITULO */
+exports.genera_pdf_titulo = async (req, res) => {
+  console.log(req.params.id_estudiante)
+  var fech = moment().format('DD/MM/YYYY')
+  var estudiante =  JSON.parse(await DataBase.BuscarEstudianteConstancia(req.params.id_estudiante))
+  console.log('TITULO')
+  
+  let fecha_nacimiento = moment(estudiante.fecha_nacimiento, 'DD-MM-YYYY')
+  let hoy = moment()
+  console.log(fecha_nacimiento)
+  console.log(hoy)
+  let edad = hoy.diff(fecha_nacimiento, 'years')
+  console.log('edad:' + edad)
+  var contenido = `<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+      <title>PDF Constancia</title>
+      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
+      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
+  </head>
+  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+      <div class="app-content content ">
+          <div class="content-overlay"></div>
+          <div class="header-navbar-shadow"></div>
+          <div class="content-wrapper">
+              <div class="content-header row">
+              </div>
+              <div class="content-body">
+                  <div class="invoice-print p-3">
+                      <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
+                              <div class="d-flex mb-1">
+                                  <img src="../../../app-assets/images/logo/logoAA.png" alt="" style="width: 100px; height: auto;">
+                                  <div class="d-flex align-items-center ms-2">
+                                      <h1 class="text-primary fw-bold">Academia Americana</h1>
+                                  </div>
+                              </div>                           
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h1>TITULO</h1>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p>El director del Centro de Educacion "Academia Americana" de Costa Rica </p>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <h4><u>HACE CONSTAR:</u></h4>
+                      </div>
+                      <div class="d-flex justify-content-center p-2">
+                          <p class="text-center">
+                              Que el alumno: 
+                              ${estudiante.nombre}, 
+                              identificado con documento de identidad:
+                              ${estudiante.nro_identificacion},
+                              de 
+                              ${edad} años de edad,
+                              viene cursando el
+                              ${estudiante.grupo.nivel} 
+                              en la forma 
+                              ${estudiante.grupo.identificador}
+                              de
+                              ${estudiante.grupo.dia_horario},
+                              asistiendo en forma regular a clases
+                              en esta institución.
+                              <br>
+                              <br>
+                              Se expide la presente a solicitud de la parte interesada para los fines convenientes.
+                          </p>
+                      </div>
+                      <div class="d-flex justify-content-end my-5 p-4">
+                          <p>
+                              Costa Rica, ${fech}
+                          </p>
+                      </div>                     
+                      <div class="d-flex justify-content-around p-4">
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Coordinador
+                                  Administrativo
+                              </p>
+                          </div>
+                          <div class="text-center border-top border-2 pt-2" style="width: 150px;">
+                              <p>
+                                  Director
+                              </p>
+                          </div>
+                      </div>
+                      <hr class="my-2"/>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+      <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
+      <script src="../../../app-assets/js/core/app-menu.js"></script>
+      <script src="../../../app-assets/js/core/app.js"></script>
+      <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+  </body></html>`;
+let fechaaa=Number(moment())
+var envio
+var check_constancia = JSON.parse(await DataBase.historial_caja(req.params.id_estudiante))
+console.log(check_constancia)
+for (let i = 0; i < check_constancia.length; i++) {
+ if (check_constancia[i]['concepto']== "Titulo" && check_constancia[i]['observacion']== "-") {
+    let update_contancia = await DataBase.update_constancia(check_constancia[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+pdf.create(contenido).toStream(function (err, stream) {
+    if (err) {
+        console.log(err);
+    }
+    res.writeHead(200, {
+        'Content-Type': 'application/force-download',
+        'Content-disposition': 'attachment; filename=titulo.pdf'
+    });
+    stream.pipe(res);
+  });
+
+
 };

@@ -137,6 +137,7 @@
               {{!<p class="text-center mb-2">Provide application data with this form</p>}}
 
               <div class="row match-height">
+                <!-- Card info del alumno-->
                 <div class="col-8 ps-0">
                   <div class="col-12 rounded-1 card">
                     <div class="row">
@@ -274,14 +275,14 @@
                             <span class="fw-bolder">
                               Profesor:
                             </span>
-                            Raidelis Torcat
+                            <span id="profesorreag"></span>
                           </p>
                         </div>
                       </div>
                     </div>
 
                     <!--dropdown selector grupos disponibles-->
-                    <div class="position-relative m-1">
+                    <div class="position-relative m-1 d-none">
                       <select
                         class="select2 form-select"
                         tabindex="-1"
@@ -304,11 +305,11 @@
                     </div>
                   </div>
                 </div>
-
+                <!--/ Card info del alumno-->
                 <div class="col-4 pe-0">
                   <div class="col-12 rounded-1">
                     
-                      <div class="card text-center mb-0 altura">
+                      <div class="card text-center mb-1">
                         <div class="card-body pt-4">
                           <div class="avatar bg-light-success p-50 my-1">
                             <div class="avatar-content">
@@ -317,164 +318,49 @@
                             </svg>
                             </div>
                           </div>
-                          <h2 class="fw-bolder">10</h2>
+                          <h2 class="fw-bolder" id="countGrupos">10</h2>
                           <p class="card-text">Grupos</p>
+                          <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="guarda-grupoNew" disabled>Guardar cambios</button>
                         </div>
                       </div>
                     
                   </div>
                 </div>
               </div>
-
+<style>
+  table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+       padding-right: inherit;
+}
+</style>
               <div class="row mb-2 card">
-                <div class="col-12 p-0">
-                  <div class="box my-0">
-                    <div class="row rounded-1 ">
-                      <div class="col-12 col-lg-6 col-xl-7 ">
-                        <div class="d-flex align-items-center ms-1 mt-1">
-                          <span class="item-user me-75">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              class="bi bi-person-fill"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-                              ></path>
-                            </svg>
-                          </span>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Tipo de Grupo:
-                            </span>
-                            <span id="tipogrupoReag">
-                              Desde Cero - C20210-1
-                            </span>
-                          </p>
-                        </div>
-
-                        <div class="d-flex align-items-center ms-1 mt-1">
-                          <span class="item-clock me-75">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="feather feather-clock font-small-4"
-                            >
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                          </span>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Horario:
-                            </span>
-                            <span class="horarioreag">
-                              Lunes y Míercoles: 6:30pm a 9pm
-                            </span>
-                          </p>
-                        </div>
-
-                        <div class="d-flex align-items-center ms-1 mt-1 mb-lg-1">
-                          <span class="item-clock me-75">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="feather feather-clock font-small-4"
-                            >
-                              <circle cx="12" cy="12" r="10"></circle>
-                              <polyline points="12 6 12 12 16 14"></polyline>
-                            </svg>
-                          </span>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Fecha de Pago:
-                            </span>
-                            <span id="fechaPagoReag">
-                              de cada mes
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-
-                      <div class="col-12 col-lg-6 col-xl-5 ">
-                        <div class="d-flex align-items-center mt-1">
-                          <i
-                            data-feather="clipboard"
-                            class="item-user me-75"
-                          ></i>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Lección Actual:
-                            </span>
-
-                            <span id="leccionActual">0</span>
-                          </p>
-                        </div>
-
-                        <div class="d-flex align-items-center mt-1">
-                          <i data-feather="users" class="item-user me-75"></i>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Alumnos:
-                            </span>
-                            <span id="cantAlumnos">
-                              25
-                            </span>
-                          </p>
-                        </div>
-
-                        <div class="d-flex align-items-center my-1">
-                          <span class="item-user me-75">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="feather feather-user font-small-4"
-                            >
-                              <path
-                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
-                              ></path>
-                              <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                          </span>
-                          <p class="mb-0">
-                            <span class="fw-bolder">
-                              Profesor:
-                            </span>
-                            Isaac Mosqueda
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="col-12 p-0 ">
+                  <table class="table dt-column-search " id="grupos_table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Tipo</th>
+                                            <th>Leccion Actual</th>
+                                            <th>Horario</th>
+                                            <th>Fecha Pago</th>
+                                            <th>Alumnos</th>
+                                            <th>Profesor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="gruposAct">
+                                      
+                                    </tbody>
+                                </table>
                 </div>
               </div>
 
               <!--Acordion de Clases-->
-              <section id="accordion">
+              <section id="accordion" class="d-none">
+                <span id="cantAlumnos">
+                              0
+                            </span>
+                            <span id="leccionActual">
+                              0
+                            </span>
                 <div class="row card">
                   <div class="col-sm-12">
                     <div
@@ -594,5 +480,12 @@
     </div>
   </div>
 </div>
-
+<form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
+  <input type="text" id="grupoId_actual" name="_actual">
+  <input type="text" id="grupoId" name="grupoId">
+  <input type="text" id="nombre_reaginador" name="nombre_reaginador">
+  <input type="text" id="id_estudiante" name="id_estudiante">
+  <input type="text" id="leccion_actual_reasig" name="leccion_actual_reasig">
+  <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
+</form>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

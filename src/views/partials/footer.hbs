@@ -6,7 +6,12 @@
             <!-- BEGIN: Footer-->    
             <footer class="footer footer-static footer-light {{#if py21}}py21{{/if}} {{#if py24}}py24{{/if}}">
                 <p class="clearfix mb-0">
+                    {{#if py4}}
+                    <span class="float-md-start d-block d-md-inline-block mt-25">BWATER &copy; 2021</span>
+                    {{else}}
                     <span class="float-md-start d-block d-md-inline-block mt-25">MOSQUEDA CORDOVA &copy; 2021</span>
+                    {{/if}}
+                    
                 </p>
             </footer>
             <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
@@ -53,17 +58,28 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
 
    {{#if maquila}}
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+   <script src="../../../assets/js/qrcode.js"></script>
     <script src="../../../dataPY4/datatable-clientes_maquila.js"></script>
+    <script src="../../../dataPY4/datatable-pedidos_maquila.js"></script>
+    <script src="../../../dataPY4/dmodal-reg-pedido-maquila.js"></script>
     {{/if}}
 
      {{#if disabled_chofer}}
     {{else}}
+    {{#if dash}}
+    
+    
+    {{#if referidos}}
+    <script src="../../../dataPY4/registrar_pedido_referido.js"></script>
+
+    {{else}}
     <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
     <script src="../../../dataPY4/editar_pedido.js"></script>
-    {{#if dash}}
     <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
     <script src="../../../dataPY4/table-datatables-resumen_home.js"></script>
     <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+    {{/if}}
     {{/if}}
     
     {{/if}}
@@ -91,6 +107,7 @@
     {{/if}}
     {{#if corte}}
        <!-- BEGIN: Page JS-->
+       <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
     <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
     <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
      <!-- END: Page Vendor JS-->
@@ -125,6 +142,7 @@
         {{/if}}
           {{#if vehiculos}}
        <!-- BEGIN: Page JS-->
+       
     <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
     <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
      <!-- END: Page Vendor JS-->
@@ -241,9 +259,135 @@
         <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
         <!-- END: Page Vendor JS-->
     {{/if}}
+
     
     {{#if py28}}
-   
+    {{#if webmenu}}
+   	<!--==================================================-->
+	<!--START FOOTER SECTION-->
+	<!--===================================================-->
+	<div class="footer pt-100">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-location-box">
+						<div class="footer-logo">
+							<img src="../../../minner/assets/images/one.png" alt="Footer-logo">
+						</div>
+						<div class="footer-content">
+							<p>There are many variations of pass of Lorem Ipsum available, but the majority have suffered</p>
+						</div>
+					</div>
+					<div class="footer-social-box">
+						<div class="social-content">
+							<h3>Follow Us</h3>
+						</div>
+						<div class="footer-about-social-icon pt-20">
+						<ul>
+							<li>
+								<a href="#"><i class="fab fa-facebook-f"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fab fa-twitter"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fab fa-pinterest"></i></a>
+							</li>
+							<li>
+								<a href="#"><i class="fab fa-linkedin-in"></i></a>
+							</li>
+						</ul>
+					</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="widget">
+						<div class="footer-quick-link">
+							<div class="footer-widget-title">
+								<h3>Help Links</h3>
+							</div>
+							<div class="footer-quick-link-list">
+								<ul>
+									<li><a href="#">What Is ICO</a></li>
+									<li><a href="#">Token</a></li>
+									<li><a href="#">Road Map</a></li>
+									<li><a href="#">Advisor</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="widget">
+						<div class="footer-quick-link-list">
+							<div class="footer-widget-title">
+								<h3>Quick Links</h3>
+							</div>
+							<div class="footer-quick-link-list">
+								<ul>
+									<li><a href="#">ICO Apps</a></li>
+									<li><a href="#">White Papers</a></li>
+									<li><a href="#">Teams</a></li>
+									<li><a href="#">Join Us</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 p-0">
+					<div class="widget">
+						<div class="footer-popular-post ">
+							<div class="footer-widget-title two">
+								<h3>Newsletter</h3>
+							</div>
+							<div class="footer-content-text">
+								<p>Sent Us a Newsletter And Get Update</p>
+							</div>
+							<form>
+								<div class="subscribe-area">
+									<input class="subscribe-mail-box" type="email"  placeholder="Enter Your Email...." required="">
+									<button class="subscribe-button" type="submit">Subscribe</button>
+								</div>
+							</form>
+						
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="row upper11 mt-50 align-items-center">
+				<div class="col-lg-6 col-md-6">
+					<div class="footer-copyright-text">
+						<p class="text-white">Copyright © cryptozen all rights reserved. </p>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6">
+					<div class="footer-copyright-content">
+						<div class="footer-sicial-address-link">
+							<ul>
+								<li><a href="#">Terms Condition</a></li>
+								<li><a href="#">Privacy Policy</a></li>
+								<li><a href="#">FAQ</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--==================================================-->
+	<!--start fTo Top-->
+	<!--===================================================-->
+	<div class="scroll-area">
+		<div class="top-wrap">
+			<div class="go-top-btn-wraper">
+				<div class="go-top go-top-button">
+					<i class="fas fa-arrow-up"></i>
+					<i class="fas fa-arrow-up"></i>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- jquery js -->
 	<script src="../../../minner/assets/js/vendor/jquery-3.2.1.min.js"></script>
 	<!-- bootstrap js -->
@@ -448,6 +592,45 @@ jQuery,
 
 </script>
     {{/if}}
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+        <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+    <!-- BEGIN: CHARTS Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+    <!-- END: CHARTS Vendor JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+
+        <script src="../../../app-assets/js/scripts/pages/page-pricing.js"></script>
+        <script src="../../../app-assets/js/scripts/cards/card-analytics.js"></script>
+        <script src="../../../app-assets/js/scripts/pages/modal-add-new-cc.js"></script>
+        
+      <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+        <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+        <script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+        <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
+        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+    {{/if}}
+
     {{#if pasarela}}
     <script src="../../../app-assets/js/core/app-menu.js"></script>
     <script src="../../../app-assets/js/core/app.js"></script>
@@ -561,10 +744,36 @@ jQuery,
 		$(document).ready(function(){
             let hoy = moment().format('YYYY-MM-DD')
             $('#fecha_pedido').val(hoy)
+            {{#if py4}}
+                $('#fecha_pedido').change((e)=>{
+
+                    if ($('#otro_rol').length) {
+     console.log(e.target.value)
+        fecha_anterior = moment(hoy).isAfter(moment(e.target.value, 'YYYY-MM-DD'),'d'); // true
+        if (fecha_anterior == true){
+					swal.fire('Debe seleccionar una fecha superior a la actual.')		
+								$('#fecha_pedido').val(hoy)
+					return
+				}
+  }
+       
+    }){{/if}}
                 
             if ( $("#msgs").length ) {
                 let mensaje = $('#msgs').text();
             Swal.fire(mensaje)
+            }
+             if ( $("#msgsRef").length ) {
+                let mensaje = $('#msgsRef').text();
+            Swal.fire({
+  title: '<strong style="color: white">CLIENTE EXISTENTE</strong>',
+  icon: 'info',
+  html:`<span style="color: white">FAVOR DE CONTACTAR 
+A B•WATER SERVICIO AL CLIENTE 
+<a href="https://wa.me/message/ZXC4B3BHH6ZCA1" target="_blank" style="-webkit-text-stroke: 1px greenyellow;">ESPERAMOS TU MENSAJE 😄</a></span> `,
+  showCancelButton: false,
+  focusConfirm: false,
+})
             }
             $('#basicSelect').on('change',(e)=>{
                 var value = $('#basicSelect').val()
