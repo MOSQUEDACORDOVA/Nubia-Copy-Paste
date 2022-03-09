@@ -1847,6 +1847,7 @@ exports.error = (req, res) => {
 exports.creargrupos = (req, res) => {
   console.log(req.body);
   const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
+  var profesor1 = profesor
   let msg = false;
   console.log(moment(fechaInicio,'DD-MM-YYYY'));
   let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
@@ -1908,8 +1909,10 @@ exports.creargrupos = (req, res) => {
           identificador = `C${numAño}${numId}${nivelCode}`;
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
-          
-          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
+          if (profesor1 == 'NULL') {
+            profesor1 = null
+          }
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor1).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
             console.log(grupoId)
@@ -2305,7 +2308,7 @@ exports.registrarparticipacion = (req, res) => {
 
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
-  const { nota, leccion, grupoId, matriculaId } = req.body;
+  const { nota, leccion, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
   console.log(req.body);
   let msg = false;
 
@@ -2318,7 +2321,7 @@ exports.registrarnotas = (req, res) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId).then((response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then((response2) =>{
           let resp2 = JSON.parse(response2);
           return res.send({resp2});
 
@@ -2328,7 +2331,7 @@ exports.registrarnotas = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId).then((response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then((response3) =>{
           let resp3 = JSON.parse(response3);
           return res.send({resp3});
 
@@ -2397,7 +2400,7 @@ exports.obtenermatriculausente = (req, res) => {
   let msg = false;
 
   if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
-    console.log('complete todos los campos')
+    console.log('complete todos los campos');
     let err = { error: "complete todos los campos 2182" };
     res.send({err});
   } else {
@@ -2411,14 +2414,26 @@ exports.obtenermatriculausente = (req, res) => {
           let notas = {
             notas: result.nota
           }
+          let commentProfForm = {
+            commentProfForm: result.commentProfForm
+          }
+          let commentAdminForm = {
+            commentAdminForm: result.commentAdminForm
+          }
           console.log(notas)
-          let final = Object.assign(item, notas)
+          let final = Object.assign(item, notas,commentProfForm, commentAdminForm)
           console.log(final)
         } else {
           let notas = {
             notas: 0
           }
-          let final = Object.assign(item, notas)
+          let commentProfForm = {
+            commentProfForm: ""
+          }
+          let commentAdminForm = {
+            commentAdminForm: ""
+          }
+          let final = Object.assign(item, notas,commentProfForm, commentAdminForm)
         }
 
       }).catch((err) => {

@@ -47,7 +47,7 @@ const Grupos = db672.define('grupos', {
 	},
 	profesor: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	codigo_nivel: {
 		type: DataTypes.STRING(200),

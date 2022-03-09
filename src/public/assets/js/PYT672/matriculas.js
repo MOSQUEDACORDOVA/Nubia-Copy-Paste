@@ -478,15 +478,34 @@ $(function () {
       });
     for (let i = 0; i < historial.length; i++) {
       var hora_registro_pago = moment(historial[i]["createdAt"]);
+      console.log(moment().isAfter(hora_registro_pago, "d"))
       if (
         historial[i]["concepto"] == "Traslado" &&
         historial[i]["observacion"] == "-" &&
-        moment().isAfter(hora_registro_pago, "d") == false
+        moment().isAfter(hora_registro_pago, "d") == false        
       ) {
         $("#guarda-grupoNew").removeClass("d-none");
+       await leccionActualGrupos(); 
+      }else{
+          $('#countGrupos').text('0')
+  $('#grupos_table').dataTable().fnDestroy();
+  $('#grupos_table').empty();
+  $('#grupos_table').html(`<thead>
+  <tr>
+      <th></th>
+      <th>Tipo</th>
+      <th>Leccion Actual</th>
+      <th>Horario</th>
+      <th>Fecha Pago</th>
+      <th>Alumnos</th>
+      <th>Profesor</th>
+  </tr>
+</thead><tbody id="gruposAct">
+                                      
+</tbody>`);
       }
     }
-    await leccionActualGrupos();
+    
     /**fin carga modal alumno */
   });
 

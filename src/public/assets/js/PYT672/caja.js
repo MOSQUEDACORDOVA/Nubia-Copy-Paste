@@ -741,7 +741,11 @@ $('#fecha-servicio').val(`${moment().format(
 if (notas.length >0) {  
 for (let i = 0; i < notas.length; i++) {
   if (notas[i].nota == 0) {
-    $('#select-servicio').append(`<option>Reposicion</option>`)
+    console.log($('#select-servicio option[value="Reposicion"]').length)
+    if ($('#select-servicio option[value="Reposicion"]').length ==0 ){
+        $('#select-servicio').append(`<option value="Reposicion">Reposicion</option>`)
+    }
+    
     //$('.select-reposicion').removeClass(`d-none`)    
     $('#select-reposicion').append(`<option>${notas[i].n_leccion}</option>`)
 

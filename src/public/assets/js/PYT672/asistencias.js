@@ -62,16 +62,30 @@ $(document).ready(function () {
           let calif = "",
             participacion = "",
             notas = 0,
-            participacionPorcentaje = 0;
+            participacionPorcentaje = 0,
+            GcommentProfForm="",
+            GcommentAdminForm="";
+
 
           if (response2.length) {
+            console.log(response2)
+            for (let i = 0; i < response2.length; i++) { 
+              if (matricula.id === response2[i].id) {
+                GcommentProfForm=response2[i].commentProfForm;
+                GcommentAdminForm=response2[i].commentAdminForm;
+              }              
+            }
+            
+            console.log(GcommentProfForm)
             if (
               matricula.id === response2[0].id &&
               matricula.grupoId === response2[0].grupoId
             ) {
               notas = parseInt(response2[0].notas);
+              
             }
             participacionPorcentaje = response2[0].participacion;
+            
           }
           if (
             lecc === 9 ||
@@ -95,36 +109,38 @@ $(document).ready(function () {
               console.log(historial);
               for (let i = 0; i < historial.length; i++) {
                   let split_hist = historial[i]['concepto'].split(',')
-                console.log(split_hist.length);
-                console.log(lecc);
                 if (split_hist.length >1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
                     readonlyUse =""
                     readonlyUse0  = ""
                     disabledUse = ""
                 }
               }
-                
+              
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+              commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
               calif = `
                     <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
                         <div class="d-flex align-items-center">
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" ${readonlyUse0}><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
                             <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
 
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
                     </div>`;
             } else {
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+              commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
               calif = `
                     <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
                         <div class="d-flex align-items-center">
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
                             <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
 
-                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                            <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                         </div>
                     </div>`;
             }
@@ -144,8 +160,9 @@ $(document).ready(function () {
                         `;
             }
           }
-
+          
           if (result.length) {
+           
             div.innerHTML = `
                     <label class="card-title estudiante" hidden>${
                       matricula.nombre
@@ -178,14 +195,14 @@ $(document).ready(function () {
                                             <div class="col-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                    <textarea class="form-control commentProf" id="exampleFormControlTextarea1" rows="1" placeholder="" data-id="${matricula.id}"></textarea>
+                                                    ${commentarioP}
                                                 </div>
                                             </div>
                                         
                                             <div class="col-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="exampleFormControlTextarea1">Comentarios Administrativos</label>
-                                                    <textarea class="form-control commentAdmin" id="exampleFormControlTextarea1" rows="1" placeholder="" data-id="${matricula.id}"></textarea>
+                                                    ${commentarioA}
                                                 </div>
                                             </div>
                                         </div>
@@ -211,6 +228,8 @@ $(document).ready(function () {
                         </div>
                     `;
           } else {
+            commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+            commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
             div.innerHTML = `
                     <label class="card-title estudiante" hidden>${
                       matricula.nombre
@@ -244,14 +263,14 @@ $(document).ready(function () {
                                             <div class="col-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                    <textarea class="form-control commentProf" id="exampleFormControlTextarea1" rows="1" placeholder="" data-id="${matricula.id}"></textarea>
+                                                    ${commentarioP}
                                                 </div>
                                             </div>
                                         
                                             <div class="col-6">
                                                 <div class="mb-1">
                                                     <label class="form-label" for="exampleFormControlTextarea1">Comentarios Administrativos</label>
-                                                    <textarea class="form-control commentAdmin" id="exampleFormControlTextarea1" rows="1" placeholder="" data-id="${matricula.id}"></textarea>
+                                                    ${commentarioA}
                                                 </div>
                                             </div>
                                         </div>
@@ -465,12 +484,104 @@ $(document).ready(function () {
           } else {
             Toast("Error");
           }
+          console.log(response)
         })
         .then((data) => console.log(data));
 
       clearTimeout(guardarNota);
     }, 2000);
   }
+  let guardaCommentProf;
+
+  function guardaCommentProfs(id, comentP, calif) {
+    guardaCommentProf = setTimeout(() => {
+      let nota = document.querySelector("#procesarNotas .nota"),
+        leccion = document.querySelector("#procesarNotas .leccion"),
+        grupo = document.querySelector("#procesarNotas .grupo"),
+        commentProfForm = document.querySelector("#procesarNotas .commentProfForm")
+        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+        matricula = document.querySelector("#procesarNotas .matricula");
+
+      nota.value = calif
+      commentProfForm.value = comentP;
+      commentAdminForm.value = $(`#comentA${id}`).val()
+      leccion.value = $("#numeroLeccion").val();
+      grupo.value = $("#grupoId").val();
+      matricula.value = id;
+
+      if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+        leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+      } else {
+        leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      }
+
+      let form = new FormData(document.getElementById("procesarNotas"));
+
+      fetch("/registrarNotas", {
+        method: "POST",
+        body: form,
+      })
+        .then((response) => {
+          response.json();
+          if (response.ok) {
+            Toast("Nota");
+          } else {
+            Toast("Error");
+          }
+          console.log(response)
+        })
+        .then((data) => console.log(data));
+
+      clearTimeout(guardaCommentProf);
+    }, 2000);
+  }
+
+  let guardaCommentAdmin;
+
+  function guardaCommentAdmins(id, comentA, calif) {
+    guardaCommentAdmin = setTimeout(() => {
+      let nota = document.querySelector("#procesarNotas .nota"),
+        leccion = document.querySelector("#procesarNotas .leccion"),
+        grupo = document.querySelector("#procesarNotas .grupo"),
+        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+        commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
+        matricula = document.querySelector("#procesarNotas .matricula");
+
+      nota.value = calif;
+      commentAdminForm.value = comentA;
+      commentProfForm.value=$(`#comentP${id}`).val()
+      leccion.value = $("#numeroLeccion").val();
+      grupo.value = $("#grupoId").val();
+      matricula.value = id;
+
+      if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+        leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+      } else {
+        leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      }
+
+      let form = new FormData(document.getElementById("procesarNotas"));
+
+      fetch("/registrarNotas", {
+        method: "POST",
+        body: form,
+      })
+        .then((response) => {
+          response.json();
+          if (response.ok) {
+            Toast("Nota");
+          } else {
+            Toast("Error");
+          }
+          console.log(response)
+        })
+        .then((data) => console.log(data));
+
+      clearTimeout(guardaCommentAdmin);
+    }, 2000);
+  }
+
+
 
   let guardarParticip;
 
@@ -607,13 +718,32 @@ $(document).ready(function () {
     if (e.target.classList.contains("commentProf")) {
       let target = e.target.getAttribute("data-id");
       let valor = e.target.value
+      let calificacion = document.querySelector(
+        `#estudiante${target} .calificacion`
+      );
      console.log(target)
-     console.log(valor)
-  }else     if (e.target.classList.contains("commentAdmin")) {
+     console.log(calificacion)
+     clearTimeout(guardaCommentProf);
+     if (calificacion == null) {
+       guardaCommentProfs(target, valor,'0');
+     }else{
+       guardaCommentProfs(target, valor,calificacion.value);
+     }
+     
+  }else  if (e.target.classList.contains("commentAdmin")) {
     let target = e.target.getAttribute("data-id");
     let valor = e.target.value
+    let calificacion = document.querySelector(
+      `#estudiante${target} .calificacion`
+    );
    console.log(target)
    console.log(valor)
+   clearTimeout(guardaCommentAdmin);
+   if (calificacion == null) {
+     guardaCommentAdmins(target, valor,'0');
+   }else{
+     guardaCommentAdmins(target, valor,calificacion.value);
+   }
 }
 });
   $("#filtrosDesdeCero select.leccion").on("change", (e) => {
