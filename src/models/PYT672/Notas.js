@@ -18,6 +18,16 @@ const Notas = db672.define('notas', {
 		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
+	commentProfForm: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	commentAdminForm: {
+		type: DataTypes.STRING(255),
+		allowNull: true,
+	},
+	
+
 });
 
 Notas.Grupos = Notas.belongsTo(Grupos);

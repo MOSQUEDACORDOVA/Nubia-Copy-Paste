@@ -600,7 +600,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
           console.log("FOUND")
           resolve(data_p);
         })
@@ -625,14 +624,13 @@ module.exports = {
         });
       });
     },
-    RegistrarNotas(nota, lecc, grupoId, matriculaId) {
+    RegistrarNotas(nota, lecc, grupoId, matriculaId, commentProfForm,  commentAdminForm) {
       return new Promise((resolve, reject) => {
         Notas.create({
-          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
           console.log("NOTAS GUARDADAS")
           resolve(data_p);
         })
@@ -789,10 +787,10 @@ module.exports = {
         });
       });
     },
-    ActualizarNotas(nota, lecc, grupoId, matriculaId) {
+    ActualizarNotas(nota, lecc, grupoId, matriculaId,commentProfForm,  commentAdminForm ) {
       return new Promise((resolve, reject) => {
         Notas.update({
-          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId,  
+          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm 
         }, {
           where: {
             n_leccion: {
