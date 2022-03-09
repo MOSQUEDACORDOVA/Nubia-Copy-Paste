@@ -1275,7 +1275,12 @@ if ($('#color_tag_reg_cliente').val() == '0') {
         let clientes= JSON.parse(data.clientes)
         $('#id_cliente_reg_pedido').empty()
         let asentamiento
-        for (let i = 0; i < clientes.length; i++) {          
+        for (let i = 0; i < clientes.length; i++) {  
+            
+          if (clientes[i]['cp'] == null) {
+            console.log(clientes[i]['cp'])
+             console.log(clientes[i])
+          }     
         if (clientes[i]['cp']['asentamiento']) {
           asentamiento = clientes[i]['cp']['asentamiento']
         }

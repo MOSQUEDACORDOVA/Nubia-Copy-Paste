@@ -1096,7 +1096,9 @@ exports.regPedidoPy4 = async (req, res) => {
     msg = "El cliente ya cuenta con un pedido, para el día de hoy!";
     return res.send({ msg: msg, fail: "duplicado" });
   }
+  let descuento
 if (desc_referido > 0) {
+  descuento = desc_referido
   var cliente = JSON.parse(
     await DataBase.ClientebyId(id_cliente));
     let descontar_ref = parseInt(cliente.cantidad_referidos)-1
@@ -1105,6 +1107,8 @@ if (desc_referido > 0) {
       var post_descontar_referido = JSON.parse(
         await DataBase.DescontarReferido( id_referenciado,id_cliente));
         console.log(post_descontar_referido)
+}else{
+  descuento = 0
 }
   await DataBase.PedidosReg(
     id_cliente,
@@ -1140,7 +1144,7 @@ if (desc_referido > 0) {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido,desc_referido
+    fecha_pedido,descuento
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
