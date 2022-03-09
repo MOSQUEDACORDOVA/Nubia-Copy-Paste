@@ -415,6 +415,7 @@ A B•WATER SERVICIO AL CLIENTE
                 }
             })
 		
+        // Background-color setter for different options(desde cero, intensivo, kids) in selector
         $('#grupoId-reg .select2').select2()
   $('#grupoId-reg .select2').on('select2:select', function(e) {
     var data = e.params.data;
@@ -422,16 +423,16 @@ A B•WATER SERVICIO AL CLIENTE
     console.log(data.element.dataset.bsIden);
      switch (data.element.dataset.bsIden) {
           case 'Desde cero':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #0833a2 !important; ');
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #0833a285 !important; ');
     $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
             break;
              case 'Intensivo':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #ea5455 !important; ');
-    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #ea545585 !important; ');
+    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: #444 !important');
             break;
          case 'Kids':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #48cf84 !important; ');
-    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #48cf847a !important; ');
+    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: #444 !important');
             break;
           default:
             break;

@@ -98,42 +98,42 @@ function cargarTablaAperturas() {
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
                                             ${full.activos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                 
-                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
                                             ${full.incorporados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
                                             ${full.inscritos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
                                             ${full.fusionados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congelados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
                                             ${full.congelados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
                                             ${full.total}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -269,43 +269,43 @@ function cargarTablaDesde0() {
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
-                                            ${full.activos}
+                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                            ${full.activos}                                       
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                 
-                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
-                                            ${full.incorporados}
+                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                            ${full.incorporados}                                                                                   
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
-                                            ${full.inscritos}
+                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                            ${full.inscritos}                                         
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
-                                            ${full.fusionados}
+                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                                ${full.fusionados}                                            
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
-                                            ${full.congelados}
+                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                            ${full.congelados}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
-                                            ${full.total}
+                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                            ${full.total}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
@@ -442,42 +442,42 @@ function cargarTablaIntensivos() {
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
                                             ${full.activos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                 
-                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
                                             ${full.incorporados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
                                             ${full.inscritos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
                                             ${full.fusionados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congelados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
                                             ${full.congelados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
                                             ${full.total}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -611,42 +611,42 @@ $('#profesorGrupo3').on('change', function(){
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <div class="badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
                                             ${full.activos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                 
-                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <div class="badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
                                             ${full.incorporados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <div class="badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
                                             ${full.inscritos}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <div class="badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
                                             ${full.fusionados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <div class="badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congelados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
                                             ${full.congelados}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </div>
                                         
-                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <div class="badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
                                             ${full.total}
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">

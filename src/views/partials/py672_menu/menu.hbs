@@ -131,14 +131,15 @@
                         <div class="col-12 col-xl-6 mb-1" id="grupos-edit">
                             <div class="list-item-body flex-grow-1">
                                 <label class="form-label">Grupo</label>
-<style>
-    .select2-container--default .select2-results__option--highlighted[data-select2-id="select2-grupoId-we-result-uwd9-98"] {
-    background-color: yellowgreen !important;
-    color: white;
-}
-</style>
+                                <style>
+                                    .select2-container--default .select2-results__option--highlighted[data-select2-id="select2-grupoId-we-result-uwd9-98"] {
+                                        background-color: yellowgreen !important;
+                                        color: white;
+                                    }
+                                </style>
                                 <div class="position-relative" id="grupoId-reg">
-                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true"  required>
+                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                        <option>Seleccione un grupo</option>
                                         {{#each gruposTodos as |item i|}}
                                         <option value="{{id}}" data-bs-iden="{{nombre}}">
                                             {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
