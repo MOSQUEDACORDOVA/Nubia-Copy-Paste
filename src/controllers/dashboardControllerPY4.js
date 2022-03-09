@@ -13,6 +13,7 @@ exports.crea_codigo_ref = (req, res) => {
   let id_referido = req.params.id_referido;
 
   id_referido = encrypt(id_referido);
+  
   res.send({ id_referido });
 };
 
