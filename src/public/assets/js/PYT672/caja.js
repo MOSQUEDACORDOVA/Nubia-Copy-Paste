@@ -392,12 +392,12 @@ ${moment(fecha_pago, "YYYY-MM-DD").format("DD-MM-YYYY")}
     let asistencias = 32-parseInt(ausencias.length)
     let porcentaje_asist = (asistencias * 100)/32
     if (porcentaje_asist < 70) {
-      swal.fire('Su asistencia es menor a 70%, no obta a Titulo')
+      swal.fire(`Su asistencia es: ${porcentaje_asist}% (menor a 70%), no obta a Titulo`)
       return
     }
-
-    if (total_nota < 80) {
-      swal.fire('Su nota final es menor a 80%, no obta a Titulo')
+console.log(total_nota)
+    if (total_nota <= 79) {
+      swal.fire(`Su nota final es: ${total_nota}% (menor a 80%), no obta a Titulo`)
       return
     }
     
@@ -746,7 +746,7 @@ for (let i = 0; i < notas.length; i++) {
     $('#select-reposicion').append(`<option>${notas[i].n_leccion}</option>`)
 
     $("#form-reg-pago")
-    .append(`<div id="reposicion${notas[i].n_leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,L-${notas[i].n_leccion}">
+    .append(`<div id="reposicion${notas[i].n_leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${notas[i].n_leccion}" value="${moment().format(
   "YYYY-MM-DD"
 )}">

@@ -2,8 +2,8 @@
 /** Use the algorithm AES 256-CBC */
 const crypto = require('crypto');
 var CryptoJS = require("crypto-js");
-const algorithm = 'aes-256-cbc';
-const secretKey = 'vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3';
+const algorithm = 'aes-128-cbc';
+const secretKey = '123';
 const iv =Buffer.from('ivString'); //crypto.randomBytes(16);
 
 const encrypt = (text) => {
