@@ -86,7 +86,7 @@ console.log(array)
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
              `<a id="CopyPedido${full['id']}" class="d-none"></a>`  
-             //https://plataforma.bwater.mx/referido-bwater/${full['id']}
+             //https://alcalina.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
       ],
@@ -749,7 +749,7 @@ async function share_record(id_) {
   $(`#CopyPedido${id_edit}`).text(`
   Toma B•Water Alcalina y siente el cambio. Registra tu pedido 💦
   ¡REFIERE Y GANA! $$: 
-  https://plataforma.bwater.mx/referido-bwater/${codigo_referido}`)
+  https://alcalina.bwater.mx/referido-bwater/${codigo_referido}`)
   copyToClipboard(`#CopyPedido${id_edit}`)
 }
 function copyToClipboard(elemento) {

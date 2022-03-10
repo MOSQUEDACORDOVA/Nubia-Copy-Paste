@@ -375,7 +375,7 @@ function cargaTablacuponesUsed(editada) {
   cargaTablacuponesUsed()
 
   new QRCode(document.getElementById("qrcode"), {
-    text: "https://plataforma.bwater.mx/intro_cuponera",
+    text: "https://alcalina.bwater.mx/intro_cuponera",
     width: 128,
     height: 128,
     colorDark : "#000000",
