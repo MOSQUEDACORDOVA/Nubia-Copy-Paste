@@ -345,7 +345,7 @@ const  saveEditarclienteMa = ()=>{
 function verQRCliente(id) {
   $('#qrcode').empty()
   new QRCode(document.getElementById("qrcode"), {
-    text: "https://plataforma.bwater.mx/maquila-qr/"+id,
+    text: "https://alcalina.bwater.mx/maquila-qr/"+id,
     width: 128,
     height: 128,
     colorDark : "#000000",
