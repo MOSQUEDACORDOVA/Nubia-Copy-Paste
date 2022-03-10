@@ -328,7 +328,7 @@ let ArrayGral = Object.entries(Newcorte2);
       render: function (data, type, full, meta) {
         var suma = 0, deuda = 0,ResOcultoDepositos
           for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['metodo_pago'] == "Transferencia") {
+            if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
               if (Array.isArray(data[i]['data']['monto_total'])) {
                 suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
             } else {
@@ -881,7 +881,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
@@ -1313,7 +1313,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
@@ -1739,7 +1739,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
