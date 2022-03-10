@@ -746,7 +746,10 @@ async function share_record(id_) {
     return data.id_referido;
   });
   console.log(codigo_referido)
-  $(`#CopyPedido${id_edit}`).text(`https://plataforma.bwater.mx/referido-bwater/${codigo_referido}`)
+  $(`#CopyPedido${id_edit}`).text(`
+  Toma B•Water Alcalina y siente el cambio. Registra tu pedido 💦
+  ¡REFIERE Y GANA! $$: 
+  https://plataforma.bwater.mx/referido-bwater/${codigo_referido}`)
   copyToClipboard(`#CopyPedido${id_edit}`)
 }
 function copyToClipboard(elemento) {
