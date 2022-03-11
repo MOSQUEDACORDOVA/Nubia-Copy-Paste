@@ -422,19 +422,19 @@ A B•WATER SERVICIO AL CLIENTE
     console.log(data);
     console.log(data.element.dataset.bsIden);
      switch (data.element.dataset.bsIden) {
-          case 'Desde cero':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #0833a285 !important; ');
-    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: white !important');
+        case 'Desde cero':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: blue !important');
             break;
-             case 'Intensivo':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #ea545585 !important; ');
-    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: #444 !important');
+        case 'Intensivo':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: red !important');
             break;
-         case 'Kids':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: #48cf847a !important; ');
-    $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: #444 !important');
+        case 'Kids':
+            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: green !important');
             break;
-          default:
+        default:
             break;
         }
     
