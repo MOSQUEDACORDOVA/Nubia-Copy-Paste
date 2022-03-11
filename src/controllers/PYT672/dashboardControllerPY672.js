@@ -1966,7 +1966,9 @@ exports.creargrupos = (req, res) => {
           identificador = `N${numAño}${numId}${nivelCode}`;
           console.log(identificador)
           console.log("IDENTIFICADOR GENERADO")
-          
+          if (profesor1 == 'NULL') {
+            profesor1 = null
+          }
           DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
@@ -2023,7 +2025,9 @@ exports.creargrupos = (req, res) => {
         identificador = `I${numAño}${numId}${nivelCode}`;
         console.log(identificador)
         console.log("IDENTIFICADOR GENERADO")
-        
+        if (profesor1 == 'NULL') {
+          profesor1 = null
+        }
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
           console.log(respuesta)
           console.log("GRUPO CREADO SATISFACTORIAMENTE")

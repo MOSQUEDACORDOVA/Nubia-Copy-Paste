@@ -840,7 +840,7 @@ function CrearGruposFetch (data) {
         .then(response => {
             console.log('Success:', response)
             Toast("Grupo Agregado");
-            window.location.href ="/verificargrupos/PYT-672"
+           window.location.href ="/verificargrupos/PYT-672"
             //UpdateTables();
         });
 }
