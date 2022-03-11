@@ -375,7 +375,7 @@ let ArrayGral = Object.entries(Newcorte2);
       render: function (data, type, full, meta) {
         var suma = 0, deuda = 0,ResOcultoEfectivo
           for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['metodo_pago'] == "Efectivo") {
+           // if (data[i]['data']['metodo_pago'] == "Efectivo") {
               if (Array.isArray(data[i]['data']['monto_total'])) {
                 suma += countArray(parseInt(data[i]['data']['monto_total']));
             } else {
@@ -385,7 +385,7 @@ let ArrayGral = Object.entries(Newcorte2);
 if (data[i]['tipo'] == "Residencial") {
             ResOcultoEfectivo="ResOcultoEfectivo"
             }
-            }
+          //  }
             
             
         }
@@ -532,6 +532,7 @@ dt_Gral_t.$('.ResOcultoEfectivo').each(function(){
     resEfectivo += parseFloat($(this).text());
   }    
 });
+console.log(resEfectivo)
 dt_Gral_t.$('.ResOcultoDeuda').each(function(){
 if ($(this).text() == "-") {
   resDeuda
@@ -546,7 +547,7 @@ dt_Gral_t.$('.ResOcultodescuento').each(function(){
         descuentos += parseFloat($(this).text());
   }    
   });
-  let subtotal_residencial = parseFloat(resDpositos)+parseFloat(resEfectivo)
+  let subtotal_residencial = parseFloat(resEfectivo)
 $('.depositos_gral').html(`<span style="color:red">$${resDpositos}</span>`)
 $('.adeudo_gral').html(`<span >$${resDeuda}</span>`)
 $('.subtotal').html(`<span >$${subtotal_residencial}</span>`)
@@ -921,14 +922,14 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Efectivo") {
+        //  if (data[i]['data']['metodo_pago'] == "Efectivo") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['monto_total']));
           } else {
               suma += parseInt(data[i]['data']['monto_total']);
           }
 
-          }
+         // }
           
       }
       let total = parseInt(suma)
@@ -1079,11 +1080,12 @@ $( dt_residencial_t.column(3 ).footer() ).html(sumacanje);
 $( dt_residencial_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_residencial_t.column(5 ).footer() ).html(sumadanados);
 $( dt_residencial_t.column(6 ).footer() ).html(sumaprestados);
-if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-  subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
-}else{
-subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
-}
+subtotal =parseFloat(subefectivo)
+// if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//   subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+// }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+// }
 $('.adeudoF').text(subadeudo)
 $('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)

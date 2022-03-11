@@ -503,6 +503,7 @@ $(function () {
 </thead><tbody id="gruposAct">
                                       
 </tbody>`);
+await leccionActualGrupos();
       }
     }
     
