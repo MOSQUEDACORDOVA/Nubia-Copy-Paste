@@ -279,6 +279,7 @@ Env: ${Env}.</p>`
           //   }
             var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
             var color_tag ="", color_text=""
+            console.log(full['cliente'])
             if (full['cliente']['etiqueta'] ==null) {
               color_tag =0
               color_text="black"
