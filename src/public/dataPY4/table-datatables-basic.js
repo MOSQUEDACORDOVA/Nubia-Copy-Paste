@@ -5,9 +5,10 @@
 function cargaTabla(rechar) {
   let valor = $('#array').val()
   let array =""
+  console.log(valor)
   if (rechar) {
     array = JSON.parse(valor)
-console.log(array)
+    console.log(array)
   }else{
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
@@ -72,20 +73,27 @@ console.log(array)
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_cliente("'+full['id']+'")\'>' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  +
-              '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
-              feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
-              feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' +
-             `<a id="CopyPedido${full['id']}" class="d-none"></a>`  
+             ` <div class="">
+                    <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                      ${feather.icons["more-vertical"].toSvg()}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                    <div class="d-inline-flex">
+                    <a href="javascript:;" class="${full['id']} dropdown-item delete-record${full['id']}" onclick=\'delete_cliente("${full['id']}")\'>
+                   ${feather.icons['trash-2'].toSvg()} 
+                    </a>
+                    <a href="javascript:;" class="${full['id']} dropdown-item" onclick=\'edit_cliente("${full['id']}")\'>
+                    ${feather.icons['file-text'].toSvg()}
+                    </a>
+                    <a href="javascript:;" title="Etiqueta" class="${full['id']} dropdown-item edit_tag " data-bs-toggle="modal" data-id="${full['id']}" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">
+                    ${feather.icons['tag'].toSvg()}
+                    </a>
+                    <a href="javascript:;" class="${full['id']} dropdown-item share_record ${full['id']}" onclick=\'share_record("${full['id']}")\'>
+                    ${feather.icons['share-2'].toSvg()}
+                    </a>
+                    <a id="CopyPedido${full['id']}" class="d-none"></a>
+                </div>`
+               
              //https://alcalina.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
@@ -480,7 +488,7 @@ console.log('entro aqui')
       data: $('#edit_cliente_form').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-        $('#array').val(JSON.stringify(data.clientes))
+        $('#array').val(JSON.stringify(data.clientes_arr))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
   $('#exampleClientes').append(`<thead>

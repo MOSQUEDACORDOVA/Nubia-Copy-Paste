@@ -56,7 +56,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" ></script>
     <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
-
+{{#if reg_pedido}}
+        <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
+    <script src="../../../dataPY4/editar_pedido.js"></script>
+    {{/if}}
    {{#if maquila}}
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
    <script src="../../../assets/js/qrcode.js"></script>
@@ -74,8 +77,6 @@
     <script src="../../../dataPY4/registrar_pedido_referido.js"></script>
 
     {{else}}
-    <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
-    <script src="../../../dataPY4/editar_pedido.js"></script>
     <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
     <script src="../../../dataPY4/table-datatables-resumen_home.js"></script>
     <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>

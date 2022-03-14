@@ -541,8 +541,7 @@ async function cambioPago(id, status, monto) {
   console.log(choferes)
   let arr=[]
 for (let i = 0; i < choferes.length; i++) {
-  arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})
-  
+  arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
 }
 var options = {};
 $.map(arr,
