@@ -540,14 +540,17 @@ $(function () {
 
 
   //OTROS DESPUES DE LOS SELECT DE PRODUCTOS
-  var valor = $('#array').val()
-  var array = JSON.parse(valor.replace(/&quot;/g, '"'))
+
   $('#id_cliente_reg_pedido').on('change', (e) => {
+    var valor = $('#array').val()
+    var array = JSON.parse(valor.replace(/&quot;/g, '"'))
     $('#descuento_referido_box').addClass('d-none')
     let id_ = e.target.value
     let pedidos = $('#array_pedido').val()
     var array_pedidos = JSON.parse(pedidos.replace(/&quot;/g, '"'))    
+    console.log(array)
     var found = array.find(element => element.id == id_);
+    console.log(found)
     console.log(found.cantidad_referidos)
     if (found.cantidad_referidos > 0) {
       let pedidos_refido_entregado = array_pedidos.filter(status => status.status_pedido == "Entregado" && status.cliente.referido_de == id_); // return implicito
@@ -656,21 +659,122 @@ $('#tipo_c_pedido').val(found.tipo)
     $("#id_chofer").val(id_chofer);
   })
 
-$('#form_reg_cliente').submit((e)=>{
-e.preventDefault()
-console.log(e)
-if ($('#reg_zona_cliente').val() == "0" ) {
-  Swal.fire('Debe asignar una zona al cliente')
-  return
-}
-if ($('#color_tag_reg_cliente').val() == "0") {
-  Swal.fire('Debe asignar una etiqueta al cliente')
-  return
-}
+  console.log('tabla clientes:' + $('#exampleClientes').length)
+ 
+  if ($('#exampleClientes').length == 0) {
+    $('#add_cliente_modal').click(()=>{
+    if ($('#nombre-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un nombre al cliente')
+      return $('#nombre-cliente-reg').focus()
+      
+    }
+    if ($('#apellido-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+      return $('#apellido-cliente-reg').focus()
+      
+    }
+    if ($('#select_asentamiento').val() == null) {
+      Swal.fire('Debe ingresar el código postal')
+     return $('#cp_select').focus()
+    }
+    if ($('#tlf-add-cliente').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+     return $('#tlf-add-cliente').focus()
+    }
+if ($('#reg_zona_cliente').val() == '0') {
+      Swal.fire('Debe colocar una zona de cliente')
+    return  $('#reg_zona_cliente').focus()
+    }
 
-e.currentTarget.submit();
+if ($('#color_tag_reg_cliente').val() == '0') {
+      Swal.fire('Debe colocar una etiqueta al cliente')
+     return $('#color_tag_reg_cliente').focus()
+    }
 
+    $.ajax({
+      url: `/save_cliente_py4`,
+      type: 'POST',
+      data: $('#form_reg_cliente').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)        
+        if (data.error) {
+          $('.modal').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        let clientes
+        if ($('#pedidostable').length ==0) {
+          console.log('here')
+         clientes= data.clientes
+         $('#array').val(JSON.stringify(data.clientes))
+        }else{
+         clientes= JSON.parse(data.clientes)
+         $('#array').val(data.clientes)
+         console.log(JSON.parse($('#array').val()))
+        }
+        
+        $('#id_cliente_reg_pedido').empty()
+        $('#id_cliente_reg_pedido').append(`<option selected="" value="default"> Seleccione un cliente </option>`)
+        let asentamiento
+        for (let i = 0; i < clientes.length; i++) {  
+            
+          if (clientes[i]['cp'] == null) {
+            console.log(clientes[i]['cp'])
+             console.log(clientes[i])
+          }     
+        if (clientes[i]['cp']['asentamiento']) {
+          asentamiento = clientes[i]['cp']['asentamiento']
+        }
+          $('#id_cliente_reg_pedido').append(`<option value="${clientes[i].id}"> ${clientes[i].firstName} ${clientes[i].lastName} / ${asentamiento}</option>`)
+        }
+        $('#form_reg_cliente')[0].reset()
+  $('.modal').modal('hide');
+  Swal.fire('Se creó con éxito al cliente')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  })
+$('#btn_add_cp').click(()=>{
+  if ($('#cp_add').val() == "") {
+    Swal.fire('Debe colocar un código postal')
+   return $('#cp_add').focus()
+  }
+if ($('#asentamiento_add').val() == '') {
+    Swal.fire('Debe colocar asentamiento')
+  return  $('#asentamiento_add').focus()
+  }
+
+if ($('#municipio_add').val() == '0') {
+    Swal.fire('Debe seleccionar un municipio')
+   return $('#municipio_add').focus()
+  }
+
+  $.ajax({
+    url: `/save_cp_new`,
+    type: 'POST',
+    data: $('#agregar_cp').serialize(),
+    success: function (data, textStatus, jqXHR) {
+      console.log(data)
+      if (data.error) {
+        $('#add_cp').modal('hide');
+        Swal.fire(data.error)
+        return
+      }
+      $('#agregar_cp')[0].reset()
+$('#add_cp').modal('hide');
+Swal.fire('Se creó con éxito asentamiento')
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
 })
+  }
+  
+
+
 if ($('#carga_').length>0) {
        
 } else {

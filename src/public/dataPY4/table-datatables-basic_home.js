@@ -103,10 +103,8 @@
     
   let valor = $('#array_pedido').val()
   let array2 = ""
-  if (rechar) {
-    
+  if (rechar) {    
     array2 = JSON.parse(valor)
-
   }else{
     array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   }
@@ -148,7 +146,6 @@ maxDate2 = new DateTime($('#max1'), {
       var title = $(this).text();
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
       $('input', this).on('keyup', function () {
-        console.log(this.id)
         let valor = this.value
 $('#filterPosition').val(this.id)
 $('#filterValue').val(this.value)
@@ -272,14 +269,8 @@ Env: ${Env}.</p>`
           // Label
           targets: 1,
           render: function (data, type, full, meta) {
-          //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
-          //  let modificacion = moment(fecha_creado).isSame(modificado)
-          //   if (modificacion == false) {
-          //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
-          //   }
             var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
             var color_tag ="", color_text=""
-            console.log(full['cliente'])
             if (full['cliente']['etiqueta'] ==null) {
               color_tag =0
               color_text="black"
@@ -412,7 +403,7 @@ Env: ${Env}.</p>`
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -422,16 +413,14 @@ Env: ${Env}.</p>`
           targets: 9,className:'fecha_pedido',
           render:function(data, type, full){
             
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
-           return moment(data).format('L');
+           return moment(data).format('DD/MM/YYYY');
           }
         },
         
       ],
      
      
-      order: [[11,'asc'],[12,'asc']],
+      order: [[11,'asc'],[9,'desc'],[2,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -701,7 +690,7 @@ Env: ${Env}.</p>`
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -709,13 +698,13 @@ Env: ${Env}.</p>`
         },{
           targets: 7,
           render:function(data){
-           // return moment(data).format('L');
-            return moment(data).format('L');
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
           }
         },
       ],
      
-      order: [[9, 'asc'],[7, 'desc']],
+      order: [[9, 'asc'],[7, 'desc'],[1, 'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -812,7 +801,6 @@ Env: ${Env}.</p>`
       type: 'POST',
       data: $('#change_chofer_form').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
         $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
@@ -910,9 +898,7 @@ Env: ${Env}.</p>`
       type: 'POST',
       data: $('#reg_pedido_modal1').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
-
-        if (data.fail) {
+               if (data.fail) {
           Swal.fire(data.msg)
           return
           
@@ -1200,7 +1186,6 @@ if ($('.select_etiqueta_pedidos').val() != "") {
    
    cargaTableResumen('si')
    if ($('#filterPosition').val() != "") {
-     console.log($('#filterValue').val())
     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
   }
   $('#edit_pedido').modal('hide')
@@ -1233,104 +1218,7 @@ $('#edit_pedido').modal('show')
 
   });
 
-  $('#add_cliente_modal').click(()=>{
-    if ($('#nombre-cliente-reg').val() == "") {
-      Swal.fire('Debe colocar un nombre al cliente')
-      return $('#nombre-cliente-reg').focus()
-      
-    }
-    if ($('#apellido-cliente-reg').val() == "") {
-      Swal.fire('Debe colocar un número de teléfono')
-      return $('#apellido-cliente-reg').focus()
-      
-    }
-    if ($('#select_asentamiento').val() == null) {
-      Swal.fire('Debe ingresar el código postal')
-     return $('#cp_select').focus()
-    }
-    if ($('#tlf-add-cliente').val() == "") {
-      Swal.fire('Debe colocar un número de teléfono')
-     return $('#tlf-add-cliente').focus()
-    }
-if ($('#reg_zona_cliente').val() == '0') {
-      Swal.fire('Debe colocar una zona de cliente')
-    return  $('#reg_zona_cliente').focus()
-    }
 
-if ($('#color_tag_reg_cliente').val() == '0') {
-      Swal.fire('Debe colocar una etiqueta al cliente')
-     return $('#color_tag_reg_cliente').focus()
-    }
-
-    $.ajax({
-      url: `/save_cliente_py4`,
-      type: 'POST',
-      data: $('#form_reg_cliente').serialize(),
-      success: function (data, textStatus, jqXHR) {
-        console.log(data)        
-        if (data.error) {
-          $('.modal').modal('hide');
-          Swal.fire(data.error)
-          return
-        }
-        let clientes= JSON.parse(data.clientes)
-        $('#id_cliente_reg_pedido').empty()
-        let asentamiento
-        for (let i = 0; i < clientes.length; i++) {  
-            
-          if (clientes[i]['cp'] == null) {
-            console.log(clientes[i]['cp'])
-             console.log(clientes[i])
-          }     
-        if (clientes[i]['cp']['asentamiento']) {
-          asentamiento = clientes[i]['cp']['asentamiento']
-        }
-          $('#id_cliente_reg_pedido').append(`<option value="${clientes[i].id}"> ${clientes[i].firstName} ${clientes[i].lastName} / ${asentamiento}</option>`)
-        }
-        $('#form_reg_cliente')[0].reset()
-  $('.modal').modal('hide');
-  Swal.fire('Se creó con éxito al cliente')
-      },
-      error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
-      }
-    });
-  })
-$('#btn_add_cp').click(()=>{
-  if ($('#cp_add').val() == "") {
-    Swal.fire('Debe colocar un código postal')
-   return $('#cp_add').focus()
-  }
-if ($('#asentamiento_add').val() == '') {
-    Swal.fire('Debe colocar asentamiento')
-  return  $('#asentamiento_add').focus()
-  }
-
-if ($('#municipio_add').val() == '0') {
-    Swal.fire('Debe seleccionar un municipio')
-   return $('#municipio_add').focus()
-  }
-
-  $.ajax({
-    url: `/save_cp_new`,
-    type: 'POST',
-    data: $('#agregar_cp').serialize(),
-    success: function (data, textStatus, jqXHR) {
-      console.log(data)
-      if (data.error) {
-        $('#add_cp').modal('hide');
-        Swal.fire(data.error)
-        return
-      }
-      $('#agregar_cp')[0].reset()
-$('#add_cp').modal('hide');
-Swal.fire('Se creó con éxito asentamiento')
-    },
-    error: function (jqXHR, textStatus) {
-      console.log('error:' + jqXHR)
-    }
-  });
-})
 });
 // Filter column wise function
 function filterColumn(i, val) {
@@ -1362,12 +1250,10 @@ function copyToClipboard(elemento) {
   Swal.fire('Pedido copiado en el portapapeles')
   }
   function copyToClipboardVarios(elemento) {
-    console.log(elemento)
     if ($("#checkboxSelectAll").is(':checked')) {
       console.log('borra el primero')
       var new_elemento = elemento.shift()
     }
-    console.log(new_elemento)
     var $temp = $("<textarea>")
     var brRegex = /<br\s*[\/]?>/gi;
     $("body").append($temp);
@@ -1403,7 +1289,6 @@ function filterColumn2(i, val) {
 }
 // cambiar estados
  async function cambioSP(id, status) {
-   console.log('hello')
  const { value: estado } = await Swal.fire({
   title: 'Seleccione un nuevo Status',
   input: 'select',
@@ -1426,8 +1311,7 @@ function filterColumn2(i, val) {
   }
 })
 
-if (estado) {
-  console.log(estado)   
+if (estado) { 
   var motiv, fecha_rep
   if (estado == "Cancelado") {
     const { value: motivo } = await Swal.fire({
@@ -1446,7 +1330,6 @@ if (estado) {
         })
       }
     })
-    console.log(motivo)
     motiv = motivo
   }
   if (estado == "Reprogramado") {
@@ -1461,10 +1344,8 @@ if (estado) {
       ]
     }
     })
-    console.log(fecha_re)
     fecha_rep =fecha_re
   }
-  //console.log(fecha_re)
   
   const data_C = new FormData();
   data_C.append("id", id);
@@ -1479,6 +1360,7 @@ if (estado) {
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
+      console.log(data)
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
 $('#carga_').val(JSON.stringify(data.carga_let))
 $('.datatables-basic').dataTable().fnDestroy();
@@ -1537,7 +1419,6 @@ $('.datatables-resumen').html(`<thead>
 
 cargaTableResumen('si')
 if ($('#filterPosition').val() != "") {
-  console.log($('#filterValue').val())
  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
 }
     },
@@ -1551,94 +1432,279 @@ if ($('#filterPosition').val() != "") {
 }
  }
 
-async function cambioPago(id, status) {
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Pagado: 'Pagado',
-        'Por verificar': 'Por verificar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
-    showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
+async function cambioPago(id, status, fecha_pedido, monto) {
+  console.log(fecha_pedido)
+  
+
+  if (moment().isSame(fecha_pedido, 'day')) {
+    const { value: estado } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (estado) {
+        
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", estado);
+      $.ajax({
+        url: `/cambia_S_pago`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+    $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        
+    
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    
+    cargaTablas('si')
+    if ($('#filterPosition').val() != "") {
+     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+   }
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
+  } else {
+    console.log(moment().isSame(fecha_pedido, 'day'))
+    console.log('otro cambio')
+    let chof = $('#choferes').val()
+    console.log(chof)
+    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'))
+    console.log(choferes)
+    let arr=[]
+  for (let i = 0; i < choferes.length; i++) {
+    arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
+  }
+  var options = {};
+  $.map(arr,
+      function(o) {
+          options[o.id] = o.name;
+      });
+    console.log(options) 
+    const { value: status_ } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (status_) {
+      console.log(status_)   
+    var tipo_p, fecha_pago, chofer_r
+    if (status_ == "Pagado") {
+      const { value: tipo } = await Swal.fire({
+        title: 'Indique el tipo',
+        input: 'select',
+      inputOptions: {
+          Efectivo: 'Efectivo',
+          'Tarjeta': 'Tarjeta',
+          'Transferencia': 'Transferencia'
+      },
+        inputPlaceholder: 'tipo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (!value) {
+              resolve('Debe colocar un tipo')
+            } else {
+               resolve()
+            }
+          })
         }
       })
+      tipo_p = tipo    
     }
-  })
-  
-  if (estado) {
-      
-    const data_C = new FormData();
-    data_C.append("id", id);
-    data_C.append("status", estado);
-    $.ajax({
-      url: `/cambia_S_pago`,
-      type: 'POST',
-      data: data_C,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-  console.log(data)
-  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  
-  $('.datatables-basic').dataTable().fnDestroy();
-  $('.datatables-basic').empty();
-  $('.datatables-basic').html(`<thead>
-  <tr>                                                
-      <th></th>
-      <th>#Pedido</th>
-      <th class="cliente">Cliente</th>
-      <th>To. garr.</th>
-      <th>Monto Total</th>
-      <th>Adeudo</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Forma de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      <th>oculto choferes </th> 
-      <th>oculto asentamiento </th> 
-  </tr>
-</thead>`);
-  $('.datatables-basic2').dataTable().fnDestroy();
-  $('.datatables-basic2').empty();
-  $('.datatables-basic2').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Metodo de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto asentamiento </th> 
-  </tr>
-</thead>`);
-  
-  cargaTablas('si')
-  if ($('#filterPosition').val() != "") {
-    console.log($('#filterValue').val())
-   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
- }
-      },
-      error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
+   
+    if (tipo_p == "Efectivo") {
+      const { value: chofer } = await Swal.fire({
+        title: 'Indique el chofer',
+        input: 'select',
+      inputOptions: options,
+        inputPlaceholder: 'tipo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (!value) {
+              resolve('Debe colocar un tipo')
+            } else {
+               resolve()
+            }
+          })
+        }
+      })
+      chofer_r = chofer
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input2" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input2').value,
+        ]
       }
-    });
-  
+      })
+      fecha_pago =fecha_re
+    }else{
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input1" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        return [
+          document.getElementById('swal-input1').value,
+        ]
+      }
+      })
+      chofer_r = 'Null'
+      fecha_pago =fecha_re
+    }
+    console.log("id pedido: "+id)
+      console.log(tipo_p)
+      console.log(chofer_r)
+      console.log(fecha_pago)         
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", status_);
+      data_C.append("tipo_pago", tipo_p);
+      data_C.append("chofer_r", chofer_r);
+      data_C.append("fecha_pago", fecha_pago);
+      data_C.append("monto", monto);
+      $.ajax({
+        url: `/cambia_S_pago_deudor`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+    console.log(data)
+       $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        
+    
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    
+    cargaTablas('si')
+    if ($('#filterPosition').val() != "") {
+     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+   }
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
   }
+
 }
 function edit_pedido(id_edit) {
   if (typeof id_edit =="undefined") {
@@ -1779,14 +1845,11 @@ function delete_pedido(id_, tabla) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(dt_basic)
-      console.log(`${dt_basic} tbody .delete-record${id}`)
       $(`${dt_basic}`).DataTable().row($(`${dt_basic} tbody .delete-record${id}`).parents('tr')).remove().draw();
       Swal.fire({
         title: `Pedido ${id} borrado con éxito`,
       })
       if ($('#filterPosition').val() != "") {
-        console.log($('#filterValue').val())
        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
      }
     }
