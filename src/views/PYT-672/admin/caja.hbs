@@ -2,11 +2,17 @@
     .min-height {
         min-height: 165px;
     }
+
     .mb-tl {
         margin-bottom: 0.5rem !important;
     }
 </style>
-<input type="text" value="{{matricula_st}}" id="matricula_st">
+<script>
+    $(function () {
+
+    })
+</script>
+<input type="text" value="{{matricula_st}}" id="matricula_st" />
 <div class="app-content content ecommerce-application py672" style="padding-top: 6rem">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
@@ -21,8 +27,9 @@
                 </div>
             </div>
 
-            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none"
-                id="btnToast">Toast</button>
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">
+                Toast
+            </button>
 
             <section class="row">
                 <!-- Checkout Place Order Left starts -->
@@ -34,587 +41,189 @@
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
                                 <select class="select2 form-select alumno-select" tabindex="-1" name="alumno"
                                     aria-hidden="true" required>
-                                    <option value="" selected>Escriba el nombre de un alumno!</option>
+                                    <option value="" selected>
+                                        Escriba el nombre de un alumno!
+                                    </option>
                                     {{#each matricula as |item i|}}
                                     <option value="{{id}}">
                                         {{nombre}}
                                     </option>
                                     {{/each}}
-                                    
-                                    {{!-- <option value="Isaac Mosqueda"> Isaac Mosqueda</option>
-                                    <option value="Rai Torcat"> Rai Torcat</option>
-                                    <option value="Patricio Calderon"> Patricio Calderon</option>
-                                    <option value="Boris Melgarejo"> Boris Melgarejo</option>
-                                    <option value="Jose Arzolay"> Jose Arzolay</option> --}}
                                 </select>
                             </div>
                         </div>
-						
-						<div class="modal-body pb-5 px-sm-2 pt-50">
-						
-						
-							<div class="col-12">
-								<div class="card">
-									<div class="card-header d-flex justify-content-start px-0">
-										<div class="">
-											
-										</div>
-									</div>
-									<div class="card-body px-0">
 
-										<form action="#" class="invoice-repeater">
-											<div data-repeater-list="invoice">
-												<div data-repeater-item="">
-
-                                                    <h4 class="card-title">Nuevo Pago</h4>
-
-													<div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
-														<div id="tipoServicio" class="col">
-															<div class="mb-1">
-																<label class="form-label" for="itemname">Tipo Servicio</label>
-																<select class="form-select" id="select-servicio">
-																	<option>Seleccione</option>
-                                                                    <option>Mensualidad</option>
-                                                                    <option>Recargo</option>
-																	<option>Traslado</option>
-																	<option>Constancia</option>
-																	<option>Titulo</option>
-																</select>
-															</div>
-														</div>
-                                                        <div id="mes" class="col d-none select-reposicion" >
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Lección</label>
-																<select class="form-select" id="select-reposicion">
-																	<option>Seleccione</option>
-																</select>
-															</div>
-														</div>
-														<div id="mes" class="col d-none mensualidadAdd" >
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Mes</label>
-																<select class="form-select" id="select-servicio">
-																	<option>Seleccione</option>
-                                                                    <option>Enero</option>
-                                                                    <option>Febrero</option>
-																	<option>Marzo</option>
-																	<option>Abril</option>
-																	<option>Mayo</option>
-                                                                    <option>Junio</option>
-                                                                    <option>Julio</option>
-																	<option>Agosto</option>
-																	<option>Septiembre</option>
-																	<option>Octubre</option>
-                                                                    <option>Noviembre</option>
-																	<option>Diciembre</option>
-																</select>
-															</div>
-														</div>
-
-                                                        <div id="ano" class="col d-none mensualidadAdd" >
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Año</label>
-																<select class="form-select" id="select-servicio">
-																	<option>Seleccione</option>
-                                                                    <option>2021</option>
-                                                                    <option>2022</option>
-																	<option>2023</option>
-																	<option>2024</option>
-																	<option>2025</option>
-                                                                    <option>2026</option>
-																</select>
-															</div>
-														</div>
-
-														<div id="fecha" class="col">
-															<div class="mb-1">
-																<label class="form-label" for="itemcost">Fecha</label>
-																<input type="text" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-															</div>
-														</div>
-    
-														<div id="precio" class="col">
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Precio</label>
-																<div class="input-group">
-																	<span class="input-group-text" id="basic-addon-search1">₡</span>
-																	<input type="number" class="form-control" id="itemPrice" aria-describedby="precio" readonly="true" value="">
-																</div>
-																
-															</div>
-														</div>
-
-														<div id="banco" class="col-6">
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Banco</label>
-                                                                <select class="form-select" id="bank-serv">
-																	<option>Seleccione</option>
-                                                                    <option>BNA</option>
-                                                                    <option>BCR</option>
-																	<option>BAC</option>
-																	<option>BPO</option>																	
-																</select>
-															</div>
-														</div>
-														
-                                                        <div id="transct" class="col-6">
-															<div class="mb-1">
-																<label class="form-label" for="itemquantity">Transaccion #:</label>
-																<input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
-															</div>
-														</div>
-                                                        
-                                                    </div>
-                                                    
-                                                    <div class="d-flex justify-content-end">
-                                                            <button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button" id="add_pago-btn">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                                    class="feather feather-plus me-25">
-                                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                                                </svg>
-                                                                <span>Agregar Pago</span>
-                                                            </button>
-                                                        </div>
-													<hr>
-												</div>
-											</div>
-										</form>
-
-									</div>
-									<div class="row" id="basic-table">
-										<div class="col-12">
-											<div class="card">
-												<div class="table-responsive">
-													<table class="table" id="table-pagos">
-														<thead>
-															<tr>
-																<th>Concepto</th>
-																<th>Mes</th>
-																<th>Fecha de Pago</th>
-																<th>Monto</th>
-																<th>Accion</th>
-															</tr>
-														</thead>
-														<tbody id="body-table-pago">
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						
-							<div class="d-flex justify-content-end">
-								<button type="button" class="btn btn-primary waves-effect waves-float waves-light"
-									id="btn-guardar-pago">Guardar</button>
-							</div>
-						</div>
-
-						{{!-- Servicios Disponibles --}}
-						{{!-- 
-                        <div class="card-body">
-                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                <div class="ecommerce-card">
-                                    <div class="card-body">
-                                        <div class="name">
-                                            <h6 class="text-danger"><b>Reposicion de Examen</b></h6>
-                                        </div>
-
-                                        <span class="text-muted">El alumno puede recuperar una prueba perdida.</span>
-
-                                        <select class="form-select mt-1">
-                                            <option>Seleccione Leccion</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
-                                            <option>6</option>
-                                            <option>7</option>
-                                            <option>8</option>
-                                            <option>9</option>
-                                            <option>10</option>
-                                            <option>11</option>
-                                            <option>12</option>
-                                            <option>13</option>
-                                            <option>14</option>
-                                            <option>15</option>
-                                            <option>16</option>
-                                            <option>17</option>
-                                            <option>18</option>
-                                            <option>19</option>
-                                            <option>20</option>
-                                            <option>21</option>
-                                            <option>22</option>
-                                            <option>23</option>
-                                            <option>24</option>
-                                            <option>25</option>
-                                            <option>26</option>
-                                            <option>27</option>
-                                            <option>28</option>
-                                            <option>29</option>
-                                            <option>30</option>
-                                            <option>31</option>
-                                            <option>32</option>
-                                        </select>
-
-                                    </div>
-
-                                    <div class="item-options text-center">
-                                        <div class="item-wrapper">
-                                            <div class="item-cost d-flex align-items-center justify-content-center">
-                                                    <h5 class="mb-0">Precio</h5>
-                                                <h4 class="item-price text-primary ms-1">₡ 10,000</h4>
-                                            </div>
-                                        </div>
-
-                                        <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light">
-                                            <span class="text-truncate">Habilitar</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-check">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                <div class="ecommerce-card">
-                                    <div class="card-body">
-                                        <div class="name">
-                                            <h6 class="text-primary"><b>Traslado</b></h6>
-                                        </div>
-
-                                        <span class="text-muted">El alumno desea cambiar el grupo donde se
-                                            encuentra.</span>
-
-                                    </div>
-
-                                    <div class="item-options text-center">
-                                        <div class="item-wrapper">
-                                            <div class="item-cost d-flex align-items-center justify-content-center">
-                                                <h5 class="mb-0">Precio</h5>
-                                                <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
-                                            </div>
-                                        </div>
-
-                                        <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-traslado">
-                                            <span class="text-truncate">Habilitar</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-check">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="list-view m-0 border-light-secondary rounded-2 min-height">
-                                <div class="ecommerce-card">
-                                    <div class="card-body">
-                                        <div class="name">
-                                            <h6 class="text-primary"><b>Constancia</b></h6>
-                                        </div>
-
-                                        <span class="text-muted">Documento que certifica al alumno como
-                                            matriculado.</span>
-
-                                    </div>
-
-                                    <div class="item-options text-center">
-                                        <div class="item-wrapper">
-                                            <div class="item-cost d-flex align-items-center justify-content-center">
-                                                <h5 class="mb-0">Precio</h5>
-                                                <h4 class="item-price text-primary ms-1">₡ 5,000</h4>
-                                            </div>
-                                        </div>
-
-                                        <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-habilitar-constancia">
-                                            <span class="text-truncate">Habilitar</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-check">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </button>
-
-                                        <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
-                                            <span>Generar Constancia</span>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="list-view m-0 border-light-secondary rounded-2  min-height">
-                                <div class="ecommerce-card">
-                                    <div class="card-body">
-                                        <div class="name">
-                                            <h6 class="text-primary"><b>Titulo</b></h6>
-                                        </div>
-
-                                        <span class="text-muted">Certificado de aprobacion de estudios.</span>
-
-
-                                        <select class="form-select mt-1">
-                                            <option>Seleccione Nivel</option>
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                        </select>
-
-                                    </div>
-
-                                    <div class="item-options text-center">
-                                        <div class="item-wrapper">
-                                            <div class="item-cost d-flex align-items-center justify-content-center">
-                                                <h5 class="mb-0">Precio</h5>
-                                                <h4 class="item-price text-primary ms-1">₡ 20,000</h4>
-                                            </div>
-                                        </div>
-
-                                        <button type="button"
-                                            class="btn btn-primary btn-cart move-cart waves-effect waves-float waves-light" id="btn-habilitar-titulo">
-                                            <span class="text-truncate">Habilitar</span>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-check">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </button>
-
-                                        <button type="button"
-                                            class="btn btn-light mt-1 remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
-                                            <span>Descargar Titulo</span>
-                                        </button>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
-
-                    </div>
-                </div>
-                <!-- Checkout Place Order Left ends -->
-
-                <!-- Checkout Place Order Right starts -->
-                <div class="checkout-options col-12 col-lg-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title" id="nombre-alumno"> </h5>
-                            <div class="price-details">
-                                <ul class="list-unstyled">
-                                    <li class="price-detail">
-                                        <div class="detail-title"><b>Grupo:</b> <span id="grupo-alumno"></span> </div>
-                                    </li>
-                                    <li class="price-detail">
-                                        <div class="detail-title"><b>Horario:</b> <span id="horario-alumno"></span> </div>
-                                    </li>
-                                    <li class="price-detail">
-                                        <div class="detail-title"><b>Profesor:</b> <span id="profesor-alumno"></span> </div>
-                                    </li>
-                                    <li class="price-detail">
-                                        <div class="detail-title"><b>Telefonos:</b> <span id="telefonos-alumno"></span> </div>
-                                    </li>
-                                    <li class="price-detail">
-                                        <div class="detail-title"><b>Fecha de Pago:</b> <span id="fecha-pago-alumno"></span> </div>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <hr>
-
-                            {{!-- <div class="d-flex align-items-center justify-content-between">
-                                <h5 class="m-0">Pagos</h5>
-                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-toggle="modal" data-bs-target="#editUser">Agregar</button>
-                            </div>
-                            <hr> --}}
-                            
-                            <div class="price-details">
-                                <h6 class="price-title">Detalles de Cobro</h6>
-                                <ul class="list-unstyled">
-                                    <li class="price-detail">
-                                        <div class="detail-title">Mensualidad</div>
-                                        <div class="detail-amt">₡ <span id="pago-mensual-detail"></span></div>
-                                    </li>
-                                    <li class="price-detail d-none">
-                                        <div class="detail-title">Recargo</div>
-                                        <div class="detail-amt discount-amt text-danger">₡ <span id="mora-pago-detail"></span></div>
-                                    </li>
-
-                                </ul>
-                                <hr>
-
-                                <div class="price-details d-grid gap-2">
-                                   {{!--  <h6 class="price-title">Detalles de Servicios</h6>
-                                    <ul class="list-unstyled" id="detalle-servicios">
-                                    </ul>
-                                    <hr>
-
-                                    <ul class="list-unstyled">
-                                        <li class="price-detail">
-                                            <div class="detail-title detail-total">Total</div>
-                                            <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
-                                        </li>
-                                    </ul> --}}
-                                    <button type="button"
-                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-descarga-titulo">
-                                            <span>Descargar Titulo</span>
-                                        </button>
-                                    <button type="button"
-                                            class="btn btn-light remove-wishlist waves-effect waves-float waves-light" disabled id="btn-genera-constancia">
-                                            <span>Generar Constancia</span>
-                                        </button>
-                                </div>
-
-                            </div>
-                        </div>
-                        <!-- Checkout Place Order Right ends -->
-                    </div>
-
-                    <!-- Timeline (Historial de servicios) comienza aqui -->
-                    <div class="col-12">
-                        <div class="card card-user-timeline">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-list user-timeline-title-icon">
-                                        <line x1="8" y1="6" x2="21" y2="6"></line>
-                                        <line x1="8" y1="12" x2="21" y2="12"></line>
-                                        <line x1="8" y1="18" x2="21" y2="18"></line>
-                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
-                                    </svg>
-                                    <h4 class="card-title">Historial de servicios</h4>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <ul class="timeline ms-50" id="historial-list"><!--ESTO SE ESTA CARGANDO DINAMICAMENTE -->
-                                
-                                </ul>
-
-                                {{!-- <a class="btn btn-primary w-100 mb-75 waves-effect mt-2" href="./app-invoice-print.html" target="_blank"> Descargar </a> --}}
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Timeline (Historial de servicios) termina aqui -->
-                </div>
-            </section>
-
-            <!-- Edit User Modal -->
-            <div class="modal fade" id="editUser" tabindex="-1" style="display: none;" data-select2-id="editUser" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user" data-select2-id="47">
-                    <div class="modal-content" data-select2-id="46">
-                        <div class="modal-header bg-transparent">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body pb-5 px-sm-5 pt-50">
-                            <div class="text-center mb-2">
-                                <h1 class="mb-1">Agregar Pagos</h1>
-                            </div>
-
-
+                        <div class="modal-body pb-5 px-sm-2 pt-50">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-start">
-                                        <h4 class="card-title me-2">Pagos</h4>
+                                    <div class="card-header d-flex justify-content-start px-0">
                                         <div class="">
-                                            <button class="btn btn-icon btn-primary waves-effect waves-float waves-light" type="button"
-                                                data-repeater-create="">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                    class="feather feather-plus me-25">
-                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                                </svg>
-                                                <span>Agregar Pago</span>
-                                            </button>
                                         </div>
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body px-0">
                                         <form action="#" class="invoice-repeater">
                                             <div data-repeater-list="invoice">
                                                 <div data-repeater-item="">
-                                                    <div class="row d-flex align-items-end">
-                                                        <div class="col-md-4 col-12">
+                                                    <h4 class="card-title">
+                                                        Nuevo Pago
+                                                    </h4>
+
+                                                    <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
+                                                        <div id="tipoServicio" class="col">
                                                             <div class="mb-1">
-                                                                <label class="form-label" for="itemname">Mes</label>
-																<select class="form-select">
-																	<option>Seleccione</option>
-																	<option>Enero</option>
-																	<option>Febrero</option>
-																	<option>Marzo</option>
-																	<option>Abril</option>
-																	<option>Mayo</option>
-																	<option>Junio</option>
-																	<option>Julio</option>
-																	<option>Agosto</option>
-																	<option>Septiembre</option>
-																	<option>Octubre</option>
-																	<option>Noviembre</option>
-																	<option>Diciembre</option>
-																</select>
+                                                                <label class="form-label" for="itemname">
+                                                                    Tipo Servicio
+                                                                </label>
+                                                                <select class="form-select" id="select-servicio">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        Mensualidad
+                                                                    </option>
+                                                                    <option>
+                                                                        Recargo
+                                                                    </option>
+                                                                    <option>
+                                                                        Traslado
+                                                                    </option>
+                                                                    <option>
+                                                                        Constancia
+                                                                    </option>
+                                                                    <option>
+                                                                        Titulo
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
-                            
-                                                        <div class="col-md-2 col-12">
+                                                        <div id="mes" class="col d-none select-reposicion">
                                                             <div class="mb-1">
-                                                                <label class="form-label" for="itemcost">Año</label>
-                                                                <input type="number" class="form-control" id="itemcost" aria-describedby="itemcost"
-                                                                    placeholder="Año">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Lección
+                                                                </label>
+                                                                <select class="form-select" id="select-reposicion">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
-                            
-                                                        
-                            
-                                                        <div class="col-md-4 col-12">
+                                                        <div id="mes" class="col mensualidadAdd">
                                                             <div class="mb-1">
-                                                                <label class="form-label" for="itemquantity">Precio</label>
-                                                                <input type="text" class="form-control" id="itemPrice"
-                                                                    aria-describedby="precio" readonly value="₡ 10,000">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Mes
+                                                                </label>
+                                                                <select class="form-select" id="select-mes">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        Enero
+                                                                    </option>
+                                                                    <option>
+                                                                        Febrero
+                                                                    </option>
+                                                                    <option>
+                                                                        Marzo
+                                                                    </option>
+                                                                    <option>
+                                                                        Abril
+                                                                    </option>
+                                                                    <option>
+                                                                        Mayo
+                                                                    </option>
+                                                                    <option>
+                                                                        Junio
+                                                                    </option>
+                                                                    <option>
+                                                                        Julio
+                                                                    </option>
+                                                                    <option>
+                                                                        Agosto
+                                                                    </option>
+                                                                    <option>
+                                                                        Septiembre
+                                                                    </option>
+                                                                    <option>
+                                                                        Octubre
+                                                                    </option>
+                                                                    <option>
+                                                                        Noviembre
+                                                                    </option>
+                                                                    <option>
+                                                                        Diciembre
+                                                                    </option>
+                                                                </select>
                                                             </div>
                                                         </div>
-                            
-                                                        <div class="col-md-2 col-12">
+
+                                                        <div id="ano" class="col mensualidadAdd">
                                                             <div class="mb-1">
-                                                                <button class="btn btn-outline-danger text-nowrap px-1 waves-effect"
-                                                                    data-repeater-delete="" type="button">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                                        class="feather feather-x">
-                                                                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                                                                    </svg>
-                                                                </button>
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Año
+                                                                </label>
+                                                                <select class="form-select" id="select-anio">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        2021
+                                                                    </option>
+                                                                    <option>
+                                                                        2022
+                                                                    </option>
+                                                                    <option>
+                                                                        2023
+                                                                    </option>
+                                                                    <option>
+                                                                        2024
+                                                                    </option>
+                                                                    <option>
+                                                                        2025
+                                                                    </option>
+                                                                    <option>
+                                                                        2026
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="precio" class="col">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Precio
+                                                                </label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text"
+                                                                        id="basic-addon-search1">
+                                                                        ₡
+                                                                    </span>
+                                                                    <input type="number" class="form-control"
+                                                                        id="itemPrice" aria-describedby="precio"
+                                                                        readonly="true" value="" />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <hr>
+
+                                                    <div class="d-flex justify-content-end">
+                                                        <button
+                                                            class="btn btn-icon btn-primary waves-effect waves-float waves-light"
+                                                            type="button" id="add_pago-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="14" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-plus me-25">
+                                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                            </svg>
+                                                            <span>
+                                                                Agregar Pago
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <hr />
                                                 </div>
                                             </div>
                                         </form>
@@ -626,37 +235,21 @@
                                                     <table class="table" id="table-pagos">
                                                         <thead>
                                                             <tr>
-                                                                <th>Concepto</th>
-                                                                <th>Mes</th>
-                                                                <th>Fecha de Pago</th>
-                                                                <th>Monto</th>
-                                                                <th>Accion</th>
+                                                                <th>
+                                                                    Concepto
+                                                                </th>
+                                                                <th>
+                                                                    Mes
+                                                                </th>
+                                                                <th>
+                                                                    Monto
+                                                                </th>
+                                                                <th>
+                                                                    Accion
+                                                                </th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id="body-table-pago"><!--SE CARGARA DINAMICAMENTE -->
-                                                            <tr>
-                                                                <td>
-                                                                    <span class="fw-bold">Mensualidad</span>
-                                                                </td>
-                                                                <td>Febrero 2022</td>
-                                                                <td>
-                                                                    14-02-2021
-                                                                </td>
-                                                                <td>₡ 17,000</td>
-                                                                <td>
-                                                                    <a class="item" href="#">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
-                                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                                            stroke-linecap="round" stroke-linejoin="round"
-                                                                            class="feather feather-trash me-50">
-                                                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                                                            <path
-                                                                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                                            </path>
-                                                                        </svg>
-                                                                    </a>
-                                                                </td>
-                                                            </tr>
+                                                        <tbody id="body-table-pago">
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -665,33 +258,212 @@
                                     </div>
                                 </div>
                             </div>
-	
+
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light" id="btn-guardar-pago">Guardar</button>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+                                    id="btn-guardar-pago">
+                                    Guardar
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <!-- Checkout Place Order Left ends -->
+
+                <!-- Checkout Place Order Right starts -->
+                <div class="checkout-options col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" id="nombre-alumno">
+                            </h5>
+                            <div class="price-details">
+                                <ul class="list-unstyled">
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Grupo:
+                                            </b>
+
+                                            <span id="grupo-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Horario:
+                                            </b>
+
+                                            <span id="horario-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Profesor:
+                                            </b>
+
+                                            <span id="profesor-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Telefonos:
+                                            </b>
+
+                                            <span id="telefonos-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Fecha de Pago:
+                                            </b>
+
+                                            <span id="fecha-pago-alumno"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <hr />
+
+                            {{! <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="m-0">Pagos</h5>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+                                    data-bs-toggle="modal" data-bs-target="#editUser">Agregar</button>
+                            </div>
+                            <hr> }}
+
+                            <div class="price-details">
+                                <div class="d-flex">
+                                    <button type="button"
+                                        class="btn btn-primary waves-effect waves-float waves-light me-1"
+                                        id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
+                                        disabled>
+                                        Comentarios
+                                    </button>
+                                </div>
+
+                                <hr />
+
+                                <div class="price-details d-grid gap-2">
+                                    {{! <h6 class="price-title">Detalles de Servicios</h6>
+                                    <ul class="list-unstyled" id="detalle-servicios">
+                                    </ul>
+                                    <hr>
+
+                                    <ul class="list-unstyled">
+                                        <li class="price-detail">
+                                            <div class="detail-title detail-total">Total</div>
+                                            <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
+                                        </li>
+                                    </ul> }}
+                                    <button type="button"
+                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
+                                        disabled id="btn-descarga-titulo">
+                                        <span>
+                                            Descargar Titulo
+                                        </span>
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
+                                        disabled id="btn-genera-constancia">
+                                        <span>
+                                            Generar Constancia
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Checkout Place Order Right ends -->
+                    </div>
+
+                    <!-- Timeline (Historial de servicios) comienza aqui -->
+                    <div class="col-12">
+                        <div class="card card-user-timeline">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-list user-timeline-title-icon">
+                                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                    </svg>
+                                    <h4 class="card-title">
+                                        Historial de servicios
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="timeline ms-50" id="historial-list">
+                                    <!--ESTO SE ESTA CARGANDO DINAMICAMENTE -->
+                                </ul>
+
+                                {{! <a class="btn btn-primary w-100 mb-75 waves-effect mt-2"
+                                    href="./app-invoice-print.html" target="_blank"> Descargar </a> }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Timeline (Historial de servicios) termina aqui -->
+                </div>
+            </section>
+            <!--Modal Comentarios-->
+            <div class="modal fade" id="comentariosModal" aria-hidden="true" aria-labelledby="comentariosModal"
+                tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="addCommentShow" class="modal-title btn btn-primary me-1">
+                                Agregar Comentarios
+                            </button>
+                            <button id="commentAdminShow" class="modal-title btn btn-primary">
+                                Ver Comentarios
+                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="exampleFormControlTextarea1">
+                                            Comentarios Administrador
+                                        </label>
+                                        <textarea class="form-control addCommentShow" id="addComment" rows="1"
+                                            placeholder="Agregar Comentario aqui, se guardara automaticamente al dak click fuera"
+                                            data-id="47"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion accordion-margin collapse" id="commentAdmin" data-toggle-hover="true">
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!--/ Edit User Modal -->
+            <!--/ Modal Comentarios-->
         </div>
     </div>
 </div>
 
 <form id="form-reg-pago" hidden>
-
 </form>
 
 <script>
-
-	function sMensualidad() {
-		document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
-		document.getElementById("precio").classList.replace("col", "col-4");
-		document.getElementById("banco").classList.replace("col-6", "col-4");
-		document.getElementById("transct").classList.replace("col-6", "col-4");
-		document.getElementById("mes").classList.remove("d-none");
-		document.getElementById("ano").classList.remove("d-none");
-	}
-	document.getElementById("botonPrueba").addEventListener("click", holaMensualidad);
-
+    function sMensualidad() {
+        document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
+        document.getElementById("precio").classList.replace("col", "col-4");
+        document.getElementById("banco").classList.replace("col-6", "col-4");
+        document.getElementById("transct").classList.replace("col-6", "col-4");
+        document.getElementById("mes").classList.remove("d-none");
+        document.getElementById("ano").classList.remove("d-none");
+    }
+    document.getElementById("botonPrueba").addEventListener("click", holaMensualidad);
 </script>

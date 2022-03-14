@@ -1554,8 +1554,8 @@ exports.guarda_pago = async(req, res) => {
   var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
   
 for (let i = 0; i < concepto.length; i++) {
-    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago[i], monto[i], mora[i], observacion[i],banco[i],
-      transaccion[i],id_alumno)
+    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
+      transaccion,id_alumno)
   console.log(save_pago)
   
 }
@@ -1570,6 +1570,34 @@ exports.historial_caja = async(req, res) => {
   console.log(obtener_historia)
   return res.send({obtener_historia})
 };
+//OBTENER COMENTARIOS POR ALUMNO
+exports.get_comments_alumno = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumno(id_alumno))
+  console.log(obtener_comentarios)
+  return res.send({obtener_comentarios})
+};
+exports.guardar_comentario = async(req, res) => {
+  var {id_alumno,
+    comentario} = req.body
+
+    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno)
+  console.log(comentario_save)
+
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
+  console.log(obtener_comentarios) 
+
+  return res.send({obtener_comentarios})
+};
+exports.comentarios_admin_get = async(req, res) => {
+  let id_alumno = req.params.id_alumno
+  
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
+  console.log(obtener_comentarios)
+  return res.send({obtener_comentarios})
+};
+
 
 /**GENERAL PDF CONSTANCIA */
 exports.genera_pdf_constancia = async (req, res) => {

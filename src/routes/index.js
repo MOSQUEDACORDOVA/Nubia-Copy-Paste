@@ -591,14 +591,18 @@ router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0)
 router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
 router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
 
-
-
-
+//COMENTARIOS
+router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.get_comments_alumno);
+router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guardar_comentario);
+router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
 router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_constancia);
 router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_titulo);
+
+
+
 
 router.get('/notas-titulo-academy/:id_alumno', dashboardControllerPY672.notas_titulo);
 router.get('/participacion-titulo-academy/:id_alumno', dashboardControllerPY672.participacion_titulo);

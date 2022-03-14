@@ -68,6 +68,12 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Eliminado !';
         toastText.innerText = 'Estimado usuario, el usuario fue eliminado satisfactoriamente';
 
+    }else if (notif === "ComentarioProf") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Comentario !';
+        toastText.innerText = 'Estimado usuario, se guardó su comentario con éxito';
+
     }
 
     btnToast.click();

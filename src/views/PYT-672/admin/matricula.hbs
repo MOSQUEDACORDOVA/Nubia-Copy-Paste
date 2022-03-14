@@ -18,11 +18,16 @@
         $('#closeModal1').on('click', function () {
             $('#comentariosModal').modal('show');
         })
-    })
-
-    $(function () {
         $('#closeModal2').on('click', function () {
             $('#createAppModal').modal('show');
+        })
+        $('#commentAdminShow').click(()=>{
+         $('#accordionMargin').addClass('collapse')
+         $('#commentAdmin').removeClass('collapse')
+        })
+        $('#commentProf').click(()=>{
+         $('#accordionMargin').removeClass('collapse')
+         $('#commentAdmin').addClass('collapse')
         })
     })
 </script>
@@ -314,7 +319,7 @@
                             <span class="fw-bolder">
                               Leccion Actual:
                             </span>
-                            <span id="grupoReag">10</span>
+                            <span id="leccionActual">10</span>
                           </p>
                         </div>
                         <!--/ Leccion Actual-->
@@ -328,7 +333,7 @@
                             <span class="fw-bolder">
                               Fecha Pago:
                             </span>
-                            <span id="grupoReag">15 de cada mes</span>
+                            <span id="fechaPagoReag">15 de cada mes</span>
                           </p>
                         </div>
                         <!--/ Fecha Pago-->
@@ -345,7 +350,7 @@
                             <span class="fw-bolder">
                               Calificacion:
                             </span>
-                            <span id="grupoReag">25%</span>
+                            <span id="calificacionT">25%</span>
                           </p>
                         </div>
                         <!--/ Calificacion-->
@@ -362,7 +367,7 @@
                             <span class="fw-bolder">
                               Asistencia:
                             </span>
-                            <span id="grupoReag">40%</span>
+                            <span id="asistenciareag">40%</span>
                           </p>
                         </div>
                         <!--/ Asistencia-->
@@ -372,6 +377,7 @@
 
                     </div>
                     <div class="modal-footer">
+                      <button id="guarda-grupoNew" class="btn btn-primary d-none" type="button">Cambiar Grupo</button>
                       <button id="closeModal1" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal">Mostrar Comentarios</button>
                     </div>
 
@@ -431,10 +437,10 @@
               <section id="accordion" class="d-none">
                 <span id="cantAlumnos">
                               0
-                            </span>
+                            {{!-- </span>
                             <span id="leccionActual">
                               0
-                            </span>
+                            </span> --}}
                 <div class="row card">
                   <div class="col-sm-12">
                     <div
@@ -558,44 +564,23 @@
           <div class="modal-content">
             <div class="modal-header">
               
-              <button id="closeModal2" class="modal-title btn btn-primary" data-bs-toggle="modal"
+              <button id="closeModal2" class="modal-title btn btn-primary me-1" data-bs-toggle="modal"
               data-bs-dismiss="modal">Regresar a Traslado</button>
-
+              <button id="commentProf" class="modal-title btn btn-primary me-1" >Comentarios Profesor</button>
+              <button id="commentAdminShow" class="modal-title btn btn-primary" >Comentarios Administrador</button>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
               <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
                 
                 <!--Esta es la seccion del acordion que se repite-->
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id="headingMarginOne">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                      data-bs-target="#accordionMarginOne" aria-expanded="false" aria-controls="accordionMarginOne">
-                      Comentarios Leccion <!--Aqui va el numero de la leccio--> 1 <!---->
-                    </button>
-                  </h2>
-                  <div id="accordionMarginOne" class="accordion-collapse collapse" aria-labelledby="headingMarginOne"
-                    data-bs-parent="#accordionMargin" style="">
-                    <div class="accordion-body">
-                      <div class="row">
-                        <div class="col-6">
-                          <div class="mb-1">
-                            <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                            <textarea class="form-control commentProf" id="comentP47" rows="1" placeholder="<!--Aqui va el comentario del Profesor-->" data-id="47" readonly></textarea>
-                          </div>
-                        </div>
-                    
-                        <div class="col-6">
-                          <div class="mb-1">
-                            <label class="form-label" for="exampleFormControlTextarea1">Comentarios Administrativos</label>
-                            <textarea class="form-control commentAdmin" id="comentA47" rows="1" placeholder="<!--Aqui va el comentario de administrativos-->" data-id="47" readonly></textarea>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
+                
                 <!--/ Aqui termina la seccion del acordion que se repite--> 
+
+              </div>
+              <div class="accordion accordion-margin collapse" id="commentAdmin" data-toggle-hover="true">
+
 
               </div>
             </div>
