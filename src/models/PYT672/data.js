@@ -10,6 +10,7 @@ const Canton = require("../../models/PYT672/Canton");
 const Distritos = require("../../models/PYT672/Distritos");
 const Usuarios = require("../../models/PYT672/Usuarios");
 const Caja = require("../../models/PYT672/Caja");
+const Comentarios = require("../../models/PYT672/Comentarios");
 module.exports = {
     // * REGISTRO DE USUARIOS
     RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password) {
@@ -56,7 +57,7 @@ module.exports = {
         Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,usuarioId:profesor, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
-            console.log('NUEVO GRUPO CREADO')
+            
             resolve(data_set);
           })
           .catch((err) => {
@@ -243,7 +244,7 @@ module.exports = {
         }})
           .then((data) => {
             let data_s = JSON.stringify(data);
-            console.log('GRUPO INICIADO')
+            
             resolve('GRUPO INICIADO');
           })
           .catch((err) => {
@@ -263,7 +264,7 @@ module.exports = {
         }})
           .then((data) => {
             let data_s = JSON.stringify(data);
-            console.log('GRUPO INICIADO')
+            
             resolve('GRUPO INICIADO');
           })
           .catch((err) => {
@@ -353,7 +354,7 @@ module.exports = {
         },)
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log('ESTUDIANTE ELIMINADO')
+            
             resolve(data_p);
           })
           .catch((err) => {
@@ -370,7 +371,7 @@ module.exports = {
         },)
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log('ESTUDIANTE ENCONTRADO')
+            
             resolve(data_p);
           })
           .catch((err) => {
@@ -393,7 +394,7 @@ module.exports = {
         },)
           .then((data) => {
             let data_p = JSON.stringify(data);
-            console.log('ESTUDIANTE ENCONTRADO')
+            
             resolve(data_p);
           })
           .catch((err) => {
@@ -411,7 +412,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('ESTUDIANTE ACTIVADO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -429,7 +430,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('ESTUDIANTE CONGELADO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -447,7 +448,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -465,7 +466,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('ESTUDIANTE ELIMINADO DE GRUPO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -483,7 +484,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('GRUPO ACTUALIZADO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -501,7 +502,7 @@ module.exports = {
         }})
         .then((data) => {
           let data_s = JSON.stringify(data);
-          console.log('GRUPO ACTUALIZADO')
+          
           resolve(data_s);
         })
         .catch((err) => {
@@ -574,8 +575,7 @@ module.exports = {
         ],})
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("USUARIOS")
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -600,7 +600,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log("FOUND")
           resolve(data_p);
         })
         .catch((err) => {
@@ -615,8 +614,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("ASISTENCIA")
           resolve(data_p);
         })
         .catch((err) => {
@@ -631,7 +628,7 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log("NOTAS GUARDADAS")
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -646,8 +643,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("PARTICIPACION GUARDADA")
           resolve(data_p);
         })
         .catch((err) => {
@@ -655,6 +650,25 @@ module.exports = {
         });
       });
     },
+    comentariosByAlumno(matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+
     ObtenerNotasMatricula(lecc, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
@@ -672,8 +686,7 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("NOTAS ENCONTRADAS")
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -698,8 +711,7 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("NOTAS ENCONTRADAS")
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -724,8 +736,7 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("PARTICIPACION ENCONTRADA")
+        
           resolve(data_p);
         })
         .catch((err) => {
@@ -806,8 +817,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("NOTAS ACATUALIZADAS")
           resolve(data_p);
         })
         .catch((err) => {
@@ -834,8 +843,7 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("PARTICIPACION ACATUALIZADA")
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -852,8 +860,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("ASISTENCIA")
           resolve(data_p);
         })
         .catch((err) => {
@@ -870,8 +876,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("ASISTENCIA")
           resolve(data_p);
         })
         .catch((err) => {
@@ -888,8 +892,6 @@ module.exports = {
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
-          console.log(data)
-          console.log("ASISTENCIA")
           resolve(data_p);
         })
         .catch((err) => {
@@ -903,8 +905,7 @@ module.exports = {
         Provincias.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          /*console.log(data)
-          console.log("PROVINCIAS")*/
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -917,8 +918,7 @@ module.exports = {
         Canton.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          /*console.log(data)
-          console.log("CANTON")*/
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -931,8 +931,7 @@ module.exports = {
         Distritos.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
-          /*console.log(data)
-          console.log("DISTRITOS")*/
+          
           resolve(data_p);
         })
         .catch((err) => {
@@ -970,6 +969,32 @@ historial_caja(id_alumno) {
 update_constancia(id_caja, fecha_download) {
   return new Promise((resolve, reject) => {
     Caja.update({observacion:fecha_download},{where:{id:id_caja} })
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+//COMENTARIOS
+Guarda_comentarios(commentAdminForm,id_alumno) {
+  return new Promise((resolve, reject) => {
+    Comentarios.create({commentAdminForm:commentAdminForm, matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+comentariosByAlumnoAdmin(id_alumno) {
+  return new Promise((resolve, reject) => {
+    Comentarios.findAll({where:{matriculaId:id_alumno}})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

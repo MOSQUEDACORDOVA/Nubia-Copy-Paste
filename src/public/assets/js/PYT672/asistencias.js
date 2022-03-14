@@ -117,7 +117,7 @@ $(document).ready(function () {
               }
               
               commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-              commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
+            
               calif = `
                     <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
@@ -131,7 +131,7 @@ $(document).ready(function () {
                     </div>`;
             } else {
               commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-              commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
+            
               calif = `
                     <div class="d-flex flex-column mb-1 me-1">
                         <p class="text-success"><b>Calificación</b></p>
@@ -198,13 +198,8 @@ $(document).ready(function () {
                                                     ${commentarioP}
                                                 </div>
                                             </div>
-                                        
-                                            <div class="col-6">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="exampleFormControlTextarea1">Comentarios Administrativos</label>
-                                                    ${commentarioA}
-                                                </div>
-                                            </div>
+                                       
+                                  
                                         </div>
                                         
                                     </div>
@@ -229,7 +224,7 @@ $(document).ready(function () {
                     `;
           } else {
             commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-            commentarioA = `<textarea class="form-control commentAdmin" id="comentA${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentAdminForm}</textarea>`
+          
             div.innerHTML = `
                     <label class="card-title estudiante" hidden>${
                       matricula.nombre
@@ -266,13 +261,8 @@ $(document).ready(function () {
                                                     ${commentarioP}
                                                 </div>
                                             </div>
-                                        
-                                            <div class="col-6">
-                                                <div class="mb-1">
-                                                    <label class="form-label" for="exampleFormControlTextarea1">Comentarios Administrativos</label>
-                                                    ${commentarioA}
-                                                </div>
-                                            </div>
+                                       
+                                  
                                         </div>
                                         
                                     </div>
@@ -524,7 +514,7 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
-            Toast("Nota");
+            Toast("ComentarioProf");
           } else {
             Toast("Error");
           }

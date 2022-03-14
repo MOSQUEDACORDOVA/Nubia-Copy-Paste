@@ -325,23 +325,43 @@ $(function () {
     );
     $(`#fechaPagoReag`).text(`${my_object["grupo"]["dia_pagos"]}`);
     $(`#cantAlumnos`).text(`${filter_group_alumnos.length}`);
+//NOTAS Y PARTICIPACION
+var notas,nota_participacion,ausencias, comentarios;
+notas = await fetch("/notas-titulo-academy/" + my_object["id"])
+.then((response) => response.json())
+.then((data) => {
+  return data.obtener_notas;
+});
+nota_participacion= await fetch("/participacion-titulo-academy/" + my_object["id"])
+.then((response) => response.json())
+.then((data) => {
+return data.obtener_participacion;
+});
+ausencias = await fetch("/ausencias-titulo-academy/" + my_object["id"])
+.then((response) => response.json())
+.then((data) => {
+return data.obtener_ausencias;
+});
+let total_nota = 0
+for (let i = 0; i < notas.length; i++) {
+if (notas[i]['nota'] == 'undefined') {
+  total_nota += 0;
+}else{
+  total_nota += parseInt(notas[i]['nota']);
+}     
+}
+let asistencias = 32-parseInt(ausencias.length);
+let porcentaje_asist = (asistencias * 100)/32;
+console.log(total_nota);
+$('#calificacionT').text(`${total_nota}%`)
+$('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
 
     let inicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(my_object["grupo"]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
     let tipo = my_object["grupo"]["nombre"];
-    let leccionFecha,
-      addf,
-      leccionactual,
-      fecha_ant,
-      leccionFecha2,
-      leccionFecha3 = "",
-      html = "",
-      html2 = "",
-      j = "",
-      html3 = "";
-    var leccionTrue = false,
-      nLeccion;
+    let leccionFecha, addf,  leccionactual,  fecha_ant,  leccionFecha2,  leccionFecha3 = "",  html = "",  html2 = "",  j = "",  html3 = "";
+    var leccionTrue = false,  nLeccion;
     var startDate = moment().startOf("week");
     var endDate = moment().endOf("week");
     if (tipo == "Intensivo") {
@@ -506,7 +526,53 @@ $(function () {
 await leccionActualGrupos();
       }
     }
-    
+    comentarios = await fetch("/comentarios-academy/" + my_object["id"])
+.then((response) => response.json())
+.then((data) => {
+  return data.obtener_comentarios;
+});
+console.log(comentarios)
+for (let i = 0; i < comentarios.length; i++) {
+ $('#accordionMargin').append(`<div class="accordion-item">
+ <h2 class="accordion-header" id="headingMargin${comentarios[i].n_leccion}">
+   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+     data-bs-target="#accordionMargin${comentarios[i].n_leccion}" aria-expanded="false" aria-controls="accordionMargin${comentarios[i].n_leccion}">
+     Comentarios Leccion ${comentarios[i].n_leccion}
+   </button>
+ </h2>
+ <div id="accordionMargin${comentarios[i].n_leccion}" class="accordion-collapse collapse" aria-labelledby="headingMargin${comentarios[i].n_leccion}"
+   data-bs-parent="#accordionMargin" style="">
+   <div class="accordion-body">
+     <div class="row">
+       <div class="col-6">
+         <div class="mb-1">
+           <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+           <textarea class="form-control commentProf" id="comentP47" rows="1" placeholder="${comentarios[i].commentProfForm}" data-id="47" readonly></textarea>
+         </div>
+       </div>
+     </div>
+   </div>
+ </div>
+</div>`)
+}
+  /** CARGAR COMENTARIOS DEL ADMINISTREADOR */
+    $('#commentAdmin').empty()
+    let id_alumno = $("#id-alumno-form").val();
+       let comentariosA = await fetch("/comentarios_admin_get-academy/" + my_object["id"])
+          .then((response) => response.json())
+          .then((data) => {
+            return data.obtener_comentarios;
+          });
+          console.log(comentariosA)
+          for (let i=0; i < comentariosA.length; i++){
+            $('#commentAdmin').append(`          
+            <div class="col-12">
+             <div class="mb-1">
+               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${moment(comentariosA[i].createdAt).format('DD/MM/YYYY')}</label>
+               <textarea class="form-control" id="coment${comentariosA[i].id}" rows="1" data-id="47" readonly>${comentariosA[i].commentAdminForm}</textarea>
+             </div>
+           </div>`)                        
+        }
     /**fin carga modal alumno */
   });
 
