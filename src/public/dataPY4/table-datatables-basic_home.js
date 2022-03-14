@@ -412,8 +412,8 @@ Env: ${Env}.</p>`
         {
           targets: 9,className:'fecha_pedido',
           render:function(data, type, full){
-            
-           return moment(data).format('DD/MM/YYYY');
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
           }
         },
         
