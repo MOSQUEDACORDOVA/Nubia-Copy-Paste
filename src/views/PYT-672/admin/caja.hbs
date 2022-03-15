@@ -37,9 +37,9 @@
                     <div class="card">
                         <div class="row m-0 mt-1 justify-content-end">
                             <!-- FILTRO -->
-                            <div class="col-12 col-lg-7">
+                            <div class="col-12" >
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
-                                <select class="select2 form-select alumno-select" tabindex="-1" name="alumno"
+                                <select class="select2 form-select form-select-lg alumno-select" tabindex="-1" name="alumno"
                                     aria-hidden="true" required>
                                     <option value="" selected>
                                         Escriba el nombre de un alumno!
@@ -68,7 +68,7 @@
                                                         Nuevo Pago
                                                     </h4>
 
-                                                    <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
+                                                    <div id="mContenedor" class="row row-cols-4 d-flex align-items-end">
                                                         <div id="tipoServicio" class="col">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemname">
@@ -157,7 +157,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="ano" class="col mensualidadAdd">
+                                                        <div id="ano" class="col-auto mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Año
@@ -188,7 +188,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="precio" class="col">
+                                                        <div id="precio" class="col" style="width: 28.5%;">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Precio
@@ -239,7 +239,7 @@
                                                                     Concepto
                                                                 </th>
                                                                 <th>
-                                                                    Mes
+                                                                    Cuota
                                                                 </th>
                                                                 <th>
                                                                     Monto
@@ -323,6 +323,15 @@
                                             <span id="fecha-pago-alumno"></span>
                                         </div>
                                     </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Mensualidad:
+                                            </b>
+
+                                            <span id="mensualidad-alumno"></span>
+                                        </div>
+                                    </li>
                                 </ul>
                             </div>
 
@@ -336,9 +345,9 @@
                             <hr> }}
 
                             <div class="price-details">
-                                <div class="d-flex">
+                                <div class="d-grid">
                                     <button type="button"
-                                        class="btn btn-primary waves-effect waves-float waves-light me-1"
+                                        class="btn btn-primary waves-effect waves-float waves-light"
                                         id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
                                         disabled>
                                         Comentarios
