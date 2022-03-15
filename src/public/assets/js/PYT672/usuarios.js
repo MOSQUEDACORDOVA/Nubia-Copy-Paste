@@ -21,13 +21,10 @@ function cargarTablaUsuarios() {
       data: usuarios,
       columns: [
         { data: 'nombre' },
-        { data: 'dni' }, // used for sorting so will hide this column
-        { data: 'email' },
+         // used for sorting so will hide this column
         { data: 'pais' },
-        { data: 'puesto' },
-        { data: 'fecha_nacimiento' },
-        { data: 'fecha_inicio' },
         { data: 'telefono' },
+        { data: 'puesto' },        
         {   // Actions 
           targets: -1,
           title: 'Acciones',
