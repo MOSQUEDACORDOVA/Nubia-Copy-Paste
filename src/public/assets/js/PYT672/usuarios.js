@@ -27,7 +27,8 @@ function cargarTablaUsuarios() {
         { data: 'puesto' },
         { data: 'fecha_nacimiento' },
         { data: 'fecha_inicio' },
-        {   // Actions
+        { data: 'telefono' },
+        {   // Actions 
           targets: -1,
           title: 'Acciones',
           orderable: false,
@@ -35,7 +36,8 @@ function cargarTablaUsuarios() {
             return `
             <div class="d-flex align-items-center">
               <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
-              <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
+              <a href="#" class="btn btn-sm text-primary" onclick="('${full['id']}')">${feather.icons['user-check'].toSvg()}</a>
+              <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
                 ${feather.icons['more-vertical'].toSvg()}
               </a>
 
@@ -44,6 +46,7 @@ function cargarTablaUsuarios() {
                   Editar
                 </a>
               </div>
+              
               
             </div>`;
           }
@@ -196,7 +199,7 @@ function edituser (id) {
   $("#email-user").val(`${filteruser[0]["email"]}`);
   $("#pais-user").val(`${filteruser[0]["pais"]}`);
   $("#fechaN-user").val(`${filteruser[0]["fecha_nacimiento"]}`);
-$("#fechaI-user").val(`${filteruser[0]["fecha_inicio"]}`);
+  $("#fechaI-user").val(`${filteruser[0]["fecha_inicio"]}`);
   
   $(`#puesto-user option[value='${filteruser[0]["puesto"]}']`).attr(
     "selected",
@@ -220,6 +223,7 @@ function UpdateTables() {
           <th>Puesto</th>
           <th>F. Nacimiento</th>
           <th>F. Inicio</th>
+          <th>Telefono</th>
           <th>Acciones</th>
       </tr>
   </thead>`);
