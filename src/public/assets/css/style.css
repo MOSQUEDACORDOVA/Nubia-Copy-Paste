@@ -1839,6 +1839,14 @@ table tr td {
     margin-left: 12px !important;
     padding-right: 22px !important;
 }
+.navWidth{
+    width: calc(100vw - (100vw - 100%) - calc(2rem * 2) - 230px) !important;
+    left: 230px !important;
+}
+.footerWidth{
+    margin-left: 230px !important;
+}
+
 
 /*.py672 .nav .select2 {
     max-width: 91% !important;
