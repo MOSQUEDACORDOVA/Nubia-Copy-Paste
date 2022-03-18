@@ -1847,6 +1847,16 @@ table tr td {
     margin-left: 230px !important;
 }
 
+.btn-circle.btn-sm {
+    width: 25px;
+    height: 25px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    font-size: 12px;
+    text-align: center;
+    border: none;
+}
+
 
 /*.py672 .nav .select2 {
     max-width: 91% !important;
