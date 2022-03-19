@@ -633,18 +633,32 @@ const reposicion =async ()=>{
       html: `<div class="mb-1">
       <label class="form-label" for="itemcost">Fecha</label>
       <input type="date" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-    </div>
+      </div>
       <div class="mb-1">
       <label class="form-label" for="itemquantity">Banco</label>
-                                      <select class="form-select" id="bank-serv">
-        <option>Seleccione</option>
-                                          <option>BNA</option>
-                                          <option>BCR</option>
-        <option>BAC</option>
-        <option>BPO</option>																	
-      </select>
+      
+      <div class="demo-inline-spacing justify-content-around">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+          <label class="form-check-label" for="inlineRadio1">BNA</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+          <label class="form-check-label" for="inlineRadio2">BCR</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" />
+          <label class="form-check-label" for="inlineRadio3">BAC</label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio4" value="option4" />
+          <label class="form-check-label" for="inlineRadio4">BPO</label>
+        </div>
+        
+      </div>
+
     </div> 
-    <div id="transct" class="col-6">
+    <div id="transct" class="col">
     <div class="mb-1">
       <label class="form-label" for="itemquantity">Transaccion #:</label>
       <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">

@@ -62,7 +62,7 @@
   transform: rotate(90deg); }
 
 .vertical-layout.vertical-menu-modern.menu-expanded .footer {
-  margin-left: 260px; }
+  margin-left: 0px; }
 
 .vertical-layout.vertical-menu-modern.menu-collapsed .navbar .navbar-header {
   float: left;
