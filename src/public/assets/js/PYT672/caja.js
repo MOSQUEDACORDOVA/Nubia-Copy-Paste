@@ -372,7 +372,11 @@ $(function () {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
     }
-
+    if (!$('#btn-genera-constancia').attr('disabled')) {
+      swal.fire("Ya tiene una constancia pagada, haga click en descargar constancia");
+      $('#btn-genera-constancia').focus()
+      return;
+    }
     var filter = matricula.filter((element) => element.id == id_alumno);
 
     // const fecha_pago = $('#fecha-servicio').val()
