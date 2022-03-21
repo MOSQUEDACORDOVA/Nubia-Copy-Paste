@@ -396,7 +396,12 @@ $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
         console.log(data);
         return data.obtener_historia;
       });
-    for (let i = 0; i < historial.length; i++) {
+      if (historial.length == 0) {
+        $('#countGrupos').text('0')
+
+        await leccionActualGrupos();
+      } else {
+            for (let i = 0; i < historial.length; i++) {
       var hora_registro_pago = moment(historial[i]["createdAt"]);
       console.log(moment().isAfter(hora_registro_pago, "d"))
       if (
@@ -408,24 +413,12 @@ $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
        await leccionActualGrupos(); 
       }else{
           $('#countGrupos').text('0')
-  $('#grupos_table').dataTable().fnDestroy();
-  $('#grupos_table').empty();
-  $('#grupos_table').html(`<thead>
-  <tr>
-      <th></th>
-      <th>Tipo</th>
-      <th>Leccion Actual</th>
-      <th>Horario</th>
-      <th>Fecha Pago</th>
-      <th>Alumnos</th>
-      <th>Profesor</th>
-  </tr>
-</thead><tbody id="gruposAct">
-                                      
-</tbody>`);
+
 await leccionActualGrupos();
       }
     }
+      }
+
     comentarios = await fetch("/comentarios-academy/" + my_object["id"])
 .then((response) => response.json())
 .then((data) => {
@@ -511,8 +504,6 @@ const leccionActualGrupos = async () => {
   numLeccion;
   var jjaa;
   var gruposAct = [];
-  console.log(grupoActual)
-
   for (let i = 0; i < grupos.length; i++) {
     let tipo = grupos[i]["nombre"];
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
@@ -524,7 +515,6 @@ const leccionActualGrupos = async () => {
     let fechaInicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY").format("DD-MM-YYYY");
     let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
     let rest; 
-
     if(grupos[i]["lecciones_semanales"] === '1') {
       if(diff < 0) {
         rest = (224 - (-diff)) / 7; 
@@ -540,6 +530,7 @@ const leccionActualGrupos = async () => {
     }
 
     numLeccion = (32 - Math.floor(rest))
+    console.log(numLeccion)
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -547,10 +538,11 @@ const leccionActualGrupos = async () => {
     }
     
     if (parseInt(jjaa) > parseInt(grupoActual)) {
-      $('#selectGroup option[value="' + grupos[i]["id"] + '"]').attr(
-        "disabled",
-        true
-      );
+      // $('#selectGroup option[value="' + grupos[i]["id"] + '"]').attr(
+      //   "disabled",
+      //   true
+      // );
+      console.log('000000')
     } else {
       if ($("#grupoReag").text() == grupos[i]["identificador"]) {
         console.log("mismo grupo");
