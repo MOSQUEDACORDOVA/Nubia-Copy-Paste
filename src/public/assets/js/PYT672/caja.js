@@ -31,9 +31,18 @@ $(function () {
       });
     let fecha_pago_historial,
       pago_mensualidad = [];
+      let mensualidad_coste
+
+      if (filter[0]["grupo"]['nombre'] == "Intensivo") {
+        mensualidad_coste = "29000"
+      } else {
+        mensualidad_coste = "17000"
+      }
 
     if (today_day <= dias_pago[0]) {
-      $("#pago-mensual-detail").text("17000");
+
+      $("#mensualidad-alumno").text(mensualidad_coste);
+
       console.log("Aun no le toca pagar");
       console.log(today_day);
       console.log(dias_pago[0]);
@@ -100,20 +109,20 @@ $(function () {
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
         "YYYY-MM-DD"
       )}">-->
-<input type="text" name="monto[]" id="monto-form" value="17000">
+<input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
 <input type="text" name="mora[]" id="mora-form" value="-">
 <input type="text" name="observacion[]" id="observacion-form" value="${mes_a_pagar}">
 </div>`);
       /**FIN FORM */
 
-      $("#pago-mensual-detail").text("17000");
+      $("#mensualidad-alumno").text(mensualidad_coste);
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
     <span class="fw-bold">Mensualidad</span>
 </td>
 <td class="text-capitalize">${mes_a_pagar}</td>
-<td>17000</td>
+<td>${mensualidad_coste}</td>
 <td>
     <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -196,7 +205,7 @@ $(function () {
     switch (servicio) {
       case "Mensualidad":
         addMensualidadFormat();
-        $("#itemPrice").val(17000);
+        $("#itemPrice").val($("#mensualidad-alumno").text());
         break;
       case "Recargo":
         removeMensualidadFormat();
@@ -219,7 +228,7 @@ $(function () {
         break;
       case "Reposicion":
         removeMensualidadFormat();
-        
+        $(".select-reposicion").removeClass(`d-none`);
         $("#itemPrice").val(10000);
         break;
       default:
@@ -411,6 +420,11 @@ $(function () {
 
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+    if (!$('#btn-descarga-titulo').attr('disabled')) {
+      swal.fire("Ya tiene un titulo pagado, haga click en descargar titulo");
+      $('#btn-descarga-titulo').focus()
       return;
     }
     //VERIFICAR QUE LE CORRESPONDE TITULO:
@@ -799,11 +813,12 @@ $(function () {
         console.log(data);
         $("#addComment").val("");
         $("#commentAdmin").empty();
-        for (let i = 0; i < data.obtener_comentarios.lenght; i++) {
+        for (let i = 0; i < data.obtener_comentarios.length; i++) {
+          let fecha = moment(data.obtener_comentarios[i].createdAt).format('DD-MM-YYYY')
           $("#commentAdmin").append(`<div class="col-12">
              <div class="mb-1">
-               <label class="form-label" for="exampleFormControlTextarea1">Comentario del</label>
-               <textarea class="form-control addCommentShow" id="comentP47" rows="1" placeholder="${comentarios[i].addCommentShowForm}" data-id="47" readonly></textarea>
+               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${fecha}</label>
+               <textarea class="form-control addCommentShow" readonly>${data.obtener_comentarios[i].commentAdminForm}</textarea>
              </div>
            </div>`);
         }
@@ -846,7 +861,7 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").attr("disabled", true);
 
   for (let i = 0; i < historial.length; i++) {
-    fecha_pago_historial = moment(historial[i]["fecha_pago"]).format(
+    fecha_pago_historial = moment(historial[i]["observacion"]).format(
       "DD-MM-YYYY"
     );
     let lista = `<li class="timeline-item">
