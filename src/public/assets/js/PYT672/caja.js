@@ -898,7 +898,9 @@ async function updateHistorial(id_estudiante) {
       (historial[i]["concepto"] == "Traslado" &&
         historial[i]["observacion"] != "-") ||
       (historial[i]["concepto"] == "Constancia" &&
-        historial[i]["observacion"] != "-")
+        historial[i]["observacion"] != "-" )||
+        (historial[i]["concepto"] == "Titulo" &&
+          historial[i]["observacion"] != "-" )
     ) {
       $("#historial-list").append(lista);
     }
