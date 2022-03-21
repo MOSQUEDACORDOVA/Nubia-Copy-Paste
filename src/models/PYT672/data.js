@@ -994,7 +994,7 @@ Guarda_comentarios(commentAdminForm,id_alumno) {
 },
 comentariosByAlumnoAdmin(id_alumno) {
   return new Promise((resolve, reject) => {
-    Comentarios.findAll({where:{matriculaId:id_alumno}})
+    Comentarios.findAll({where:{matriculaId:id_alumno},order:[['createdAt', 'DESC']]})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

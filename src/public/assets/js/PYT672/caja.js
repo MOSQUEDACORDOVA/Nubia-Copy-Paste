@@ -228,7 +228,7 @@ $(function () {
         break;
       case "Reposicion":
         removeMensualidadFormat();
-        
+        $(".select-reposicion").removeClass(`d-none`);
         $("#itemPrice").val(10000);
         break;
       default:
@@ -420,6 +420,11 @@ $(function () {
 
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+    if (!$('#btn-descarga-titulo').attr('disabled')) {
+      swal.fire("Ya tiene un titulo pagado, haga click en descargar titulo");
+      $('#btn-descarga-titulo').focus()
       return;
     }
     //VERIFICAR QUE LE CORRESPONDE TITULO:
@@ -808,11 +813,12 @@ $(function () {
         console.log(data);
         $("#addComment").val("");
         $("#commentAdmin").empty();
-        for (let i = 0; i < data.obtener_comentarios.lenght; i++) {
+        for (let i = 0; i < data.obtener_comentarios.length; i++) {
+          let fecha = moment(data.obtener_comentarios[i].createdAt).format('DD-MM-YYYY')
           $("#commentAdmin").append(`<div class="col-12">
              <div class="mb-1">
-               <label class="form-label" for="exampleFormControlTextarea1">Comentario del</label>
-               <textarea class="form-control addCommentShow" id="comentP47" rows="1" placeholder="${comentarios[i].addCommentShowForm}" data-id="47" readonly></textarea>
+               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${fecha}</label>
+               <textarea class="form-control addCommentShow" readonly>${data.obtener_comentarios[i].commentAdminForm}</textarea>
              </div>
            </div>`);
         }
