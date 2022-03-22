@@ -14,7 +14,7 @@ FetchData();
 function cargarTablaUsuarios() {
   
   if (usuariosTable.length) {
-    
+    console.log(usuarios);
     let tableUsuarios = usuariosTable.DataTable({
       ordering: false,
       paging: false,
@@ -24,34 +24,39 @@ function cargarTablaUsuarios() {
          // used for sorting so will hide this column
         { data: 'pais' },
         { data: 'telefono' },
-        { data: 'puesto' },        
+        { data: 'puesto' },   
+        { data: 'enabled' },     
         {   // Actions 
           targets: -1,
           title: 'Acciones',
           orderable: false,
           render: function (data, type, full, meta) {
-            return `
-            <div class="d-flex align-items-center">
-              <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
-              <a href="#" class="btn btn-sm text-primary" onclick="('${full['id']}')">${feather.icons['user-check'].toSvg()}</a>
-              <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
-                ${feather.icons['more-vertical'].toSvg()}
-              </a>
-
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
-                <a class="dropdown-item" href="#" onclick="edituser('${full['id']}')">
-                  Editar
+            let options =""
+            if (full['puesto'] != "Administrador") {
+              options =`
+              <div class="d-flex align-items-center">
+                <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
+                <a href="#" class="btn btn-sm text-primary" onclick="enabledDisUser('${full['id']}','${full['enabled']}')">${feather.icons['user-check'].toSvg()}</a>
+                <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                  ${feather.icons['more-vertical'].toSvg()}
                 </a>
-              </div>
-              
-              
-            </div>`;
+  
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start">
+                  <a class="dropdown-item" href="#" onclick="edituser('${full['id']}')">
+                    Editar
+                  </a>
+                </div>
+                
+                
+              </div>`
+            }
+            return options;
           }
         },
       ],
       columnDefs: [
         {
-          targets: 4, render: function (data, type, full) {
+          targets: 3, render: function (data, type, full) {
               let puesto = full.puesto;
               if(puesto === "Vendedor") {
                   puesto = `<span class="badge badge-light-warning">${puesto}</span>`
@@ -64,22 +69,14 @@ function cargarTablaUsuarios() {
           }
         },
         {
-          targets: 5, render: function (data, type, full) {
-              let nacimiento = full.fecha_nacimiento;
-              return `
-              <span class="badge badge-light-primary">${nacimiento}</span>
-              `;
-          }
-        },
-        {
-          targets: 6, render: function (data, type, full) {
-              let inicio = full.fecha_inicio;
-              if(inicio === null) {
-                  inicio = '<span class="badge badge-light-danger">No Establecida</span>'
+          targets: 4, render: function (data, type, full) {
+              let estado
+              if(data === "0") {
+                  estado = `<span class="badge badge-light-warning">Inactivo</span>`
               } else {
-                  inicio = `<span class="badge badge-light-primary">${inicio}</span>`;
+                estado = `<span class="badge badge-light-success">Activo</span>`
               }
-              return inicio;
+              return estado;
           }
         },
         
@@ -180,6 +177,30 @@ function deleteUser (id) {
           UpdateTables();
       });
 }
+function enabledDisUser (id, estadoA) {
+  let data = new FormData();
+  let newEstado
+  if (estadoA ==1) {
+    newEstado = 0
+  }else{
+    newEstado = 1
+  }
+  data.append('id_usuario', id)
+  data.append('estado', newEstado)
+  fetch('/enabledDisUser', {
+      method: 'POST',
+      body: data, 
+  }).then(res => res.json())
+      .catch(error => {
+          console.error('Error:', error);
+          Toast("Error");
+      })
+      .then(response => {
+          console.log('Success:', response)
+          Toast("Estado de Usuario Actualizado");
+          UpdateTables();
+      });
+}
 function edituser (id) {
   let filteruser = usuarios.filter(
     (element) => element.id == id
@@ -197,7 +218,7 @@ function edituser (id) {
   $("#pais-user").val(`${filteruser[0]["pais"]}`);
   $("#fechaN-user").val(`${filteruser[0]["fecha_nacimiento"]}`);
   $("#fechaI-user").val(`${filteruser[0]["fecha_inicio"]}`);
-  
+  $("#telefono-user").val(`${filteruser[0]["telefono"]}`);
   $(`#puesto-user option[value='${filteruser[0]["puesto"]}']`).attr(
     "selected",
     true
@@ -212,18 +233,20 @@ function UpdateTables() {
   $('#usuarios').empty();
   $('#usuarios').html(`
   <thead>
-      <tr>
-          <th>Nombre</th>
-          <th>DNI</th>
-          <th>Email</th>
-          <th>País</th>
-          <th>Puesto</th>
-          <th>F. Nacimiento</th>
-          <th>F. Inicio</th>
-          <th>Telefono</th>
-          <th>Acciones</th>
-      </tr>
-  </thead>`);
+  <tr role="row">
+      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+          style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th>
+      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+          style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th>
+      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+          style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Telefono</th>
+      <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+          style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th> 
+          <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">Estado</th>       
+      <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 148.6px;padding-left: 2.5rem;" aria-label="Acciones">Acciones</th>
+  </tr>
+                                </thead>`);
   
   FetchData();
 }
