@@ -1856,7 +1856,25 @@ table tr td {
     text-align: center;
     border: none;
 }
-
+.BNA:checked {
+    background-color:lightgreen;
+    border: lightgreen;
+}
+.BCR:checked {
+    background-color:blue;
+    border: blue;
+}
+.BAC:checked {
+    background-color:red;
+    border: red;
+}
+.BPO:checked {
+    background-color:orange;
+    border: orange;
+}
+input[type=radio]:checked + label {
+    font-weight: bolder;
+}
 
 /*.py672 .nav .select2 {
     max-width: 91% !important;
