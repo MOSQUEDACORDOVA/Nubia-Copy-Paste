@@ -1,3 +1,4 @@
+
 <div class="py672">
   <div class="auth-wrapper auth-v2">
     <div class="row auth-inner m-0">
@@ -28,7 +29,12 @@
               </svg>
             </span>
 
+
             <form class="auth-login-form mt-2" action="/login672" method="POST">
+            {{#if messages}}
+                            {{#showAlerts messages}}
+                            {{/showAlerts}}
+                            {{/if}}
                 <div class="none">
                     <input class="form-control" id="register-username" type="text" name="proyect" placeholder="johndoe" aria-describedby="register-username" value="PYT672" tabindex="1" hidden />
                 </div>

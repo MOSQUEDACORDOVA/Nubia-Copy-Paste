@@ -13,9 +13,9 @@ const Caja = require("../../models/PYT672/Caja");
 const Comentarios = require("../../models/PYT672/Comentarios");
 module.exports = {
     // * REGISTRO DE USUARIOS
-    RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password) {
+    RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono) {
       return new Promise((resolve, reject) => {
-      Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password })
+      Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password,telefono:telefono })
         .then((data) => {
             let data_set = JSON.stringify(data);
             resolve('Usuario registrado con éxito');
@@ -26,9 +26,9 @@ module.exports = {
       });
     }, 
       // * EDIT DE USUARIOS
-      EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario) {
+      EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono) {
         return new Promise((resolve, reject) => {
-        Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI },{where:{id:id_usuario}})
+        Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI,telefono:telefono },{where:{id:id_usuario}})
           .then((data) => {
               let data_set = JSON.stringify(data);
               resolve('Usuario actualizado con éxito');
@@ -38,6 +38,19 @@ module.exports = {
           });
         });
       }, 
+            // * EDIT ESTADO  DE USUARIOS
+            EditEnabledUser(id_usuario, estado ) {
+              return new Promise((resolve, reject) => {
+              Usuarios.update({enabled:estado},{where:{id:id_usuario}})
+                .then((data) => {
+                    let data_set = JSON.stringify(data);
+                    resolve('Usuario actualizado con éxito');
+                })
+                .catch((err) => {
+                    reject(err)
+                });
+              });
+            }, 
     // * DELETE DE USUARIOS
     DeleteUser(id) {
       return new Promise((resolve, reject) => {

@@ -37,6 +37,10 @@ const Usuarios = db672.define('usuarios', {
 		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
+	telefono: {
+		type: DataTypes.STRING(100),
+		allowNull: true,
+	},
 	password: {
 		type: DataTypes.STRING(100),
 		allowNull: false,
@@ -57,6 +61,11 @@ const Usuarios = db672.define('usuarios', {
 	fecha_inicio: {
 		type: DataTypes.STRING(100),
 		allowNull: false,
+	},
+	enabled: {
+		type: DataTypes.STRING(2),
+		allowNull: false,
+		defaultValue: '1'
 	}
 }, {
 	hooks: {

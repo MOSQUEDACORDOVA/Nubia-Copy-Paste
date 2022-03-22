@@ -30,7 +30,14 @@ exports.sesionstart = (req, res) => {
         return next(err);
       }
       console.log(user.dataValues.id);
-      return res.redirect('/py672/PYT-672')
+      console.log(user.dataValues.enabled);
+      if (user.dataValues.enabled == 0) {
+        console.log("usuario inactivo")
+      return res.redirect("/loginpy672E/PYT-672/msg");
+      } else {
+        return res.redirect('/py672/PYT-672')
+      }
+      
     });
   })(req, res);
 };
@@ -75,21 +82,17 @@ exports.controlroles = (req, res) => {
 };*/
 exports.reguser = (req, res) => {
   console.log(req.body);
-  let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
   nombre = nombre + " " + apellidos;
   let msg = false;
-  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '' || password.trim() === '') {
-    console.log('complete todos los campos')
-    return res.send({error: 'Lo sentimos algo ah ocurrido'});
-  } else {
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password).then((respuesta) =>{
+
+    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) =>{
       return res.send({success: 'Usuario Registrado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
-  }
 };
 exports.deleteuser = (req, res) => {
   console.log(req.body);
@@ -106,36 +109,48 @@ exports.deleteuser = (req, res) => {
 };
 exports.editUser = (req, res) => {
   console.log(req.body);
-  let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password } = req.body;
+  let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
   let msg = false;
-  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || fechaI.trim() === '' || puesto.trim() === '') {
-    console.log('complete todos los campos')
-    return res.send({error: 'Lo sentimos algo ah ocurrido. Uno o mas campos vacios'});
-  } else {
-    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario).then((respuesta) =>{
+
+    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono).then((respuesta) =>{
       return res.send({success: 'Usuario actualizado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
-  }
+};
+exports.enabledDisUser = (req, res) => {
+  console.log(req.body);
+  let { id_usuario, estado } = req.body;
+  let msg = false;
+
+    DataBase.EditEnabledUser(id_usuario, estado ).then((respuesta) =>{
+      return res.send({success: 'Usuario actualizado'});
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
 };
 
 // * VISTA LOGIN
 exports.login = (req, res) => {
   let msg = false;
-  if (req.query.msg) {
-    msg = req.query.msg;
+  if (req.params.msg) {
+    req.flash("error", 'Usuario desactivado por el administrador')
+    msg = req.flash();
+
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+  console.log(msg)
     res.render(proyecto+"/auth/login", {
       pageName: "Login",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       login: true,
+      messages: msg
     })
 };
 
