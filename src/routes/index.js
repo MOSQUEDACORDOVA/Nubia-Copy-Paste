@@ -561,6 +561,7 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 /*------------ PYT-672-----------------*/
 // TODO: AUTH  
 router.get('/loginpy672/:id', dashboardControllerPY672.login);
+router.get('/loginpy672E/:id/:msg', dashboardControllerPY672.login);
 router.get('/registerpy672/:id', dashboardControllerPY672.register);
 
 router.get('/py672/:id', dashboardControllerPY672.controlroles);
@@ -570,6 +571,7 @@ router.post('/login672', dashboardControllerPY672.sesionstart);
 router.post('/reguserpy672', dashboardControllerPY672.reguser);
 router.post('/deleteUserpy672', dashboardControllerPY672.deleteuser);
 router.post('/editUserpy672', dashboardControllerPY672.editUser);
+router.post('/enabledDisUser', dashboardControllerPY672.enabledDisUser);
 // * CERRAR SESION
 router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 

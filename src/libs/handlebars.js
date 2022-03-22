@@ -2,7 +2,7 @@ var moment = require('moment'); // require
 module.exports = {
 	showAlerts: (message = {}, alerts) => {
 		const categoria = Object.keys(message);
-
+		console.log(categoria)
 		let html = '';
 
 		if(categoria.length) {
