@@ -8,6 +8,8 @@ $(function () {
   /**FUNCIONES AL SELECCIONAR EL ALUMNO */
   $(".alumno-select").change(async (e) => {
     $("#btn-add-commnet").removeAttr("disabled");
+    $("#btn-trasladar-alumno").removeAttr("disabled");
+    $("#btn-congelar-alumno").removeAttr("disabled");
     var filter = matricula.filter((element) => element.id == e.target.value);
     console.log(filter);
     $("#historial-list").empty();
@@ -677,20 +679,20 @@ $(function () {
       
       <div class="demo-inline-spacing justify-content-around">
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="bank-serv" id="inlineRadio1" value="BNA" />
-          <label class="form-check-label" for="inlineRadio1">BNA</label>
+          <input class="form-check-input BNA" type="radio" name="bank-serv" id="BNA" value="BNA" />
+          <label class="form-check-label" for="BNA">BNA</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="bank-serv" id="inlineRadio2" value="BCR" />
-          <label class="form-check-label" for="inlineRadio2">BCR</label>
+          <input class="form-check-input BCR" type="radio" name="bank-serv" id="BCR" value="BCR" />
+          <label class="form-check-label" for="BCR">BCR</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="bank-serv" id="inlineRadio3" value="BAC" />
-          <label class="form-check-label" for="inlineRadio3">BAC</label>
+          <input class="form-check-input BAC" type="radio" name="bank-serv" id="BAC" value="BAC" />
+          <label class="form-check-label" for="BAC">BAC</label>
         </div>
         <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="bank-serv" id="inlineRadio4" value="BPO" />
-          <label class="form-check-label" for="inlineRadio4">BPO</label>
+          <input class="form-check-input BPO" type="radio" name="bank-serv" id="BPO" value="BPO" />
+          <label class="form-check-label" for="BPO">BPO</label>
         </div>
         
       </div>

@@ -383,10 +383,22 @@
                             <div class="price-details">
                                 <div class="d-grid">
                                     <button type="button"
-                                        class="btn btn-primary waves-effect waves-float waves-light"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
                                         id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
                                         disabled>
                                         Comentarios
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
+                                        id="btn-trasladar-alumno" data-bs-toggle="modal" data-bs-target="#createAppModal"
+                                        disabled >
+                                        Trasladar Alumno
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-danger waves-effect waves-float waves-light"
+                                        id="btn-congelar-alumno" 
+                                        disabled >
+                                        Congelar Alumno
                                     </button>
                                 </div>
 
@@ -424,7 +436,7 @@
                         <!-- Checkout Place Order Right ends -->
                     </div>
 
-                    <!-- Timeline (Historial de servicios) comienza aqui -->
+                    <!-- Timeline (Historial de pagos) comienza aqui -->
                     <div class="col-12">
                         <div class="card card-user-timeline">
                             <div class="card-header">
@@ -440,7 +452,7 @@
                                         <line x1="3" y1="18" x2="3.01" y2="18"></line>
                                     </svg>
                                     <h4 class="card-title">
-                                        Historial de servicios
+                                        Historial de pagos
                                     </h4>
                                 </div>
                             </div>
@@ -454,7 +466,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Timeline (Historial de servicios) termina aqui -->
+                    <!-- Timeline (Historial de pagos) termina aqui -->
                 </div>
             </section>
             <!--Modal Comentarios-->
@@ -495,6 +507,386 @@
                 </div>
             </div>
             <!--/ Modal Comentarios-->
+            
+            <!--Modal Traslado-->
+            <div class="modal fade" id="createAppModal" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-3 px-sm-3">
+            
+                            {{!<p class="text-center mb-2">Provide application data with this form</p>}}
+            
+                            <div class="row match-height">
+                                <!-- Card info del alumno-->
+                                <div class="col-12 px-0">
+                                    <div class="col-12 rounded-1 card">
+                                        <div class="row">
+            
+                                            <!--Avatar del alumno-->
+                                            <div class="col-3 d-flex justify-content-end ps-3 pt-2">
+                                                <!--imagen-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="#0833a2"
+                                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                                                    <path fill-rule="evenodd"
+                                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <!--/ Avatar del alumno-->
+            
+                                            <!--Info del alumno columna 1-->
+                                            <div class="col-4 mb-2">
+                                                <!--Nombre Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <h2 class="fw-bolder mb-0" id="nombreReagrupar">
+                                                        Isaac Mosqueda
+                                                    </h2>
+                                                </div>
+            
+                                                <!--Telefonos Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-user me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Teléfonos:
+                                                        </span>
+                                                        <span id="tlfReagrupar">
+                                                            65102651 - 161618
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Grupo del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Grupo:
+                                                        </span>
+            
+                                                        <span id="grupoReag">
+                                                            C20210-1
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Horario del Grupo del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-clock font-small-4">
+                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Horario:
+                                                        </span>
+            
+                                                        <span class="horarioreag">
+                                                            Lunes y Míercoles: 6:30pm a 9pm
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Profesor del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-user me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-user font-small-4">
+                                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                            <circle cx="12" cy="7" r="4"></circle>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Profesor:
+                                                        </span>
+                                                        <span id="profesorreag"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!--/ Info del alumno columna 1-->
+            
+                                            <!--Info del alumno columna 2-->
+                                            <div class="col-5 pt-5">
+            
+                                                <!--Leccion Actual-->
+                                                <div class="d-flex align-items-center">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Leccion Actual:
+                                                        </span>
+                                                        <span id="leccionActual0">10</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Leccion Actual-->
+            
+                                                <!--Fecha Pago-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <i class="bi-alarm" style="font-size: 1rem; color: currentColor;">₡</i>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Fecha Pago:
+                                                        </span>
+                                                        <span id="fechaPagoReag">15 de cada mes</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Fecha Pago-->
+            
+                                                <!--Calificacion-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                                            <path
+                                                                d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Calificacion:
+                                                        </span>
+                                                        <span id="calificacionT">25%</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Calificacion-->
+            
+                                                <!--Asistencia-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Asistencia:
+                                                        </span>
+                                                        <span id="asistenciareag">40%</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Asistencia-->
+            
+                                            </div>
+                                            <!--/ Info del alumno columna 2-->
+            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="guarda-grupoNew" class="btn btn-primary d-none" type="button">Cambiar
+                                                Grupo</button>
+                                            <button id="closeModal1" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-dismiss="modal">Mostrar Comentarios</button>
+                                        </div>
+            
+                                        <!--dropdown selector grupos disponibles-->
+                                        <div class="position-relative m-1 d-none">
+                                            <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true"
+                                                required id="selectGroup">
+                                                <option>
+                                                    Grupos Disponibles
+                                                </option>
+                                                {{#each gruposTodos as |item i|}}
+                                                <option value="{{id}}">
+                                                    {{identificador}} - {{dia_horario}} -
+                                                    {{#fechamenumatriculapy672 fecha_inicio}}
+                                                    {{/fechamenumatriculapy672}}
+                                                </option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--/ Card info del alumno-->
+                            </div>
+                            <style>
+                                table.dataTable>thead>tr>th:not(.sorting_disabled),
+                                table.dataTable>thead>tr>td:not(.sorting_disabled) {
+                                    padding-right: inherit;
+                                }
+                            </style>
+                            <div class="row mb-2 card">
+                                <div class="col-12 p-0 ">
+                                    <table class="table dt-column-search " id="grupos_table">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Tipo</th>
+                                                <th>Leccion Actual</th>
+                                                <th>Horario</th>
+                                                <th>Fecha Pago</th>
+                                                <th>Alumnos</th>
+                                                <th>Profesor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="gruposAct">
+            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+            
+                            <!--Acordion de Clases-->
+                            <section id="accordion" class="d-none">
+                                <span id="cantAlumnos">
+                                    0
+                                    {{!-- </span>
+                                <span id="leccionActual">
+                                    0
+                                </span> --}}
+                                <div class="row card">
+                                    <div class="col-sm-12">
+                                        <div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
+                                            <div class="card-header pb-0">
+                                                <h4 class="card-title">
+                                                    Clases
+                                                </h4>
+                                            </div>
+                                            <hr />
+                                            <div class="card-body pt-0">
+                                                <div class="accordion" id="accordionExample" data-toggle-hover="true">
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingOne">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#accordionOne"
+                                                                aria-expanded="false" aria-controls="accordionOne">
+                                                                Lecciones 1 - 12
+                                                            </button>
+                                                        </h2>
+                                                        <div id="accordionOne" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample"
+                                                            style="">
+                                                            <div class="accordion-body letterSize">
+                                                                <!-- Aqui va el contenido del primer acordion-->
+                                                                <div class="row g-2 mb-2" id="1_12Line1">
+                                                                </div>
+                                                                <!-- Aqui se acaba el contenido del primer acordion-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingTwo">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#accordionTwo"
+                                                                aria-expanded="false" aria-controls="accordionTwo">
+                                                                Lecciones 13 - 24
+                                                            </button>
+                                                        </h2>
+                                                        <div id="accordionTwo" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingTwo" data-bs-parent="#accordionExample"
+                                                            style="">
+                                                            <div class="accordion-body letterSize">
+                                                                <!-- Aqui va el contenido del segundo acordion-->
+                                                                <div class="row g-2 mb-2" id="13_24Line1">
+                                                                </div>
+            
+                                                                <!-- Aqui se acaba el contenido del segundo acordion-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="accordion-item">
+                                                        <h2 class="accordion-header" id="headingThree">
+                                                            <button class="accordion-button collapsed" type="button"
+                                                                data-bs-toggle="collapse" data-bs-target="#accordionThree"
+                                                                aria-expanded="false" aria-controls="accordionThree">
+                                                                Lecciones 25 - 32
+                                                            </button>
+                                                        </h2>
+                                                        <div id="accordionThree" class="accordion-collapse collapse"
+                                                            aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                                            <div class="accordion-body letterSize">
+                                                                <!-- Aqui va el contenido del tercer acordion-->
+                                                                <div class="row g-2 mb-2" id="25_32Line1">
+                                                                </div>
+                                                                <!-- Aqui se acaba el contenido del tercer acordion-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <!--/ Acordion de Clases-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Traslado-->
+            
+            <!--Modal Comentarios de Traslado-->
+            <div class="modal fade" id="comentariosTrasladoModal" aria-hidden="true" aria-labelledby="comentariosTrasladoModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+            
+                            <button id="closeModal2" class="modal-title btn btn-primary me-1" data-bs-toggle="modal"
+                                data-bs-dismiss="modal">Regresar a Traslado</button>
+                            <button id="commentProf" class="modal-title btn btn-primary me-1">Comentarios Profesor</button>
+                            <button id="commentAdminShow" class="modal-title btn btn-primary">Comentarios Administrador</button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
+            
+                                <!--Esta es la seccion del acordion que se repite-->
+            
+            
+                                <!--/ Aqui termina la seccion del acordion que se repite-->
+            
+                            </div>
+                            <div class="accordion accordion-margin collapse" id="commentAdmin" data-toggle-hover="true">
+            
+            
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Comentarios-->
+
         </div>
     </div>
 </div>
@@ -503,13 +895,17 @@
 </form>
 
 <script>
-    function sMensualidad() {
-        document.getElementById("mContenedor").classList.replace("row-cols-3", "row-cols-4");
-        document.getElementById("precio").classList.replace("col", "col-4");
-        document.getElementById("banco").classList.replace("col-6", "col-4");
-        document.getElementById("transct").classList.replace("col-6", "col-4");
-        document.getElementById("mes").classList.remove("d-none");
-        document.getElementById("ano").classList.remove("d-none");
-    }
-    document.getElementById("botonPrueba").addEventListener("click", holaMensualidad);
+    
+
+    $(function () {
+        $('#closeModal1').on('click', function () {
+            console.log("hello")
+            $('#comentariosTrasladoModal').modal('show');
+        })
+        $('#closeModal2').on('click', function () {
+            $('#createAppModal').modal('show');
+        })
+        
+    })
+    
 </script>
