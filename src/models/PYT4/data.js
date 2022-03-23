@@ -1422,7 +1422,7 @@ console.log(hoy)
   },
   Carga_initSResumen(id, dia){
     return new Promise((resolve, reject) => {
-      Carga_init.findAll({where:{sucursaleId:id, createdAt: dia}, include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
+      Carga_init.findAll({where:{createdAt: { [Op.gte]: dia }}, include:[{association: Carga_init.Personal},{ model: Recargas,as:'Recargas' }]})
         .then((data) => {
           let data_p = JSON.stringify(data);
           //console.log(data)
