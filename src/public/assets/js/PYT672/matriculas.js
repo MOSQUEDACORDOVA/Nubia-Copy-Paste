@@ -504,6 +504,8 @@ const leccionActualGrupos = async () => {
   numLeccion;
   var jjaa;
   var gruposAct = [];
+  let fstChar = ($("#grupoReag").text()).charAt(0);
+  console.log(fstChar)
   for (let i = 0; i < grupos.length; i++) {
     let tipo = grupos[i]["nombre"];
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
@@ -544,6 +546,9 @@ const leccionActualGrupos = async () => {
       // );
       console.log('000000')
     } else {
+      let fstChar2 = (grupos[i]["identificador"]).charAt(0);
+      console.log(fstChar2)
+
       if ($("#grupoReag").text() == grupos[i]["identificador"]) {
         console.log("mismo grupo");
       } else {

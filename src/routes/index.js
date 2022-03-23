@@ -634,6 +634,7 @@ router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin,
 router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
 // * REASIGNA GRUPO ESTUDIANTES
 router.post('/reasignar-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo);
+router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo2);
 // * BORRAR ESTUDIANTES
 router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES
