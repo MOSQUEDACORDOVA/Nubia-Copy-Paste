@@ -130,7 +130,7 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">;${mes_a_pagar}</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
 </td>
 
 <td>${mensualidad_coste}</td>
@@ -435,7 +435,7 @@ const recargo = async () => {
     /**LLENAR TABLA */
     $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
     <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">;${mes_a_pagar}</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
 </td>
 <td>${$("#itemPrice").val()}</td>
 <td>
@@ -642,7 +642,7 @@ const recargo = async () => {
 
     $("#body-table-pago").append(`<tr id="tr-Titulo">
 <td>
-<span class="fw-bold">Titulo</span>
+<span class="fw-bold">Titulo/N-1</span>
 </td>
 <td>20000</td>
 <td>
@@ -1174,6 +1174,19 @@ async function updateHistorial(id_estudiante) {
     </div>
     </div>
     </li>`;
+    let lista_recargo = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <h6>${historial[i]["concepto"]}</h6>
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    </div>
+    </li>`;
     let lista_mensualidad = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
@@ -1192,6 +1205,12 @@ async function updateHistorial(id_estudiante) {
         historial[i]["observacion"] != "-") 
     ) {
       $("#historial-list").append(lista);
+    }
+    if (
+      (historial[i]["concepto"] == "Recargo" &&
+        historial[i]["observacion"] == "-") 
+    ) {
+      $("#historial-list").append(lista_recargo);
     }
     if (historial[i]["concepto"] == "Mensualidad") {
       $("#historial-list").append(lista_mensualidad);
