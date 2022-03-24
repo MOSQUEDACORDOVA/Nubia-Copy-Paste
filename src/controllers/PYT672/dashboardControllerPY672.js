@@ -1549,13 +1549,14 @@ console.log(matricula)
     //console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
     let matricula_st = JSON.stringify(matricula)
+    let gruposTodosStr = JSON.stringify(gruposTodos)
     res.render(proyecto+"/admin/caja", {
       pageName: "Academia Americana - Caja",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       caja: true,
-      gruposTodos,matricula,matricula_st
+      gruposTodos,matricula,matricula_st,gruposTodosStr
     });
   }).catch((err) => {
     console.log(err)
@@ -2664,6 +2665,30 @@ for (let i = 0; i < check_newGroup.length; i++) {
       console.log("REASIGNADOR GRUPO")
       msg="Grupo reasignado al alumno "+nombre_reaginador+" con éxito"
       return res.redirect('/matriculas/'+msg);
+    }).catch((err) => {
+      console.log(err)
+      let msg = "Error en sistema";
+      return res.redirect("/error672/PYT-672");
+    });
+
+};
+// * REASIGNAR GRUPO ESTUFDIANDO
+exports.reasignarGrupo2 = async(req, res) => {
+  console.log(req.body);
+  let { grupoId, id_estudiante,nombre_reaginador } = req.body;
+  let msg = false;  
+    DataBase.ReasignarGrupoEstudiante(grupoId, id_estudiante).then(async (resp) => {
+      var check_newGroup = JSON.parse(await DataBase.historial_caja(id_estudiante))
+for (let i = 0; i < check_newGroup.length; i++) {
+  var hora_registro_pago = moment(check_newGroup[i]['createdAt']);
+ if (check_newGroup[i]['concepto']== "Traslado" && check_newGroup[i]['observacion']== "-" && moment().isAfter(hora_registro_pago, 'd') == false) {
+    let update_contancia = await DataBase.update_constancia(check_newGroup[i]['id'],moment().format('YYYY-MM-DD'))
+ }
+  
+}
+      console.log("REASIGNADOR GRUPO")
+      msg="Grupo reasignado al alumno "+nombre_reaginador+" con éxito"
+      return res.send({msg});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

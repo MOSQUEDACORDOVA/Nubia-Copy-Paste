@@ -63,7 +63,7 @@
                                 
                                 <select class="select2 form-select alumno-select sizeOption" tabindex="-1" name="alumno"
                                     aria-hidden="true" required>
-                                    <option value="" selected>
+                                    <option value="default" selected>
                                         Escriba el nombre de un alumno!
                                     </option>
                                     {{#each matricula as |item i|}}
@@ -90,7 +90,7 @@
                                                         Nuevo Pago
                                                     </h4>
 
-                                                    <div id="mContenedor" class="row row-cols-4 d-flex align-items-end">
+                                                    <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
                                                         <div id="tipoServicio" class="col">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemname">
@@ -137,14 +137,14 @@
                                                                 </label>
                                                                 <select class="form-select" id="select-Nivel">
                                                                     <option>Seleccione</option>
-                                                                    <option>1</option>
+                                                                    <option selected>1</option>
                                                                     <option>2</option>
                                                                     <option>3</option>
                                                                     <option>4</option>
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div id="mes" class="col mensualidadAdd">
+                                                        <div id="mes" class="d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Mes
@@ -193,7 +193,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="ano" class="col-auto mensualidadAdd">
+                                                        <div id="ano" class="d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Año
@@ -273,9 +273,6 @@
                                                             <tr>
                                                                 <th>
                                                                     Concepto
-                                                                </th>
-                                                                <th>
-                                                                    Cuota
                                                                 </th>
                                                                 <th>
                                                                     Monto
@@ -713,26 +710,9 @@
                                         <div class="modal-footer">
                                             <button id="guarda-grupoNew" class="btn btn-primary d-none" type="button">Cambiar
                                                 Grupo</button>
-                                            <button id="closeModal1" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-dismiss="modal">Mostrar Comentarios</button>
                                         </div>
             
-                                        <!--dropdown selector grupos disponibles-->
-                                        <div class="position-relative m-1 d-none">
-                                            <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true"
-                                                required id="selectGroup">
-                                                <option>
-                                                    Grupos Disponibles
-                                                </option>
-                                                {{#each gruposTodos as |item i|}}
-                                                <option value="{{id}}">
-                                                    {{identificador}} - {{dia_horario}} -
-                                                    {{#fechamenumatriculapy672 fecha_inicio}}
-                                                    {{/fechamenumatriculapy672}}
-                                                </option>
-                                                {{/each}}
-                                            </select>
-                                        </div>
+                                       
                                     </div>
                                 </div>
                                 <!--/ Card info del alumno-->
@@ -767,84 +747,7 @@
                             <!--Acordion de Clases-->
                             <section id="accordion" class="d-none">
                                 <span id="cantAlumnos">
-                                    0
-                                    {{!-- </span>
-                                <span id="leccionActual">
-                                    0
-                                </span> --}}
-                                <div class="row card">
-                                    <div class="col-sm-12">
-                                        <div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
-                                            <div class="card-header pb-0">
-                                                <h4 class="card-title">
-                                                    Clases
-                                                </h4>
-                                            </div>
-                                            <hr />
-                                            <div class="card-body pt-0">
-                                                <div class="accordion" id="accordionExample" data-toggle-hover="true">
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse" data-bs-target="#accordionOne"
-                                                                aria-expanded="false" aria-controls="accordionOne">
-                                                                Lecciones 1 - 12
-                                                            </button>
-                                                        </h2>
-                                                        <div id="accordionOne" class="accordion-collapse collapse"
-                                                            aria-labelledby="headingOne" data-bs-parent="#accordionExample"
-                                                            style="">
-                                                            <div class="accordion-body letterSize">
-                                                                <!-- Aqui va el contenido del primer acordion-->
-                                                                <div class="row g-2 mb-2" id="1_12Line1">
-                                                                </div>
-                                                                <!-- Aqui se acaba el contenido del primer acordion-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingTwo">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse" data-bs-target="#accordionTwo"
-                                                                aria-expanded="false" aria-controls="accordionTwo">
-                                                                Lecciones 13 - 24
-                                                            </button>
-                                                        </h2>
-                                                        <div id="accordionTwo" class="accordion-collapse collapse"
-                                                            aria-labelledby="headingTwo" data-bs-parent="#accordionExample"
-                                                            style="">
-                                                            <div class="accordion-body letterSize">
-                                                                <!-- Aqui va el contenido del segundo acordion-->
-                                                                <div class="row g-2 mb-2" id="13_24Line1">
-                                                                </div>
-            
-                                                                <!-- Aqui se acaba el contenido del segundo acordion-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingThree">
-                                                            <button class="accordion-button collapsed" type="button"
-                                                                data-bs-toggle="collapse" data-bs-target="#accordionThree"
-                                                                aria-expanded="false" aria-controls="accordionThree">
-                                                                Lecciones 25 - 32
-                                                            </button>
-                                                        </h2>
-                                                        <div id="accordionThree" class="accordion-collapse collapse"
-                                                            aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                                            <div class="accordion-body letterSize">
-                                                                <!-- Aqui va el contenido del tercer acordion-->
-                                                                <div class="row g-2 mb-2" id="25_32Line1">
-                                                                </div>
-                                                                <!-- Aqui se acaba el contenido del tercer acordion-->
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    0</span>
                             </section>
                             <!--/ Acordion de Clases-->
                         </div>
@@ -852,40 +755,7 @@
                 </div>
             </div>
             <!--/ Modal Traslado-->
-            
-            <!--Modal Comentarios de Traslado-->
-            <div class="modal fade" id="comentariosTrasladoModal" aria-hidden="true" aria-labelledby="comentariosTrasladoModal" tabindex="-1">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-            
-                            <button id="closeModal2" class="modal-title btn btn-primary me-1" data-bs-toggle="modal"
-                                data-bs-dismiss="modal">Regresar a Traslado</button>
-                            <button id="commentProf" class="modal-title btn btn-primary me-1">Comentarios Profesor</button>
-                            <button id="commentAdminShow" class="modal-title btn btn-primary">Comentarios Administrador</button>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
-            
-                                <!--Esta es la seccion del acordion que se repite-->
-            
-            
-                                <!--/ Aqui termina la seccion del acordion que se repite-->
-            
-                            </div>
-                            <div class="accordion accordion-margin collapse" id="commentAdmin" data-toggle-hover="true">
-            
-            
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-            
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--/ Modal Comentarios-->
+
 
         </div>
     </div>
@@ -893,7 +763,14 @@
 
 <form id="form-reg-pago" hidden>
 </form>
-
+<form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
+  <input type="text" id="grupoId_actual" name="_actual">
+  <input type="text" id="grupoId" name="grupoId">
+  <input type="text" id="nombre_reaginador" name="nombre_reaginador">
+  <input type="text" id="id_estudiante" name="id_estudiante">
+  <input type="text" id="leccion_actual_reasig" name="leccion_actual_reasig">
+  <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
+</form>
 <script>
     
 
@@ -909,3 +786,4 @@
     })
     
 </script>
+<input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
