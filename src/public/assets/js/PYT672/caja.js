@@ -57,6 +57,7 @@ $(function () {
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
     } else {
+      $("#mensualidad-alumno").text(mensualidad_coste);
       var filter_mensualidad = historial.filter(
         (element) =>
           element.concepto == "Mensualidad" &&
@@ -87,15 +88,21 @@ $(function () {
         console.log(filter_mensualidad);
         let mes_pagado;
         mes_pagado =
-          filter_mensualidad[filter_mensualidad.length - 1][
+          filter_mensualidad[0][
             "observacion"
           ].split("-");
         console.log(mes_pagado[0]);
         for (let i = 0; i < meses.length; i++) {
           if (meses[i] == mes_pagado[0]) {
             console.log(meses[i + 1]);
-            mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
-            break;
+            mes_a_pagar ="" ///meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
+            $("#form-reg-pago")
+        .append(`<input type="text" name="id_alumno" id="id-alumno-form" value="${
+        filter[0]["id"]
+      }">`);
+      updateHistorial(e.target.value);
+      verificareposicion(e.target.value);
+            return;
           }
           mes_a_pagar =
             hoy.locale("es").format("MMMM") +
@@ -109,13 +116,13 @@ $(function () {
         .append(`<input type="text" name="id_alumno" id="id-alumno-form" value="${
         filter[0]["id"]
       }">
-<div id="mensualidad-${mes_a_pagar}" class=".mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
+<div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
         "YYYY-MM-DD"
       )}">-->
 <input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
 <input type="text" name="mora[]" id="mora-form" value="-">
-<input type="text" name="observacion[]" id="observacion-form" value="${mes_a_pagar}">
+<input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
 </div>`);
       /**FIN FORM */
 
@@ -123,9 +130,9 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
-    <span class="fw-bold">Mensualidad</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">;${mes_a_pagar}</span>
 </td>
-<td class="text-capitalize">${mes_a_pagar}</td>
+
 <td>${mensualidad_coste}</td>
 <td>
     <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
@@ -211,7 +218,7 @@ $(function () {
     $(".select-reposicion").addClass(`d-none`);
     switch (servicio) {
       case "Mensualidad":
-        addMensualidadFormat();
+       removeMensualidadFormat();
         $("#itemPrice").val($("#mensualidad-alumno").text());
         break;
       case "Recargo":
@@ -289,7 +296,6 @@ const recargo = async () => {
 <td>
 <span class="fw-bold">Recargo</span>
 </td>
-<td class="text-capitalize">0</td>
 <td>${$("#itemPrice").val()}</td>
 <td>
 <a class="item borrar recargo" onclick="borrarFila('tr-recargo','recargo')">
@@ -317,28 +323,120 @@ const recargo = async () => {
     let mes = $("#select-mes").val();
     // let value_fecha = $("#fecha_pago-form").val();
     let anio = $("#select-anio").val();
-    let mes_a_pagar = mes + "-" + anio;
-    console.log(mes_a_pagar);
-
+    let mes_actual = [] //$('#observacion-form').val()
+    $('.mensualidad').each(function () {
+      mes_actual.push($(this).val())
+  })
+    //let mes_a_pagar = mes + "-" + anio;
+    console.log(mes_actual)
+    /**OBTENER HISTORIAL DE CAJA */
+    historial = await fetch("/historia-caja-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        return data.obtener_historia;
+      });
+    var filter_mensualidad = historial.filter(
+      (element) =>
+        element.concepto == "Mensualidad" &&
+        element.matriculaId == id_alumno
+    );
+    var meses = [
+      "enero",
+      "febrero",
+      "marzo",
+      "abril",
+      "mayo",
+      "junio",
+      "julio",
+      "agosto",
+      "septiembre",
+      "octubre",
+      "noviembre",
+      "diciembre",
+    ];
+    var mes_a_pagar;
+    console.log(filter_mensualidad);
+    let mes_pagado;
+    if (filter_mensualidad.length < 1) {
+      if (mes_actual.length == 0) {
+            mes_a_pagar =
+            hoy.locale("es").format("MMMM") +
+            "-" +
+            hoy.locale("es").format("YYYY");
+        
+      }
+      for (let i = 0; i < mes_actual.length; i++) {
+        mes_pagado =mes_actual[i].split("-");    
+      console.log(mes_pagado[0]);
+      for (let i = 0; i < meses.length; i++) {
+        if (meses[i] == mes_pagado[0]) {
+          console.log(meses[i + 1]);
+          mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
+          break;
+        }
+        mes_a_pagar =
+          hoy.locale("es").format("MMMM") +
+          "-" +
+          hoy.locale("es").format("YYYY");
+      }
+      }
+    } else {
+     
+      
+      if (mes_actual.length == 0) {
+        mes_pagado =
+        filter_mensualidad[0][
+          "observacion"
+        ].split("-");
+      console.log(mes_pagado[0]);
+        for (let i = 0; i < meses.length; i++) {
+          if (meses[i] == mes_pagado[0]) {
+            console.log(meses[i + 1]);
+            mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
+            break;
+          }
+          mes_a_pagar =
+            hoy.locale("es").format("MMMM") +
+            "-" +
+            hoy.locale("es").format("YYYY");
+        }
+        
+      }
+      for (let i = 0; i < mes_actual.length; i++) {
+        mes_pagado =mes_actual[i].split("-");    
+      console.log(mes_pagado[0]);
+      for (let i = 0; i < meses.length; i++) {
+        if (meses[i] == mes_pagado[0]) {
+          console.log(meses[i + 1]);
+          mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
+          break;
+        }
+        mes_a_pagar =
+          hoy.locale("es").format("MMMM") +
+          "-" +
+          hoy.locale("es").format("YYYY");
+      }
+      }
+    }
     /**FORM */
     $("#form-reg-pago").append(`
-<div id="mensualidad-${mes_a_pagar}" class=".mensualidad-${mes_a_pagar}">
+<div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}">
 <input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
 <input type="text" name="monto[]" id="monto-form" value="${$(
       "#itemPrice"
     ).val()}">
 <input type="text" name="mora[]" id="mora-form" value="-">
-<input type="text" name="observacion[]" id="observacion-form" value="${mes_a_pagar}">
+<input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
 </div>`);
     /**FIN FORM */
 
     $("#pago-mensual-detail").text($("#itemPrice").val());
     /**LLENAR TABLA */
     $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
-<td>
- <span class="fw-bold">Mensualidad</span>
+    <td>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">;${mes_a_pagar}</span>
 </td>
-<td class="text-capitalize">${mes_a_pagar}</td>
 <td>${$("#itemPrice").val()}</td>
 <td>
  <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
@@ -390,7 +488,6 @@ const recargo = async () => {
 <td>
     <span class="fw-bold">Traslado</span>
 </td>
-<td></td>
 <td>5000</td>
 <td>
     <a class="item borrar traslado" onclick="borrarFila('tr-traslado','traslado')">
@@ -443,7 +540,6 @@ const recargo = async () => {
 <td>
 <span class="fw-bold">Constancia</span>
 </td>
-<td></td>
 <td>5000</td>
 <td>
 <a class="item borrar Constancia" onclick="borrarFila('tr-Constancia','Constancia')">
@@ -548,7 +644,6 @@ const recargo = async () => {
 <td>
 <span class="fw-bold">Titulo</span>
 </td>
-<td></td>
 <td>20000</td>
 <td>
 <a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
@@ -598,7 +693,6 @@ const recargo = async () => {
 <td>
   <span class="fw-bold">Reposicion,L-${leccion}</span>
 </td>
-<td></td>
 <td>10000</td>
 <td>
   <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
@@ -1189,7 +1283,6 @@ async function verificareposicion(id_estudiante) {
 <td>
   <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
 </td>
-<td></td>
 <td>10000</td>
 <td>
   <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">

@@ -434,6 +434,7 @@ module.exports = {
           ////console.log(id_usuario);
         })
         .catch((err) => {
+          console.log(err);
           reject(err)
         });
     });
