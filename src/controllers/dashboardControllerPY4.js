@@ -85,10 +85,12 @@ exports.dashboard = (req, res) => {
   DataBase.CodigosP()
     .then((cp_) => {
       let cp_arr = JSON.parse(cp_);
+      console.log('CP Fine')
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
           let clientes_arr = JSON.parse(clientes_d);
           let count = clientes_arr.length;
+          
           PedidosDB(id_sucursal)
             .then((pedidos_) => {
               let pedidos_let = JSON.parse(pedidos_);
@@ -269,46 +271,55 @@ exports.dashboard = (req, res) => {
                                       });
                                     })
                                     .catch((err) => {
+                                      console.log(err)
                                                                       let msg = "Error en sistema";
                                       return res.redirect("/errorpy4/" + msg);
                                     });
                                 })
                                 .catch((err) => {
+                                  console.log(err)
                                                               let msg = "Error en sistema";
                                   return res.redirect("/errorpy4/" + msg);
                                 });
                             })
                             .catch((err) => {
+                              console.log(err)
                                                       let msg = "Error en sistema";
                               return res.redirect("/errorpy4/" + msg);
                             });
                         })
                         .catch((err) => {
+                          console.log(err)
                                               let msg = "Error en sistema";
                           return res.redirect("/errorpy4/" + msg);
                         });
                     })
                     .catch((err) => {
+                      console.log(err)
                                       let msg = "Error en sistema";
                       return res.redirect("/errorpy4/" + msg);
                     });
                 })
                 .catch((err) => {
+                  console.log(err)
                               let msg = "Error en sistema";
                   return res.redirect("/errorpy4/" + msg);
                 });
             })
             .catch((err) => {
+              console.log(err)
                       let msg = "Error en sistema";
               return res.redirect("/errorpy4/" + msg);
             });
         })
         .catch((err) => {
+          console.log(err)
               let msg = "Error en sistema";
           return res.redirect("/errorpy4/" + msg);
         });
     })
     .catch((err) => {
+      console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });

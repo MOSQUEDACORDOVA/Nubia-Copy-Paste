@@ -969,7 +969,7 @@ guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_a
 },
 historial_caja(id_alumno) {
   return new Promise((resolve, reject) => {
-    Caja.findAll({where:{matriculaId:id_alumno}, limit: 6, order:[['createdAt', 'DESC']] })
+    Caja.findAll({where:{matriculaId:id_alumno}, limit: 6, order:[['id', 'DESC']] })
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);
