@@ -12,6 +12,8 @@ $(function () {
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
+
+    // FUNCION PARA CAMBIAR EL COLOR E ICONO DEL BOTON CONGELAR ALUMNO
     $(function () {
       $('#btn-congelar-alumno').on('click', function () {        
         var btnText = document.getElementById("btn-congelar-text");
@@ -31,13 +33,17 @@ $(function () {
           $("#btn-congelar-alumno").removeClass("btn-glow");
           $("#user-check").addClass("d-none")
           $("#user-x").removeClass("d-none")
-
-          
         }        
       })
     })
+
+    $("#add_pago-btn").removeAttr("disabled");
+    $("#btn-guardar-pago").removeAttr("disabled");
+    $("#select-servicio").removeAttr("disabled");
+    $("#btn-activar-alumno").addClass("d-none");
     var filter = matricula.filter((element) => element.id == e.target.value);
     console.log(filter);
+    
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
@@ -50,6 +56,7 @@ $(function () {
     );
     $("#fecha-pago-alumno").text(filter[0]["grupo"]["dia_pagos"]);
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
+    
     /**OBTENER HISTORIAL DE CAJA */
     historial = await fetch("/historia-caja-academy/" + filter[0]["id"])
       .then((response) => response.json())
@@ -57,6 +64,20 @@ $(function () {
         console.log(data);
         return data.obtener_historia;
       });
+      if (filter[0]["estadoId"] == "5") {
+        $("#form-reg-pago").append(
+          `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
+        );
+        $("#add_pago-btn").attr("disabled", true);
+        $("#btn-guardar-pago").attr("disabled", true);
+        $("#btn-trasladar-alumno").attr("disabled", true);
+$("#select-servicio").attr("disabled", true);
+$("#btn-congelar-alumno").addClass("d-none");
+$("#btn-activar-alumno").removeClass("d-none");
+        updateHistorial(e.target.value);
+        Swal.fire("Alumno congelado")
+        return
+    }
     let fecha_pago_historial,
       pago_mensualidad = [];
       let mensualidad_coste
@@ -1150,6 +1171,58 @@ await leccionActualGrupos();
       },
     });
   });
+
+  $('#btn-congelar-alumno').click(()=>{
+    let id_estudiante = $("#id-alumno-form").val();
+    let data  = new FormData();
+    data.append('id_estudiante', id_estudiante);
+    $.ajax({
+      url: `/congelarestudiantepy672`,
+      type: "POST",
+      data: data,
+      cache: false,
+  contentType: false,
+  processData: false,
+      success: function (data, textStatus, jqXHR) {
+        console.log(data);
+        $("#createAppModal").modal('hide')
+        Swal.fire("Se congelo el alumno con éxito").then((resp)=>{
+          if (resp.isDismissed || resp.isConfirmed) {
+            window.location.reload()
+          }
+        })
+      },
+      error: function (jqXHR, textStatus) {
+        console.log("error:" + jqXHR);
+      },
+    });
+  })
+$('#btn-activar-alumno').click(()=>{
+    let id_estudiante = $("#id-alumno-form").val();
+    let data  = new FormData();
+    data.append('id_estudiante', id_estudiante);
+    $.ajax({
+      url: `/activarestudiantecongeladopy672`,
+      type: "POST",
+      data: data,
+      cache: false,
+  contentType: false,
+  processData: false,
+      success: function (data, textStatus, jqXHR) {
+        console.log(data);
+        $("#createAppModal").modal('hide')
+        Swal.fire("Se reactivo el alumno con éxito").then((resp)=>{
+          if (resp.isDismissed || resp.isConfirmed) {
+            window.location.reload()
+          }
+        })
+      },
+      error: function (jqXHR, textStatus) {
+        console.log("error:" + jqXHR);
+      },
+    });
+  })
+  
   /**FIN DOCUMENT READY */
 });
 
@@ -1373,6 +1446,8 @@ const leccionActualGrupos = async () => {
   numLeccion;
   var jjaa;
   var gruposAct = [];
+  let fstChar = ($("#grupoReag").text()).charAt(0);
+  console.log(fstChar)
   for (let i = 0; i < grupos.length; i++) {
     let tipo = grupos[i]["nombre"];
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
@@ -1411,7 +1486,6 @@ const leccionActualGrupos = async () => {
       //   "disabled",
       //   true
       // );
-      console.log('000000')
     } else {
       if ($("#grupoReag").text() == grupos[i]["identificador"]) {
         console.log("mismo grupo");
@@ -1422,6 +1496,9 @@ const leccionActualGrupos = async () => {
           (filter2) => filter2.grupo.id == grupos[i]["id"]
         ).length;
         gruposAct.push(grupos[i]);
+        let fstChar2 = (grupos[i]["identificador"]).charAt(0);
+      console.log(fstChar2)
+      if (fstChar == "C" &&  fstChar2 == "I" || fstChar == "I" &&  fstChar2 == "C" || fstChar == "C" &&  fstChar2 == "C" || fstChar == "I" &&  fstChar2 == "I") {
         $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
     <td>${grupos[i]["identificador"]}</td>
@@ -1431,6 +1508,19 @@ const leccionActualGrupos = async () => {
     <td>${filter_group_alumnos}</td>
     <td>${grupos[i]["usuario"]['nombre']}</td>
 </tr>`);
+      }
+
+      if (fstChar == "N" &&  fstChar2 == "N") {
+        $(`#gruposAct`).append(`<tr>
+    <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
+    <td>${grupos[i]["identificador"]}</td>
+    <td>${jjaa}</td>
+    <td>${grupos[i]["dia_horario"]}</td>
+    <td>${grupos[i]["dia_pagos"]}</td>
+    <td>${filter_group_alumnos}</td>
+    <td>${grupos[i]["usuario"]['nombre']}</td>
+</tr>`);
+      }
       }
     }
     $("#countGrupos").text("0");
