@@ -12,6 +12,30 @@ $(function () {
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
+    $(function () {
+      $('#btn-congelar-alumno').on('click', function () {        
+        var btnText = document.getElementById("btn-congelar-text");
+
+        if(btnText.innerText == "Congelar Alumno") {
+          btnText.innerText = "Descongelar Alumno"
+          $("#btn-congelar-alumno").removeClass("btn-danger");
+          $("#btn-congelar-alumno").addClass("btn-success");
+          $("#btn-congelar-alumno").addClass("btn-glow");
+          $("#user-x").addClass("d-none")
+          $("#user-check").removeClass("d-none")
+        } 
+        else {
+          btnText.innerText = "Congelar Alumno"
+          $("#btn-congelar-alumno").removeClass("btn-success");
+          $("#btn-congelar-alumno").addClass("btn-danger");
+          $("#btn-congelar-alumno").removeClass("btn-glow");
+          $("#user-check").addClass("d-none")
+          $("#user-x").removeClass("d-none")
+
+          
+        }        
+      })
+    })
     var filter = matricula.filter((element) => element.id == e.target.value);
     console.log(filter);
     $("#historial-list").empty();
