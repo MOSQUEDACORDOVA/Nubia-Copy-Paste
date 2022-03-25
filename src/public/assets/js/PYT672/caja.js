@@ -14,7 +14,7 @@ $(function () {
     $("#btn-congelar-alumno").removeAttr("disabled");
 
     // FUNCION PARA CAMBIAR EL COLOR E ICONO DEL BOTON CONGELAR ALUMNO
-    $(function () {
+   /*  $(function () {
       $('#btn-congelar-alumno').on('click', function () {        
         var btnText = document.getElementById("btn-congelar-text");
 
@@ -35,7 +35,7 @@ $(function () {
           $("#user-x").removeClass("d-none")
         }        
       })
-    })
+    }) */
 
     $("#add_pago-btn").removeAttr("disabled");
     $("#btn-guardar-pago").removeAttr("disabled");
