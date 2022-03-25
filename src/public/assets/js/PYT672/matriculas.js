@@ -558,15 +558,29 @@ const leccionActualGrupos = async () => {
           (filter2) => filter2.grupo.id == grupos[i]["id"]
         ).length;
         gruposAct.push(grupos[i]);
-        $(`#gruposAct`).append(`<tr>
-    <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
-    <td>${jjaa}</td>
-    <td>${grupos[i]["dia_horario"]}</td>
-    <td>${grupos[i]["dia_pagos"]}</td>
-    <td>${filter_group_alumnos}</td>
-    <td>${grupos[i]["usuario"]['nombre']}</td>
-</tr>`);
+        if (fstChar == "C" &&  fstChar2 == "I" || fstChar == "I" &&  fstChar2 == "C" || fstChar == "C" &&  fstChar2 == "C" || fstChar == "I" &&  fstChar2 == "I") {
+          $(`#gruposAct`).append(`<tr>
+      <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
+      <td>${grupos[i]["identificador"]}</td>
+      <td>${jjaa}</td>
+      <td>${grupos[i]["dia_horario"]}</td>
+      <td>${grupos[i]["dia_pagos"]}</td>
+      <td>${filter_group_alumnos}</td>
+      <td>${grupos[i]["usuario"]['nombre']}</td>
+  </tr>`);
+        }
+  
+        if (fstChar == "N" &&  fstChar2 == "N") {
+          $(`#gruposAct`).append(`<tr>
+      <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
+      <td>${grupos[i]["identificador"]}</td>
+      <td>${jjaa}</td>
+      <td>${grupos[i]["dia_horario"]}</td>
+      <td>${grupos[i]["dia_pagos"]}</td>
+      <td>${filter_group_alumnos}</td>
+      <td>${grupos[i]["usuario"]['nombre']}</td>
+  </tr>`);
+        }
       }
     }
     $("#countGrupos").text("0");
