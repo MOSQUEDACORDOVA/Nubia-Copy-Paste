@@ -1331,7 +1331,7 @@ if (estado) {
       inputValidator: (value) => {
         
         return new Promise((resolve) => {
-          console.log(motivo)
+          
           if (!value) {
             resolve('Debe colocar un motivo')
           } else {
@@ -1355,7 +1355,7 @@ if (estado) {
     focusConfirm: false,
     preConfirm: () => {
       const fecha_pago =
-      Swal.getPopup().querySelector("#swal-input2").value;      
+      Swal.getPopup().querySelector("#swal-input1").value;      
     if (!fecha_pago) {
       Swal.showValidationMessage(
         `Debe llenar todos los campos, por favor!`
@@ -1670,7 +1670,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       focusConfirm: false,
       preConfirm: () => {
         const fecha_pago =
-        Swal.getPopup().querySelector("#swal-input2").value;      
+        Swal.getPopup().querySelector("#swal-input1").value;      
       if (!fecha_pago) {
         Swal.showValidationMessage(
           `Debe llenar todos los campos, por favor!`
