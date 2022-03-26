@@ -378,7 +378,7 @@ $(document).ready(function() {
                 </div>
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
-                        <div class="row">
+                        <div class="row d-none">
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
@@ -395,19 +395,13 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
-                                       <select class="select2 form-select select_chofer_ventas">
+                                       <select class="select2 form-select select_chofer_pedidos">
                                            <option value="">Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
                                            <option >{{name}}</option>
                                            {{/each}}
                                        </select>
                                        <span class="me-md-1"></span>
-                                       <select class="select2 form-select select_etiqueta_ventas">
-                                           <option value="">Filtrar etiquetas</option>
-                                           {{#each etiquetas_let as |etiqueta i|}}
-                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
-                                           {{/each}}
-                                       </select>
                                     </div>
                                 </div>    
                     </div>

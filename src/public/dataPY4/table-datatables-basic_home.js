@@ -227,6 +227,8 @@ Rf:${rf}.
 CJ: ${CJ}.
 Env: ${Env}.
 Tipo Pago:${full['metodo_pago']}
+Dueda anterior: ${full['deuda_anterior']}
+Garrafones prestados: ${full['garrafones_prestamos']}
 Observaciones:${full['observacion']}
 </p>`  
             );
@@ -822,7 +824,21 @@ Observaciones:${full['observacion']}
             <th>oculto choferes </th> 
             <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -925,7 +941,21 @@ Observaciones:${full['observacion']}
             <th>oculto choferes </th> 
             <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
@@ -1143,7 +1173,21 @@ $.contextMenu({
        <th>oculto choferes </th> 
        <th>oculto asentamiento </th> 
    </tr>
-</thead>`);
+</thead>
+<tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
    
    $('.datatables-basic2').dataTable().fnDestroy();
    $('.datatables-basic2').empty();
@@ -1516,7 +1560,21 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+  </thead>
+  <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>
@@ -1728,7 +1786,21 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+  </thead>
+  <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>

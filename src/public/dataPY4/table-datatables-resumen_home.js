@@ -45,8 +45,8 @@
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
-
-      dt_table_resumenN.search(this.value).draw();   
+console.log(this.value)
+      dt_table_resumenN.column(4).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
  
@@ -89,7 +89,7 @@
             }
             
           }
-          suma = suma + suma_entregados
+          suma = suma
           return suma
         },
          
@@ -108,13 +108,20 @@
          
         },
         { targets: 3, render: function (data, type, full) {
-          let resto =0
+          let resto =0,suma_entregados=0, suma=0;
           for (let i = 0; i < pedidos_resumen.length; i++) {
             if (pedidos_resumen[i]['personalId'] == full['personalId']) {
-              resto += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
+              suma += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
             }
             
           }
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados+= parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+          resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
           return resto
         },
          
