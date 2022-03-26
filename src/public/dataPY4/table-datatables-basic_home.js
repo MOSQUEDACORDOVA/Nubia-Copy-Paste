@@ -1331,7 +1331,7 @@ if (estado) {
       inputValidator: (value) => {
         
         return new Promise((resolve) => {
-          console.log(motivo)
+          
           if (!value) {
             resolve('Debe colocar un motivo')
           } else {
