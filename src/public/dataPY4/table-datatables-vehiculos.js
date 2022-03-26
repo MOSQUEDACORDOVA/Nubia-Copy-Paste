@@ -64,7 +64,7 @@ var sucursale_pa = JSON.parse(suc.replace(/&quot;/g,'"'))
         {
           targets: 1,
           render:function(data){
-            return moment(data).format('L');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
          {

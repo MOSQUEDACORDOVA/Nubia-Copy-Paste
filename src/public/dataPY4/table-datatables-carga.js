@@ -141,35 +141,34 @@ console.log(array)
     var dt_basic_carg = dt_basic_carga_init.DataTable({
       data: array2,
       columns: [
-        { data: 'id' },
         { data: 'personal' },
         { data: 'recarga' },
         { data: 'createdAt'},
-       /* {   // Actions
+       {   // Actions
           targets: -1,
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
+              `<div class="d-inline-flex">
+              <a href="javascript:;" class="dropdown-item delete-record${full['id']}" onclick=\'delete_("${full['id']}")\'>
+              ${feather.icons['trash-2'].toSvg({ class: 'font-small-4 ' }) }
+              </a>
+              <a href="javascript:;" class="dropdown-item edit_record">
+              ${feather.icons['file-text'].toSvg({ class: 'font-small-4' })}
+              </a>  `
             );
-          } },*/
+          } },
       ], columnDefs: [
         {
-          targets: 1,
+          targets: 0,
           render:function(data, type, full, meta){
 
            return `${full['personal']['name']}  ${full['personal']['lastName']}`
           }
         },
 {
-          targets: 2,
+          targets: 1,
           render:function(data, type, full, meta){
             console.log(full)
             var recarga_arr = encodeURIComponent(JSON.stringify(full['Recargas']));
@@ -181,10 +180,10 @@ console.log(array)
         },
         
         {
-          targets: 3,
+          targets: 2,
           render:function(data){
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment(data).format('L');
+           // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
       ],
@@ -391,4 +390,45 @@ function openrecarga(id) {
   $('#id_carga').val(id)
   $('#recarga').modal('show')
 }
-
+function delete_(id_) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  if (typeof id_ =="undefined") {
+    return console.log(id_)
+  }
+  var id = id_
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar la carga indicada",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_cargapy4/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic_carga_init').DataTable().row($(`.datatables-basic_carga_init tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Carga ${id} borrada con éxito`,
+      })
+    }
+  })
+}

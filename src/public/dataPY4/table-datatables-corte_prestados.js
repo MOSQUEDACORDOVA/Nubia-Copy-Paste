@@ -3,89 +3,17 @@
  */
 
  'use strict';
- // Advanced Search Functions Starts
- // --------------------------------------------------------------------
- var minDate_, maxDate_;
- // Custom filtering function which will search data in column four between two values
-
- // Datepicker for advanced filter
- var separator = ' - ',
-   rangePickr = $('.flatpickr-range'),
-   dateFormat = 'MM/DD/YYYY';
- var options = {
-   autoUpdateInput: false,
-   autoApply: true,
-   locale: {
-     format: dateFormat,
-     separator: separator
-   },
-   opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
- };
- 
- //
- if (rangePickr.length) {
-   rangePickr.flatpickr({
-     mode: 'range',
-     dateFormat: 'm/d/Y',
-     onClose: function (selectedDates, dateStr, instance) {
-       var startDate = '',
-         endDate = new Date();
-       if (selectedDates[0] != undefined) {
-         startDate =
-           selectedDates[0].getMonth() + 1 + '/' + selectedDates[0].getDate() + '/' + selectedDates[0].getFullYear();
-         $('.start_date').val(startDate);
-       }
-       if (selectedDates[1] != undefined) {
-         endDate =
-           selectedDates[1].getMonth() + 1 + '/' + selectedDates[1].getDate() + '/' + selectedDates[1].getFullYear();
-         $('.end_date').val(endDate);
-       }
-       $(rangePickr).trigger('change').trigger('keyup');
-     }
-   });
- }
- 
- // Advance filter function
- // We pass the column location, the start date, and the end date
- var filterByDate__ = function (column, startDate, endDate) {
-   // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
-     var rowDate = normalizeDate(aData[column]),
-       start = normalizeDate(startDate),
-       end = normalizeDate(endDate);
-       var  min2_ = minDate_.val();
-       var max2_ = maxDate_.val();
-       let f = aData[2]
-       var date_ = new Date(f);
-       
-     // If our date from the row is between the start and end
-     if (
-      ( min2_ === null && max2_ === null ) ||
-      ( min2_ === null && date_ <= max2_ ) ||
-      ( min2_ <= date_   && max2_ === null ) ||
-      ( min2_ <= date_   && date_ <= max2_ ) 
-  ) {
-      return true;
-  }
-  return false;
-   });
- };
- 
- // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
- var normalizeDate = function (dateString) {
-   var date = new Date(dateString);
-   var normalized =
-     date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
-   return normalized;
- };
- // Advanced Search Functions Ends
- $(function () {
-  'use strict';
-  
+function cargaPrestados(rest) {
   let corte_prestados = $('#array_corte_prestados').val()
-  
-  let corte_prestados2 = JSON.parse(corte_prestados.replace(/&quot;/g,'"'))
-
+  let corte_prestados2 = ""
+  if (rest) {    
+    corte_prestados2 = JSON.parse(corte_prestados)
+  }else{
+    corte_prestados2 = JSON.parse(corte_prestados.replace(/&quot;/g,'"'))
+  }
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+console.log(corte_prestados2)
 //TABLA GRAL
 let Newcorte2 = {}
 //Recorremos el arreglo 
@@ -98,19 +26,7 @@ corte_prestados2.forEach( x => {
 let ArrayGral = Object.entries(Newcorte2);
 
   var
-  dt_Gral = $('.datatables-basicPrestados'),
-    dt_date_table = $('.dt-date'),
-    assetPath = '../../dataPY4/';
-
-  if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
-  minDate_ = new DateTime($('#min_'), {
-    format: 'DD/MM/YYYY'
-});
-maxDate_ = new DateTime($('#max_'), {
-    format: 'DD/MM/YYYY'
-});
+  dt_Gral = $('.datatables-basicPrestados');
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -151,9 +67,38 @@ maxDate_ = new DateTime($('#max_'), {
         //ArrayConductores = JSON.stringify(ArrayConductores)
         
         var data_str = encodeURIComponent(JSON.stringify(ArrayConductores));
-         
+        let asentamiento = ""
+        for (let i = 0; i < codigosP_arr.length; i++) {
+          if (codigosP_arr[i]['id'] == full[1][0]['cliente']['cpId']) {
+            asentamiento = codigosP_arr[i]['asentamiento']
+          }
+          
+        }
+   
+        var $status_number = full[1][0]['cliente']['tipo'];
+        var $status = {
+          "Residencial": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+          "Punto de venta": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+          "Negocio": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+        };
+        if (typeof $status[$status_number] === 'undefined') {
+          return data;
+        }
+    var cliente_arr = encodeURIComponent(JSON.stringify(full[1][0]['cliente']));
+    var color_tag ="", color_text=""
+    if (full[1][0]['cliente']['etiqueta'] ==null) {
+      color_tag =0
+      color_text="black"
+    }else{
+      color_tag =full[1][0]['cliente']['etiqueta']['color']
+      color_text="white"
+    }
+    //aqui activa el modal info del cliente
+        // return (
+        //   `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+        // );
 
-        return '<button class="btn btn-primary" data-bs-toggle="modal" data-id="'+cantidad+'" data-arrayconductores="'+data_str+'" data-title="Garrafones Prestados a'+full[1][0]['cliente']['firstName']+'"  data-bs-target="#corte_modal">'+full[1][0]['cliente']['firstName']+'</button>'}  },
+        return `<span class="d-none">${asentamiento}</span><span class="badge rounded-pill ${$status[$status_number].class}" data-bs-toggle="modal" data-id="${cantidad}" data-arrayconductores="${data_str}" data-title="Garrafones Prestados a ${full[1][0]['cliente']['firstName']}"  data-bs-target="#corte_modal" style="cursor: pointer;">${$status[$status_number].title}</span>`}  },
         { data: '0'},
         { data: '0' },
         { data: '0' },
@@ -274,7 +219,7 @@ maxDate_ = new DateTime($('#max_'), {
             cantidad += parseInt(my_object[i][j][k]['cantidad']);
         }
        }
-          id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +cantidad
+         let id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +cantidad
 
           $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object[i][j][0]['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${cantidad}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
         }
@@ -286,56 +231,38 @@ maxDate_ = new DateTime($('#max_'), {
 
  
   }
-
-  
-  // Flat Date picker
-  if (dt_date_table.length) {
-    dt_date_table.flatpickr({
-      monthSelectorType: 'static',
-      dateFormat: 'm/d/Y'
+}
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+  cargaPrestados()
+  $('#fecha_corte').on('change', async (e)=>{
+    console.log(e.target.value)
+    let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
+    console.log(fecha)
+  let prestados = await fetch("/prestados/" + fecha)
+    .then((response) => response.json())
+    .then((data) => {
+      
+      return data.prestamos_byday;
     });
-  }
-
-
-
-
-  // Responsive Table
-  // --------------------------------------------------------------------
-
-
-  // Filter form control to default size for all tables
-  $('.dataTables_filter .form-control').removeClass('form-control-sm');
-  $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
-  // Delete Record
-  
-  $('.odd').addClass('selector');
-  $('.even').addClass('selector'); 
-
-
-
+    console.log(JSON.parse(prestados));
+    $('.datatables-basicPrestados').dataTable().fnDestroy();
+         $('.datatables-basicPrestados').empty();
+        $('.datatables-basicPrestados').html(`<thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Nª Envases Prestados</th>
+            <th>Fecha</th>
+            <th>Devueltos</th>
+            <th>Fecha Ult. Devolución</th>
+        </tr>
+    </thead>`);
+    $('#array_corte_prestados').val(prestados)
+    cargaPrestados('rest')
+});
 
 });
-// Filter column wise function
-function filterColumn3(i, val) {
-  if (i == 5) {
-    var startDate = $('.start_date_').val(),
-      endDate = $('.end_date_').val();
-    if (startDate !== '' && endDate !== '') {
-      
-      filterByDate_(i, startDate, endDate); // We call our filter function
-    }
-    
-    if (startDate == '' && endDate == '') {
-      
-      location.reload();
-    }
-    $('.datatables-basicPrestados').dataTable().fnDraw();
-    
-  } else {
-    $('.datatables-basicPrestados').DataTable().column(i).search(val, false, true).draw();
-  }
-}
-
 // Filter column wise function
 async function habilitar_dev(id) {
   console.log(id.id)
@@ -344,9 +271,9 @@ async function habilitar_dev(id) {
   let id_chofer =array[2]
   let cantidad =array[3]
   let id_cliente = array[0]
-  console.log(id.value)
-  console.log(cantidad)
+  
   fecha_ = fecha_.replaceAll('/','-')
+  console.log(fecha_)
   if (parseInt(id.value) > parseInt(cantidad)) {
     Swal.fire('La cantidad de devueltos no debe ser mayor a la prestada')
     return
@@ -374,11 +301,31 @@ async function habilitar_dev(id) {
         })
     },
     allowOutsideClick: () => !Swal.isLoading()
-  }).then((result) => {
+  }).then(async (result) => {
     if (result.isConfirmed) {
       console.log(result)
       Swal.fire('Listo')
-     window.location.href =`/homepy4`
+      let fecha = moment(fecha_,'MM-DD-YYYY').format('YYYY-DD-MM')
+      console.log(fecha)
+    let prestados = await fetch("/prestados/" + fecha)
+      .then((response) => response.json())
+      .then((data) => {        
+        return data.prestamos_byday;
+      });
+      console.log(JSON.parse(prestados));
+      $('.datatables-basicPrestados').dataTable().fnDestroy();
+           $('.datatables-basicPrestados').empty();
+          $('.datatables-basicPrestados').html(`<thead>
+          <tr>
+              <th>Cliente</th>
+              <th>Nª Envases Prestados</th>
+              <th>Fecha</th>
+              <th>Devueltos</th>
+              <th>Fecha Ult. Devolución</th>
+          </tr>
+      </thead>`);
+      $('#array_corte_prestados').val(prestados)
+      cargaPrestados('rest')
     }
   })
 

@@ -33,6 +33,77 @@ exports.change_sucursal = (req, res) => {
     });
 };
 
+exports.prestados = (req,res)=>{
+  console.log(req.params.day)
+  if (req.params.day) {
+    dia = moment(req.params.day, "YYYY-DD-MM").format("YYYY-MM-DD");
+  } else {
+    dia = moment();
+  }
+  let id_sucursal = req.session.sucursal_select;
+  
+  //DATA-COMUNES
+  let PrestadosGroupByCliente = "";
+  switch (req.session.tipo) {
+    case "Director":
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByCliente;
+      break;
+
+    default:
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByClienteS;
+      break;
+  }
+  PrestadosGroupByCliente(id_sucursal).then(async (prestamos_) => {
+                              let prestamos_let = JSON.parse(prestamos_);
+                              let prestamos_byday = [];
+                              let prestamos_del_dia = 0,
+                                devueltos_del_dia = 0;
+                              let residencial_cont = 0;
+                              let negocio_cont = 0;
+                              let ptoVenta_cont = 0;
+                              console.log(dia);
+                              let iguales;
+                              for (let i = 0; i < prestamos_let.length; i++) {
+                                fecha_created = prestamos_let[i].fecha_ingreso;
+                                
+                                if (req.params.day) {
+                                  iguales = moment(fecha_created,'MM/DD/YYYY').isSame(
+                                    dia,
+                                    "day"
+                                  ); // true
+                                } else {
+                                  iguales = true
+                                }
+                                
+                               if (iguales == true) {
+                                  prestamos_byday.push(prestamos_let[i]); //OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
+                                  prestamos_del_dia =
+                                    parseInt(prestamos_del_dia) +
+                                    parseInt(prestamos_let[i].cantidad);
+                                  devueltos_del_dia =
+                                    parseInt(devueltos_del_dia) +
+                                    parseInt(prestamos_let[i].devueltos);
+                                  switch (prestamos_let[i].cliente.tipo) {
+                                    case "Residencial":
+                                      residencial_cont++;
+                                      break;
+                                    case "Negocio":
+                                      negocio_cont++;
+                                      break;
+                                    case "Punto de venta":
+                                      ptoVenta_cont++;
+                                      break;
+                                    default:
+                                      break;
+                                  }
+                                }
+                              }
+                              
+                              prestamos_byday = JSON.stringify(prestamos_byday);
+                              res.send({prestamos_byday})
+                            })
+}
+
 exports.dashboard = (req, res) => {
   
   //Push.create('Hello World!')
@@ -200,10 +271,10 @@ exports.dashboard = (req, res) => {
                                 fecha_created = prestamos_let[i].fecha_ingreso;
 
                                 let iguales = moment(fecha_created,'MM/DD/YYYY').isSame(
-                                  dia,
+                                  moment(),
                                   "day"
                                 ); // true
-                                if (iguales == true) {
+                               if (iguales == true) {
                                   prestamos_byday.push(prestamos_let[i]); //OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
                                   prestamos_del_dia =
                                     parseInt(prestamos_del_dia) +
@@ -1013,7 +1084,7 @@ exports.regPedidoPy4 = async (req, res) => {
     id_chofer,
     sucursal,
     deuda_anterior,
-    fecha_pedido,desc_referido,id_referenciado
+    fecha_pedido,desc_referido,id_referenciado,asentamiento
   } = req.body;
 
   let total_garrafones_pedido =
@@ -1107,7 +1178,7 @@ if (desc_referido > 0) {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido,descuento
+    fecha_pedido,descuento,asentamiento
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
@@ -2910,6 +2981,33 @@ exports.save_recarga = async (req, res) => {
       Carga_init = DataBase.Carga_initS;
       break;
   }
+  Carga_init(id_sucursal)
+    .then((carga_) => {
+      let carga_let = JSON.parse(carga_);
+
+      res.send({ carga_let });
+    })
+    .catch((err) => {
+      let msg = "Error en sistema";
+      return res.redirect("/errorpy4/" + msg);
+    });
+};
+exports.delete_carga = async (req, res) => {
+  const id = req.params.id;
+ 
+  var delete_carga_init = await DataBase.delete_carga(id);
+  
+  let id_sucursal = req.session.sucursal_select;
+  switch (req.session.tipo) {
+      case "Director":
+        Carga_init = DataBase.Carga_init;
+        admin = true;
+        break;
+  
+      default:
+        Carga_init = DataBase.Carga_initS;
+        break;
+    }
   Carga_init(id_sucursal)
     .then((carga_) => {
       let carga_let = JSON.parse(carga_);
