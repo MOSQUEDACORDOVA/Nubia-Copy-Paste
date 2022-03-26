@@ -53,7 +53,7 @@ let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full
           targets: 3,
           render: function (data, type, full, meta) {
 
-            return moment(data).format('L');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
       ],
@@ -137,7 +137,7 @@ let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full
           targets: 3,
           render: function (data, type, full, meta) {
 
-            return moment(data).format('L');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
       ],
@@ -221,7 +221,7 @@ let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full
           targets: 3,
           render: function (data, type, full, meta) {
 
-            return moment(data).format('L');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
       ],

@@ -328,9 +328,9 @@ Env: ${Env}.</p>`
           targets: 5,className:'fecha_pedido',
           render:function(data, type, full){
             
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
-           return moment(data).format('L');
+           // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
+         //  return (`<span class="badge rounded-pill">${moment(data).format('DD/MM/YYYY')}</span>`);
+           return moment(data).format('DD/MM/YYYY');
           }
         },
         

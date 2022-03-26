@@ -154,17 +154,19 @@ $('#filterValue').val(this.value)
           dt_basic.column(i).search(this.value).draw();
         }else{
           dt_basic.column(i).search(valor).draw();
+          
         }
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
 
-      dt_basic.search(this.value).draw();   
+      dt_basic.column(11).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
- 
+ console.log(this.value)
     dt_basic.search(this.value).draw();   
  });
+
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
@@ -223,7 +225,10 @@ Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['clien
 Referencia:${full['cliente']['referencia']}.
 Rf:${rf}.
 CJ: ${CJ}.
-Env: ${Env}.</p>`  
+Env: ${Env}.
+Tipo Pago:${full['metodo_pago']}
+Observaciones:${full['observacion']}
+</p>`  
             );
           }, 
         },
@@ -269,16 +274,17 @@ Env: ${Env}.</p>`
           // Label
           targets: 1,
           render: function (data, type, full, meta) {
-            var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-            var color_tag ="", color_text=""
+            var color_tag ="", color_text="", nombre;
             if (full['cliente']['etiqueta'] ==null) {
               color_tag =0
               color_text="black"
+              nombre=""
             }else{
               color_tag =full['cliente']['etiqueta']['color']
               color_text="white"
+              nombre=full['cliente']['etiqueta']['etiquetas']
             }
-            return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+            return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
           }
         },
         {
@@ -313,20 +319,17 @@ Env: ${Env}.</p>`
         }
         //aqui activa el modal info del cliente
             return (
-              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-              '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
-              $status[$status_number].title +
-              '</span>'
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
             );
           }
         },
          {
           // Label
-          targets: 3,
+          targets: 3,className:'to_garra',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -420,7 +423,7 @@ Env: ${Env}.</p>`
       ],
      
      
-      order: [[11,'asc'],[9,'desc'],[2,'asc']],
+      order: [[9,'desc'],[11,'asc'],[2,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -429,7 +432,7 @@ Env: ${Env}.</p>`
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
-
+        var sumaT = 0
         api
           .column(groupColumn, { page: 'current' })
           .data()
@@ -442,6 +445,14 @@ Env: ${Env}.</p>`
               last = group;
             }
           });
+          console.log( api.column(3, { page: 'current' }).data() );
+          api.column(3, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+         console.log(sumaT) 
+        $('tfoot .to_garra').text(sumaT)
+        
       },
       
      
@@ -467,12 +478,6 @@ Env: ${Env}.</p>`
       
     });
     
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-      // on key up from input field
- /* $('input.dt-input').on('keyup change', function () {
-    filterColumn($(this).attr('data-column'), $(this).val());
-  });**/
-
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
@@ -497,7 +502,7 @@ Env: ${Env}.</p>`
     });
     $('.select_chofer_ventas').on('change', function(){
       
-      dt_basic2.search(this.value).draw();   
+      dt_basic2.column(9).search(this.value).draw();   
    });  
     $('.select_etiqueta_ventas').on('change', function(){
       
@@ -572,15 +577,18 @@ Env: ${Env}.</p>`
             //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
             //   }
               var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-              var color_tag ="", color_text=""
+              var color_tag ="", color_text="", nombre;
               if (full['cliente']['etiqueta'] ==null) {
                 color_tag =0
                 color_text="black"
+                nombre=""
               }else{
                 color_tag =full['cliente']['etiqueta']['color']
                 color_text="white"
+                nombre=full['cliente']['etiqueta']['etiquetas']
               }
-              return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+  
+              return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
             }
           },
           {
@@ -612,12 +620,9 @@ Env: ${Env}.</p>`
             color_tag =full['cliente']['etiqueta']['color']
             color_text="white"
           }
-              return (
-                '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-                '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
-                $status[$status_number].title +
-                '</span>'
-              );
+          return (
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+          );
             }
           },
         {
@@ -704,7 +709,7 @@ Env: ${Env}.</p>`
         },
       ],
      
-      order: [[9, 'asc'],[7, 'desc'],[1, 'asc']],
+      order: [[7,'desc'],[9,'asc'],[1,'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -752,10 +757,7 @@ Env: ${Env}.</p>`
     });
 
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-      // on key up from input field
- /*$('input.dt-input2').on('keyup change', function () {
-    filterColumn2($(this).attr('data-column'), $(this).val());
-  });*/
+
 
   $('#min, #max').on('change', function () {
     dt_basic2.draw();
@@ -1302,7 +1304,10 @@ function filterColumn2(i, val) {
   showCancelButton: true,
   inputValidator: (value) => {
     return new Promise((resolve) => {
-      if (value === status) {
+      console.log(value)
+      if (value ==='Reprogramado') {
+        resolve() 
+      } else if (value === status) {
         resolve('Debe seleccionar un estado diferente')
       } else {
          resolve()
@@ -1310,7 +1315,10 @@ function filterColumn2(i, val) {
     })
   }
 })
-
+if (!estado) {
+  Swal.fire(`Debe llenar todos los campos, por favor!`);
+  return
+} 
 if (estado) { 
   var motiv, fecha_rep
   if (estado == "Cancelado") {
@@ -1321,7 +1329,9 @@ if (estado) {
      // inputValue: inputValue,
       showCancelButton: true,
       inputValidator: (value) => {
+        
         return new Promise((resolve) => {
+          console.log(motivo)
           if (!value) {
             resolve('Debe colocar un motivo')
           } else {
@@ -1330,6 +1340,11 @@ if (estado) {
         })
       }
     })
+  if (!motivo) {
+    Swal.fire(`Debe llenar todos los campos, por favor!`);
+    return
+  }  
+
     motiv = motivo
   }
   if (estado == "Reprogramado") {
@@ -1339,11 +1354,22 @@ if (estado) {
       '<input id="swal-input1" class="swal2-input" type="date">',
     focusConfirm: false,
     preConfirm: () => {
+      const fecha_pago =
+      Swal.getPopup().querySelector("#swal-input2").value;      
+    if (!fecha_pago) {
+      Swal.showValidationMessage(
+        `Debe llenar todos los campos, por favor!`
+      );
+    }
       return [
         document.getElementById('swal-input1').value,
       ]
     }
     })
+    if (!fecha_re) {
+      Swal.fire(`Debe llenar todos los campos, por favor!`);
+      return
+    }  
     fecha_rep =fecha_re
   }
   
@@ -1575,6 +1601,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         showCancelButton: true,
         inputValidator: (value) => {
           return new Promise((resolve) => {
+            console.log(value)
             if (!value) {
               resolve('Debe colocar un tipo')
             } else {
@@ -1583,6 +1610,10 @@ async function cambioPago(id, status, fecha_pedido, monto) {
           })
         }
       })
+      if (!tipo) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
       tipo_p = tipo    
     }
    
@@ -1591,18 +1622,22 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         title: 'Indique el chofer',
         input: 'select',
       inputOptions: options,
-        inputPlaceholder: 'tipo',
+        inputPlaceholder: 'Chofer',
         showCancelButton: true,
         inputValidator: (value) => {
           return new Promise((resolve) => {
             if (!value) {
-              resolve('Debe colocar un tipo')
+              resolve('Debe colocar un chofer')
             } else {
                resolve()
             }
           })
         }
       })
+      if (!chofer) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
       chofer_r = chofer
       const { value: fecha_re } = await Swal.fire({
         title: 'Indique la fecha',
@@ -1610,11 +1645,22 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         '<input id="swal-input2" class="swal2-input" type="date">',
       focusConfirm: false,
       preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input2").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
+      }
         return [
           document.getElementById('swal-input2').value,
         ]
       }
       })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
       fecha_pago =fecha_re
     }else{
       const { value: fecha_re } = await Swal.fire({
@@ -1623,11 +1669,22 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         '<input id="swal-input1" class="swal2-input" type="date">',
       focusConfirm: false,
       preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input2").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
+      }
         return [
           document.getElementById('swal-input1').value,
         ]
       }
       })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
       chofer_r = 'Null'
       fecha_pago =fecha_re
     }

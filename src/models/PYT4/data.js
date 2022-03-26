@@ -608,7 +608,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -651,7 +651,8 @@ module.exports = {
 
           Clientes.update(
             {
-              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: fraccionamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal  },{ where:{
+              firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: asentamiento,
+              cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
                 resolve("Se creó correctamente el pedido");
@@ -737,7 +738,7 @@ module.exports = {
           Pedidos.findAll({where: {id: id_pedido}}).then((pedido_) =>{
              console.log(pedido_[0].dataValues.status_pedido)
            if (pedido_[0].dataValues.status_pedido =="Entregado") {
-              let hoy =moment(pedido_[0].dataValues.createdAt).format('MM/DD/YYYY')
+              let hoy =moment(pedido_[0].dataValues.fecha_pedido).format('MM/DD/YYYY')
 console.log(hoy)
             GPrestados.findAll({where:{
                      clienteId: pedido_[0].dataValues.clienteId, 
@@ -1922,6 +1923,22 @@ PersonalAllS(id){
             let data_set = JSON.stringify(data);
             resolve(data_set);
             //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    delete_carga(id_carga) {
+      return new Promise((resolve, reject) => {
+        Recargas.destroy({where:{cargaInitId: id_carga}})
+          .then((data) => {
+            Carga_init.destroy({where:{id: id_carga}})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+            //console.log(planes);
+          })
           })
           .catch((err) => {
             reject(err)
