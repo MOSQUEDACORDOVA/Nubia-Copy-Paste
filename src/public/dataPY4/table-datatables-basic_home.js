@@ -431,6 +431,16 @@ Observaciones:${full['observacion']}
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
       drawCallback: function (settings) {
+        let sumaG = 0
+$('.datatables-basic').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#example_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
@@ -447,12 +457,11 @@ Observaciones:${full['observacion']}
               last = group;
             }
           });
-          console.log( api.column(3, { page: 'current' }).data() );
+
           api.column(3, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });
-         console.log(sumaT) 
         $('tfoot .to_garra').text(sumaT)
         
       },
@@ -629,11 +638,11 @@ Observaciones:${full['observacion']}
           },
         {
           // Label
-          targets: 2,
+          targets: 2,className:'to_garra2',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -717,10 +726,20 @@ Observaciones:${full['observacion']}
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
       drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#DataTables_Table_0_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
-
+        let sumaT = 0;
         api
           .column(groupColumn2, { page: 'current' })
           .data()
@@ -736,6 +755,11 @@ Observaciones:${full['observacion']}
               last = group;
             }
           });
+          api.column(2, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra2').text(sumaT)
       },
       language: {
         "decimal": "",
@@ -1242,24 +1266,19 @@ if ($('.select_etiqueta_pedidos').val() != "") {
     });   
   });
   $('.datatables-basic tbody').on('click', '.share_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
-    $('#p1').text(direction_copy)*/
     copyToClipboard(`#CopyPedido${id_edit}`)
 
   });
 
   $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit2 = e.target.classList[0]
     if (typeof id_edit2 =="undefined") {
       return console.log(id_edit2)
     }
-  //window.location.href = `/editar_pedido/${id_edit2}`;
 $('#edit_pedido').modal('show')
 
   });
@@ -1451,7 +1470,21 @@ $('.datatables-basic').html(`<thead>
     <th>oculto choferes </th> 
     <th>oculto asentamiento </th> 
 </tr>
-</thead>`);
+</thead>
+<tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
 
 $('.datatables-basic2').dataTable().fnDestroy();
 $('.datatables-basic2').empty();
