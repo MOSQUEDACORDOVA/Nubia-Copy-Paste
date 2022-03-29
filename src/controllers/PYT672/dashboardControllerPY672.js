@@ -6,6 +6,7 @@ const passport = require("passport");
 const { rejects } = require("assert");
 let moment = require('moment-timezone');
 var pdf = require('html-pdf');
+const { group } = require("console");
 
 // TODO: AUTH
 // * LOGIN
@@ -1209,23 +1210,24 @@ exports.historial = (req, res) => {
     matriculas.forEach(element => {
       let userInfo = {
         leccActual: 0,
-        nivelActualGrupo: 1,
-        leccion9: '',
-        leccion17: '',
-        leccion18: '',
-        leccion25: '',
-        leccion31: '',
-        leccion32: '',
-        participacion: '',
+        nivelActualGrupo: 0,
+        leccion9: 0,
+        leccion17: 0,
+        leccion18: 0,
+        leccion25: 0,
+        leccion31: 0,
+        leccion32: 0,
+        participacion: 0,
         asistencias: 0,
         ausentes: 0,
         fechaLeccionesAusentes: '',
-        notas: ''
+        notas: 0
       };
 
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
-
+        console.log(grupo)
+        console.log("** GRUPO //")
         let inicioGrupo = grupo.fecha_inicio;
         let fechaActual = moment().format("DD-MM-YYYY");
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
@@ -1349,9 +1351,9 @@ exports.historial = (req, res) => {
           
         }
   
-        if (iniciar >= 1 || iniciar < 0) {
+        if (iniciar >= 1 && grupo.estadosGrupoId === 2 || iniciar < 0 && grupo.estadosGrupoId === 2) {
           EstablecerNivel();
-        } 
+        }
 
         let final = Object.assign(element, userInfo);
 
@@ -1430,7 +1432,6 @@ exports.historial = (req, res) => {
         });
       });
       
-
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];
         /*console.log(participacion)*/
