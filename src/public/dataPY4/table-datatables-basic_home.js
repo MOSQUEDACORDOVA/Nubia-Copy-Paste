@@ -940,6 +940,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       type: 'POST',
       data: $('#reg_pedido_modal1').serialize(),
       success: function (data, textStatus, jqXHR) {
+        console.log(data)
                if (data.fail) {
           Swal.fire(data.msg)
           return
