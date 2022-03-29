@@ -3,80 +3,10 @@
  */
 
  'use strict';
- // Advanced Search Functions Starts
- // --------------------------------------------------------------------
- var minDate_resumen, maxDate_resumen
+
+
  
- 
- // Datepicker for advanced filter
- var separator = ' - ',
-   rangePickr = $('.flatpickr-range'),
-   dateFormat = 'MM/DD/YYYY';
- var options = {
-   autoUpdateInput: false,
-   autoApply: true,
-   locale: {
-     format: dateFormat,
-     separator: separator
-   },
-   opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
- };
- 
- //
- if (rangePickr.length) {
-   rangePickr.flatpickr({
-     mode: 'range',
-     dateFormat: 'm/d/Y',
-     onClose: function (selectedDates, dateStr, instance) {
-       var startDate = '',
-         endDate = new Date();
-       if (selectedDates[0] != undefined) {
-         startDate =
-           selectedDates[0].getMonth() + 1 + '/' + selectedDates[0].getDate() + '/' + selectedDates[0].getFullYear();
-         $('.start_date').val(startDate);
-       }
-       if (selectedDates[1] != undefined) {
-         endDate =
-           selectedDates[1].getMonth() + 1 + '/' + selectedDates[1].getDate() + '/' + selectedDates[1].getFullYear();
-         $('.end_date').val(endDate);
-       }
-       $(rangePickr).trigger('change').trigger('keyup');
-     }
-   });
- }
- 
- // Advance filter function
- // We pass the column location, the start date, and the end date
- var filterByDate = function (column, startDate, endDate) {
-   // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
-     var rowDate = normalizeDate(aData[column]),
-       start = normalizeDate(startDate),
-       end = normalizeDate(endDate);
-       var  min2 = minDate_resumen.val();
-       var max2 = maxDate_resumen.val();
-       let f = aData[5]
-       var date = new Date(f);
-     // If our date from the row is between the start and end
-     if (
-      ( min2 === null && max2 === null ) ||
-      ( min2 === null && date <= max2 ) ||
-      ( min2 <= date   && max2 === null ) ||
-      ( min2 <= date   && date <= max2 ) 
-  ) {
-      return true;
-  }
-  return false;
-   });
- };
- 
- // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
- var normalizeDate = function (dateString) {
-   var date = new Date(dateString);
-   var normalized =
-     date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
-   return normalized;
- };
+
  function cargaTableResumen(rechar) {
     
   let valor = $('#carga_').val()
@@ -94,21 +24,11 @@
  let hoy = moment().format('YYYY-MM-DD')
   let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
-  console.log(array_resumen_carga)
-  console.log(pedidos_resumen)
-  console.log(pedidos_entregados)
-  var dt_table_resumen = $('.datatables-resumen'),
-    assetPath = '../../dataPY4/';
+  // console.log(array_resumen_carga)
+  // console.log(pedidos_resumen)
+  // console.log(pedidos_entregados)
+  var dt_table_resumen = $('.datatables-resumen');
 
-  if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
-  minDate_resumen = new DateTime($('#min_resumen'), {
-    format: 'DD/MM/YYYY'
-});
-maxDate_resumen = new DateTime($('#max_resumen'), {
-    format: 'DD/MM/YYYY'
-});
   // DataTable with buttons
   // --------------------------------------------------------------------
   var groupColumn = 4;
@@ -125,8 +45,7 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
-
-      dt_table_resumenN.search(this.value).draw();   
+      dt_table_resumenN.column(4).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
  
@@ -169,7 +88,9 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
             }
             
           }
-          suma = suma + suma_entregados
+         
+            suma = suma + suma_entregados
+          
           return suma
         },
          
@@ -188,13 +109,28 @@ maxDate_resumen = new DateTime($('#max_resumen'), {
          
         },
         { targets: 3, render: function (data, type, full) {
-          let resto =0
+          let resto =0,suma_entregados=0, suma=0;
           for (let i = 0; i < pedidos_resumen.length; i++) {
             if (pedidos_resumen[i]['personalId'] == full['personalId']) {
-              resto += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
+              suma += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
             }
             
           }
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados+= parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+          suma = suma + suma_entregados
+          if (suma == 0) {
+            resto = 0
+          } else {
+            console.log(suma_entregados)
+            console.log(suma)
+            resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
+          }
+          
           return resto
         },
          

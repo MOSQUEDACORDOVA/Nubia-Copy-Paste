@@ -2700,50 +2700,39 @@ for (let i = 0; i < check_newGroup.length; i++) {
 
 // * CONGELAR ESTUDIANTES ADMIN
 exports.congelarestudiante = (req, res) => {
-  let { id } = req.body;
+  let { id_estudiante } = req.body;
   let msg = false;
 
   console.log(req.body);
-
-  if (id.trim() === "") {
-    console.log('complete todos los campos')
-    res.redirect('/matriculas');
-  } else {
-    DataBase.CongelarEstudiante(id).then((resp) => {
+    DataBase.CongelarEstudiante(id_estudiante).then((resp) => {
       console.log(resp)
   
-      return res.redirect("/matriculas");
+      return res.send({congelado:'congelado'});
   
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
-  }
 };
 
 // * ACTIVAR ESTUDIANTES CONGELADOS ADMIN
 exports.activarestudiantecongelado = (req, res) => {
-  let { id } = req.body;
+  let { id_estudiante } = req.body;
   let msg = false;
 
   console.log(req.body);
 
-  if (id.trim() === "") {
-    console.log('complete todos los campos')
-    res.redirect('/matriculas');
-  } else {
-    DataBase.ActivarEstudianteCongelado(id).then((resp) => {
+    DataBase.ActivarEstudianteCongelado(id_estudiante).then((resp) => {
       console.log(resp)
       
-      return res.redirect("/matriculas");
+      return res.send({activado:'activado'});
   
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
-  }
 };
 
 // * CONGELAR ESTUDIANTES ADMIN

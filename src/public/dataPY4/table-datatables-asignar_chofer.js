@@ -87,7 +87,7 @@ function cargaTabla(editada) {
          return vehiculo
       }},
         {targets:4, render: function (data, type, full) {
-          return moment(data).format('L')
+          return moment(data).format('DD/MM/YYYY')
         
         }
       }

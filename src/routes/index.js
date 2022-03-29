@@ -92,7 +92,8 @@ router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
-router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
+router.get('/prestadospy4', authControllerPY4.authenticatedUser,dashboardControllerPY4.prestados);
+router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.prestados);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
@@ -130,7 +131,7 @@ router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardCo
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
 router.post('/save_recarga_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_recarga);
-
+router.get('/delete_cargapy4/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_carga);
 //ASIGNAR CHOFER
 router.post('/save_asig_chofer_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer);
 router.get('/delete_asig_chofer/:id', authController.authenticatedUser, dashboardControllerPY4.delete_asignar_chofer);
