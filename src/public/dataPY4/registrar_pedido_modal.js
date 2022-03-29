@@ -24,6 +24,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
 
     $('#refill_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
@@ -66,6 +69,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#canje_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -103,6 +109,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
@@ -156,6 +165,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#refill_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -195,6 +207,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#canje_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -232,6 +247,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_botella_mont').val(monto)
     $('#total_botella').val(suma)
@@ -285,6 +303,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#refill_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -324,6 +345,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#canje_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -361,6 +385,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
@@ -402,6 +429,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
@@ -454,6 +484,9 @@ $(function () {
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
     }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
+    }
     $('#canje_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -492,6 +525,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
@@ -532,6 +568,9 @@ $(function () {
     }
     if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
       monto = parseInt(cant) * 28
+    }
+    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
+      monto = parseInt(cant) * 30
     }
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
@@ -641,7 +680,11 @@ $('#tipo_c_pedido').val(found.tipo)
           console.log(filter_prestados)
           if (filter_prestados.length > 0) {
             $('#prestados_box').removeAttr('style')
-        $('#prestados_anterior').text(filter_prestados[0]['cantidad'])
+            let suma_cantidad_corte = 0;
+            for (let i = 0; i < filter_prestados.length; i++) {
+              suma_cantidad_corte += parseInt(filter_prestados[i]['cantidad'])
+            }
+        $('#prestados_anterior').text(suma_cantidad_corte)
           }      
       });
   })

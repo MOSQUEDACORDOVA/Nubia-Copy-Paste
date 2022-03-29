@@ -24,9 +24,9 @@
  let hoy = moment().format('YYYY-MM-DD')
   let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
-  console.log(array_resumen_carga)
-  console.log(pedidos_resumen)
-  console.log(pedidos_entregados)
+  // console.log(array_resumen_carga)
+  // console.log(pedidos_resumen)
+  // console.log(pedidos_entregados)
   var dt_table_resumen = $('.datatables-resumen');
 
   // DataTable with buttons
@@ -45,7 +45,6 @@
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
-console.log(this.value)
       dt_table_resumenN.column(4).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
@@ -89,7 +88,9 @@ console.log(this.value)
             }
             
           }
-          suma = suma
+         
+            suma = suma + suma_entregados
+          
           return suma
         },
          
@@ -121,7 +122,15 @@ console.log(this.value)
             }
             
           }
-          resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
+          suma = suma + suma_entregados
+          if (suma == 0) {
+            resto = 0
+          } else {
+            console.log(suma_entregados)
+            console.log(suma)
+            resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
+          }
+          
           return resto
         },
          

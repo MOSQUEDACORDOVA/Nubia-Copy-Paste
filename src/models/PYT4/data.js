@@ -812,6 +812,7 @@ console.log(hoy)
                    }}).then((date)=>{
                      console.log(date)
                      if (date =="") {
+                      if (pedido_[0].dataValues.garrafones_prestamos > 0) {
                        console.log(hoy)
                        GPrestados.create({
                          cantidad: pedido_[0].dataValues.garrafones_prestamos,fecha_ingreso:hoy,clienteId: pedido_[0].dataValues.clienteId, personalId: pedido_[0].dataValues.personalId, status_pedido:pedido_[0].dataValues.status_pedido, sucursaleId: pedido_[0].dataValues.sucursaleId
@@ -819,6 +820,7 @@ console.log(hoy)
                          resolve("Se creó correctamente el pedido");
                          //console.log(planes);
                        })
+                      }
                      }
                      GPrestados.update({
                        cantidad: pedido_[0].dataValues.garrafones_prestamos,status_pedido:pedido_[0].dataValues.status_pedido },

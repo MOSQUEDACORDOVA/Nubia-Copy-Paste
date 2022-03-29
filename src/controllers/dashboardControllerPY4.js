@@ -35,7 +35,7 @@ exports.change_sucursal = (req, res) => {
 
 exports.prestados = (req,res)=>{
   console.log(req.params.day)
-  if (req.params.day) {
+  if (req.params.day!='Invalid date') {
     dia = moment(req.params.day, "YYYY-DD-MM").format("YYYY-MM-DD");
   } else {
     dia = moment();
@@ -56,17 +56,14 @@ exports.prestados = (req,res)=>{
   PrestadosGroupByCliente(id_sucursal).then(async (prestamos_) => {
                               let prestamos_let = JSON.parse(prestamos_);
                               let prestamos_byday = [];
-                              let prestamos_del_dia = 0,
-                                devueltos_del_dia = 0;
                               let residencial_cont = 0;
                               let negocio_cont = 0;
                               let ptoVenta_cont = 0;
-                              console.log(dia);
                               let iguales;
                               for (let i = 0; i < prestamos_let.length; i++) {
                                 fecha_created = prestamos_let[i].fecha_ingreso;
                                 
-                                if (req.params.day) {
+                                if (req.params.day!='Invalid date') {
                                   iguales = moment(fecha_created,'MM/DD/YYYY').isSame(
                                     dia,
                                     "day"
@@ -74,15 +71,12 @@ exports.prestados = (req,res)=>{
                                 } else {
                                   iguales = true
                                 }
+                                if (!req.params.day) {
+                                  iguales = true
+                                }
                                 
                                if (iguales == true) {
-                                  prestamos_byday.push(prestamos_let[i]); //OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
-                                  prestamos_del_dia =
-                                    parseInt(prestamos_del_dia) +
-                                    parseInt(prestamos_let[i].cantidad);
-                                  devueltos_del_dia =
-                                    parseInt(devueltos_del_dia) +
-                                    parseInt(prestamos_let[i].devueltos);
+                                  prestamos_byday.push(prestamos_let[i]);
                                   switch (prestamos_let[i].cliente.tipo) {
                                     case "Residencial":
                                       residencial_cont++;
@@ -156,7 +150,6 @@ exports.dashboard = (req, res) => {
   DataBase.CodigosP()
     .then((cp_) => {
       let cp_arr = JSON.parse(cp_);
-      console.log('CP Fine')
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
           let clientes_arr = JSON.parse(clientes_d);
@@ -262,8 +255,6 @@ exports.dashboard = (req, res) => {
                             .then(async (prestamos_) => {
                               let prestamos_let = JSON.parse(prestamos_);
                               let prestamos_byday = [];
-                              let prestamos_del_dia = 0,
-                                devueltos_del_dia = 0;
                               let residencial_cont = 0;
                               let negocio_cont = 0;
                               let ptoVenta_cont = 0;
@@ -274,14 +265,9 @@ exports.dashboard = (req, res) => {
                                   moment(),
                                   "day"
                                 ); // true
-                               if (iguales == true) {
-                                  prestamos_byday.push(prestamos_let[i]); //OJO CORREGIR ID DEL CLIENTE NO PUEDE SER NULL
-                                  prestamos_del_dia =
-                                    parseInt(prestamos_del_dia) +
-                                    parseInt(prestamos_let[i].cantidad);
-                                  devueltos_del_dia =
-                                    parseInt(devueltos_del_dia) +
-                                    parseInt(prestamos_let[i].devueltos);
+                               ///if (iguales == true) {
+                                  prestamos_byday.push(prestamos_let[i]); 
+                                  
                                   switch (prestamos_let[i].cliente.tipo) {
                                     case "Residencial":
                                       residencial_cont++;
@@ -295,7 +281,7 @@ exports.dashboard = (req, res) => {
                                     default:
                                       break;
                                   }
-                                }
+                               // }
                               }
                               prestamos_byday = JSON.stringify(prestamos_byday);
                               DataBase.EtiquetasAll(id_sucursal)
@@ -329,8 +315,6 @@ exports.dashboard = (req, res) => {
                                         prestamos_byday,
                                         prestamos_,
                                         sucursales_let,
-                                        prestamos_del_dia,
-                                        devueltos_del_dia,
                                         cp_,
                                         notif1_2,
                                         cont_not,
