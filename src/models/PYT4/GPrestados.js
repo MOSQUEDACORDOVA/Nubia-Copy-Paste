@@ -3,7 +3,7 @@ const db = require('../../config/db');
 const bcrypt = require('bcrypt-nodejs');
 const Clientes = require('./Clientes')
 const Personal = require('./Personal')
-const GPrestados = db.define('GPrestados', {
+const GPrestados = db.define('gprestados', {
 	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
