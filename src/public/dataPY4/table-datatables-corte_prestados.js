@@ -30,7 +30,7 @@ let ArrayGral = Object.entries(Newcorte2);
 
   // DataTable with buttons
   // --------------------------------------------------------------------
- console.log(ArrayGral)
+
   if (dt_Gral.length) {
     $('.dt-column-searchPrestados thead tr').clone(true).appendTo('.dt-column-searchPrestados thead');
     $('.dt-column-searchPrestados thead tr:eq(1) th').each(function (i) {
@@ -44,122 +44,58 @@ let ArrayGral = Object.entries(Newcorte2);
       });
     });
     var dt_Gral_t = dt_Gral.DataTable({
-      data: ArrayGral,
+      data: corte_prestados2,
      columns: [
-      { data: '0',render: function (data, type, full, meta) {
-            let cantidad=0; 
-          for (let i = 0; i < full[1].length; i++) {
-           if (Array.isArray(full[1][i]['cantidad'])) {
-            cantidad += countArray(parseInt(full[1][i]['cantidad']));
-        } else {
-            cantidad += parseInt(full[1][i]['cantidad']);
-        }
-       }
-        let Conductores = {}
-        //Recorremos el arreglo 
-        full[1].forEach( x => {
-          if( !Conductores.hasOwnProperty(x.personalId)){
-            Conductores[x.personalId] =[]
-          }
-            Conductores[x.personalId].push(x)  
-        })
-        var ArrayConductores = Object.entries(Conductores);
-        //ArrayConductores = JSON.stringify(ArrayConductores)
-        
-        var data_str = encodeURIComponent(JSON.stringify(ArrayConductores));
+      { data: 'cliente',render: function (data, type, full, meta) {
+            let cantidad=full['cantidad'];                    
+        var data_str = encodeURIComponent(JSON.stringify(full));
         let asentamiento = ""
         for (let i = 0; i < codigosP_arr.length; i++) {
-          if (codigosP_arr[i]['id'] == full[1][0]['cliente']['cpId']) {
+          if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
             asentamiento = codigosP_arr[i]['asentamiento']
-          }
-          
-        }
-   
-        var $status_number = full[1][0]['cliente']['tipo'];
+          }          
+        }   
+        var $status_number = full['cliente']['tipo'];
         var $status = {
-          "Residencial": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
-          "Punto de venta": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
-          "Negocio": { title: full[1][0]['cliente']['firstName'] +" "+ full[1][0]['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+          "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+          "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+          "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
         };
         if (typeof $status[$status_number] === 'undefined') {
           return data;
         }
-    var cliente_arr = encodeURIComponent(JSON.stringify(full[1][0]['cliente']));
     var color_tag ="", color_text=""
-    if (full[1][0]['cliente']['etiqueta'] ==null) {
+    if (full['cliente']['etiqueta'] ==null) {
       color_tag =0
       color_text="black"
     }else{
-      color_tag =full[1][0]['cliente']['etiqueta']['color']
+      color_tag =full['cliente']['etiqueta']['color']
       color_text="white"
     }
-    //aqui activa el modal info del cliente
-        // return (
-        //   `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
-        // );
-
-        return `<span class="d-none">${asentamiento}</span><span class="badge rounded-pill ${$status[$status_number].class}" data-bs-toggle="modal" data-id="${cantidad}" data-arrayconductores="${data_str}" data-title="Garrafones Prestados a ${full[1][0]['cliente']['firstName']}"  data-bs-target="#corte_modal" style="cursor: pointer;">${$status[$status_number].title}</span>`}  },
-        { data: '0'},
-        { data: '0' },
-        { data: '0' },
-        { data: '0' },
+        return `<span class="d-none">${asentamiento}</span><span class="badge rounded-pill ${$status[$status_number].class}" data-bs-toggle="modal" data-id="${cantidad}" data-arrayconductores="${data_str}" data-title="Garrafones Prestados a ${full['cliente']['firstName']}"  data-bs-target="#corte_modal" style="cursor: pointer;">${$status[$status_number].title}</span>`}  },
+        { data: 'cantidad'},
+        { data: 'fecha_ingreso' },
+        { data: 'devueltos' },
+        { data: 'fecha_devolucion' },
       ], columnDefs: [
-        {
-          // Label
-          targets: 1,
-          render: function (data, type, full, meta) {
-            let cantidad=0;
-              for (let i = 0; i < full[1].length; i++) {
-                if (Array.isArray(full[1][i]['cantidad'])) {
-                  cantidad += countArray(parseInt(full[1][i]['cantidad']));
-              } else {
-                  cantidad += parseInt(full[1][i]['cantidad']);
-              }
-            }
-            return cantidad;
-          }
-      },
+
       {
         // Label
         targets: 2,
         render: function (data, type, full, meta) {
-          let fecha="";
-            for (let i = 0; i < full[1].length; i++) {
-             fecha=full[1][i]['fecha_ingreso']
-
-        
-          }
+          let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
           return fecha;
         }
     },
-    {
-      // Label
-      targets: 3,
-      render: function (data, type, full, meta) {
-        let devueltos=0;
-        let id=""
-          for (let i = 0; i < full[1].length; i++) {
-            if (Array.isArray(full[1][i]['devueltos'])) {
-              devueltos += countArray(parseInt(full[1][i]['devueltos']));
-          } else {
-              devueltos += parseInt(full[1][i]['devueltos']);
-          }
-          id=full[1][i]['clienteId']+ ","+full[1][i]['fecha']
-        }
-        return devueltos;
-      }
-  },
   {
     // Label
     targets: 4,
     render: function (data, type, full, meta) {
-      let fecha="";
-        for (let i = 0; i < full[1].length; i++) {
-         fecha=full[1][i]['fecha_devolucion']
-
-    
-      }
-      return fecha;
+      let fecha ="";
+      if (data !=null) {
+        fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+      }      
+          return fecha;
     }
 },
          
@@ -206,31 +142,28 @@ let ArrayGral = Object.entries(Newcorte2);
       $("#corte_modalTitle").text(title); 
     //  $("#corte_modalBody").append(txt2);
     $("#corte_modalBody").empty() 
-    let cantidad=0; 
-    for (let i = 0; i < my_object.length; i++) {
-      
-      for (let j = 0; j < my_object[i].length; j++) {
-        if (typeof my_object[i][j][0]['personal'] !='undefined') {
-         
-       for (let k = 0; k < my_object[i][j].length; k++) {
-           if (Array.isArray(my_object[i][j][k]['cantidad'])) {
-            cantidad += countArray(parseInt(my_object[i][j][k]['cantidad']));
-        } else {
-            cantidad += parseInt(my_object[i][j][k]['cantidad']);
-        }
-       }
-         let id=my_object[i][j][0]['clienteId']+ ","+my_object[i][j][0]['fecha_ingreso']+ ","+my_object[i][j][0]['personalId']+ "," +cantidad
+    let cantidad=my_object['cantidad']; 
+    console.log(my_object)
+    let id=my_object['clienteId']+ ","+my_object['fecha_ingreso']+ ","+my_object['personalId']+ "," +cantidad
 
-          $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object[i][j][0]['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${cantidad}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
-        }
-
-      }
-      
-    }
+          $("#corte_modalBody").append(`<ul class='list-group list-group-flush'><li class='list-group-item d-flex justify-content-between align-items-center'>Chofer ${my_object['personal']['name']}: <span class='badge bg-primary rounded-pill'>Prestados: ${cantidad}</span><input type="text" id="${id}" placeholder="Indique la cantidad a devolver" onchange="habilitar_dev(this)" onclick="$(this).removeAttr('readonly');" readonly/> </li></ul>`);
   });
-
  
   }
+let fecha_corte = $('#fecha_corte').val();
+let deldia;
+  deldia = corte_prestados2.filter(element => element.fecha_ingreso == moment().format('MM/DD/YYYY'))
+if (fecha_corte !="") {
+  deldia = corte_prestados2.filter(element => element.fecha_ingreso == moment(fecha_corte,'DD/MM/YYYY').format('MM/DD/YYYY'))
+}  
+  console.log(deldia)
+  let suma_cantidad_corte = 0, devueltos_dia=0;
+  for (let i = 0; i < deldia.length; i++) {
+    suma_cantidad_corte += parseInt(deldia[i]['cantidad'])   
+    devueltos_dia += parseInt(deldia[i]['devueltos'])   
+  }
+  $('#prestamos_del_dia').text(suma_cantidad_corte)
+  $('#devueltos_del_dia').text(devueltos_dia)
 }
  // Advanced Search Functions Ends
  $(function () {
