@@ -119,8 +119,7 @@ console.log(matriculaParsed)
         },
         {
           targets: 1, render: function (data, type, full) {
-            let valorAsistencia = 3.125
-            let leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2);
+            let leccionesAusentes = parseFloat(full['ausentes'] * 3.125).toFixed(2);
             let total = parseFloat(100 - leccionesAusentes);
 
             let notaTotal = `
@@ -142,7 +141,7 @@ console.log(matriculaParsed)
             } else if (total <= 75 && total > 50) {
               color = "#d63384"
             } else if (total > 75) {
-              color = "#0833a2";
+              color = "#7367f0";
             }
 
             let item = document.querySelector(`#chartPart${full['id']}`);
@@ -156,7 +155,6 @@ console.log(matriculaParsed)
         {
           targets: 2, render: function (data, type, full) {
             let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
-            console.log(total)
 
             let notaTotal = `
             <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
@@ -177,7 +175,7 @@ console.log(matriculaParsed)
             } else if (total <= 75 && total > 50) {
               color = "#d63384"
             } else if (total > 75) {
-              color = "#0833a2";
+              color = "#7367f0";
             }
 
             let item = document.querySelector(`#chart${full['id']}`);
@@ -186,30 +184,6 @@ console.log(matriculaParsed)
             }
 
             return notaTotal;
-          }
-        },
-        {
-          targets: 3, render: function (data, type, full) {
-            let valorAsistencia = 3.125, 
-            leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2),
-            totalAsistencias = parseFloat(100 - leccionesAusentes),
-            totalNotas = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'],
-            info;
-
-            if(full['leccActual'] != 32 && full['leccActual'] != 0) {
-              info = `<span class="badge badge-light-primary">En Curso</span>`
-            } else if (full['leccActual'] === 0) {
-              info = `<span class="badge badge-light-info">Por Iniciar</span>`
-            } else {
-              let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
-
-              if (totalAsistencias >= 80 && totalNotas >= 70) {
-                info = `<span class="badge badge-light-success">Aprobado</span>`
-              } else {
-                info = `<span class="badge badge-light-danger">Reprobado</span>`
-              }
-            }
-            return info;
           }
         },
       ],
