@@ -1172,7 +1172,7 @@ if (desc_referido > 0) {
           let reprogramado = "";
           let p = [];
           for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment(dia).isSameOrAfter(
+            reprogramado = moment().isSameOrAfter(
               moment(pedidos_let[i].fecha_pedido),
               "day"
             ); // true
@@ -1181,6 +1181,8 @@ if (desc_referido > 0) {
               p.push(pedidos_let[i]);
             }
           }
+          console.log('...---...')
+          console.log(p)
           pedidos_let = p;
           let msg = respuesta;
           return res.send({ msg: msg, pedidos_let });
