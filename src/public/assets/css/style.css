@@ -1843,8 +1843,32 @@ table tr td {
     width: calc(100vw - (100vw - 100%) - calc(2rem * 2) - 230px) !important;
     left: 230px !important;
 }
-.footerWidth{
-    margin-left: 230px !important;
+
+@media (min-width: 1000.98px){
+    .footerWidth{
+        margin-left: 230px !important;
+    }
+}
+
+@media (max-width: 767.98px){
+    .footerWidth{
+        width: calc( 100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
+        margin-right: calc(2rem - 0.8rem);
+    }
+}
+
+@media (max-width: 767.98px){
+    .footerWidth{
+        width: calc( 100vw - (100vw - 100%) - calc(2rem + 0.4rem)) !important;
+        margin-right: calc(2rem - 0.8rem);
+    }
+}
+@media (max-width: 576px){
+    .traslado-phone{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 .btn-circle.btn-sm {

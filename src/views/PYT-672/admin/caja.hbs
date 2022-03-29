@@ -36,7 +36,7 @@
     }
 </style>
 
-<input type="text" value="{{matricula_st}}" id="matricula_st" />
+<input class="d-none" type="text" value="{{matricula_st}}" id="matricula_st" />
 <div class="app-content content ecommerce-application py672" style="padding-top: 6rem">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
@@ -94,7 +94,7 @@
                                                     </h4>
 
                                                     <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
-                                                        <div id="tipoServicio" class="col">
+                                                        <div id="tipoServicio" class="col-lg-4 col-12">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemname">
                                                                     Tipo Servicio
@@ -121,7 +121,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div id="mes" class="col d-none select-reposicion">
+                                                        <div id="mes" class="col-lg-4 col-12 d-none select-reposicion">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Lección
@@ -147,7 +147,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div id="mes" class="d-none mensualidadAdd">
+                                                        <div id="mes" class="col-lg-4 col-12 d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Mes
@@ -196,7 +196,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="ano" class="d-none mensualidadAdd">
+                                                        <div id="ano" class="col-lg-4 col-12 d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Año
@@ -227,7 +227,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="precio" class="col" style="width: 28%;">
+                                                        <div id="precio" class="col-lg-4 col-12">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Precio
@@ -554,8 +554,8 @@
                                 <div class="col-12 px-0">
                                     <div class="col-12 rounded-1 card">
                                         <div class="row">
-                                            <div class="col-3"></div>
-                                            <div class="col-9">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-9 traslado-phone">
                                                 <!--Nombre Estudiante-->
                                                 <div class="d-flex align-items-center mt-2">
                                                     <h2 class="fw-bolder mb-0" id="nombreReagrupar">
@@ -565,7 +565,7 @@
                                             </div>
             
                                             <!--Avatar del alumno-->
-                                            <div class="col-3 d-flex justify-content-end ps-3 pt-2">
+                                            <div class="col-lg-3 d-flex justify-content-center pt-2">
                                                 <!--imagen-->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="#0833a2"
                                                     class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -578,7 +578,7 @@
                                             <!--/ Avatar del alumno-->
             
                                             <!--Info del alumno columna 1-->
-                                            <div class="col-4 mb-2 pt-1">
+                                            <div class="col-lg-4 mb-2 pt-1 ps-lg-1 ps-3">
             
                                                 <!--Telefonos Estudiante-->
                                                 <div class="d-flex align-items-center mt-1">
@@ -665,7 +665,7 @@
                                             <!--/ Info del alumno columna 1-->
             
                                             <!--Info del alumno columna 2-->
-                                            <div class="col-5 pt-1">
+                                            <div class="col-lg-5 pt-1 ps-lg-1 ps-3 mb-2 mb-lg-0">
             
                                                 <!--Leccion Actual-->
                                                 <div class="d-flex align-items-center mt-1">
@@ -761,7 +761,7 @@
                             </style>
                             <div class="row mb-2 card">
                                 <div class="col-12 p-0 ">
-                                    <table class="table dt-column-search " id="grupos_table">
+                                    <table class="table dt-column-search table-responsive" id="grupos_table" style="width: 100% !important;">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -808,7 +808,6 @@
   <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
 </form>
 <script>
-    
 
     $(function () {
         $('#closeModal1').on('click', function () {
