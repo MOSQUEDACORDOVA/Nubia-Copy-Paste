@@ -562,10 +562,10 @@ const leccionActualGrupos = async () => {
           $(`#gruposAct`).append(`<tr>
       <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
       <td>${grupos[i]["identificador"]}</td>
-      <td>${jjaa}</td>
+      <td style="text-align: center;">${jjaa}</td>
       <td>${grupos[i]["dia_horario"]}</td>
       <td>${grupos[i]["dia_pagos"]}</td>
-      <td>${filter_group_alumnos}</td>
+      <td style="text-align: center;">${filter_group_alumnos}</td>
       <td>${grupos[i]["usuario"]['nombre']}</td>
   </tr>`);
         }

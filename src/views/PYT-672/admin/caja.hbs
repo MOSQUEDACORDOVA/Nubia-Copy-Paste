@@ -31,9 +31,12 @@
         box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
         transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     }
+    .btn-success.btn-glow {
+        box-shadow: 0 1px 20px 1px #28c76f;
+    }
 </style>
 
-<input type="text" value="{{matricula_st}}" id="matricula_st" />
+<input class="d-none" type="text" value="{{matricula_st}}" id="matricula_st" />
 <div class="app-content content ecommerce-application py672" style="padding-top: 6rem">
     <div class="content-wrapper container-xxl p-0">
         <div class="content-body">
@@ -91,7 +94,7 @@
                                                     </h4>
 
                                                     <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
-                                                        <div id="tipoServicio" class="col">
+                                                        <div id="tipoServicio" class="col-lg-4 col-12">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemname">
                                                                     Tipo Servicio
@@ -118,7 +121,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div id="mes" class="col d-none select-reposicion">
+                                                        <div id="mes" class="col-lg-4 col-12 d-none select-reposicion">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Lección
@@ -144,7 +147,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div id="mes" class="d-none mensualidadAdd">
+                                                        <div id="mes" class="col-lg-4 col-12 d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Mes
@@ -193,7 +196,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="ano" class="d-none mensualidadAdd">
+                                                        <div id="ano" class="col-lg-4 col-12 d-none mensualidadAdd">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Año
@@ -224,7 +227,7 @@
                                                             </div>
                                                         </div>
 
-                                                        <div id="precio" class="col" style="width: 28%;">
+                                                        <div id="precio" class="col-lg-4 col-12">
                                                             <div class="mb-1">
                                                                 <label class="form-label" for="itemquantity">
                                                                     Precio
@@ -383,7 +386,7 @@
                                         class="btn btn-primary waves-effect waves-float waves-light mb-1"
                                         id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
                                         disabled>
-                                        Comentarios
+                                        Comentar
                                     </button>
                                     <button type="button"
                                         class="btn btn-primary waves-effect waves-float waves-light mb-1"
@@ -391,16 +394,39 @@
                                         disabled >
                                         Trasladar Alumno
                                     </button>
+
                                     <button type="button"
-                                        class="btn btn-danger waves-effect waves-float waves-light"
+                                        class="btn btn-danger waves-effect waves-float waves-light d-flex align-items-center justify-content-center"
                                         id="btn-congelar-alumno" 
-                                        disabled >
-                                        Congelar Alumno
+                                        disabled >                                        
+                                        
+                                        <!-- Icono de user con una X-->
+                                        <svg id="user-x" viewBox="0 0 24 24" width="21" height="21" 
+                                            stroke="currentColor" stroke-width="2" fill="none" 
+                                            stroke-linecap="round" stroke-linejoin="round" class="me-1 css-i6dzq1">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <line x1="18" y1="8" x2="23" y2="13"></line>
+                                            <line x1="23" y1="8" x2="18" y2="13"></line>
+                                        </svg>
+
+                                        <span id="btn-congelar-text">Congelar Alumno</span>
+                                        
+                                            
                                     </button>
                                     <button type="button"
-                                        class="d-none btn btn-danger waves-effect waves-float waves-light"
+                                        class="d-none btn btn-success btn-glow waves-effect waves-float waves-light"
                                         id="btn-activar-alumno" 
                                         >
+                                        <!-- Icono de user con un check-->
+                                        <svg id="user-check" viewBox="0 0 24 24" width="21" height="21" 
+                                            stroke="currentColor" stroke-width="2" fill="none" 
+                                            stroke-linecap="round" stroke-linejoin="round" class="me-1 css-i6dzq1">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <polyline points="17 11 19 13 23 9"></polyline>
+                                        </svg>
+
                                         Activar Alumno
                                     </button>
                                 </div>
@@ -421,18 +447,19 @@
                                     </ul> }}
                                     <button type="button"
                                         class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
+                                        disabled id="btn-genera-constancia">
+                                        <span>
+                                            Descargar Constancia
+                                        </span>
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
                                         disabled id="btn-descarga-titulo">
                                         <span>
                                             Descargar Titulo
                                         </span>
                                     </button>
-                                    <button type="button"
-                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
-                                        disabled id="btn-genera-constancia">
-                                        <span>
-                                            Generar Constancia
-                                        </span>
-                                    </button>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -527,9 +554,18 @@
                                 <div class="col-12 px-0">
                                     <div class="col-12 rounded-1 card">
                                         <div class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-9 traslado-phone">
+                                                <!--Nombre Estudiante-->
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <h2 class="fw-bolder mb-0" id="nombreReagrupar">
+                                                        Isaac Mosqueda
+                                                    </h2>
+                                                </div>
+                                            </div>
             
                                             <!--Avatar del alumno-->
-                                            <div class="col-3 d-flex justify-content-end ps-3 pt-2">
+                                            <div class="col-lg-3 d-flex justify-content-center pt-2">
                                                 <!--imagen-->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="#0833a2"
                                                     class="bi bi-person-circle" viewBox="0 0 16 16">
@@ -542,13 +578,7 @@
                                             <!--/ Avatar del alumno-->
             
                                             <!--Info del alumno columna 1-->
-                                            <div class="col-4 mb-2">
-                                                <!--Nombre Estudiante-->
-                                                <div class="d-flex align-items-center mt-1">
-                                                    <h2 class="fw-bolder mb-0" id="nombreReagrupar">
-                                                        Isaac Mosqueda
-                                                    </h2>
-                                                </div>
+                                            <div class="col-lg-4 mb-2 pt-1 ps-lg-1 ps-3">
             
                                                 <!--Telefonos Estudiante-->
                                                 <div class="d-flex align-items-center mt-1">
@@ -635,10 +665,10 @@
                                             <!--/ Info del alumno columna 1-->
             
                                             <!--Info del alumno columna 2-->
-                                            <div class="col-5 pt-5">
+                                            <div class="col-lg-5 pt-1 ps-lg-1 ps-3 mb-2 mb-lg-0">
             
                                                 <!--Leccion Actual-->
-                                                <div class="d-flex align-items-center">
+                                                <div class="d-flex align-items-center mt-1">
                                                     <span class="item-clock me-75">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                             fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
@@ -731,7 +761,7 @@
                             </style>
                             <div class="row mb-2 card">
                                 <div class="col-12 p-0 ">
-                                    <table class="table dt-column-search " id="grupos_table">
+                                    <table class="table dt-column-search table-responsive" id="grupos_table" style="width: 100% !important;">
                                         <thead>
                                             <tr>
                                                 <th></th>
@@ -778,7 +808,6 @@
   <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
 </form>
 <script>
-    
 
     $(function () {
         $('#closeModal1').on('click', function () {
