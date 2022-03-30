@@ -3,7 +3,7 @@
     <script>
     $(function(){
         console.log('aja')
-        Swal.fire('Su teléfono no se encuentra en nuestra base datos, verificar o registrarse en la planilla que saldrá a continuación')
+        Swal.fire('Su teléfono no se encuentra en nuestra base, verificar o registrarse en nuestro formulario a continuación')
         $('#add_cliente_cuponera').modal('show')
 
 
@@ -48,14 +48,20 @@
                     <div class="auth-inner row m-0">
                         <div class="d-none d-lg-flex col-lg-8 align-items-center p-5"
                             style="background: linear-gradient(rgb(0, 24, 103) 0%, rgb(1, 12, 112) 51%, rgb(0, 146, 174) 100%);">
+                            
                             <app-login-brand-pyt4 style="margin: 0 auto;" class="ng-star-inserted">
-                                <div class="w-100 d-lg-flex align-items-center justify-content-center px-5"><img
-                                        src="../../../dataPY4/images/pyt_4_logo_blanco.png" class="img-fluid" /></div>
+                                <div class="w-100 d-lg-flex align-items-center justify-content-center px-5">
+                                    <img
+                                        src="../../../dataPY4/images/pyt_4_logo_blanco.png" class="img-fluid" />
+                                        </div>
                             </app-login-brand-pyt4>
                         </div>
-                        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
-                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto"><img
-                                    src="../../../dataPY4/images/logo.png"
+                        <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5" style="padding-top: 0">
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto" style="display: grid; justify-items: center;">
+                                <img
+                                        src="../../../dataPY4/images/logo-gota.png" class="d-lg-none img-fluid" style="max-height: 15rem;"/>
+                                <img
+                                    src="../../../dataPY4/images/logo-azul-.png"
                                     class="d-lg-none img-fluid" />
                                 <form class="auth-login-form mt-2" action="/session_cuponera" method="POST"
                                     novalidate="novalidate">
@@ -74,6 +80,11 @@
                 </div>
                                     <button class="btn btn-primary w-100 waves-effect waves-float waves-light"
                                         tabindex="4">Ingresar</button>
+                                        {{#if msg}}
+<div class="item-options text-center" style="align-items: center;">
+Contactar con BWATER para ayuda <a class="btn btn-primary btn-cart waves-effect waves-float waves-light" href="https://wa.me/523329694522/?text=¡Hola!, Soy un cliente y quisiera registrarme en la cuponera" target="_blank">Conectactanos aqui</a>
+                                </div>
+{{/if}}
                                 </form>
 
   <div class="modal fade " id="add_cliente_cuponera" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
@@ -150,50 +161,7 @@
                                 aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" required>
                         </div>
                     </div>
-                    <div class="divider">
-                        <div class="divider-text">Familiares</div>
-                    </div>
-                    <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del
-                            familiar
-                            1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro"
-                            aria-describedby="register-nombre_familiar_1" tabindex="12" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del
-                            familiar
-                            1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
-                            aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
-                    </div>
-                    <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del
-                            familiar
-                            1</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
-                            </div>
-                            <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
-                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
-                                class="form-control mb-2">
-                        </div>
-                    </div>
-                    <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
-                            familiar
-                            2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro"
-                            aria-describedby="register-nombre_familiar_2" tabindex="15" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del
-                            familiar
-                            2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
-                            aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
-                    </div>
-                    <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del
-                            familiar
-                            2</label>
-                        <div class="input-group">
-                            <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
-                            </div>
-                            <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
-                                mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
-                                class="form-control mb-2">
-                        </div>
-                    </div>
-                    <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                    <div class="d-none"><label for="register-tipo_cliente" class="form-label">Tipo de
                             cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
                             name="tipo_cliente" class="form-control mb-2">
                             <option selected=""> Residencial </option>
@@ -228,15 +196,6 @@
                     {{/each}}
                   </select>                
                 </div>
-                    <div class="form-group d-none"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
-                            último
-                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
-                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                            class="form-control mb-2"></div>
-                    <div class="form-group d-none"><label for="register-utimos_botellones" class="form-label">Cantidad de
-                            garrafones
-                            en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0"
-                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
                     <div class="form-group"><label for="register-email" class="form-label">Correo</label><input
                             type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email"
                             tabindex="25" class="form-control mb-2"></div>

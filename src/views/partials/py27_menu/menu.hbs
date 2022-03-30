@@ -11,7 +11,7 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            <!--- NOTIFICATIONS --->
+            <!--- NOTIFICATIONS
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="#" data-bs-toggle="dropdown">
                     <i class="ficon text-primary" data-feather="bell"></i>
@@ -84,7 +84,7 @@
                     </li>
                     <li class="dropdown-menu-footer"><a class="btn btn-primary w-100" href="#">Leer todas las notificaciones</a></li>
                 </ul>
-            </li>
+            </li> --->
 
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -93,7 +93,7 @@
                         <span class="user-status">{{ typeUser }}</span>
                     </div>
                     <span class="avatar">
-                        <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
+                        <img class="round" src="../../../app-assets/images/avatars/profile.png" alt="avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </span>
                 </a>
@@ -106,6 +106,13 @@
                         <i class="me-50" data-feather="settings"></i>
                         Configuración
                     </a>--}}
+                    {{#if roleClient}}
+                    <a class="dropdown-item" href="/profile27/PYT-27">
+                        <i class="me-50" data-feather="user-plus"></i> 
+                        Profile
+                    </a>
+                    {{/if}}
+                    <!----->
                     <a class="dropdown-item" href="/logout/PYT-27">
                         <i class="me-50" data-feather="power"></i> 
                         Logout
@@ -154,7 +161,7 @@
             <li class="{{#if aero}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/aeropresale/PYT-27">
                     <i data-feather='activity'></i>
-                    <span class="menu-title text-truncate">Buy AeroCoin</span>
+                    <span class="menu-title text-truncate">Buy ACN</span>
                 </a>
             </li>
             <!--<li class="{{#if dep}}active{{/if}} nav-item">
@@ -162,63 +169,35 @@
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
                 </a>
-            </li>-->
+            </li>
             <li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/depositaero/PYT-27">
                     <i data-feather='credit-card'></i>
                     <span class="menu-title text-truncate" data-i18n="Depositos">Deposits</span>
                 </a>
-            </li>
+            </li>-->
             <li class="{{#if ret}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/retreats27/PYT-27">
                     <i data-feather='check'></i>
-                    <span class="menu-title text-truncate">Retreats ACN</span>
+                    <span class="menu-title text-truncate">Withdrawal ACN</span>
                 </a>
             </li>
             <li class="nav-item nav-info text-white" style="pointer-events: none;">
                 <a class="d-flex align-items-center" href="#">
                     <i data-feather='dollar-sign'></i>
-                    <span class="menu-title text-truncate">Balance Aero: {{coins}}</span>
+                    <span class="menu-title text-truncate">Balance ACN: {{avalibleBalance}}</span>
                 </a>
             </li>
             <br><br>
         {{else}}
 
             {{#if roleClient }}
-            <!--<li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{ typeUser }}</span><i
-                    data-feather="more-horizontal"></i>
-            <li class="{{#if dash}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/py24/PYT-24">
-                    <i data-feather="home"></i>
-                    <span class="menu-title text-truncate" data-i18n="Tablero">Tablero</span>
-                </a>
-            </li>--->
-            <!---<li class="{{#if plans}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/plans/PYT-24">
-                    <i data-feather='shopping-cart'></i>
-                    <span class="menu-title text-truncate" data-i18n="th">Paquetes</span>
-                </a>
-            </li>--->
             <li class="{{#if dep}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/deposits27/PYT-27">
                     <i data-feather='credit-card'></i>
-                    <span class="menu-title text-truncate" data-i18n="Depositos">Depositos</span>
+                    <span class="menu-title text-truncate" data-i18n="Depositos">Deposits</span>
                 </a>
             </li>
-            <!---<li class="{{#if ret}}active{{/if}} nav-item">
-                <a class="d-flex align-items-center" href="/retreats24/PYT-24">
-                    <i data-feather='check'></i>
-                    <span class="menu-title text-truncate">Retiros</span>
-                </a>
-            </li>--->
-
-            <li class=" nav-item">
-                <a class="d-flex align-items-center" href="/web/PYT-27" target="_blank">
-                    <i data-feather='layout'></i>
-                    <span class="menu-title text-truncate">Sitio Web</span>
-                </a>
-            </li>
-
             {{/if}}
             
             {{#if roleAdmin}}
@@ -257,7 +236,7 @@
             <li class="{{#if depaero}}active{{/if}} nav-item">
                 <a class="d-flex align-items-center" href="/depositsaeroadmin/PYT-27">
                     <i data-feather='credit-card'></i>
-                    <span class="menu-title text-truncate">Deposits Aero</span>
+                    <span class="menu-title text-truncate">Deposits ACN</span>
                 </a>
             </li>
             <li class="{{#if paym}}active{{/if}} nav-item">

@@ -8,7 +8,7 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 
 // Loca strategy - Login con credenciales propios
-passport.use(
+passport.use('local',
 	new LocalStrategy(
 		{
 			usernameField: 'email',
@@ -36,6 +36,14 @@ switch (req.body.proyect) {
 		console.log("27")
 		Usuarios = require('../models/PYT27/Usuarios');	
 		break;
+	case 'PYT672':
+		console.log("672")
+		Usuarios = require('../models/PYT672/Usuarios');	
+		break;
+	case 'PASARELA':
+		console.log("PASARELA")
+		Usuarios = require('../models/PYT27/Usuarios');	
+		break;
 	default:
 		break;
 }
@@ -59,6 +67,63 @@ switch (req.body.proyect) {
 	)
 );
 
+passport.use('cuponera',
+	new LocalStrategy({
+		usernameField: 'telefono',
+		passwordField: 'pass',
+		passReqToCallback : true
+	},
+		async (req,telefono, password, done) => {
+			console.log(req.body)
+// Modelo a auntenticar
+var Clientes = "";
+switch (req.body.proyect) {
+	case 'PYT4':
+		console.log("q")
+		Clientes = require('../models/PYT4/Clientes');	
+		break;
+	default:
+		break;
+}
+			try {
+				const cliente = await Clientes.findOne({
+					where: {telefono:telefono}
+				});
+				return done(null, cliente);
+			}catch(err) {
+				console.log(err)
+				return done(null, false, {
+					message: 'Esa cuenta no existe'
+				});
+			}
+		}
+	)
+);
+passport.use('referido',
+	new LocalStrategy({
+		usernameField: 'telefono',
+		passwordField: 'ref',
+		passReqToCallback : true
+	},
+		async (req,telefono, password, done) => {
+			console.log(req.body)
+// Modelo a auntenticar
+		var Clientes = "";
+		Clientes = require('../models/PYT4/Clientes');	
+			try {
+				const cliente = await Clientes.findOne({
+					where: {telefono:telefono, referido_de: req.body.ref}
+				});
+				return done(null, cliente);
+			}catch(err) {
+				console.log(err)
+				return done(null, false, {
+					message: 'Esa cuenta no existe'
+				});
+			}
+		}
+	)
+);
 /* Código 100% funcional */
 passport.use('facebook',
 	new FacebookStrategy({

@@ -21,6 +21,11 @@ const Pedidos = db.define('pedidos', {
 		allowNull: true,
 		defaultValue: ""
 	},
+		fecha_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 	metodo_pago: {
 		type: DataTypes.TEXT,
 		allowNull: true,
@@ -32,6 +37,11 @@ const Pedidos = db.define('pedidos', {
 		defaultValue: ""
 	},
 	status_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
+	motivo: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""

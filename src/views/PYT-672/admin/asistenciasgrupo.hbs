@@ -1,0 +1,311 @@
+<div class="app-content content py672">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section class="asistencias">
+                <div class="row">             
+                    <div class="col-12 mb-1">
+                        <a href="/asistencias/PYT-672" class="btn btn-outline-primary waves-effect">
+                            <i class="feather me-25" data-feather='arrow-left'></i>
+                            <span>Seleccionar Grupos</span>
+                        </a>
+                    </div>
+
+                    {{#each matri as |estudiante i|}}
+                    <div class="col-12">
+                        <div class="card card-statistics border-secondary" id="estudiante{{id}}">
+                            <div class="card-header pb-0">
+                                <h5>Grupo: {{grupo.identificador}}<span class="ms-1">Lección 2&nbsp;</span>&nbsp;<span class="badge badge-light-secondary"></span></h5>
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                        <input type="checkbox" id="miCheck{{id}}" data-id="{{id}}" class="mb-0 form-check d-none checkBoxes">
+                                        <label for="miCheck{{id}}" role="button"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-header d-block pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <h1 class="mb-1"><b>{{primer_nombre}} {{primer_apellido}}</b></h1>
+                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                                <div class="box mb-2 mb-md-0 me-md-3">
+                                                    <p class="lead mb-1">% de Participación</p>
+                                                    <div class="col-md d-flex flex-column align-items-start">
+                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
+                                                        <div class="counter-wrapper mt-1">
+                                                            <strong>Puntos:</strong>
+                                                            <span class="counter">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{#horarioleccionpy672 grupo.dia_horario}}{{/horarioleccionpy672}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+
+                    {{#if matri}}{{else}}
+                    <div class="alert alert-primary" role="alert">
+                        <div class="alert-body text-primary">¡El grupo seleccionado no poseé ninguna matrícula!</div>
+                    </div>
+                    {{/if}}
+                    
+                    {{!<div class="col-12">
+                        <div class="card card-statistics border-success">
+                            <div class="card-header pb-0">
+                                <h5>Grupo: C21101-1<span class="ms-1">Lección 2</span> - <span class="badge badge-light-success">Presente</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                        <input type="checkbox" name="" id="miCheck" class="mb-0 form-check d-none" checked>
+                                        <label for="miCheck" role="button"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-header d-block pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <h1 class="mb-1"><b>Mosqueda Cordova</b></h1>
+                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                                <div class="box mb-2 mb-md-0 me-md-3">
+                                                    <p class="lead mb-1">% de Participación</p>
+                                                    <div class="col-md d-flex flex-column align-items-start">
+                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
+                                                        <div class="counter-wrapper mt-1">
+                                                            <strong>Puntos:</strong>
+                                                            <span class="counter">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box">
+                                                    <div class="d-flex">
+                                                        <div class="hour-box me-1 position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Entrada</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
+                                                        </div>
+                                                        <div class="hour-box position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Salida</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="card card-statistics border-secondary">
+                            <div class="card-header pb-0">
+                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span> - <span class="badge badge-light-secondary">Ausente</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                        <input type="checkbox" name="" id="miCheck2" class="mb-0 form-check d-none">
+                                        <label for="miCheck2" role="button"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-header d-block pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <h1 class="mb-1"><b>Jose Arzolay</b></h1>
+                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                                <div class="box mb-2 mb-md-0 me-md-3">
+                                                    <p class="lead mb-1">% de Participación</p>
+                                                    <div class="col-md d-flex flex-column align-items-start">
+                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
+                                                        <div class="counter-wrapper mt-1">
+                                                            <strong>Puntos:</strong>
+                                                            <span class="counter">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box">
+                                                    <div class="d-flex">
+                                                        <div class="hour-box me-1 position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Entrada</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM" disabled="disabled">
+                                                        </div>
+                                                        <div class="hour-box position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Salida</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM" disabled="disabled">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12">
+                        <div class="card card-statistics border-success">
+                            <div class="card-header pb-0">
+                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span> - <span class="badge badge-light-success">Presente</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                        <input type="checkbox" name="" id="miCheck3" class="mb-0 form-check d-none" checked>
+                                        <label for="miCheck3" role="button"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-header d-block pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <h1 class="mb-1"><b>Borys Lopez</b></h1>
+                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                                <div class="box mb-2 mb-md-0 me-md-3">
+                                                    <p class="lead mb-1">% de Participación</p>
+                                                    <div class="col-md d-flex flex-column align-items-start">
+                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
+                                                        <div class="counter-wrapper mt-1">
+                                                            <strong>Puntos:</strong>
+                                                            <span class="counter">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box">
+                                                    <div class="d-flex">
+                                                        <div class="hour-box me-1 position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Entrada</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
+                                                        </div>
+                                                        <div class="hour-box position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Salida</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 position-relative">
+                        <div class="card card-statistics border-warning">
+                            <span class="bg-light rounded-circle position-absolute">
+                                <i data-feather='alert-circle' class="text-warning circle"></i>
+                            </span>
+                            <div class="card-header pb-0">
+                                <h5>Grupo: C21101-1 <span class="ms-1">Lección 2</span> - <span class="badge badge-light-warning">Tardío</span></h5>
+                                <div class="d-flex align-items-center">
+                                    <span class="bg-secondary rounded-circle d-flex align-items-center justify-content-center p-1">
+                                        <input type="checkbox" name="" id="miCheck4" class="mb-0 form-check d-none" checked>
+                                        <label for="miCheck4" role="button"></label>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-header d-block pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="d-flex flex-column">
+                                            <h1 class="mb-1"><b>Marcos Fernandez</b></h1>
+                                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                                                <div class="box mb-2 mb-md-0 me-md-3">
+                                                    <p class="lead mb-1">% de Participación</p>
+                                                    <div class="col-md d-flex flex-column align-items-start">
+                                                        <div class="onChange-event-ratings jq-ry-container p-0" style="width: 160px;"><div class="jq-ry-group-wrapper"><div class="jq-ry-normal-group jq-ry-group"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="gray" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div><div class="jq-ry-rated-group jq-ry-group" style="width: 0%;"><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg><!--?xml version="1.0" encoding="utf-8"?--><svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 12.705 512 486.59" x="0px" y="0px" xml:space="preserve" width="32px" height="32px" fill="#f39c12" style="margin-left: 0px;"><polygon points="256.814,12.705 317.205,198.566 512.631,198.566 354.529,313.435 414.918,499.295 256.814,384.427 98.713,499.295 159.102,313.435 1,198.566 196.426,198.566 "></polygon></svg></div></div></div>
+                                                        <div class="counter-wrapper mt-1">
+                                                            <strong>Puntos:</strong>
+                                                            <span class="counter">0</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="box">
+                                                    <div class="d-flex">
+                                                        <div class="hour-box me-1 position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Entrada</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="6:30 PM">
+                                                        </div>
+                                                        <div class="hour-box position-relative">
+                                                            <div class="d-flex align-items-center">
+                                                                <i data-feather='clock' class="hour-icon"></i>
+                                                                <p class="lead mb-0">H. Salida</p>
+                                                            </div>
+                                                            <input type="text" class="form-control flatpickr-time text-start flatpickr-input mt-1" placeholder="HH:MM" value="9:00 PM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>}}
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script>
+    let checks = document.querySelectorAll('.checkBoxes');
+
+    checks.forEach(btn => {
+        btn.addEventListener('change', e => {
+            let current = e.target.getAttribute('data-id');
+            let row = document.getElementById(`estudiante${current}`);
+            let inpRow = document.querySelectorAll(`#estudiante${current} .form-control.flatpickr-time`);
+            let span = document.querySelector(`#estudiante${current} span.badge`);
+
+            if(btn.checked === true) {
+                row.classList.remove('border-secondary');
+                row.classList.add('border-success');
+
+                span.classList.remove('badge-light-secondary');
+                span.classList.add('badge-light-success');
+                span.innerText = 'Presente';
+
+                inpRow.forEach(inp => {
+                    inp.disabled = false;
+                });
+            } else {
+                row.classList.remove('border-success');
+                row.classList.add('border-secondary');
+
+                span.classList.remove('badge-light-success');
+                span.classList.add('badge-light-secondary');
+                span.innerText = 'Ausente';
+
+                inpRow.forEach(inp => {
+                    inp.disabled = true;
+                });
+            }
+        });
+    });
+</script>

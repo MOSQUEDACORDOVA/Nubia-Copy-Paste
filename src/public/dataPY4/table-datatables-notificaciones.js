@@ -16,6 +16,8 @@ function cargaTablaNotif(editada) {
  if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
   }
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -26,9 +28,10 @@ function cargaTablaNotif(editada) {
       data: array_notificaciones,
       columns: [
         { data: 'id' },
-        { data: 'tipo' },
-        { data: 'estado' }, // used for sorting so will hide this column
-        { data: 'descripcion' },
+        { data: 'cliente' },
+        { data: 'cliente' }, // used for sorting so will hide this column
+        { data: 'cliente.telefono' },
+        { data: 'cliente' },
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -49,7 +52,82 @@ function cargaTablaNotif(editada) {
           }  },
       ],
       columnDefs: [
-{targets:2, visible: false},
+        {
+          // Avatar image/badge, Name and post
+          targets: 1,
+          responsivePriority: 4,
+          render: function (data, type, full, meta) {
+            var $user_img = "-",
+              $name = full['cliente']['firstName'] + " " + full['cliente']['lastName'],
+              $post = "Cliente";
+            if ($user_img) {
+              // For Avatar image
+              var $output =
+                '<img src="' + assetPath + 'images/avatar-s-pyt4.jpg" alt="Avatar" width="32" height="32">';
+            } else {
+              // For Avatar badge
+              var stateNum = full['status'];
+              var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
+              var $state = states[stateNum],
+                $initials = $name.match(/\b\w/g) || [];
+              $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
+              $output = '<span class="avatar-content">' + $initials + '</span>';
+            }
+
+            var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
+            // Creates full output for row
+            var color_tag ="", color_text=""
+            if (full['cliente']['etiqueta'] ==null) {
+              color_tag =0
+              color_text="black"
+            }else{
+              color_tag =full['cliente']['etiqueta']['color']
+              color_text="white"
+            }
+            var $row_output =
+              '<div class="d-flex justify-content-left align-items-center">' +
+              '<div class="avatar ' +
+              colorClass +
+              ' me-1">' +
+              $output +
+              '</div>' +
+              '<div class="d-flex flex-column">' +
+              '<span class="emp_name text-truncate fw-bold badge rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
+              $name +
+              '</span>' +
+              '</div>' +
+              '</div>';
+            return $row_output;
+          }
+        },
+         {
+          // Avatar image/badge, Name and post
+          targets: 2,
+          responsivePriority: 4,
+          render: function (data, type, full, meta) {
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+            return asentamiento;
+          }
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 4,
+          responsivePriority: 4,
+          render: function (data, type, full, meta) {
+            var checked ="checked"
+            if (full['cliente']['cuponera'] == "s/a") {
+              checked =""
+            }
+            var $row_output =
+             `<div class="form-check" style="display: flex;justify-content: center;"> <input class="form-check-input" type="checkbox" value="" ${checked} onclick=\'hab_("${full['cliente']['id']}","${full['cliente']['cuponera']}")\'/><label class="form-check-label" for="checkboxSelectAll"></label></div>`;
+            return $row_output;
+          }
+        },
       ],
       order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><"none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
@@ -269,6 +347,52 @@ if ( $("#zona_clientes_edited option[value='" + data['cliente_let']['sucursaleId
   }
   $('#correo_edit_cliente_edited').val(data['cliente_let']['email'])
 $('#edit_cliente').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
+function hab_(id_edit,actual) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+ console.log(id_edit)
+ if (actual =="s/a") {
+   actual="c/a"
+ }else{
+   actual ="s/a"
+ }
+ console.log(actual)
+const data_C = new FormData();
+data_C.append("id", id_edit);
+data_C.append("actual", actual);
+$.ajax({
+  url: `/editar_cliente_id_cuponera`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+console.log(data)
+$('#array_notif_').val(JSON.stringify(data.notif_))
+            $('.datatables-notificaciones').dataTable().fnDestroy();
+             $('.datatables-notificaciones').empty();
+            $('.datatables-notificaciones').html(`<thead>
+            <tr>
+              <th>id</th>
+              <th>Nombre</th>
+              <th>Asentamiento</th>
+              <th>Telefono</th>
+              <th>Acceso Cuponera</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>`);
+       cargaTablaNotif('si')
+      $('.modal').modal('hide');
+      Swal.fire('Se editó con éxito la información del cliente')
   },
   error: function (jqXHR, textStatus) {
     console.log('error:' + jqXHR)

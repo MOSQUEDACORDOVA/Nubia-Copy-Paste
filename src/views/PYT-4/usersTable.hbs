@@ -2,78 +2,84 @@
   .none{
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
-<label id="msgs">{{msg}}</label>
+<label id="msgs" hidden>{{msg}}</label>
 {{/if}}
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
 <!-- BEGIN: Content-->
 <div class="app-content content py4">
-    <div class="content-wrapper container-xxl p-0">
+  <div class="content-wrapper container-xxxl p-0">
     <div class="content-header row">
     </div>
     <div class="content-body">
       <section id="basic-datatable">
         <div class="row">
           <div class="scrolling-inside-modal">
-
-            <!-- Button trigger modal -->
-            {{!-- <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" data-bs-toggle="modal"
-              data-bs-target="#exampleModalScrollable">
-              Agregar Cliente
-            </button> --}}
-
-
-
-          </div>
+                      </div>
           <div class="col-12">
+              <div class="card">
 
-            <div class="card">
-
-              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">Clientes</h4>
+            <p class="card-text">
+              {{#if admin}} <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
+                Cambiar Zona
+              </button> {{/if}}
+              <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
+                Cambiar Etiquetas
+              </button>
+              <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2 d-none" id="mapgeo">
+                Ver Mapa
+              </button>
+              <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="cliente_nuevo">
+                  <label class="form-check-label" for="cliente_nuevo">Solo ver Nuevos</label>
               </div>
-              <div class="card-body">
-                <h4 class="card-title">Clientes</h4>
-           {{#if admin}} <p class="card-text"><button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_zone">
-              Cambiar Zona
-            </button> 
-            <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2" id="button_change_tags">
-              Cambiar Etiquetas
-            </button>
-             
-            {{/if}}
-              </div>
-                                           
-               
-              <div class="d-flex justify-content-between align-items-center mx-0 row">
-
-              </div>
-              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
-
-            <section id="basic-datatable">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <table class="datatables-basic dt-column-searchClientes table" id="exampleClientes">
-                                    <thead>
-                                        <tr>
-                                            <th> </th>
-                                            <th>Nombre</th>
-                                            <th>Zona</th>
-                                            <th>Etiqueta</th>
-                                            <th>Titulo</th>
-                                            <th>Teléfono</th>
-                                            <th>Correo</th>  
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </section>
               
-            </div>
+                </div>
+                                            
+                
+                <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+                </div>
+               <section id="basic-datatable">
+                      <div class="row">
+                          <div class="col-12">
+                            <div class="table-responsive">
+                              <div class="card">
+                                  <table class="datatables-basic dt-column-searchClientes table table-responsive" id="exampleClientes">
+                                      <thead>
+                                          <tr>
+                                              <th> </th>
+                                              <th>Nombre</th>
+                                              <th>Zona</th>
+                                              <th>Etiqueta</th>
+                                              <th>Titulo</th>
+                                              <th>Teléfono</th>
+                                              <th>Correo</th> 
+                                              <th>Referidos</th>  
+                                              <th>Nuevo </th>
+                                              <th>Opciones</th>
+                                          </tr>
+                                      </thead>
+                                  </table>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  </section>
+                
+              </div>
           </div>
           {{#if admin}}
            <div class="col-12">
@@ -211,14 +217,14 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="edit_clienteTitle">Cambiar zona de cliente(s)</h5>
+            <h5 class="modal-title" id="edit_clienteTitle">Editar información del cliente</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form class="needs-validation was-validated" id="edit_cliente_form">
              <input type="hidden" name="id_cliente" id="id_cliente_edited">
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
-                        <input type="text" name="" placeholder="Primer Nombre" aria-describedby="register-firstName"
+                        <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName"
                             tabindex="1" class="form-control mb-2" autofocus required id="firstName_edited">
                     </div>
                     <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label>
@@ -245,7 +251,7 @@
                         <div class="form-group mb-2">
                         <label for="register-ciudad" class="form-label">Asentamiento</label>
 
-                        <select class="select2 form-select select_asentamiento" id="select_asentamiento_edited" name="asentamiento">
+                        <select class="select2 form-select select_asentamiento_me" id="select_asentamiento_edited" name="asentamiento">
                             
                         </select>
 

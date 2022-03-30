@@ -111,10 +111,11 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
+
  function cargaTablas(id_chofer) {
     console.log(id_chofer)
   let corte = $('#array_corte').val()
-  
+  let deudas_pagas= $('#pago_deudoresChoferes').val()
   let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
   console.log('aaa')
 
@@ -122,13 +123,14 @@
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var carga2 = JSON.parse(carga.replace(/&quot;/g,'"'))
+  deudas_pagas = JSON.parse(deudas_pagas.replace(/&quot;/g,'"'))
     //let stproductos = JSON.parse(corte.productos)
    let corte3 = corte2.filter(status => status.personalId == id_chofer); // return implicito
 
   let Residencial = corte2.filter(status => status.cliente.tipo == 'Residencial' && status.personalId == id_chofer); // return implicito
   let Negocio = corte2.filter(status => status.cliente.tipo == 'Negocio'); // return implicito
   let PuntoVenta = corte2.filter(status => status.cliente.tipo == 'Punto de venta'); // return implicitoreturn implicito
-
+let filter_deudas_pagas = deudas_pagas.filter(ids => ids.personalId == id_chofer);
   var dt_residencial = $('.datatables-basic'),
   dt_negocio = $('.datatables-basicNegocio'),
   dt_PuntoVenta = $('.datatables-basicPuntoVenta'),
@@ -165,7 +167,8 @@ let ArrayGral = Object.entries(Newcorte2);
   // DataTable with buttons
   // --------------------------------------------------------------------
   console.log(ArrayGral)
-  console.log(corte2)
+  console.log('-----deudas----')
+  console.log(filter_deudas_pagas)
   if (dt_Gral.length) {
     $('.dt-column-searchGral thead tr').clone(true).appendTo('.dt-column-searchGral thead');
     $('.dt-column-searchGral thead tr:eq(1) th').each(function (i) {
@@ -188,6 +191,7 @@ let ArrayGral = Object.entries(Newcorte2);
         { data: '1' },
         { data: '1' },
         { data: '1' },
+        { data: '1'},
         { data: '1'},
         { data: '1'},
         { data: '1'},
@@ -233,106 +237,135 @@ let ArrayGral = Object.entries(Newcorte2);
     {
       // REFILL
       targets:2,render: function (data, type, full, meta) {
-        let total=0;
+
+        let total=0; let ResOcultoRefill;
+
         for (let i = 0; i < data.length; i++) {
           total += parseInt(data[i]['data']['total_refill_pedido']);
-          
+          if (data[i]['tipo'] == "Residencial") {
+            ResOcultoRefill="ResOcultoRefill"   
+
+          }
+
         }
+             
         if (total == 0) {
           total = "-"
         }
-        return (`<span class="refill">${total}</span>`)
-        }  
+        return (`<span class="refill ${ResOcultoRefill}">${total}</span>`)
+
+      }  
   },
   {
     // canje
     targets:3,render: function (data, type, full, meta) {
-      let total=0;
+      let total=0 , ResOcultoCanje; 
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_canje_pedido']);
-        
+        if (data[i]['tipo'] == "Residencial") {
+          ResOcultoCanje="ResOcultoCanje"     
+        }
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="canje">${total}</span>`)}  
-},
+      
+      return (`<span class="canje ${ResOcultoCanje}">${total}</span>`)
+      
+    }  
+
+  },
 {
   // nuevo
   targets:4,render: function (data, type, full, meta) {
-    let total=0;
+    let total=0, ResOcultoNuevo;
       for (let i = 0; i < data.length; i++) {
         total += parseInt(data[i]['data']['total_nv_pedido']);
-        
+        if (data[i]['tipo'] == "Residencial") {
+        ResOcultoNuevo="ResOcultoNuevos"
+        }
       }
       if (total == 0) {
         total = "-"
       }
-      return (`<span class="nuevo">${total}</span>`)}  
+      return (`<span class="nuevo ${ResOcultoNuevo}">${total}</span>`)}  
 },
 {
   // dañados
   targets:5,render: function (data, type, full, meta) {
-          let danados = 0, garrafones_prestamos=0;
+          let danados = 0, garrafones_prestamos=0, ResOcultoDanados;
     for (let i = 0; i < data.length; i++) {
       danados += parseInt(data[i]['data']['danados']);
+      if (data[i]['tipo'] == "Residencial") {
+      ResOcultoDanados="ResOcultoDanados";
+      }
   }
   if (danados == 0) {
     danados = "-"
   }
-    return (`<span class="danados">${danados}</span>`)}  
+    return (`<span class="danados ${ResOcultoDanados}">${danados}</span>`)}  
   },
   {
     // prestados
     targets:6,render: function (data, type, full, meta) {
       
-    let danados = 0, garrafones_prestamos=0;
+    let danados = 0, garrafones_prestamos=0, ResOcultoPrestados;
     for (let i = 0; i < data.length; i++) {
     garrafones_prestamos += parseInt(data[i]['data']['garrafones_prestamos']);
+    if (data[i]['tipo'] == "Residencial") {
+    ResOcultoPrestados="ResOcultoPrestados"
+    }
   }
   if (garrafones_prestamos == 0) {
     garrafones_prestamos = "-"
   }
-    return (`<span class="prestados">${garrafones_prestamos}</span>`)}  
+    return (`<span class="prestados ${ResOcultoPrestados} ">${garrafones_prestamos}</span>`)}  
     },
 
     {          
       // Label
       targets: 7,
       render: function (data, type, full, meta) {
-        var suma = 0, deuda = 0
+        var suma = 0, deuda = 0,ResOcultoDepositos
           for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['metodo_pago'] == "Transferencia") {
+            if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
               if (Array.isArray(data[i]['data']['monto_total'])) {
                 suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
             } else {
                 suma += parseInt(data[i]['data']['monto_total']);
+                
+            }
+            if (data[i]['tipo'] == "Residencial") {
+              ResOcultoDepositos="ResOcultoDepositos"
             }
 
             }
             
         }
         let total = parseInt(suma)
-        return `$<span style="color:red" class="depositos">${total}</span>`;
+        return `$<span style="color:red" class="depositos ${ResOcultoDepositos}">${total}</span>`;
       }
     },
     {          
       // Label
       targets: 8,
       render: function (data, type, full, meta) {
-        var suma = 0, deuda = 0
+        let sumaD = 0, deuda = 0,ResOcultoDeuda
           for (let i = 0; i < data.length; i++) {
-              if (data[i]['data']['deuda_anterior'] != "0") {
-                if (Array.isArray(data[i]['data']['deuda_anterior'])) {
-                  deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
+              if (data[i]['data']['status_pago'] == "Por verificar") {
+                
+                if (Array.isArray(data[i]['data']['monto_total'])) {
+                  sumaD += countArray(parseInt(data[i]['data']['data']['monto_total']));
               } else {
-                  deuda += parseInt(data[i]['data']['deuda_anterior']);
+                  sumaD += parseInt(data[i]['data']['monto_total']);
               }
+              if (data[i]['tipo'] == "Residencial") {
+                ResOcultoDeuda="ResOcultoDeuda";
               }
-            
+              }             
+           
         }
-        let total = parseInt(deuda)
-        return `$<span class="deuda">${total}</span>`;
+        return `$<span class="deuda ${ResOcultoDeuda}">${sumaD}</span>`;
       }
     },
 
@@ -340,35 +373,57 @@ let ArrayGral = Object.entries(Newcorte2);
       // Label
       targets: 9,
       render: function (data, type, full, meta) {
-        var suma = 0, deuda = 0
+        var suma = 0, deuda = 0,ResOcultoEfectivo
           for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['metodo_pago'] == "Efectivo") {
+           // if (data[i]['data']['metodo_pago'] == "Efectivo") {
               if (Array.isArray(data[i]['data']['monto_total'])) {
                 suma += countArray(parseInt(data[i]['data']['monto_total']));
             } else {
                 suma += parseInt(data[i]['data']['monto_total']);
+                
             }
-
+if (data[i]['tipo'] == "Residencial") {
+            ResOcultoEfectivo="ResOcultoEfectivo"
             }
+          //  }
+            
             
         }
         let total = parseInt(suma)
-        return `$<span class="efectivo">${total}</span>`;;
+        return `$<span class="efectivo ${ResOcultoEfectivo}">${total}</span>`;;
+      }
+    },
+    {          
+      // Label
+      targets: 10,
+      render: function (data, type, full, meta) {
+        var suma = 0, deuda = 0, ResOcultodescuento
+          for (let i = 0; i < data.length; i++) {
+              if (Array.isArray(data[i]['data']['descuento'])) {
+                suma += countArray(parseInt(data[i]['data']['descuento']));
+            } else {
+                suma += parseInt(data[i]['data']['descuento']);
+                ResOcultodescuento = "ResOcultodescuento"
+            }
+  
+            
+        }
+        let total = parseInt(suma)
+        return `$<span class="descuento ${ResOcultodescuento}">${total}</span>`;;
       }
     },
       ],
       order: [[0, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
-      displayLength: 10,
+      displayLength: 100,
       lengthMenu: [7, 10, 25, 50, 75, 100],  
       rowCallback: function (row, data) {
         let totalrefill=0;
         for (let i = 0; i < data[1].length; i++) {
           if (data[1][i]['tipo'] == "Residencial") {
-            console.log(data)
-        console.log(row)
-       $(row).addClass('d-none');       
+            
+       $(row).addClass('d-none');      
        
     }         
         }
@@ -383,18 +438,16 @@ let ArrayGral = Object.entries(Newcorte2);
           .column(0, { page: 'current' })
           .data()
           .each(function (group, i,full) {
-            console.log(full)
-              console.log(group)
-              console.log(last)
+            
             if (last !== group) {
               if (group =="Residencial") {
                 $(rows)
                 .eq(i)
-                .before('<tr class="group"><td >' + group + '</td><td class="refill_gral"></td><td class="canje_gral"></td><td class="nuevo_gral"></td><td class="danados_gral"></td><td class="prestados_gral"></td><td class="depositos_gral"></td><td class="adeudo_gral"></td><td class="subtotal"></td></tr>');
+                .before('<tr class="group"><td >' + group + '</td><td class="refill_gral"></td><td class="canje_gral"></td><td class="nuevo_gral"></td><td class="danados_gral"></td><td class="prestados_gral"></td><td class="depositos_gral"></td><td class="adeudo_gral"></td><td class="subtotal"></td><td class="descuentogral"></td></tr>');
               }else{
                 $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+                .before('<tr class="group"><td colspan="10">' + group + '</td></tr>');
               }
               
 
@@ -422,13 +475,17 @@ let ArrayGral = Object.entries(Newcorte2);
         }
       }
     });
+
+    $('#pedidos_corteGral_info').addClass('d-none')
+    $('.totalPedidosG').text(ArrayGral.length)
+    
     // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
       // on key up from input field
  /* $('input.dt-input').on('keyup change', function () {
     filterColumn($(this).attr('data-column'), $(this).val());
   });**/
-  var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
-  $('.depositos').each(function(){
+  var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,descuentos=0,resdescuentos=0,subtotal=0,total=0;
+  dt_Gral_t.$('.depositos').each(function(){
     if ($(this).text() == "-" || $(this).text() == "0") {
       subDepositos;
       cantDepositos
@@ -437,22 +494,29 @@ let ArrayGral = Object.entries(Newcorte2);
       cantDepositos++
     }    
 });
-  $('.efectivo').each(function(){
+dt_Gral_t.$('.efectivo').each(function(){
     if ($(this).text() == "-") {
       subefectivo
     }else{
       subefectivo += parseFloat($(this).text());
     }    
 });
-$('.deuda').each(function(){
+dt_Gral_t.$('.deuda').each(function(){
   if ($(this).text() == "-") {
     subadeudo
   }else{
-        subadeudo += parseFloat($(this).text());
+    subadeudo += parseFloat($(this).text());
+  }    
+});
+dt_Gral_t.$('.descuento').each(function(){
+  if ($(this).text() == "-") {
+    resdescuentos
+  }else{
+        resdescuentos += parseFloat($(this).text());
   }    
 });
 let resDpositos = 0, resEfectivo = 0, resDeuda = 0, rescantDepositos=0
-$('tr.d-none .depositos').each(function(){
+dt_Gral_t.$('.ResOcultoDepositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     resDpositos;
     rescantDepositos
@@ -461,41 +525,51 @@ $('tr.d-none .depositos').each(function(){
     rescantDepositos++
   }    
 });
-$('tr.d-none .efectivo').each(function(){
+dt_Gral_t.$('.ResOcultoEfectivo').each(function(){
   if ($(this).text() == "-") {
     resEfectivo
   }else{
     resEfectivo += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .deuda').each(function(){
+console.log(resEfectivo)
+dt_Gral_t.$('.ResOcultoDeuda').each(function(){
 if ($(this).text() == "-") {
   resDeuda
 }else{
       resDeuda += parseFloat($(this).text());
 }    
 });
+dt_Gral_t.$('.ResOcultodescuento').each(function(){
+  if ($(this).text() == "-") {
+    descuentos
+  }else{
+        descuentos += parseFloat($(this).text());
+  }    
+  });
+  let subtotal_residencial = parseFloat(resEfectivo)
 $('.depositos_gral').html(`<span style="color:red">$${resDpositos}</span>`)
 $('.adeudo_gral').html(`<span >$${resDeuda}</span>`)
-$('.subtotal').html(`<span >$${resEfectivo}</span>`)
+$('.subtotal').html(`<span >$${subtotal_residencial}</span>`)
+$('.descuentogral').html(`<span >$${descuentos}</span>`)
 
-console.log(subefectivo)
-efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-  $('.refill').each(function(){
+
+//efectivoPre = parseFloat(subefectivo) // + parseFloat(subadeudo)
+dt_Gral_t.$('.refill').each(function(){
     if ($(this).text() == "-") {
       sumaRefill
     }else{
           sumaRefill += parseFloat($(this).text());
     }    
 });
-$('.canje').each(function(){
+dt_Gral_t.$('.canje').each(function(){
   if ($(this).text() == "-") {
     sumacanje 
   }else{
   sumacanje += parseFloat($(this).text());
   }     
 });
-$('.nuevo').each(function(){
+dt_Gral_t.$('.nuevo').each(function(){
   if ($(this).text() == "-") {
     sumanuevo
   }else{
@@ -503,14 +577,14 @@ $('.nuevo').each(function(){
   }   
 });
 
-$('.danados').each(function(){
+dt_Gral_t.$('.danados').each(function(){
   if ($(this).text() == "-") {
     sumadanados
   }else{
   sumadanados += parseFloat($(this).text());
   }    
 });
-$('.prestados').each(function(){
+dt_Gral_t.$('.prestados').each(function(){
   if ($(this).text() == "-") {
     sumaprestados
   }else{
@@ -523,15 +597,15 @@ $('.prestados').each(function(){
   $( dt_Gral_t.column(4 ).footer() ).html(sumanuevo);
   $( dt_Gral_t.column(5 ).footer() ).html(sumadanados);
   $( dt_Gral_t.column(6 ).footer() ).html(sumaprestados);
-  if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
-    total =parseFloat(subDepositos)-parseFloat(efectivoPre)
-  }else{
-total =parseFloat(efectivoPre)-parseFloat(subDepositos)
-  }
-  
 
+//   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//     subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+//   }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+//   }
+  subtotal =parseFloat(subefectivo)
   let sumaRefillres=0, resCanje =0, resNuevos = 0, resdanados=0, resprestados=0
-  $('tr.d-none .refill').each(function(){
+  dt_Gral_t.$('.ResOcultoRefill').each(function(){
     if ($(this).text() == "-") {
       sumaRefillres
     }else{
@@ -539,14 +613,14 @@ total =parseFloat(efectivoPre)-parseFloat(subDepositos)
     }    
 });
 
-$('tr.d-none .canje').each(function(){
+dt_Gral_t.$('.ResOcultoCanje').each(function(){
   if ($(this).text() == "-") {
     resCanje 
   }else{
   resCanje += parseFloat($(this).text());
   }     
 });
-$('tr.d-none .nuevo').each(function(){
+dt_Gral_t.$('.ResOcultoNuevos').each(function(){
   if ($(this).text() == "-") {
     resNuevos
   }else{
@@ -554,14 +628,14 @@ $('tr.d-none .nuevo').each(function(){
   }   
 });
 
-$('tr.d-none .danados').each(function(){
+dt_Gral_t.$('.ResOcultoDanados').each(function(){
   if ($(this).text() == "-") {
     resdanados
   }else{
   resdanados += parseFloat($(this).text());
   }    
 });
-$('tr.d-none .prestados').each(function(){
+dt_Gral_t.$('.ResOcultoPrestados').each(function(){
   if ($(this).text() == "-") {
     resprestados
   }else{
@@ -574,12 +648,40 @@ $('tr.d-none .prestados').each(function(){
   $('.canje_gral').html(resCanje)
   $('.nuevo_gral').html(resNuevos)
   $('.danados_gral').html(resdanados)
-$('.prestados_gral').html(resprestados)
+  $('.prestados_gral').html(resprestados)
 
-$('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
-$('.depositosF').text(subDepositos)
-$('.cantdepositosF').text(cantDepositos)
+  $('.adeudoF').text(subadeudo)
+  $('.subtotalF').text(subtotal)
+  $('.depositosF').text(subDepositos)
+  $('.cantdepositosF').text(cantDepositos)
+  $('.descuentosF').text(resdescuentos)
+  let sumaDeudaAnterior = 0
+  for (let i = 0; i < filter_deudas_pagas.length; i++) {
+    if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
+      sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
+    }   
+  }
+  if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+    subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+  }else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
+  }
+
+  $('.adeudoA').text(sumaDeudaAnterior)
+  if (parseFloat(subtotal) < parseFloat(subadeudo)) {
+    subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
+  }else{
+    subtotal = parseFloat(subtotal)-parseFloat(subadeudo)
+  }
+
+  
+  console.log(subtotal)
+  
+  subtotal = parseFloat(subtotal)+parseFloat(sumaDeudaAnterior)
+total =  parseFloat(subtotal) - parseFloat(resdescuentos)
+let totalGarrafonesGeneral  = parseInt(sumaRefill)+parseInt(sumacanje)+parseInt(sumanuevo)
+$('.totalGarrafonesGeneral').text(totalGarrafonesGeneral)
+
 $('.totalefectivoF').text(total)
     // Refilter the table
     $('#min1, #max1').on('change', function () {
@@ -587,13 +689,19 @@ $('.totalefectivoF').text(total)
       dt_basic.draw();
       });
   }
+  
  }
+
  function cargaTablaResidencial(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
 
 let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
 console.log('aaa')
+
+let deudas_pagas= $('#pago_deudoresChoferes').val()
+deudas_pagas = JSON.parse(deudas_pagas.replace(/&quot;/g,'"'))
+let filter_deudas_pagas = deudas_pagas.filter(ids => ids.personalId == id_chofer);
 
 let carga = $('#array_carga').val()
 let codigosP = $('#array_cp').val()
@@ -664,6 +772,7 @@ if (dt_residencial.length) {
       { data: '1'},
       { data: '1'},
       { data: '1'},
+      { data: '1'},
     ], columnDefs: [
       {
         // Label
@@ -775,7 +884,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
@@ -795,17 +904,17 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['deuda_anterior'] != "0") {
-              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
-                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
-            } else {
-                deuda += parseInt(data[i]['data']['deuda_anterior']);
-            }
-            }
+          if (data[i]['data']['status_pago'] == "Por verificar") {
+                
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              deuda += countArray(parseFloat(data[i]['data']['data']['monto_total']));
+          } else {
+              deuda += parseFloat(data[i]['data']['monto_total']);
+          }
+          }
           
       }
-      let total = parseInt(deuda)
-      return `$<span class="deuda">${total}</span>`;
+      return `$<span class="deuda">${deuda}</span>`;
     }
   },
 
@@ -815,18 +924,36 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Efectivo") {
+        //  if (data[i]['data']['metodo_pago'] == "Efectivo") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['monto_total']));
           } else {
               suma += parseInt(data[i]['data']['monto_total']);
           }
 
-          }
+         // }
           
       }
       let total = parseInt(suma)
       return `$<span class="efectivo">${total}</span>`;;
+    }
+  },
+  {          
+    // Label
+    targets: 10,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (Array.isArray(data[i]['data']['descuento'])) {
+              suma += countArray(parseInt(data[i]['data']['descuento']));
+          } else {
+              suma += parseInt(data[i]['data']['descuento']);
+          }
+
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="descuentos">${total}</span>`;;
     }
   },
     ],
@@ -835,18 +962,6 @@ if (garrafones_prestamos == 0) {
     orderCellsTop: true,
     displayLength: 10,
     lengthMenu: [7, 10, 25, 50, 75, 100],  
-    rowCallback: function (row, data) {
-      
-      for (let i = 0; i < data[1].length; i++) {
-        if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-      console.log(row)
-     // $(row).addClass('d-none');
-
-        }
-        
-      }
-  },
     drawCallback: function (settings) {
       var api = this.api();
       var rows = api.rows({ page: 'current' }).nodes();
@@ -860,7 +975,7 @@ if (garrafones_prestamos == 0) {
           if (last !== group) {
             $(rows)
               .eq(i)
-              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+              .before('<tr class="group"><td colspan="10">' + group + '</td></tr>');
 
             last = group;
           }
@@ -886,13 +1001,12 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
-  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
-    // on key up from input field
-/* $('input.dt-input').on('keyup change', function () {
-  filterColumn($(this).attr('data-column'), $(this).val());
-});**/
-var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
-$('#residencial_table .depositos').each(function(){
+    $('.totalPedidosR').text(ArrayRes.length)
+    $('.totalGarrafonesResidencial').text($('.totalGarrafR').text())
+    $('#residencial_table_info').addClass('d-none')
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,subtotal=0, descuentos=0, total=0;
+
+dt_residencial_t.$('.depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     subDepositos;
     cantDepositos
@@ -901,37 +1015,46 @@ $('#residencial_table .depositos').each(function(){
     cantDepositos++
   }    
 });
-$('#residencial_table .efectivo').each(function(){
+dt_residencial_t.$('.efectivo').each(function(){
   if ($(this).text() == "-") {
     subefectivo
   }else{
     subefectivo += parseFloat($(this).text());
   }    
 });
-$('#residencial_table .deuda').each(function(){
+dt_residencial_t.$('.deuda').each(function(){
 if ($(this).text() == "-") {
   subadeudo
 }else{
       subadeudo += parseFloat($(this).text());
 }    
 });
+dt_residencial_t.$('.descuentos').each(function(){
+  if ($(this).text() == "-") {
+    descuentos
+  }else{
+        descuentos += parseFloat($(this).text());
+  }    
+  });
 console.log(subefectivo)
-efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-$('#residencial_table .refill').each(function(){
+//efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+
+dt_residencial_t.$('.refill').each(function(){
   if ($(this).text() == "-") {
     sumaRefill
   }else{
-        sumaRefill += parseFloat($(this).text());
+    sumaRefill += parseFloat($(this).text());
   }    
 });
-$('#residencial_table .canje').each(function(){
+
+dt_residencial_t.$('.canje').each(function(){
 if ($(this).text() == "-") {
   sumacanje 
 }else{
 sumacanje += parseFloat($(this).text());
 }     
 });
-$('#residencial_table .nuevo').each(function(){
+dt_residencial_t.$('.nuevo').each(function(){
 if ($(this).text() == "-") {
   sumanuevo
 }else{
@@ -939,14 +1062,14 @@ sumanuevo += parseFloat($(this).text());
 }   
 });
 
-$('#residencial_table .danados').each(function(){
+dt_residencial_t.$('.danados').each(function(){
 if ($(this).text() == "-") {
   sumadanados
 }else{
 sumadanados += parseFloat($(this).text());
 }    
 });
-$('#residencial_table .prestados').each(function(){
+dt_residencial_t.$('.prestados').each(function(){
 if ($(this).text() == "-") {
   sumaprestados
 }else{
@@ -959,15 +1082,45 @@ $( dt_residencial_t.column(3 ).footer() ).html(sumacanje);
 $( dt_residencial_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_residencial_t.column(5 ).footer() ).html(sumadanados);
 $( dt_residencial_t.column(6 ).footer() ).html(sumaprestados);
-if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
-  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
-}else{
-total =parseFloat(efectivoPre)-parseFloat(subDepositos)
-}
+subtotal =parseFloat(subefectivo)
+// if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//   subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+// }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+// }
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
+$('.descuentosF').text(descuentos)
+
+let sumaDeudaAnterior = 0
+for (let i = 0; i < filter_deudas_pagas.length; i++) {
+  if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
+    sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
+  }   
+}
+//   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//     subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+//   }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+//   }
+subtotal =parseFloat(subefectivo)
+$('.adeudoA').text(sumaDeudaAnterior)
+if (parseFloat(subtotal) < parseFloat(subadeudo)) {
+  subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
+}else{
+  subtotal = parseFloat(subtotal)-parseFloat(subadeudo)
+}
+
+
+console.log(subtotal)
+
+subtotal = parseFloat(subtotal)+parseFloat(sumaDeudaAnterior)
+total =  parseFloat(subtotal) - parseFloat(descuentos)
+let totalGarrafonesGeneral  = parseInt(sumaRefill)+parseInt(sumacanje)+parseInt(sumanuevo)
+$('.totalGarrafonesResidencial').text(totalGarrafonesGeneral)
+
 $('.totalefectivoF').text(total)
   // Refilter the table
   $('#min1, #max1').on('change', function () {
@@ -976,12 +1129,16 @@ $('.totalefectivoF').text(total)
     });
 }  
 }
+
 function cargaTablaNegocio(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
 
 let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
-console.log('aaa')
+
+let deudas_pagas= $('#pago_deudoresChoferes').val()
+deudas_pagas = JSON.parse(deudas_pagas.replace(/&quot;/g,'"'))
+let filter_deudas_pagas = deudas_pagas.filter(ids => ids.personalId == id_chofer);
 
 let carga = $('#array_carga').val()
 let codigosP = $('#array_cp').val()
@@ -1049,6 +1206,7 @@ if (dt_negocio.length) {
       { data: '1'},
       { data: '1'},
       { data: '1'},
+      { data: '1'},
     ], columnDefs: [
       {
         // Label
@@ -1160,7 +1318,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
@@ -1180,17 +1338,17 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['deuda_anterior'] != "0") {
-              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
-                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
-            } else {
-                deuda += parseInt(data[i]['data']['deuda_anterior']);
-            }
-            }
+          if (data[i]['data']['status_pago'] == "Por verificar") {
+                
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              deuda += countArray(parseFloat(data[i]['data']['data']['monto_total']));
+          } else {
+            deuda += parseFloat(data[i]['data']['monto_total']);
+          }
+          }
           
       }
-      let total = parseInt(deuda)
-      return `$<span class="deuda">${total}</span>`;
+      return `$<span class="deuda">${deuda}</span>`;
     }
   },
 
@@ -1214,24 +1372,30 @@ if (garrafones_prestamos == 0) {
       return `$<span class="efectivo">${total}</span>`;;
     }
   },
+  {          
+    // Label
+    targets: 10,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (Array.isArray(data[i]['data']['descuento'])) {
+              suma += countArray(parseInt(data[i]['data']['descuento']));
+          } else {
+              suma += parseInt(data[i]['data']['descuento']);
+          }
+
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="descuentos">${total}</span>`;;
+    }
+  },
     ],
     order: [[0, 'desc']],
     dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
     orderCellsTop: true,
     displayLength: 10,
     lengthMenu: [7, 10, 25, 50, 75, 100],  
-    rowCallback: function (row, data) {
-      
-      for (let i = 0; i < data[1].length; i++) {
-        if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-      console.log(row)
-     // $(row).addClass('d-none');
-
-        }
-        
-      }
-  },
     drawCallback: function (settings) {
       var api = this.api();
       var rows = api.rows({ page: 'current' }).nodes();
@@ -1245,7 +1409,7 @@ if (garrafones_prestamos == 0) {
           if (last !== group) {
             $(rows)
               .eq(i)
-              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+              .before('<tr class="group"><td colspan="10">' + group + '</td></tr>');
 
             last = group;
           }
@@ -1271,13 +1435,12 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
-  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
-    // on key up from input field
-/* $('input.dt-input').on('keyup change', function () {
-  filterColumn($(this).attr('data-column'), $(this).val());
-});**/
-var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
-$('.depositos').each(function(){
+  $('.totalPedidosN').text(ArrayNeg.length)
+  $('.totalGarrafonesNegocios').text($('.totalGarrafN').text())
+  $('#negocio_table_info').addClass('d-none')
+
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,descuentos=0, subtotal=0, total=0;
+dt_negocio_t.$('.depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     subDepositos;
     cantDepositos
@@ -1286,37 +1449,44 @@ $('.depositos').each(function(){
     cantDepositos++
   }    
 });
-$('.efectivo').each(function(){
+dt_negocio_t.$('.efectivo').each(function(){
   if ($(this).text() == "-") {
     subefectivo
   }else{
     subefectivo += parseFloat($(this).text());
   }    
 });
-$('.deuda').each(function(){
+dt_negocio_t.$('.deuda').each(function(){
 if ($(this).text() == "-") {
   subadeudo
 }else{
       subadeudo += parseFloat($(this).text());
 }    
 });
+dt_negocio_t.$('.descuentos').each(function(){
+  if ($(this).text() == "-") {
+    descuentos
+  }else{
+        descuentos += parseFloat($(this).text());
+  }    
+  });
 console.log(subefectivo)
-efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-$('.refill').each(function(){
+//efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+dt_negocio_t.$('.refill').each(function(){
   if ($(this).text() == "-") {
     sumaRefill
   }else{
         sumaRefill += parseFloat($(this).text());
   }    
 });
-$('.canje').each(function(){
+dt_negocio_t.$('.canje').each(function(){
 if ($(this).text() == "-") {
   sumacanje 
 }else{
 sumacanje += parseFloat($(this).text());
 }     
 });
-$('.nuevo').each(function(){
+dt_negocio_t.$('.nuevo').each(function(){
 if ($(this).text() == "-") {
   sumanuevo
 }else{
@@ -1324,14 +1494,14 @@ sumanuevo += parseFloat($(this).text());
 }   
 });
 
-$('.danados').each(function(){
+dt_negocio_t.$('.danados').each(function(){
 if ($(this).text() == "-") {
   sumadanados
 }else{
 sumadanados += parseFloat($(this).text());
 }    
 });
-$('.prestados').each(function(){
+dt_negocio_t.$('.prestados').each(function(){
 if ($(this).text() == "-") {
   sumaprestados
 }else{
@@ -1344,16 +1514,45 @@ $( dt_negocio_t.column(3 ).footer() ).html(sumacanje);
 $( dt_negocio_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_negocio_t.column(5 ).footer() ).html(sumadanados);
 $( dt_negocio_t.column(6 ).footer() ).html(sumaprestados);
-if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
-  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
-}else{
-total =parseFloat(efectivoPre)-parseFloat(subDepositos)
-}
+//   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//     subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+//   }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+//   }
+subtotal =parseFloat(subefectivo)
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
+$('.descuentosF').text(descuentos)
+let sumaDeudaAnterior = 0
+for (let i = 0; i < filter_deudas_pagas.length; i++) {
+  if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
+    sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
+  }   
+}
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
+}
+$('.adeudoA').text(sumaDeudaAnterior)
+if (parseFloat(subtotal) < parseFloat(subadeudo)) {
+  subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
+}else{
+  subtotal = parseFloat(subtotal)-parseFloat(subadeudo)
+}
+
+
+console.log(subtotal)
+
+subtotal = parseFloat(subtotal)+parseFloat(sumaDeudaAnterior)
+total =  parseFloat(subtotal) - parseFloat(descuentos)
+let totalGarrafonesGeneral  = parseInt(sumaRefill)+parseInt(sumacanje)+parseInt(sumanuevo)
+$('.totalGarrafonesNegocios').text(totalGarrafonesGeneral)
+
 $('.totalefectivoF').text(total)
+
   // Refilter the table
   $('#min1, #max1').on('change', function () {
     filterByDate(5); // We call our filter function
@@ -1361,12 +1560,15 @@ $('.totalefectivoF').text(total)
     });
 }  
 }
+
 function cargaTablaPto(id_chofer) {
   console.log(id_chofer)
 let corte = $('#array_corte').val()
 
 let corte2 = JSON.parse(corte.replace(/&quot;/g,'"'))
-console.log('aaa')
+let deudas_pagas= $('#pago_deudoresChoferes').val()
+deudas_pagas = JSON.parse(deudas_pagas.replace(/&quot;/g,'"'))
+let filter_deudas_pagas = deudas_pagas.filter(ids => ids.personalId == id_chofer);
 
 let carga = $('#array_carga').val()
 let codigosP = $('#array_cp').val()
@@ -1431,6 +1633,7 @@ if (dt_PuntoVenta.length) {
       { data: '1'},
       { data: '1'},
       { data: '1'},
+      { data: '1'},
     ], columnDefs: [
       {
         // Label
@@ -1542,7 +1745,7 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-          if (data[i]['data']['metodo_pago'] == "Transferencia") {
+          if (data[i]['data']['metodo_pago'] == "Transferencia" && data[i]['data']['status_pago'] == "Pagado") {
             if (Array.isArray(data[i]['data']['monto_total'])) {
               suma += countArray(parseInt(data[i]['data']['data']['monto_total']));
           } else {
@@ -1562,17 +1765,18 @@ if (garrafones_prestamos == 0) {
     render: function (data, type, full, meta) {
       var suma = 0, deuda = 0
         for (let i = 0; i < data.length; i++) {
-            if (data[i]['data']['deuda_anterior'] != "0") {
-              if (Array.isArray(data[i]['data']['deuda_anterior'])) {
-                deuda += countArray(parseInt(data[i]['data']['deuda_anterior']));
-            } else {
-                deuda += parseInt(data[i]['data']['deuda_anterior']);
-            }
-            }
+          if (data[i]['data']['status_pago'] == "Por verificar") {
+                
+            if (Array.isArray(data[i]['data']['monto_total'])) {
+              deuda += countArray(parseFloat(data[i]['data']['data']['monto_total']));
+          } else {
+            deuda += parseFloat(data[i]['data']['monto_total']);
+          }
+          }
           
       }
-      let total = parseInt(deuda)
-      return `$<span class="deuda">${total}</span>`;
+      
+      return `$<span class="deuda">${deuda}</span>`;
     }
   },
 
@@ -1596,24 +1800,31 @@ if (garrafones_prestamos == 0) {
       return `$<span class="efectivo">${total}</span>`;;
     }
   },
+  {          
+    // Label
+    targets: 10,
+    render: function (data, type, full, meta) {
+      var suma = 0, deuda = 0
+        for (let i = 0; i < data.length; i++) {
+            if (Array.isArray(data[i]['data']['descuento'])) {
+              suma += countArray(parseInt(data[i]['data']['descuento']));
+          } else {
+              suma += parseInt(data[i]['data']['descuento']);
+          }
+
+          
+      }
+      let total = parseInt(suma)
+      return `$<span class="descuentos">${total}</span>`;;
+    }
+  },
     ],
     order: [[0, 'desc']],
     dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
     orderCellsTop: true,
     displayLength: 10,
     lengthMenu: [7, 10, 25, 50, 75, 100],  
-    rowCallback: function (row, data) {
-      
-      for (let i = 0; i < data[1].length; i++) {
-        if (data[1][i]['tipo'] == "Residencial") {
-          console.log(data)
-      console.log(row)
-     // $(row).addClass('d-none');
 
-        }
-        
-      }
-  },
     drawCallback: function (settings) {
       var api = this.api();
       var rows = api.rows({ page: 'current' }).nodes();
@@ -1627,7 +1838,7 @@ if (garrafones_prestamos == 0) {
           if (last !== group) {
             $(rows)
               .eq(i)
-              .before('<tr class="group"><td colspan="9">' + group + '</td></tr>');
+              .before('<tr class="group"><td colspan="10">' + group + '</td></tr>');
 
             last = group;
           }
@@ -1653,13 +1864,11 @@ if (garrafones_prestamos == 0) {
       }
     }
   });
-  // $('div.head-label').html('<h6 class="mb-0">Negocios</h6>');
-    // on key up from input field
-/* $('input.dt-input').on('keyup change', function () {
-  filterColumn($(this).attr('data-column'), $(this).val());
-});**/
-var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,total=0;
-$('.depositos').each(function(){
+  $('.totalPedidosV').text(ArrayPto.length)
+  $('.totalGarrafonesVenta').text($('.totalGarrafV').text())
+  $('#Pto_table_info').addClass('d-none')
+var sumaRefill = 0,sumacanje = 0,sumanuevo = 0,sumadanados = 0,sumaprestados = 0, subefectivo=0,subadeudo=0,efectivoPre=0,cantDepositos=0,subDepositos=0,subtotal=0, descuentos=0, total=0;
+dt_PuntoVenta_t.$('.depositos').each(function(){
   if ($(this).text() == "-" || $(this).text() == "0") {
     subDepositos;
     cantDepositos
@@ -1668,37 +1877,44 @@ $('.depositos').each(function(){
     cantDepositos++
   }    
 });
-$('.efectivo').each(function(){
+dt_PuntoVenta_t.$('.efectivo').each(function(){
   if ($(this).text() == "-") {
     subefectivo
   }else{
     subefectivo += parseFloat($(this).text());
   }    
 });
-$('.deuda').each(function(){
+dt_PuntoVenta_t.$('.deuda').each(function(){
 if ($(this).text() == "-") {
   subadeudo
 }else{
       subadeudo += parseFloat($(this).text());
 }    
 });
+dt_PuntoVenta_t.$('.descuentos').each(function(){
+  if ($(this).text() == "-") {
+    descuentos
+  }else{
+        descuentos += parseFloat($(this).text());
+  }    
+  });
 console.log(subefectivo)
-efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
-$('.refill').each(function(){
+//efectivoPre = parseFloat(subefectivo) + parseFloat(subadeudo)
+dt_PuntoVenta_t.$('.refill').each(function(){
   if ($(this).text() == "-") {
     sumaRefill
   }else{
         sumaRefill += parseFloat($(this).text());
   }    
 });
-$('.canje').each(function(){
+dt_PuntoVenta_t.$('.canje').each(function(){
 if ($(this).text() == "-") {
   sumacanje 
 }else{
 sumacanje += parseFloat($(this).text());
 }     
 });
-$('.nuevo').each(function(){
+dt_PuntoVenta_t.$('.nuevo').each(function(){
 if ($(this).text() == "-") {
   sumanuevo
 }else{
@@ -1706,14 +1922,14 @@ sumanuevo += parseFloat($(this).text());
 }   
 });
 
-$('.danados').each(function(){
+dt_PuntoVenta_t.$('.danados').each(function(){
 if ($(this).text() == "-") {
   sumadanados
 }else{
 sumadanados += parseFloat($(this).text());
 }    
 });
-$('.prestados').each(function(){
+dt_PuntoVenta_t.$('.prestados').each(function(){
 if ($(this).text() == "-") {
   sumaprestados
 }else{
@@ -1726,15 +1942,43 @@ $( dt_PuntoVenta_t.column(3 ).footer() ).html(sumacanje);
 $( dt_PuntoVenta_t.column(4 ).footer() ).html(sumanuevo);
 $( dt_PuntoVenta_t.column(5 ).footer() ).html(sumadanados);
 $( dt_PuntoVenta_t.column(6 ).footer() ).html(sumaprestados);
-if (parseFloat(efectivoPre) < parseFloat(subDepositos)) {
-  total =parseFloat(subDepositos)-parseFloat(efectivoPre)
-}else{
-total =parseFloat(efectivoPre)-parseFloat(subDepositos)
-}
+//   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
+//     subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
+//   }else{
+// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
+//   }
+subtotal =parseFloat(subefectivo)
 $('.adeudoF').text(subadeudo)
-$('.subtotalF').text(efectivoPre)
+$('.subtotalF').text(subtotal)
 $('.depositosF').text(subDepositos)
 $('.cantdepositosF').text(cantDepositos)
+$('.descuentosF').text(descuentos)
+let sumaDeudaAnterior = 0
+for (let i = 0; i < filter_deudas_pagas.length; i++) {
+  if (filter_deudas_pagas[i]['modo_pago']=="Efectivo") {
+    sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
+  }   
+}
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
+}
+$('.adeudoA').text(sumaDeudaAnterior)
+if (parseFloat(subtotal) < parseFloat(subadeudo)) {
+  subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
+}else{
+  subtotal = parseFloat(subtotal)-parseFloat(subadeudo)
+}
+
+
+console.log(subtotal)
+
+subtotal = parseFloat(subtotal)+parseFloat(sumaDeudaAnterior)
+total =  parseFloat(subtotal) - parseFloat(descuentos)
+let totalGarrafonesGeneral  = parseInt(sumaRefill)+parseInt(sumacanje)+parseInt(sumanuevo)
+$('.totalGarrafonesVenta').text(totalGarrafonesGeneral)
+
 $('.totalefectivoF').text(total)
   // Refilter the table
   $('#min1, #max1').on('change', function () {
@@ -1855,7 +2099,6 @@ $('.totalefectivoF').text(total)
     var nombre = triggerLink.data("nombre");
     var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#pedidos_corteGral').dataTable().fnDestroy();
  $('#pedidos_corteGral').empty();
@@ -1869,13 +2112,15 @@ $('#pedidos_corteGral').html(`<thead>
     <th>Dañados</th>
     <th>Prestados</th>
     <th>Depositos</th>
-    <th>Adeudo</th>
+    <th>Por verificar</th>
     <th>Subtotal</th>
+    <th>Descuento</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
 <th colspan="2" style="text-align:right"> Total</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -1895,7 +2140,7 @@ cargaTablas(id)
     var nombre = triggerLink.data("nombre");
     var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#residencial_table').dataTable().fnDestroy();
  $('#residencial_table').empty();
@@ -1909,13 +2154,15 @@ $('#residencial_table').html(`<thead>
     <th>Dañados</th>
     <th>Prestados</th>
     <th>Depositos</th>
-    <th>Adeudo</th>
+    <th>Por verificar</th>
     <th>Subtotal</th>
+    <th>Descuentos</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
 <th colspan="2" style="text-align:right"> Total</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -1935,7 +2182,7 @@ $("#corte_modal_negocio").on('show.bs.modal', function (e) {
   var nombre = triggerLink.data("nombre");
   var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#negocio_table').dataTable().fnDestroy();
 $('#negocio_table').empty();
@@ -1949,13 +2196,15 @@ $('#negocio_table').html(`<thead>
   <th>Dañados</th>
   <th>Prestados</th>
   <th>Depositos</th>
-  <th>Adeudo</th>
+  <th>Por verificar</th>
   <th>Subtotal</th>
+  <th>Descuentos</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
 <th colspan="2" style="text-align:right"> Total</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -1975,7 +2224,7 @@ $("#corte_modal_ptovta").on('show.bs.modal', function (e) {
   var nombre = triggerLink.data("nombre");
   var fecha = triggerLink.data("fecha");
 console.log(id)
-$('.fechaF').text(fecha);
+//$('.fechaF').text(fecha);
 $('.choferF').text(nombre);
 $('#Pto_table').dataTable().fnDestroy();
 $('#Pto_table').empty();
@@ -1989,13 +2238,15 @@ $('#Pto_table').html(`<thead>
   <th>Dañados</th>
   <th>Prestados</th>
   <th>Depositos</th>
-  <th>Adeudo</th>
+  <th>Por verificar</th>
   <th>Subtotal</th>
+  <th>Descuentos</th>
 </tr>
 </thead>
 <tfoot>
 <tr>
 <th colspan="2" style="text-align:right"> Total</th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>

@@ -1,0 +1,451 @@
+<!-- BEGIN: Header-->
+{{#if login}}{{else}}
+
+<nav class="header-navbar navbar navbar-expand-lg align-items-center floating-nav navbar-light navbar-shadow container-xxl py672 navWidth ms-auto">
+    <div class="navbar-container d-flex content">
+        <div class="bookmark-wrapper d-flex align-items-center">
+            <ul class="nav navbar-nav d-xl-none">
+                <li class="nav-item"><a class="nav-link menu-toggle" href="#">
+                    <i class="ficon" data-feather="menu"></i></a>
+                </li>
+            </ul>
+        </div>
+        <ul class="nav navbar-nav align-items-center ms-auto">
+            {{#if roleUser}}{{else}}
+            <li class="nav-item dropdown dropdown-notification me-25">
+                <a class="nav-link" href="#" id="modal-reg-alumno">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus ficon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                </a>
+            </li>
+            {{/if}}
+            <li class="nav-item dropdown dropdown-user">
+                <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="user-nav d-sm-flex d-none">
+                        <span class="user-name fw-bolder">{{#if nombre}}{{nombre}}{{else}}Mosqueda Cordova{{/if}}</span>
+                        <span class="user-status">{{#if role}}{{role}}{{else}}Administrador{{/if}}</span>
+                    </div>
+                    <span class="avatar">
+                        <img class="round" src="../../../app-assets/images/portrait/small/avatar-s-11.jpg" alt="avatar" height="40" width="40">
+                        <span class="avatar-status-online"></span>
+                    </span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                    <a class="dropdown-item" href="/logout/PYT-672">
+                        <i class="me-50" data-feather="power"></i> 
+                        Cerrar sesión
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- END: Header-->
+
+<!-- BEGIN: Main Menu-->
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow py672" data-scroll-to-active="true">
+    <div class="navbar-header expanded">
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item me-auto">
+                <a class="navbar-brand mt-0" href="#">
+                    <img class="img-fluid brand-logo m-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
+                </a>
+            </li>
+            <li class="nav-item nav-toggle">
+                <a class="nav-link modern-nav-toggle pe-0" data-bs-toggle="collapse">
+                    <i class="d-block d-xl-none text-primary toggle-icon font-medium-4" data-feather="x"></i>
+                    <i class="d-none d-xl-block collapse-toggle-icon font-medium-4  text-primary" data-feather="disc" data-ticon="disc"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="shadow-bottom"></div>
+    <div class="main-menu-content">
+        <ul class="navigation navigation-main mt-3" id="main-menu-navigation" data-menu="menu-navigation">
+            <li class=" navigation-header"><span data-i18n="Apps &amp; Pages">{{#if role}}{{role}}{{else}}Dashboard{{/if}}</span><i
+                    data-feather="more-horizontal"></i>
+            {{#if roleUser}}
+            <li class="{{#if board}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/board672/PYT-672">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate">Tablero</span>
+                </a>
+            </li>
+            {{else}}
+            <li class="{{#if grupos}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/verificargrupos/PYT-672">
+                    <i data-feather="home"></i>
+                    <span class="menu-title text-truncate">Grupos</span>
+                </a>
+            </li>
+            <li class="{{#if matric}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/matriculas">
+                    <i data-feather='trending-up'></i>
+                    <span class="menu-title text-truncate">Alumnos</span>
+                </a>
+            </li>
+            <li class="{{#if asistencias}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/control/PYT-672">
+                    <i data-feather='clipboard'></i>
+                    <span class="menu-title text-truncate">Control</span>
+                </a>
+            </li>
+            <li class="{{#if historial}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/historial/PYT-672">
+                    <i data-feather='file-text'></i>
+                    <span class="menu-title text-truncate">Historial</span>
+                </a>
+            </li>
+            <li class="{{#if caja}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/caja/PYT-672">
+                    <i data-feather='dollar-sign'></i>
+                    <span class="menu-title text-truncate">Caja</span>
+                </a>
+            </li>
+            <li class="{{#if usuarios}}active{{/if}} nav-item">
+                <a class="d-flex align-items-center" href="/usuarios672/PYT-672">
+                    <i data-feather='users'></i>
+                    <span class="menu-title text-truncate">Usuarios</span>
+                </a>
+            </li>
+            {{/if}}
+        </ul>
+    </div>
+</div>
+<!-- END: Main Menu-->
+{{/if}}
+
+<div class="modal fade py672" id="registrarAlumno" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content">
+            <div class="modal-header bg-transparent">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body pb-5 px-sm-4 mx-50">
+                <h1 class="address-title text-center mb-1" id="edit-title-modal">Registrar Alumno</h1>
+
+                <form  class="form" action="/registrarestudiantepy672" method="POST" id="formregalumno">
+                    <div class="row">
+                            <div class="d-none" id="id-alumno-edit">
+
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1" id="grupos-edit">
+                            <div class="list-item-body flex-grow-1">
+                                <label class="form-label">Grupo</label>
+                                <style>
+                                    .select2-container--default .select2-results__option--highlighted[data-select2-id="select2-grupoId-we-result-uwd9-98"] {
+                                        background-color: yellowgreen !important;
+                                        color: white;
+                                    }
+                                </style>
+                                <div class="position-relative" id="grupoId-reg">
+                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                        <option>Seleccione un grupo</option>
+                                        {{#each gruposTodos as |item i|}}
+                                        <option value="{{id}}" data-bs-iden="{{nombre}}">
+                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                                        </option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="list-item-body flex-grow-1">
+                                <label class="form-label">Apellidos y Nombres</label>
+                                <input type="text" class="form-control" placeholder="Apellidos y Nombres" name="nombre" id="name-for-edit" required>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Documento de Identidad</label>
+                                <div class="demo-inline-spacing">
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
+                                        <label class="form-check-label" for="inlineRadio1">Nacional</label>
+                                    </div>
+                                    <div class="form-check form-check-inline mt-0">
+                                        <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="2">
+                                        <label class="form-check-label" for="inlineRadio2">Extranjero</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row m-0 p-0">
+                                <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">&nbsp</label>
+                                    </div>
+                                    <div class="flex-grow-1 d-flex">
+                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación nacional"/>
+
+                                        {{!-- <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
+                                        <input type="number" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4" autocomplete="off">
+                                        <input type="number" class="form-control" id="tercerCampo" minlength="4" maxlength="4" autocomplete="off" maxlength="15" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"> --}}
+                                    </div>
+                                </div>
+
+                                <div id="ExtranjeroCampo" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">&nbsp</label>
+                                        <input type="text" class="form-control" placeholder="No. Identificación" id="exDni" >
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 ps-md-0 pe-md-1 ps-xl-1 pe-xl-0">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">Fecha de nacimiento</label>
+                                        <input type="text" id="fecha-nacimiento-edit" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="nacimiento" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 pe-md-0 ps-md-1">
+                                    <div class="flex-grow-1">
+                                        <label class="form-label" for="fp-default">Sexo</label>
+                                        <select class="form-select select2" name="genero" id="genero-edit" required>
+                                            <option value="">Seleccionar Género</option>
+                                            <option value="Femenino">Femenino</option>
+                                            <option value="Masculino">Masculino</option>
+                                        </select>                                    
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 1 - <span class="nacional1text">Nacional</span><span class="d-none extranjero1text">Extranjero</span></label>
+                                <div class="col-md">
+                                    <div class="mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tlf1Check">
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control tlfNacional"  name="telefono1" id="inputTlf1" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 2 - <span class="nacional2text">Nacional</span><span class="d-none extranjero2text">Extranjero</span></label>
+                                <div class="col-md">
+                                    <div class="mb-1">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="tlf2Check">
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control tlfNacional"  name="telefono2" id="inputTlf2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Email</label>
+                                <input type="text" class="form-control" name="email" id="email-edit" required>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Vendedor</label>
+                                <select type="text" class="form-select select2" name="vendedor" id="vendedor-edit">
+                                    <option value="">Seleccione un Vendedor</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Provincia</label>
+                                <div class="position-relative">
+                                    <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" id="select-provincia" required>
+                                        <option value="">Seleccione una Provincia</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Cantón</label>
+                                <div class="position-relative">
+                                    <select class="select2 form-select" id="select-canton" tabindex="-1" name="canton" aria-hidden="true" disabled required>
+                                        <option value="">Seleccione un Canton</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="fp-default">Distrito</label>
+                                <select class="select2 form-select" id="select-distrito" tabindex="-1" name="distrito" aria-hidden="true" disabled required>
+                                    <option value="">Seleccione un Distrito</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <input type="submit" class="btn btn-primary" id="btn-submit-form-estudiante" value="Registrar">
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+    let radio1 = document.getElementById('inlineRadio1'),
+    radio2 = document.getElementById('inlineRadio2'),
+    tlf1Check = document.getElementById('tlf1Check'),
+    tlf2Check = document.getElementById('tlf2Check'),
+    tlf1 = document.getElementById('inputTlf1'),
+    tlf2 = document.getElementById('inputTlf2'),
+    nacionalC = document.getElementById('nacionalCampos'),
+    exC = document.getElementById('ExtranjeroCampo'),
+    nacionalDni = document.getElementById('nacionalDni'),
+    exDni = document.getElementById('exDni'),
+    primerC = document.getElementById('primerCampo'),
+    segundoC = document.getElementById('segundoCampo'),
+    tercerC = document.getElementById('tercerCampo');
+
+    let exp =  /^[0-9]+$/;
+
+$('#modal-reg-alumno').click(()=>{
+$('#formregalumno').removeAttr('action')
+$('#formregalumno').attr('action','/registrarestudiantepy672')
+$('#formregalumno')[0].reset()
+$('#grupos-edit').removeClass('d-none')
+$('#edit-title-modal').text('Registrar Alumno')
+$('#registrarAlumno').modal('show')
+
+
+})
+
+    radio1.addEventListener('change', e => {
+        SetRadio1();
+    });
+
+    radio2.addEventListener('change', e => {
+        SetRadio2();
+    });
+    
+    tlf1.addEventListener('keyup', e => {
+        let texto = '';
+        if(tlf1.classList.contains('tlfNacional')) {
+            if (!tlf1.value.match(exp)) {
+                tlf1.value = '';
+            } else {
+                texto += tlf1.value;
+                if (texto.length > 8) {
+                    texto = texto.slice(1,-1)
+                }
+            }
+            tlf1.value = texto;
+        }
+    });
+
+    tlf2.addEventListener('keyup', e => {
+        let texto = '';
+        if(tlf2.classList.contains('tlfNacional')) {
+            if (!tlf2.value.match(exp)) {
+                tlf2.value = '';
+            } else {
+                texto += tlf2.value;
+                if (texto.length > 8) {
+                    texto = texto.slice(1,-1)
+                }
+            }
+            tlf2.value = texto;
+        }
+    });
+
+    tlf1Check.addEventListener('change', e => {
+        let text = document.querySelector('.nacional1text'),
+        text2 = document.querySelector('.extranjero1text');
+
+        tlf1.value = '';
+        if(tlf1Check.checked === false) {
+            text.classList.remove('d-none');
+            text2.classList.add('d-none');
+            tlf1.classList.add('tlfNacional')
+        } else {
+            text.classList.add('d-none');
+            text2.classList.remove('d-none');
+            tlf1.classList.remove('tlfNacional')
+        }
+    });
+
+    tlf2Check.addEventListener('change', e => {
+        let text = document.querySelector('.nacional2text'),
+        text2 = document.querySelector('.extranjero2text');
+
+        tlf2.value = '';
+        if(tlf2Check.checked === false) {
+            text.classList.remove('d-none');
+            text2.classList.add('d-none');
+            tlf2.classList.add('tlfNacional')
+        } else {
+            text.classList.add('d-none');
+            text2.classList.remove('d-none');
+            tlf2.classList.remove('tlfNacional')
+        }
+    });
+    
+    const SetRadio1 = () => {
+        nacionalC.classList.remove('d-none');
+        nacionalC.classList.add('d-block');
+
+        nacionalDni.classList.remove('d-none');
+        nacionalDni.classList.add('d-block');
+
+       
+
+        exC.classList.remove('d-block');
+        exC.classList.add('d-none');
+
+         $(`#nacionalDni`).attr('name','dni')
+         $(`#exDni`).removeAttr('name')
+    }
+
+    const SetRadio2 = () => {
+        exC.classList.remove('d-none');
+        exC.classList.add('d-block');
+
+        $(`#nacionalDni`).removeAttr('name')
+        $(`#exDni`).attr('name','dni')
+
+        nacionalC.classList.remove('d-block');
+        nacionalC.classList.add('d-none');
+
+        nacionalDni.classList.remove('d-block');
+        nacionalDni.classList.add('d-none');
+    }
+
+    SetRadio1();
+
+    exDni.addEventListener('keydown', e => {
+        nacionalDni.value = exDni.value;
+    });
+
+      
+</script>

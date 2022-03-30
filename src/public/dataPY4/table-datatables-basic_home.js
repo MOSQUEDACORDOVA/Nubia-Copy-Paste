@@ -103,17 +103,15 @@
     
   let valor = $('#array_pedido').val()
   let array2 = ""
-  if (rechar) {
-    
+  if (rechar) {    
     array2 = JSON.parse(valor)
-
   }else{
     array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   }
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Rezagado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
+  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),
@@ -141,37 +139,47 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  var groupColumn = 8;
+  let groupColumn = 11;
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
-  
-      $('input', this).on('keyup change', function () {
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
+      $('input', this).on('keyup', function () {
+        let valor = this.value
+$('#filterPosition').val(this.id)
+$('#filterValue').val(this.value)
         if (dt_basic.column(i).search() !== this.value) {
+
           dt_basic.column(i).search(this.value).draw();
+        }else{
+          dt_basic.column(i).search(valor).draw();
+          
         }
       });
     });
     $('.select_chofer_pedidos').on('change', function(){
-      console.log(this.value)
-      dt_basic.search(this.value).draw();   
+
+      dt_basic.column(11).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
-    console.log(this.value)
+ console.log(this.value)
     dt_basic.search(this.value).draw();   
  });
+
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
         { data: 'id' },
+        { data: 'id' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
+        { data: 'deuda_anterior'},
         { data: 'status_pedido' },
         { data: 'status_pago' },
-        { data: 'createdAt'},
+        { data: 'metodo_pago' },
+        { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -188,80 +196,102 @@ for (let i = 0; i < codigosP_arr.length; i++) {
   
 }
 if ($('#otro_rol').length>0) {
-    console.log($(this).html())
 let Hoy = moment().format('DD/MM/YYYY'); 
-let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
+let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
     var fecha_final= moment(Hoy).isAfter(fecha); // true
         
 } 
 let modif = ""
-console.log(fecha_final)
+
 if (fecha_final == true) {
   modif = "d-none"
 }
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-             `<p id="CopyPedido${full['id']}" class="d-none">#Pedido:${full['id']} -
-Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']};
-Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']};
-Referencia:${full['cliente']['referencia']}
-Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`  
+             `<p id="CopyPedido${full['id']}" class="d-none">
+--------------------------------------------------------------
+#Pedido:${full['id']} -
+Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']}.
+Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']}.
+Referencia:${full['cliente']['referencia']}.
+Rf:${rf}.
+CJ: ${CJ}.
+Env: ${Env}.
+Tipo Pago:${full['metodo_pago']}
+Dueda anterior: ${full['deuda_anterior']}
+Garrafones prestados: ${full['garrafones_prestamos']}
+Observaciones:${full['observacion']}
+</p>`  
             );
           }, 
         },
         { data: 'personal.name' },
-        { data: 'cliente.etiqueta' },
+        { data: 'cliente.cpId' },
       ], columnDefs: [
         { visible: false, targets: groupColumn,
-         
-        },
-        { visible: false, targets: 9,
-          render: function (data, type, full) {
-            
-            if (full['cliente']['etiqueta'] == null) {
-          return data
-            }else{
-              
-              console.log(data['etiquetas'])
-              return data['etiquetas']
-            }
-            
-          }
-         
         },
         {
-          // Label
+          // For Checkboxes
           targets: 0,
+          orderable: false,
+          searchable: false,
+          responsivePriority: 3,
           render: function (data, type, full, meta) {
-          //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
-          //  let modificacion = moment(fecha_creado).isSame(modificado)
-          //   if (modificacion == false) {
-          //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
-          //   }
-            var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-            var color_tag ="", color_text=""
-            if (full['cliente']['etiqueta'] ==null) {
-              color_tag =0
-              color_text="black"
-            }else{
-              color_tag =full['cliente']['etiqueta']['color']
-              color_text="white"
-            }
-            return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
+        },
+        { visible: false, targets: 12,
+          render: function (data, type, full) {
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+            return asentamiento
+          }
+         
         },
         {
           // Label
           targets: 1,
+          render: function (data, type, full, meta) {
+            var color_tag ="", color_text="", nombre;
+            if (full['cliente']['etiqueta'] ==null) {
+              color_tag =0
+              color_text="black"
+              nombre=""
+            }else{
+              color_tag =full['cliente']['etiqueta']['color']
+              color_text="white"
+              nombre=full['cliente']['etiqueta']['etiquetas']
+            }
+            return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+          }
+        },
+        {
+          // Label
+          targets: 2,
           render: function (data, type, full, meta) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -289,23 +319,19 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
         }
-        console.log(full['cliente'])
         //aqui activa el modal info del cliente
             return (
-              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-              '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
-              $status[$status_number].title +
-              '</span>'
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
             );
           }
         },
          {
           // Label
-          targets: 2,
+          targets: 3,className:'to_garra',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -315,29 +341,44 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
-           let detailRefill = 0, detailCanje = 0, detailNuevo=0
-           detailRefill = parseFloat(full['total_refill_pedido'])*35
-           detailCanje = parseFloat(full['total_canje_pedido'])*55
-           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            adeudo = full['deuda_anterior']
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
            return (
-            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"   style="cursor:pointer;" >$' +
-            data +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" data-adeudo="'+adeudo+'" style="cursor:pointer;" >$' +
+            condesc +
             '</span>'
           );
         }
       },
+      {
+        // Label
+        targets: 5,
+        render: function (data, type, full, meta) {
+         return (
+          '<span class="badge rounded-pill badge-light-danger " >$' +
+          data +
+          '</span>'
+        );
+      }
+    },
         {
           // Label
-          targets: 4,
+          targets: 6,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
               "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
               "Por entregar": { title: 'Por entregar', class: ' badge-light-yellow' },
               "Devuelto": { title: 'Devuelto', class: ' badge-light-danger' },
-              "Rezagado": { title: 'Rezagado', class: ' badge-light-warning' },
+              "Reprogramado": { title: 'Reprogramado', class: ' badge-light-warning' },
               "En proceso": { title: 'En proceso', class: ' badge-light-info' }
             };
             if (typeof $status[$status_number] === 'undefined') {
@@ -354,7 +395,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         },
         {
           // Label
-          targets: 5,
+          targets: 7,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -367,33 +408,43 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
           }
         },
         {
-          targets: 6,className:'fecha_pedido',
+          targets: 9,className:'fecha_pedido',
           render:function(data, type, full){
-            console.log(full['id'])
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
-           return moment(data).format('L');
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
           }
         },
+        
       ],
      
-      order: [[6, 'desc'],[9,'desc']],
+     
+      order: [[9,'desc'],[11,'asc'],[2,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
       drawCallback: function (settings) {
+        let sumaG = 0
+$('.datatables-basic').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#example_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
-
+        var sumaT = 0
         api
           .column(groupColumn, { page: 'current' })
           .data()
@@ -401,12 +452,20 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="11"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
           });
+
+          api.column(3, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra').text(sumaT)
+        
       },
+      
      
       language: {
       "decimal": "",
@@ -427,13 +486,9 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           next: '&nbsp;'
         }
       }
+      
     });
-    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-      // on key up from input field
- /* $('input.dt-input').on('keyup change', function () {
-    filterColumn($(this).attr('data-column'), $(this).val());
-  });**/
-
+    
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
@@ -442,23 +497,26 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
       });
   }
   if (dt_basic_table2.length) {
+  let groupColumn2 = 9
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
-  
-      $('input', this).on('keyup change', function () {
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="V'+title+i+'"/>');
+
+      $('input', this).on('keyup', function () {
+        $('#filterPosition').val(this.id)
+        $('#filterValue').val(this.value)
         if (dt_basic2.column(i).search() !== this.value) {
           dt_basic2.column(i).search(this.value).draw();
         }
       });
     });
     $('.select_chofer_ventas').on('change', function(){
-      console.log(this.value)
-      dt_basic2.search(this.value).draw();   
+      
+      dt_basic2.column(9).search(this.value).draw();   
    });  
     $('.select_etiqueta_ventas').on('change', function(){
-      console.log(this.value)
+      
       dt_basic2.search(this.value).draw();   
    });
     var dt_basic2 = dt_basic_table2.DataTable({
@@ -470,30 +528,31 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         { data: 'monto_total'}, // used for sorting so will hide this column
         { data: 'status_pedido' },
         { data: 'status_pago' },
-        { data: 'createdAt'},
+        { data: 'metodo_pago' },
+        { data: 'fecha_pedido'},
         {   // Actions
           targets: -1,
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
             if ($('#otro_rol').length>0) {
-              console.log(full['createdAt'])
-                console.log($(this).html())
+              
+                
             let Hoy = moment().format('DD/MM/YYYY'); 
-            console.log(Hoy)
-            let fecha =moment(full['createdAt']).format('DD/MM/YYYY')
-            console.log(fecha)
+            
+            let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
+            
                 var fecha_final= moment(Hoy).isAfter(fecha); // true
                     
             } 
             let modif = ""
-            console.log(fecha_final)
+            
             if (fecha_final == true) {
               modif = "d-none"
             }
             return (
               '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic2")\'>' +
               feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>'+
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
@@ -502,33 +561,45 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             );
           } },
           { data: 'personal.name' },
-          { data: 'cliente.etiqueta' },
+          { data: 'cliente.cpId' },
         ], columnDefs: [
-          { visible: false, targets: groupColumn,
+          { visible: false, targets: groupColumn2,
            
           },
-          { visible: false, targets: 9,
-           
+          { visible: false, targets: 10,
+            render: function (data, type, full) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              return asentamiento
+            }
           },
           {
             // Label
             targets: 0,
             render: function (data, type, full, meta) {
-            //  let fecha_creado = full['createdAt'], modificado = full['updatedAt']
+            //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
             //  let modificacion = moment(fecha_creado).isSame(modificado)
             //   if (modificacion == false) {
             //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
             //   }
               var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
-              var color_tag ="", color_text=""
+              var color_tag ="", color_text="", nombre;
               if (full['cliente']['etiqueta'] ==null) {
                 color_tag =0
                 color_text="black"
+                nombre=""
               }else{
                 color_tag =full['cliente']['etiqueta']['color']
                 color_text="white"
+                nombre=full['cliente']['etiqueta']['etiquetas']
               }
-              return (`<span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+  
+              return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
             }
           },
           {
@@ -560,21 +631,18 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             color_tag =full['cliente']['etiqueta']['color']
             color_text="white"
           }
-              return (
-                '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-                '" data-id="'+full['cliente']['id']+'" data-arraycliente="'+cliente_arr+'" data-title="Datos de '+full['cliente']['firstName']+'" >' +
-                $status[$status_number].title +
-                '</span>'
-              );
+          return (
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+          );
             }
           },
         {
           // Label
-          targets: 2,
+          targets: 2,className:'to_garra2',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
-              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
               total +
               '</span>'
             );
@@ -587,13 +655,16 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           targets: 3,
           render: function (data, type, full, meta) {
             
-           let detailRefill = 0, detailCanje = 0, detailNuevo=0
-           detailRefill = parseFloat(full['total_refill_pedido'])*35
-           detailCanje = parseFloat(full['total_canje_pedido'])*55
-           detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
            return (
-            '<span class="badge rounded-pill badge-light-info detail_monto"  data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle monto total"  style="cursor:pointer;">$' +
-            data +
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            condesc +
             '</span>'
           );
         }
@@ -602,20 +673,19 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
           // Label
           targets: 4,
           render: function (data, type, full, meta) {
-            
             var $status_number = full['status_pedido'];
             var $status = {
               "Reasignado": { title: 'Reasignado', class: 'badge-light-primary' },
               "Entregado": { title: 'Entregado', class: ' badge-light-success' },
-              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' },
+              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' , motivo: ' motivo_hover'},
             };
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
             return (
-              '<span class="badge rounded-pill ' +
-              $status[$status_number].class +
-              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              '<span class="badge rounded-pill' +
+              $status[$status_number].class +" "+ $status[$status_number].motivo +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-motivo="'+full['motivo'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
@@ -636,32 +706,42 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
             return (
               '<span class="badge rounded-pill ' +
               $status[$status_number].class +
-              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'")\'>' +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
               $status[$status_number].title +
               '</span>'
             );
           }
         },{
-          targets: 6,
+          targets: 7,
           render:function(data){
-           // return moment(data).format('L');
-            return moment(data).format('L');
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
           }
         },
       ],
      
-      order: [[6, 'desc'],[5, 'desc']],
+      order: [[7,'desc'],[9,'asc'],[1,'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
       drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#DataTables_Table_0_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
         var last = null;
-
+        let sumaT = 0;
         api
-          .column(groupColumn, { page: 'current' })
+          .column(groupColumn2, { page: 'current' })
           .data()
           .each(function (group, i) {
             let icono =`<i class="fas fa-truck"></i>`
@@ -669,12 +749,17 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
               $(rows)
                 .eq(i)
 
-                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
 
 
               last = group;
             }
           });
+          api.column(2, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra2').text(sumaT)
       },
       language: {
         "decimal": "",
@@ -698,10 +783,7 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
     });
 
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
-      // on key up from input field
- /*$('input.dt-input2').on('keyup change', function () {
-    filterColumn2($(this).attr('data-column'), $(this).val());
-  });*/
+
 
   $('#min, #max').on('change', function () {
     dt_basic2.draw();
@@ -717,19 +799,284 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 
-  $('.cambia_status').on('click',async (e)=>{
-    console.log(e['currentTarget']['dataset'])
-   let id =e['currentTarget']['dataset']['id'], status=e['currentTarget']['dataset']['status']
+
+  //CAMBIA CHOFER TABLA PEDIDOS
+  $("#button_change_chofer").on('click', function (e) {
+    let valoresCheck = [];
+  
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para hacer el cambio de chofer')
+  
+      return
+    }else{
+      $('#change_chofer').modal('show')
+    }
+  $("#ids_pedido").val(valoresCheck);
+  });
+
+  $('#change_chofer_btn').on('click', async (e)=>{
+    if ($('#chofer_cambia').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      return
+    }
+
+    $.ajax({
+      url: `/change_chofer_pedido`,
+      type: 'POST',
+      data: $('#change_chofer_form').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
+        
+        cargaTablas('si')
+  $('.modal').modal('hide');
+  Swal.fire('Se cambió con éxito el(los) choferes')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+
+  //COPIA VARIOS PEDIDOS
+  $("#button_copiar_varios").on('click', function (e) {
+    let valoresCheck = [];
+  
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para Copiar el pedido')
+  
+      return
+    }else{
+      console.log('copiando...')
+    }
+    copyToClipboardVarios(valoresCheck)
+  });
+  //ACA REGISTRA PEDIDO AJAX
+  $('#btn_reg_pedido').on('click', async (e)=>{
+    if ($('#id_cliente_reg_pedido').val() =="default") {
+      Swal.fire('Debe seleccionar un cliente')
+      $('#id_cliente_reg_pedido').focus()
+      return
+    }
+    if ($('#chofer').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      $('#chofer').focus()
+      return
+    }
+    if ($('#reg_zona_cliente_pedido').val() == "0" ) {
+      Swal.fire('Debe asignar una zona al cliente')
+      return
+    }
+    if ($('#color_tag_reg_pedido').val() == "0") {
+      Swal.fire('Debe asignar una etiqueta al cliente')
+      return
+    }
+  if ($('#total_total_inp').val() == "0") {
+      Swal.fire('Debe agregar al menos un producto para continuar')
+      return
+    }
+    $.ajax({
+      url: `/reg_pedido_modal`,
+      type: 'POST',
+      data: $('#reg_pedido_modal1').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+               if (data.fail) {
+          Swal.fire(data.msg)
+          return
+          
+        }
+        if ($('#carga_').length>0) {
+          $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            
+        
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+        </tr>
+    </thead>`);
+        
+        cargaTablas('si')
+        $('.datatables-resumen').dataTable().fnDestroy();
+        $('.datatables-resumen').empty();
+        $('.datatables-resumen').html(`<thead>
+        <tr>
+            <th>Carga Inicial</th>
+            <th>Pedidos</th>
+            <th>Entregados</th>
+            <th>Pendientes</th>                                                
+        
+        <th>oculto choferes </th>  
+        </tr>
+    </thead>`);
+        cargaTableResumen('si')
+        Swal.fire('Se creó con éxito el pedido')
+  $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  let hoy= moment().format('YYYY-MM-DD')
+  $('#fecha_pedido').val(hoy)
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+
+  
+        } else {
+          Swal.fire('Se creó con éxito el pedido')
+  $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+   let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+        }
+        
+  
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
     
   })
   //ACA SE ACTIVAS LOS CONTEXT MENU
-  
+  $.contextMenu({
+    selector: '.motivo_hover',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var motivo = e.currentTarget['dataset']["motivo"];
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Motivo": { name: `Motivo: ${motivo}`},
+            }
+        };
+    }
+  });
+
   $.contextMenu({
     selector: '.modal_detail_garrafones',
     trigger: 'hover',
     autoHide: true,
     build: function ($trigger, e) {
-      console.log(e)
       var title = e.currentTarget['dataset']["title"];
       var rfeill = e.currentTarget['dataset']["rfeill"];
       var canje = e.currentTarget['dataset']["canje"];
@@ -739,7 +1086,6 @@ Rf:${rf}; CJ: ${CJ};Env: ${Env}</p>`
         return {
             callback: function (key, options) {
                 var m = "clicked: " + key;
-                console.log(m);
             },
             items: {
                 "Refill": { name: `Refill: ${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
@@ -756,22 +1102,30 @@ $.contextMenu({
   trigger: 'hover',
   autoHide: true,
   build: function ($trigger, e) {
-    console.log(e)
+    
     var title = e.currentTarget['dataset']["title"];
     var rfeill = e.currentTarget['dataset']["rfeill"];
     var canje = e.currentTarget['dataset']["canje"];
    var Env = e.currentTarget['dataset']["env"] 
+   var desc = e.currentTarget['dataset']["descuento"] 
+   var sindesc = e.currentTarget['dataset']["sindesc"] 
+   var condesc = e.currentTarget['dataset']["condesc"] 
+   var adeudo = e.currentTarget['dataset']["adeudo"] 
    var obsequio = e.currentTarget['dataset']["obsequio"];
-   var total = e.currentTarget['dataset']["total"] 
+   //var total = e.currentTarget['dataset']["total"] 
+   var total = (parseInt(sindesc) +parseInt(adeudo))-parseInt(desc)
+
       return {
           callback: function (key, options) {
               var m = "clicked: " + key;
-              console.log(m);
           },
           items: {
               "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Sub-Total": { name: `Sub-Total: $${sindesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Adeudo": { name: `Adeudo: $${adeudo}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Desc.": { name: `Desc.: $${desc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
@@ -795,52 +1149,17 @@ $.contextMenu({
       return {
           callback: function (key, options) {
               var m = "clicked: " + key;
-              console.log(m);
           },
           items: {
               "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
               "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
-              "Tlf": { name: `Tlf: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tel": { name: `Tel: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
           }
       };
   }
 });
  
-
-  // Add New record
-  // ? Remove/Update this code as per your requirements ?
-  var count = 101;
-  $('.data-submit').on('click', function () {
-    var $new_name = $('.add-new-record .dt-full-name').val(),
-      $new_post = $('.add-new-record .dt-post').val(),
-      $new_email = $('.add-new-record .dt-email').val(),
-      $new_date = $('.add-new-record .dt-date').val(),
-      $new_salary = $('.add-new-record .dt-salary').val();
-
-    if ($new_name != '') {
-      dt_basic.row
-        .add({
-          responsive_id: null,
-          id: count,
-          full_name: $new_name,
-          post: $new_post,
-          email: $new_email,
-          start_date: $new_date,
-          salary: '$' + $new_salary,
-          status: 5
-        })
-        .draw();
-      count++;
-      $('.modal').modal('hide');
-    }
-  });
-
-
-
-  // Responsive Table
-  // --------------------------------------------------------------------
-
 
   // Filter form control to default size for all tables
   $('.dataTables_filter .form-control').removeClass('form-control-sm');
@@ -850,46 +1169,7 @@ $.contextMenu({
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
-  $('.datatables-basic tbody').on('click', '.delete-record', function (e) {    
-    if ($('#otro_rol').length) {
-      console.log('no eres admin')
-      Swal.fire("Función valida solo para directores")
-      return
-    }
-    var id = e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Eliminar',
-      showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        return fetch(`/delete_pedido/${id}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(response.statusText)
-            }
-            return response.json()
-          })
-          .catch(error => {
-            Swal.showValidationMessage(
-              `Request failed: ${error}`              
-            )
-          })
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(result)
-        dt_basic.row($(this).parents('tr')).remove().draw();
-        Swal.fire({
-          title: `Pedido ${id} borrado con éxito`,
-        })
-      }
-    })
-
-  });
+ 
 
   $('#form_edit_pedido').submit((e)=>{
     e.preventDefault()
@@ -902,42 +1182,83 @@ $.contextMenu({
   
   $('.datatables-basic').dataTable().fnDestroy();
    $('.datatables-basic').empty();
-  $('.datatables-basic').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-  </thead>`);
-  $('.datatables-basic2').dataTable().fnDestroy();
-  $('.datatables-basic2').empty();
-  $('.datatables-basic2').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-  </thead>`);
-  
-  cargaTablas('si')
+   $('.datatables-basic').html(`<thead>
+   <tr>                                                
+       <th></th>
+       <th>#Pedido</th>
+       <th class="cliente">Cliente</th>
+       <th>To. garr.</th>
+       <th>Monto Total</th>
+       <th>Adeudo</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Forma de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       <th>oculto choferes </th> 
+       <th>oculto asentamiento </th> 
+   </tr>
+</thead>
+<tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+   
+   $('.datatables-basic2').dataTable().fnDestroy();
+   $('.datatables-basic2').empty();
+   $('.datatables-basic2').html(`<thead>
+   <tr>
+       <th>Nº Pedido</th>
+       <th>Cliente</th>
+       <th>Total garrafones</th>
+       <th>Monto Total</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Metodo de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       
+   
+   <th>oculto choferes </th> 
+   <th>oculto asentamiento </th> 
+   </tr>
+</thead>`);
+   
+   cargaTablas('si')
+
+if ($('.select_chofer_pedidos').val() != "") {
+  $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
+}
+if ($('.select_etiqueta_pedidos').val() != "") {
+  $(".select_etiqueta_pedidos").val(`${$('.select_etiqueta_pedidos').val()}`).trigger('change');
+}
+   $('.datatables-resumen').dataTable().fnDestroy();
+   $('.datatables-resumen').empty();
+   $('.datatables-resumen').html(`<thead>
+   <tr>
+       <th>Carga Inicial</th>
+       <th>Pedidos</th>
+       <th>Entregados</th>
+       <th>Pendientes</th>                                                
+   
+   <th>oculto choferes </th>  
+   </tr>
+   </thead>`);
+   
+   cargaTableResumen('si')
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+  }
   $('#edit_pedido').modal('hide')
       },
       error: function (jqXHR, textStatus) {
@@ -946,68 +1267,23 @@ $.contextMenu({
     });   
   });
   $('.datatables-basic tbody').on('click', '.share_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
-    $('#p1').text(direction_copy)*/
     copyToClipboard(`#CopyPedido${id_edit}`)
 
   });
 
   $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
-    //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit2 = e.target.classList[0]
     if (typeof id_edit2 =="undefined") {
       return console.log(id_edit2)
     }
-  //window.location.href = `/editar_pedido/${id_edit2}`;
 $('#edit_pedido').modal('show')
 
   });
 
-  $('.datatables-basic2 tbody').on('click', '.delete-record', function (e) {
-    if ($('#otro_rol').length) {
-      console.log('no eres admin')
-      Swal.fire("Función valida solo para directores")
-      return
-    }
-    var id2= e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Eliminar',
-      showLoaderOnConfirm: true,
-      preConfirm: (login) => {
-        return fetch(`/delete_pedido/${id2}`)
-          .then(response => {
-            if (!response.ok) {
-              throw new Error(response.statusText)
-            }
-            return response.json()
-          })
-          .catch(error => {
-            Swal.showValidationMessage(
-              `Request failed: ${error}`              
-            )
-          })
-      },
-      allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log(result)
-        dt_basic2.row($(this).parents('tr')).remove().draw();
-        Swal.fire({
-          title: `Pedido ${id2} borrado con éxito`,
-        })
-      }
-    })
-
-  });
 
 });
 // Filter column wise function
@@ -1039,6 +1315,24 @@ function copyToClipboard(elemento) {
   $temp.remove();
   Swal.fire('Pedido copiado en el portapapeles')
   }
+  function copyToClipboardVarios(elemento) {
+    if ($("#checkboxSelectAll").is(':checked')) {
+      console.log('borra el primero')
+      var new_elemento = elemento.shift()
+    }
+    var $temp = $("<textarea>")
+    var brRegex = /<br\s*[\/]?>/gi;
+    $("body").append($temp);
+    for (let i = 0; i < elemento.length; i++) {
+      const element = array[i];
+      $temp.append($(`#CopyPedido${elemento[i]}`).html().replace(brRegex, "\r\n")).select();
+    }
+
+    
+    document.execCommand("copy");
+    $temp.remove();
+    Swal.fire('Pedido copiado en el portapapeles')
+    }
 // Filter column wise function
 function filterColumn2(i, val) {
   if (i == 5) {
@@ -1067,13 +1361,17 @@ function filterColumn2(i, val) {
   inputOptions: {
       Entregado: 'Entregado',
       Cancelado: 'Cancelado',
+      Reprogramado: 'Reprogramado',
       'Por entregar': 'Por entregar',
   },
   inputPlaceholder: 'Seleccione un nuevo Status',
   showCancelButton: true,
   inputValidator: (value) => {
     return new Promise((resolve) => {
-      if (value === status) {
+      console.log(value)
+      if (value ==='Reprogramado') {
+        resolve() 
+      } else if (value === status) {
         resolve('Debe seleccionar un estado diferente')
       } else {
          resolve()
@@ -1081,12 +1379,69 @@ function filterColumn2(i, val) {
     })
   }
 })
+if (!estado) {
+  Swal.fire(`Debe llenar todos los campos, por favor!`);
+  return
+} 
+if (estado) { 
+  var motiv, fecha_rep
+  if (estado == "Cancelado") {
+    const { value: motivo } = await Swal.fire({
+      title: 'Indique el motivo',
+      input: 'text',
+      inputPlaceholder: 'Motivo',
+     // inputValue: inputValue,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        
+        return new Promise((resolve) => {
+          
+          if (!value) {
+            resolve('Debe colocar un motivo')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+  if (!motivo) {
+    Swal.fire(`Debe llenar todos los campos, por favor!`);
+    return
+  }  
 
-if (estado) {
-  console.log(estado)   
+    motiv = motivo
+  }
+  if (estado == "Reprogramado") {
+    const { value: fecha_re } = await Swal.fire({
+      title: 'Indique la fecha',
+      html:
+      '<input id="swal-input1" class="swal2-input" type="date">',
+    focusConfirm: false,
+    preConfirm: () => {
+      const fecha_pago =
+      Swal.getPopup().querySelector("#swal-input1").value;      
+    if (!fecha_pago) {
+      Swal.showValidationMessage(
+        `Debe llenar todos los campos, por favor!`
+      );
+    }
+      return [
+        document.getElementById('swal-input1').value,
+      ]
+    }
+    })
+    if (!fecha_re) {
+      Swal.fire(`Debe llenar todos los campos, por favor!`);
+      return
+    }  
+    fecha_rep =fecha_re
+  }
+  
   const data_C = new FormData();
   data_C.append("id", id);
   data_C.append("status", estado);
+  data_C.append("motivo", motiv);
+  data_C.append("fecha_re", fecha_rep);
   $.ajax({
     url: `/cambiaS_pedido`,
     type: 'POST',
@@ -1095,28 +1450,43 @@ if (estado) {
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
-console.log(data)
+      console.log(data)
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-console.log($('#array_pedido').val())
-
+$('#carga_').val(JSON.stringify(data.carga_let))
 $('.datatables-basic').dataTable().fnDestroy();
  $('.datatables-basic').empty();
 $('.datatables-basic').html(`<thead>
-<tr>
-    <th>Nº Pedido</th>
-    <th>Cliente</th>
-    <th>Total garrafones</th>
+<tr>                                                
+    <th></th>
+    <th>#Pedido</th>
+    <th class="cliente">Cliente</th>
+    <th>To. garr.</th>
     <th>Monto Total</th>
+    <th>Adeudo</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
+    <th>Forma de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
-<th>oculto etiqueta </th> 
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
 </tr>
-</thead>`);
+</thead>
+<tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+
 $('.datatables-basic2').dataTable().fnDestroy();
 $('.datatables-basic2').empty();
 $('.datatables-basic2').html(`<thead>
@@ -1127,16 +1497,34 @@ $('.datatables-basic2').html(`<thead>
     <th>Monto Total</th>
     <th>Status del Pedido</th>
     <th>Status de Pago</th>
+    <th>Metodo de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
     
 
 <th>oculto choferes </th> 
-<th>oculto etiqueta </th> 
+<th>oculto asentamiento </th> 
 </tr>
 </thead>`);
 
 cargaTablas('si')
+$('.datatables-resumen').dataTable().fnDestroy();
+$('.datatables-resumen').empty();
+$('.datatables-resumen').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+
+cargaTableResumen('si')
+if ($('#filterPosition').val() != "") {
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+}
     },
     error: function (jqXHR, textStatus) {
       console.log('error:' + jqXHR)
@@ -1148,90 +1536,338 @@ cargaTablas('si')
 }
  }
 
-async function cambioPago(id, status) {
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Pagado: 'Pagado',
-        'Por verificar': 'Por verificar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
-    showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
+async function cambioPago(id, status, fecha_pedido, monto) {
+  console.log(fecha_pedido)
+  
+
+  if (moment().isSame(fecha_pedido, 'day')) {
+    const { value: estado } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (estado) {
+        
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", estado);
+      $.ajax({
+        url: `/cambia_S_pago`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+    $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        
+    
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    
+    cargaTablas('si')
+    if ($('#filterPosition').val() != "") {
+     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+   }
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
+  } else {
+    console.log(moment().isSame(fecha_pedido, 'day'))
+    console.log('otro cambio')
+    let chof = $('#choferes').val()
+    console.log(chof)
+    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'))
+    console.log(choferes)
+    let arr=[]
+  for (let i = 0; i < choferes.length; i++) {
+    arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
+  }
+  var options = {};
+  $.map(arr,
+      function(o) {
+          options[o.id] = o.name;
+      });
+    console.log(options) 
+    const { value: status_ } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (status_) {
+      console.log(status_)   
+    var tipo_p, fecha_pago, chofer_r
+    if (status_ == "Pagado") {
+      const { value: tipo } = await Swal.fire({
+        title: 'Indique el tipo',
+        input: 'select',
+      inputOptions: {
+          Efectivo: 'Efectivo',
+          'Tarjeta': 'Tarjeta',
+          'Transferencia': 'Transferencia'
+      },
+        inputPlaceholder: 'tipo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            console.log(value)
+            if (!value) {
+              resolve('Debe colocar un tipo')
+            } else {
+               resolve()
+            }
+          })
         }
       })
+      if (!tipo) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
+      tipo_p = tipo    
     }
-  })
-  
-  if (estado) {
-    //window.location.href = `/cambia_S_pago/${id}/${estado}`;
-    console.log(estado)   
-    const data_C = new FormData();
-    data_C.append("id", id);
-    data_C.append("status", estado);
-    $.ajax({
-      url: `/cambia_S_pago`,
-      type: 'POST',
-      data: data_C,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-  console.log(data)
-  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  console.log($('#array_pedido').val())
-  
-  $('.datatables-basic').dataTable().fnDestroy();
-  $('.datatables-basic').empty();
-  $('.datatables-basic').html(`<thead>
-                                            <tr>
-                                                <th>Nº Pedido</th>
-                                                <th>Cliente</th>
-                                                <th>Total garrafones</th>
-                                                <th>Monto Total</th>
-                                                <th>Status del Pedido</th>
-                                                <th>Status de Pago</th>
-                                                <th>Fecha</th>
-                                                <th>Opciones</th>
-                                                
-                                            
-                                            <th>oculto choferes </th> 
-                                            <th>oculto etiqueta </th> 
-                                            </tr>
-                                        </thead>`);
-  $('.datatables-basic2').dataTable().fnDestroy();
-  $('.datatables-basic2').empty();
-  $('.datatables-basic2').html(`<thead>
-  <tr>
-      <th>Nº Pedido</th>
-      <th>Cliente</th>
-      <th>Total garrafones</th>
-      <th>Monto Total</th>
-      <th>Status del Pedido</th>
-      <th>Status de Pago</th>
-      <th>Fecha</th>
-      <th>Opciones</th>
-      
-  
-  <th>oculto choferes </th> 
-  <th>oculto etiqueta </th> 
-  </tr>
-</thead>`);
-  
-  cargaTablas('si')
-      },
-      error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
+   
+    if (tipo_p == "Efectivo") {
+      const { value: chofer } = await Swal.fire({
+        title: 'Indique el chofer',
+        input: 'select',
+      inputOptions: options,
+        inputPlaceholder: 'Chofer',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (!value) {
+              resolve('Debe colocar un chofer')
+            } else {
+               resolve()
+            }
+          })
+        }
+      })
+      if (!chofer) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
+      chofer_r = chofer
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input2" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input2").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
       }
-    });
-  
+        return [
+          document.getElementById('swal-input2').value,
+        ]
+      }
+      })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
+      fecha_pago =fecha_re
+    }else{
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input1" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input1").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
+      }
+        return [
+          document.getElementById('swal-input1').value,
+        ]
+      }
+      })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
+      chofer_r = 'Null'
+      fecha_pago =fecha_re
+    }
+    console.log("id pedido: "+id)
+      console.log(tipo_p)
+      console.log(chofer_r)
+      console.log(fecha_pago)         
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", status_);
+      data_C.append("tipo_pago", tipo_p);
+      data_C.append("chofer_r", chofer_r);
+      data_C.append("fecha_pago", fecha_pago);
+      data_C.append("monto", monto);
+      $.ajax({
+        url: `/cambia_S_pago_deudor`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+    console.log(data)
+       $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        
+    
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+  </thead>`);
+    
+    cargaTablas('si')
+    if ($('#filterPosition').val() != "") {
+     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+   }
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
   }
+
 }
 function edit_pedido(id_edit) {
   if (typeof id_edit =="undefined") {
@@ -1249,13 +1885,13 @@ $.ajax({
   contentType: false,
   processData: false,
   success: function (data, textStatus, jqXHR) {
-console.log(data)
-if ( $(".chofer option[value='" + data['chofer'] + "']").length == 0 ){
-$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
+if ( $(".chofer option[value='" + data['personalId'] + "']").length == 0 ){
+//$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
 }else{
   //$('.chofer').find('option:selected').remove().end();
-  $(".chofer option[value='" + data['chofer'] + "']").attr("selected", true);
+  $(".chofer option[value='" + data['personalId'] + "']").attr("selected", true);
 }
+
 $('#id_chofer_edit').val(data['personalId'])
 $('#edit_pedido_id').val(data['id'])
 $('#edit_pedido_id_cliente').val(data['clienteId'])
@@ -1263,9 +1899,6 @@ let garrafon19L = JSON.parse(data['garrafon19L'])
 let garrafon11L = JSON.parse(data['garrafon11L'])
 let botella1L = JSON.parse(data['botella1L'])
 let botella5L = JSON.parse(data['botella5L'])
-console.log(garrafon11L)
-console.log(botella1L)
-console.log(botella5L)
 $('.count_refill_garrafon').val(garrafon19L['refill_cant'])
 $('.refill_garrafon_mont').val(garrafon19L['refill_mont'])
 $('.count_canje_garrafon').val(garrafon19L['canje_cant'])
@@ -1318,7 +1951,6 @@ $('.total_total_inp').val(data['monto_total'])
 $('.total_total').text(data['monto_total'])
 
 if ( $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").length == 0 ){
-console.log(data['metodo_pago'])
 $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] + '">' + data['metodo_pago'] + '</option>');  
 }else{
 //  $('#metodo_pago_edit').find('option:selected').remove().end();
@@ -1326,9 +1958,17 @@ $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] 
 }
 $('.status_pago').val(data['status_pago'])
 $('#status_pedido_edit').val(data['status_pedido'])
+$('#edit_fecha_pedido').val(data['fecha_pedido'])
 $('#prestados_edit').val(data['garrafones_prestamos'])
 $('#danados_edit').val(data['danados'])
 $('#descuento_edit').val(data['descuento'])
+$('#total_total_inp').val(data['monto_total'])
+if (data['descuento']>0) {
+  $('#monto_descuento').removeClass('d-none')
+  console.log($('#total_total_inp').val())
+  let descuento = parseInt($('#total_total_inp').val()) - parseInt(data['descuento'])
+  $('#total_desc').text(descuento)
+}
 $('#observacion_edit').val(data['observacion'])
 $('#edit_pedido').modal('show')
   },
@@ -1336,4 +1976,55 @@ $('#edit_pedido').modal('show')
     console.log('error:' + jqXHR)
   }
 });
+}
+function delete_pedido(id_, tabla) {
+  if ($('#otro_rol').length) {
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  var id = id_
+  let dt_basic = tabla
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el pedido indicado",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_pedido/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $(`${dt_basic}`).DataTable().row($(`${dt_basic} tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Pedido ${id} borrado con éxito`,
+      })
+      if ($('#filterPosition').val() != "") {
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+     }
+    }
+  })
+}
+function share_record(id_) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = id_
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+    $('#p1').text(direction_copy)*/
+    copyToClipboard(`#CopyPedido${id_edit}`)
 }

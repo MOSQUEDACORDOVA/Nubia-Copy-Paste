@@ -59,7 +59,7 @@ const Clientes = db.define('clientes', {
 		allowNull: true,
 		defaultValue: ""
 	},
-	codigo_postal: {
+	cuponera: {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
@@ -133,6 +133,15 @@ const Clientes = db.define('clientes', {
 		type: DataTypes.TEXT,
 		allowNull: true,
 		defaultValue: ""
+	},
+	referido_de: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+	},
+	cantidad_referidos: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
 	},
 
 

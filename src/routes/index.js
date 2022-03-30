@@ -6,6 +6,7 @@ const authController = require('../controllers/authController');
 const authControllerPY4 = require('../controllers/authControllerpy4');
 const dashboardController = require('../controllers/dashboardController');
 const dashboardControllerPY4 = require('../controllers/dashboardControllerPY4');
+const maquilaControllerPY4 = require('../controllers/maquilaControllerPY4');
 const landingController = require('../controllers/landingController');
 const passport = require('passport');
 
@@ -21,14 +22,29 @@ const dashboardControllerPY24 = require('../controllers/PYT24/dashboardControlle
 /*---------------------------------*/
 
 /*------------- PYT27 -------------*/
+const MailerController = require('../controllers/PYT27/mailerController');
 const userControllerPY27 = require('../controllers/PYT27/userControllerPY27');
 const authControllerPY27 = require('../controllers/PYT27/authControllerPY27');
 const dashboardControllerPY27 = require('../controllers/PYT27/dashboardControllerPY27');
 /*---------------------------------*/
 
+/*------------- PYT672 -------------*/
+const userControllerPY672 = require('../controllers/PYT672/userControllerPY672');
+const authControllerPY672 = require('../controllers/PYT672/authControllerPY672');
+const dashboardControllerPY672 = require('../controllers/PYT672/dashboardControllerPY672');
+/*---------------------------------*/
+
+/*------------- PASARELA -------------*/
+const pasarelaUserController = require('../controllers/PASARELA/pasarelaUserController');
+const pasarelaAuthController = require('../controllers/PASARELA/pasarelaAuthController');
+const pasarelaController = require('../controllers/PASARELA/pasarelaController');
+/*---------------------------------*/
+
 const FileController = require('../models/PYT24/upload');
 const fileController = new FileController();
 
+const FileController4 = require('../models/PYT4/upload');
+const fileController4 = new FileController4();
 
 // Landing Page
 router.get('/', landingController.showLandingPage);
@@ -42,20 +58,50 @@ router.post('/login',passport.authenticate('local',{ failureRedirect: '/login',f
 // Cerrar Sesión
 router.get('/close-session', userController.closeSesion);
 
+//CUPONERA
+router.get('/intro_cuponera', dashboardControllerPY4.introCup);
+router.get('/intro_cuponera/:crea', dashboardControllerPY4.introCup);
+router.get('/log_cuponera/:registrado', dashboardControllerPY4.introCup);
+router.get('/log_cupon/:msg', dashboardControllerPY4.introCup);
+router.post('/session_cuponera', dashboardControllerPY4.sessionCuponera);
+router.get('/cuponera',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
+router.get('/cuponera/:cat',authControllerPY4.authenticatedCliente, dashboardControllerPY4.introCupValidate);
+router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
+router.post('/save_cliente_cuponera', dashboardControllerPY4.save_cliente_cuponera);
+
+//REFERIDOS
+router.get('/crea_codigo_ref/:id_referido', dashboardControllerPY4.crea_codigo_ref);
+router.get('/referido-bwater/:id_referido', dashboardControllerPY4.formRegReferidos);
+router.get('/referido-bwater-exist/:id_referido/:msg', dashboardControllerPY4.formRegReferidos);
+router.post('/save_cliente_referido', dashboardControllerPY4.save_cliente_referido);
+router.get('/home-referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.home_referidos);
+router.post('/login-referido', dashboardControllerPY4.sessionReferido);
+router.post('/reg_pedido_referido',authControllerPY4.authenticatedClienteReferido, dashboardControllerPY4.regPedidoReferido);
+
+//NOTIFICACIONES
+router.get('/notificaciones_panel',authControllerPY4.authenticatedUser, dashboardControllerPY4.notificaciones_table);
+
 
 // Dashboard
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
+router.post('/upload-file', fileController4.subirArchivo);
 router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
-router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.dashboard);
+router.get('/prestadospy4', authControllerPY4.authenticatedUser,dashboardControllerPY4.prestados);
+router.get('/prestados/:day', authControllerPY4.authenticatedUser,dashboardControllerPY4.prestados);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
+router.get('/reportes', dashboardControllerPY4.reportes);
+
+// OBTENER VENTAS POR ZONAS
+router.get('/obetenerdatosgeneralesreportes', dashboardControllerPY4.gerenalReportes);
+
 //personal
 router.get('/personal_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
 router.get('/personal_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.personal_table);
@@ -84,7 +130,22 @@ router.post('/editar_sucursales_save', authControllerPY4.authenticatedUser,dashb
 router.get('/carga_inicial_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.carga_inicial);
 router.get('/carga_inicial_py4/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.carga_inicial);
 router.post('/save_carga_init_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_carga_inicial);
+router.post('/save_recarga_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_recarga);
+router.get('/delete_cargapy4/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_carga);
+//ASIGNAR CHOFER
+router.post('/save_asig_chofer_py4', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer);
+router.get('/delete_asig_chofer/:id', authController.authenticatedUser, dashboardControllerPY4.delete_asignar_chofer);
+router.post('/editar_asig_chofer', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_asig_chofer);
+router.post('/save_asig_chofer_edit', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_asignar_chofer_edited);
 
+//Cupones
+router.get('/promociones_bw',authControllerPY4.authenticatedUser, dashboardControllerPY4.getCupones);
+router.get('/promociones_bw/:msg', authControllerPY4.authenticatedUser,dashboardControllerPY4.getCupones);
+router.post('/crear_cupones',authController.authenticatedUser, dashboardControllerPY4.save_cupon);
+router.post('/edit_cupon_id',authController.authenticatedUser, dashboardControllerPY4.editCupon);
+router.post('/editar_cupones',authController.authenticatedUser, dashboardControllerPY4.saveCuponEdited);
+router.get('/borrar_cupon/:id', authController.authenticatedUser, dashboardControllerPY4.deleteCupon);
+router.post('/usar_cupon', dashboardControllerPY4.usar_cupon);
 
 //vehiculos
 router.get('/vehiculos_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.vehiculos_table);
@@ -96,7 +157,8 @@ router.post('/save_vehiculos_py4_edit', authControllerPY4.authenticatedUser,dash
 
 
 //CP
-router.post('/consultaCP',authControllerPY4.authenticatedUser, dashboardControllerPY4.consultaCP);
+router.post('/consultaCP', dashboardControllerPY4.consultaCP);
+router.post('/save_cp_new', dashboardControllerPY4.save_cp_new);
 //corte
 router.get('/corte_py4',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
 router.get('/corteday_py4/:day',authControllerPY4.authenticatedUser, dashboardControllerPY4.corte_table);
@@ -107,18 +169,20 @@ router.get('/delete_pedido/:id', authControllerPY4.authenticatedUser,dashboardCo
 router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
 router.post('/editar_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_pedido);
 
-router.get('/ver_pedido/:id', dashboardControllerPY4.ver_pedido);
+
 router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
 router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
 router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiachofer_pedido);
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago);
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser,dashboardControllerPY4.verifica_deuda_pedido);
+router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_S_pago_deudor);
 
-
-router.get('/usuarios/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
+router.get('/clientesBwater/:mensaje',authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Etiquetas
 router.post('/save_etiqueta', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_etiquetas);
 router.get('/delete_etiqueta/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_etiqueta);
@@ -127,19 +191,35 @@ router.get('/actualizar_devueltos/:id_chofer/:cantidad/:id_cliente/:fecha', auth
 
 // Cerrar Sesión
 router.get('/logoutpy4', dashboardControllerPY4.closeSesion);
-
+router.get('/logout_cuponera', dashboardControllerPY4.closeSesioncuponera);
 //post
 router.post('/loginpyt4', dashboardControllerPY4.sesionstart);
 router.post('/save_cliente_py4', dashboardControllerPY4.save_cliente_py4);
+
 router.post('/registrar_usuario',dashboardControllerPY4.reguserPy4);
 router.post('/reg_pedido_modal', dashboardControllerPY4.regPedidoPy4);
 router.post('/editar_pedido_save', authControllerPY4.authenticatedUser,dashboardControllerPY4.Save_editPedidoPy4);
 router.post('/editar_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit);
 router.post('/ad_tag_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_tag);
 router.post('/change_zone_client', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_zona_client);
+router.post('/editar_cliente_id_cuponera', authControllerPY4.authenticatedUser,dashboardControllerPY4.save_cliente_edit_cupon);
 
+/** HERE INIT MAQUILA**/
+router.get('/maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila/:msg',authControllerPY4.authenticatedUser, maquilaControllerPY4.maquila_principal);
+router.get('/maquila-qr/:id_cliente',authControllerPY4.authenticatedQR, maquilaControllerPY4.maquila_principal);
+router.post('/save-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_clientes_maquila);
+router.get('/delete_cliente_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_cliente_maquila);
+router.post('/editar_cliente_manila', authControllerPY4.authenticatedUser,maquilaControllerPY4.edit_cliente_manila);
+router.post('/save-edit-cliente-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_cliente_edit);
 
+router.post('/reg-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_maquila);
+router.post('/editar_pedido_maquila', authControllerPY4.authenticatedUser,maquilaControllerPY4.editar_pedido_maquila);
+router.get('/delete_pedido_maquila/:id', authControllerPY4.authenticatedUser,maquilaControllerPY4.delete_pedido_maquila);
+router.post('/save-edit-pedido-maquila',authControllerPY4.authenticatedUser, maquilaControllerPY4.save_pedido_edit);
 
+router.get('/ventas-del-dia/:dia_select',authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
+/* ---FIN PY4---  */
 
 /*--------------------- PYT-21 ---------------------*/
 router.get('/login/:id', dashboardControllerPY21.login);
@@ -352,8 +432,6 @@ router.post('/upload', fileController.subirArchivo);
 router.get('/logout/PYT-24', userControllerPY24.closeSesion);
 
 
-
-
 // PYT-27 --- AEROCOINS
 // ! ADMIN
 router.get('/paympy27/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.paymanag);
@@ -364,6 +442,8 @@ router.get('/userspy27/:id', authControllerPY27.authenticatedAdmin, dashboardCon
 // ? POST ADMIN 
 // VERIFICAR USUARIO
 router.post('/verifyuserpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.verifyuser);
+// VERIFICAR USUARIO
+router.post('/denyverificationpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.denyverificationuser);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addbtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtc);
 // METODOS DE PAGO, RETIRO EN BNB
@@ -384,6 +464,8 @@ router.get('/retreats27/:id', authControllerPY27.authenticatedUser, dashboardCon
 
 // ? POST
 // ENVIAR DATOS DNI DE VERIFICACION
+router.post('/updateprofilepy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.updateprofile);
+// ENVIAR DATOS DNI DE VERIFICACION
 router.post('/solicitverifypy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.solicitverify);
 // METODOS DE PAGO, RETIRO EN BTC
 router.post('/addretreatsbtcpy27', authControllerPY27.authenticatedUser, dashboardControllerPY27.addretreatsbtc);
@@ -399,6 +481,9 @@ router.post('/deletemretreatspy27', authControllerPY27.authenticatedUser, dashbo
 router.get('/controlrolespy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.controlroles);
 router.get('/boardpresalepy27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.boardpresale);
 router.get('/depositsaeroadmin/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.depositsaeroadmin);
+router.get('/getallpendingdeposits/:id', dashboardControllerPY27.getallpendingdeposits);
+
+router.get('/profile27/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.profile);
 
 router.get('/webpy27/:id', dashboardControllerPY27.web);
 router.get('/webespy27/:id', dashboardControllerPY27.webes);
@@ -406,6 +491,7 @@ router.get('/privacy/:id', dashboardControllerPY27.privacy);
 router.get('/register27/:id', dashboardControllerPY27.register);
 // prueba
 router.get('/login27/:id', dashboardControllerPY27.login);
+router.get('/loginverify27/:token', dashboardControllerPY27.formLogin);
 router.get('/error27/:id', dashboardControllerPY27.error);
 // AEROCOIN PRESALE
 router.get('/aeropresale/:id', authControllerPY27.authenticatedUser, dashboardControllerPY27.aeropresale);
@@ -413,23 +499,189 @@ router.get('/depositaero/:id', authControllerPY27.authenticatedUser, dashboardCo
 // CONTROL DE MONEDA AERO COIN
 router.get('/aero/:id', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.aerocoin);
 
-
 // AUTH
 router.post('/loginpy27', dashboardControllerPY27.sesionstart);
 router.post('/reguserpy27', dashboardControllerPY27.reguserpy27);
+
+
 
 // APROBAR
 router.post('/startdepositaero', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.startdepositaero);
 
 // AÑADIR PRECIO DE AEROCOIN
 router.post('/addaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addaerocoin);
+// AÑADIR PRECIO DE BTC
+router.post('/addbtcpricepy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbtcprice);
+// AÑADIR PRECIO DE BNB
+router.post('/addbnbpricepy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.addbnbprice);
 // ACTUALIZAR PRECIO AEROCOIN
 router.post('/updateaerocoin', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaerocoin);
+// ACTUALIZAR PRECIO BTC
+router.post('/updateaebtcpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaebtc);
+// ACTUALIZAR PRECIO BNB
+router.post('/updateaebnbpy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.updateaebnb);
 // COMPRAR AEROCOINS
 router.post('/buyaerocoins', authControllerPY27.authenticatedUser, dashboardControllerPY27.buyaerocoins);
+// OBTENER INFORMACIÓN DE USUARIO
+router.post('/getuserinfopy27', authControllerPY27.authenticatedAdmin, dashboardControllerPY27.getuserinfopy27);
+
+// TRAER DEPOSITO USUARIO
+router.post('/getdeposituser', authControllerPY27.authenticatedUser, dashboardControllerPY27.getdeposituser);
+
+router.post('/rejectdeposit', pasarelaController.rejectdeposit);
+
+// VERIFICAR EMAIL
+router.get('/verifyemail27/:id', dashboardControllerPY27.formSearchAccountToken);
+// RESTABLECER CONTRASEÑA
+router.get('/forgotpasswordpy27/:id', dashboardControllerPY27.forgotpassword);
+// ? VERIFICACIÓN
+//router.get('/search-account-token', userControllerPY27.formSearchAccountToken);
+
+// ! EMAIL REGISTER
+router.get('/emailregsend/:id/:email', dashboardControllerPY27.emailregsend);
+router.get('/emaildeposits/:id', dashboardControllerPY27.emaildeposit);
+router.get('/emailretreats/:id', dashboardControllerPY27.emailretreats);
+router.get('/test/:id', dashboardControllerPY27.test);
+
+router.get('/emailverifynotifypy27/:id', MailerController.emailVerificado);
+
+router.get('/mailBienvenidapy27/:mail/:token', MailerController.bienvenidaMail);
+router.get('/mailDepositRejectedpy27/:iduser', MailerController.depositoRechazado);
+router.get('/mailDepositApprovey27/:userid/:total', MailerController.depositoAprovado);
+
+router.post('/resendemailverifypy27', dashboardControllerPY27.resendemailverify);
+// ESTADOS PAISES
+router.get('/getallestados', dashboardControllerPY27.getallestados);
+router.get('/getallpaises', dashboardControllerPY27.getallpaises);
+
+
 
 // Cerrar Sesión
 router.get('/logout/PYT-27', userControllerPY27.closeSesion);
+
+/*------------ PYT-672-----------------*/
+// TODO: AUTH  
+router.get('/loginpy672/:id', dashboardControllerPY672.login);
+router.get('/loginpy672E/:id/:msg', dashboardControllerPY672.login);
+router.get('/registerpy672/:id', dashboardControllerPY672.register);
+
+router.get('/py672/:id', dashboardControllerPY672.controlroles);
+
+// ? POST ------------------!
+router.post('/login672', dashboardControllerPY672.sesionstart);
+router.post('/reguserpy672', dashboardControllerPY672.reguser);
+router.post('/deleteUserpy672', dashboardControllerPY672.deleteuser);
+router.post('/editUserpy672', dashboardControllerPY672.editUser);
+router.post('/enabledDisUser', dashboardControllerPY672.enabledDisUser);
+// * CERRAR SESION
+router.get('/logout/PYT-672', userControllerPY672.closeSesion);
+
+// TODO: ADMIN
+router.get('/grupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.grupos);
+router.get('/verificargrupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.verificargrupos);
+router.get('/matriculas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas);
+router.get('/matriculas/:msg', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas)
+router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
+router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
+router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
+router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
+router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
+router.get('/obtenerusuariospy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerusuarios);
+router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
+
+router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
+router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
+router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
+router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
+
+//COMENTARIOS
+router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.get_comments_alumno);
+router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guardar_comentario);
+router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.comentarios_admin_get);
+//** ADMIN CAJA */
+router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
+router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
+router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_constancia);
+router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_titulo);
+
+
+
+
+router.get('/notas-titulo-academy/:id_alumno', dashboardControllerPY672.notas_titulo);
+router.get('/participacion-titulo-academy/:id_alumno', dashboardControllerPY672.participacion_titulo);
+router.get('/ausencias-titulo-academy/:id_alumno', dashboardControllerPY672.ausencias_titulo);
+
+// TODO: USUARIOS
+router.get('/board672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.boardUser);
+
+
+
+// * STATICS
+router.get('/error672/:id', dashboardControllerPY672.error);
+
+// ? POST -------------------------!
+// * CREAR GRUPOS
+router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
+// * OBTENER LECCION ACTUAL DE GRUPO
+//router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
+
+// * ACTUALIZAR GRUPOS
+router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);
+// * BORRAR GRUPOS
+router.post('/borrargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrargrupo);
+// * REGISTRAR ESTUDIANTES
+router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatricula);
+// * EDITAR ESTUDIANTES
+router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
+// * REASIGNA GRUPO ESTUDIANTES
+router.post('/reasignar-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo);
+router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo2);
+// * BORRAR ESTUDIANTES
+router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
+// * CONGELAR ESTUDIANTES
+router.post('/congelarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.congelarestudiante);
+// * ACTIVAR ESTUDIANTES CONGELADOS
+router.post('/activarestudiantecongeladopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.activarestudiantecongelado);
+// * BORRAR ESTUDIANTES DE GRUPO
+router.post('/eliminarestudiantedegrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarestudiantegrupo);
+// * OBTENER MATRICULA DE GRUPO
+router.post('/obtenermatriculagrupo', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculagrupo);
+// * REGISTRAR MATRICULA AUSENTE
+router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatriculausente);
+// * ELIMINAR MATRICULA AUSENTE
+router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarmatriculausente);
+// * OBTENER MATRICULA AUSENTE
+router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculausente);
+// * REGISTRAR NOTAS
+router.post('/registrarNotas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarnotas);
+// * REGISTRAR PARTICIPACION
+router.post('/registrarParticipacion', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarparticipacion);
+// * OBTENER PROVINCIAS, CANTON, DISTRITOS
+router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerdirecciones);
+
+
+
+/*------------ PYT-672-----------------*/
+
+
+/*------------- PASARELA -------------*/
+// ! ADMIN
+
+router.get('/boardPasarela/:id', pasarelaAuthController.authenticatedAdmin, pasarelaController.boardpresale);
+
+router.get('/depositsPasarelaAdmin/:id', pasarelaController.depositsPasarelaAdmin);
+
+router.get('/registerPasarela/:id', pasarelaController.register);
+router.get('/loginPasarela/:id', pasarelaController.login);
+
+router.post('/loginPasarela', pasarelaController.sesionstart);
+router.post('/reguserPasarela', pasarelaController.reguserPasarela);
+//asgfasgasg
+router.post('/startdepositaeropasarela', pasarelaController.startdepositaeropasarela);
+
+// APROBAR DEPOSITO PASARELA
+router.post('/startDeposit', pasarelaAuthController.authenticatedAdmin, pasarelaController.startdepositaero);
+
 
 
 // 404
@@ -441,9 +693,14 @@ router.use((req, res, next) => {
   res.status(404).redirect('/error24/PYT-24')
 })
 */
-router.use((req, res, next) => {
-  res.status(404).redirect('/error27/PYT-27')
-})
+// router.use((req, res, next) => {
+//   res.status(404).redirect('/error672/PYT-672')
+// })
+// router.use((req, res, next) => {
+//   res.status(404).redirect('/error27/PYT-27')
+// })
+
+
 
 //router.get('/micuenta',authController.authenticatedUser, dashboardController.micuenta);
 //router.get('/minegocio',authController.authenticatedUser, dashboardController.minegocio);

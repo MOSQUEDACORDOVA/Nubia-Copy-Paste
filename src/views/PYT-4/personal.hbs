@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
@@ -65,7 +70,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_personal">
+                        <table class="datatables-basic_personal table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -109,7 +114,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_usuarios">
+                        <table class="datatables-basic_usuarios table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -161,9 +166,19 @@
                   placeholder="cargo" aria-describedby="register-cargo" tabindex="3" class="form-control mb-2">
                   <option selected=""> Chofer </option>
                   <option> Logistica </option>
+<option> Auxiliares Generales </option>
+<option> Producción </option>
+<option> Mecanico </option>
+<option> Aux. Administrativo </option>
+
+
+ 
+
+
+
 
                 </select></div>
-              <div class="form-group"><label for="register-sucursal" class="form-label">Vehiculo Asignado</label>
+              {{!-- <div class="form-group"><label for="register-sucursal" class="form-label">Vehiculo Asignado</label>
                 <select class="select2 form-select mb-2 form-control" id="select_vehiculo" name="vehiculo">
                   <option value="default">Seleccione un vehiculo</option>
                   {{#each vehiculos_let as |vehiculo i|}}
@@ -171,7 +186,7 @@
                   {{/each}}
                 </select>
                 </select>
-              </div>
+              </div> --}}
               <div class="form-group"><label for="register-direccion" class="form-label">Fecha Ingreso</label><input
                   type="date" name="fecha_ingreso" placeholder="" aria-describedby="register-direccion" tabindex="5"
                   class="form-control mb-2"></div>
@@ -185,9 +200,9 @@
                     aria-describedby="register-telefono" tabindex="11" class="form-control mb-2">
                 </div>
               </div>
-              <div class="form-group"><label for="register-sucursal" class="form-label">Sucursal</label><select
-                  aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2">
-                  <option selected=""> Seleccione una sucursal </option>
+              <div class="form-group d-none"><label for="register-sucursal" class="form-label">Sucursal</label><select
+                  aria-describedby="register-sucursal" id="save_personal_zone" name="sucursal" class="form-control mb-2">
+                  <option selected="" value="0"> Seleccione una sucursal </option>
                   {{#each sucursales_let as |sucursal i|}}
                   <option value={{id}}> {{nombre}} </option>
                   {{/each}}
@@ -318,7 +333,7 @@
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="editar_personalTitle">Agregar Usuario</h5>
+            <h5 class="modal-title" id="editar_personalTitle">Editar Personal</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -343,17 +358,11 @@
                   class="form-control mb-2" id="edit_personal_cargo" >
                   <option value="Chofer">Chofer</option>
                   <option value="Logistica">Logistica</option>
-
+<option> Auxiliares Generales </option>
+<option> Producción </option>
+<option> Mecanico </option>
+<option> Aux. Administrativo </option>
                 </select></div>
-                <div class="form-group"><label for="register-sucursal"
-                  class="form-label">Vehiculo Asignado</label>
-                  <select class="select2 form-select mb-2 form-control" id="select_vehiculo_edit_personal" name="vehiculo">
-                    {{#each vehiculos_let as |vehiculo i|}}
-                            <option value="{{id}}">{{marca}} {{modelo}}/{{matricula}}</option>
-                        {{/each}}
-                        </select>
-                </select>
-                </div>
                   <div class="form-group"><label for="register-direccion"
                   class="form-label">Fecha Ingreso</label><input type="date" name="fecha_ingreso"
                   placeholder="" aria-describedby="register-direccion" tabindex="5" id="edit_personal_ingreso"
@@ -371,9 +380,9 @@
                     class="form-control mb-2">
                 </div>
               </div>              
-               <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+               <div class="form-group d-none"><label for="register-sucursal" class="form-label">Zona</label><select
                   aria-describedby="register-sucursal" tabindex="24" name="zona" class="form-control mb-2" id="edit_perso_zona">
-                  <option selected="">Seleccione una Zona</option>
+                  <option selected="" value="0">Seleccione una Zona</option>
                   {{#each sucursales_let as |sucursal i|}}
                   <option value={{id}}> {{nombre}} </option>
                   {{/each}}
@@ -392,7 +401,8 @@
           </form>
         </div>
       </div>
-    </div><div class="modal fade" id="cambiapassmodal" tabindex="-1" aria-labelledby="cambiapassTitle" style="display: none;"
+    </div>
+    <div class="modal fade" id="cambiapassmodal" tabindex="-1" aria-labelledby="cambiapassTitle" style="display: none;"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">

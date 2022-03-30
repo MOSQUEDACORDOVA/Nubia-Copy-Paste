@@ -1,0 +1,174 @@
+<div class="app-content content py672">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            {{! NOTIFICACION }}
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+            {{! NOTIFICACION END }}
+            
+            <div class="row match-height flex-md-row-reverse">
+
+                <!-- Listado de grpos -->
+                <div class="col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-header pb-md-0">
+                            <h4 class="card-title">Registro de Usuarios</h4>
+                            <div class="heading-elements d-md-none">
+                                <ul class="list-inline mb-0">
+                                    <li>
+                                        <a data-action="collapse"><i data-feather="chevron-down"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <p class="card-header pt-1 font-small-2 d-none">
+                            Ingresé los detalles de la nueva cuenta
+                        </p>
+                        <div class="card-content collapse show mt-1">
+                            <div class="card-body">
+                                <div class="row custom-options-checkable g-1 mb-1">
+                                    <div class="col-12">
+                                        <input class="custom-option-item-check desde0" type="radio" name="customOptionsCheckableRadios" id="customOptionsCheckableRadios1" checked/>
+                                        <label class="custom-option-item p-1" for="customOptionsCheckableRadios1" data-bs-toggle="modal" data-bs-target="#registrarUsuario">
+                                            <span class="d-flex justify-content-between flex-wrap mb-50">
+                                                <span class="fw-bolder">Registrar Usuario</span>
+                                            </span>
+                                            <small class="text">Ingresé los detalles de la nueva cuenta</small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Fin Listado de grpos -->
+
+                <!-- Formulario de grpos -->
+                <div class="col-12 col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table table-responsive dataTable usuarios" id="usuarios">
+                                <thead>
+                                    <tr role="row">
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">País</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Telefono</th>
+                                        <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">Puesto</th>
+                                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                            style="width: 376px;" aria-label="Email: activate to sort column ascending">Estado</th>                                        
+                                        <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 148.6px;padding-left: 2.5rem;" aria-label="Acciones">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fin Formulario de grupos -->
+            </div>
+
+            <div class="modal fade" id="registrarUsuario">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-5 px-sm-5 pt-50">
+                            <div class="text-center mb-2">
+                                <h1 class="mb-1">Información de la Cuenta</h1>
+                                <p>Ingresé los detalles de la nueva cuenta</p>
+                            </div>
+
+                            <form class="" method="POST" id="regUsuarioForm" action="/reguserpy672">
+                            <div class="col-md-6 mb-1" id="id-user-edit">
+                                    </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="nombre">Nombres y Apellido</label>
+                                        <input type="text" name="nombre" id="nombre-user" class="form-control" placeholder="Mosqueda">
+                                    </div>
+                                    <div class="col-md-6 mb-1 d-none">
+                                        <label class="form-label" for="apellidos">Apellidos</label>
+                                        <input type="text" name="apellidos" id="apellidos-user" class="form-control" placeholder="Cordova">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="dni">DNI</label>
+                                        <input type="text" name="dni" id="dni-user" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="email" name="email" id="email-user" class="form-control" placeholder="mosqueda.cordova@email.com">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="pais">País</label>
+                                        <input type="text" class="form-control" name="pais" id="pais-user">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="fechaN">Fecha de Nacimiento</label>
+                                        <input type="text" name="fechaN" id="fechaN-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="fechaI">Fecha de Inicio</label>
+                                        <input type="text" name="fechaI" id="fechaI-user" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="">Puesto</label>
+                                        <select name="puesto" id="puesto-user" class="form-select select2">
+                                            <option value="">Seleccione un Puesto</option>
+                                            <option value="Profesor">Administrador</option>
+                                            <option value="Vendedor">Profesor</option>
+                                            <option value="Profesor">Asesor (Vendedor)</option>
+                                            <option value="Vendedor">Gestor (Bienestar Estudiantil)</option>
+                                            <option value="Profesor">Cobrador</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="telefono">Teléfono</label>
+                                        <input type="text" class="form-control" name="telefono" id="telefono-user">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="password">Contraseña</label>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="············">
+                                            <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="············">
+                                            <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <input type="submit" value="Guardar" class="btn btn-primary">
+                                        <input type="reset" value="Registrar" class="btn resetBtn d-none">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

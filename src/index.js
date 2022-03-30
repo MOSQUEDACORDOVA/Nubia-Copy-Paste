@@ -6,6 +6,8 @@ const db = require('./config/db');
 const db21 = require('./config/dbPY21');
 const db24 = require('./config/dbPY24');
 const db27 = require('./config/dbPY27');
+const db672 = require('./config/dbPY672');
+const dbPasarela = require('./config/dbPasarela');
 const bodyParser = require('body-parser');
 const flash = require('connect-flash');
 const session = require('express-session');
@@ -15,16 +17,15 @@ const fileupload = require('express-fileupload');
 //var firebase = require("firebase/app");
 
 // Conectar con la base de datos
- db.sync()
+db.sync()
  	.then(() => {
  		console.log('Base de datos conectada');
  	})
  	.catch(err => {
  		console.log('Error: ', err);
  	});
-
 // Conectar con la base de datos PYT21
- db21.sync()
+db21.sync()
  	.then(() => {
  		console.log('Base de datos conectada PY21');
  	})
@@ -32,7 +33,6 @@ const fileupload = require('express-fileupload');
  		console.log('Error: ', err);
  	});
 
-require('./models/PYT21/Usuarios');
 // Conectar con la base de datos PYT24
 db24.sync()
 .then(() => {
@@ -41,17 +41,29 @@ db24.sync()
 .catch(err => {
 	console.log('Error: ', err);
 });
+require('./models/PYT24/Usuarios');
+
 // Conectar con la base de datos PYT27
 db27.sync()
 .then(() => {
 	console.log('Base de datos conectada PY27');
+})
+// Conectar con la base de datos PYT672
+db672.sync()
+.then(() => {
+	console.log('Base de datos conectada PY672');
+})
+// Conectar con la base de datos PASARELA
+
+dbPasarela.sync()
+.then(() => {
+	console.log('Base de datos conectada PASARELA');
 })
 .catch(err => {
 	console.log('Error: ', err);
 });
 // Crear el servidor de express
 const app = express();
-
 // Habilitar body parser
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(fileupload());

@@ -5,7 +5,6 @@ exports.showLandingPage = (req, res) => {
     msg = req.query.msg;
   }
   let hostname = req.headers.host
-  console.log(hostname)
   let spliter = hostname.split(':')
   console.log(spliter)
   if (spliter[0]== "bwater" || spliter[1]== "3001") {

@@ -1,0 +1,93 @@
+<div class="app-content content py672">
+  <div class="content-wrapper">
+    <div class="content-body">
+        <div class="auth-wrapper auth-cover">
+            <div class="auth-inner row m-0 bg-white">
+                <!-- Brand logo-->
+                <a href="/py672/PYT-672" class="d-lg-none navbar-brand">
+                    <img class="img-fluid brand-logo m-0 p-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
+                </a>
+               
+                <!-- /Brand logo-->
+
+                <!-- Left Text-->
+                <div class="col-lg-3 d-none d-lg-flex align-items-center p-0 bg-light">
+                    <div class="w-100 d-lg-flex align-items-center justify-content-center position-relative">
+                        <a class="navbar-brand p-0" href="/loginpy672/PYT-672">
+                            <img class="img-fluid brand-logo m-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
+                        </a>
+                        <img class="img-fluid w-100" src="../../../app-assets/images/illustration/create-account.svg" alt="multi-steps">
+                    </div>
+                </div>
+                <!-- /Left Text-->
+
+                <!-- Register-->
+                <div class="col-lg-9 d-flex align-items-center px-2 px-sm-3 px-lg-5 pt-3 bg-white auth-box">
+                    <div class="width-700 mx-auto">
+                        <div class="content">
+                            <div class="content-header mb-2">
+                                <h2 class="fw-bolder mb-75">Información de la Cuenta</h2>
+                                <span>Ingresé los detalles de su cuenta</span>
+                            </div>
+                            <form class="" method="POST" action="/reguserpy672">
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="nombre">Nombres</label>
+                                        <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Mosqueda Cordova">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="dni">DNI</label>
+                                        <input type="text" name="dni" id="dni" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="mosqueda.cordova@email.com">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="pais">País</label>
+                                        <input type="text" class="form-control" name="pais" id="pais">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="fechaN">Fecha de Nacimiento</label>
+                                        <input type="text" name="fechaN" class="form-control flatpickr-basic flatpickr-input" readonly="readonly" placeholder="DD-MM-YYYY">
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="">Puesto</label>
+                                        <select name="puesto" id="" class="form-select select2">
+                                            <option value="">Seleccione un Puesto</option>
+                                            <option value="Profesor">Profesor</option>
+                                            <option value="Vendedor">Vendedor</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="password">Contraseña</label>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" name="password" id="password" class="form-control" placeholder="············">
+                                            <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <label class="form-label" for="confirm-password">Confirmar Contraseña</label>
+                                        <div class="input-group input-group-merge form-password-toggle">
+                                            <input type="password" name="confirm-password" id="confirm-password" class="form-control" placeholder="············">
+                                            <span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                      <input type="submit" value="Registrarse" class="btn btn-primary">
+                                    </div>
+                                </div>
+                            </form>
+                            <p class="mt-2 mb-3"><span>¿Ya tienes una cuenta?</span><a href="/loginpy672/PYT-672"><span class="text-primary">&nbsp; Iniciar sesión en su lugar</span></a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+  </div>
+</div>

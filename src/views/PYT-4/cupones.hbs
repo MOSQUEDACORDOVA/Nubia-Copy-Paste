@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
@@ -25,6 +30,7 @@
   });
 </script>
 <input type="text" id="array_cupones" hidden value="{{total_cupones}}">
+<input type="text" id="array_cupones_usados" hidden value="{{total_cupones_usados}}">
 <!-- BEGIN: Content-->
 <div class="app-content content ">
   <div class="content-overlay"></div>
@@ -66,7 +72,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_cupones">
+                        <table class="datatables-basic_cupones table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -77,6 +83,45 @@
                               <th>Categoria</th>
                               <th>Estado Actual</th>
                               <th>Opciones</th>
+                            </tr>
+                          </thead>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+          <div class="col-12">
+
+            <div class="card">
+              <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+              </div>
+              <div class="card-body">
+                <h4 class="card-title">Cupones usados</h4>
+                <p class="card-text"> </p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mx-0 row">
+
+              </div>
+              <!--<div class="d-flex justify-content-between align-items-center mx-0 row none"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div>-->
+
+              <section id="basic-datatable">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="table-responsive">
+                      <div class="card">
+                        <table class="datatables-basic_cupones_usados table-responsive">
+                          <thead>
+                            <tr>
+                              <th>id</th>
+                              <th>Cupon Usado</th>
+                              <th>Usado Por</th>                              
+                              <th>Fecha de Uso</th>
+                              <th>Categoria</th>
+                              
                             </tr>
                           </thead>
                         </table>
@@ -129,6 +174,10 @@
                 <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
                 <input type="number" class="form-control" id="" name="ws_proveedor" placeholder=""/>
               </div>
+               <div class="mb-1">
+                <label for="register-email" class="form-label">Dirección del Proveedor</label>
+                <input type="text" class="form-control" id="" name="dir_proveedor" placeholder=""/>
+              </div>
                 <div class="mb-1">
                 <label for="register-email" class="form-label">Fecha de inicio</label>
                 <input type="datetime-local" class="form-control" id="" name="fecha_inicio" placeholder=""/>
@@ -143,10 +192,15 @@
               </div>
               <div class="mb-1">
                 <label for="register-email" class="form-label">Imágen</label>
-                <input class="form-control"  id="cupon-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input class="form-control"  id="cupon-img5" type="file" accept=".png, .jpg, .jpeg,.mp4, .webm, .ogg" name="image" />
                 <input type="text" id="cupon-img5_" class="" name='img' hidden>
                 <div id='cupon-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
                       </div>
+              </div>
+              
+             <div class="mb-1">
+                <label for="register-email" class="form-label">Descripción</label>
+                <textarea type="text" class="form-control" id="" name="descripcion" placeholder=""></textarea>
               </div>
              </form> 
           </div>
@@ -193,6 +247,10 @@
                 <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
                 <input type="number" class="form-control" id="ws_proveedor_edit" name="ws_proveedor" placeholder=""/>
               </div>
+               <div class="mb-1">
+                <label for="register-email" class="form-label">Dirección del Proveedor</label>
+                <input type="text" class="form-control" id="dir_proveedor_edit" name="dir_proveedor" placeholder=""/>
+              </div>
                 <div class="mb-1">
                 <label for="register-email" class="form-label">Fecha de inicio</label>
                 <input type="datetime-local" class="form-control" id="fecha_inicio_edit" name="fecha_inicio" placeholder=""/>
@@ -207,10 +265,14 @@
               </div>
               <div class="mb-1">
                 <label for="register-email" class="form-label">Imágen</label>
-                <input class="form-control"  id="edit-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input class="form-control"  id="edit-img5" type="file" accept=".png, .jpg, .jpeg, .mp4, .webm, .ogg" name="image" />
                 <input type="text" id="edit-img5_" class="" name='img' hidden>
                 <div id='edit-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
                       </div>
+              </div>
+                           <div class="mb-1">
+                <label for="register-email" class="form-label">Descripción</label>
+                <textarea type="text" class="form-control" id="descripcion_edit" name="descripcion" placeholder=""></textarea>
               </div>
              </form> 
           </div>

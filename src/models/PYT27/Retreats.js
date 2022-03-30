@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const db27 = require('../../config/dbPY27');
 const Usuarios = require('../../models/PYT27/Usuarios');
-const Depositos = require('../../models/PYT27/Depositos');
+
 // METODOS DE RETIRO USUARIOS
 const MetodosRetiros = db27.define('metodos_retiros', {
     id: {

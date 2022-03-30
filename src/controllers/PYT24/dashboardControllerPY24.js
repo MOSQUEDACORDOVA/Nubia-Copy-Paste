@@ -51,13 +51,13 @@ exports.sesionstart = (req, res) => {
 // Registro de usuarios
 exports.reguserpy24 = (req, res) => {
   console.log(req.body);
-  const { fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password } = req.body;
+  const { username, email, password } = req.body;
   let msg = false;
-  if (fname.trim() === '' || lname.trim() === '' || bdate.trim() === '' || gender.trim() === '' || dtype.trim() === '' || numdoc.trim() === '' || nationality.trim() === '' || country.trim() === '' || city.trim() === '' || phone.trim() === '' || address.trim() === '' || username.trim() === '' || email.trim() === '' || password.trim() === '') {
+  if (username.trim() === '' || email.trim() === '' || password.trim() === '') {
     console.log('complete todos los campos')
     res.redirect('/register24/PYT-24');
   } else {
-    DataBase.RegUser(fname, lname, bdate, gender, dtype, numdoc, nationality, country, city, phone, address, username, email, password).then((respuesta) =>{
+    DataBase.RegUser(username, email, password).then((respuesta) =>{
       res.redirect("/login24/PYT-24")
     }).catch((err) => {
       console.log(err)
@@ -118,8 +118,6 @@ exports.dashboard = (req, res) => {
       let total = 0, vendidos = 0, disponibles = 0;
       console.log(data_th)
       console.log("MAQUINAS")
-      console.log("MAQUINAS")
-      console.log("MAQUINAS")
       // TOTAL TH
       data_th.forEach(element => {
         total += parseInt(element.th_capacity);
@@ -149,7 +147,7 @@ exports.dashboard = (req, res) => {
       } 
     });
 
-    res.render(proyecto+"/board", {
+    res.render(proyecto+"/admin/board", {
       pageName: "Dashboard",
       dashboardPage: true,
       dashboard: true,
@@ -526,7 +524,6 @@ exports.retreats = (req, res) => {
         DataBase.GetControlTH().then((response_th)=>{
           let data_th = JSON.parse(response_th)[0];
           console.log(data_th)
-
   
     res.render(proyecto+"/user/retreats", {
       pageName: "Minner - Retiros",
@@ -541,8 +538,8 @@ exports.retreats = (req, res) => {
       presale,
       ret: true,
       btc, bnb, usdt,
-      retreats,
-      retreatsCompletes,
+      /*retreats,
+      retreatsCompletes,*/
       data_th,
     });
   }).catch((err) => {
@@ -698,7 +695,7 @@ exports.users = (req, res) => {
       let allunverif = JSON.parse(usernoverify);
       console.log(allunverif)
 
-    res.render(proyecto+"/users", {
+    res.render(proyecto+"/admin/users", {
       pageName: "Usuarios",
       dashboardPage: true,
       dashboard: true,
@@ -994,7 +991,7 @@ exports.paymanag = (req, res) => {
       let pendindPays = JSON.parse(resp);
       console.log(pendindPays)
 
-    res.render(proyecto+"/pay-managment", {
+    res.render(proyecto+"/admin/pay-managment", {
       pageName: "Gestión de Pagos",
       dashboardPage: true,
       dashboard: true,
@@ -1513,7 +1510,7 @@ exports.th = (req, res) => {
     DataBase.GetMachineTH().then((resp)=> {
       machine = JSON.parse(resp);
 
-    res.render(proyecto+"/th", {
+    res.render(proyecto+"/admin/th", {
       pageName: "Administrar TH",
       dashboardPage: true,
       dashboard: true,
@@ -2058,18 +2055,6 @@ exports.plans = (req, res) => {
   let proyecto = req.params.id  
   console.log(proyecto)
  
-  let roleAdmin;
-  let roleClient;
-  let roleSeller;
-  if (req.user.type_user === 'Inversionista') {
-    roleClient = true;
-  } else if(req.user.type_user === 'Vendedor') {
-    roleClient = true;
-    roleSeller = true;
-  }
-  else {
-    roleAdmin = true;
-  }
   DataBase.GetPackages().then((respuesta) =>{
     let data = JSON.parse(respuesta);
 
@@ -2080,7 +2065,7 @@ exports.plans = (req, res) => {
         percentage = datath.percentage_maintance;
       }
       
-    res.render(proyecto+"/plans", {
+    res.render(proyecto+"/admin/plans", {
       pageName: "Paquetes",
       dashboardPage: true,
       dashboard: true,
@@ -2089,9 +2074,7 @@ exports.plans = (req, res) => {
       plans: true,
       username: req.user.username,
       typeUser: req.user.type_user,
-      roleAdmin,
-      roleClient,
-      roleSeller,
+      roleAdmin: true,
       data,
       percentage
     });
@@ -2165,7 +2148,7 @@ exports.presale = (req, res) => {
                 let machine = JSON.parse(resp);
                 console.log(machine)
 
-    res.render(proyecto+"/presale", { 
+    res.render(proyecto+"/user/presale", { 
       pageName: "Minner - Comprar TH",
       dashboardPage: true,
       dashboard: true,

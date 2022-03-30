@@ -1,7 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db24 = require('../../config/dbPY24');
 const bcrypt = require('bcrypt-nodejs');
-const Paquetes = require('../../models/PYT24/Packages');
 const Depositos = require('../../models/PYT24/Depositos');
 
 // USUARIOS
@@ -10,50 +9,6 @@ const Usuarios = db24.define('usuarios', {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true
-	},
-	first_name: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	last_name: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	date_of_birth: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-	},
-	gender: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	doc_type: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	num_document: {
-		type: DataTypes.STRING(100),
-		allowNull: false,
-	},
-	nationality: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	country: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	city: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	phone: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
-	},
-	address: {
-		type: DataTypes.STRING(255),
-		allowNull: false,
 	},
 	username: {
 		type: DataTypes.STRING(100),

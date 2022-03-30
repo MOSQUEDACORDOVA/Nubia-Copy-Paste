@@ -38,7 +38,7 @@
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">Date of Birth</label>
-                    <input class="form-control" id="" type="date" name="bdate" placeholder="Fecha de Nacimineto" required>
+                    <input type="date" name="bdate" id="fp-default" class="form-control flatpickr-basic flatpickr-input" required />
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">Gender</label>
@@ -52,8 +52,9 @@
                     <label class="form-label" for="">Document Type</label>
                     <select name="dtype" class="form-select" required>
                       <option value=""></option>
-                      <option value="pasaport">Pasaport</option>
-                      <option value="dni">DNI</option>
+                       <option value="DRIVER'S LICENSE">DRIVER'S LICENSE</option>
+                      <option value="PASAPORT">PASAPORT</option>
+                      <option value="DNI">DNI</option>
                     </select>
                 </div>
                 <div class="mb-1">
@@ -61,23 +62,43 @@
                     <input type="text" class="form-control" name="numdoc" placeholder="Document Number" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Nationality</label>
-                    <select name="nationality" id="" class="form-select" required>
-                      <option value=""></option>
-                      <option value="ve">Venezuela</option>
+                    <label class="form-label" for="">Country</label>
+                    <select name="country" id="country" class="form-select" required>
+                      <option>Select your Nationality</option>
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Country</label>
-                    <input type="text" class="form-control" name="country" placeholder="Country of residence" required>
+                    <label class="form-label" for="">Area</label>
+                    <select id="nacionalidad" name="nationality" class="form-select" required>
+                      <option value="-">Country of residence</option>
+                    </select>
                 </div>
-                <div class="mb-1">
+                <div class="mb-1 d-none">
                     <label class="form-label" for="">City</label>
-                    <input type="text" class="form-control" name="city" placeholder="City" required>
+                    <input type="text" class="form-control" name="city" placeholder="City" value="-" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Phone</label>
-                    <input type="text" class="form-control" name="phone" placeholder="Phone" required>
+                  
+                  <label class="form-label" for="">Phone</label>                   
+                  <div class="row p-0">
+                    <div class="col-4">
+                       <div class="btn-group">
+                          <button type="button" class="btn btn-outline-secondary btn-flags">
+                            <img src="https://flagcdn.com/w320/um.png" class="img-fluid p-0" id="flag">
+                          </button>
+                          <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split waves-effect" data-bs-toggle="dropdown" aria-expanded="false">
+                              <span class="visually-hidden">Toggle Dropdown</span>
+                          </button>
+                          {{!--- BANDERAS ---}}
+                          <div class="dropdown-menu dropdown-menu-end" id="drop">
+                          </div>
+                        </div>
+                    </div>
+                     <div class="col-8">
+                        <input type="text" id="phone" class="form-control" name="phone" value="+246" placeholder="Phone" required>
+                     </div>
+                </div>
+              
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">Address</label>
@@ -91,7 +112,14 @@
                         <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="············" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
                     </div>
                 </div>
-                <button class="btn btn-outline-primary w-100 waves-effect waves-float waves-light mt-1">Register Now</button>
+                <div class="mb-1">
+                  
+                    <div class="form-check form-check-primary">
+                        <input class="form-check-input" id="remember-me" type="checkbox" tabindex="16">
+                        <label class="form-check-label" for="remember-me"> I agree with <a href="/privacy/PYT-27" target="_blank" class="text-primary">privacy policy and terms.</a></label>
+                    </div>
+                </div>
+                <button id="boton" class="btn btn-outline-primary w-100 waves-effect waves-float waves-light mt-1 " disabled >Register Now</button>
             </form>
           </span>
           <p class="text-center mt-2"><span>¿Do you already have an account?</span><a href="/login27/PYT-27" target="_self"><span class="text-primary">&nbsp; Sign in instead</span></a></p>
@@ -100,3 +128,88 @@
     </div>
   </div>
 </div>
+<script>
+document.getElementById('remember-me').onclick = function() {
+  document.getElementById('boton').toggleAttribute('disabled')
+}
+</script>
+
+<script>
+  let currentFlag = document.getElementById('flag'),
+  lista = document.getElementById('drop'),
+  nacionalidad = document.getElementById('nacionalidad'),
+  country = document.getElementById('country'),
+  fragment1 = new DocumentFragment(),
+  fragment2 = new DocumentFragment(),
+  fragment3 = new DocumentFragment(),
+  input = document.getElementById('phone');
+
+  let estados = [], paises = [];
+
+  fetch('/getallpaises')
+  .then(response => response.json())
+  .then(data => {
+    paises.push(data.paises);
+    paises[0].forEach(row => {
+      let option = document.createElement('option');
+      option.value = row.paisnombre;
+      option.innerText = row.paisnombre;
+      option.setAttribute('data-id', row.id);
+      fragment2.appendChild(option);
+    });
+    country.appendChild(fragment2);
+  });
+
+  fetch('/getallestados')
+  .then(response => response.json())
+  .then(data => {
+    estados.push(data.estados);
+  });
+
+  country.addEventListener('change', e => {
+    let selected = parseInt(country.options[country.selectedIndex].getAttribute('data-id'));
+    console.log(selected)
+    nacionalidad.innerHTML = "<option value="-">Country of residence</option>";
+    estados[0].forEach(item => {
+      console.log(item)
+      if(item.paiseId === selected) {
+          let option = document.createElement('option');
+          option.value = item.estadonombre;
+          option.innerText = item.estadonombre;
+          fragment3.appendChild(option);
+      } 
+    });
+    nacionalidad.appendChild(fragment3);
+  });
+
+  fetch('https://restcountries.com/v2/all')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+    data.forEach(item => {
+      let a = document.createElement('a'),
+      option = document.createElement('option');
+      a.innerHTML = `
+        <img src="${item.flags.png}" class="img-fluid p-0 me-1">
+        <span>${item.name} - +${item.callingCodes[0]}</span>
+      `;
+      a.classList.add('dropdown-item', 'd-flex', 'align-items-center');
+      a.setAttribute('data-flag', item.flags.png)
+      a.setAttribute('data-titulo', item.name)
+      a.setAttribute('data-code', item.callingCodes[0]);
+      option.setAttribute('value', item.name)
+      option.innerText = item.name;
+
+      fragment1.appendChild(a);
+    });
+
+    lista.appendChild(fragment1);
+  });
+
+  drop.addEventListener('click', e => {
+    currentFlag.src = e.target.getAttribute('data-flag');
+    if(e.target.getAttribute('data-code')) {
+      input.value = '+'+e.target.getAttribute('data-code');
+    }
+  });
+</script>
