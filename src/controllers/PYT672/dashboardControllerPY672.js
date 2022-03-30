@@ -2600,7 +2600,7 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
+    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
     //  console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
