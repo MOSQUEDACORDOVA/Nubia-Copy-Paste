@@ -1,0 +1,376 @@
+<div class="app-content content py672">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section class="asistencias">
+                <div class="row">
+                    <div class="toast-container" id="toast">
+                        <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                            <div class="toast-header">
+                                <strong class="me-auto"></strong>
+                                <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">Toast</button>
+
+                    {{!--<div class="col-12 my-1">
+                        <p class="lead">grupo: {{grupo.identificador}}</p>
+                        <p class="lead">numero leccion: {{numLeccion}}</p>
+                        <p class="lead">diferencia de dias: {{diff}}</p>
+                        <p class="lead">calculo: {{rest}}</p>
+                        <p class="lead">fecha actual: {{fechaActual}}</p>
+                        <p class="lead">fecha inicio: {{fechaInicio}}</p>
+                    </div>--}}
+
+                    <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
+                    <input type="text" class="d-none" value="{{numLeccion}}" id="numeroLeccion">
+                    <input type="text" class="d-none" value="{{matri}}" id="matriculaGrupo">
+
+                    <div class="col-12 mb-1">
+                        <div class="demo-inline-spacing">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="tipo" id="inlineRadio3" value="1" checked="">
+                                <label class="form-check-label" for="inlineRadio3">Desde Cero</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="inlineRadio4" name="tipo" value="2">
+                                <label class="form-check-label" for="inlineRadio4">Intensivo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="inlineRadio5" name="tipo" value="3">
+                                <label class="form-check-label" for="inlineRadio5">Niños</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0" id="filtrosDesdeCero">
+                        <div class="row m-0 p-0">
+
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposDesde0 as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
+                                <select name="" id="" class="form-select select2 leccion">
+                                    <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Nivel </label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Buscar</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" id="basic-addon-search1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                                    <input type="text" class="form-control buscar-matricula" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 p-0 d-none" id="filtrosIntensivo">
+                        <div class="row m-0 p-0">
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposIntensivo as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
+                                <select name="" id="" class="form-select select2 leccion">
+                                    <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Nivel</label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Buscar</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" id="basic-addon-search1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                                    <input type="text" class="form-control buscar-matricula" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-12 p-0 d-none" id="filtrosKids">
+                        <div class="row m-0 p-0">
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Grupo</label>
+                                <select name="" id="" class="form-select select2 grupo">
+                                    <option value="-">Seleccionar Grupo</option>
+                                    {{#each gruposKids as |grupo i|}}
+                                    <option value="{{grupo.id}}">
+                                        {{grupo.identificador}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Seleccionar Lección</label>
+                                <select name="" id="" class="form-select select2 leccion">
+                                    <option value="-">Seleccionar Lección</option>
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    <option value="5" disabled>5</option>
+                                    <option value="6" disabled>6</option>
+                                    <option value="7" disabled>7</option>
+                                    <option value="8" disabled>8</option>
+                                    <option value="9" disabled>9</option>
+                                    <option value="10" disabled>10</option>
+                                    <option value="11" disabled>11</option>
+                                    <option value="12" disabled>12</option>
+                                    <option value="13" disabled>13</option>
+                                    <option value="14" disabled>14</option>
+                                    <option value="15" disabled>15</option>
+                                    <option value="16" disabled>16</option>
+                                    <option value="17" disabled>17</option>
+                                    <option value="18" disabled>18</option>
+                                    <option value="19" disabled>19</option>
+                                    <option value="20" disabled>20</option>
+                                    <option value="21" disabled>21</option>
+                                    <option value="22" disabled>22</option>
+                                    <option value="23" disabled>23</option>
+                                    <option value="24" disabled>24</option>
+                                    <option value="25" disabled>25</option>
+                                    <option value="26" disabled>26</option>
+                                    <option value="27" disabled>27</option>
+                                    <option value="28" disabled>28</option>
+                                    <option value="29" disabled>29</option>
+                                    <option value="30" disabled>30</option>
+                                    <option value="31" disabled>31</option>
+                                    <option value="32" disabled>32</option>
+                                </select>
+                            </div>
+
+                            <div class="col col-md-3 mb-1">
+                                <label for="" class="form-label">Nivel</label>
+                                <select name="" id="" class="form-select select2">
+                                    {{#if matri}}
+                                    <option value="1">1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{else}}
+                                    <option value="1" disabled>1</option>
+                                    <option value="2" disabled>2</option>
+                                    <option value="3" disabled>3</option>
+                                    <option value="4" disabled>4</option>
+                                    {{/if}}
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-1">
+                                <label for="" class="form-label">Buscar</label>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text" id="basic-addon-search1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
+                                    <input type="text" class="form-control buscar-matricula" placeholder="Buscar Alumno" aria-label="Search..." aria-describedby="basic-addon-search1">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <section class="row m-0 p-0" id="estudiantes"></section>
+
+                    <template id="template">
+                        <div class="col-12">
+                            <div class="card card-statistics border-success" id="estudiante{{id}}">
+                                <div class="row m-0 p-0">
+                                    <div class="col-10 col-xl-11">
+                                        <div class="row card-header">
+                                            <div class="col-12">
+                                                <div class="d-flex flex-column flex-sm-row justify-content-sm-between mb-1">
+                                                    <div class="d-flex flex-column mb-1 mb-md-0">
+                                                        <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                        <h1 class="mb-0"><b>{{nombre}}</b></h1>
+                                                    </div>
+
+                                                    <div class="d-flex flex-column flex-md-row">
+                                                        <div class="d-flex flex-column mb-1 me-md-1">
+                                                            <p class="text-success"><b>Calificación</b></p>
+                                                            <div class="d-flex align-items-center">
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos{{id}}" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion calific{{id}}" value="0" min="0" max="100">%</p>
+
+
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas{{id}}" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="d-flex flex-column">
+                                                            <p class="text-success"><b>Participación</b></p>
+                                                            <div class="d-flex align-items-center">
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                                                <p class="h3 mb-0 mx-1"><input type="number" name="" class="calificacion" value="0" min="0" max="100">%</p>
+
+
+                                                                <button class="btn btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas" data-id="{{id}}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 col-xl-1 p-0">
+                                        <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="{{id}}">
+                                            <i data-feather='user-check' class="feather text-secondary d-none check" style="pointer-events: none;"></i>
+                                            <i data-feather='user-minus' class="feather text-success uncheck" style="pointer-events: none;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <form action="" method="GET" id="grupoForm" class="d-none">
+                        <input type="text" name="id" value="PYT-672">
+                        <input type="text" name="grupoid" class="grupoId">
+                    </form>
+
+                    <form action="" id="procesarAusente" class="d-none">
+                        <input type="number" name="leccion" id="ausenteNumLeccion">
+                        <input type="number" name="grupoId" id="ausenteGrupoId">
+                        <input type="number" name="matriculaId" id="ausenteMatriculaId">
+                    </form>
+
+                    <form action="" class="d-none" id="procesarNotas">
+                        <input type="text" name="nota" class="nota">
+                        <input type="text" name="leccion" class="leccion">
+                        <input type="text" name="grupoId" class="grupo">
+                        <input type="text" name="matriculaId" class="matricula">
+                        <input type="text" name="commentProfForm" class="commentProfForm">
+                        <input type="text" name="commentAdminForm" class="commentAdminForm">
+                    </form>
+
+                    <form action="" class="d-none" id="procesarParticipacion">
+                        <input type="text" name="porcentaje" class="porcentaje">
+                        <input type="text" name="leccion" class="leccion">
+                        <input type="text" name="grupoId" class="grupo">
+                        <input type="text" name="matriculaId" class="matricula">
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../../assets/js/PYT672/asistencias.js"></script>

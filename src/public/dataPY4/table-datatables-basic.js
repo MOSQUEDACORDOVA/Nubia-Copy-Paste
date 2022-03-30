@@ -1,12 +1,14 @@
 /**
  * DataTables Basic
  */
+ 
 function cargaTabla(rechar) {
   let valor = $('#array').val()
   let array =""
+  console.log(valor)
   if (rechar) {
     array = JSON.parse(valor)
-console.log(array)
+    console.log(array)
   }else{
    array = JSON.parse(valor.replace(/&quot;/g,'"')) 
   }
@@ -14,6 +16,8 @@ console.log(array)
   let sucursales = $('#array_sucursales').val()
   let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
 
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   var dt_basic_table = $('.datatables-basic'),
     dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
 
@@ -24,13 +28,31 @@ console.log(array)
     $('.dt-column-searchClientes thead tr').clone(true).appendTo('.dt-column-searchClientes thead');
     $('.dt-column-searchClientes thead tr:eq(0) th').each(function (i) {
       var title = $(this).text();
-      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="'+title+i+'"/>');
   
       $('input', this).on('keyup change', function () {
+        $('#filterPosition').val(this.id)
+        $('#filterValue').val(this.value)
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
         }
       });
+      
+    });
+    $('#cliente_nuevo').on('change', function (e) {
+      console.log(e)
+      if ($('#cliente_nuevo').is(':checked')) {
+        console.log('hello')
+        if (dt_basic.column(7).search() !== 'SI') {
+        dt_basic.column(7).search('SI').draw();
+      }
+      }else{
+        console.log('worfdl')
+        if (dt_basic.column(7).search() !== '') {
+          dt_basic.column(7).search('').draw();
+        }
+      }
+      
     });
     // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
@@ -43,23 +65,36 @@ console.log(array)
         { data: 'id' },
         { data: 'telefono' },
         { data: 'email' }, 
-        
+        { data: 'cantidad_referidos' }, 
+        { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
           title: '',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record ">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item" onclick=\'edit_cliente("'+full['id']+'")\'>' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  +
-              '<a href="javascript:;" title="Etiqueta" class="'+full['id']+' dropdown-item edit_tag " data-bs-toggle="modal" data-id="'+full['id']+'" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">' +
-              feather.icons['tag'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>' 
+             ` <div class="">
+                    <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
+                      ${feather.icons["more-vertical"].toSvg()}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                    <div class="d-inline-flex">
+                    <a href="javascript:;" class="${full['id']} dropdown-item delete-record${full['id']}" onclick=\'delete_cliente("${full['id']}")\'>
+                   ${feather.icons['trash-2'].toSvg()} 
+                    </a>
+                    <a href="javascript:;" class="${full['id']} dropdown-item" onclick=\'edit_cliente("${full['id']}")\'>
+                    ${feather.icons['file-text'].toSvg()}
+                    </a>
+                    <a href="javascript:;" title="Etiqueta" class="${full['id']} dropdown-item edit_tag " data-bs-toggle="modal" data-id="${full['id']}" data-title="Cambiar tag"  data-bs-target="#ad_tag_cliente">
+                    ${feather.icons['tag'].toSvg()}
+                    </a>
+                    <a href="javascript:;" class="${full['id']} dropdown-item share_record ${full['id']}" onclick=\'share_record("${full['id']}")\'>
+                    ${feather.icons['share-2'].toSvg()}
+                    </a>
+                    <a id="CopyPedido${full['id']}" class="d-none"></a>
+                </div>`
+               
+             //https://alcalina.bwater.mx/referido-bwater/${full['id']}
             );
           }  },
       ],
@@ -88,47 +123,51 @@ console.log(array)
           targets: 1,
           responsivePriority: 4,
           render: function (data, type, full, meta) {
-            var $user_img = "-",
-              $name = full['firstName'] + " " + full['lastName'],
-              $post = "Cliente";
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+            var $user_img = "-"
             if ($user_img) {
               // For Avatar image
               var $output =
                 '<img src="' + assetPath + 'images/avatar-s-pyt4.jpg" alt="Avatar" width="32" height="32">';
-            } else {
-              // For Avatar badge
-              var stateNum = full['status'];
-              var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-              var $state = states[stateNum],
-                $initials = $name.match(/\b\w/g) || [];
-              $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-content">' + $initials + '</span>';
             }
-
-            var colorClass = $user_img === '' ? ' bg-light-' + $state + ' ' : '';
-            // Creates full output for row
-            var color_tag ="", color_text=""
-            if (full['etiqueta'] ==null) {
-              color_tag =0
-              color_text="black"
-            }else{
-              color_tag =full['etiqueta']['color']
-              color_text="white"
+            var $status_number = full['tipo'];
+            var $status = {
+              "Residencial": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+              "Punto de venta": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+              "Negocio": { title: full['firstName'] +" "+ full['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
             }
-            var $row_output =
-              '<div class="d-flex justify-content-left align-items-center">' +
-              '<div class="avatar ' +
-              colorClass +
-              ' me-1">' +
-              $output +
+        var cliente_arr = encodeURIComponent(JSON.stringify(full));
+        var color_tag ="", color_text=""
+        if (full['etiqueta'] ==null) {
+          color_tag =0
+          color_text="black"
+        }else{
+          color_tag =full['etiqueta']['color']
+          color_text="white"
+        }
+        //aqui activa el modal info del cliente
+            return ('<div class="d-flex justify-content-left align-items-center">' +
+            '<div class="avatar ' +
+            ' me-1">' +
+            $output +
+            '</div>' +
+            '<div class="d-flex flex-column">' +
+              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
+              '" >' +
+              $status[$status_number].title +
+              '</span>'+
               '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<span class="emp_name text-truncate fw-bold badge rounded-pill" style="background-color: ' +color_tag  + '; color:'+color_text+'">' +
-              $name +
-              '</span>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
+              '</div>'
+            );
           }
         },
         {
@@ -171,6 +210,9 @@ console.log(array)
           }
         },
         {
+          targets: 8,visible: false
+        },
+        {
           // Label
           targets: -2,
           render: function (data, type, full, meta) {
@@ -198,7 +240,7 @@ console.log(array)
       order: [[1, 'desc']],
       dom: '<"none"<"head-label"><"dt-action-buttons text-end"B>><""<"col-sm-12 col-md-6"l><"none"f>>t<" d-flex justify-content-between mx-0 row" aa<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
+      lengthMenu: [7, 10, 25, 50, 75, 100,120,130,140,150,200],
 
       language: {
         "decimal": "",
@@ -332,7 +374,7 @@ $('#btn_asignar_tag').on('click', async (e)=>{
 $('#array').val(JSON.stringify(data.clientes_arr))
 $('#exampleClientes').dataTable().fnDestroy();
 $('#exampleClientes').empty();
-$('#exampleClientes').append(` <thead>
+$('#exampleClientes').append(`<thead>
 <tr>
     <th> </th>
     <th>Nombre</th>
@@ -340,16 +382,22 @@ $('#exampleClientes').append(` <thead>
     <th>Etiqueta</th>
     <th>Titulo</th>
     <th>Teléfono</th>
-    <th>Correo</th>  
+    <th>Correo</th> 
+    <th>Referidos</th>  
+    <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
 </thead>`);
 cargaTabla('si')
+if ($('#filterPosition').val() != "") {
+  console.log($('#filterValue').val())
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+}
 $('.modal').modal('hide');
 Swal.fire('Se asignó con éxito la(s) etiqueta al cliente')
     },
     error: function (jqXHR, textStatus) {
-      console.log('error:' + jqXHR)
+      console.log('error:' + JSON.stringify(jqXHR))
     }
   });
   
@@ -404,7 +452,7 @@ $("#id_ad_tag_cliente").val(valoresCheck);
   $('#array').val(JSON.stringify(data.clientes_arr))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
+  $('#exampleClientes').append(`<thead>
   <tr>
       <th> </th>
       <th>Nombre</th>
@@ -412,11 +460,17 @@ $("#id_ad_tag_cliente").val(valoresCheck);
       <th>Etiqueta</th>
       <th>Titulo</th>
       <th>Teléfono</th>
-      <th>Correo</th>  
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
 </thead>`);
   cargaTabla('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito la(s) Zona')
       },
@@ -434,10 +488,10 @@ console.log('entro aqui')
       data: $('#edit_cliente_form').serialize(),
       success: function (data, textStatus, jqXHR) {
         console.log(data)
-  $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#array').val(JSON.stringify(data.clientes_arr))
   $('#exampleClientes').dataTable().fnDestroy();
   $('#exampleClientes').empty();
-  $('#exampleClientes').append(` <thead>
+  $('#exampleClientes').append(`<thead>
   <tr>
       <th> </th>
       <th>Nombre</th>
@@ -445,11 +499,17 @@ console.log('entro aqui')
       <th>Etiqueta</th>
       <th>Titulo</th>
       <th>Teléfono</th>
-      <th>Correo</th>  
+      <th>Correo</th> 
+      <th>Referidos</th>  
+      <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
 </thead>`);
   cargaTabla('si')
+  if ($('#filterPosition').val() != "") {
+    console.log($('#filterValue').val())
+   $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ }
   $('.modal').modal('hide');
   Swal.fire('Se editó con éxito la información del cliente')
       },
@@ -458,6 +518,113 @@ console.log('entro aqui')
       }
     });
     
+  })
+
+  $('#add_cliente_modal').click(()=>{
+    if ($('#nombre-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un nombre al cliente')
+      return $('#nombre-cliente-reg').focus()
+      
+    }
+    if ($('#apellido-cliente-reg').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+      return $('#apellido-cliente-reg').focus()
+      
+    }
+    if ($('#select_asentamiento').val() == null) {
+      Swal.fire('Debe ingresar el código postal')
+     return $('#cp_select').focus()
+    }
+    if ($('#tlf-add-cliente').val() == "") {
+      Swal.fire('Debe colocar un número de teléfono')
+     return $('#tlf-add-cliente').focus()
+    }
+if ($('#reg_zona_cliente').val() == '0') {
+      Swal.fire('Debe colocar una zona de cliente')
+    return  $('#reg_zona_cliente').focus()
+    }
+
+if ($('#color_tag_reg_cliente').val() == '0') {
+      Swal.fire('Debe colocar una etiqueta al cliente')
+     return $('#color_tag_reg_cliente').focus()
+    }
+
+    $.ajax({
+      url: `/save_cliente_py4`,
+      type: 'POST',
+      data: $('#form_reg_cliente').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('.modal').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#form_reg_cliente')[0].reset()
+        $('#array').val(JSON.stringify(data.clientes))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Referidos</th>  
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+        $('.modal').modal('hide');
+        Swal.fire('Se creó con éxito al cliente')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+  })
+  $('#btn_add_cp').click(()=>{
+    if ($('#cp_add').val() == "") {
+      Swal.fire('Debe colocar un código postal')
+     return $('#cp_add').focus()
+    }
+  if ($('#asentamiento_add').val() == '') {
+      Swal.fire('Debe colocar asentamiento')
+    return  $('#asentamiento_add').focus()
+    }
+  
+  if ($('#municipio_add').val() == '0') {
+      Swal.fire('Debe seleccionar un municipio')
+     return $('#municipio_add').focus()
+    }
+  
+    $.ajax({
+      url: `/save_cp_new`,
+      type: 'POST',
+      data: $('#agregar_cp').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        if (data.error) {
+          $('#add_cp').modal('hide');
+          Swal.fire(data.error)
+          return
+        }
+        $('#agregar_cp')[0].reset()
+  $('#add_cp').modal('hide');
+  Swal.fire('Se creó con éxito asentamiento')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
   })
 });
 function edit_cliente(id_edit) {
@@ -477,6 +644,7 @@ $.ajax({
   processData: false,
   success: function (data, textStatus, jqXHR) {
 console.log(data)
+$('#cliente_nuevo_edited').attr('checked', false);  
 $('#id_cliente_edited').val(data['cliente_let']['id'])
 $('#firstName_edited').val(data['cliente_let']['firstName'])
 $('#lastName_edited').val(data['cliente_let']['lastName'])
@@ -511,7 +679,9 @@ if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']
   //  $('#metodo_pago_edit').find('option:selected').remove().end();
     $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
   }
-
+  if ( data['cliente_let']['nuevo']=="SI" ){
+    $('#cliente_nuevo_edited').attr('checked', true);  
+    }
 $('#fecha_ultimo_pedido').val(data['cliente_let']['fecha_ultimo_pedido'])
 $('#utimos_botellones_edited').val(data['cliente_let']['ultimos_botellones'])
 
@@ -529,3 +699,73 @@ $('#edit_cliente').modal('show')
   }
 });
 }
+function delete_cliente(id_) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  if (typeof id_ =="undefined") {
+    return console.log(id_)
+  }
+  var id = id_
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_cliente/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Cliente ${id} borrado con éxito`,
+      })
+    }
+  })
+}
+async function share_record(id_) {
+  //dt_basic.row($(this).parents('tr')).remove().draw();
+  var id_edit = id_
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+  let codigo_referido = await fetch("/crea_codigo_ref/" + id_)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    return data.id_referido;
+  });
+  console.log(codigo_referido)
+  $(`#CopyPedido${id_edit}`).text(`
+  Toma B•Water Alcalina y siente el cambio. Registra tu pedido 💦
+  ¡REFIERE Y GANA! $$: 
+  https://alcalina.bwater.mx/referido-bwater/${codigo_referido}`)
+  copyToClipboard(`#CopyPedido${id_edit}`)
+}
+function copyToClipboard(elemento) {
+  var $temp = $("<textarea>")
+  var brRegex = /<br\s*[\/]?>/gi;
+  $("body").append($temp);
+  $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
+  document.execCommand("copy");
+  $temp.remove();
+  Swal.fire('Link de referido copiado en el portapapeles')
+  }

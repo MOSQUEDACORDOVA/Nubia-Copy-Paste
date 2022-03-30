@@ -21,6 +21,11 @@ const Last_pedido = db.define('last_pedido', {
 		allowNull: true,
 		defaultValue: ""
 	},
+	fecha_pedido: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
+	},
 	metodo_pago: {
 		type: DataTypes.TEXT,
 		allowNull: true,
@@ -106,7 +111,11 @@ const Last_pedido = db.define('last_pedido', {
 		allowNull: true,
 		defaultValue: 0
 	},
-
+	motivo: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: 0
+	},
 });
 
 Last_pedido.Usuarios= Last_pedido.belongsTo(Usuarios);

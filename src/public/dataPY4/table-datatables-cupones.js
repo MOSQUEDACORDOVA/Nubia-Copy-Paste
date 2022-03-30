@@ -237,7 +237,6 @@ function cargaTablacuponesUsed(editada) {
             var $user_img = full['cupone']['img'],
               $name = full['cupone']['nombre_cupon'],
               $post = full['cupone']['nombre_proveedor'];
-              console.log($user_img)
             if ($user_img) {
               // For Avatar image
               var $output =
@@ -303,7 +302,6 @@ function cargaTablacuponesUsed(editada) {
           color_tag =full['cliente']['etiqueta']['color']
           color_text="white"
         }
-        console.log(full['cliente'])
         //aqui activa el modal info del cliente
             return (
               '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
@@ -317,10 +315,9 @@ function cargaTablacuponesUsed(editada) {
           targets: 3,
           //className:'fecha_pedido',
           render:function(data, type, full){
-            console.log(full['id'])
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-         //  return (`<span class="badge rounded-pill">${moment(data).format('L')}</span>`);
-           return moment(data).format('L');
+           // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
+         //  return (`<span class="badge rounded-pill">${moment(data).format('DD/MM/YYYY')}</span>`);
+           return moment(data).format('DD/MM/YYYY');
           }
         },
       ],
@@ -376,10 +373,9 @@ function cargaTablacuponesUsed(editada) {
   'use strict';
   cargaTablacupones()
   cargaTablacuponesUsed()
-  // new QRCode(document.getElementById("qrcode"), "https://bwater.mosquedacordova.com/cuponera");
 
   new QRCode(document.getElementById("qrcode"), {
-    text: "https://bwater.mosquedacordova.com/intro_cuponera",
+    text: "https://alcalina.bwater.mx/intro_cuponera",
     width: 128,
     height: 128,
     colorDark : "#000000",
@@ -417,7 +413,6 @@ function cargaTablacuponesUsed(editada) {
   // Delete Record
   $('.datatables-basic_cupones tbody').on('click', '.delete-record', function (e) {
     if ($('#otro_rol').length) {
-      console.log('no eres admin')
       Swal.fire("Función valida solo para directores")
       return
     }
@@ -446,7 +441,6 @@ function cargaTablacuponesUsed(editada) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(result.value.total_cupones_usados_cupones_act)
       var opts = result.value.total_cupones_usados_cupones_act;
       $('.datatables-basic_cupones').DataTable().row($(this).parents('tr')).remove().draw();
       $('#array_cupones_usados').val(JSON.stringify(result.value.total_cupones_usados_cupones_act))
@@ -455,7 +449,7 @@ function cargaTablacuponesUsed(editada) {
       $('.datatables-basic_cupones_usados').html(`<thead>
       <tr>
         <th>id</th>
-        <th>Nombre</th>
+        <th>Cupon Usado</th>
         <th>Usado Por</th>                              
         <th>Fecha de Uso</th>
         <th>Categoria</th>
@@ -473,7 +467,6 @@ function cargaTablacuponesUsed(editada) {
   $('.datatables-basic_cupones tbody').on('click', '.edit_record', function (e) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = e.target.classList[0]
-    console.log(id_edit)
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
@@ -484,13 +477,11 @@ function cargaTablacuponesUsed(editada) {
   
    $('#reg_cupon').on('click', async (e)=>{
     
-    console.log('entro')
     $.ajax({
       url: `/crear_cupones`,
       type: 'POST',
       data: $('#form_add_cupon').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
         $('.datatables-basic_cupones').DataTable().row.add({
           id: data.cupones_let.id,
           nombre_cupon: data.cupones_let.nombre_cupon,
@@ -511,13 +502,11 @@ function cargaTablacuponesUsed(editada) {
   })
   $('#edit_btn_cupon').on('click', async (e)=>{
     
-    console.log('entro')
     $.ajax({
       url: `/editar_cupones`,
       type: 'POST',
       data: $('#form_edit_cupon').serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data)
         $('#array_cupones').val(JSON.stringify(data.cupones_act))
         $('.datatables-basic_cupones').dataTable().fnDestroy();
          $('.datatables-basic_cupones').empty();
@@ -547,8 +536,6 @@ function cargaTablacuponesUsed(editada) {
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-   //window.location.href = `/editar_pedido/${id_edit2}`;
-   console.log(id_edit)
   const data_C = new FormData();
   data_C.append("id", id_edit);
   $.ajax({
@@ -559,7 +546,6 @@ function cargaTablacuponesUsed(editada) {
     contentType: false,
     processData: false,
     success: function (data, textStatus, jqXHR) {
-  console.log(data)
    $('#id_cupon').val(data['parsed_cupon']['id'])
    $('#nombre_cupon').val(data['parsed_cupon']['nombre_cupon'])
    $('#nombre_proveedor_edit').val(data['parsed_cupon']['nombre_proveedor'])
@@ -568,12 +554,12 @@ function cargaTablacuponesUsed(editada) {
   $('#fecha_final_edit').val(data['parsed_cupon']['fecha_final'])
  $('#cantidad_edit').val(data['parsed_cupon']['cantidad'])
  $('#edit-img5_').val(data['parsed_cupon']['img'])
+  $('#dir_proveedor_edit').val(data['parsed_cupon']['ubicacion'])
+
 $('#descripcion_edit').val(data['parsed_cupon']['especial'])
   if ( $("#categoria_edit option[value='" + data['parsed_cupon']['categoria'] + "']").length == 0 ){
-  console.log(data['parsed_cupon']['categoria'])
   $('#categoria_edit').prepend('<option selected value="' + data['parsed_cupon']['categoria'] + '">' + data['parsed_cupon']['categoria'] + '</option>');  
   }else{
-   console.log(data['parsed_cupon']['categoria']) 
   //  
     $("#categoria_edit option[value='" + data['parsed_cupon']['categoria'] + "']").attr("selected","selected");
     $('#categoria_edit').trigger('change');

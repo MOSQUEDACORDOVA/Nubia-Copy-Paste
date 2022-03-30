@@ -462,7 +462,6 @@ return (
     })
    });
    $('#save_personal_py4btn').on('click', async (e)=>{
-    
     console.log('entro')
     $.ajax({
       url: `/save_personal_py4`,

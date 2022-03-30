@@ -22,7 +22,7 @@
                                                 </div>
                                             </div>
                                             <div class="my-auto">
-                                                <h4 class="fw-bolder mb-0">{{aerocoin.price}} USDT</h4>
+                                                <h4 class="fw-bolder mb-0">{{aerocoin.price}} USD</h4>
                                                 <p class="card-text font-small-3 mb-0">Price AeroCoin</p>
                                             </div>
                                         </div>
@@ -44,7 +44,7 @@
                                         <div class="col-12">
                                             <div class="mb-1">
                                                 <label class="form-label">Price AeroCoin</label>
-                                                <input type="number" class="form-control" name="price" placeholder="60 USDT c/u" min="0" step="0.1"  required>
+                                                <input type="number" class="form-control" name="price" min="0" step="0.0001"  required>
                                             </div>
                                         </div>
                                         <div class="col-12">
@@ -102,6 +102,7 @@
                                             </div>
                                             <div class="my-auto">
                                                 <h4 class="fw-bolder mb-0"> <span id="bnbprice"></span> USDT</h4>
+                                                <!--<h4 class="fw-bolder mb-0">545.80 USDT</h4>-->
                                                 <p class="card-text font-small-3 mb-0">Price BNB</p>
                                             </div>
                                         </div>
@@ -130,10 +131,10 @@
                             <!-- form -->
                             <form id="priceform" method="post" action="/updateaerocoin" class="row gy-1 gx-2 mt-75">
                                 <div class="col-12">
-                                    <label class="form-label" for="">Price AeroCoin USDT</label>
+                                    <label class="form-label" for="">Price AeroCoin USD</label>
                                     <input type="text" name="id" class="d-none" value="{{aerocoin.id}}" required>
                                     <div class="input-group input-group-merge">
-                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.1" value="{{aerocoin.price}}" required>
+                                        <input id="price" name="price" class="form-control" type="number" min="0" step="0.0001" value="{{aerocoin.price}}" required>
                                     </div>
                                 </div>
 
@@ -153,6 +154,7 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     let btcPrice = document.getElementById('btcprice');
@@ -166,15 +168,24 @@
 
         btcPrice.innerText = resultBtc
     });
-   
 
-    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
+    fetch('https://api.coingecko.com/api/v3/coins/binancecoin/market_chart?vs_currency=usd&days=1')
     .then(response => response.json())
     .then(data => {
-        let arr = data.tickers[7]
+        console.log(data.prices[0][1])
+        let price = data.prices[0][1];
+        bnbPrice.innerText = price;
+        /*let arr = data.tickers
         let resultBnb = arr.last
+        console.log(data.tickers)
+        arr.forEach(item => {
+            if(item.coin_id === 'binancecoin' && item.target === 'USDT') {
+                resultBnb = item.last;
+                console.log(resultBnb)
+            }
+        });
 
-        bnbPrice.innerText = resultBnb
+        bnbPrice.innerText = resultBnb*/
     });
    
 </script>

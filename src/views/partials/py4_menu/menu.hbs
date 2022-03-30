@@ -1,10 +1,7 @@
 {{#if login}}{{else}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
-    <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" ></script>
+        
 <script>
     function ucwords(str,force){ 
         str=force ? str.toLowerCase() : str; 
@@ -14,6 +11,8 @@
          }); 
         }
     $(document).ready(function () {
+
+
         $('input[type="text"]').keyup(function(evt){ // force: true to lower case all letter except first 
        // var cp_value= ucfirst($(this).val(),true) ; // to capitalize all words //
         var cp_value= ucwords($(this).val(),true) ; 
@@ -86,7 +85,12 @@ $('#bell_not').on('click', ()=>{
     console.log($('#bell_not .badge').text())
     $('#bell_not .badge').attr('style', 'display:none')
 })
+
+$('.referido-notif').mouseleave((e)=>{
+    $(e.target).remove()
+})
     })
+
 </script>
 {{#if admin}}{{else}}<span id="otro_rol" hidden>Admin</span>{{/if}}
 <input type="text" id="array" hidden value="{{clientes_d}}">
@@ -105,18 +109,69 @@ $('#bell_not').on('click', ()=>{
 
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto {{#if disabled_chofer}}d-none{{/if}}" >
-            <li class="nav-item dropdown dropdown-notification me-25">
+        {{#if referidos}}
+        <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
+                <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#registro_pedido_modal_referido" >
+                    <i class="ficon me-1" data-feather="shopping-cart"></i>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido </span>
+                </a>
+            </li>
+            <li class="nav-item border mx-1">
+                <span class="divider"></span>
+            </li>
+            <li class="nav-item dropdown dropdown-user"><a class="nav-link dropdown-toggle dropdown-user-link"
+                    id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <div class="user-nav d-sm-flex d-none"><span class="user-name fw-bolder">{{user.name}}</span><span
+                            class="user-status">{{user.tipo}}</span></div><span class="avatar"><img class="round"
+                            src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" height="40" width="40"><span
+                            class="avatar-status-online"></span></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                    <a class="dropdown-item" href="/logoutpy4"><i class="me-50" data-feather="power"></i> Cerrar
+                        Sesion</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown dropdown-actions d-md-none">
+                <a class="nav-link dropdown-toggle dropdown-actions-link"
+                    id="dropdown-actions" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i data-feather='more-vertical' class="ficon"></i>
+                </a>
+
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-actions">
+                    <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
+                    data-bs-target="#registro_pedido_modal_referido">
+                        <i class="ficon me-1" data-feather="shopping-cart"></i>
+                        Añadir Pedido
+                    </a>
+                </div>
+            </li>
+        {{else}}
+         <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="#" data-bs-toggle="dropdown" aria-expanded="false" id="bell_not"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bell ficon"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                 {{#if cont_not}}<span class="badge rounded-pill bg-danger badge-up">{{cont_not}}</span>{{/if}}</a>
             <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
               <li class="dropdown-menu-header">
                 <div class="dropdown-header d-flex">
                   <h4 class="notification-title mb-0 me-auto">Notificaciones</h4>
-                  <div class="badge rounded-pill badge-light-primary">{{cont_not}} New</div>
+                  <div class="badge rounded-pill badge-light-primary">{{cont_not}} Nuevos</div>
                 </div>
               </li>
               <li class="scrollable-container media-list ps ps--active-y">
-                  
+                  {{#each verifica_pedidos_referido as |ref_pedido i|}}
+                <a class="d-flex referido-notif" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{cliente.firstName}} {{cliente.lastName}} / Referido</span></p>
+                      <small class="notification-text"> Ha generado el pedido:{{id}}
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+
                       {{#each notif1_2 as |nt1_2 i|}}
                 <a class="d-flex" href="#">
                 <div class="list-item d-flex align-items-start">
@@ -159,7 +214,34 @@ $('#bell_not').on('click', ()=>{
                     </div>
                   </div></a>
                       {{/each}}
-                  
+
+
+                  {{#each notif_maquila_relleno as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre}}</span></p>
+                      <small class="notification-text"> Alcanzó los {{total_rellenos}} rellenos.
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
+                       {{#each notif_maquila_bwater as |nt i|}}
+                <a class="d-flex" href="#">
+                <div class="list-item d-flex align-items-start">
+                    <div class="me-1">
+                      <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
+                    </div>
+                    <div class="list-item-body flex-grow-1">
+                      <p class="media-heading"><span class="fw-bolder">{{nombre}}</span></p>
+                      <small class="notification-text"> Alcanzó los {{total_bwaters}} bwaters.
+                      </small>
+                    </div>
+                  </div></a>
+                      {{/each}}
 
               <div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px; height: 350px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 285px;"></div></div>
               </li>
@@ -177,16 +259,16 @@ $('#bell_not').on('click', ()=>{
     {{/if}}
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#add_cliente">
+                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}" {{#if maquila}}id="btnadd_cliente-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather='user-plus'></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>Cliente</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Cliente {{#if maquila}}maquila{{/if}}</span>
                 </a>
             </li>
             <li class="nav-item dropdown dropdown-notification me-25 d-none d-md-block">
                 <a class="nav-link d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal-maquila"{{/if}}>
                     <i class="ficon me-1" data-feather="shopping-cart"></i>
-                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido</span>
+                    <span class="menu-title text-truncate añadir">Añadir <br>Pedido {{#if maquila}}maquila{{/if}}</span>
                 </a>
             </li>
             <li class="nav-item border mx-1">
@@ -212,118 +294,23 @@ $('#bell_not').on('click', ()=>{
 
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-actions">
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#add_cliente">
+                    data-bs-target="#{{#if maquila}}add_cliente-maquila{{else}}add_cliente{{/if}}" {{#if maquila}}id="btnadd_cliente_res-maquila"{{/if}}>
                         <i class="ficon me-1" data-feather='user-plus'></i>
-                        Añadir Cliente
+                        Añadir Cliente {{#if maquila}}maquila{{/if}}
                     </a>
                     <a class="dropdown-item d-flex align-items-center" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registro_pedido_modal">
+                    data-bs-target="#{{#if maquila}}registro_pedido_modal-maquila{{else}}registro_pedido_modal{{/if}}" {{#if maquila}}id="btnregistro_pedido_modal_res-maquila"{{/if}}>
                         <i class="ficon me-1" data-feather="shopping-cart"></i>
-                        Añadir Pedido
+                        Añadir Pedido {{#if maquila}}maquila{{/if}}
                     </a>
                 </div>
             </li>
+        {{/if}}
+           
         </ul>
     </div>
 </nav>
 
-
-<ul class="main-search-list-defaultlist d-none">
-    <li class="d-flex align-items-center"><a href="#">
-            <h6 class="section-label mt-75 mb-0">Files</h6>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
-            <div class="d-flex">
-                <div class="me-75"><img src="../../../app-assets/images/icons/xls.png" alt="png" height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">Two new item submitted</p><small class="text-muted">Marketing
-                        Manager</small>
-                </div>
-            </div><small class="search-data-size me-50 text-muted">&apos;17kb</small>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
-            <div class="d-flex">
-                <div class="me-75"><img src="../../../app-assets/images/icons/jpg.png" alt="png" height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">52 JPG file Generated</p><small class="text-muted">FontEnd
-                        Developer</small>
-                </div>
-            </div><small class="search-data-size me-50 text-muted">&apos;11kb</small>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
-            <div class="d-flex">
-                <div class="me-75"><img src="../../../app-assets/images/icons/pdf.png" alt="png" height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">25 PDF File Uploaded</p><small class="text-muted">Digital
-                        Marketing Manager</small>
-                </div>
-            </div><small class="search-data-size me-50 text-muted">&apos;150kb</small>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between w-100"
-            href="app-file-manager.html">
-            <div class="d-flex">
-                <div class="me-75"><img src="../../../app-assets/images/icons/doc.png" alt="png" height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">Anna_Strong.doc</p><small class="text-muted">Web Designer</small>
-                </div>
-            </div><small class="search-data-size me-50 text-muted">&apos;256kb</small>
-        </a></li>
-    <li class="d-flex align-items-center"><a href="#">
-            <h6 class="section-label mt-75 mb-0">Members</h6>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
-            <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-8.jpg" alt="png"
-                        height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">John Doe</p><small class="text-muted">UI designer</small>
-                </div>
-            </div>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
-            <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-1.jpg" alt="png"
-                        height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">Michal Clark</p><small class="text-muted">FontEnd
-                        Developer</small>
-                </div>
-            </div>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
-            <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-14.jpg" alt="png"
-                        height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">Milena Gibson</p><small class="text-muted">Digital Marketing
-                        Manager</small>
-                </div>
-            </div>
-        </a></li>
-    <li class="auto-suggestion"><a class="d-flex align-items-center justify-content-between py-50 w-100"
-            href="app-user-view-account.html">
-            <div class="d-flex align-items-center">
-                <div class="avatar me-75"><img src="../../../app-assets/images/portrait/small/avatar-s-6.jpg" alt="png"
-                        height="32"></div>
-                <div class="search-data">
-                    <p class="search-data-title mb-0">Anna Strong</p><small class="text-muted">Web Designer</small>
-                </div>
-            </div>
-        </a></li>
-</ul>
-<ul class="main-search-list-defaultlist-other-list d-none">
-    <li class="auto-suggestion justify-content-between"><a
-            class="d-flex align-items-center justify-content-between w-100 py-50">
-            <div class="d-flex justify-content-start"><span class="me-75" data-feather="alert-circle"></span><span>No
-                    results found.</span></div>
-        </a></li>
-</ul>
 <!-- END: Header-->
 <style>
     .main-menu.menu-light .navigation {
@@ -357,7 +344,7 @@ padding-left: 0.7rem;
 </style>
 {{/if}}
 <!-- BEGIN: Main Menu-->
-<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow py4 {{#if disabled_chofer}}d-none{{/if}}" data-scroll-to-active="true"
+<div class="main-menu menu-fixed menu-light menu-accordion menu-shadow py4 {{#if disabled_chofer}}d-none{{/if}} {{#if referidos}}d-none{{/if}}" data-scroll-to-active="true"
     style="background: linear-gradient(to bottom, #001867 0%, #010c70 51%, #0092ae 100%);">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
@@ -370,6 +357,7 @@ padding-left: 0.7rem;
         </ul>
     </div>
     <div class="shadow-bottom"></div>
+    <!--MENU LATERAL-->
     <div class="main-menu-content " style="background: transparent;">
         <ul class="navigation navigation-main " id="main-menu-navigation" data-menu="menu-navigation">
             <li core-menu-vertical-section="" class="navigation-header mt-2"><span
@@ -380,32 +368,38 @@ padding-left: 0.7rem;
                     <circle cx="19" cy="12" r="1"></circle>
                     <circle cx="5" cy="12" r="1"></circle>
                 </svg></li>
-            <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
+                {{#if referidos}}
+                <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/home-referido"><i
                         data-feather="home"></i><span class="menu-title text-truncate"
                         data-i18n="tablero">Tablero</span></a></li>
+                {{else}}
+                <li class="{{#if dash}}active {{/if}}nav-item"><a class="d-flex align-items-center" href="/homepy4"><i
+                        data-feather="home"></i><span class="menu-title text-truncate"
+                        data-i18n="tablero">Tablero</span></a></li>
+
             <li class="{{#if users1}}active{{/if}} nav-item"><a class="d-flex align-items-center"
-                    href="/usuarios/PYT-4"><i data-feather="users"></i><span class="menu-title text-truncate"
+                    href="/clientesBwater"><i data-feather="users"></i><span class="menu-title text-truncate"
                         data-i18n="Usuarios">Clientes</span></a>
             </li>
-            <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+           {{#if admin}} <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
-                        data-i18n="Usuarios">Personal</span></a>
+                        data-i18n="Usuarios">Personal</span></a>{{/if}}
             </li>
             <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/corte_py4"><i
                         data-feather='pie-chart'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Corte</span></a>
             </li>
-            <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+           {{#if admin}} <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
-                        data-i18n="vehiculos">Vehiculos</span></a>
+                        data-i18n="vehiculos">Vehiculos</span></a>{{/if}}
             </li>
-            <li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+            {{#if admin}}<li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
-                        data-i18n="Zonas">Zonas</span></a>
+                        data-i18n="Zonas">Zonas</span></a>{{/if}}
             </li>
-                        <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                  {{#if admin}}      <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/carga_inicial_py4"><i data-feather='package'></i><span class="menu-title text-truncate"
-                        data-i18n="Carga">Carga Inicial</span></a>
+                        data-i18n="Carga">Carga Inicial</span></a>{{/if}}
             </li>
             
             <li class="{{#if promociones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
@@ -416,6 +410,14 @@ padding-left: 0.7rem;
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
                         data-i18n="Notificaciones ">Notificaciones</span></a>
             </li>
+             <li class="{{#if maquila}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/maquila"><i data-feather='truck'></i><span class="menu-title text-truncate">Maquila</span></a>
+            </li>
+            <li class="{{#if reportes}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+                    href="/reportes"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Reportes</span></a>
+            </li>
+                {{/if}}
+            
 
         </ul>
         {{#if disabled_chofer}} <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
@@ -438,7 +440,7 @@ padding-left: 0.7rem;
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Modal -->{{#if referidos}}{{else}}
 <div class="modal fade" id="registro_pedido_modal" tabindex="-1" aria-labelledby="exampleModalScrollableTitle"
     style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -446,12 +448,11 @@ padding-left: 0.7rem;
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-pedido"></button>
             </div>
             <div class="modal-body">
 
-                <form novalidate class="needs-validation was-validated repeater" action="/reg_pedido_modal"
-                    method="post" id="reg_pedido_modal1">
+                <form class="needs-validation was-validated repeater" method="post" id="reg_pedido_modal1">
 
 
                     <div class="form-group">
@@ -470,16 +471,17 @@ padding-left: 0.7rem;
                     </button>
 
                     <div class="collapse" id="client-info">
+                        <input type="text"   id="tipo_c_pedido" hidden>
 
                         <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
                             <input type="text" name="firstName" placeholder="Primer Nombre"
                                 aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" autofocus
-                                required>
+                                id="nombre_c_pedido">
                         </div>
 
                         <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
                                 type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName"
-                                tabindex="2" class="form-control mb-2"></div>
+                                tabindex="2" class="form-control mb-2" id="apellido_c_pedido"></div>
                         <div class="divider">
                             <div class="divider-text">Dirección</div>
                         </div>
@@ -488,7 +490,7 @@ padding-left: 0.7rem;
                         <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
                                 Postal</label><input type="text" name="cp" placeholder="cp"
                                 aria-describedby="register-lastName" tabindex="2" class="form-control cp_select"
-                                id="cp_select">
+                                id="cp_select_pedido">
                         </div>
 
                         <div class="form-group mb-2"><label for="register-lastName"
@@ -499,7 +501,7 @@ padding-left: 0.7rem;
                         <div class="form-group mb-2"><label for="register-lastName"
                                 class="form-label">Municipio</label><input type="text" name="municipio"
                                 placeholder="Municipio" aria-describedby="register-lastName" tabindex="2"
-                                class="form-control municipio" id="municipio" readonly>
+                                class="form-control municipio" id="municipio_pedido" readonly>
                         </div>
                         <div class="form-group mb-2">
                             <label for="register-ciudad" class="form-label">Asentamiento</label>
@@ -510,36 +512,47 @@ padding-left: 0.7rem;
                             </select>
 
                         </div>
-                        <div class="form-group" hidden><label for="register-fraccionamiento"
-                                class="form-label">Sucursal</label><input type="text" name="sucursal"
-                                placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                                class="form-control mb-2">
-                        </div>
+                        <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
+                  aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2" id="reg_zona_cliente_pedido">
+                  <option selected="" value="0">Seleccione una Zona</option>
+                  {{#each sucursales_let as |sucursal i|}}
+                  <option value={{id}}> {{nombre}} </option>
+                  {{/each}}
+                </select></div>
+                                <div class="form-group">
+                  <label for="register-lastName" class="form-label">Color</label>
+                  <select class="select2 form-select" id="color_tag_reg_pedido" name="color" >
+                    <option value="default"> Seleccione una etiqueta </option>
+                    {{#each etiquetas_let as |cliente i|}}
+                    <option value="{{id}}"> {{etiquetas}}</option>
+                    {{/each}}
+                  </select>                
+                </div>
                         <div class="form-group" hidden><label for="register-fraccionamiento"
                                 class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento"
                                 placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5"
-                                class="form-control mb-2">
+                                class="form-control mb-2" id="fraccionamiento_pedido">
                         </div>
                         <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input
                                 type="text" name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6"
-                                class="form-control mb-2"></div>
+                                class="form-control mb-2" id="coto_c_pedido"></div>
 
                         <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input
                                 type="text" name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7"
-                                class="form-control mb-2"></div>
+                                class="form-control mb-2" id="casa_c_pedido"></div>
 
                         <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input
                                 type="text" name="calle" placeholder="Calle" aria-describedby="register-calle"
-                                tabindex="8" class="form-control mb-2"></div>
+                                tabindex="8" class="form-control mb-2" id="calle_c_pedido"></div>
                         <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
                             <input type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
-                                tabindex="9" class="form-control mb-2">
+                                tabindex="9" class="form-control mb-2" id="avenida_c_pedido">
                         </div>
 
                         <div class="form-group"><label for="register-referencia"
                                 class="form-label">Referencia</label><input type="text" name="referencia"
                                 placeholder="Referencia" aria-describedby="register-referencia" tabindex="9"
-                                class="form-control mb-2"></div>
+                                class="form-control mb-2" id="referencia_c_pedido"></div>
 
                         <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
                             <div class="input-group mb-2">
@@ -548,7 +561,7 @@ padding-left: 0.7rem;
                                 </div>
                                 <input type="number" name="telefono" placeholder="(760) 123 00 00"
                                     mask="(000) 000 00 00" aria-describedby="register-telefono" tabindex="11"
-                                    class="form-control">
+                                    class="form-control" id="telefono_c_pedido">
                             </div>
                         </div>
 
@@ -564,12 +577,18 @@ padding-left: 0.7rem;
                             class="form-control mb-2 chofer_reg_modal_pedido" id='chofer'>
                             <option default value="default">Seleccione un chofer</option>
                             {{#each choferes_ as |chofer i |}}
-                            <option data-id="{{id}}">{{name}} {{lastName}}</option>
+                            <option data-id="{{id}}" value="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
                         <input type="hidden" id="id_chofer" name="id_chofer">
                     </div>
-
+                    <div class="divider">
+                        <div class="divider-text">Fecha Pedido</div>
+                    </div>
+                    <div class="form-group mb-2"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" 
+                            id="fecha_pedido" >
+                    </div>
                     <div class="divider">
                         <div class="divider-text">Productos</div>
                     </div>
@@ -822,15 +841,25 @@ padding-left: 0.7rem;
                     </div>
                     
                       <div class="form-group" style="display: none;" id="deuda_box">
+                        <b class="m-0" id="subTotal_pedido">Sub Total: $<span id="sub_total_total">0</span></b><br>
                         <label for="register-firstName" class="form-label" style="color: red">Adeudo de: <strong>$<span id="deuda_verf"></span></strong></label><br>
-                        <label for="register-firstName" class="form-label">Prestados: <span id="prestados_anterior"></span> garrafones</label><br>
                          <input type="text" name="deuda_anterior" class="d-none" >   
                         </div>
-                    <div class="d-flex m-0">
+                        <div class="form-group" style="display: none;" id="prestados_box">
+                        <br>
+                        <label for="register-firstName" class="form-label" style="color: red">Prestados: <span id="prestados_anterior"></span> garrafone(s)</label><br>   
+                        </div>
+
+                       <div class="form-group d-none" id="descuento_referido_box">
+                        <b class="m-0" id="">Descuento Referido: $<span id="desc_referido">0</span></b><br>
+                         <input type="text" name="desc_referido" class="d-none" id="inp_desc_ref">
+                         <input type="text" name="id_referenciado" class="d-none" id="id_referenciado">   
+                        </div>
+                    <div class="d-flex m-0">                        
                         <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden />
                         <b class="m-0">Monto Total: $<span id="total_total">0</span></b>
                     </div>
-
+                    
                     <div class="divider">
                         <hr>
                     </div>
@@ -863,12 +892,12 @@ padding-left: 0.7rem;
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                         <input type="text" name="observacion" placeholder="Observación"
-                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required>
+                            id="observaciion-reg-pedido" tabindex="1" class="form-control mb-2" required>
                     </div>
             </div>
             <div class="modal-footer">
                 <button tabindex="26" rippleeffect=""
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrar</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button"  id="btn_reg_pedido">Regístrar</button>
             </div>
             </form>
         </div>
@@ -881,25 +910,30 @@ padding-left: 0.7rem;
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-cliente"></button>
             </div>
             <div class="modal-body">
-                <form class="needs-validation was-validated" action="/save_cliente_py4" method="post">
+                <form class="needs-validation was-validated" action="/save_cliente_py4" method="post" id="form_reg_cliente">
                     <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
                         <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName"
-                            tabindex="1" autofocus="" class="form-control mb-2">
+                            tabindex="1" autofocus="" class="form-control mb-2" id="nombre-cliente-reg"> 
                     </div>
                     <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input
                             type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName"
-                            tabindex="2" class="form-control mb-2"></div>
+                            tabindex="2" class="form-control mb-2" id="apellido-cliente-reg"></div>
                     <div class="divider">
                         <div class="divider-text">Dirección</div>
                     </div>
 
                     <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
-                            Postal</label><input type="text" name="cp" placeholder="cp"
+                            Postal</label>
+                            <div class="input-group">
+                            <div class="input-group-prepend"><span id="basic-addon1" class="" id="add"><button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-target="#add_cp" data-bs-toggle="modal" data-bs-dismiss="modal" title="Agregar CP">+ </button></span>
+                            </div>
+                            <input type="text" name="cp" placeholder="cp"
                             aria-describedby="register-lastName" tabindex="2" class="form-control cp_select"
                             id="cp_select">
+                        </div>
                     </div>
 
                     <div class="form-group mb-2"><label for="register-lastName" class="form-label">Estado</label><input
@@ -938,15 +972,18 @@ padding-left: 0.7rem;
                     <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input
                             type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida"
                             tabindex="9" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input
-                            type="text" name="referencia" placeholder="Referencia"
-                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2"></div>
-                    <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                    <div class="form-group">
+                        <label for="register-referencia" class="form-label">Referencia</label>
+                        <input type="text" name="referencia" placeholder="Referencia"
+                            aria-describedby="register-referencia" tabindex="9" class="form-control mb-2">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="register-telefono" class="form-label">Teléfono</label>
                         <div class="input-group">
                             <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
                             </div>
                             <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00"
-                                aria-describedby="register-telefono" tabindex="11" class="form-control mb-2" required>
+                                aria-describedby="register-telefono" tabindex="11" class="form-control" required id="tlf-add-cliente">
                         </div>
                     </div>
                     <div class="divider">
@@ -961,7 +998,8 @@ padding-left: 0.7rem;
                             1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez"
                             aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
                     </div>
-                    <div class="form-group"><label for="register-telefono_familiar_1" class="form-label">Teléfono del
+                    <div class="form-group mb-2">
+                        <label for="register-telefono_familiar_1" class="form-label">Teléfono del
                             familiar
                             1</label>
                         <div class="input-group">
@@ -969,7 +1007,7 @@ padding-left: 0.7rem;
                             </div>
                             <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00"
                                 mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14"
-                                class="form-control mb-2">
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
@@ -981,7 +1019,8 @@ padding-left: 0.7rem;
                             2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez"
                             aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
                     </div>
-                    <div class="form-group"><label for="register-telefono_familiar_2" class="form-label">Teléfono del
+                    <div class="form-group mb-2">
+                        <label for="register-telefono_familiar_2" class="form-label">Teléfono del
                             familiar
                             2</label>
                         <div class="input-group">
@@ -989,7 +1028,7 @@ padding-left: 0.7rem;
                             </div>
                             <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00"
                                 mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17"
-                                class="form-control mb-2">
+                                class="form-control">
                         </div>
                     </div>
                     <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
@@ -999,47 +1038,46 @@ padding-left: 0.7rem;
                             <option> Negocio </option>
                             <option> Punto de venta </option>
                         </select></div>
-                    <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                    <div class="form-group">
+                        <label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                             cliente?</label>
-                            
-                        <div class="custom-control custom-checkbox"><input type="checkbox" id="customCheck1"
-                                name="cliente_nuevo" aria-describedby="register-cliente_nuevo" tabindex="21"
-                                class="custom-control-input me-1" value="SI"><label for="customCheck1"
-                                class="custom-control-label">Sí</label>
+
+                        <div class="custom-control custom-checkbox mb-1">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input me-1" type="checkbox" id="customCheck1" name="cliente_nuevo" value="SI">
+                                <label class="form-check-label" for="customCheck1">Sí</label>
+                            </div>
                         </div>
                     </div>
                                         <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                             aria-describedby="register-sucursal" tabindex="24" name="sucursal"
-                            class="form-control mb-2">
-                            <option selected=""> Seleccione una zona </option>
+                            class="form-control mb-2" id="reg_zona_cliente">
+                            <option selected="" value="0"> Seleccione una zona </option>
                             {{#each sucursales_let as |sucursal i|}}
                             <option value={{id}}> {{nombre}} </option>
                             {{/each}}
                         </select></div>
-                   <div class="form-group">
+                   <div class="form-group mb-2">
                   <label for="register-lastName" class="form-label">Etiqueta</label>
-                  <select class="select2 form-select" id="color_tag" name="color" >
-                    <option selected="" value="default"> Seleccione una etiqueta </option>
+                  <select class="select2 form-select" id="color_tag_reg_cliente" name="color" >
+                    <option selected="" value="0"> Seleccione una etiqueta </option>
                     {{#each etiquetas_let as |cliente i|}}
                     <option value="{{id}}"> {{etiquetas}}</option>
                     {{/each}}
                   </select>                
                 </div>
-                    <div class="form-group"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                    <div class="form-group mb-2"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
                             último
-                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023"
-                            mask="00/00/0000" aria-describedby="register-fecha_ultimo_pedido" tabindex="22"
-                            class="form-control mb-2"></div>
+                            pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023" class="form-control flatpickr-basic flatpickr-input"></div>
                     <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
                             garrafones
                             en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0"
-                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control mb-2"></div>
+                            aria-describedby="register-utimos_botellones" tabindex="23" class="form-control"></div>
 
 
-                    <!--bindings={
-  "ng-reflect-ng-if-else": "[object Object]"
-}-->
-                    <!--container-->
+                {{#if dash}}
+                <input type="hidden" name="dashboard" value="1">
+                {{/if}}
                     <div class="divider">
                         <div class="divider-text">Acceso</div>
                     </div>
@@ -1049,7 +1087,7 @@ padding-left: 0.7rem;
             </div>
             <div class="modal-footer">
                 <button tabindex="26"
-                    class="btn btn-primary btn-block waves-effect waves-float waves-light">Regístrate</button>
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="add_cliente_modal">Regístrate</button>
             </div>
             </form>
         </div>
@@ -1085,5 +1123,167 @@ padding-left: 0.7rem;
         </div>
     </div>
 </div>
+<div class="modal fade" id="add_cp" tabindex="-1" aria-labelledby=""
+    style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="">Añadir Código Postal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="overflow-y: inherit;">
+
+                <form novalidate class="needs-validation was-validated repeater" id="agregar_cp">
+                    <div class="form-group"><label for="register-firstName" class="form-label">Código Postal</label>
+                        <input type="text" name="cp" placeholder="Pedro" aria-describedby="register-firstName"
+                            tabindex="1" autofocus="" class="form-control mb-2" id="cp_add"> 
+                    </div>
+                    <div class="form-group"><label for="register-lastName" class="form-label">Asentamiento</label><input
+                            type="text" name="asentamiento" placeholder="Pérez" tabindex="2" class="form-control mb-2" id="asentamiento_add">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="register-ciudad" class="form-label">Municipio</label>
+
+                        <select class="select2 form-select " id="municipio_add"  name="municipio">
+                             <option selected="" value="0"> Seleccione un municipio </option>
+                            <option value="Acatic">Acatic</option>
+                            <option value="Acatlán de Juárez">Acatlán de Juárez</option>
+                            <option value="Ahualulco de Mercado">Ahualulco de Mercado</option>
+                            <option value="Amacueca">Amacueca</option>
+                            <option value="Amatitán">Amatitán</option>
+                            <option value="Ameca">Ameca</option>
+                            <option value="Arandas">Arandas</option>
+                            <option value="Atemajac de Brizuela">Atemajac de Brizuela</option>
+                            <option value="Atengo">Atengo</option>
+                            <option value="Atenguillo">Atenguillo</option>
+                            <option value="Atotonilco el Alto">Atotonilco el Alto</option>
+                            <option value="Atoyac">Atoyac</option>
+                            <option value="Autlán de Navarro">Autlán de Navarro</option>
+                            <option value="Ayotlán">Ayotlán</option>
+                            <option value="Ayutla">Ayutla</option>
+                            <option value="Bolaños">Bolaños</option>
+                            <option value="Cabo Corrientes">Cabo Corrientes</option>
+                            <option value="Cañadas de Obregón">Cañadas de Obregón</option>
+                            <option value="Casimiro Castillo">Casimiro Castillo</option>
+                            <option value="Chapala">Chapala</option>
+                            <option value="Chimaltitán">Chimaltitán</option>
+                            <option value="Chiquilistlán">Chiquilistlán</option>
+                            <option value="Cihuatlán">Cihuatlán</option>
+                            <option value="Cocula">Cocula</option>
+                            <option value="Colotlán">Colotlán</option>
+                            <option value="Concepción de Buenos Aires">Concepción de Buenos Aires</option>
+                            <option value="Cuautitlán de García Barragán">Cuautitlán de García Barragán</option>
+                            <option value="Cuautla">Cuautla</option>
+                            <option value="Cuquío">Cuquío</option>
+                            <option value="Degollado">Degollado</option>
+                            <option value="Ejutla">Ejutla</option>
+                            <option value="El Arenal">El Arenal</option>
+                            <option value="El Grullo">El Grullo</option>
+                            <option value="El Limón">El Limón</option>
+                            <option value="El Salto">El Salto</option>
+                            <option value="Encarnación de Díaz">Encarnación de Díaz</option>
+                            <option value="Etzatlán">Etzatlán</option>
+                            <option value="Gómez Farías">Gómez Farías</option>
+                            <option value="Guachinango">Guachinango</option>
+                            <option value="Guadalajara">Guadalajara</option>
+                            <option value="Hostotipaquillo">Hostotipaquillo</option>
+                            <option value="Huejúcar">Huejúcar</option>
+                            <option value="Huejuquilla el Alto">Huejuquilla el Alto</option>
+                            <option value="Ixtlahuacán de los Membrillos">Ixtlahuacán de los Membrillos</option>
+                            <option value="Ixtlahuacán del Río">Ixtlahuacán del Río</option>
+                            <option value="Jalostotitlán">Jalostotitlán</option>
+                            <option value="Jamay">Jamay</option>
+                            <option value="Jesús María">Jesús María</option>
+                            <option value="Jilotlán de los Dolores">Jilotlán de los Dolores</option>
+                            <option value="Jocotepec">Jocotepec</option>
+                            <option value="Juanacatlán">Juanacatlán</option>
+                            <option value="Juchitlán">Juchitlán</option>
+                            <option value="La Barca">La Barca</option>
+                            <option value="La Huerta">La Huerta</option>
+                            <option value="La Manzanilla de la Paz">La Manzanilla de la Paz</option>
+                            <option value="Lagos de Moreno">Lagos de Moreno</option>
+                            <option value="Magdalena">Magdalena</option>
+                            <option value="Mascota">Mascota</option>
+                            <option value="Mazamitla">Mazamitla</option>
+                            <option value="Mexticacán">Mexticacán</option>
+                            <option value="Mezquitic">Mezquitic</option>
+                            <option value="Mixtlán">Mixtlán</option>
+                            <option value="Ocotlán">Ocotlán</option>
+                            <option value="Ojuelos de Jalisco">Ojuelos de Jalisco</option>
+                            <option value="Pihuamo">Pihuamo</option>
+                            <option value="Poncitlán">Poncitlán</option>
+                            <option value="Puerto Vallarta">Puerto Vallarta</option>
+                            <option value="Quitupan">Quitupan</option>
+                            <option value="San Cristóbal de la Barranca">San Cristóbal de la Barranca</option>
+                            <option value="San Diego de Alejandría">San Diego de Alejandría</option>
+                            <option value="San Gabriel">San Gabriel</option>
+                            <option value="San Ignacio Cerro Gordo">San Ignacio Cerro Gordo</option>
+                            <option value="San Juan de los Lagos">San Juan de los Lagos</option>
+                            <option value="San Juanito de Escobedo">San Juanito de Escobedo</option>
+                            <option value="San Julián">San Julián</option>
+                            <option value="San Marcos">San Marcos</option>
+                            <option value="San Martín de Bolaños">San Martín de Bolaños</option>
+                            <option value="San Martín Hidalgo">San Martín Hidalgo</option>
+                            <option value="San Miguel el Alto">San Miguel el Alto</option>
+                            <option value="San Pedro Tlaquepaque">San Pedro Tlaquepaque</option>
+                            <option value="San Sebastián del Oeste">San Sebastián del Oeste</option>
+                            <option value="Santa María de los Angeles">Santa María de los Angeles</option>
+                            <option value="Santa María del Oro">Santa María del Oro</option>
+                            <option value="Sayula">Sayula</option>
+                            <option value="Tala">Tala</option>
+                            <option value="Talpa de Allende">Talpa de Allende</option>
+                            <option value="Tamazula de Gordiano">Tamazula de Gordiano</option>
+                            <option value="Tapalpa">Tapalpa</option>
+                            <option value="Tecalitlán">Tecalitlán</option>
+                            <option value="Techaluta de Montenegro">Techaluta de Montenegro</option>
+                            <option value="Tecolotlán">Tecolotlán</option>
+                            <option value="Tenamaxtlán">Tenamaxtlán</option>
+                            <option value="Teocaltiche">Teocaltiche</option>
+                            <option value="Teocuitatlán de Corona">Teocuitatlán de Corona</option>
+                            <option value="Tepatitlán de Morelos">Tepatitlán de Morelos</option>
+                            <option value="Tequila">Tequila</option>
+                            <option value="Teuchitlán">Teuchitlán</option>
+                            <option value="Tizapán el Alto">Tizapán el Alto</option>
+                            <option value="Tlajomulco de Zuñiga">Tlajomulco de Zuñiga</option>
+                            <option value="Tolimán">Tolimán</option>
+                            <option value="Tomatlán">Tomatlán</option>
+                            <option value="Tonalá">Tonalá</option>
+                            <option value="Tonaya">Tonaya</option>
+                            <option value="Tonila">Tonila</option>
+                            <option value="Totatiche">Totatiche</option>
+                            <option value="Tototlán">Tototlán</option>
+                            <option value="Tuxcacuesco">Tuxcacuesco</option>
+                            <option value="Tuxcueca">Tuxcueca</option>
+                            <option value="Tuxpan">Tuxpan</option>
+                            <option value="Unión de San Antonio">Unión de San Antonio</option>
+                            <option value="Unión de Tula">Unión de Tula</option>
+                            <option value="Valle de Guadalupe">Valle de Guadalupe</option>
+                            <option value="Valle de Juárez">Valle de Juárez</option>
+                            <option value="Villa Corona">Villa Corona</option>
+                            <option value="Villa Guerrero">Villa Guerrero</option>
+                            <option value="Villa Hidalgo">Villa Hidalgo</option>
+                            <option value="Villa Purificación">Villa Purificación</option>
+                            <option value="Yahualica de González Gallo">Yahualica de González Gallo</option>
+                            <option value="Zacoalco de Torres">Zacoalco de Torres</option>
+                            <option value="Zapopan">Zapopan</option>
+                            <option value="Zapotiltic">Zapotiltic</option>
+                            <option value="Zapotitlán de Vadillo">Zapotitlán de Vadillo</option>
+                            <option value="Zapotlán del Rey">Zapotlán del Rey</option>
+                            <option value="Zapotlán el Grande">Zapotlán el Grande</option>
+                            <option value="Zapotlanejo">Zapotlanejo</option>
+                        </select>
+
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect=""
+                    class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="btn_add_cp">Guardar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{/if}}
+
 <!-- END: Main Menu-->
 {{/if}}

@@ -1,68 +1,611 @@
+<style>
+  .altura{
+        height: 241.583px !important;
+    }
+    .letterSize{
+        font-size: small !important;
+    }
+</style>
+
+{{#if msg}}
+  <label id="msgs" hidden>
+    {{msg}}
+  </label>
+{{/if}}
+
+<script>
+    $(function () {
+        $('#closeModal1').on('click', function () {
+            $('#comentariosModal').modal('show');
+        })
+        $('#closeModal2').on('click', function () {
+            $('#createAppModal').modal('show');
+        })
+        $('#commentAdminShow').click(()=>{
+         $('#accordionMargin').addClass('collapse')
+         $('#commentAdmin').removeClass('collapse')
+        })
+        $('#commentProf').click(()=>{
+         $('#accordionMargin').removeClass('collapse')
+         $('#commentAdmin').addClass('collapse')
+        })
+    })
+</script>
+
 <div class="app-content content py672">
-    <div class="content-wrapper container-xxl p-0">
-        <div class="content-body">
-            <section>
-                <div class="row match-height flex-md-row-reverse">
-                    <!-- Basic table -->
-                    <section id="basic-datatable">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card">
-                                    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Alumnos inscritos</h6></div><div class="d-none dt-action-buttons text-end"><div class="dt-buttons d-inline-flex"> <button class="dt-button buttons-collection btn btn-outline-secondary dropdown-toggle me-2" tabindex="0" aria-controls="DataTables_Table_0" type="button" aria-haspopup="true"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-share font-small-4 me-50"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>Export</span></button> <button class="dt-button create-new btn btn-primary" tabindex="0" aria-controls="DataTables_Table_0" type="button" data-bs-toggle="modal" data-bs-target="#modals-slide-in"><span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus me-50 font-small-4"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>Add New Record</span></button> </div></div></div><div class="d-flex justify-content-between align-items-center mx-0 row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label class="d-flex align-items-center">Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select"><option value="7">7</option><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="75">75</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="DataTables_Table_0_filter" class="dataTables_filter"><label class="d-flex align-items-center">Search:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label></div></div></div><table class="datatables-basic table dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1033px;">
-                                    <thead>
-                                        <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 389px;" aria-label="Nombre: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 376px;" aria-label="Email: activate to sort column ascending">Email</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 124px;" aria-label="Acciones">Acciones</th></tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="odd"><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-warning  me-1"><span class="avatar-content">GG</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span><small class="emp_post text-truncate text-muted">Software Test Engineer</small></div></div></td><td>ggiacoppo2r@apache.org</td><td><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical text-primary font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Ver</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Eliminar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit text-primary font-small-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-                                        <tr class="odd"><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-warning  me-1"><span class="avatar-content">GG</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span><small class="emp_post text-truncate text-muted">Software Test Engineer</small></div></div></td><td>ggiacoppo2r@apache.org</td><td><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical text-primary font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Ver</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Eliminar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit text-primary font-small-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-                                        <tr class="odd"><td><div class="d-flex justify-content-left align-items-center"><div class="avatar bg-light-warning  me-1"><span class="avatar-content">GG</span></div><div class="d-flex flex-column"><span class="emp_name text-truncate fw-bold">Glyn Giacoppo</span><small class="emp_post text-truncate text-muted">Software Test Engineer</small></div></div></td><td>ggiacoppo2r@apache.org</td><td><div class="d-inline-flex"><a class="pe-1 dropdown-toggle hide-arrow text-primary" data-bs-toggle="dropdown"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical text-primary font-small-4"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></a><div class="dropdown-menu dropdown-menu-end"><a href="javascript:;" class="dropdown-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text font-small-4 me-50"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>Ver</a><a href="javascript:;" class="dropdown-item delete-record"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 me-50"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>Eliminar</a></div></div><a href="javascript:;" class="item-edit"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit text-primary font-small-4"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></a></td></tr>
-                                        
-                                    </tbody>
-                                </table>
-                                <div class="d-flex justify-content-between mx-0 row"><div class="col-sm-12 col-md-6"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 7 de 100 registros</div></div><div class="col-sm-12 col-md-6"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item disabled" id="DataTables_Table_0_ellipsis"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="6" tabindex="0" class="page-link">…</a></li><li class="paginate_button page-item "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="7" tabindex="0" class="page-link">15</a></li><li class="paginate_button page-item next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="8" tabindex="0" class="page-link">&nbsp;</a></li></ul></div></div></div></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Modal to add new record -->
-                        <div class="modal modal-slide-in fade" id="modals-slide-in">
-                            <div class="modal-dialog sidebar-sm">
-                                <form class="add-new-record modal-content pt-0">
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
-                                    <div class="modal-header mb-1">
-                                        <h5 class="modal-title" id="exampleModalLabel">New Record</h5>
-                                    </div>
-                                    <div class="modal-body flex-grow-1">
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
-                                            <input type="text" class="form-control dt-full-name" id="basic-icon-default-fullname" placeholder="John Doe" aria-label="John Doe" />
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-post">Post</label>
-                                            <input type="text" id="basic-icon-default-post" class="form-control dt-post" placeholder="Web Developer" aria-label="Web Developer" />
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-email">Email</label>
-                                            <input type="text" id="basic-icon-default-email" class="form-control dt-email" placeholder="john.doe@example.com" aria-label="john.doe@example.com" />
-                                            <small class="form-text"> You can use letters, numbers & periods </small>
-                                        </div>
-                                        <div class="mb-1">
-                                            <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-                                            <input type="text" class="form-control dt-date" id="basic-icon-default-date" placeholder="MM/DD/YYYY" aria-label="MM/DD/YYYY" />
-                                        </div>
-                                        <div class="mb-4">
-                                            <label class="form-label" for="basic-icon-default-salary">Salary</label>
-                                            <input type="text" id="basic-icon-default-salary" class="form-control dt-salary" placeholder="$12000" aria-label="$12000" />
-                                        </div>
-                                        <button type="button" class="btn btn-primary data-submit me-1">Submit</button>
-                                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </section>
-                    <!--/ Basic table -->
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <section>
+        <div class="row match-height">
+          <!-- Basic table -->
+          <input class="d-none" value="{{response2}}" id="arrayEstudiantes" />
+          <input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
+          <section id="basic-datatable">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <table
+                    class="table table-responsive matricula tablaAlum"
+                    id="matricula"
+                  >
+                    <thead>
+                      <tr role="row">
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="DataTables_Table_0"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 389px;"
+                          aria-label="Nombre: activate to sort column ascending"
+                        >
+                          Nombre
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="DataTables_Table_0"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 376px;"
+                          aria-label="Email: activate to sort column ascending"
+                        >
+                          Email
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="DataTables_Table_0"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 376px;"
+                          aria-label="Email: activate to sort column ascending"
+                        >
+                          Grupo
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="DataTables_Table_0"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 389px;"
+                          aria-label="Nombre: activate to sort column ascending"
+                        >
+                          Vendedor
+                        </th>
+                        <th
+                          class="sorting"
+                          tabindex="0"
+                          aria-controls="DataTables_Table_0"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 389px;"
+                          aria-label="Nombre: activate to sort column ascending"
+                        >
+                          Estado
+                        </th>
+                        <th
+                          class="sorting_disabled"
+                          rowspan="1"
+                          colspan="1"
+                          style="width: 124px;"
+                          aria-label="Acciones"
+                        >
+                          Acciones
+                        </th>
+                      </tr>
+                    </thead>
+                  </table>
                 </div>
-            </section>
+              </div>
+            </div>
+          </section>
+          <!--/ Basic table -->
         </div>
+      </section>
+
+      <button
+        class="btn btn-primary d-none"
+        id="btnHistorialDetalles"
+        data-bs-toggle="modal"
+        data-bs-target="#createAppModal"
+      >
+        Lanzar Modal
+      </button>
+      
+      <!--Modal Traslado-->
+      <div
+        class="modal fade"
+        id="createAppModal"
+        tabindex="-1"
+        aria-modal="true"
+        role="dialog"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header bg-transparent">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body pb-3 px-sm-3">
+              
+              {{!<p class="text-center mb-2">Provide application data with this form</p>}}
+
+              <div class="row match-height">
+                <!-- Card info del alumno-->
+                <div class="col-12 px-0">
+                  <div class="col-12 rounded-1 card">
+                    <div class="row">
+                      <div class="col-lg-3"></div>
+                      <div class="col-lg-9 traslado-phone">
+                        <!--Nombre Estudiante-->
+                        <div class="d-flex align-items-center mt-2">
+                          <h2 class="fw-bolder mb-0" id="nombreReagrupar">
+                            Isaac Mosqueda
+                          </h2>
+                        </div> 
+                      </div>
+                      
+                      <!--Avatar del alumno-->
+                      <div class="col-lg-3 d-flex justify-content-center pt-2">
+                        <!--imagen-->
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="150"
+                          height="150"
+                          fill="#0833a2"
+                          class="bi bi-person-circle"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                          <path
+                            fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"
+                          ></path>
+                        </svg>
+                      </div>
+                      <!--/ Avatar del alumno-->
+                      
+
+                      <!--Info del alumno columna 1-->
+                      <div class="col-lg-4 mb-2 pt-1 ps-lg-1 ps-3">
+                        <!--Telefonos Estudiante-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-user me-75">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-telephone"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Teléfonos:
+                            </span>
+                            <span id="tlfReagrupar">
+                              65102651 - 161618
+                            </span>
+                          </p>
+                        </div>
+
+                        <!--Grupo del Estudiante-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="currentColor"
+                              class="bi bi-people"
+                              viewBox="0 0 16 16"
+                            >
+                              <path
+                                d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"
+                              ></path>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Grupo:
+                            </span>
+
+                            <span id="grupoReag">
+                              C20210-1
+                            </span>
+                          </p>
+                        </div>
+
+                        <!--Horario del Grupo del Estudiante-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="feather feather-clock font-small-4"
+                            >
+                              <circle cx="12" cy="12" r="10"></circle>
+                              <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Horario:
+                            </span>
+
+                            <span class="horarioreag">
+                              Lunes y Míercoles: 6:30pm a 9pm
+                            </span>
+                          </p>
+                        </div>
+
+                        <!--Profesor del Estudiante-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-user me-75">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="24"
+                              height="24"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              class="feather feather-user font-small-4"
+                            >
+                              <path
+                                d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"
+                              ></path>
+                              <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Profesor:
+                            </span>
+                            <span id="profesorreag"></span>
+                          </p>
+                        </div>
+                      </div>
+                      <!--/ Info del alumno columna 1-->
+
+                      <!--Info del alumno columna 2-->
+                      <div class="col-lg-5 pt-1 ps-lg-1 ps-3 mb-2 mb-lg-0">
+
+                        <!--Leccion Actual-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                              <path d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z"/>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Leccion Actual:
+                            </span>
+                            <span id="leccionActual0">10</span>
+                          </p>
+                        </div>
+                        <!--/ Leccion Actual-->
+                        
+                        <!--Fecha Pago-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <i class="bi-alarm" style="font-size: 1rem; color: currentColor;">₡</i>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Fecha Pago:
+                            </span>
+                            <span id="fechaPagoReag">15 de cada mes</span>
+                          </p>
+                        </div>
+                        <!--/ Fecha Pago-->
+
+                        <!--Calificacion-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+                              <path d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z"/>
+                              <path d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z"/>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Calificacion:
+                            </span>
+                            <span id="calificacionT">25%</span>
+                          </p>
+                        </div>
+                        <!--/ Calificacion-->
+
+                        <!--Asistencia-->
+                        <div class="d-flex align-items-center mt-1">
+                          <span class="item-clock me-75">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                              <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                              <path fill-rule="evenodd" d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                          </span>
+                          <p class="mb-0">
+                            <span class="fw-bolder">
+                              Asistencia:
+                            </span>
+                            <span id="asistenciareag">40%</span>
+                          </p>
+                        </div>
+                        <!--/ Asistencia-->
+
+                      </div>
+                      <!--/ Info del alumno columna 2-->
+
+                    </div>
+                    <div class="modal-footer">
+                      <button id="guarda-grupoNew" class="btn btn-primary d-none" type="button">Cambiar Grupo</button>
+                      <button id="closeModal1" class="btn btn-primary" data-bs-toggle="modal" data-bs-dismiss="modal">Mostrar Comentarios</button>
+                    </div>
+
+                    <!--dropdown selector grupos disponibles-->
+                    <div class="position-relative m-1 d-none">
+                      <select
+                        class="select2 form-select"
+                        tabindex="-1"
+                        name="grupoId"
+                        aria-hidden="true"
+                        required
+                        id="selectGroup"
+                      >
+                        <option>
+                          Grupos Disponibles
+                        </option>
+                        {{#each gruposTodos as |item i|}}
+                          <option value="{{id}}">
+                            {{identificador}} - {{dia_horario}} -
+                            {{#fechamenumatriculapy672 fecha_inicio}}
+                            {{/fechamenumatriculapy672}}
+                          </option>
+                        {{/each}}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!--/ Card info del alumno-->
+              </div>
+<style>
+  table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+       padding-right: 22px;
+}
+</style>
+              <div class="row mb-2 card">
+                <div class="col-12 p-0 ">
+                  <table class="table dt-column-search table-responsive" id="grupos_table" style="width: 100% !important;">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th>Tipo</th>
+                        <th>Leccion Actual</th>
+                        <th>Horario</th>
+                        <th>Fecha Pago</th>
+                        <th>Alumnos</th>
+                        <th>Profesor</th>
+                      </tr>
+                    </thead>
+                    <tbody id="gruposAct">
+              
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <!--Acordion de Clases-->
+              <section id="accordion" class="d-none">
+                <span id="cantAlumnos">
+                              0
+                            {{!-- </span>
+                            <span id="leccionActual">
+                              0
+                            </span> --}}
+                <div class="row card">
+                  <div class="col-sm-12">
+                    <div
+                      id="accordionWrapa1"
+                      role="tablist"
+                      aria-multiselectable="true"
+                    >
+                      <div class="card-header pb-0">
+                        <h4 class="card-title">
+                          Clases
+                        </h4>
+                      </div>
+                      <hr />
+                      <div class="card-body pt-0">
+                        <div
+                          class="accordion"
+                          id="accordionExample"
+                          data-toggle-hover="true"
+                        >
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#accordionOne"
+                                aria-expanded="false"
+                                aria-controls="accordionOne"
+                              >
+                                Lecciones 1 - 12
+                              </button>
+                            </h2>
+                            <div
+                              id="accordionOne"
+                              class="accordion-collapse collapse"
+                              aria-labelledby="headingOne"
+                              data-bs-parent="#accordionExample"
+                              style=""
+                            >
+                              <div class="accordion-body letterSize">
+                                <!-- Aqui va el contenido del primer acordion-->
+                                <div class="row g-2 mb-2" id="1_12Line1">
+                                </div>
+                                <!-- Aqui se acaba el contenido del primer acordion-->
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#accordionTwo"
+                                aria-expanded="false"
+                                aria-controls="accordionTwo"
+                              >
+                                Lecciones 13 - 24
+                              </button>
+                            </h2>
+                            <div
+                              id="accordionTwo"
+                              class="accordion-collapse collapse"
+                              aria-labelledby="headingTwo"
+                              data-bs-parent="#accordionExample"
+                              style=""
+                            >
+                              <div class="accordion-body letterSize">
+                                <!-- Aqui va el contenido del segundo acordion-->
+                                <div class="row g-2 mb-2" id="13_24Line1">
+                                </div>
+
+                                <!-- Aqui se acaba el contenido del segundo acordion-->
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                              <button
+                                class="accordion-button collapsed"
+                                type="button"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#accordionThree"
+                                aria-expanded="false"
+                                aria-controls="accordionThree"
+                              >
+                                Lecciones 25 - 32
+                              </button>
+                            </h2>
+                            <div
+                              id="accordionThree"
+                              class="accordion-collapse collapse"
+                              aria-labelledby="headingThree"
+                              data-bs-parent="#accordionExample"
+                            >
+                              <div class="accordion-body letterSize">
+                                <!-- Aqui va el contenido del tercer acordion-->
+                                <div class="row g-2 mb-2" id="25_32Line1">
+                                </div>
+                                <!-- Aqui se acaba el contenido del tercer acordion-->
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+              <!--/ Acordion de Clases-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Modal Traslado-->
+
+      <!--Modal Comentarios-->
+      <div class="modal fade" id="comentariosModal" aria-hidden="true" aria-labelledby="comentariosModal"
+        tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="d-grid gap-2 d-md-block p-1">
+              <button id="closeModal2" class="modal-title btn btn-primary mx-lg-1" data-bs-toggle="modal"
+                data-bs-dismiss="modal">Regresar a Traslado</button>
+              <button id="commentProf" class="modal-title btn btn-primary" >Comentarios Profesor</button>
+              <button id="commentAdminShow" class="modal-title btn btn-primary mx-lg-1" >Comentarios Administrador</button>
+            </div>
+            <div class="modal-body">
+              <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
+                
+                <!--Esta es la seccion del acordion que se repite-->
+                
+                
+                <!--/ Aqui termina la seccion del acordion que se repite--> 
+
+              </div>
+              <div class="accordion accordion-margin collapse" id="commentAdmin" data-toggle-hover="true">
+
+
+              </div>
+            </div>
+            <div class="modal-footer">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Modal Comentarios-->
+
+
     </div>
+  </div>
 </div>
+<form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
+  <input type="text" id="grupoId_actual" name="_actual">
+  <input type="text" id="grupoId" name="grupoId">
+  <input type="text" id="nombre_reaginador" name="nombre_reaginador">
+  <input type="text" id="id_estudiante" name="id_estudiante">
+  <input type="text" id="leccion_actual_reasig" name="leccion_actual_reasig">
+  <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

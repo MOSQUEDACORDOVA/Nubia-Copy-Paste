@@ -1,0 +1,824 @@
+<style>
+    .min-height {
+        min-height: 165px;
+    }
+
+    .mb-tl {
+        margin-bottom: 0.5rem !important;
+    }
+    .input-lg {
+        height: 46px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 6px;
+    }
+    .select2-container--default .select2-selection--single {
+        height: 46px;
+        padding: 10px 16px;
+        font-size: 18px;
+        line-height: 1.33;
+        border-radius: 6px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow b {
+        top: 85%;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 22px;
+    }
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #CCC;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    }
+    .btn-success.btn-glow {
+        box-shadow: 0 1px 20px 1px #28c76f;
+    }
+</style>
+
+<input class="d-none" type="text" value="{{matricula_st}}" id="matricula_st" />
+<div class="app-content content ecommerce-application py672" style="padding-top: 6rem">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="toast-container" id="toast">
+                <div class="toast basic-toast position-fixed top-0 end-0 m-2 fade" role="alert">
+                    <div class="toast-header">
+                        <strong class="me-auto"></strong>
+                        <button type="button" class="ms-1 btn-close" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body"></div>
+                </div>
+            </div>
+
+            <button class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none" id="btnToast">
+                Toast
+            </button>
+
+            <section class="row">
+                <!-- Checkout Place Order Left starts -->
+                <div class="col-12 col-lg-8">
+                    <div class="card">
+                        <div class="row m-0 mt-1 justify-content-end">
+                            <!-- FILTRO -->
+                            <div class="col-12" >
+                                <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
+                                
+                                <select class="select2 form-select alumno-select sizeOption" tabindex="-1" name="alumno"
+                                    aria-hidden="true" required>
+                                    <option value="default" selected>
+                                        Escriba el nombre de un alumno!
+                                    </option>
+                                    {{#each matricula as |item i|}}
+                                    <option value="{{id}}">
+                                        {{nombre}}
+                                    </option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="modal-body pb-5 px-sm-2 pt-50">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-start px-0">
+                                        <div class="">
+                                        </div>
+                                    </div>
+                                    <div class="card-body px-0">
+                                        <form action="#" class="invoice-repeater">
+                                            <div data-repeater-list="invoice">
+                                                <div data-repeater-item="">
+                                                    <h4 class="card-title">
+                                                        Nuevo Pago
+                                                    </h4>
+
+                                                    <div id="mContenedor" class="row row-cols-3 d-flex align-items-end">
+                                                        <div id="tipoServicio" class="col-lg-4 col-12">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemname">
+                                                                    Tipo Servicio
+                                                                </label>
+                                                                <select class="form-select" id="select-servicio">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        Mensualidad
+                                                                    </option>
+                                                                    <option>
+                                                                        Recargo
+                                                                    </option>
+                                                                    <option>
+                                                                        Traslado
+                                                                    </option>
+                                                                    <option>
+                                                                        Constancia
+                                                                    </option>
+                                                                    <option>
+                                                                        Titulo
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div id="mes" class="col-lg-4 col-12 d-none select-reposicion">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Lección
+                                                                </label>
+                                                                <select class="form-select" id="select-reposicion">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div id="nivelAdd" class="col-auto d-none niveladd">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Nivel
+                                                                </label>
+                                                                <select class="form-select" id="select-Nivel">
+                                                                    <option>Seleccione</option>
+                                                                    <option selected>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div id="mes" class="col-lg-4 col-12 d-none mensualidadAdd">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Mes
+                                                                </label>
+                                                                <select class="form-select" id="select-mes">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        Enero
+                                                                    </option>
+                                                                    <option>
+                                                                        Febrero
+                                                                    </option>
+                                                                    <option>
+                                                                        Marzo
+                                                                    </option>
+                                                                    <option>
+                                                                        Abril
+                                                                    </option>
+                                                                    <option>
+                                                                        Mayo
+                                                                    </option>
+                                                                    <option>
+                                                                        Junio
+                                                                    </option>
+                                                                    <option>
+                                                                        Julio
+                                                                    </option>
+                                                                    <option>
+                                                                        Agosto
+                                                                    </option>
+                                                                    <option>
+                                                                        Septiembre
+                                                                    </option>
+                                                                    <option>
+                                                                        Octubre
+                                                                    </option>
+                                                                    <option>
+                                                                        Noviembre
+                                                                    </option>
+                                                                    <option>
+                                                                        Diciembre
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="ano" class="col-lg-4 col-12 d-none mensualidadAdd">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Año
+                                                                </label>
+                                                                <select class="form-select" id="select-anio">
+                                                                    <option>
+                                                                        Seleccione
+                                                                    </option>
+                                                                    <option>
+                                                                        2021
+                                                                    </option>
+                                                                    <option>
+                                                                        2022
+                                                                    </option>
+                                                                    <option>
+                                                                        2023
+                                                                    </option>
+                                                                    <option>
+                                                                        2024
+                                                                    </option>
+                                                                    <option>
+                                                                        2025
+                                                                    </option>
+                                                                    <option>
+                                                                        2026
+                                                                    </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div id="precio" class="col-lg-4 col-12">
+                                                            <div class="mb-1">
+                                                                <label class="form-label" for="itemquantity">
+                                                                    Precio
+                                                                </label>
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text"
+                                                                        id="basic-addon-search1">
+                                                                        ₡
+                                                                    </span>
+                                                                    <input type="number" class="form-control"
+                                                                        id="itemPrice" aria-describedby="precio"
+                                                                        readonly="true" value="" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="d-flex justify-content-end">
+                                                        <button
+                                                            class="btn btn-icon btn-primary waves-effect waves-float waves-light"
+                                                            type="button" id="add_pago-btn">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="14" viewBox="0 0 24 24" fill="none"
+                                                                stroke="currentColor" stroke-width="2"
+                                                                stroke-linecap="round" stroke-linejoin="round"
+                                                                class="feather feather-plus me-25">
+                                                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                            </svg>
+                                                            <span>
+                                                                Agregar Pago
+                                                            </span>
+                                                        </button>
+                                                    </div>
+                                                    <hr />
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row" id="basic-table">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                <div class="table-responsive">
+                                                    <table class="table" id="table-pagos">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>
+                                                                    Concepto
+                                                                </th>
+                                                                <th>
+                                                                    Monto
+                                                                </th>
+                                                                <th>
+                                                                    Accion
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="body-table-pago">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+                                    id="btn-guardar-pago">
+                                    Guardar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Checkout Place Order Left ends -->
+
+                <!-- Checkout Place Order Right starts -->
+                <div class="checkout-options col-12 col-lg-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" id="nombre-alumno">
+                            </h5>
+                            <div class="price-details">
+                                <ul class="list-unstyled">
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Grupo:
+                                            </b>
+
+                                            <span id="grupo-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Horario:
+                                            </b>
+
+                                            <span id="horario-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Profesor:
+                                            </b>
+
+                                            <span id="profesor-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Telefonos:
+                                            </b>
+
+                                            <span id="telefonos-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Fecha de Pago:
+                                            </b>
+
+                                            <span id="fecha-pago-alumno"></span>
+                                        </div>
+                                    </li>
+                                    <li class="price-detail">
+                                        <div class="detail-title">
+                                            <b>
+                                                Mensualidad:
+                                            </b>
+
+                                            <span id="mensualidad-alumno"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <hr />
+
+                            {{! <div class="d-flex align-items-center justify-content-between">
+                                <h5 class="m-0">Pagos</h5>
+                                <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
+                                    data-bs-toggle="modal" data-bs-target="#editUser">Agregar</button>
+                            </div>
+                            <hr> }}
+
+                            <div class="price-details">
+                                <div class="d-grid">
+                                    <button type="button"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
+                                        id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
+                                        disabled>
+                                        Comentar
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
+                                        id="btn-trasladar-alumno" data-bs-toggle="modal" data-bs-target="#createAppModal"
+                                        disabled >
+                                        Trasladar Alumno
+                                    </button>
+
+                                    <button type="button"
+                                        class="btn btn-danger waves-effect waves-float waves-light d-flex align-items-center justify-content-center"
+                                        id="btn-congelar-alumno" 
+                                        disabled >                                        
+                                        
+                                        <!-- Icono de user con una X-->
+                                        <svg id="user-x" viewBox="0 0 24 24" width="21" height="21" 
+                                            stroke="currentColor" stroke-width="2" fill="none" 
+                                            stroke-linecap="round" stroke-linejoin="round" class="me-1 css-i6dzq1">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <line x1="18" y1="8" x2="23" y2="13"></line>
+                                            <line x1="23" y1="8" x2="18" y2="13"></line>
+                                        </svg>
+
+                                        <span id="btn-congelar-text">Congelar Alumno</span>
+                                        
+                                            
+                                    </button>
+                                    <button type="button"
+                                        class="d-none btn btn-success btn-glow waves-effect waves-float waves-light"
+                                        id="btn-activar-alumno" 
+                                        >
+                                        <!-- Icono de user con un check-->
+                                        <svg id="user-check" viewBox="0 0 24 24" width="21" height="21" 
+                                            stroke="currentColor" stroke-width="2" fill="none" 
+                                            stroke-linecap="round" stroke-linejoin="round" class="me-1 css-i6dzq1">
+                                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="8.5" cy="7" r="4"></circle>
+                                            <polyline points="17 11 19 13 23 9"></polyline>
+                                        </svg>
+
+                                        Activar Alumno
+                                    </button>
+                                </div>
+
+                                <hr />
+
+                                <div class="price-details d-grid gap-2">
+                                    {{! <h6 class="price-title">Detalles de Servicios</h6>
+                                    <ul class="list-unstyled" id="detalle-servicios">
+                                    </ul>
+                                    <hr>
+
+                                    <ul class="list-unstyled">
+                                        <li class="price-detail">
+                                            <div class="detail-title detail-total">Total</div>
+                                            <div class="detail-amt fw-bolder">₡ <span id="total-servicios"></span></div>
+                                        </li>
+                                    </ul> }}
+                                    <button type="button"
+                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
+                                        disabled id="btn-genera-constancia">
+                                        <span>
+                                            Descargar Constancia
+                                        </span>
+                                    </button>
+                                    <button type="button"
+                                        class="btn btn-light remove-wishlist waves-effect waves-float waves-light"
+                                        disabled id="btn-descarga-titulo">
+                                        <span>
+                                            Descargar Titulo
+                                        </span>
+                                    </button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Checkout Place Order Right ends -->
+                    </div>
+
+                    <!-- Timeline (Historial de pagos) comienza aqui -->
+                    <div class="col-12">
+                        <div class="card card-user-timeline">
+                            <div class="card-header">
+                                <div class="d-flex align-items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="feather feather-list user-timeline-title-icon">
+                                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                    </svg>
+                                    <h4 class="card-title">
+                                        Historial de pagos
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="timeline ms-50" id="historial-list">
+                                    <!--ESTO SE ESTA CARGANDO DINAMICAMENTE -->
+                                </ul>
+
+                                {{! <a class="btn btn-primary w-100 mb-75 waves-effect mt-2"
+                                    href="./app-invoice-print.html" target="_blank"> Descargar </a> }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Timeline (Historial de pagos) termina aqui -->
+                </div>
+            </section>
+            <!--Modal Comentarios-->
+            <div class="modal fade" id="comentariosModal" aria-hidden="true" aria-labelledby="comentariosModal"
+                tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button id="addCommentShow" class="d-none modal-title btn btn-primary me-1">
+                                Agregar Comentarios
+                            </button>
+                            <button id="commentAdminShow" class="d-none modal-title btn btn-primary">
+                                Ver Comentarios
+                            </button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="accordion accordion-margin" id="accordionMargin" data-toggle-hover="true">
+                                <div class="col-12">
+                                    <div class="mb-1">
+                                        <label class="form-label" for="exampleFormControlTextarea1">
+                                            Comentarios Administrador
+                                        </label>
+                                        <textarea class="form-control addCommentShow" id="addComment" rows="1"
+                                            placeholder="Agregar Comentario aqui, se guardará automáticamente al hacer click fuera de la caja"
+                                            data-id="47"></textarea>
+                                    </div>
+                                </div>
+                    <div class="accordion accordion-margin" id="commentAdmin" data-toggle-hover="true">
+
+                            </div>
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Comentarios-->
+            
+            <!--Modal Traslado-->
+            <div class="modal fade" id="createAppModal" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-3 px-sm-3">
+            
+                            {{!<p class="text-center mb-2">Provide application data with this form</p>}}
+            
+                            <div class="row match-height">
+                                <!-- Card info del alumno-->
+                                <div class="col-12 px-0">
+                                    <div class="col-12 rounded-1 card">
+                                        <div class="row">
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-9 traslado-phone">
+                                                <!--Nombre Estudiante-->
+                                                <div class="d-flex align-items-center mt-2">
+                                                    <h2 class="fw-bolder mb-0" id="nombreReagrupar">
+                                                        Isaac Mosqueda
+                                                    </h2>
+                                                </div>
+                                            </div>
+            
+                                            <!--Avatar del alumno-->
+                                            <div class="col-lg-3 d-flex justify-content-center pt-2">
+                                                <!--imagen-->
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="#0833a2"
+                                                    class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+                                                    <path fill-rule="evenodd"
+                                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
+                                                    </path>
+                                                </svg>
+                                            </div>
+                                            <!--/ Avatar del alumno-->
+            
+                                            <!--Info del alumno columna 1-->
+                                            <div class="col-lg-4 mb-2 pt-1 ps-lg-1 ps-3">
+            
+                                                <!--Telefonos Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-user me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-telephone" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122l-2.19.547a1.745 1.745 0 0 1-1.657-.459L5.482 8.062a1.745 1.745 0 0 1-.46-1.657l.548-2.19a.678.678 0 0 0-.122-.58L3.654 1.328zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Teléfonos:
+                                                        </span>
+                                                        <span id="tlfReagrupar">
+                                                            65102651 - 161618
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Grupo del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z">
+                                                            </path>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Grupo:
+                                                        </span>
+            
+                                                        <span id="grupoReag">
+                                                            C20210-1
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Horario del Grupo del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-clock font-small-4">
+                                                            <circle cx="12" cy="12" r="10"></circle>
+                                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Horario:
+                                                        </span>
+            
+                                                        <span class="horarioreag">
+                                                            Lunes y Míercoles: 6:30pm a 9pm
+                                                        </span>
+                                                    </p>
+                                                </div>
+            
+                                                <!--Profesor del Estudiante-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-user me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round"
+                                                            class="feather feather-user font-small-4">
+                                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                            <circle cx="12" cy="7" r="4"></circle>
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Profesor:
+                                                        </span>
+                                                        <span id="profesorreag"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <!--/ Info del alumno columna 1-->
+            
+                                            <!--Info del alumno columna 2-->
+                                            <div class="col-lg-5 pt-1 ps-lg-1 ps-3 mb-2 mb-lg-0">
+            
+                                                <!--Leccion Actual-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-collection" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2.5 3.5a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-11zm2-2a.5.5 0 0 1 0-1h7a.5.5 0 0 1 0 1h-7zM0 13a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 16 13V6a1.5 1.5 0 0 0-1.5-1.5h-13A1.5 1.5 0 0 0 0 6v7zm1.5.5A.5.5 0 0 1 1 13V6a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-13z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Leccion Actual:
+                                                        </span>
+                                                        <span id="leccionActual0">10</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Leccion Actual-->
+            
+                                                <!--Fecha Pago-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <i class="bi-alarm" style="font-size: 1rem; color: currentColor;">₡</i>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Fecha Pago:
+                                                        </span>
+                                                        <span id="fechaPagoReag">15 de cada mes</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Fecha Pago-->
+            
+                                                <!--Calificacion-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-check2-square" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                                                            <path
+                                                                d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Calificacion:
+                                                        </span>
+                                                        <span id="calificacionT">25%</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Calificacion-->
+            
+                                                <!--Asistencia-->
+                                                <div class="d-flex align-items-center mt-1">
+                                                    <span class="item-clock me-75">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                            fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
+                                                            <path fill-rule="evenodd"
+                                                                d="M15.854 5.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L12.5 7.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
+                                                        </svg>
+                                                    </span>
+                                                    <p class="mb-0">
+                                                        <span class="fw-bolder">
+                                                            Asistencia:
+                                                        </span>
+                                                        <span id="asistenciareag">40%</span>
+                                                    </p>
+                                                </div>
+                                                <!--/ Asistencia-->
+            
+                                            </div>
+                                            <!--/ Info del alumno columna 2-->
+            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button id="guarda-grupoNew" class="btn btn-primary d-none" type="button">Cambiar
+                                                Grupo</button>
+                                        </div>
+            
+                                       
+                                    </div>
+                                </div>
+                                <!--/ Card info del alumno-->
+                            </div>
+                            <style>
+                                table.dataTable>thead>tr>th:not(.sorting_disabled),
+                                table.dataTable>thead>tr>td:not(.sorting_disabled) {
+                                    padding-right: inherit;
+                                }
+                            </style>
+                            <div class="row mb-2 card">
+                                <div class="col-12 p-0 ">
+                                    <table class="table dt-column-search table-responsive" id="grupos_table" style="width: 100% !important;">
+                                        <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Tipo</th>
+                                                <th>Leccion Actual</th>
+                                                <th>Horario</th>
+                                                <th>Fecha Pago</th>
+                                                <th>Alumnos</th>
+                                                <th>Profesor</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="gruposAct">
+            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+            
+                            <!--Acordion de Clases-->
+                            <section id="accordion" class="d-none">
+                                <span id="cantAlumnos">
+                                    0</span>
+                            </section>
+                            <!--/ Acordion de Clases-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Traslado-->
+
+
+        </div>
+    </div>
+</div>
+
+<form id="form-reg-pago" hidden>
+</form>
+<form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
+  <input type="text" id="grupoId_actual" name="_actual">
+  <input type="text" id="grupoId" name="grupoId">
+  <input type="text" id="nombre_reaginador" name="nombre_reaginador">
+  <input type="text" id="id_estudiante" name="id_estudiante">
+  <input type="text" id="leccion_actual_reasig" name="leccion_actual_reasig">
+  <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
+</form>
+<script>
+
+    $(function () {
+        $('#closeModal1').on('click', function () {
+            console.log("hello")
+            $('#comentariosTrasladoModal').modal('show');
+        })
+        $('#closeModal2').on('click', function () {
+            $('#createAppModal').modal('show');
+        })
+        
+    })
+    
+</script>
+<input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />

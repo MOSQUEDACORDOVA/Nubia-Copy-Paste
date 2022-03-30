@@ -1,6 +1,8 @@
 const { DataTypes } = require('sequelize');
 const db672 = require('../../config/dbPY672');
-// PRECIO DE AEROCOIN
+const EstadoGrupos = require('../../models/PYT672/EstadoGrupos');
+const Usuarios = require('./Usuarios');
+// GRUPOS
 const Grupos = db672.define('grupos', {
     id: {
 		type: DataTypes.INTEGER,
@@ -39,51 +41,21 @@ const Grupos = db672.define('grupos', {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 	},
-	activos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	incorporados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	inscritos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	fusionados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	congelados: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
-	total_alumnos: {
-		type: DataTypes.INTEGER(200),
-		allowNull: false,
-		defaultValue: 0
-	},
 	nivel: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
-		defaultValue: 'Principiante'
+	},
+	profesor: {
+		type: DataTypes.STRING(200),
+		allowNull: true,
 	},
 	codigo_nivel: {
 		type: DataTypes.STRING(200),
 		allowNull: false,
 		defaultValue: '-1'
 	},
-	estado: {
-		type: DataTypes.STRING(200),
-		allowNull: false,
-		defaultValue: 'En Apertura'
-	},
 });
 
+Grupos.EstadoGrupos = Grupos.belongsTo(EstadoGrupos);
+Grupos.Usuarios = Grupos.belongsTo(Usuarios)
 module.exports = Grupos;

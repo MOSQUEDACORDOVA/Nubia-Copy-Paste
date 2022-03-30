@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 <script>
   $(function(){
@@ -56,7 +61,7 @@ $('#select_gerente').on('change', (e)=>{
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_sucursales">
+                        <table class="datatables-basic_sucursales table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>

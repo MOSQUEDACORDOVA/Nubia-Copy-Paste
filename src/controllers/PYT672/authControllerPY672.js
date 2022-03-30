@@ -6,25 +6,15 @@ exports.authenticatedUser = (req, res, next) => {
 		return next();
 	} 
 	// Si no esta autenticado
-	return res.redirect('/login27/PYT-27');
-}
-
-exports.authenticatedAdminOrSeller = (req, res, next) => {
-	// Autenticado
-	if(req.isAuthenticated() && req.user.type_user === 'Administrador' || req.user.type_user === 'Vendedor') {
-		res.locals.user = req.user || {};
-		return next();
-	}  
-	// Si no esta autenticado
-	return res.redirect('/login27/PYT-27');
+	return res.redirect('/loginpy672/PYT-672');
 }
 
 exports.authenticatedAdmin = (req, res, next) => {
 	// Autenticado
-	if(req.isAuthenticated() && req.user.type_user === 'Administrador') {
+	if(req.isAuthenticated() && req.user.puesto === 'Administrador') {
 		res.locals.user = req.user || {};
 		return next();
 	}
 	// Si no esta autenticado
-	return res.redirect('/login27/PYT-27');
+	return res.redirect('/loginpy672/PYT-672');
 }

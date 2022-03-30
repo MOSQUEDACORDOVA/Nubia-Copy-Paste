@@ -15,8 +15,9 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="card">
-                                    <div class="card-header">
+                                    <div class="card-header align-items-start flex-column">
                                         <h4 class="card-title">Buy ACN</h4>
+                                        <p class="mb-0">We charge 1% commission for each transaction</p>
                                     </div>
                                     <div class="card-body">
                                         <div class="d-flex p-1">
@@ -25,29 +26,32 @@
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Amount of ACN</label>
+                                                                <label class="col-form-label" for="">Amount USDT</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
-                                                                <input type="number" id="amountth" class="form-control" name="amount" placeholder="13" value="0" min="0" autocomplete="off" required>
+                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
+                                                                <input type="number" id="price_" class="form-control" name="price" value="0" min="0">
+                                                                <small class="text-primary d-none" id="invalidAmount">The minimum purchase is 5 USDT</small>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="mb-1 row">
                                                             <div class="col-sm-3 col-lg-4">
-                                                                <label class="col-form-label" for="">Cost USDT</label>
+                                                                <label class="col-form-label" for="">Amount ACN</label>
                                                             </div>
                                                             <div class="col-sm-9 col-lg-8">
-                                                                <input type="number" id="costo_ref" class="d-none" name="" value="{{aerocoin.price}}" min="0">
-                                                                <input type="number" id="btc_price" class="d-none" name="" value="{{btcprice.price}}" min="0">
-                                                                <input type="number" id="bnb_price" class="d-none" name="" value="{{bnbprice.price}}" min="0">
-                                                                <input type="number" id="price_" class="form-control" name="price" placeholder="600 USD" value="0" min="0" step="0.1" readonly>
+                                                                <input type="number" id="amountUsd" class="form-control" name="amount" value="0" min="0" step="0.0001" readonly required>
+                                                                <label class="form-label mb-1 mb-sm-0 d-none" for="">Fee: <span class="fee">0ACN</span></label>
+                                                                <label class="form-label mb-1 mb-sm-0" for=""> <span class="fee2" style="font-weight: bold;">0USDT</span></label>
                                                             </div>
                                                         </div>
+                                                        
                                                     </div>
-
+      
                                                     <div class="col-sm-9 offset-sm-3">
-                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn"  role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light" id="buybtn" role="button">Buy</button>
+                                                        <button type="button" class="btn btn-outline-primary me-1 waves-effect waves-float waves-light d-none" id="buybtnModal" role="button" data-bs-toggle="modal" data-bs-target="#pagar">Buy</button>
                                                         <button type="reset" class="btn btn-outline-secondary waves-effect">Cancel</button>
                                                     </div>
                                                 </div>
@@ -61,6 +65,9 @@
                 </div>
                 {{/if}}
 
+                <form action="" method="post" class="d-none" id="formDeposito">
+                    <input type="text" name="id">
+                </form>
                 {{#if allpays}}
                 {{!-- MODAL PAGAR --}}
                 <div class="modal fade" id="pagar" tabindex="-1" style="padding-left: 0px;" aria-modal="true" role="dialog">
@@ -121,6 +128,21 @@
                                                     </span>
                                                 </button>
                                             </div>
+                                            <div class="step d-flex align-items-start flex-column">
+                                                <button type="button" class="step-trigger" disabled>
+                                                    <span class="bs-stepper-box btn-secondary">4</span>
+                                                    <span class="bs-stepper-label">
+                                                        <span class="bs-stepper-title">
+                                                            Comming Soon
+                                                        </span>
+                                                    </span>
+                                                </button>
+                                                <div class="pt-1">
+                                                    <img src="../../../app-assets/images/py27/paypal.png" class="img-fluid">
+                                                    <img src="../../../app-assets/images/py27/mastercard.png" class="img-fluid">
+                                                    <img src="../../../app-assets/images/py27/visa.png" class="img-fluid">
+                                                </div>
+                                            </div>
 
                                             <!--<div class="step" data-target="#address-step-vertical" role="tab" id="address-step-vertical-trigger">
                                                 <button type="button" class="step-trigger" aria-selected="false">
@@ -135,14 +157,19 @@
                                             <!--- BTC -->
                                             <form action="/buyaerocoins" method="POST" id="personal-info-vertical" class="content dstepper-block active" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Pay in BTC</h5>
+                                                    <h5 class="mb-0">BTC</h5>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        {{!<img src="../../../app-assets/images/py27/btc.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py27/btc2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
 
                                                         {{#if allbtc}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="bc1q5ggmvhtfrgfc7kc7v9hszyjn533nz9wsegvaux" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allbtc.id}}" required readonly>
                                                         <input type="text" id="code_wallet" class="form-control" value="{{allbtc.code_wallet}}" required readonly>
                                                         {{else}}
@@ -151,13 +178,19 @@
                                                     </div>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+
+                                                     <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2" ></span></label>
+                                                    </div> 
+
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BTC</label>
@@ -165,41 +198,70 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
+                                                </div>
+                                                <div class="d-flex mb-1">
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1" {{#if allbtc}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allbtc}}{{else}} disabled {{/if}}>
                                                         Make Payment
+                                                    </button>
+
+                                                    <button class="btn btn-outline-primary waves-effect btnLoading w-100" type="button" disabled>
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        <span class="ms-25 align-middle">Procesing...</span>
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex my-1">
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
                     
                                             <form method="POST" action="/buyaerocoins" id="address-step-vertical3" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Pay in BNB</h5>
+                                                    <h5 class="mb-0">BSC - Binance Smart Chain (BEP20)</h5>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        {{!<img src="../../../app-assets/images/py27/bnb.jpg" class="img-fluid qr-img mx-auto rounded-1">}}
+                                                        <img src="../../../app-assets/images/py27/bnb2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allbnb}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="0x3cE7e7ce2041CcBdaA45eDf685bA492686009CcE" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allbnb.id}}" required readonly>
-                                                        <input type="text" id="code_wallet_bnb" class="form-control" data-code-wallet="{{allbnb.code_wallet}}" data-id="{{allbnb.id}}" value="{{allbnb.id}}" required readonly>
+                                                        <input type="text" id="code_wallet_bnb" class="form-control" data-code-wallet="{{allbnb.code_wallet}}" data-id="{{allbnb.id}}" value="{{allbnb.code_wallet}}" required readonly>
                                                         {{else}}
                                                         <input type="text" class="form-control mb-1" value="-" disabled>
                                                         {{/if}}
                                                     </div>
                                                 </div>
+
                                                 <div class="row">
+                                                    <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Amount USDT</label>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+
+                                                    <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
+                                                    </div>
+
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
-                                                    </div>
-                                                    <div class="mb-1 col-12">
-                                                        <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount BNB</label>
@@ -207,28 +269,50 @@
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
+                                                </div>
+                                                <div class="d-flex mb-1">
+                                                    <small>We charge 1% commission for each transaction</small>
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1" {{#if allbnb}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allbnb}}{{else}} disabled {{/if}}>
                                                         Make Payment
+                                                    </button>
+
+                                                    <button class="btn btn-outline-primary waves-effect btnLoading w-100" type="button" disabled>
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        <span class="ms-25 align-middle">Procesing...</span>
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex my-1">
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>
 
                                             <form method="POST" action="/buyaerocoins" id="address-step-vertical4" class="content dstepper-block" role="tabpanel" aria-labelledby="personal-info-vertical-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Pay in USDT</h5>
+                                                    <h5 class="mb-0">TRX - Tron (TRC20)</h5>
                                                 </div>
                                                 <div class="row">
+                                                    <div class="mb-1 col-12">
+                                                        {{!---<img src="../../../app-assets/images/py27/usdt.jpg" class="img-fluid qr-img mx-auto rounded-1">---}}
+                                                        <img src="../../../app-assets/images/py27/usdt2.jpeg" class="img-fluid qr-img mx-auto rounded-1">
+                                                    </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Code Wallet</label>
                                                         <input type="text" name="id" class="d-none id" value="" required readonly>
                                                                                                                                                                     {{#if allusdt}}
+                                                        {{!<input type="text" name="methodid" class="d-none" value="TC5zfKMpGqBKJu13gqFAmDNTmQZ9ToCAFr" required readonly>}}
                                                         <input type="text" name="methodid" class="d-none" value="{{allusdt.id}}" required readonly>
-                                                        <input type="text" id="code_wallet" class="form-control" value="{{allbtc.code_wallet}}" required readonly>
+                                                        <input type="text" id="code_wallet" class="form-control" value="{{allusdt.code_wallet}}" required readonly>
                                                         {{else}}
                                                         <input type="text" class="form-control mb-1" value="-" disabled>
                                                         {{/if}}
@@ -237,21 +321,46 @@
                                                 <div class="row">
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount of ACN</label>
-                                                        <input type="text" name="amountCoin" class="form-control amountCoin" value="" required readonly>
+                                                        <input type="number" name="amountCoin" class="form-control amountUsd" placeholder="" min="0" required readonly>
                                                     </div>
+                                                    
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Amount USDT</label>
-                                                        <input type="number" name="amount" class="form-control amount" placeholder="" min="0" required readonly>
+                                                        <input type="text" name="priceDolar" class="form-control amountCoin d-none" required readonly>
+                                                        <input type="text" name="amount" class="form-control amountCoin" value="" required readonly>
+                                                    </div>
+
+                                                    <div class="mb-1 col-12 d-none">
+                                                        <label class="form-label" for="">Fee: <span class="fee"></span></label>
+                                                        <label class="form-label mb-1 mb-sm-0" for=""><span class="fee2"></span></label>
                                                     </div>
                                                     <div class="mb-1 col-12">
                                                         <label class="form-label" for="">Transaction Hash</label>
-                                                        <input type="text" name="refs" class="form-control" placeholder="" required>
+                                                        <input type="text" name="refs" class="form-control hash" placeholder="" required>
+                                                        <small>Enter the last 4 digits of your hash</small>
                                                     </div>
                                                 </div>
 
+                                                <div class="d-flex mb-1">
+                                                    <small>We charge 1% commission for each transaction</small>
+                                                </div>
+
                                                 <div class="d-flex">
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-float waves-light me-1" {{#if allusdt}}{{else}} disabled {{/if}}>
+                                                    <button type="submit" class="btn btn-outline-primary waves-effect waves-float waves-light btnSubmit w-100" {{#if allusdt}}{{else}} disabled {{/if}}>
                                                         Make Payment
+                                                    </button>
+
+                                                    <button class="btn btn-outline-primary w-100 waves-effect btnLoading" type="button" disabled>
+                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                        <span class="ms-25 align-middle">Procesing..</span>
+                                                    </button>
+                                                </div>
+                                                <div class="d-flex my-1">
+                                                    <small class="status text-primary">This operation may take several minutes, rest assured you can continue shopping, we will send you an email when the transaction is complete!</small>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <button class="btn btn-outline-primary btnContinue w-100" type="button">
+                                                        Keep Buying
                                                     </button>
                                                 </div>
                                             </form>  
@@ -287,6 +396,116 @@
 </div>
 
 <script>
+    let pagarForms = document.querySelectorAll('#pagar form'),
+    loadingBtns = document.querySelectorAll('#pagar .btnLoading'),
+    continueBtns = document.querySelectorAll('#pagar .btnContinue'),
+    statusForms = document.querySelectorAll('#pagar .status');
+
+    loadingBtns.forEach((btn, i) => {
+        btn.classList.add('d-none');
+        statusForms[i].classList.add('d-none');
+        continueBtns[i].classList.add('d-none');
+        continueBtns[i].addEventListener('click', e => {
+            window.location.replace("/boardpresalepy27/PYT-27");
+        });
+    });
+
+    pagarForms.forEach(form => {
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            let select = e.target,
+            selectId = e.target.getAttribute('id'),
+            status = document.querySelector(`#${selectId} .status`),
+            btnLoading = document.querySelector(`#${selectId} .btnLoading`),
+            btnLoadingStatusMain = document.querySelector(`#${selectId} .btnLoading`),
+            btnLoadingStatus = document.querySelector(`#${selectId} .btnLoading span.align-middle`),
+            btnContinue = document.querySelector(`#${selectId} .btnContinue`),
+            hashInp = document.querySelector(`#${selectId} .hash`),
+            btnSubmit = document.querySelector(`#${selectId} .btnSubmit`);
+
+            status.classList.remove('d-none');
+            status.classList.add('d-block');
+            btnSubmit.classList.add('d-none');
+            btnLoading.classList.remove('d-none');
+            btnLoading.classList.add('d-block');
+
+            console.log(select)
+
+            let sectionsModals = document.querySelectorAll('#pagar .step');
+
+            sectionsModals.forEach(bt => {
+                if(!bt.classList.contains('active')) {     
+                    console.log(bt.childNodes[1].disabled)
+                    if(bt.childNodes[1].disabled === false) {
+                        bt.childNodes[1].disabled = true;
+                    }
+                }
+            });
+
+            hashInp.readOnly = true;
+            
+            let data = new FormData(select);
+
+            fetch('/buyaerocoins', {
+                method: 'POST',
+                body: data
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    console.log(data.response)
+                    let idDeposito = data.response.id;
+
+                    let form = document.getElementById('formDeposito'),
+                    inDep = document.querySelector('#formDeposito input');
+                    inDep.value = idDeposito;
+                    
+                    let formData = new FormData(form)
+                    
+                    console.log(form) 
+                    console.log(formData) 
+
+                    btnContinue.classList.remove('d-none');
+                    btnContinue.classList.add('d-block');
+
+                    const VerifyDeposit = () => {
+                        fetch('/getdeposituser', {
+                            method: 'POST',
+                            body: formData
+                        })
+                            .then(response2 => response2.json())
+                            .then(data2 => {
+                                console.log(data2)
+
+                                if(data2.status === 'Aprobado') {
+                                    clearInterval(interval)
+                                    btnLoadingStatusMain.innerText = '¡Approved!';
+                                    btnLoading.classList.remove('btn-outline-primary');
+                                    btnLoading.classList.add('btn-outline-success');
+                                   
+                                    status.innerText = 'Your deposit has been approved, click on the continue button to complete your transaction...';
+
+                                } else if(data2.status === 'Rechazado') {
+                                    clearInterval(interval)
+                                    btnLoadingStatusMain.innerText = '¡Rejected!';
+                                    btnLoading.classList.remove('btn-outline-primary');
+                                    btnLoading.classList.add('btn-outline-danger');
+
+                                    status.innerText = 'Your deposit has been rejected, please enter another hash to proceed with another transaction...';
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            });
+                    }
+
+                    let interval = setInterval(VerifyDeposit, 10000);
+
+                    btnLoadingStatus.innerText = 'Not Verified...';
+                });
+        });
+    });
+
     let selectBanks = document.getElementById('selectBanks'),
     selectPayms = document.getElementById('selectPaym'),
     selectWallets = document.getElementById('digWallet'),
@@ -298,35 +517,45 @@
     .then(data => {
         let arr = data.rates
         resultBtc = arr.usd.value
+        console.log(resultBtc)
     });
    
     let resultBnb;
-    fetch('https://api.coingecko.com/api/v3/exchanges/binance')
+     fetch('https://api.coingecko.com/api/v3/coins/binancecoin/market_chart?vs_currency=usd&days=1')
     .then(response => response.json())
     .then(data => {
-        let arr = data.tickers[7]
-        resultBnb = arr.last
+        let price = data.prices[0][1];
+        resultBnb = price;
+        console.log(resultBnb)
     });
 
     let buyBtn = document.getElementById('buybtn');
 
     buyBtn.addEventListener('click', () => {
-        let amountAero = document.getElementById('amountth');
-        let InCoin = document.querySelectorAll('.amountCoin');
-        //let btcPrice = parseFloat(document.getElementById('btc_price').value);
-        // bnbPrice = parseFloat(document.getElementById('bnb_price').value);
-        let btc = document.getElementById('amountbtc');
-        let bnb = document.getElementById('amountbnb');
-        let priceACN = parseFloat(document.getElementById('price_').value);
+        if(parseInt($('input[name="price"]').val()) < 5) {
+            $('#invalidAmount').removeClass('d-none');
+        } else {
+            $('#invalidAmount').addClass('d-none');
+            $('#buybtnModal').click();
+            let amountUsd = document.getElementById('amountAcn');
+            let InCoin = document.querySelectorAll('.amountCoin');
 
-        btc.value = priceACN / resultBtc;
-        bnb.value =  priceACN / resultBnb;
+            let btc = document.getElementById('amountbtc');
+            let bnb = document.getElementById('amountbnb');
+            let priceACN = parseFloat(document.getElementById('price_').value);
+        let amount = document.getElementById('price_').value;
+            amount = (parseFloat(amount) * 0.01)+ parseFloat(amount)
 
-        let amount = amountAero.value;
+            let totalBTC = amount / resultBtc
+            let totalBNB = amount / resultBnb
 
-        InCoin.forEach(inp => {
-            inp.value = amount;
-        });
+            btc.value = (totalBTC * 0.04) + totalBTC;
+            bnb.value =  (totalBNB * 0.04) + totalBNB;
+                        
+            InCoin.forEach(inp => {
+                inp.value = amount;
+            });
+        }
     });
 
     // BTC
@@ -354,26 +583,47 @@
               
         Methodid.forEach(meth => {
             meth.value = index.getAttribute('data-id');
-            console.log(meth.value)
-            console.log("METODOS")
+            //console.log(meth.value)
         })
     }
 
     $(function (){
         let amountModal = $('.amount');
+        let amountModalUsd = $('.amountUsd');
         let idModal = $('.modal .d-none.id');
         let idMethod = $('.modal .d-none.methodid');
+        let fee = document.querySelectorAll('span.fee');
+        let fee2 = document.querySelectorAll('span.fee2');
 
-        $('input[name="amount"]').on('keyup', (e)=>{
+        $('input[name="price"]').on('keyup', (e)=> {
             let valor =  e.target.value;
-            let price_ = parseFloat(valor) * parseFloat($('#costo_ref').val())
-            $('#price_').val(price_)
+            //let priceAcn = parseFloat($('#costo_ref').val());
+            let price_ = parseFloat($('input[name="price"]').val()) / parseFloat($('#costo_ref').val())
 
-            amountModal.each(function (index) {
+            let n = (price_ * parseFloat($('#costo_ref').val()))
+
+            let montoDolar = parseFloat($('#amountUsd').val())
+        
+
+            let mult = parseFloat(valor) * 0.01;
+            let feeMontoDolar = (Math.round( montoDolar * 100 ) / 100).toFixed(2)
+    
+            console.log("RESULTADO")
+
+            $('#amountUsd').val(price_)
+            let monto_final = parseFloat($('input[name="price"]').val())+ parseFloat(mult)
+            amountModalUsd.each(function (index) {
                 $(this).val(price_);
+            });
+
+            fee.forEach(item => {
+                item.innerText = mult + 'USDT';
+            });
+            
+            fee2.forEach(item => {
+                item.innerText = 'Total a pagar: '+monto_final + 'USDT';
             });
         });
 
-        let inTh = $('.amountth');
     });
 </script>

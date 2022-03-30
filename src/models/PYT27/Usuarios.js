@@ -1,8 +1,6 @@
 const { DataTypes } = require('sequelize');
 const db27 = require('../../config/dbPY27');
 const bcrypt = require('bcrypt-nodejs');
-const Paquetes = require('../PYT27/Packages');
-const Depositos = require('../PYT27/Depositos');
 const DepositosAero = require('../PYT27/DepositosAero');
 
 // USUARIOS
@@ -13,11 +11,11 @@ const Usuarios = db27.define('usuarios', {
 		autoIncrement: true
 	},
 	first_name: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	last_name: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	date_of_birth: {
@@ -37,23 +35,23 @@ const Usuarios = db27.define('usuarios', {
 		allowNull: false,
 	},
 	nationality: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	country: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	city: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	phone: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	address: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: false,
 	},
 	username: {
@@ -90,21 +88,21 @@ const Usuarios = db27.define('usuarios', {
         allowNull: false,
     },
 	avalible_balance: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER(100),
         allowNull: true,
 		defaultValue: 0
 	},
 	earnings: {
-		type: DataTypes.INTEGER(255),
+		type: DataTypes.INTEGER(100),
 		allowNull: true,
 		defaultValue: 0
 	},
 	front_img_dni: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: true,
 	},
 	back_img_dni: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: true,
 	},
 	account_verified: {
@@ -113,12 +111,23 @@ const Usuarios = db27.define('usuarios', {
 		defaultValue: 'No verificado'
 	},
 	refer_code: {
-		type: DataTypes.STRING(255),
+		type: DataTypes.STRING(100),
 		allowNull: true,
 		unique: {
 			args: true,
 			msg: 'El código ya existe'
 		}
+	},
+	token: {
+		type: DataTypes.STRING(100)
+	},
+	expiration: {
+		type: DataTypes.DATE
+	},
+	validation: {
+		type: DataTypes.TEXT,
+		allowNull: true,
+		defaultValue: ""
 	},
 	status: {
 		type: DataTypes.STRING(50),
@@ -138,6 +147,5 @@ Usuarios.prototype.verifyPassword = function(password) {
 	return bcrypt.compareSync(password, this.password);
 }
 
-Usuarios.Depositos = Usuarios.hasMany(Depositos);
 Usuarios.DepositosAero = Usuarios.hasMany(DepositosAero);
 module.exports = Usuarios;

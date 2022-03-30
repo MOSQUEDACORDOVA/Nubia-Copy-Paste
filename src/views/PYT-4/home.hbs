@@ -2,62 +2,45 @@
     .none {
         display: none;
     }
-    .d-flex .select2 {
-        max-width: 160px !important;
+    .select2-container--default .select2-selection--single {
+        border: 1px solid #001871 !important;
+    }
+    .select2-selection__rendered {
+        color: #001871 !important;
+        font-weight: 500;
     }
     #home_modal .modal-dialog .list-group-item {
         border: none;
         border-bottom: 1px solid rgba(34, 41, 47, 0.125);
     }
+    table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
+    padding-right: 10px !important;
+    padding-left: 10px !important;
+}
+    
     @media(min-width: 768px) {
         #home_modal .modal-dialog {
            max-width: 600px; 
         }
+        table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
     }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
-<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
-<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css">
+{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 <script>
 
 $(document).ready(function() {
-    $('#home_modal .modal-dialog').mouseleave(function(e) {
-        $('#home_modal').removeClass('show');
-        $('#home_modal').addClass('fade');
-        $('#home_modal .btn-close').click();
-    });
-
-    $('#modal_detail_garrafones .modal-dialog').mouseleave(function(e) {
-        $('#modal_detail_garrafones').removeClass('show');
-        $('#modal_detail_garrafones').addClass('fade');
-        $('#modal_detail_garrafones .btn-close').click();
-    });
-
-    $('#detail_monto .modal-dialog').mouseleave(function(e) {
-        $('#detail_monto').removeClass('show');
-        $('#detail_monto').addClass('fade');
-        $('#detail_monto .btn-close').click();
-    });
-
-    $('#edit_pedido .modal-dialog').mouseleave(function(e) {
-        $('#edit_pedido').removeClass('show');
-        $('#edit_pedido').addClass('fade');
-        $('#edit_pedido .btn-close').click();
-    });
 
     $('.odd').addClass('dt-head-center');
      $('.even').addClass('dt-head-center'); 
     fecha_corte = new DateTime($('#fecha_corte'), {
         format: 'DD/MM/YYYY'
     });
-        $('#fecha_corte').on('change', (e)=>{
-        console.log(e.target.value)
-        let fecha = moment(e.target.value,'DD/MM/YYYY').format('YYYY-DD-MM')
-        console.log(fecha)
-     window.location.href=`/prestados/${fecha}`
 
-    });
 
     $('#btnpedidos').on('click', (e)=> {
         Reset(1)
@@ -67,6 +50,9 @@ $(document).ready(function() {
     });
     $('#btnventas').on('click', (e)=> {
         Reset(3);
+    });
+        $('#btnresumen').on('click', (e)=> {
+        Reset(4);
     });
 
     function Reset(num) {
@@ -78,6 +64,9 @@ $(document).ready(function() {
 
         $('#ventastable').removeClass('show');
         $('#ventastable').addClass('collpase');
+
+         $('#resumenTable').removeClass('show');
+        $('#resumenTable').addClass('collpase');
         
         switch (num){
             case 1:
@@ -92,15 +81,22 @@ $(document).ready(function() {
                 $('#ventastable').addClass('show');
                 $('#ventastable').removeClass('collpase');
             break;
+              case 4:
+                $('#resumenTable').addClass('show');
+                $('#resumenTable').removeClass('collpase');
+            break;
         }
     }
 });
 
 </script>
 {{#if msg}}
-<label id="msgs">{{msg}}</label>
+<label id="msgs" hidden>{{msg}}</label>
 {{/if}}
-
+<input type="text" id="carga_" hidden value="{{carga_}}">
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
+<input id="choferes" type="text" value="{{choferes}}" hidden>
 <div class="app-content content py4">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body">
@@ -110,9 +106,10 @@ $(document).ready(function() {
                     <div class="card card-statistics">
                         <div class="card-body statistics-body">
                             <div class="row">
-<span id="p1" class="d-none">ss</span>
+                        <span id="p1" class="d-none">ss</span>
                         <div class="col-sm-12">
                         </div>
+                        
                                 <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-primary me-2">
@@ -139,7 +136,7 @@ $(document).ready(function() {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
                                             <div class="avatar-content">
@@ -151,12 +148,24 @@ $(document).ready(function() {
                                         </div>
                                     </div>
                                 </div>
+                                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnresumen" data-bs-toggle="collapse" href="#resumenTable" aria-expanded="false" aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-success me-2">
+                                           <div class="avatar-content">
+                                                <i data-feather='loader' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0" >Resumen</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
             <div class="card collapse show" id="pedidostable">
                 <div class="card-body">
                     <h4 class="card-title">Pedidos</h4>
@@ -167,14 +176,9 @@ $(document).ready(function() {
                     <div class="card-body">
                         <form class="dt_adv_search" method="POST">
                             <div class="row">
-                                <!--<div class="col-md-4">
-                                    <label class="form-label">City:</label>
-                                    <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                                </div>-->
                                 <div class="col-md-4">
                                     <label class="form-label">Fecha:</label>
                                     <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                         <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
                                         <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
                                     </div>
@@ -182,51 +186,77 @@ $(document).ready(function() {
                             </div>
                         </form>
                     </div>
-                                        <div class="card-body">
-                      
-                                <div class="col-md-4">
+
+                    <div class="card-body">
+                        <div class="col-12">
+                            <div class="row m-0">
+                                <div class="col-12">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
-                                    <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                        <select class="select2 form-select select_chofer_pedidos">
-                                           <option value="">Filtrar choferes</option>
-                                           <option value="">Ver Todo</option>
-                                           {{#each choferes_ as |chofer i|}}
-                                           <option >{{name}}</option>
-                                           {{/each}}
-                                        </select>
-                                        <span class="me-md-1"></span>
-                                        <select class="select2 form-select select_etiqueta_pedidos">
-                                           <option value="">Filtrar etiquetas</option>
-                                           <option value="">Ver Todo</option>
-                                           {{#each etiquetas_let as |etiqueta i|}}
-                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
-                                           {{/each}}
-                                       </select>
-                                    </div>
                                 </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_chofer_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar choferes</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each choferes_ as |chofer i|}}
+                                        <option >{{name}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3">
+                                    <select class="select2 form-select select_etiqueta_pedidos bg-outline-primary-2">
+                                        <option value="">Filtrar etiquetas</option>
+                                        <option value="">Ver Todo</option>
+                                        {{#each etiquetas_let as |etiqueta i|}}
+                                        <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
+                                </div>
+                                <div class="col-6 col-lg-3 mt-1 mt-lg-0">
+                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                </div>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic table dt-column-search" id="example">
+                                    <table class="datatables-basic table dt-column-search table-responsive" id="example">
                                         <thead>
-                                            <tr>
-                                                <th>Nº Pedido</th>
-                                                <th>Cliente</th>
-                                                <th>Total garrafones</th>
+                                            <tr>                                                
+                                                <th></th>
+                                                <th>#Pedido</th>
+                                                <th class="cliente">Cliente</th>
+                                                <th>To. garr.</th>
                                                 <th>Monto Total</th>
+                                                <th>Adeudo</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
+                                                <th>Forma de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                
-                                            
-                                            <th>oculto choferes </th> 
-                                            <th>oculto etiqueta </th> 
+                                                <th>oculto choferes </th> 
+                                                <th>oculto asentamiento </th> 
                                             </tr>
                                         </thead>
+                                        <tfoot>
+    <tr>
+        <th colspan="3" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -245,19 +275,18 @@ $(document).ready(function() {
                             <div class="col-md-6 col-lg-4">
                                 <p class="m-0">Cambiar fecha de corte (prestados):</p>
                                 <div class="my-1 d-flex">
-                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
-                                    <!-- <input type="text" class="form-control  end_date_ dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_"/>-->
+                                    
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-4">
-                                <p class="m-0">Total prestados (del día): {{prestamos_del_dia}}</p><br>
-                                <p class="m-0">Total devueltos (del día): {{devueltos_del_dia}}</p>     
+                                <p class="m-0">Total prestados (del día): <span id="prestamos_del_dia"></span></p><br>
+                                <p class="m-0">Total devueltos (del día): <span id="devueltos_del_dia"></span></p>     
                             </div>
                         </div>
                         <div class="table-responsive">
                             <div class="card">
-                                <table class="datatables-basicPrestados table dt-column-searchPrestados" id="Prestados">
+                                <table class="datatables-basicPrestados table dt-column-searchPrestados table-responsive" id="Prestados">
                                     <thead>
                                         <tr>
                                             <th>Cliente</th>
@@ -274,24 +303,6 @@ $(document).ready(function() {
                 </div>
             </div>
 
-            <div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
-            style="display: none;" aria-hidden="corte_modal">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="corte_modalTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='corte_modalBody'>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="card collapse" id="ventastable">
                 <div class="card-body">
                     <h4 class="card-title">Ventas</h4>
@@ -301,14 +312,9 @@ $(document).ready(function() {
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
                         <div class="row">
-                            <!--<div class="col-md-4">
-                                <label class="form-label">City:</label>
-                                <input type="text" class="form-control dt-input" data-column="4" placeholder="Balky" data-column-index="3" />
-                            </div>-->
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
-                                    <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
                                     <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
                                     <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
                                 </div>
@@ -322,8 +328,7 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                     <label class="form-label">Filtrar chofer ó etiqueta:</label>
                                     <div class="mb-0 d-flex">
-                                        <!--<input type="text" class="form-control dt-date flatpickr-range dt-input" data-column="5"  data-column-index="4" name="dt_date" />-->
-                                       <select class="select2 form-select select_chofer_ventas">
+                                         <select class="select2 form-select select_chofer_ventas">
                                            <option value="">Filtrar choferes</option>
                                            {{#each choferes_ as |chofer i|}}
                                            <option >{{name}}</option>
@@ -343,7 +348,7 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic2 table dt-column-search2">
+                                    <table class="datatables-basic2 table dt-column-search2 table-responsive">
                                           <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
@@ -352,12 +357,80 @@ $(document).ready(function() {
                                                 <th>Monto Total</th>
                                                 <th>Status del Pedido</th>
                                                 <th>Status de Pago</th>
+                                                <th>Metodo de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                
+                                                <th>oculto choferes </th> 
+                                            <th>oculto asentamiento </th> 
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+    <tr>
+        <th colspan="2" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="card collapse" id="resumenTable">
+                <div class="card-body">
+                    <h4 class="card-title">Resumen</h4>
+                </div>
+                <div class="d-flex justify-content-between align-items-center mx-0 row">
+                    <form class="dt_adv_search" method="POST">
+                        <div class="row d-none">
+                            <div class="col-md-4">
+                                <label class="form-label">Fecha:</label>
+                                <div class="mb-0 d-flex">
+                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_resumen"/>
+                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_resumen"/>
+                                </div>
+                            </div>
+                        </div>
+                    </form><br>
+                </div>
+
+                <section id="column-search-datatable">
+                    <div class="card-body">
+                            <div class="col-md-4">
+                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                                    <div class="mb-0 d-flex">
+                                       <select class="select2 form-select select_chofer_pedidos">
+                                           <option value="">Filtrar choferes</option>
+                                           {{#each choferes_ as |chofer i|}}
+                                           <option >{{name}}</option>
+                                           {{/each}}
+                                       </select>
+                                       <span class="me-md-1"></span>
+                                    </div>
+                                </div>    
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-resumen table dt-column-search_resumen table-responsive">
+                                          <thead>
+                                            <tr>
+                                                <th>Carga Inicial</th>
+                                                <th>Pedidos</th>
+                                                <th>Entregados</th>
+                                                <th>Pendientes</th>                                                
                                             
-                                            <th>oculto choferes </th> 
-                                            <th>oculto etiqueta </th> 
+                                            <th>oculto choferes </th>  
                                             </tr>
                                         </thead>
                                     </table>
@@ -370,47 +443,16 @@ $(document).ready(function() {
         </div>
     </div>
 </div>
-
-            <div class="modal fade" id="home_modal" tabindex="-1" aria-labelledby="home_modal"
-            style="display: none;" aria-hidden="home_modal">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="home_modalTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" id="btnModalHome" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='home_modalBody'>
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="modal_detail_garrafones" tabindex="-1" aria-labelledby="home_modal"
-            style="display: none;" aria-hidden="modal_detail_garrafones">
+<!-- modales-->
+<div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
+            style="display: none;" aria-hidden="corte_modal">
                 <div class="modal-dialog modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modal_detail_garrafonesTitle"></h5>
+                            <h5 class="modal-title" id="corte_modalTitle"></h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body" id='modal_detail_garrafonesBody'>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
-             <div class="modal fade" id="detail_monto" tabindex="-1" aria-labelledby="detail_monto"
-            style="display: none;" aria-hidden="detail_monto">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="detail_monto_title"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='detail_monto_body'>
+                        <div class="modal-body" id='corte_modalBody'>
                         
                         </div>
                         <div class="modal-footer">
@@ -438,12 +480,18 @@ $(document).ready(function() {
                             name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2 chofer">
                             {{#each choferes_ as |chofer2 j |}}
-                            <option data-id="{{id}}" value="{{name}} {{lastName}}">{{name}} {{lastName}}</option>
+                            <option data-id="{{id}}" value="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
                         <input type="hidden" id="id_chofer_edit" name="id_chofer" class="id_chofer" >
                     </div>
-
+                    <div class="divider">
+                        <div class="divider-text">Fecha Pedido</div>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input mb-2" 
+                            id="edit_fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
+                    </div>
                         <div class="divider">
                             <div class="divider-text">Productos</div>
                         </div>
@@ -704,12 +752,25 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
-
+        {{#if admin}}                <div class="d-flex">
+                            <label for="register-firstName" class="form-label">
+                                {{!-- <input type="checkbox" class="" id="descuento-check">--}} Descuento: $
+                               </label>
+                            <input type="number" name="descuento" placeholder="Descuento"
+                                aria-describedby="register-firstName" tabindex="1" class="form-control" id="descuento_edit" style="height: 16px;width: 15%;margin-left: 5px;">
+                                
+                        </div>
+                        
+{{/if}}
                         <div class="d-flex m-0">
                             <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}"
                                 id="total_total_inp" name="total_total_inp" hidden />
                             <b class="m-0">Monto Total: $<span id="total_total"
                                     class="total_total">{{pedido_let.monto_total}}</span></b>
+                        </div>
+                        <div class="d-flex m-0 d-none" id="monto_descuento">
+                            <b class="m-0">Monto Total incl. desc.: $<span id="total_desc"
+                                    class="total_total"></span></b>
                         </div>
 
                         <div class="divider">
@@ -746,13 +807,8 @@ $(document).ready(function() {
                                 aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
                                 id="danados_edit">
                         </div>
-                        <div class="form-group">
-                            <label for="register-firstName" class="form-label">
-                                Descuento
-                               </label>
-                            <input type="number" name="descuento" placeholder="Descuento"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" id="descuento_edit">
-                        </div>
+
+
                         <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
                             <input type="text" name="observacion" placeholder="Observación"
                                 aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
@@ -770,6 +826,35 @@ $(document).ready(function() {
                     </div>
                 </div>
             </div>
-<script>
-   
-</script>
+
+                <div class="modal fade" id="change_chofer" tabindex="-1" aria-labelledby="change_choferTitle" style="display: none;"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="change_choferTitle">Cambiar chofer a pedido(s)</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form class="needs-validation was-validated" id="change_chofer_form">
+              <input type="hidden" class="form-control" id="ids_pedido" name="ids_pedido"/>
+              
+                     <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 chofer_reg_modal_pedido" id='chofer_cambia'>
+                            <option default value="default">Seleccione un chofer</option>
+                            {{#each choferes_ as |chofer i |}}
+                            <option value="{{id}}">{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+          </div>
+          <div class="modal-footer">
+            <button tabindex="26"
+              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="change_chofer_btn">Cambiar</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>

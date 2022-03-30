@@ -38,7 +38,11 @@ switch (req.body.proyect) {
 		break;
 	case 'PYT672':
 		console.log("672")
-		//Usuarios = require('../models/PYT672/Usuarios');	
+		Usuarios = require('../models/PYT672/Usuarios');	
+		break;
+	case 'PASARELA':
+		console.log("PASARELA")
+		Usuarios = require('../models/PYT27/Usuarios');	
 		break;
 	default:
 		break;
@@ -95,7 +99,31 @@ switch (req.body.proyect) {
 		}
 	)
 );
-
+passport.use('referido',
+	new LocalStrategy({
+		usernameField: 'telefono',
+		passwordField: 'ref',
+		passReqToCallback : true
+	},
+		async (req,telefono, password, done) => {
+			console.log(req.body)
+// Modelo a auntenticar
+		var Clientes = "";
+		Clientes = require('../models/PYT4/Clientes');	
+			try {
+				const cliente = await Clientes.findOne({
+					where: {telefono:telefono, referido_de: req.body.ref}
+				});
+				return done(null, cliente);
+			}catch(err) {
+				console.log(err)
+				return done(null, false, {
+					message: 'Esa cuenta no existe'
+				});
+			}
+		}
+	)
+);
 /* Código 100% funcional */
 passport.use('facebook',
 	new FacebookStrategy({

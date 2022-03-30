@@ -1,0 +1,256 @@
+<div class="app-content content ">
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <section id="pricing-plan">
+                <!--/ pricing plan cards -->
+                {{#if roleAdmin}}
+                <span class="d-block mb-1" id="adm">ADMINISTRADOR</span>
+                
+                <section id="basic-vertical-layouts">
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Añadir Paquetes</h4>
+                                </div>
+                                <div class="card-body">
+                                    <form class="form form-vertical" method="POST" action="/createpackages">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Nombre del Plan</label>
+                                                    <input type="text" id="" class="form-control" name="name" placeholder="VIP" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Precio</label>
+                                                    <input type="number" id="" class="form-control" name="price" placeholder="650$" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Duración</label>
+                                                    <select name="duration" id="" class="form-select" required>
+                                                        <option value="12">12 Meses</option>
+                                                        <option value="24">24 Meses</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Cantidad de TH</label>
+                                                    <input type="number" id="" class="form-control" min="0" name="amount" placeholder="80 TH" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="">Cobro por mantenimiento</label>
+                                                    <input type="text" id="" class="form-control" name="maintance" placeholder="10%" value="{{percentage}}" min="0" readonly required>
+                                                </div>
+                                            </div>
+  
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-primary me-1 waves-effect waves-float waves-light">Guardar</button>
+                                                <button type="reset" class="btn btn-outline-secondary waves-effect">Descartar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="card">
+                                <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="card-header border-bottom p-1"><div class="head-label"><h6 class="mb-0">Paquetes creados</h6></div></div>
+                                    <div class="d-flex justify-content-between align-items-center mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_length" id="DataTables_Table_0_length">
+                                                <label class="d-flex align-items-center">Mostrar 
+                                                    <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="form-select">
+                                                        <option value="7">7</option>
+                                                        <option value="10">10</option><option value="25">25</option>
+                                                        <option value="50">50</option><option value="75">75</option>
+                                                        <option value="100">100</option>
+                                                    </select> entradas
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                                                <label class="d-flex align-items-center">Buscar:<input type="search" class="form-control" placeholder="" aria-controls="DataTables_Table_0"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="datatables-basic table table-responsive dataTable no-footer dtr-column" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info" style="width: 1108px;">
+                                        <thead>
+                                            <tr role="row"><th class="control sorting_disabled" rowspan="1" colspan="1" style="width: 29px; display: none;" aria-label=""></th><th class="sorting_disabled dt-checkboxes-cell dt-checkboxes-select-all" rowspan="1" colspan="1" style="width: 29px;" data-col="1" aria-label=""><div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll"><label class="form-check-label" for="checkboxSelectAll"></label></div></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 105px;" aria-label="Email: activate to sort column ascending">ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 94px;" aria-label="Date: activate to sort column ascending">Nombre</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Total TH</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" style="width: 118px;" aria-label="Status: activate to sort column ascending">Mantenimiento</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Precio</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Duración</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Creación</th><th class="sorting_disabled" rowspan="1" colspan="1" style="width: 128px;" aria-label="Actions">Acción</th></tr>
+                                        </thead>
+                                        <tbody>
+                                            {{#if data}}
+                                                {{#each data as |item i|}}
+                                            <tr class="packages-items">
+                                                <td class="control" tabindex="0" style="display: none;"></td>                
+                                                <td class=" dt-checkboxes-cell">
+                                                    <div class="form-check"> 
+                                                        <input class="form-check-input dt-checkboxes" type="checkbox">
+                                                    </div>
+                                                </td>
+
+                                                <td class="id">{{item.id}}</td>
+
+                                                <td class="name">{{item.name}}</td>
+
+                                                <td class="amount">{{item.amount_th}} TH</td>
+
+                                                <td class="maintance">{{item.maintance_charge}}%</td>
+
+                                                <td class="price">{{item.price}}$</td>
+
+                                                <td class="duration">{{item.duration}} Meses</td>
+
+                                                <td>{{#formatDatapy24 item.createdAt}}{{/formatDatapy24}}</td>
+
+                                                <td>
+                                                    <div class="d-inline-flex">
+                                                        <div>
+                                                            <input type="text" class="d-none" name="id" value="{{item.id}}">
+                                                            <a role="button" data-id="{{item.id}}" data-name="{{item.name}}" data-amount="{{item.amount_th}}"  data-maintance="{{item.maintance_charge}}" data-price="{{item.price}}" data-duration="{{item.duration}}" data-bs-toggle="modal" data-bs-target="#addNewCard" class="btn-edit">
+                                                                <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit font-small-4 text-primary"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                                            </a>
+                                                        </div>
+                                                        <form action="/deletepackages" method="post">
+                                                            <input type="text" class="d-none" name="id" value="{{item.id}}">
+                                                            <button role="button" type="submit" style="width: unset; background: none; border: none; outline: none;">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 font-small-4 ms-50 text-primary" style="margin-bottom: 2px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                                {{/each}}
+                                            {{else}}
+                                            <tr class="odd">
+                                                <td style="white-space: nowrap">No existen datos registrados</td>
+                                            </tr>
+                                            {{/if}}
+                                        </tbody>
+                                    </table>
+
+                                    <div class="d-flex justify-content-between mx-0 row">
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Mostrando 0 a 7 de 100 entradas</div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6">
+                                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+                                                <ul class="pagination">
+                                                    <li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                    <li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">&nbsp;</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+          
+                <!--- MODAL --->
+                {{#if data}}
+                <div class="modal fade" id="addNewCard" tabindex="-1" style="display: none;" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="/updatepackages" method="POST" class="modal-body">
+                                <h1 class="text-center mb-1" id="name">Plan Basico</h1>
+                                <div class="card-body row">
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="">Nombre del Plan</label>
+                                        <input id="name_pack" name="name" class="form-control" type="text" value="" required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="">Precio</label>
+                                        <input id="price" name="price" class="form-control" type="number" value="" min="0" required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="">Duración</label>
+                                        <select name="duration" id="duration" class="form-select" required>
+                                            <option value="12">12 Meses</option>
+                                            <option value="24">24 Meses</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 mb-2">
+                                        <label class="form-label" for="">Cantidad de TH</label>
+                                        <input type="text" id="amount" name="amount" class="form-control" min="0" value="" required>
+                                    </div>
+
+                                    <div class="col-md-12 mb-2">
+                                        <label class="form-label" for="">Cobro por mantenimiento</label>
+                                        <input type="number" id="maintance" name="maintance" class="form-control" min="0" value="{{percentage}}" required readonly>
+                                    </div>
+
+                                    <input type="text" id="id" name="id" class="d-none" required>
+
+                                    <div class="col-12">
+                                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                                        <button class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">Descartar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {{/if}}
+                <!--- END MODAL --->
+                {{/if}}      
+            </section>
+        </div>
+    </div>
+</div>
+
+<script>
+    let toggleBtns = document.querySelectorAll('table .d-inline-flex .btn-edit');
+    let packages = document.querySelectorAll('.packages-items');
+
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            packages.forEach(pack => {
+                pack.classList.remove('active');
+            });
+            e.target.parentNode.parentNode.parentNode.parentNode.classList.add('active')
+            let id = document.querySelector('.packages-items.active .id').innerText,
+            name = document.querySelector('.packages-items.active .name').innerText,
+            price = e.target.getAttribute('data-price'),
+            amount = e.target.getAttribute('data-amount'),
+            duration = e.target.getAttribute('data-duration'),
+            maintance = e.target.getAttribute('data-maintance');
+            
+            SetModalUpdateValues(id, name, price, amount, duration, maintance);
+        });
+    });
+
+    const SetModalUpdateValues = (i, n, p, a, d, m) => {
+        const name = document.getElementById('name'),
+        namePack = document.getElementById('name_pack'),
+        price = document.getElementById('price'),
+        duration = document.getElementById('duration'),
+        amount = document.getElementById('amount'),
+        maintance = document.getElementById('maintance'),
+        id = document.getElementById('id');
+
+        id.value = i;
+        name.innerText = n;
+        namePack.value = n;
+        price.value = p;
+        duration.value = d;
+        amount.value = a;
+        maintance.value = m;
+    }
+
+</script>

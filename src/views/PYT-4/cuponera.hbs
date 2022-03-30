@@ -104,7 +104,16 @@ display: inline-flex !important;
     align-items: center;
     justify-content: center;
         }
+        .video-cu{
+            width: 22rem;
+            height: 15rem;
+        }
+
+        
     @media (max-width: 760px) {
+         .video-cu{
+            width: 20rem;
+        }
         .comida-img{
             width: 6rem !important;
         }
@@ -173,6 +182,17 @@ width: 5rem !important;
         max-height: 10rem;
     }
     }
+            @media (max-width: 1024px) {
+ .video-cu{
+            width: 15rem;
+        }
+          }    
+            @media (max-width: 1920px) {
+ .video-cu{
+            width: 25rem;
+            height: 17rem;
+        }
+            }
 </style>
 <script>
     $(document).ready(function () {
@@ -204,7 +224,7 @@ console.log('ya se cargo la pagina')
                         success: function (data, textStatus, jqXHR) {
                             console.log(data)
                             if (data.msg == "USADO") {
-                                Swal.fire('Cupon usado porfavor seleccione otro o actualice la página')
+                                Swal.fire('Cupon usado, por favor seleccione otro')
                                 return
                             }
                             window.location.href = `https://wa.me/52${ws_proveedor}/?text=¡Hola!, Deseo canjear mi cupón 💧BWATER💧`
@@ -257,11 +277,11 @@ console.log('ya se cargo la pagina')
                     break;
                 case 2:
                     $('#fitness').fadeIn();
-                    window.location.href="/cuponera/belleza"
+                    window.location.href="/cuponera/fitness"
                     break;
                 case 3:
                     $('#belleza').fadeIn();
-                    window.location.href="/cuponera/fitness"
+                    window.location.href="/cuponera/belleza"
                     break;
                 case 4:
                     $('#comida').fadeIn();
@@ -395,8 +415,9 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                                {{#video_img img}}{{/video_img}}
+                                {{!-- <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
+                                    style="height: 17rem;width:100%" /> --}}
                             </div>
 
                             <div class="card-body descrip-card2">
@@ -408,7 +429,7 @@ console.log('ya se cargo la pagina')
                                     </h6>
                                     <p class="card-text item-description font-crece">
                                         {{especial}}
-                                    </p>
+                                   <a class="" href="https://www.google.com/search?q={{ubicacion}}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></p>
                                 </div>
                                 <div class="item-options text-center">
                                     <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
@@ -421,7 +442,7 @@ console.log('ya se cargo la pagina')
                 </div>
             </section>
         {{/if}}
-        {{#if cat_belleza}}
+        {{#if cat_fitness}}
             <section id="fitness" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
@@ -430,8 +451,7 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                               {{#video_img img}}{{/video_img}}
                             </div>
 
                             <div class="card-body descrip-card2">
@@ -443,7 +463,7 @@ console.log('ya se cargo la pagina')
                                     </h6>
                                     <p class="card-text item-description font-crece">
                                         {{especial}}
-                                    </p>
+                                    <a class="" href="https://www.google.com/search?q={{ubicacion}}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></p>
                                 </div>
                                 <div class="item-options text-center">
                                     <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
@@ -456,7 +476,7 @@ console.log('ya se cargo la pagina')
                 </div>
             </section>
             {{/if}}
-            {{#if cat_fitness}}
+            {{#if cat_belleza}}
             <section id="belleza" class="show">
                 <div class="row kb-search-content-info match-height">
                     <!-- sales card -->
@@ -465,8 +485,7 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                                {{#video_img img}}{{/video_img}}
                             </div>
 
                             <div class="card-body descrip-card2">
@@ -478,7 +497,7 @@ console.log('ya se cargo la pagina')
                                     </h6>
                                     <p class="card-text item-description font-crece">
                                         {{especial}}
-                                    </p>
+                                    <a class="" href="https://www.google.com/search?q={{ubicacion}}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></p>
                                 </div>
                                 <div class="item-options text-center">
                                     <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
@@ -500,8 +519,7 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                                {{#video_img img}}{{/video_img}}
                             </div>
 
                             <div class="card-body descrip-card2">
@@ -513,7 +531,7 @@ console.log('ya se cargo la pagina')
                                     </h6>
                                     <p class="card-text item-description font-crece">
                                         {{especial}}
-                                    </p>
+                                    <a class="" href="https://www.google.com/search?q={{ubicacion}}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></p>
                                 </div>
                                 <div class="item-options text-center">
                                     <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"
@@ -535,8 +553,7 @@ console.log('ya se cargo la pagina')
                         <input class="bell{{id}}" value="{{id}}" hidden>
                         <div class="card">
                             <div class="item-img text-center img-scalable">
-                                <img src="../../../dataPY4/img_upload/{{img}}" class="img-fluid"
-                                    style="height: 17rem;width:100%" />
+                               {{#video_img img}}{{/video_img}}
                             </div>
 
                             <div class="card-body descrip-card2">
@@ -548,7 +565,7 @@ console.log('ya se cargo la pagina')
                                     </h6>
                                     <p class="card-text item-description font-crece">
                                         {{especial}}
-                                    </p>
+                                    <a class="" href="https://www.google.com/search?q={{ubicacion}}" target="_blank"><i class="fas fa-map-marker-alt"></i></a></p>
                                 </div>
                                 <div class="item-options text-center">
                                     <a class="ws_link btn btn-primary btn-cart waves-effect waves-float waves-light"

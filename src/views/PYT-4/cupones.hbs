@@ -2,6 +2,11 @@
   .none {
     display: none;
   }
+  @media(min-width: 768px) {
+       table.dataTable.table-responsive:not(.datatables-ajax) {
+    display: table !important;
+}
+    }
 </style>
 
 {{#if msg}}
@@ -67,7 +72,7 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_cupones">
+                        <table class="datatables-basic_cupones table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
@@ -108,11 +113,11 @@
                   <div class="col-12">
                     <div class="table-responsive">
                       <div class="card">
-                        <table class="datatables-basic_cupones_usados">
+                        <table class="datatables-basic_cupones_usados table-responsive">
                           <thead>
                             <tr>
                               <th>id</th>
-                              <th>Nombre</th>
+                              <th>Cupon Usado</th>
                               <th>Usado Por</th>                              
                               <th>Fecha de Uso</th>
                               <th>Categoria</th>
@@ -169,6 +174,10 @@
                 <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
                 <input type="number" class="form-control" id="" name="ws_proveedor" placeholder=""/>
               </div>
+               <div class="mb-1">
+                <label for="register-email" class="form-label">Dirección del Proveedor</label>
+                <input type="text" class="form-control" id="" name="dir_proveedor" placeholder=""/>
+              </div>
                 <div class="mb-1">
                 <label for="register-email" class="form-label">Fecha de inicio</label>
                 <input type="datetime-local" class="form-control" id="" name="fecha_inicio" placeholder=""/>
@@ -183,7 +192,7 @@
               </div>
               <div class="mb-1">
                 <label for="register-email" class="form-label">Imágen</label>
-                <input class="form-control"  id="cupon-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input class="form-control"  id="cupon-img5" type="file" accept=".png, .jpg, .jpeg,.mp4, .webm, .ogg" name="image" />
                 <input type="text" id="cupon-img5_" class="" name='img' hidden>
                 <div id='cupon-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
                       </div>
@@ -238,6 +247,10 @@
                 <label for="register-email" class="form-label">Whatsapp del Proveedor</label>
                 <input type="number" class="form-control" id="ws_proveedor_edit" name="ws_proveedor" placeholder=""/>
               </div>
+               <div class="mb-1">
+                <label for="register-email" class="form-label">Dirección del Proveedor</label>
+                <input type="text" class="form-control" id="dir_proveedor_edit" name="dir_proveedor" placeholder=""/>
+              </div>
                 <div class="mb-1">
                 <label for="register-email" class="form-label">Fecha de inicio</label>
                 <input type="datetime-local" class="form-control" id="fecha_inicio_edit" name="fecha_inicio" placeholder=""/>
@@ -252,7 +265,7 @@
               </div>
               <div class="mb-1">
                 <label for="register-email" class="form-label">Imágen</label>
-                <input class="form-control"  id="edit-img5" type="file" accept=".png, .jpg, .jpeg" name="image" />
+                <input class="form-control"  id="edit-img5" type="file" accept=".png, .jpg, .jpeg, .mp4, .webm, .ogg" name="image" />
                 <input type="text" id="edit-img5_" class="" name='img' hidden>
                 <div id='edit-img5_progressBar3' class='progress-bar profile-img5-Pro' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%; border-radius: 10px;background-color: #001871 !important;'>0%
                       </div>

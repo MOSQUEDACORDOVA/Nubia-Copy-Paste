@@ -7,29 +7,29 @@
 
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
- var minDate, maxDate
+ var minDate2, maxDate2
  
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
+//  $.fn.dataTable.ext.search.push(
+//      function( settings, data, dataIndex ) {
+//          var min = minDate.val();
+//          var max = maxDate.val();
        
 
-     let f = data[5]
+//      let f = data[5]
     
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
+//          var date = new Date(f);
+//          if (
+//              ( min === null && max === null ) ||
+//              ( min === null && date <= max ) ||
+//              ( min <= date   && max === null ) ||
+//              ( min <= date   && date <= max ) 
+//          ) {
+//              return true;
+//          }
+//          return false;
+//      }
+//  );
  
  
  // Datepicker for advanced filter
@@ -79,7 +79,7 @@
        end = normalizeDate(endDate);
        var  min2 = minDate2.val();
        var max2 = maxDate2.val();
-       let f = aData[5]
+       let f = aData[3]
        var date = new Date(f);
      // If our date from the row is between the start and end
      if (
@@ -101,21 +101,26 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- // Advanced Search Functions Ends
- $(function () {
-  'use strict';
-  
+ function tablarCargainicial(edit) {
+     
   let valor = $('#array_carga').val()
+  let array =""
+  if (edit) {
+    array = JSON.parse(valor)
+console.log(array)
+  }else{
+   array = JSON.parse(valor.replace(/&quot;/g,'"')) 
+  }
+
   let array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  console.log(array2)
 
   var dt_basic_carga_init = $('.datatables-basic_carga_init'),
     dt_date_table = $('.dt-date');
-  minDate = new DateTime($('#min'), {
+  minDate2 = new DateTime($('#min1'), {
       format: 'DD/MM/YYYY'
   });
-  maxDate = new DateTime($('#max'), {
+  maxDate2 = new DateTime($('#max1'), {
       format: 'DD/MM/YYYY'
   });
   // DataTable with buttons
@@ -136,44 +141,54 @@
     var dt_basic_carg = dt_basic_carga_init.DataTable({
       data: array2,
       columns: [
-        { data: 'id' },
         { data: 'personal' },
-        { data: 'cantidad_inicial' },
+        { data: 'recarga' },
         { data: 'createdAt'},
-       /* {   // Actions
+       {   // Actions
           targets: -1,
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
             return (
-              '<div class="d-inline-flex">' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record '+full['id']+'">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'+
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item edit_record">' +
-              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
-              '</a>'  
+              `<div class="d-inline-flex">
+              <a href="javascript:;" class="dropdown-item delete-record${full['id']}" onclick=\'delete_("${full['id']}")\'>
+              ${feather.icons['trash-2'].toSvg({ class: 'font-small-4 ' }) }
+              </a>
+              <a href="javascript:;" class="dropdown-item edit_record">
+              ${feather.icons['file-text'].toSvg({ class: 'font-small-4' })}
+              </a>  `
             );
-          } },*/
+          } },
       ], columnDefs: [
         {
-          targets: 1,
+          targets: 0,
           render:function(data, type, full, meta){
-           console.log(full)
 
            return `${full['personal']['name']}  ${full['personal']['lastName']}`
           }
         },
+{
+          targets: 1,
+          render:function(data, type, full, meta){
+            console.log(full)
+            var recarga_arr = encodeURIComponent(JSON.stringify(full['Recargas']));
+            return (
+             `<span class="badge rounded-pill badge-light-info hover_recarga" style="cursor:pointer;"   data-arrayrecarga="${recarga_arr}" data-cargainicial="${full['cantidad_inicial']}">
+              ${data} </span> <i class="fas fa-plus" onclick="openrecarga('${full['id']}')" style="cursor:pointer;"></i>`
+            );
+          }
+        },
+        
         {
-          targets: 3,
+          targets: 2,
           render:function(data){
-           // return moment.tz(data, 'America/Mexico_City').format('L');
-            return moment(data).format('L');
+           // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
+            return moment(data).format('DD/MM/YYYY');
           }
         },
       ],
      
-      order: [[2, 'desc']],
+      order: [[0, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
@@ -210,9 +225,15 @@
     // Refilter the table
     $('#min1, #max1').on('change', function () {
       filterByDate(5); // We call our filter function
-      dt_basic.draw();
+      dt_basic_carg.draw();
       });
   }
+   
+ }
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+tablarCargainicial()
   // Flat Date picker
   if (dt_date_table.length) {
     dt_date_table.flatpickr({
@@ -221,36 +242,37 @@
     });
   }
 
+  $.contextMenu({
+    selector: '.hover_recarga',
+    trigger: 'left',
+    autoHide: true,
+    build: function ($trigger, e) {
+      console.log(e)
+      var Recargas = e.currentTarget['dataset']["arrayrecarga"];
+      var carga_inicial = e.currentTarget['dataset']["cargainicial"];
+      var my_object = JSON.parse(decodeURIComponent(Recargas));
+      console.log(my_object)
+
+       var items1 = {"Carga inicial": {name: `Carga inicial =  ${carga_inicial}`}}
+      for (let i = 0; i < my_object.length; i++) {
+        var newUser = "Recarga" + i;
+        items1[newUser] = {name: `Recargó ${i+1}º =  ${my_object[i]['recarga']}`}
+      }
+     console.log(items1)
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                console.log(m);
+            },
+            items: 
+            items1
+            
+        };
+    }
+  })
   // Add New record
   // ? Remove/Update this code as per your requirements ?
   var count = 101;
-  $('.data-submit').on('click', function () {
-    var $new_name = $('.add-new-record .dt-full-name').val(),
-      $new_post = $('.add-new-record .dt-post').val(),
-      $new_email = $('.add-new-record .dt-email').val(),
-      $new_date = $('.add-new-record .dt-date').val(),
-      $new_salary = $('.add-new-record .dt-salary').val();
-
-    if ($new_name != '') {
-      dt_basic.row
-        .add({
-          responsive_id: null,
-          id: count,
-          full_name: $new_name,
-          post: $new_post,
-          email: $new_email,
-          start_date: $new_date,
-          salary: '$' + $new_salary,
-          status: 5
-        })
-        .draw();
-      count++;
-      $('.modal').modal('hide');
-    }
-  });
-
-
-
   // Responsive Table
   // --------------------------------------------------------------------
 
@@ -263,34 +285,64 @@
   $('.odd').addClass('selector');
   $('.even').addClass('selector'); 
 
- /* $('.datatables-basic tbody').on('click', '.delete-record', function (e) {
-    var id = e.target.classList[0]
-    Swal.fire({
-      title: 'Eliminar',
-      text: "Seguro desea eliminar el pedido indicado",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Eliminar'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        window.location.href = `/delete_pedido/${id}`;
+  $('#btn_carga_inicial').on('click', async (e)=>{
+    
+    $.ajax({
+      url: `/save_carga_init_py4`,
+      type: 'POST',
+      data: $('#form_cargaincial').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_carga').val(JSON.stringify(data.carga_let))
+        $('.datatables-basic_carga_init').dataTable().fnDestroy();
+        $('.datatables-basic_carga_init').empty();
+        $('.datatables-basic_carga_init').append(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Chofer</th>
+          <th>Carga Inicial</th>
+          <th>Fecha de carga</th>
+          <!--<th>Opciones</th>-->
+        </tr>
+      </thead>`);
+      tablarCargainicial('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
       }
-    })
-
-  });
-  $('.datatables-basic tbody').on('click', '.edit_record', function (e) {
-    var id_edit = e.target.classList[0]
-    if (typeof id_edit =="undefined") {
-      return console.log(id_edit)
-    }
-  window.location.href = `/editar_pedido/${id_edit}`;
-
-  });
-*/
-
+    });
+    
+  })
+  $('#btn_recarga').on('click', async (e)=>{
+    
+    $.ajax({
+      url: `/save_recarga_py4`,
+      type: 'POST',
+      data: $('#form_recarga').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+        $('#array_carga').val(JSON.stringify(data.carga_let))
+        $('.datatables-basic_carga_init').dataTable().fnDestroy();
+        $('.datatables-basic_carga_init').empty();
+        $('.datatables-basic_carga_init').append(`<thead>
+        <tr>
+          <th>id</th>
+          <th>Chofer</th>
+          <th>Carga Inicial</th>
+          <th>Fecha de carga</th>
+          <!--<th>Opciones</th>-->
+        </tr>
+      </thead>`);
+      tablarCargainicial('si')
+ $('.modal').modal('hide');
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
 });
 // Filter column wise function
 function filterColumn(i, val) {
@@ -332,30 +384,51 @@ function filterColumn2(i, val) {
     $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
   }
 }
-// Filter column wise function
-/*async function cambioSP(id, status) {
-  const { value: estado } = await Swal.fire({
-    title: 'Seleccione un nuevo Status',
-    input: 'select',
-    inputOptions: {
-        Entregado: 'Entregado',
-        Cancelado: 'Cancelado',
-        'Por entregar': 'Por entregar',
-    },
-    inputPlaceholder: 'Seleccione un nuevo Status',
+function openrecarga(id) {
+  $('#id_carga').val('')
+  $('#recarga_name').val('')
+  $('#id_carga').val(id)
+  $('#recarga').modal('show')
+}
+function delete_(id_) {
+  if ($('#otro_rol').length) {
+    console.log('no eres admin')
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  if (typeof id_ =="undefined") {
+    return console.log(id_)
+  }
+  var id = id_
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar la carga indicada",
+    icon: 'warning',
     showCancelButton: true,
-    inputValidator: (value) => {
-      return new Promise((resolve) => {
-        if (value === status) {
-          resolve('Debe seleccionar un estado diferente')
-        } else {
-           resolve()
-        }
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_cargapy4/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      console.log(result)
+      $('.datatables-basic_carga_init').DataTable().row($(`.datatables-basic_carga_init tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Carga ${id} borrada con éxito`,
       })
     }
   })
-  
-  if (estado) {
-    window.location.href = `/cambiaS_pedido/${id}/${estado}`;
-  }
-}*/
+}
