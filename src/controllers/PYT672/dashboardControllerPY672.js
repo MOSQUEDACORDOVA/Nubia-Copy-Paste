@@ -990,35 +990,37 @@ exports.control = (req, res) => {
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    /*console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")*/
 
     DataBase.ObtenerMatriculasDistinct().then((response2) => {
       let gruposDist = JSON.parse(response2);
-      console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")
+      /*.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")*/
       
       let gruposDesde0 = [], gruposIntensivo = [], gruposKids = [];
       
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response3) => {
           let gruposFounds = JSON.parse(response3);
-          console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")
+          /*console.log(gruposFounds)
+          console.log("GRUPOS ENCONTRADOS")*/
 
           gruposFounds.forEach(found => {
-            switch (found.nombre) {
-              case "Desde cero":
-                gruposDesde0.push(found);
-                break;
-            case "Intensivo":
-                gruposIntensivo.push(found);
-                break;
-                 case "Desde cero":
-                  gruposKids.push(found);
-                break;
-              default:
-                break;
+            if(found.estadosGrupoId === 2) {
+              switch (found.nombre) {
+                case "Desde cero":
+                  gruposDesde0.push(found);
+                  break;
+              case "Intensivo":
+                  gruposIntensivo.push(found);
+                  break;
+                   case "Kids":
+                    gruposKids.push(found);
+                  break;
+                default:
+                  break;
+              }
             }
           });
 
@@ -1028,10 +1030,10 @@ exports.control = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       });
-      console.log('gruposKids')
-console.log(gruposKids)
-    res.render(proyecto+"/admin/asistencias", {
-      pageName: "Academia Americana - Asistencias",
+    
+
+    res.render(proyecto+"/admin/control", {
+      pageName: "Academia Americana - Control",
       dashboardPage: true,
       dashboard: true,
       py672: true,
@@ -1064,21 +1066,21 @@ exports.controlgrupo = (req, res) => {
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    /*console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")*/
 
     DataBase.ObtenerMatriculasDistinct().then((response2) => {
       let gruposDist = JSON.parse(response2);
-      console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")
+      /*console.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")*/
       
       let gruposDesde0 = [], gruposIntensivo = [], gruposKids=[];
       
       gruposDist.forEach(element => {
         DataBase.BuscarGrupos(element.grupoId).then((response3) => {
           let gruposFounds = JSON.parse(response3);
-          console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")
+          /*console.log(gruposFounds)
+          console.log("GRUPOS ENCONTRADOS")*/
 
           gruposFounds.forEach(found => {
             if(found.estadosGrupoId === 2) {
@@ -1089,7 +1091,7 @@ exports.controlgrupo = (req, res) => {
               case "Intensivo":
                   gruposIntensivo.push(found);
                   break;
-                   case "Desde cero":
+                   case "Kids":
                     gruposKids.push(found);
                   break;
                 default:
@@ -1119,8 +1121,8 @@ exports.controlgrupo = (req, res) => {
         DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
           let grupo = JSON.parse(respuesta)[0]
           let numLeccion;
-          console.log(grupo)
-          console.log("GRUPO ENCONTRADO")
+          /*console.log(grupo)
+          console.log("GRUPO ENCONTRADO")*/
           
           let fechaActual = moment().format("DD-MM-YYYY");
 
@@ -1146,10 +1148,9 @@ exports.controlgrupo = (req, res) => {
 
           numLeccion = (32 - Math.floor(rest))
 
-         
 
-    res.render(proyecto+"/admin/asistencias", {
-      pageName: "Academia Americana - Asistencias",
+    res.render(proyecto+"/admin/control", {
+      pageName: "Academia Americana - Control",
       dashboardPage: true,
       dashboard: true,
       py672: true,
@@ -1596,6 +1597,7 @@ exports.get_comments_alumno = async(req, res) => {
   console.log(obtener_comentarios)
   return res.send({obtener_comentarios})
 };
+
 exports.guardar_comentario = async(req, res) => {
   var {id_alumno,
     comentario} = req.body
@@ -1608,6 +1610,7 @@ const userId = res.locals.user.id
 
   return res.send({obtener_comentarios})
 };
+
 exports.comentarios_admin_get = async(req, res) => {
   let id_alumno = req.params.id_alumno
   
