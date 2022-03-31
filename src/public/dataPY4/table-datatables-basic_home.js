@@ -6,28 +6,29 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- 
+ var zonas;
+
  // Custom filtering function which will search data in column four between two values
- $.fn.dataTable.ext.search.push(
-     function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
+//  $.fn.dataTable.ext.search.push(
+//      function( settings, data, dataIndex ) {
+//          var min = minDate.val();
+//          var max = maxDate.val();
        
 
-     let f = data[5]
+//      let f = data[9]
     
-         var date = new Date(f);
-         if (
-             ( min === null && max === null ) ||
-             ( min === null && date <= max ) ||
-             ( min <= date   && max === null ) ||
-             ( min <= date   && date <= max ) 
-         ) {
-             return true;
-         }
-         return false;
-     }
- );
+//          var date = new Date(f);
+//          if (
+//              ( min === null && max === null ) ||
+//              ( min === null && date <= max ) ||
+//              ( min <= date   && max === null ) ||
+//              ( min <= date   && date <= max ) 
+//          ) {
+//              return true;
+//          }
+//          return false;
+//      }
+//  );
  
  
  // Datepicker for advanced filter
@@ -77,8 +78,10 @@
        end = normalizeDate(endDate);
        var  min2 = minDate2.val();
        var max2 = maxDate2.val();
-       let f = aData[5]
-       var date = new Date(f);
+       let f = aData[9]       
+       let fechaN = f.split('-')       
+       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
+       var date = new Date(date1);
      // If our date from the row is between the start and end
      if (
       ( min2 === null && max2 === null ) ||
@@ -99,8 +102,13 @@
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- function cargaTablas(rechar) {
-    
+ async function cargaTablas(rechar) {
+zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+  console.log(zonas)
   let valor = $('#array_pedido').val()
   let array2 = ""
   if (rechar) {    
@@ -140,6 +148,7 @@ maxDate2 = new DateTime($('#max1'), {
   // DataTable with buttons
   // --------------------------------------------------------------------
   let groupColumn = 11;
+  console.log(status_pedido)
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -163,7 +172,6 @@ $('#filterValue').val(this.value)
       dt_basic.column(11).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
- console.log(this.value)
     dt_basic.search(this.value).draw();   
  });
 
@@ -417,7 +425,7 @@ Observaciones:${full['observacion']}
         {
           targets: 9,className:'fecha_pedido',
           render:function(data, type, full){
-            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;
           }
         },
@@ -492,7 +500,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
-      filterByDate(5); // We call our filter function
+      filterByDate(9); // We call our filter function
       dt_basic.draw();
       });
   }
@@ -798,7 +806,6 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
   cargaTablas()
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
-
 
   //CAMBIA CHOFER TABLA PEDIDOS
   $("#button_change_chofer").on('click', function (e) {

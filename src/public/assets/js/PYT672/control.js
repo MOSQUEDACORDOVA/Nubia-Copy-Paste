@@ -21,18 +21,28 @@ $(document).ready(function () {
       let lecc = null,
         idAusentes = null;
 
+      // * DETECTAR FILTRO DE GRUPOS
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
         $("#ausenteNumLeccion").val(
           $("#filtrosDesdeCero .select2.leccion").val()
         );
         $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
-      } else {
+
+      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
         $("#ausenteNumLeccion").val(
           $("#filtrosIntensivo .select2.leccion").val()
         );
         $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
+
+      } else {
+        lecc = parseInt($("#filtrosKids .select2.leccion").val());
+        $("#ausenteNumLeccion").val(
+          $("#filtrosKids .select2.leccion").val()
+        );
+        $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
+
       }
 
       $("#ausenteMatriculaId").val("");
@@ -63,6 +73,7 @@ $(document).ready(function () {
             participacion = "",
             notas = 0,
             participacionPorcentaje = 0,
+            commentarioP = "",
             GcommentProfForm="",
             GcommentAdminForm="";
 
@@ -390,13 +401,6 @@ $(document).ready(function () {
     grupoForm.submit();
   });
 
-  /*selectDesdeCero.addEventListener('change', e => {
-        let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
-        grupoFormInput.value = select;
-        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
-        grupoForm.submit();
-    });*/
-
   checkIntensivo.addEventListener("change", (e) => {
     if (checkIntensivo.checked === true) {
       filtrosIntensivo.classList.remove("d-none");
@@ -414,13 +418,6 @@ $(document).ready(function () {
     grupoForm.action = `/controlgrupo/PYT-672/${id}`;
     grupoForm.submit();
   });
-
-  /*selectIntensivo.addEventListener('change', e => {
-        let select = selectIntensivo.options[selectIntensivo.selectedIndex].value;
-        grupoFormInput.value = select;
-        grupoForm.action = `/asistenciasgrupo/PYT-672/${select}`;
-        grupoForm.submit();
-    });*/
 
   checkKids.addEventListener("change", (e) => {
     if (checkKids.checked === true) {
@@ -735,12 +732,18 @@ $(document).ready(function () {
      guardaCommentAdmins(target, valor,calificacion.value);
    }
 }
-});
+  });
+
+  // * ACTIVAR FILTROS POR LECCION
   $("#filtrosDesdeCero select.leccion").on("change", (e) => {
     EstablecerMatriculaPorLeccion();
   });
 
   $("#filtrosIntensivo select.leccion").on("change", (e) => {
+    EstablecerMatriculaPorLeccion();
+  });
+
+  $("#filtrosKids select.leccion").on("change", (e) => {
     EstablecerMatriculaPorLeccion();
   });
 
@@ -750,11 +753,19 @@ $(document).ready(function () {
         $("#filtrosDesdeCero .select2.leccion").val()
       );
       $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
-    } else {
+
+    } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
       $("#ausenteNumLeccion").val(
         $("#filtrosIntensivo .select2.leccion").val()
       );
       $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
+      
+    } else {
+      $("#ausenteNumLeccion").val(
+        $("#filtrosKids .select2.leccion").val()
+      );
+      $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
+
     }
     $("#ausenteMatriculaId").val(id);
     /*console.log($('#filtrosDesdeCero .select2.grupo').val())
@@ -783,13 +794,21 @@ $(document).ready(function () {
         $("#filtrosDesdeCero .select2.leccion").val()
       );
       $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
-    } else {
+
+    } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
       $("#ausenteNumLeccion").val(
         $("#filtrosIntensivo .select2.leccion").val()
       );
       $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
+
+    } else {
+      $("#ausenteNumLeccion").val(
+        $("#filtrosKids .select2.leccion").val()
+      );
+      $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
     }
     $("#ausenteMatriculaId").val(id);
+
     /*console.log($('#filtrosDesdeCero .select2.grupo').val())
         console.log($('#filtrosIntensivo .select2.grupo').val())*/
 

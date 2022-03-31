@@ -48,6 +48,7 @@ $(function () {
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
     $("#nombre-alumno").text(filter[0]["nombre"]);
+    $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
     $("#grupo-alumno").text(filter[0]["grupo"]["identificador"]);
     $("#horario-alumno").text(filter[0]["grupo"]["dia_horario"]);
     $("#profesor-alumno").text("Isaac");
@@ -258,6 +259,7 @@ $("#btn-activar-alumno").removeClass("d-none");
       return;
     }
     let servicio = $("#select-servicio").val();
+    let nivel_grupo = $('#nivel-grupo-alumno').text()
     // $('#fecha-servicio').val(moment().format(
     //   "YYYY-MM-DD" ))
     $(".select-reposicion").addClass(`d-none`);
@@ -284,6 +286,8 @@ $("#btn-activar-alumno").removeClass("d-none");
         removeMensualidadFormat();
         $("#itemPrice").val(20000);
         $("#nivelAdd").removeClass(`d-none`);
+        console.log(nivel_grupo)
+        $(`#select-Nivel option[value="${nivel_grupo}"]`).attr("selected", "selected");
         break;
       case "Reposicion":
         removeMensualidadFormat();
@@ -621,6 +625,12 @@ const recargo = async () => {
       $('#btn-descarga-titulo').focus()
       return;
     }
+    if ($(`#Titulo`).length > 0) {
+      swal.fire(
+        "Ya el titulo esta agregado, seleccione otra opcion o guarde el pago"
+      );
+      return;
+    }
     //VERIFICAR QUE LE CORRESPONDE TITULO:
     notas = await fetch("/notas-titulo-academy/" + id_alumno)
       .then((response) => response.json())
@@ -677,6 +687,7 @@ const recargo = async () => {
     var filter = matricula.filter((element) => element.id == id_alumno);
 
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
+    let nivel_grupo = $('#select-Nivel').val()
     $("#form-reg-pago")
       .append(`<div id="Titulo"><input type="text" name="concepto[]" id="concepto-form-Titulo" value="Titulo">
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form-Titulo" value="">-->
@@ -687,7 +698,7 @@ const recargo = async () => {
 
     $("#body-table-pago").append(`<tr id="tr-Titulo">
 <td>
-<span class="fw-bold">Titulo/N-1</span>
+<span class="fw-bold">Titulo/N${nivel_grupo}</span>
 </td>
 <td>20000</td>
 <td>
@@ -897,6 +908,12 @@ const recargo = async () => {
           Swal.getPopup().querySelector("#fecha-servicio").value;
         const banco = $("input[name=bank-serv]:checked").val(); //Swal.getPopup().querySelector('#bank-serv').value
         const transaction = Swal.getPopup().querySelector("#trans-serv").value;
+        console.log(fecha_pago)
+        if (moment().isBefore(fecha_pago,'d')) {
+          Swal.showValidationMessage(
+            `La fecha de pago debe ser igual o anterior a la actual!`
+          );
+        }
         if (!fecha_pago || !banco || !transaction) {
           Swal.showValidationMessage(
             `Debe llenar todos los campos, por favor!`
@@ -959,18 +976,23 @@ const recargo = async () => {
       .then((data) => {
         return data.obtener_comentarios;
       });
-    console.log(comentariosA);
+      console.log('0');
+    console.log(comentariosA);    
     for (let i = 0; i < comentariosA.length; i++) {
+      let commentProf="", commentAdmin="";
+      if (comentariosA[i].commentAdminForm != null) {
+        commentAdmin = comentariosA[i].commentAdminForm
+      }
+      if (comentariosA[i].commentProfForm != null) {
+        commentProf = comentariosA[i].commentProfForm
+      }
       $("#commentAdmin").append(`<div class="col-12">
              <div class="mb-1">
-               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${moment(
-                 comentariosA[i].createdAt
-               ).format("DD/MM/YYYY")}</label>
+               <label class="form-label" for="exampleFormControlTextarea1">Comentario de:${comentariosA[i].usuario.nombre} (${comentariosA[i].usuario.puesto}) - ${moment(
+                 comentariosA[i].createdAt).format("DD/MM/YYYY")}</label>
                <textarea class="form-control" id="coment${
                  comentariosA[i].id
-               }" rows="1" data-id="47" readonly>${
-        comentariosA[i].commentAdminForm
-      }</textarea>
+               }" rows="1" data-id="47" readonly>${commentAdmin}${commentProf}</textarea>
              </div>
            </div>`);
     }
@@ -1006,11 +1028,18 @@ const recargo = async () => {
         $("#addComment").val("");
         $("#commentAdmin").empty();
         for (let i = 0; i < data.obtener_comentarios.length; i++) {
+          let commentProf="", commentAdmin="";
+      if (data.obtener_comentarios[i].commentAdminForm != null) {
+        commentAdmin = data.obtener_comentarios[i].commentAdminForm
+      }
+      if (data.obtener_comentarios[i].commentProfForm != null) {
+        commentProf = data.obtener_comentarios[i].commentProfForm
+      }
           let fecha = moment(data.obtener_comentarios[i].createdAt).format('DD-MM-YYYY')
           $("#commentAdmin").append(`<div class="col-12">
              <div class="mb-1">
-               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${fecha}</label>
-               <textarea class="form-control addCommentShow" readonly>${data.obtener_comentarios[i].commentAdminForm}</textarea>
+             <label class="form-label" for="exampleFormControlTextarea1">Comentario de:${data.obtener_comentarios[i].usuario.nombre} (${data.obtener_comentarios[i].usuario.puesto}) - ${fecha}</label>
+               <textarea class="form-control addCommentShow" readonly>${commentAdmin}${commentProf}</textarea>
              </div>
            </div>`);
         }
@@ -1123,7 +1152,6 @@ $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
       console.log(moment().isAfter(hora_registro_pago, "d"))
       if (
         historial[i]["concepto"] == "Traslado" &&
-        historial[i]["observacion"] == "-" &&
         moment().isAfter(hora_registro_pago, "d") == false        
       ) {
         $("#guarda-grupoNew").removeClass("d-none");
@@ -1297,6 +1325,10 @@ async function updateHistorial(id_estudiante) {
     </div>
     </div>
     </li>`;
+    let reposicionS = (historial[i]["concepto"]).split(',')
+    if (reposicionS[0]=="Reposicion" ) {
+      $("#historial-list").append(lista_mensualidad);
+    }
     if (
       (historial[i]["concepto"] != "Mensualidad" &&
         historial[i]["observacion"] != "-") 
@@ -1309,6 +1341,7 @@ async function updateHistorial(id_estudiante) {
     ) {
       $("#historial-list").append(lista_recargo);
     }
+    
     if (historial[i]["concepto"] == "Mensualidad") {
       $("#historial-list").append(lista_mensualidad);
     }
@@ -1356,26 +1389,25 @@ async function verificareposicion(id_estudiante) {
     .then((data) => {
       return data.obtener_ausencias;
     });
-  console.log(notas);
-  console.log(nota_participacion);
-  // $('#fecha-servicio').val(`${moment().format(
-  //   "YYYY-MM-DD"
-  // )}`)
+  console.log(historial);
   if (notas.length > 0) {
     for (let i = 0; i < notas.length; i++) {
       if (notas[i].nota == 0) {
-        console.log($('#select-servicio option[value="Reposicion"]').length);
+        for (let j = 0; j < historial.length; j++) {
+          var repos = historial[j].concepto;
+          repos = repos.split(',')
+          if (repos[0]=="Reposicion") {
+            console.log(repos[1])
+            if (notas[i].n_leccion !=repos[1]) {
+              console.log($('#select-servicio option[value="Reposicion"]').length);
         if ($('#select-servicio option[value="Reposicion"]').length == 0) {
           $("#select-servicio").append(
             `<option value="Reposicion">Reposicion</option>`
           );
         }
-
-        //$('.select-reposicion').removeClass(`d-none`)
         $("#select-reposicion").append(
           `<option>${notas[i].n_leccion}</option>`
         );
-
         $("#form-reg-pago").append(`<div id="reposicion${
           notas[i].n_leccion
         }"><input type="text" name="concepto[]" id="concepto-form-reposicion${
@@ -1393,7 +1425,6 @@ async function verificareposicion(id_estudiante) {
 <input type="text" name="observacion[]" id="observacion-form-reposicion${
           notas[i].n_leccion
         }" value="-">`);
-
         $("#body-table-pago")
           .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
@@ -1414,11 +1445,14 @@ async function verificareposicion(id_estudiante) {
   </a>
 </td>
 </tr>`);
-
         $("#detalle-servicios").append(`<li class="price-detail">
 <div class="detail-title">Reposicion,L-${notas[i].n_leccion}</div>
 </li>`);
         $("#total-servicios").text("10000");
+            } 
+          }  
+        }
+        
       }
     }
   }
