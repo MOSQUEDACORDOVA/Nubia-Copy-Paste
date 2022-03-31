@@ -993,9 +993,33 @@ update_constancia(id_caja, fecha_download) {
 },
 
 //COMENTARIOS
-Guarda_comentarios(commentAdminForm,id_alumno) {
+Guarda_comentarios(commentAdminForm,id_alumno,userId) {
   return new Promise((resolve, reject) => {
-    Comentarios.create({commentAdminForm:commentAdminForm, matriculaId:id_alumno})
+    Comentarios.create({commentAdminForm:commentAdminForm, matriculaId:id_alumno,usuarioId: userId})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+comentariosByAlumnoAdmin(id_alumno) {
+  return new Promise((resolve, reject) => {
+    Comentarios.findAll({where:{matriculaId:id_alumno},include:[{association:Comentarios.Usuarios}],order:[['createdAt', 'DESC']]})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+Guarda_comentariosProf(commentProfForm,id_alumno,userId) {
+  return new Promise((resolve, reject) => {
+    Comentarios.create({commentProfForm:commentProfForm, matriculaId:id_alumno,usuarioId: userId})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);
