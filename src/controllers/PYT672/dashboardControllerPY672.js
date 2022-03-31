@@ -1599,8 +1599,8 @@ exports.get_comments_alumno = async(req, res) => {
 exports.guardar_comentario = async(req, res) => {
   var {id_alumno,
     comentario} = req.body
-
-    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno)
+const userId = res.locals.user.id
+    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno,userId)
   console.log(comentario_save)
 
   const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
@@ -2361,7 +2361,7 @@ exports.registrarnotas = (req, res) => {
   const { nota, leccion, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
   console.log(req.body);
   let msg = false;
-
+const userId = res.locals.user.id
   if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
     let err = { error: "complete todos los campos 2095" };
@@ -2371,8 +2371,9 @@ exports.registrarnotas = (req, res) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then((response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
+          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
           return res.send({resp2});
 
         }).catch((err) => {
@@ -2381,8 +2382,9 @@ exports.registrarnotas = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then((response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
+          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
           return res.send({resp3});
 
         }).catch((err) => {
