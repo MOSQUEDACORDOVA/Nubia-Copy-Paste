@@ -98,7 +98,8 @@ router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 router.get('/reportes', dashboardControllerPY4.reportes);
-
+//ZONAS
+router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
 // OBTENER VENTAS POR ZONAS
 router.get('/obetenerdatosgeneralesreportes', dashboardControllerPY4.gerenalReportes);
 

@@ -1641,6 +1641,14 @@ table tr td {
     background-color: #0833a2;
     border-color: #0833a2;
 }
+.py672 .form-check-input.danger:checked {
+    background-color: #ea5455;
+    border-color: #ea5455;
+}
+.py672 .form-check-input.success:checked {
+    background-color: #28c76f;
+    border-color: #28c76f;
+}
 .py672 .form-check-input:focus {
     border-color: #0833a2;
 }
