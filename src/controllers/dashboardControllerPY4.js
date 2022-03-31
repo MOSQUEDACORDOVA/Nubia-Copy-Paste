@@ -98,6 +98,25 @@ exports.prestados = (req,res)=>{
                             })
 }
 
+exports.obtener_zonas = async (req,res)=>{
+let id_sucursal = req.session.sucursal_select;
+  
+  //DATA-COMUNES
+  let getZonas = "";
+  switch (req.session.tipo) {
+    case "Director":
+      getZonas = DataBase.Sucursales_ALl;
+      break;
+
+    default:
+      getZonas = DataBase.Sucursales_ALl;
+      break;
+  }
+let zonas =JSON.parse(await getZonas())
+console.log(zonas)
+                              res.send({zonas})
+}
+
 exports.dashboard = (req, res) => {
   
   //Push.create('Hello World!')
@@ -1181,8 +1200,6 @@ if (desc_referido > 0) {
               p.push(pedidos_let[i]);
             }
           }
-          console.log('...---...')
-          console.log(p)
           pedidos_let = p;
           let msg = respuesta;
           return res.send({ msg: msg, pedidos_let });

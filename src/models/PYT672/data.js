@@ -1029,16 +1029,4 @@ Guarda_comentariosProf(commentProfForm,id_alumno,userId) {
     });
   });
 },
-comentariosByAlumnoAdmin(id_alumno) {
-  return new Promise((resolve, reject) => {
-    Comentarios.findAll({where:{matriculaId:id_alumno},order:[['createdAt', 'DESC']]})
-    .then((data) => {
-      let data_p = JSON.stringify(data);
-      resolve(data_p);
-    })
-    .catch((err) => {
-      reject(err)
-    });
-  });
-},
 }

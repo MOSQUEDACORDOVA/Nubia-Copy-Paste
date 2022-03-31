@@ -406,7 +406,6 @@ $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
       console.log(moment().isAfter(hora_registro_pago, "d"))
       if (
         historial[i]["concepto"] == "Traslado" &&
-        historial[i]["observacion"] == "-" &&
         moment().isAfter(hora_registro_pago, "d") == false        
       ) {
         $("#guarda-grupoNew").removeClass("d-none");
