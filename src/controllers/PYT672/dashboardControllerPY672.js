@@ -2642,10 +2642,10 @@ exports.editarmatricula = async(req, res) => {
 
     tipo = parseInt(tipo)
   
-    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
+    DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
     console.log(resp)
       console.log("ESTUDIANTE EDITADO")
-      msg="Datos del estudiante "+nombre+" actualizados con éxito"
+      msg="Datos del estudiante "+nombre.toUpperCase()+" actualizados con éxito"
       return res.redirect('/matriculas/'+msg);
     }).catch((err) => {
       console.log(err)
