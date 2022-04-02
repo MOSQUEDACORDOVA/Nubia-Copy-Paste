@@ -41,10 +41,10 @@ exports.controlroles = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+  /*console.log(proyecto)
 
   console.log("ROLE")
-  console.log(req.user.type_user)
+  console.log(req.user.type_user)*/
   if (req.user.type_user === 'Administrador') {
     DataBase.GetAllDepositsAdmin().then((resp) => {
       let depositos = JSON.parse(resp);
@@ -77,21 +77,24 @@ exports.controlroles = (req, res) => {
       let depositos = JSON.parse(resp);
       console.log(depositos)
       let date = moment().format('YYYY-MM-DD');
-      depositos.forEach(element => {
-        let culmination = moment(element.culmination);
-        let date2 = moment('2021-11-06');
-  
-        if(culmination.diff(date, 'days') <= 0) {
-          DataBase.CulminateDeposits(element.id).then((resp) => {
-            console.log(resp)
-          }).catch((err) => {
-            console.log(err)
-            let msg = "Error en sistema";
-            return res.redirect("/error404/PYT-21");
-          });
-        } 
-      });
-      return res.redirect("../py21/PYT-21");
+
+      if (depositos.length) {
+        depositos.forEach(element => {
+          let culmination = moment(element.culmination);
+          let date2 = moment('2021-11-06');
+    
+          if(culmination.diff(date, 'days') <= 0) {
+            DataBase.CulminateDeposits(element.id).then((resp) => {
+              console.log(resp)
+            }).catch((err) => {
+              console.log(err)
+              let msg = "Error en sistema";
+              return res.redirect("/error404/PYT-21");
+            });
+          } 
+        });
+      }
+     
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
