@@ -2377,7 +2377,7 @@ const userId = res.locals.user.id
         DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
           const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
-          return res.send({resp2});
+          return res.send(resp2);
 
         }).catch((err) => {
           console.log(err)
@@ -2463,11 +2463,11 @@ exports.obtenermatriculausente = (req, res) => {
     matricula.forEach(item => {
       DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
         let result = JSON.parse(response)[0];
-        console.log(result)
+        /*console.log(result)*/
         if (result) {
-          console.log("CONTIENE NOTAS")
+          /*console.log("CONTIENE NOTAS")*/
           let notas = {
-            notas: result.nota
+            notas: parseInt(result.nota)
           }
           let commentProfForm = {
             commentProfForm: result.commentProfForm
@@ -2475,9 +2475,9 @@ exports.obtenermatriculausente = (req, res) => {
           let commentAdminForm = {
             commentAdminForm: result.commentAdminForm
           }
-          console.log(notas)
           let final = Object.assign(item, notas,commentProfForm, commentAdminForm)
-          console.log(final)
+          /*console.log(notas)
+          console.log(final)*/
         } else {
           let notas = {
             notas: 0
@@ -2499,15 +2499,15 @@ exports.obtenermatriculausente = (req, res) => {
       
       DataBase.BuscarParticipacionMatricula(leccion, grupoId, item.id).then((response2) => {
         let arr = JSON.parse(response2)[0];
-        console.log(arr)
+        /*console.log(arr)*/
         if(arr) {
-          console.log("CONTIENE PARTICIPACION")
+          /*.log("CONTIENE PARTICIPACION")*/
           let participacion = {
             participacion: parseInt(arr.porcentaje)
           }
-          console.log(participacion)
           let final2 = Object.assign(item, participacion)
-          console.log(final2)
+          /*.log(participacion)
+          console.log(final2)*/
         } else {
             let participacion = {
               participacion: 0
@@ -2642,10 +2642,10 @@ exports.editarmatricula = async(req, res) => {
 
     tipo = parseInt(tipo)
   
-    DataBase.EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
+    DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor).then((resp) => {
     console.log(resp)
       console.log("ESTUDIANTE EDITADO")
-      msg="Datos del estudiante "+nombre+" actualizados con éxito"
+      msg="Datos del estudiante "+nombre.toUpperCase()+" actualizados con éxito"
       return res.redirect('/matriculas/'+msg);
     }).catch((err) => {
       console.log(err)

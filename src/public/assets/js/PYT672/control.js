@@ -56,18 +56,19 @@ $(document).ready(function () {
       })
         .then((response) => response.json())
         .then(async (data) => {
-          console.log(data);
+
+          /*console.log(data);
+          console.log("DATA AUSENTE");*/
+
           let response = data.resp;
           let response2 = data.matricula;
-          console.log(response2);
+
           if (response.length) {
             idAusentes = response[0].matriculaId;
           }
           //console.log(idAusentes);
 
-          let result = matriculaGrupo.filter((item) => {
-            return item.id === idAusentes;
-          });
+          let result = matriculaGrupo.filter(item => item.id === idAusentes);
 
           let calif = "",
             participacion = "",
@@ -79,22 +80,30 @@ $(document).ready(function () {
 
 
           if (response2.length) {
-            console.log(response2)
+            /*console.log(response2)*/
             for (let i = 0; i < response2.length; i++) { 
               if (matricula.id === response2[i].id) {
-                GcommentProfForm=response2[i].commentProfForm;
-                GcommentAdminForm=response2[i].commentAdminForm;
+                /*GcommentProfForm = 'hi'
+                GcommentAdminForm = 'hi'*/
+               GcommentProfForm = response2[i].commentProfForm;
+                GcommentAdminForm = response2[i].commentAdminForm;
               }              
             }
             
-            console.log(GcommentProfForm)
-            if (
-              matricula.id === response2[0].id &&
-              matricula.grupoId === response2[0].grupoId
-            ) {
-              notas = parseInt(response2[0].notas);
-              
+            /*console.log(GcommentProfForm)*/
+            let found;
+            found = response2.filter(item => item.id === matricula.id)
+            /*console.log(found);
+            console.log("FILTER");*/
+
+            if (found) {
+              let num = found[0].notas;
+              notas = num;
+              /*console.log(response2);
+              console.log(notas);
+              console.log("NOTAS");*/
             }
+
             participacionPorcentaje = response2[0].participacion;
             
           }
@@ -114,13 +123,13 @@ $(document).ready(function () {
               let historial = await fetch("/historia-caja-academy/" + matricula.id )
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log(data);
+                  /*console.log(data);*/
                   return data.obtener_historia;
                 });
-              console.log(historial);
+              /*console.log(historial);*/
               for (let i = 0; i < historial.length; i++) {
                   let split_hist = historial[i]['concepto'].split(',')
-                if (split_hist.length >1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
+                if (split_hist.length > 1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
                     readonlyUse =""
                     readonlyUse0  = ""
                     disabledUse = ""
@@ -465,7 +474,6 @@ $(document).ready(function () {
         body: form,
       })
         .then((response) => {
-          response.json();
           if (response.ok) {
             Toast("Nota");
           } else {
