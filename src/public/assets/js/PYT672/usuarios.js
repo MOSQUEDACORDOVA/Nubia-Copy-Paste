@@ -31,12 +31,19 @@ function cargarTablaUsuarios() {
           title: 'Acciones',
           orderable: false,
           render: function (data, type, full, meta) {
-            let options =""
+            let options = "", enableIcon = ""
+
+            if (parseInt(full['enabled']) === 1) {
+              enableIcon = `${feather.icons['user-check'].toSvg()}`
+            } else {
+              enableIcon = `${feather.icons['user-x'].toSvg()}`
+            }
+
             if (full['puesto'] != "Administrador") {
               options =`
               <div class="d-flex align-items-center">
                 <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
-                <a href="#" class="btn btn-sm text-primary" onclick="enabledDisUser('${full['id']}','${full['enabled']}')">${feather.icons['user-check'].toSvg()}</a>
+                <a href="#" class="btn btn-sm text-primary" onclick="enabledDisUser('${full['id']}','${full['enabled']}')">${enableIcon}</a>
                 <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
                   ${feather.icons['more-vertical'].toSvg()}
                 </a>
@@ -156,7 +163,7 @@ function EditarUsuario (data) {
           console.log('Success:', response)
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
-          Toast("Usuario actualizado");
+          Toast("Usuario Actualizado");
           UpdateTables();
       });
 }
@@ -180,7 +187,7 @@ function deleteUser (id) {
 function enabledDisUser (id, estadoA) {
   let data = new FormData();
   let newEstado
-  if (estadoA ==1) {
+  if (estadoA == 1) {
     newEstado = 0
   }else{
     newEstado = 1
@@ -197,7 +204,7 @@ function enabledDisUser (id, estadoA) {
       })
       .then(response => {
           console.log('Success:', response)
-          Toast("Estado de Usuario Actualizado");
+          Toast("Usuario Estado");
           UpdateTables();
       });
 }

@@ -55,6 +55,11 @@ console.log(matriculaParsed)
                 </div>`;*/
             }
             var arrData = encodeURIComponent(JSON.stringify(full));
+            let prof = "No asignado"
+
+            if (full.usuario.nombre) {
+              prof = full.usuario.nombre
+            }
 
             let nombreEst = `
             <div class="d-flex flex-column">
@@ -86,7 +91,7 @@ console.log(matriculaParsed)
                 </div>
                 <div class="me-1">
                     <span class="item-user me-75"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user font-small-4"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span>
-                    <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">Mosqueda Cor.</small>
+                    <small class="emp_post text-muted">Prof.</small><br><small class="emp_post">${prof}</small>
                 </div>
 
                 <div class="">
