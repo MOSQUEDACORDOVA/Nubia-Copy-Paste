@@ -57,7 +57,7 @@ console.log(matriculaParsed)
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
 
-            if (full.usuario.nombre) {
+            if (full.usuario) {
               prof = full.usuario.nombre
             }
 
