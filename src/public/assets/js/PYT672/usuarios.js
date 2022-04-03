@@ -163,7 +163,7 @@ function EditarUsuario (data) {
           console.log('Success:', response)
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
-          Toast("Usuario actualizado");
+          Toast("Usuario Actualizado");
           UpdateTables();
       });
 }
