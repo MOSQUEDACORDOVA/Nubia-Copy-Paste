@@ -62,17 +62,29 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Registrado !';
         toastText.innerText = 'Estimado usuario, el usuario fue registrado satisfactoriamente';
 
-    }else if (notif === "Usuario Eliminado") {
+    } else if (notif === "Usuario Eliminado") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
         toastHeaderText.innerText = 'Usuario Eliminado !';
         toastText.innerText = 'Estimado usuario, el usuario fue eliminado satisfactoriamente';
 
-    }else if (notif === "ComentarioProf") {
+    } else if (notif === "ComentarioProf") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
         toastHeaderText.innerText = 'Comentario !';
         toastText.innerText = 'Estimado usuario, se guardó su comentario con éxito';
+        
+    } else if (notif === "Usuario Estado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Habilitado/Deshabilitado !';
+        toastText.innerText = 'El usuario se actualizo satisfactoriamente';
+        
+    } else if (notif === "Usuario Actualizado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Actualizado !';
+        toastText.innerText = 'Estimado usuario, se guardaron sus cambios satisfactoriamente';
 
     }
 
