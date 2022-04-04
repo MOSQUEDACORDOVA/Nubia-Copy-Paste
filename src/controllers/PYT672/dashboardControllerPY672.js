@@ -7,6 +7,7 @@ const { rejects } = require("assert");
 let moment = require('moment-timezone');
 var pdf = require('html-pdf');
 const { group } = require("console");
+const xlsxFile = require('read-excel-file/node');
 
 // TODO: AUTH
 // * LOGIN
@@ -133,6 +134,26 @@ exports.enabledDisUser = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
+};
+
+exports.cargarExcel = (req, res) => {
+  console.log(req.body);
+  let { grupoId, archivo } = req.body
+  let msg = false;
+  console.log(grupoId);
+  console.log("EXCEL");
+
+  try {
+    xlsxFile(archivo).then((rows) => {
+      console.log(rows);
+      console.log("LEYENDO EXCEL");
+    })
+
+    return res.redirect("/matriculas/PYT-672");    
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/error672/PYT-672");    
+  }
 };
 
 // * VISTA LOGIN
@@ -1222,13 +1243,13 @@ exports.historial = (req, res) => {
         asistencias: 0,
         ausentes: 0,
         fechaLeccionesAusentes: '',
-        notas: ''
+        notas: []
       };
 
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
-        console.log(grupo)
-        console.log("** GRUPO //")
+        /*console.log(grupo)
+        console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
         let fechaActual = moment().format("DD-MM-YYYY");
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
@@ -1373,7 +1394,7 @@ exports.historial = (req, res) => {
         return res.redirect("/error672/PYT-672");
       });
 
-      let lecciones = [9, 17, 18, 25, 31, 32], notasArr = '';
+      let lecciones = [9, 17, 18, 25, 31, 32];
       lecciones.forEach((item, idx) => {
         // CREAR CONSULTA QUE MUESTRA QUE ME TRAIGA TODAS LAS NOTAS 
         DataBase.BuscarNotasLeccion(item, element.grupoId, element.id).then((leccion) => {
@@ -1384,7 +1405,6 @@ exports.historial = (req, res) => {
           // console.log(idx)
 
           if(lecc !== undefined) {
-            //notasArr += leccion + ';';
             if(idx === 0) {
               userInfo.leccion9 = parseInt(lecc.nota);
             } else if (idx === 1) {
@@ -1399,10 +1419,6 @@ exports.historial = (req, res) => {
               userInfo.leccion32 = parseInt(lecc.nota);
             }
           } else {
-            console.log(lecc)
-          console.log("LECCION")
-          console.log(item)
-          console.log(idx)
             if(idx === 0) {
               userInfo.leccion9 = 0;
             } else if (idx === 1) {
@@ -1417,8 +1433,9 @@ exports.historial = (req, res) => {
               userInfo.leccion32 = 0;
             }
           }
+
+          userInfo.notas.push(lecc)
           
-          userInfo.notas = notasArr;
           let final = Object.assign(element, userInfo);
           /*console.log(userInfo)
           console.log("FINAL ----- FINAL ---- !!!!!!")*/

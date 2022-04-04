@@ -595,9 +595,9 @@ function grupoSelected(valor) {
 
 let formCargarArchivos = document.getElementById('formCargarArchivos')
 
-formCargarArchivos.addEventListener('click', e => {
+formCargarArchivos.addEventListener('submit', e => {
   e.preventDefault();
   let grupoId = document.querySelector('#formCargarArchivos .grupoId')
   grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
-  console.log(grupoId.value)
+  formCargarArchivos.submit()
 });
