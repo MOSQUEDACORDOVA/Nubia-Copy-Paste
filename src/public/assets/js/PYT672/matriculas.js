@@ -592,3 +592,12 @@ function grupoSelected(valor) {
   $("#grupoId").val(valor);
   $("#guarda-grupoNew").removeAttr("disabled");
 }
+
+let formCargarArchivos = document.getElementById('formCargarArchivos')
+
+formCargarArchivos.addEventListener('submit', e => {
+  e.preventDefault();
+  let grupoId = document.querySelector('#formCargarArchivos .grupoId')
+  grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
+  formCargarArchivos.submit()
+});
