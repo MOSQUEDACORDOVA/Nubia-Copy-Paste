@@ -662,10 +662,10 @@ router.post('/registrarNotas', authControllerPY672.authenticatedAdmin, dashboard
 router.post('/registrarParticipacion', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarparticipacion);
 // * OBTENER PROVINCIAS, CANTON, DISTRITOS
 router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerdirecciones);
-// * REGISTRAR EXCEL DE ALUMNOS
-router.post('/cargarExcel', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
 // * GUARDAR ARCHIVO EXCEL
-router.post('/subirExcel', authControllerPY672.authenticatedAdmin, fileController672.subirArchivo);
+router.post('/subirExcel', fileController672.subirArchivo);
+// * REGISTRAR EXCEL DE ALUMNOS
+router.get('/cargarExcel/:grupoId/:fileName', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
 
 
 /*------------ PYT-672-----------------*/
