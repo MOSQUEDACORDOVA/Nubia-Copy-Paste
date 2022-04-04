@@ -57,7 +57,7 @@ console.log(matriculaParsed)
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
 
-            if (full.usuario.nombre) {
+            if (full.usuario) {
               prof = full.usuario.nombre
             }
 
@@ -129,7 +129,7 @@ console.log(matriculaParsed)
             let total = parseFloat(100 - leccionesAusentes);
 
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
+            <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chartPart${full['id']}"></div>
             </div>`;
@@ -161,9 +161,9 @@ console.log(matriculaParsed)
         {
           targets: 2, render: function (data, type, full) {
             let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
-            console.log(total)
+            //console.log(total)
             let notaTotal = `
-            <div class="d-flex align-items-center btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
+            <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chart${full['id']}"></div>
             </div>`;
@@ -312,7 +312,6 @@ $(function () {
 
     let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
     
-    console.log(my_object)
     if(arrayLeccionesAusentes.includes("[{")) {
       arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
     }
@@ -329,6 +328,14 @@ $(function () {
       let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '';
       
       if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+        my_object.notas.forEach(item => {
+          console.log(item);
+          if (item && parseInt(item.n_leccion) === num) {
+            notaLeccion = item.nota
+          }
+        });
+        console.log(notaLeccion);
+        console.log("NOTA LECCION");
         calif = `<span class="badge rounded-pill badge-light-primary me-1">${notaLeccion}</span>`;
       } else {
         calif = `<span class="badge rounded-pill badge-light-info me-1">No contiene nota</span>`;

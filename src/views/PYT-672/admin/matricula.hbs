@@ -42,6 +42,27 @@
           <input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
           <section id="basic-datatable">
             <div class="row">
+              <div class="col-md-6 mb-1 mb-md-2">
+                  <select class="select2 form-select" id="grupoIdCargarArchivo">
+                    <option value="" selected>
+                      Seleccione un Grupo
+                    </option>   
+                    {{#each gruposTodos as |item i|}}
+                    <option value="{{id}}" data-bs-iden="{{nombre}}">
+                        {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
+                    </option>
+                    {{/each}}                   
+                  </select>
+              </div>
+
+              <div class="col-md-6 mb-1 mb-md-2">
+                <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
+                  <input class="form-control d-none grupoId" type="text" name="grupoId">
+                  <input class="form-control" type="file" name="archivo">
+                  <input class="btn btn-primary" type="submit" value="Cargar">
+                </form>
+              </div>
+
               <div class="col-12">
                 <div class="card">
                   <table

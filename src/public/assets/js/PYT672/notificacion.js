@@ -80,10 +80,16 @@ function Toast (notif) {
         toastHeaderText.innerText = 'Usuario Habilitado/Deshabilitado !';
         toastText.innerText = 'El usuario se actualizo satisfactoriamente';
         
-    } else if (notif === "Usuario Actualizado") {
+    } else if (notif === "Usuario Habilitado") {
         toastContainer.classList.add('bg-primary', 'text-white');
         toastHeaderText.classList.add('text-primary');
-        toastHeaderText.innerText = 'Usuario Actualizado !';
+        toastHeaderText.innerText = 'Usuario Habilitado !';
+        toastText.innerText = 'Estimado usuario, se guardaron sus cambios satisfactoriamente';
+        
+    } else if (notif === "Usuario Deshabilitado") {
+        toastContainer.classList.add('bg-primary', 'text-white');
+        toastHeaderText.classList.add('text-primary');
+        toastHeaderText.innerText = 'Usuario Deshabilitado !';
         toastText.innerText = 'Estimado usuario, se guardaron sus cambios satisfactoriamente';
 
     }

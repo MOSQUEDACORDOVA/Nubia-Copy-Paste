@@ -46,6 +46,9 @@ const fileController = new FileController();
 const FileController4 = require('../models/PYT4/upload');
 const fileController4 = new FileController4();
 
+const FileController672 = require('../models/PYT672/upload');
+const fileController672 = new FileController672();
+
 // Landing Page
 router.get('/', landingController.showLandingPage);
 
@@ -659,7 +662,10 @@ router.post('/registrarNotas', authControllerPY672.authenticatedAdmin, dashboard
 router.post('/registrarParticipacion', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarparticipacion);
 // * OBTENER PROVINCIAS, CANTON, DISTRITOS
 router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerdirecciones);
-
+// * REGISTRAR EXCEL DE ALUMNOS
+router.post('/cargarExcel', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
+// * GUARDAR ARCHIVO EXCEL
+router.post('/subirExcel', authControllerPY672.authenticatedAdmin, fileController672.subirArchivo);
 
 
 /*------------ PYT-672-----------------*/

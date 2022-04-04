@@ -186,11 +186,13 @@ function deleteUser (id) {
 }
 function enabledDisUser (id, estadoA) {
   let data = new FormData();
-  let newEstado
+  let newEstado, estadoToast
   if (estadoA == 1) {
     newEstado = 0
+    estadoToast = "Usuario Deshabilitado"
   }else{
     newEstado = 1
+    estadoToast = "Usuario Habilitado"
   }
   data.append('id_usuario', id)
   data.append('estado', newEstado)
@@ -204,7 +206,7 @@ function enabledDisUser (id, estadoA) {
       })
       .then(response => {
           console.log('Success:', response)
-          Toast("Usuario Estado");
+          Toast(estadoToast);
           UpdateTables();
       });
 }
