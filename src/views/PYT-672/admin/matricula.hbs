@@ -56,9 +56,9 @@
               </div>
 
               <div class="col-md-6 mb-1 mb-md-2">
-                <form action="" method="post" class="input-group" id="formCargarArchivos">
-                  <input class="form-control d-none grupoId" type="text">
-                  <input class="form-control" type="file">
+                <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
+                  <input class="form-control d-none grupoId" type="text" name="grupoId">
+                  <input class="form-control" type="file" name="archivo">
                   <input class="btn btn-primary" type="submit" value="Cargar">
                 </form>
               </div>
