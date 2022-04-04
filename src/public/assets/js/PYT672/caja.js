@@ -67,8 +67,8 @@ $(function () {
       );
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
-      titulo('a')
-      incripcion()
+      titulo('a');
+      incripcion();
     } else {
       $("#mensualidad-alumno").text(mensualidad_coste);
       var filter_mensualidad = historial.filter(
@@ -107,7 +107,8 @@ $(function () {
             );
             updateHistorial(e.target.value);
             verificareposicion(e.target.value);
-            incripcion()
+            incripcion();
+            titulo('a');
             return;
           }
           mes_a_pagar =
@@ -156,8 +157,8 @@ $(function () {
 </tr>`);
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
-      titulo('a')
-      incripcion()
+      titulo('a');
+      incripcion();
     }
 
     /**FIN DEL SELECT ALUMNO */
@@ -180,7 +181,7 @@ $(function () {
           );
           return;
         }
-        translado();
+        traslado();
         break;
       case "Constancia":
         if ($("#concepto-form-constancia").length > 0) {
@@ -516,27 +517,18 @@ $(function () {
   }; /**FIN BNT INSCRIPCION */
 
   /**INICIO HABILITAR TRASLADO */
-  const translado = async () => {
+  const traslado = async () => {
     let id_alumno = $("#id-alumno-form").val();
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
     }
-    var filter = matricula.filter((element) => element.id == id_alumno);
-    let value_concepto = $("#concepto-form").val();
-    // let value_fecha = $("#fecha_pago-form").val();
-    let value_monto = $("#monto-form").val();
-    let value_mora = $("#mora-form").val();
-    let value_observacion = $("#observacion-form").val();
-
-    //const fecha_pago = $('#fecha-servicio').val()
-
-    let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
-    // let fecha_sup = moment().isBefore(moment(fecha_pago, "YYYY-MM-DD"), "d"); // true
-    // if (fecha_sup == true) {
-    //   swal.fire("La fecha seleccionada es superior a la actual");
-    //   return;
-    // }
+    var filter = historial.filter((element) => element.concepto == 'Traslado' && moment(element.createdAt).isSame(moment(),'d') );
+  console.log(filter)
+  if (filter.length > 0) {
+    swal.fire("Actualmente tiene un traslado activo para su uso");
+      return;
+  }
 
     $("#form-reg-pago")
       .append(`<div id="traslado"><input type="text" name="concepto[]" id="concepto-form-traslado" value="Traslado">
@@ -629,7 +621,7 @@ $(function () {
   /**BTN HABILITAR TITULO */
   const titulo = async (a) => {
     let id_alumno = $("#id-alumno-form").val();
-
+    console.log('aqui')
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
@@ -665,6 +657,7 @@ $(function () {
       });
     if (nota_participacion.length == 0) {
       if (a) {
+        console.log('aqui')
         return
       }
       swal.fire("El Alumno no ha aprobado el nivel del curso");
@@ -672,6 +665,7 @@ $(function () {
     }
     if (notas.length < 6) {
       if (a) {
+        console.log('aqui2')
         return
       }
       swal.fire("Le falta al menos 1 o mas notas para obtar al Titulo");
@@ -709,8 +703,7 @@ $(function () {
     }
 
     //CONTINUA HABILITANDO EL TITULO
-    var filter = matricula.filter((element) => element.id == id_alumno);
-    
+    var filter = matricula.filter((element) => element.id == id_alumno);    
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
     let nivel_grupo = $("#select-Nivel").val();
     if (a) {
