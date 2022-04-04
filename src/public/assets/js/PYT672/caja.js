@@ -15,8 +15,6 @@ $(function () {
     $("#select-servicio").removeAttr("disabled");
     $("#btn-activar-alumno").addClass("d-none");
     var filter = matricula.filter((element) => element.id == e.target.value);
-    console.log(filter);
-
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
@@ -35,7 +33,6 @@ $(function () {
     historial = await fetch("/historia-caja-academy/" + filter[0]["id"])
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         return data.obtener_historia;
       });
     if (filter[0]["estadoId"] == "5") {
@@ -64,10 +61,6 @@ $(function () {
 
     if (today_day <= dias_pago[0]) {
       $("#mensualidad-alumno").text(mensualidad_coste);
-
-      console.log("Aun no le toca pagar");
-      console.log(today_day);
-      console.log(dias_pago[0]);
       /**FORM */
       $("#form-reg-pago").append(
         `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
@@ -75,6 +68,7 @@ $(function () {
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
       titulo('a')
+      incripcion()
     } else {
       $("#mensualidad-alumno").text(mensualidad_coste);
       var filter_mensualidad = historial.filter(
@@ -82,7 +76,6 @@ $(function () {
           element.concepto == "Mensualidad" &&
           element.matriculaId == filter[0]["id"]
       );
-      console.log(filter_mensualidad);
       if (filter_mensualidad.length < 1) {
         mes_a_pagar =
           hoy.locale("es").format("MMMM") +
@@ -104,19 +97,17 @@ $(function () {
           "diciembre",
         ];
         var mes_a_pagar;
-        console.log(filter_mensualidad);
         let mes_pagado;
         mes_pagado = filter_mensualidad[0]["observacion"].split("-");
-        console.log(mes_pagado[0]);
         for (let i = 0; i < meses.length; i++) {
           if (meses[i] == mes_pagado[0]) {
-            console.log(meses[i + 1]);
             mes_a_pagar = ""; ///meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
             $("#form-reg-pago").append(
               `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
             );
             updateHistorial(e.target.value);
             verificareposicion(e.target.value);
+            incripcion()
             return;
           }
           mes_a_pagar =
@@ -166,6 +157,7 @@ $(function () {
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
       titulo('a')
+      incripcion()
     }
 
     /**FIN DEL SELECT ALUMNO */
@@ -217,6 +209,15 @@ $(function () {
       case "Recargo":
         recargo();
         break;
+        case "inscripcion":
+          if ($("#inscripcion").length > 0) {
+            swal.fire(
+              "Ya ha seleccionado un servicio de isncripcion para este alumno, guarde los cambios"
+            );
+            return;
+          }
+          incripcion();
+        break;
       default:
         break;
     }
@@ -256,13 +257,16 @@ $(function () {
         removeMensualidadFormat();
         $("#itemPrice").val(20000);
         $("#nivelAdd").removeClass(`d-none`);
-        console.log(nivel_grupo);
         $(`#select-Nivel option[value="${nivel_grupo}"]`).attr("selected", "selected"  );
         break;
       case "Reposicion":
         removeMensualidadFormat();
         $(".select-reposicion").removeClass(`d-none`);
         $("#itemPrice").val(10000);
+        break;
+        case "inscripcion":
+        removeMensualidadFormat();
+        $("#itemPrice").val(5000);
         break;
       default:
         break;
@@ -340,19 +344,15 @@ $(function () {
       return;
     }
     let mes = $("#select-mes").val();
-    // let value_fecha = $("#fecha_pago-form").val();
     let anio = $("#select-anio").val();
-    let mes_actual = []; //$('#observacion-form').val()
+    let mes_actual = []; 
     $(".mensualidad").each(function () {
       mes_actual.push($(this).val());
     });
-    //let mes_a_pagar = mes + "-" + anio;
-    console.log(mes_actual);
     /**OBTENER HISTORIAL DE CAJA */
     historial = await fetch("/historia-caja-academy/" + id_alumno)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         return data.obtener_historia;
       });
     var filter_mensualidad = historial.filter(
@@ -374,7 +374,6 @@ $(function () {
       "diciembre",
     ];
     var mes_a_pagar;
-    console.log(filter_mensualidad);
     let mes_pagado;
     if (filter_mensualidad.length < 1) {
       if (mes_actual.length == 0) {
@@ -385,10 +384,8 @@ $(function () {
       }
       for (let i = 0; i < mes_actual.length; i++) {
         mes_pagado = mes_actual[i].split("-");
-        console.log(mes_pagado[0]);
         for (let i = 0; i < meses.length; i++) {
           if (meses[i] == mes_pagado[0]) {
-            console.log(meses[i + 1]);
             mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
             break;
           }
@@ -401,10 +398,8 @@ $(function () {
     } else {
       if (mes_actual.length == 0) {
         mes_pagado = filter_mensualidad[0]["observacion"].split("-");
-        console.log(mes_pagado[0]);
         for (let i = 0; i < meses.length; i++) {
           if (meses[i] == mes_pagado[0]) {
-            console.log(meses[i + 1]);
             mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
             break;
           }
@@ -416,10 +411,8 @@ $(function () {
       }
       for (let i = 0; i < mes_actual.length; i++) {
         mes_pagado = mes_actual[i].split("-");
-        console.log(mes_pagado[0]);
         for (let i = 0; i < meses.length; i++) {
           if (meses[i] == mes_pagado[0]) {
-            console.log(meses[i + 1]);
             mes_a_pagar = meses[i + 1] + "-" + hoy.locale("es").format("YYYY");
             break;
           }
@@ -464,6 +457,63 @@ $(function () {
 </td>
 </tr>`);
   }; /**FIN BNT MENSUALIDAD */
+  /**INICIO HABILITAR MENSUALIDAD */
+  const incripcion = async () => {
+    let id_alumno = $("#id-alumno-form").val();
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+    /**OBTENER HISTORIAL DE CAJA */
+    historial = await fetch("/historia-caja-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.obtener_historia;
+      });
+      
+    var filter_inscripcion = historial.filter(
+      (element) =>
+        element.concepto == "Inscripción"
+    );
+    console.log(filter_inscripcion)
+    $("#select-servicio option[value='inscripcion']").remove();
+    if (filter_inscripcion.length == 0) {
+      
+  /**FORM */
+  $("#form-reg-pago").append(`
+  <div id="inscripcion" class="inscripcion">
+  <input type="text" name="concepto[]" id="concepto-form" value="Inscripción">
+  <input type="text" name="monto[]" id="monto-form" value="5000 ">
+  <input type="text" name="mora[]" id="mora-form" value="-">
+  <input type="text" name="observacion[]" id="observacion-form" class="inscripcion" value="-">
+  </div>`);
+      /**FIN FORM */
+  
+      $("#pago-mensual-detail").text(5000);
+      /**LLENAR TABLA */
+      $("#body-table-pago").append(`<tr id="tr-inscripcion">
+      <td>
+      <span class="fw-bold">Inscripción</span><span class="text-capitalize">.</span>
+  </td>
+  <td>5000</td>
+  <td>
+   <a class="item borrar inscripcion"  onclick="borrarFila('tr-inscripcion','inscripcion')">
+       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+           stroke-linejoin="round" class="feather feather-trash me-50">
+           <polyline points="3 6 5 6 21 6"></polyline>
+           <path
+               d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+           </path>
+       </svg>
+       <span>Eliminar</span>
+   </a>
+  </td>
+  </tr>`);
+  $("#select-servicio").append(`<option value="inscripcion">Inscripción</option>`);
+    }
+  
+  }; /**FIN BNT INSCRIPCION */
 
   /**INICIO HABILITAR TRASLADO */
   const translado = async () => {
@@ -645,7 +695,12 @@ $(function () {
       );
       return;
     }
-    console.log(total_nota);
+    let participacion =0
+    if (nota_participacion.length >0) {
+      participacion =nota_participacion[0]['porcentaje']
+    }
+    
+    total_nota = parseFloat(total_nota)+ parseFloat(participacion)
     if (total_nota <= 69) {
       swal.fire(
         `Su nota final es: ${total_nota}% (menor a 70%), no obta a Titulo`
@@ -719,7 +774,7 @@ $(function () {
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${leccion}" value="">-->
 <input type="text" name="monto[]" id="monto-form-reposicion${leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${leccion}" value="-">
-<input type="text" name="observacion[]" id="observacion-form-reposicion${leccion}" value="-">`);
+<input type="text" name="observacion[]" id="observacion-form-reposicion${leccion}" value="${leccion}">`);
 
       $("#body-table-pago").append(`<tr id="tr-reposicion${leccion}">
 <td>
@@ -752,7 +807,7 @@ $(function () {
   /**BTN GENERAR CONSTANCIA */
   $("#btn-genera-constancia").click(async () => {
     let id_estudiante = $("#id-alumno-form").val();
-    console.log(id_estudiante);
+    
     $.ajax({
       type: "GET",
       url: `/genera-pdf-constancia/${id_estudiante}`,
@@ -794,7 +849,7 @@ $(function () {
   /**BTN GENERAR TITULO */
   $("#btn-descarga-titulo").click(async () => {
     let id_estudiante = $("#id-alumno-form").val();
-    console.log(id_estudiante);
+    
     $.ajax({
       type: "GET",
       url: `/genera-pdf-titulo/${id_estudiante}`,
@@ -884,7 +939,7 @@ $(function () {
           Swal.getPopup().querySelector("#fecha-servicio").value;
         const banco = $("input[name=bank-serv]:checked").val(); //Swal.getPopup().querySelector('#bank-serv').value
         const transaction = Swal.getPopup().querySelector("#trans-serv").value;
-        console.log(fecha_pago);
+        
         if (moment().isBefore(fecha_pago, "d")) {
           Swal.showValidationMessage(
             `La fecha de pago debe ser igual o anterior a la actual!`
@@ -902,9 +957,7 @@ $(function () {
         };
       },
     }).then((result) => {
-      console.log(result.value.fecha_pago);
-      console.log(result.value.banco);
-      console.log(result.value.transaction);
+      
       $("#form-reg-pago")
         .append(`<input type="text" name="fecha_pago" id="fecha_pago-form" value="${result.value.fecha_pago}">
   <input type="text" name="banco" id="banco-form" value="${result.value.banco}">
@@ -915,7 +968,7 @@ $(function () {
         type: "POST",
         data: $("#form-reg-pago").serialize(),
         success: function (data, textStatus, jqXHR) {
-          console.log(data);
+          
           $("#body-table-pago").empty();
           $("#itemPrice").val("");
           $("#select-servicio").val("Seleccione");
@@ -927,7 +980,6 @@ $(function () {
           updateHistorial($("#id-alumno-form").val());
         },
         error: function (jqXHR, textStatus) {
-          console.log("error:" + jqXHR);
         },
       });
     });
@@ -936,7 +988,7 @@ $(function () {
   });
 
   $(".borrar").on("click", function () {
-    console.log();
+    
     $(`#mensualidad-${mes_a_pagar}`).remove();
     $(this).parents("tr").remove();
   });
@@ -952,8 +1004,7 @@ $(function () {
       .then((data) => {
         return data.obtener_comentarios;
       });
-    console.log("0");
-    console.log(comentariosA);
+      
     for (let i = 0; i < comentariosA.length; i++) {
       let commentProf = "",
         commentAdmin = "";
@@ -991,7 +1042,7 @@ $(function () {
   });
   /** AGREGAR COMENTARIO */
   $("#addComment").change(function () {
-    console.log($(this).val());
+    
     let id_alumno = $("#id-alumno-form").val();
     const data_C = new FormData();
     data_C.append("id_alumno", id_alumno);
@@ -1004,7 +1055,7 @@ $(function () {
       contentType: false,
       processData: false,
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
+        
         $("#addComment").val("");
         $("#commentAdmin").empty();
         for (let i = 0; i < data.obtener_comentarios.length; i++) {
@@ -1028,7 +1079,6 @@ $(function () {
         }
       },
       error: function (jqXHR, textStatus) {
-        console.log("error:" + jqXHR);
       },
     });
   }); /**FIN ADDCOMMENT */
@@ -1040,7 +1090,7 @@ $(function () {
     $("#asistenciareag").text(`0%`);
     let id_estudiante = $("#id-alumno-form").val();
     var filter = matricula.filter((element) => element.id == id_estudiante);
-    console.log(filter);
+    
     $(`#nombreReagrupar`).text(`${filter[0]["nombre"]}`);
     $(`#tlfReagrupar`).text(
       `${filter[0]["telefono1"]} - ${filter[0]["telefono2"]}`
@@ -1089,9 +1139,9 @@ $(function () {
         total_nota += parseInt(notas[i]["nota"]);
       }
     }
-    console.log(ausencias)
+    
     let participacion =0
-    if (nota_participacion.length <0) {
+    if (nota_participacion.length >0) {
       participacion =nota_participacion[0]['porcentaje']
     }
     
@@ -1137,7 +1187,7 @@ $(function () {
     var historial = await fetch("/historia-caja-academy/" + filter[0]["id"])
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        
         return data.obtener_historia;
       });
     if (historial.length == 0) {
@@ -1147,7 +1197,7 @@ $(function () {
     } else {
       for (let i = 0; i < historial.length; i++) {
         var hora_registro_pago = moment(historial[i]["createdAt"]);
-        console.log(moment().isAfter(hora_registro_pago, "d"));
+        
         if (
           historial[i]["concepto"] == "Traslado" &&
           moment().isAfter(hora_registro_pago, "d") == false
@@ -1171,19 +1221,31 @@ $(function () {
       );
       return;
     }
+    if ($("#countGrupos").val() == 0) {
+      swal.fire(
+        "No hay grupos disponibles para realizar traslado"
+      );
+      return;
+    }
+    if ($("#grupoId").val() == "") {
+      swal.fire(
+        "No ha seleccionado ningún grupo para realizar traslado"
+      );
+      return;
+    }
     $.ajax({
       url: `/reasignar2-grupopy672`,
       type: "POST",
       data: $("#form-reasignar-grupo").serialize(),
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
+        
         $("#body-table-pago").empty();
         $("#itemPrice").val("");
         $("#select-servicio").val("Seleccione");
         $(".select-reposicion").addClass(`d-none`);
         let id = $("#id-alumno-form").val();
         $("#form-reg-pago").empty();
-        console.log(id);
+        
         $("#createAppModal").modal("hide");
         $(".alumno-select").val(`default`).trigger("change");
         Swal.fire("Se cambio el grupo con éxito").then((resp) => {
@@ -1193,7 +1255,6 @@ $(function () {
         });
       },
       error: function (jqXHR, textStatus) {
-        console.log("error:" + jqXHR);
       },
     });
   });
@@ -1210,7 +1271,7 @@ $(function () {
       contentType: false,
       processData: false,
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
+        
         $("#createAppModal").modal("hide");
         Swal.fire("Se congelo el alumno con éxito").then((resp) => {
           if (resp.isDismissed || resp.isConfirmed) {
@@ -1219,7 +1280,6 @@ $(function () {
         });
       },
       error: function (jqXHR, textStatus) {
-        console.log("error:" + jqXHR);
       },
     });
   });
@@ -1235,7 +1295,7 @@ $(function () {
       contentType: false,
       processData: false,
       success: function (data, textStatus, jqXHR) {
-        console.log(data);
+        
         $("#createAppModal").modal("hide");
         Swal.fire("Se reactivo el alumno con éxito").then((resp) => {
           if (resp.isDismissed || resp.isConfirmed) {
@@ -1244,7 +1304,6 @@ $(function () {
         });
       },
       error: function (jqXHR, textStatus) {
-        console.log("error:" + jqXHR);
       },
     });
   });
@@ -1253,8 +1312,7 @@ $(function () {
 });
 
 function borrarFila(t, identificador) {
-  console.log(t);
-  console.log(identificador);
+  
   $(`#${t}`).remove();
   $(`#${identificador}`).remove();
 }
@@ -1266,10 +1324,10 @@ async function updateHistorial(id_estudiante) {
   historial = await fetch("/historia-caja-academy/" + id_estudiante)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      
       return data.obtener_historia;
     });
-  console.log(historial);
+    
   let fecha_pago_historial,
     pago_mensualidad = [];
   $("#btn-genera-constancia").addClass("btn-light");
@@ -1360,12 +1418,11 @@ async function updateHistorial(id_estudiante) {
     }
 
     var hora_registro_pago = moment(historial[i]["createdAt"]);
-    console.log(moment().isAfter(hora_registro_pago, "d"));
+    
     if (
       moment().isAfter(hora_registro_pago, "d") == false &&
       historial[i]["concepto"] == "Constancia"
     ) {
-      console.log("habilita el boton");
 
       $("#btn-genera-constancia").removeClass("btn-light");
       $("#btn-genera-constancia").addClass("btn-primary");
@@ -1376,7 +1433,7 @@ async function updateHistorial(id_estudiante) {
       moment().isAfter(hora_registro_pago, "d") == false &&
       historial[i]["concepto"] == "Titulo"
     ) {
-      console.log("habilita el boton");
+      
       $("#btn-descarga-titulo").removeClass("btn-light");
       $("#btn-descarga-titulo").addClass("btn-primary");
       $("#btn-descarga-titulo").removeAttr("disabled");
@@ -1402,34 +1459,37 @@ async function verificareposicion(id_estudiante) {
     .then((data) => {
       return data.obtener_ausencias;
     });
-  console.log(historial);
-  console.log(notas);
+    
   var repos
-  if (notas.length > 0) {
+  console.log(historial)
+  console.log(notas)
+  let observacion ="";
+  let filter_historial;
+  if (notas.length > 0) {    
     for (let i = 0; i < notas.length; i++) {
-      if (notas[i].nota == 0) {
-        console.log(repos)
-        if (repos) {
-          if (repos[1] == notas[i].n_leccion) {
-            console.log('never say never')
-          continue
-        }
-        }
-        
-        for (let j = 0; j < historial.length; j++) {
+      
+      if (notas[i].nota == 0) {            
+          console.log(historial) 
+           console.log(notas[i].n_leccion) 
+       let nhistorial = historial.filter(function(reposs) {
+          return reposs.observacion == notas[i].n_leccion; 
+      });
+      console.log(nhistorial)
+      if (nhistorial.length > 0) {
+        console.log('aqui')
+        continue
+      }
+        for (let j = 0; j < historial.length; j++) {      
           repos = historial[j].concepto;
-          repos = repos.split(",");
-          console.log($(`#reposicion${notas[i].n_leccion}`).length)
+          repos = repos.split(",");        
           
-            if (repos[0] == "Reposicion" ) {
-            console.log(repos[1]);
+            if (repos[0] == "Reposicion" ) {    
+                  
             if ($(`#reposicion${notas[i].n_leccion}`).length == 1) {
               
             } else {
-              console.log(notas[i].n_leccion);
-              console.log(repos[1]);
-              if (notas[i].n_leccion != repos[1]) {
-              
+               
+              if (notas[i].n_leccion != repos[1]) { 
               if ($('#select-servicio option[value="Reposicion"]').length == 0 ) {
                 $("#select-servicio").append(
                   `<option value="Reposicion">Reposicion</option>`
@@ -1442,7 +1502,7 @@ async function verificareposicion(id_estudiante) {
               <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
-<input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="-">`);
+<input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="${notas[i].n_leccion}">`);
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
@@ -1495,14 +1555,13 @@ const leccionActualGrupos = async () => {
 </thead><tbody id="gruposAct">
                                       
 </tbody>`);
-  console.log("Entro aqui");
   $(`#gruposAct`).empty();
   var grupoActual = $("#leccion_actual_reasig").val(),
     numLeccion;
   var jjaa;
   var gruposAct = [];
   let fstChar = $("#grupoReag").text().charAt(0);
-  console.log(fstChar);
+  let count = 0;
   for (let i = 0; i < grupos.length; i++) {
     let tipo = grupos[i]["nombre"];
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
@@ -1531,7 +1590,6 @@ const leccionActualGrupos = async () => {
     }
 
     numLeccion = 32 - Math.floor(rest);
-    console.log(numLeccion);
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -1545,16 +1603,13 @@ const leccionActualGrupos = async () => {
       // );
     } else {
       if ($("#grupoReag").text() == grupos[i]["identificador"]) {
-        console.log("mismo grupo");
       } else {
-        console.log("other grupo");
-        console.log(jjaa);
         let filter_group_alumnos = matricula.filter(
           (filter2) => filter2.grupo.id == grupos[i]["id"]
         ).length;
         gruposAct.push(grupos[i]);
         let fstChar2 = grupos[i]["identificador"].charAt(0);
-        console.log(fstChar2);
+        
         if (
           (fstChar == "C" && fstChar2 == "I") ||
           (fstChar == "I" && fstChar2 == "C") ||
@@ -1570,6 +1625,7 @@ const leccionActualGrupos = async () => {
     <td>${filter_group_alumnos}</td>
     <td>${grupos[i]["usuario"]["nombre"]}</td>
 </tr>`);
+count++
         }
 
         if (fstChar == "N" && fstChar2 == "N") {
@@ -1582,12 +1638,16 @@ const leccionActualGrupos = async () => {
     <td>${filter_group_alumnos}</td>
     <td>${grupos[i]["usuario"]["nombre"]}</td>
 </tr>`);
+count++
         }
       }
+
     }
     $("#countGrupos").text("0");
     $("#countGrupos").text(gruposAct.length);
+    
   }
+  $("#countGrupos").val(count);
   var dt_gruposActi = $("#grupos_table");
   dt_gruposActi.DataTable({
     bPaginate: false,
