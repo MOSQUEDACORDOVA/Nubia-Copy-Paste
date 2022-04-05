@@ -195,7 +195,7 @@ $(function () {
       case "Titulo":
         if ($("#concepto-form-titulo").length > 0) {
           swal.fire(
-            "Ya ha seleccionado un titulo para este alumno, guarde los cambios"
+            "Ya ha seleccionado un título para este alumno, guarde los cambios"
           );
           return;
         }
@@ -226,6 +226,7 @@ $(function () {
   $("#select-servicio").change((e) => {
     let id_alumno = $("#id-alumno-form").val();
     $("#nivelAdd").addClass(`d-none`);
+    $("#select-servicio option[value='inscripcion']").remove();
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para procesar un pago");
       return;
@@ -494,7 +495,7 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-inscripcion">
       <td>
-      <span class="fw-bold">Inscripción</span><span class="text-capitalize">.</span>
+      <span class="fw-bold">Inscripción</span><span class="text-capitalize"></span>
   </td>
   <td>5000</td>
   <td>
@@ -511,7 +512,7 @@ $(function () {
    </a>
   </td>
   </tr>`);
-  $("#select-servicio").append(`<option value="inscripcion">Inscripción</option>`);
+  $("#select-servicio").prepend(`<option value="inscripcion">Inscripción</option>`);
     }
   
   }; /**FIN BNT INSCRIPCION */
@@ -719,7 +720,7 @@ $(function () {
 
     $("#body-table-pago").append(`<tr id="tr-Titulo">
 <td>
-<span class="fw-bold">Titulo/N${nivel_grupo}</span>
+<span class="fw-bold">Título/N${nivel_grupo}</span>
 </td>
 <td>20000</td>
 <td>
@@ -771,7 +772,7 @@ $(function () {
 
       $("#body-table-pago").append(`<tr id="tr-reposicion${leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${leccion}</span>
+  <span class="fw-bold">Reposición,L-${leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1390,8 +1391,13 @@ async function updateHistorial(id_estudiante) {
     </div>
     </li>`;
     let reposicionS = historial[i]["concepto"].split(",");
-    if (reposicionS[0] == "Reposicion") {
+    if (reposicionS[0] == "Reposicion" && historial[i]["observacion"] != "-") {
       $("#historial-list").append(lista_mensualidad);
+      continue
+    }
+    if (reposicionS[0] == "Inscripción" && historial[i]["observacion"] == "-") {
+      $("#historial-list").append(lista_recargo);
+      continue
     }
     if (
       historial[i]["concepto"] != "Mensualidad" &&
@@ -1487,7 +1493,7 @@ async function verificareposicion(id_estudiante) {
           $("#body-table-pago")
             .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-<span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+<span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1533,7 +1539,7 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1573,7 +1579,7 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>

@@ -2401,7 +2401,9 @@ const userId = res.locals.user.id
       if(resp.length) {
         DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
-          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+          if (commentProfForm != "") {
+             const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+          }         
           return res.send(resp2);
 
         }).catch((err) => {
@@ -2412,7 +2414,9 @@ const userId = res.locals.user.id
       } else {
         DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
-          const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+          if (commentProfForm != "") {
+            const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+         }   
           return res.send({resp3});
 
         }).catch((err) => {

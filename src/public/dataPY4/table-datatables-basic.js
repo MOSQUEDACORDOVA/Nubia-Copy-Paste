@@ -3,23 +3,22 @@
  */
  
 function cargaTabla(rechar) {
-  let valor = $('#array').val()
-  let array =""
-  console.log(valor)
+  let valor = $('#array').val();
+  let array ="";
   if (rechar) {
-    array = JSON.parse(valor)
-    console.log(array)
+    array = JSON.parse(valor);
+    console.log(array);
   }else{
-   array = JSON.parse(valor.replace(/&quot;/g,'"')) 
+   array = JSON.parse(valor.replace(/&quot;/g,'"')) ;
   }
   
-  let sucursales = $('#array_sucursales').val()
-  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
+  let sucursales = $('#array_sucursales').val();
+  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'));
 
-  let codigosP = $('#array_cp').val()
-  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+  let codigosP = $('#array_cp').val();
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'));
   var dt_basic_table = $('.datatables-basic'),
-    dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
+    dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -31,8 +30,8 @@ function cargaTabla(rechar) {
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="'+title+i+'"/>');
   
       $('input', this).on('keyup change', function () {
-        $('#filterPosition').val(this.id)
-        $('#filterValue').val(this.value)
+        $('#filterPosition').val(this.id);
+        $('#filterValue').val(this.value);
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
         }
@@ -40,20 +39,18 @@ function cargaTabla(rechar) {
       
     });
     $('#cliente_nuevo').on('change', function (e) {
-      console.log(e)
       if ($('#cliente_nuevo').is(':checked')) {
-        console.log('hello')
         if (dt_basic.column(7).search() !== 'SI') {
         dt_basic.column(7).search('SI').draw();
       }
       }else{
-        console.log('worfdl')
         if (dt_basic.column(7).search() !== '') {
           dt_basic.column(7).search('').draw();
         }
       }
       
     });
+    console.log(array)
     // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
       data: array,
@@ -66,6 +63,7 @@ function cargaTabla(rechar) {
         { data: 'telefono' },
         { data: 'email' }, 
         { data: 'cantidad_referidos' }, 
+        { data: 'id' },
         { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
@@ -210,7 +208,21 @@ function cargaTabla(rechar) {
           }
         },
         {
-          targets: 8,visible: false
+          targets: 8,
+          render: function(data, type, full, meta){
+            let referidos = [];
+          for (let i = 0; i < array.length; i++) {
+            if (array[i].referido_de == data) {
+              referidos.push(array[i])
+            }
+          }
+          var arrRef = encodeURIComponent(JSON.stringify(referidos));
+          let ver = `<span class="referidos" data-referidos="${arrRef}">Ver</span>`
+          return ver;
+          }
+        },
+        {
+          targets: 9,visible: false
         },
         {
           // Label
@@ -626,6 +638,39 @@ if ($('#color_tag_reg_cliente').val() == '0') {
       }
     });
   })
+
+  $.contextMenu({
+    selector: '.referidos',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var Array = e.currentTarget['dataset']["referidos"];
+       var referidos = JSON.parse(decodeURIComponent(Array));
+     console.log(referidos);
+      var items1;
+     if (referidos.length == 0) {
+        items1 = {"Referido-1": {name: `Ref:  No tiene referidos`}};
+     }else{
+       items1 = {"Referido-1": {name: `Ref:  ${referidos[0]['firstName']} ${referidos[0]['lastName']}`}};
+ for (let i = 0; i < referidos.length; i++) {
+        var newUser = "Referido-" + i;
+        items1[newUser] = {name: `Ref:  ${referidos[i]['firstName']} ${referidos[0]['lastName']}`}
+      }
+     }
+    
+     
+     console.log(items1)
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                console.log(m);
+            },
+            items: 
+            items1
+            
+        };
+    }
+  });
 });
 function edit_cliente(id_edit) {
   if (typeof id_edit =="undefined") {
