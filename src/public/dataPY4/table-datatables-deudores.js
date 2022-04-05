@@ -371,7 +371,7 @@ Env: ${Env}.</p>`
           sumaG += parseFloat($(this).text());
     }    
   });
-  $('#DataTables_Table_4_info').append(`<span> / Total prestados: ${sumaG} </span>`)
+  $('#DataTables_Table_4_info').append(`<span> / Total deudores: ${sumaG} </span>`)
 
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();

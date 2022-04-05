@@ -236,7 +236,7 @@ Rf:${rf}.
 CJ: ${CJ}.
 Env: ${Env}.
 Tipo Pago:${full['metodo_pago']}
-Dueda anterior: ${full['deuda_anterior']}
+Deuda anterior: ${full['deuda_anterior']}
 Garrafones prestados: ${full['garrafones_prestamos']}
 Observaciones:${full['observacion']}
 </p>`  
@@ -342,7 +342,7 @@ Observaciones:${full['observacion']}
         }
         //aqui activa el modal info del cliente
             return (
-              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
             );
           }
         },
@@ -673,7 +673,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             color_text="white"
           }
           return (
-            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
           );
             }
           },
