@@ -34,9 +34,9 @@ function cargarTablaUsuarios() {
             let options = "", enableIcon = ""
 
             if (parseInt(full['enabled']) === 1) {
-              enableIcon = `${feather.icons['user-check'].toSvg()}`
-            } else {
               enableIcon = `${feather.icons['user-x'].toSvg()}`
+            } else {
+              enableIcon = `${feather.icons['user-check'].toSvg()}`
             }
 
             if (full['puesto'] != "Administrador") {
@@ -189,10 +189,10 @@ function enabledDisUser (id, estadoA) {
   let newEstado, estadoToast
   if (estadoA == 1) {
     newEstado = 0
-    estadoToast = "Usuario Deshabilitado"
+    estadoToast = "Usuario Desactivado"
   }else{
     newEstado = 1
-    estadoToast = "Usuario Habilitado"
+    estadoToast = "Usuario Activado"
   }
   data.append('id_usuario', id)
   data.append('estado', newEstado)
