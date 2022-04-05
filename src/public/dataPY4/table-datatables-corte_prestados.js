@@ -78,7 +78,14 @@ let ArrayGral = Object.entries(Newcorte2);
         { data: 'devueltos' },
         { data: 'fecha_devolucion' },
       ], columnDefs: [
-
+        {
+          // Label
+          targets: 1,className:'to_total2',
+          render: function (data, type, full, meta) {
+            let cantidad = `<span class="cantidad">${data}</span>`
+            return cantidad;
+          }
+      },
       {
         // Label
         targets: 2,
@@ -124,7 +131,28 @@ let ArrayGral = Object.entries(Newcorte2);
           previous: '&nbsp;',
           next: '&nbsp;'
         }
-      }
+      },
+      drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-basicPrestados').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#Prestados_info').append(`<span> / Total prestados: ${sumaG} </span>`)
+
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+        let sumaT = 0;
+          api.column(1, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_total2').text(sumaT)
+      },
     });
        // Refilter the table
        $('#min_, #max_').on('change', function () {
