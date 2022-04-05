@@ -332,6 +332,19 @@ module.exports = {
           });
       });
     },
+    // * REGISTRAR ESTUDIANTES ADMIN
+    RegistrarMatriculaExcel(nombre, dni, genero, grupoId) {
+    return new Promise((resolve, reject) => {
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, grupoId: grupoId })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
        // * EDITAR ESTUDIANTES ADMIN
        EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
         return new Promise((resolve, reject) => {

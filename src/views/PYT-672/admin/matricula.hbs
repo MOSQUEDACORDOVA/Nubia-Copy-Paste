@@ -58,7 +58,7 @@
               <div class="col-md-6 mb-1 mb-md-2">
                 <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
                   <input class="form-control d-none grupoId" type="text" name="grupoId">
-                  <input class="form-control" type="file" name="archivo">
+                  <input class="form-control" type="file" name="archivo" id="archivoExcel">
                   <input class="btn btn-primary" type="submit" value="Cargar">
                 </form>
               </div>
@@ -629,4 +629,42 @@
   <input type="text" id="leccion_actual_reasig" name="leccion_actual_reasig">
   <input type="text" id="leccion_nueva_reasig" name="leccion_nueva_reasig">
 </form>
+
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+   $('#archivoExcel').on('change', (event)=>{
+     console.log("FILE")
+      subirImagen(event)
+    })
+    
+const subirImagen = (event) => {
+  console.log('aqui')
+    const archivos = event.target.files;
+    const data = new FormData();
+    let imagenX = event.target.id;
+    data.append("archivo", archivos[0]);
+    $.ajax({
+      url: '/subirExcel',
+      type: 'POST',
+      data: data,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (data, textStatus, jqXHR)
+      {       
+        console.log(data)     
+        window.location.href = "/cargarExcel/3/"+data.fileName
+          //$(`#progressBar3`).addClass("d-none");
+          /*$(`#${imagenX}_progressBar3`).text('Se cargó correctamente la imágen - 100%');
+        document.getElementById(imagenX+'_').value = archivos[0].name;*/
+      },
+      error: function (jqXHR, textStatus) { 
+          /*$("#progressBar2").text('100% - Error al cargar el archivo');
+          $("#progressBar2").removeClass("progress-bar-success");
+          $("#progressBar2").addClass("progress-bar-danger");*/
+      }
+  });
+  };
+</script>

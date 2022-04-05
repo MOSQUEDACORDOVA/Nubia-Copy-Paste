@@ -14,19 +14,19 @@ const Matriculas = db672.define('matriculas', {
 	},
 	nombre: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	nro_identificacion: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	genero: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	fecha_nacimiento: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	telefono1: {
 		type: DataTypes.STRING(200),
@@ -38,19 +38,19 @@ const Matriculas = db672.define('matriculas', {
 	},
 	email: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	provincia: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	canton: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 	distrito: {
 		type: DataTypes.STRING(200),
-		allowNull: false,
+		allowNull: true,
 	},
 });
 
