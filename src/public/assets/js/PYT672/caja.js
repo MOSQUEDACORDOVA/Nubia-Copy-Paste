@@ -81,6 +81,7 @@ $(function () {
           hoy.locale("es").format("MMMM") +
           "-" +
           hoy.locale("es").format("YYYY");
+          mes_a_pagarView =hoy.locale("es").format("MMMM") + "" +hoy.locale("es").format("YYYY");
       } else {
         var meses = [
           "enero",
@@ -96,7 +97,7 @@ $(function () {
           "noviembre",
           "diciembre",
         ];
-        var mes_a_pagar;
+        var mes_a_pagar,mes_a_pagarView;
         let mes_pagado;
         mes_pagado = filter_mensualidad[0]["observacion"].split("-");
         for (let i = 0; i < meses.length; i++) {
@@ -115,6 +116,7 @@ $(function () {
             hoy.locale("es").format("MMMM") +
             "-" +
             hoy.locale("es").format("YYYY");
+            mes_a_pagarView =hoy.locale("es").format("MMMM") + "" +hoy.locale("es").format("YYYY");
         }
       }
 
@@ -137,7 +139,7 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagarView}</span>
 </td>
 
 <td>${mensualidad_coste}</td>
@@ -441,7 +443,7 @@ $(function () {
     /**LLENAR TABLA */
     $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
     <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize">/${mes_a_pagar}</span>
+    <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagar}</span>
 </td>
 <td>${$("#itemPrice").val()}</td>
 <td>
@@ -495,7 +497,7 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-inscripcion">
       <td>
-      <span class="fw-bold">Inscripción</span><span class="text-capitalize"></span>
+      <span class="fw-bold">Inscripción</span>
   </td>
   <td>5000</td>
   <td>
@@ -720,7 +722,7 @@ $(function () {
 
     $("#body-table-pago").append(`<tr id="tr-Titulo">
 <td>
-<span class="fw-bold">Título/N${nivel_grupo}</span>
+<span class="fw-bold">Título N${nivel_grupo}</span>
 </td>
 <td>20000</td>
 <td>
@@ -772,7 +774,7 @@ $(function () {
 
       $("#body-table-pago").append(`<tr id="tr-reposicion${leccion}">
 <td>
-  <span class="fw-bold">Reposición,L-${leccion}</span>
+  <span class="fw-bold">Reposición L${leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1493,7 +1495,7 @@ async function verificareposicion(id_estudiante) {
           $("#body-table-pago")
             .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-<span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
+<span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1539,7 +1541,7 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>
@@ -1579,7 +1581,7 @@ async function verificareposicion(id_estudiante) {
               $("#body-table-pago")
                 .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
-  <span class="fw-bold">Reposición,L-${notas[i].n_leccion}</span>
+  <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
 <td>10000</td>
 <td>
