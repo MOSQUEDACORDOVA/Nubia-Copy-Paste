@@ -1,17 +1,12 @@
+const path = require('path');
 class FileController
 {
   subirArchivo = async (req, res, next) =>
   {
-    console.log(req.files);
-    console.log(req.body);
-    console.log("UPLOADING");
     const archivo = req.files.archivo;
     const fileName = archivo.name;
-    var ubicacion = __dirname + '/../public/assets/uploads/' + fileName;
-  //  console.log(archivo.mimetype)
-    if (archivo.mimetype == 'image/png' || archivo.mimetype == 'image/jpeg' ) {
-      ubicacion = __dirname + '/../../public/assets/img_up/' + fileName;
-    }
+    var ubicacion = path.join(__dirname, '../../public/assets/uploads/' + fileName);
+  
     try {
       archivo.mv(ubicacion, (error) => {
         if (error) {
@@ -22,7 +17,7 @@ class FileController
           res.end(JSON.stringify({ status: 'error', message: error }));
             return;
           }
-          return res.status(200).send({ status: 'success', path: ubicacion });
+          return res.status(200).send({ status: 'bien', path: ubicacion, fileName: fileName });
        });
      } catch (e) {
        res.status(500).json({

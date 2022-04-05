@@ -599,5 +599,5 @@ formCargarArchivos.addEventListener('submit', e => {
   e.preventDefault();
   let grupoId = document.querySelector('#formCargarArchivos .grupoId')
   grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
-  formCargarArchivos.submit()
+  //formCargarArchivos.submit()
 });

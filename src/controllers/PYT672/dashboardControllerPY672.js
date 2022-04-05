@@ -137,19 +137,27 @@ exports.enabledDisUser = (req, res) => {
 };
 
 exports.cargarExcel = (req, res) => {
-  console.log(req.body);
-  let { grupoId, archivo } = req.body
+  let { grupoId, fileName } = req.params
+  console.log(req.params);
   let msg = false;
-  console.log(grupoId);
-  console.log("EXCEL");
-
+  
   try {
-    xlsxFile(archivo).then((rows) => {
+    xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
       console.log(rows);
-      console.log("LEYENDO EXCEL");
+      for (let index = 0; index < rows.length; index++) {
+        const element = rows[index];
+
+        DataBase.RegistrarMatriculaExcel(element[0], element[1], element[2]).then((respuesta) =>{
+          console.log(respuesta);
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+      return res.redirect("/matriculas/PYT-672");    
     })
 
-    return res.redirect("/matriculas/PYT-672");    
   } catch (error) {
     console.log(error);
     return res.redirect("/error672/PYT-672");    
