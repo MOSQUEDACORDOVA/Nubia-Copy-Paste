@@ -1471,6 +1471,46 @@ async function verificareposicion(id_estudiante) {
       if (nhistorial.length > 0) {        
         continue
       }
+      if (historial.length == 0) {
+        if ($(`#reposicion${notas[i].n_leccion}`).length == 1) {
+              
+        } else {              
+          if ($('#select-servicio option[value="Reposicion"]').length == 0 ) {
+            $("#select-servicio").append(`<option value="Reposicion">Reposicion</option>`);
+          }
+          $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
+          $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+          <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
+<input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
+<input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
+<input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="${notas[i].n_leccion}">`);
+          $("#body-table-pago")
+            .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
+<td>
+<span class="fw-bold">Reposicion,L-${notas[i].n_leccion}</span>
+</td>
+<td>10000</td>
+<td>
+<a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+      fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" class="feather feather-trash me-50">
+      <polyline points="3 6 5 6 21 6"></polyline>
+      <path
+          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+      </path>
+  </svg>
+  <span>Eliminar</span>
+</a>
+</td>
+</tr>`);
+          $("#detalle-servicios").append(`<li class="price-detail">
+<div class="detail-title">Reposicion,L-${notas[i].n_leccion}</div>
+</li>`);
+          $("#total-servicios").text("10000");
+          
+        }
+      }
         for (let j = 0; j < historial.length; j++) {      
           repos = historial[j].concepto;
           repos = repos.split(",");        
