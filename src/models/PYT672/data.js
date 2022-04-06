@@ -332,10 +332,10 @@ module.exports = {
           });
       });
     },
-    // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarMatriculaExcel(nombre, dni, genero, grupoId) {
+    // * REGISTRAR ESTUDIANTES EXCEL
+    RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId, vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, grupoId: grupoId })
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1, usuarioId:vendedor })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);
@@ -345,6 +345,7 @@ module.exports = {
           });
       });
     },
+
        // * EDITAR ESTUDIANTES ADMIN
        EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
         return new Promise((resolve, reject) => {

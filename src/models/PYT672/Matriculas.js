@@ -52,6 +52,10 @@ const Matriculas = db672.define('matriculas', {
 		type: DataTypes.STRING(200),
 		allowNull: true,
 	},
+	resgistradoPor: {
+		type: DataTypes.STRING(200),
+		allowNull: true,
+	},
 });
 
 Matriculas.TipoEstudiante = Matriculas.belongsTo(TipoEstudiante)

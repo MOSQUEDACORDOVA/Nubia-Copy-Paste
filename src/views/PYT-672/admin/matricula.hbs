@@ -35,6 +35,10 @@
 <div class="app-content content py672">
   <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
+      <div id="loading3">
+          <div id="progressBar1" class='progress-bar bg-primary' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100'>0%
+          </div>
+      </div>
       <section>
         <div class="row match-height">
           <!-- Basic table -->
@@ -42,7 +46,7 @@
           <input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
           <section id="basic-datatable">
             <div class="row">
-              <div class="col-md-6 mb-1 mb-md-2">
+              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
                   <select class="select2 form-select" id="grupoIdCargarArchivo">
                     <option value="" selected>
                       Seleccione un Grupo
@@ -55,11 +59,22 @@
                   </select>
               </div>
 
-              <div class="col-md-6 mb-1 mb-md-2">
+              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+                <select name="" id="vendedorIdSelect" class="form-control select2">
+                  <option value="" selected>Seleccione un Vendedor</option>
+                  {{#each vendedores as |item i|}}
+                  <option value="{{id}}" data-bs-iden="{{nombre}}">
+                    {{nombre}} - {{puesto}}
+                  </option>
+                  {{/each}}                   
+                </select>
+              </div>
+
+              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
                 <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
                   <input class="form-control d-none grupoId" type="text" name="grupoId">
+                  <input class="form-control d-none vendedorId" type="text" name="vendedor">
                   <input class="form-control" type="file" name="archivo" id="archivoExcel">
-                  <input class="btn btn-primary" type="submit" value="Cargar">
                 </form>
               </div>
 
@@ -634,37 +649,65 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-   $('#archivoExcel').on('change', (event)=>{
-     console.log("FILE")
-      subirImagen(event)
-    })
-    
-const subirImagen = (event) => {
-  console.log('aqui')
-    const archivos = event.target.files;
-    const data = new FormData();
-    let imagenX = event.target.id;
-    data.append("archivo", archivos[0]);
-    $.ajax({
-      url: '/subirExcel',
-      type: 'POST',
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR)
-      {       
-        console.log(data)     
-        window.location.href = "/cargarExcel/3/"+data.fileName
-          //$(`#progressBar3`).addClass("d-none");
-          /*$(`#${imagenX}_progressBar3`).text('Se cargó correctamente la imágen - 100%');
-        document.getElementById(imagenX+'_').value = archivos[0].name;*/
-      },
-      error: function (jqXHR, textStatus) { 
-          /*$("#progressBar2").text('100% - Error al cargar el archivo');
-          $("#progressBar2").removeClass("progress-bar-success");
-          $("#progressBar2").addClass("progress-bar-danger");*/
+  let linkExcel = "", file;
+  $('#archivoExcel').on('change', (event)=>{
+    subirImagen(event)
+  })
+  
+  $('#grupoIdCargarArchivo').on('change', (event)=>{
+    EnviarDatos()
+  })
+  
+  $('#vendedorIdSelect').on('change', (event)=>{
+    EnviarDatos()
+  })
+
+  const subirImagen = (event) => {
+    //$(`#loading3`).addClass("display");
+    console.log('aqui')
+      const archivos = event.target.files;
+      const data = new FormData();
+      let imagenX = event.target.id;
+      data.append("archivo", archivos[0]);
+      $.ajax({
+        url: '/subirExcel',
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR)
+        {       
+          console.log(data)     
+          file = data.fileName
+          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
+
+          EnviarDatos()
+          
+          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
+          setTimeout(() => {
+            $(`#progressBar1`).addClass("d-none");
+            $(`#loading3`).removeClass("display");
+          }, 1000)*/
+        },
+        error: function (jqXHR, textStatus) { 
+          /*$("#progressBar1").text('100% - Error al cargar el archivo');
+          $("#progressBar1").removeClass("progress-bar-success");
+          $("#progressBar1").addClass("progress-bar-danger");*/
+        }
+      });
+    };
+
+  function EnviarDatos() {
+   /* if(linkExcel != "" && file != "") {
+      if($('#grupoIdCargarArchivo').val() === "" || $('#vendedorIdSelect').val() === "") {
+        alert("Complete todos los campos")
+        return
       }
-  });
-  };
+      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
+      window.location.href = linkExcel
+    }*/
+    linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
+    window.location.href = linkExcel
+  }
 </script>
