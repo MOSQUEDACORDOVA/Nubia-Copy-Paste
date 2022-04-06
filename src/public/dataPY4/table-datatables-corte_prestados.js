@@ -218,7 +218,16 @@ if (fecha_corte !="") {
             <th>Devueltos</th>
             <th>Fecha Ult. Devolución</th>
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="1" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
     $('#array_corte_prestados').val(prestados)
     cargaPrestados('rest')
 });
@@ -284,7 +293,16 @@ async function habilitar_dev(id) {
               <th>Devueltos</th>
               <th>Fecha Ult. Devolución</th>
           </tr>
-      </thead>`);
+      </thead>
+      <tfoot>
+<tr>
+<th colspan="1" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
       $('#array_corte_prestados').val(prestados)
       cargaPrestados('rest')
     }

@@ -882,6 +882,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         <tr>                                                
             <th></th>
             <th>#Pedido</th>
+            <th></th>
             <th class="cliente">Cliente</th>
             <th>To. garr.</th>
             <th>Monto Total</th>
@@ -896,24 +897,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         </tr>
     </thead>
     <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
         <tr>
             <th>Nº Pedido</th>
+            <th></th>
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
@@ -922,12 +925,23 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
+            <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
         
         cargaTablas('si')
   $('.modal').modal('hide');
@@ -1000,6 +1014,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         <tr>                                                
             <th></th>
             <th>#Pedido</th>
+            <th></th>
             <th class="cliente">Cliente</th>
             <th>To. garr.</th>
             <th>Monto Total</th>
@@ -1014,24 +1029,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         </tr>
     </thead>
     <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
         <tr>
             <th>Nº Pedido</th>
+            <th></th>
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
@@ -1040,12 +1057,23 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
+            <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
         
         cargaTablas('si')
         $('.datatables-resumen').dataTable().fnDestroy();
@@ -1252,6 +1280,7 @@ $.contextMenu({
    <tr>                                                
        <th></th>
        <th>#Pedido</th>
+       <th></th>
        <th class="cliente">Cliente</th>
        <th>To. garr.</th>
        <th>Monto Total</th>
@@ -1266,18 +1295,19 @@ $.contextMenu({
    </tr>
 </thead>
 <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
    
    $('.datatables-basic2').dataTable().fnDestroy();
@@ -1285,6 +1315,7 @@ $.contextMenu({
    $('.datatables-basic2').html(`<thead>
    <tr>
        <th>Nº Pedido</th>
+       <th></th>
        <th>Cliente</th>
        <th>Total garrafones</th>
        <th>Monto Total</th>
@@ -1293,12 +1324,23 @@ $.contextMenu({
        <th>Metodo de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
-       
-   
-   <th>oculto choferes </th> 
+       <th>oculto choferes </th> 
    <th>oculto asentamiento </th> 
    </tr>
-</thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
    
    cargaTablas('si')
 
@@ -1525,6 +1567,7 @@ $('.datatables-basic').html(`<thead>
 <tr>                                                
     <th></th>
     <th>#Pedido</th>
+    <th></th>
     <th class="cliente">Cliente</th>
     <th>To. garr.</th>
     <th>Monto Total</th>
@@ -1539,18 +1582,19 @@ $('.datatables-basic').html(`<thead>
 </tr>
 </thead>
 <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
 
 $('.datatables-basic2').dataTable().fnDestroy();
@@ -1558,6 +1602,7 @@ $('.datatables-basic2').empty();
 $('.datatables-basic2').html(`<thead>
 <tr>
     <th>Nº Pedido</th>
+    <th></th>
     <th>Cliente</th>
     <th>Total garrafones</th>
     <th>Monto Total</th>
@@ -1566,12 +1611,23 @@ $('.datatables-basic2').html(`<thead>
     <th>Metodo de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
+    <th>oculto choferes </th> 
 <th>oculto asentamiento </th> 
 </tr>
-</thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
 
 cargaTablas('si')
 $('.datatables-resumen').dataTable().fnDestroy();
@@ -1648,6 +1704,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     <tr>                                                
         <th></th>
         <th>#Pedido</th>
+        <th></th>
         <th class="cliente">Cliente</th>
         <th>To. garr.</th>
         <th>Monto Total</th>
@@ -1660,26 +1717,28 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>
     <tr>
         <th>Nº Pedido</th>
+        <th></th>
         <th>Cliente</th>
         <th>Total garrafones</th>
         <th>Monto Total</th>
@@ -1688,12 +1747,23 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>Metodo de Pago</th>
         <th>Fecha</th>
         <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
+        <th>oculto choferes </th> 
     <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
     
     cargaTablas('si')
     if ($('#filterPosition').val() != "") {
@@ -1874,6 +1944,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     <tr>                                                
         <th></th>
         <th>#Pedido</th>
+        <th></th>
         <th class="cliente">Cliente</th>
         <th>To. garr.</th>
         <th>Monto Total</th>
@@ -1886,26 +1957,28 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>
     <tr>
         <th>Nº Pedido</th>
+        <th></th>
         <th>Cliente</th>
         <th>Total garrafones</th>
         <th>Monto Total</th>
@@ -1914,12 +1987,23 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>Metodo de Pago</th>
         <th>Fecha</th>
         <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
+        <th>oculto choferes </th> 
     <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
     
     cargaTablas('si')
     if ($('#filterPosition').val() != "") {
