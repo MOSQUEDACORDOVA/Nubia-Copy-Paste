@@ -3,6 +3,7 @@ var grupos = $("#arrayGrupos").val();
 var estudiantes = $("#arrayEstudiantes").val();
 
 var estudiantesParsed = "";
+
 function cargarTablaMatricula(editada) {
   if (editada) {
     estudiantesParsed = JSON.parse(estudiantes);
