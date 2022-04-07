@@ -395,7 +395,8 @@ $('#exampleClientes').append(`<thead>
     <th>Titulo</th>
     <th>Teléfono</th>
     <th>Correo</th> 
-    <th>Referidos</th>  
+    <th>Descuentos Disp.</th>
+    <th>Referidos</th>   
     <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
@@ -473,7 +474,8 @@ $("#id_ad_tag_cliente").val(valoresCheck);
       <th>Titulo</th>
       <th>Teléfono</th>
       <th>Correo</th> 
-      <th>Referidos</th>  
+      <th>Descuentos Disp.</th>
+      <th>Referidos</th>   
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -512,7 +514,8 @@ console.log('entro aqui')
       <th>Titulo</th>
       <th>Teléfono</th>
       <th>Correo</th> 
-      <th>Referidos</th>  
+      <th>Descuentos Disp.</th>
+      <th>Referidos</th>   
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -585,7 +588,8 @@ if ($('#color_tag_reg_cliente').val() == '0') {
             <th>Titulo</th>
             <th>Teléfono</th>
             <th>Correo</th> 
-            <th>Referidos</th>  
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>   
             <th>Nuevo </th>
             <th>Opciones</th>
         </tr>
