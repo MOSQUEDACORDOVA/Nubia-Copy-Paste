@@ -3,6 +3,7 @@ var grupos = $("#arrayGrupos").val();
 var estudiantes = $("#arrayEstudiantes").val();
 
 var estudiantesParsed = "";
+
 function cargarTablaMatricula(editada) {
   if (editada) {
     estudiantesParsed = JSON.parse(estudiantes);
@@ -599,5 +600,5 @@ formCargarArchivos.addEventListener('submit', e => {
   e.preventDefault();
   let grupoId = document.querySelector('#formCargarArchivos .grupoId')
   grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
-  formCargarArchivos.submit()
+  //formCargarArchivos.submit()
 });

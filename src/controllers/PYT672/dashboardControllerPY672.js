@@ -137,19 +137,42 @@ exports.enabledDisUser = (req, res) => {
 };
 
 exports.cargarExcel = (req, res) => {
-  console.log(req.body);
-  let { grupoId, archivo } = req.body
+  let { grupoId, fileName, vendedor } = req.params
+  let idEncargado = res.locals.user.id;
+  console.log(req.params);
   let msg = false;
-  console.log(grupoId);
-  console.log("EXCEL");
-
+  
   try {
-    xlsxFile(archivo).then((rows) => {
+    xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
       console.log(rows);
-      console.log("LEYENDO EXCEL");
+      for (let index = 0; index < rows.length; index++) {
+        const element = rows[index];
+
+        let nombre = element[0], 
+        dni = element[1],
+        genero = element[2],
+        nacimiento = moment(element[3]).format('DD/MM/YYYY'),
+        tlf1 = element[4],
+        tlf2 = element[5] != "" ? element[5] : null,
+        email = element[6],
+        provincia = element[7],
+        canton = element[8],
+        distrito = element[9],
+        tipo = element[10],
+        grupo = grupoId;
+        vendedor = vendedor != "" ? vendedor : null;
+
+        DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, tipo, grupo, vendedor).then((respuesta) =>{
+          console.log(respuesta);
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+      return res.redirect("/matriculas/PYT-672");    
     })
 
-    return res.redirect("/matriculas/PYT-672");    
   } catch (error) {
     console.log(error);
     return res.redirect("/error672/PYT-672");    
@@ -960,24 +983,43 @@ exports.verificargrupos = (req, res) => {
   });
 };
 
-exports.matriculas = (req, res) => {
+exports.matriculas = async (req, res) => {
   let msg = false;
   if (req.params.msg) {
     msg = req.params.msg;
   }
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
+  DataBase.ObtenerTodosGrupos().then(async(response) => {
     let gruposTodos = JSON.parse(response);
    // console.log(gruposTodos)
     console.log("TODOS LOS GRUPOS")
 
-    DataBase.GruposYMatriculas().then((response2) => {
+    DataBase.GruposYMatriculas().then(async(response2) => {
       let arr = JSON.parse(response2);
       //console.log(arr)
-let gruposTodosStr = JSON.stringify(gruposTodos)
-  let proyecto = req.params.id  
-  console.log(msg)
- // console.log(proyecto)
+
+      let gruposTodosStr = JSON.stringify(gruposTodos)
+      let proyecto = req.params.id  
+      console.log(msg)
+      // console.log(proyecto)
+
+    function GetUsers () {
+      return new Promise ((resolve, reject) => {
+        DataBase.ObtenerTodosUsuarios().then((response3) => {
+          let usuarios = JSON.parse(response3);
+          resolve(usuarios)
+  
+        }).catch((err) => {
+          console.log(err)
+          reject(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      })
+    }
+
+    let vendedores = await GetUsers();
+
     res.render("PYT-672/admin/matricula", {
       pageName: "Academia Americana - Matriculas",
       dashboardPage: true,
@@ -986,7 +1028,8 @@ let gruposTodosStr = JSON.stringify(gruposTodos)
       matric: true,
       gruposTodos,
       arr,
-      response2,msg,gruposTodosStr
+      response2,msg,gruposTodosStr,
+      vendedores,
     });
 
   }).catch((err) => {
