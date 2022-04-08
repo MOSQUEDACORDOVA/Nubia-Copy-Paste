@@ -366,6 +366,9 @@ Observaciones:${full['observacion']}
           render: function (data, type, full, meta) {
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
             detailRefill = parseFloat(full['total_refill_pedido'])*35
+            if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
+              detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
+            }
             detailCanje = parseFloat(full['total_canje_pedido'])*55
             detailNuevo = parseFloat(full['total_nv_pedido'])*105
             adeudo = full['deuda_anterior']
@@ -861,6 +864,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     }else{
       $('#change_chofer').modal('show')
     }
+    console.log(valoresCheck)
   $("#ids_pedido").val(valoresCheck);
   });
 
@@ -874,7 +878,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       url: `/change_chofer_pedido`,
       type: 'POST',
       data: $('#change_chofer_form').serialize(),
-      success: function (data, textStatus, jqXHR) {
+      success: async function (data, textStatus, jqXHR) {
         $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
@@ -943,7 +947,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
 </tr>
 </tfoot>`);
         
-        cargaTablas('si')
+      await  cargaTablas('si').then(()=>{
+          if ($('#filterPosition').val() != "") {
+            console.log($('#filterValue').val()) 
+             $(`#${$('#filterPosition').val()}`).val(`${$('#filterValue').val()}`).trigger('keyup');
+            }
+        });     
+        
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito el(los) choferes')
       },
@@ -1075,7 +1085,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
 </tr>
 </tfoot>`);
         
-        cargaTablas('si')
+        cargaTablas('si');
         $('.datatables-resumen').dataTable().fnDestroy();
         $('.datatables-resumen').empty();
         $('.datatables-resumen').html(`<thead>
@@ -1102,7 +1112,9 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $('#deuda_box').attr('style','display:none')
    $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
    $("#id_cliente_reg_pedido").val('default').trigger('change');
-
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
   
         } else {
           Swal.fire('Se creó con éxito el pedido')
@@ -1118,6 +1130,9 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $("#id_cliente_reg_pedido").val('default').trigger('change');
    let hoy= moment().format('YYYY-MM-DD')
 $('#fecha_pedido').val(hoy)
+if ($('#filterPosition').val() != "") {
+  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+ }
         }
         
   
@@ -1271,9 +1286,9 @@ $.contextMenu({
       url: `/editar_pedido_save`,
       type: 'POST',
       data:$("#form_edit_pedido").serialize(),
-      success: function (data, textStatus, jqXHR) {
+      success: async function (data, textStatus, jqXHR) {
   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  
+
   $('.datatables-basic').dataTable().fnDestroy();
    $('.datatables-basic').empty();
    $('.datatables-basic').html(`<thead>
@@ -1342,7 +1357,11 @@ $.contextMenu({
 </tr>
 </tfoot>`);
    
-   cargaTablas('si')
+   await cargaTablas('si').then(()=>{
+    if ($('#filterPosition').val() != "") {
+      $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+     }
+   });
 
 if ($('.select_chofer_pedidos').val() != "") {
   $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
@@ -1365,7 +1384,7 @@ if ($('.select_etiqueta_pedidos').val() != "") {
    
    cargaTableResumen('si')
    if ($('#filterPosition').val() != "") {
-    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
   }
   $('#edit_pedido').modal('hide')
       },
@@ -1557,7 +1576,7 @@ if (estado) {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data, textStatus, jqXHR) {
+    success: async function (data, textStatus, jqXHR) {
       console.log(data)
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
 $('#carga_').val(JSON.stringify(data.carga_let))
@@ -1629,7 +1648,11 @@ $('.datatables-basic2').html(`<thead>
 </tr>
 </tfoot>`);
 
-cargaTablas('si')
+await cargaTablas('si').then(()=>{
+  if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+ });
 $('.datatables-resumen').dataTable().fnDestroy();
 $('.datatables-resumen').empty();
 $('.datatables-resumen').html(`<thead>
@@ -1645,7 +1668,7 @@ $('.datatables-resumen').html(`<thead>
 
 cargaTableResumen('si')
 if ($('#filterPosition').val() != "") {
- $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
 }
     },
     error: function (jqXHR, textStatus) {
@@ -1695,7 +1718,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
+        success: async function (data, textStatus, jqXHR) {
     $('#array_pedido').val(JSON.stringify(data.pedidos_let))
     
     $('.datatables-basic').dataTable().fnDestroy();
@@ -1765,10 +1788,11 @@ async function cambioPago(id, status, fecha_pedido, monto) {
 </tr>
 </tfoot>`);
     
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+    await cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -1934,7 +1958,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
+        success:async function (data, textStatus, jqXHR) {
     console.log(data)
        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
     
@@ -2005,10 +2029,11 @@ async function cambioPago(id, status, fecha_pedido, monto) {
 </tr>
 </tfoot>`);
     
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+  await  cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -2106,6 +2131,13 @@ $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] 
 //  $('#metodo_pago_edit').find('option:selected').remove().end();
   $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").attr("selected", true);
 }
+
+if (data['cliente']['tipo']=="Negocio" || data['cliente']['tipo'] =="Punto de venta") {
+  console.log(data)
+  $('#descuento_upd_cliente2').val(data['cliente']['monto_nuevo']);
+  console.log($('#descuento_upd_cliente2').val())
+}
+
 $('.status_pago').val(data['status_pago'])
 $('#status_pedido_edit').val(data['status_pedido'])
 $('#edit_fecha_pedido').val(data['fecha_pedido'])
@@ -2163,7 +2195,7 @@ function delete_pedido(id_, tabla) {
         title: `Pedido ${id} borrado con éxito`,
       })
       if ($('#filterPosition').val() != "") {
-       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
      }
     }
   })
