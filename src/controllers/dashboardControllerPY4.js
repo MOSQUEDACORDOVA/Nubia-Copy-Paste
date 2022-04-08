@@ -316,7 +316,7 @@ exports.dashboard = (req, res) => {
                                           "No se ha realizado la carga inicial, verificar";
                                       }
                                      let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido())
-                                     
+                                     console.log(clientes_arr)
                                      cont_not = cont_not + parseInt(verifica_pedidos_referido.length)
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
@@ -467,7 +467,7 @@ exports.usuariosTable = (req, res) => {
     admin = true;
   }
   let id_sucursal = req.session.sucursal_select;
-  let ClientesDB = "",
+  let ClientesDB = "",ClientesDB2 = "",
     PedidosDB = "",
     ChoferesDB = "";
   switch (req.session.tipo) {
@@ -475,19 +475,20 @@ exports.usuariosTable = (req, res) => {
       ClientesDB = DataBase.ClientesAll;
       PedidosDB = DataBase.PedidosAll;
       ChoferesDB = DataBase.ChoferesAll;
+      ClientesDB2 = DataBase.ClientesAllT;
       break;
 
     default:
       ClientesDB = DataBase.ClientesAllS;
       PedidosDB = DataBase.PedidosAllS;
       ChoferesDB = DataBase.ChoferesAll;
+      ClientesDB2 = DataBase.ClientesAllST;
       break;
   }
   //DATA-COMUNES
-  ClientesDB(id_sucursal)
+  ClientesDB2(id_sucursal)
     .then((clientes_d) => {
-      let clientes_arr = JSON.parse(clientes_d);
-      let count = clientes_arr.length;
+      //let clientes_arr = JSON.parse(clientes_d);
       PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -515,8 +516,9 @@ exports.usuariosTable = (req, res) => {
                     .then((etiquetas_) => {
                       let etiquetas_let = JSON.parse(etiquetas_);
                       DataBase.CodigosP()
-                        .then((cp_) => {
+                        .then(async (cp_) => {
                           let cp_arr = JSON.parse(cp_);
+                          let clientes_arr = JSON.parse(await ClientesDB());
                           res.render("PYT-4/usersTable", {
                             pageName: "Bwater",
                             dashboardPage: true,
@@ -576,16 +578,16 @@ exports.save_cliente_py4 = async (req, res) => {
   let ClientesDB = "";
   switch (req.session.tipo) {
     case "Director":
-      ClientesDB = DataBase.ClientesAll;
+      ClientesDB = DataBase.ClientesAllT;
       break;
 
     default:
-      ClientesDB = DataBase.ClientesAllS;
+      ClientesDB = DataBase.ClientesAllST;
       break;
   }
   var { firstName, cp, asentamiento, lastName, ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, nombre_familiar_1,  apellido_familiar_1,
     telefono_familiar_1, nombre_familiar_2, apellido_familiar_2, telefono_familiar_2, tipo_cliente, cliente_nuevo, fecha_ultimo_pedido, utimos_botellones, sucursal, email,
-    color} = req.body;
+    color,descuento_reg_cliente} = req.body;
   let msg = false;
   var modo_cliente = "SI";
   if (cliente_nuevo == null) {
@@ -656,19 +658,22 @@ exports.save_cliente_py4 = async (req, res) => {
   if (telefono_familiar_2 == null) {
     telefono_familiar_2 = "";
   }
+  console.log('respuesta')
   DataBase.registrar_cliente(firstName, cp, asentamiento, lastName, ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, nombre_familiar_1,
     apellido_familiar_1, telefono_familiar_1, nombre_familiar_2,apellido_familiar_2, telefono_familiar_2, tipo_cliente,modo_cliente, fecha_ultimo_pedido, utimos_botellones,
-    sucursal, email, color)
+    sucursal, email, color,descuento_reg_cliente)
     .then(async(respuesta) => {
+      
+      console.log(respuesta)
       let clientes = await ClientesDB(id_sucursal)
       if (req.body.dashboard) {
-        
         return res.send({clientes});
       }
       clientes = JSON.parse(clientes)
       return res.send({clientes});
     })
     .catch((err) => {
+
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
@@ -792,17 +797,23 @@ exports.save_cliente_cuponera = (req, res) => {
 exports.delete_cliente = async (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id;
-
-  DataBase.Delete_Cliente(id_).then((respuesta) => {
+let PedidosByclient = JSON.parse(await DataBase.PedidosReferido(id_));
+console.log(PedidosByclient.length);
+ let Disabled,deleteClient;
+if (PedidosByclient.length>0) {
+  Disabled = JSON.parse(await DataBase.Disabled_client(id_));
+}else{
+  deleteClient = JSON.parse(await DataBase.Delete_Cliente(id_));
+}
     let id_sucursal = req.session.sucursal_select;
     let ClientesDB = "";
     switch (req.session.tipo) {
       case "Director":
-        ClientesDB = DataBase.ClientesAll;
+        ClientesDB = DataBase.ClientesAllT;
         break;
 
       default:
-        ClientesDB = DataBase.ClientesAllS;
+        ClientesDB = DataBase.ClientesAllST;
         break;
     }
     ClientesDB(id_sucursal)
@@ -819,13 +830,38 @@ exports.delete_cliente = async (req, res) => {
           }
         }
 
-        return res.send({ clientes_arr });
+        return res.send({clientes_arr, Disabled, deleteClient });
       })
       .catch((err) => {
           let msg = "Error en sistema";
         return res.redirect("/errorpy4/" + msg);
       });
-  });
+};
+exports.newEstadoCliente = async (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id;
+  let estado = req.params.estado;
+let NewEstado = JSON.parse(await DataBase.CambiarEstadoCliente(id_, estado));
+    let id_sucursal = req.session.sucursal_select;
+    let ClientesDB = "";
+    switch (req.session.tipo) {
+      case "Director":
+        ClientesDB = DataBase.ClientesAllT;
+        break;
+
+      default:
+        ClientesDB = DataBase.ClientesAllST;
+        break;
+    }
+    ClientesDB(id_sucursal)
+      .then(async (clientes_d) => {
+        let clientes_arr = JSON.parse(clientes_d);
+        return res.send({clientes_arr,NewEstado });
+      })
+      .catch((err) => {
+          let msg = "Error en sistema";
+        return res.redirect("/errorpy4/" + msg);
+      });
 };
 
 exports.editar_cliente = (req, res) => {
@@ -871,7 +907,7 @@ exports.save_cliente_edit = (req, res) => {
     utimos_botellones,
     zona,
     email,
-    color,
+    color,descuento_edit_cliente
   } = req.body;
   let msg = false;
   var modo_cliente = "SI";
@@ -904,18 +940,18 @@ exports.save_cliente_edit = (req, res) => {
     utimos_botellones,
     zona,
     email,
-    color
+    color,descuento_edit_cliente
   )
     .then((respuesta) => {
       let id_sucursal = req.session.sucursal_select;
       let ClientesDB = "";
       switch (req.session.tipo) {
         case "Director":
-          ClientesDB = DataBase.ClientesAll;
+          ClientesDB = DataBase.ClientesAllT;
           break;
 
         default:
-          ClientesDB = DataBase.ClientesAllS;
+          ClientesDB = DataBase.ClientesAllST;
           break;
       }
       ClientesDB(id_sucursal)
@@ -966,11 +1002,11 @@ exports.save_cliente_edit_tag = async (req, res) => {
   let ClientesDB = "";
   switch (req.session.tipo) {
     case "Director":
-      ClientesDB = DataBase.ClientesAll;
+      ClientesDB = DataBase.ClientesAllT;
       break;
 
     default:
-      ClientesDB = DataBase.ClientesAllS;
+      ClientesDB = DataBase.ClientesAllST;
       break;
   }
   ClientesDB(id_sucursal)
@@ -1087,7 +1123,7 @@ exports.regPedidoPy4 = async (req, res) => {
     id_chofer,
     sucursal,
     deuda_anterior,
-    fecha_pedido,desc_referido,id_referenciado,asentamiento
+    fecha_pedido,desc_referido,id_referenciado,asentamiento,descuento_reg_cliente
   } = req.body;
 
   let total_garrafones_pedido =
@@ -1181,7 +1217,7 @@ if (desc_referido > 0) {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido,descuento,asentamiento
+    fecha_pedido,descuento,asentamiento,descuento_reg_cliente
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
@@ -1484,10 +1520,13 @@ exports.cambiaS_pedido = (req, res) => {
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;
-
+console.log(ids_pedido)
   let split_id = ids_pedido.split(",");
 
   for (let i = 0; i < split_id.length; i++) {
+    if (split_id[i] =="") {
+      continue
+    }
     await DataBase.cambiaChofer(split_id[i], chofer);
   }
   let id_sucursal = req.session.sucursal_select;

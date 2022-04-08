@@ -40,12 +40,12 @@ function cargaTabla(rechar) {
     });
     $('#cliente_nuevo').on('change', function (e) {
       if ($('#cliente_nuevo').is(':checked')) {
-        if (dt_basic.column(7).search() !== 'SI') {
-        dt_basic.column(7).search('SI').draw();
+        if (dt_basic.column(10).search() !== 'SI') {
+        dt_basic.column(10).search('SI').draw();
       }
       }else{
-        if (dt_basic.column(7).search() !== '') {
-          dt_basic.column(7).search('').draw();
+        if (dt_basic.column(10).search() !== '') {
+          dt_basic.column(10).search('').draw();
         }
       }
       
@@ -64,6 +64,7 @@ function cargaTabla(rechar) {
         { data: 'email' }, 
         { data: 'cantidad_referidos' }, 
         { data: 'id' },
+        { data: 'enabled' }, 
         { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
@@ -222,7 +223,21 @@ function cargaTabla(rechar) {
           }
         },
         {
-          targets: 9,visible: false
+          targets: 9,
+          render: function (data, type, full, meta) {
+            // var idx = dt_basic_table.DataTable().row( this ).index()
+            // console.log(idx)
+            var statusObj = {
+              1: { title: 'Activo', class: 'badge-light-success' },
+              0: { title: 'Inactivo', class: 'badge-light-secondary' }
+            };
+            var status = data;
+            return (`<span class="badge rounded-pill ${statusObj[status].class}" text-capitalized onclick="DisEn('${full['id']}','${data}')" style="cursor: pointer">${statusObj[status].title}</span>`
+            );
+          }
+        },
+        {
+          targets: 10,visible: false
         },
         {
           // Label
@@ -396,7 +411,8 @@ $('#exampleClientes').append(`<thead>
     <th>Teléfono</th>
     <th>Correo</th> 
     <th>Descuentos Disp.</th>
-    <th>Referidos</th>   
+    <th>Referidos</th>
+    <th>Estado</th>     
     <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
@@ -475,7 +491,8 @@ $("#id_ad_tag_cliente").val(valoresCheck);
       <th>Teléfono</th>
       <th>Correo</th> 
       <th>Descuentos Disp.</th>
-      <th>Referidos</th>   
+      <th>Referidos</th>
+      <th>Estado</th>     
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -515,7 +532,8 @@ console.log('entro aqui')
       <th>Teléfono</th>
       <th>Correo</th> 
       <th>Descuentos Disp.</th>
-      <th>Referidos</th>   
+      <th>Referidos</th>
+      <th>Estado</th>     
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -589,7 +607,8 @@ if ($('#color_tag_reg_cliente').val() == '0') {
             <th>Teléfono</th>
             <th>Correo</th> 
             <th>Descuentos Disp.</th>
-            <th>Referidos</th>   
+            <th>Referidos</th>
+            <th>Estado</th>     
             <th>Nuevo </th>
             <th>Opciones</th>
         </tr>
@@ -693,6 +712,7 @@ $.ajax({
   processData: false,
   success: function (data, textStatus, jqXHR) {
 console.log(data)
+$('#descuento-edit-cliente').addClass('d-none');
 $('#cliente_nuevo_edited').attr('checked', false);  
 $('#id_cliente_edited').val(data['cliente_let']['id'])
 $('#firstName_edited').val(data['cliente_let']['firstName'])
@@ -728,6 +748,10 @@ if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']
   //  $('#metodo_pago_edit').find('option:selected').remove().end();
     $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
   }
+  if (data['cliente_let']['tipo']=="Negocio" || data['cliente_let']['tipo'] =="Punto de venta") {
+    $('#descuento-edit-cliente').removeClass('d-none');
+    $('#descuento_edit_cliente1').val(data['cliente_let']['monto_nuevo']);
+  }
   if ( data['cliente_let']['nuevo']=="SI" ){
     $('#cliente_nuevo_edited').attr('checked', true);  
     }
@@ -760,18 +784,54 @@ function delete_cliente(id_) {
   var id = id_
   Swal.fire({
     title: 'Eliminar',
-    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
+    text: "Seguro desea eliminar el cliente indicado",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Eliminar',
     showLoaderOnConfirm: true,
-    preConfirm: (login) => {
+    preConfirm: (de) => {
       return fetch(`/delete_cliente/${id}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(response.statusText)
           }
           return response.json()
+        }).then((data) => {
+          console.log(data);
+          if (data.Disabled) {
+            $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>
+            <th>Estado</th>     
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+       Swal.fire({
+        title: `El cliente ${id} tiene uno o más pedidos en el sistema, solo se le ha deshabilitado`,
+      })
+          } else {
+      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Cliente ${id} borrado con éxito`,
+      })
+          }
         })
         .catch(error => {
           Swal.showValidationMessage(
@@ -782,11 +842,7 @@ function delete_cliente(id_) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(result)
-      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
-      Swal.fire({
-        title: `Cliente ${id} borrado con éxito`,
-      })
+      console.log(result)    
     }
   })
 }
@@ -818,3 +874,64 @@ function copyToClipboard(elemento) {
   $temp.remove();
   Swal.fire('Link de referido copiado en el portapapeles')
   }
+function DisEn(id,estadoActual) {
+  let nuevoEstado = 0, desc= "desactivar";
+  if (estadoActual == 0) {
+    nuevoEstado = 1;
+    desc= "activar";
+  }
+
+  Swal.fire({
+    title: 'Cambiar estado',
+    text: `Seguro desea ${desc} el cliente indicado`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Cambiar',
+    showLoaderOnConfirm: true,
+    preConfirm: (de) => {
+      return fetch(`/enordesClient/${id}/${nuevoEstado}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        }).then((data) => {
+          console.log(data);
+            $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>
+            <th>Estado</th>     
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+       Swal.fire({
+        title: `Se cambió con éxito el estado del cliente ${id}`,
+      })
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  })
+
+}

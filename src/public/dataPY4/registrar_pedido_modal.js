@@ -21,11 +21,8 @@ $(function () {
     if ($('#tipo_c_pedido').val() == "Punto de venta") {
       monto = parseInt(cant) * 30
     }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
+    if ($('#descuento_upd_cliente1').val()>0) {
+      monto = parseInt(cant) * $('#descuento_upd_cliente1').val();
     }
 
     $('#refill_garrafon_mont').val(monto)
@@ -66,12 +63,6 @@ $(function () {
     if ($('#tipo_c_pedido').val() == "Punto de venta") {
       monto = parseInt(cant) * 30
     }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
     $('#canje_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -104,15 +95,10 @@ $(function () {
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(count_canje_garrafon) + parseInt(count_enobsequio_garrafon)
     let monto = parseInt(cant) * 105
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    // if ($('#tipo_c_pedido').val() == "Punto de venta") {
+    //   monto = parseInt(cant) * 30
+    // }
+    
     $('#enNew_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
@@ -162,12 +148,7 @@ $(function () {
     if ($('#tipo_c_pedido').val() == "Punto de venta") {
       monto = parseInt(cant) * 30
     }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#refill_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -201,15 +182,7 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 55
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#canje_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -242,15 +215,7 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(count_canje_botella) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 105
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#enNew_botella_mont').val(monto)
     $('#total_botella').val(suma)
     $('#cant_botella').text(suma)
@@ -300,11 +265,8 @@ $(function () {
     if ($('#tipo_c_pedido').val() == "Punto de venta") {
       monto = parseInt(cant) * 30
     }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
+    if ($('#descuento_upd_cliente1').val()>0) {
+      monto = parseInt(cant) * $('#descuento_upd_cliente1').val();
     }
     $('#refill_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
@@ -339,15 +301,7 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 55
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#canje_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -380,15 +334,7 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(count_canje_garrafon11l) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 105
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -424,15 +370,7 @@ $(function () {
 
     let monto = parseInt(cant) * 105
     
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#enNew_garrafon11l_mont').val(monto)
     $('#total_garrafon11l').val(suma)
     $('#cant_garrafon11l').text(suma)
@@ -478,15 +416,7 @@ $(function () {
     let count_enobsequio_botella5l = $('#count_enobsequio_botella5l').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(enNew_botella5l_mont) + parseInt(count_enobsequio_botella5l)
     let monto = parseInt(cant) * 55
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#canje_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -520,15 +450,7 @@ $(function () {
 
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enobsequio_botella5l)
     let monto = parseInt(cant) * 105
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -563,15 +485,7 @@ $(function () {
     let count_enNew_botella5l = $('#count_enNew_botella5l').val()
     let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enNew_botella5l)
     let monto = parseInt(cant) * 105
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
-      monto = parseInt(cant) * 30
-    }
-    if ($('#nombre_c_pedido').val() == "Vioro" && $('#apellido_c_pedido').val() == "Mini Super") {
-      monto = parseInt(cant) * 28
-    }
-    if ($('#nombre_c_pedido').val() == "Apapacho" && $('#apellido_c_pedido').val() == "Restaurante") {
-      monto = parseInt(cant) * 30
-    }
+    
     $('#enNew_botella5l_mont').val(monto)
     $('#total_botella5l').val(suma)
     $('#cant_botella5l').text(suma)
@@ -584,6 +498,7 @@ $(function () {
     var valor = $('#array').val()
     var array = JSON.parse(valor.replace(/&quot;/g, '"'))
     $('#descuento_referido_box').addClass('d-none')
+    $('#descuento-upd-cliente').addClass('d-none');
     let id_ = e.target.value
     let pedidos = $('#array_pedido').val()
     var array_pedidos = JSON.parse(pedidos.replace(/&quot;/g, '"'))    
@@ -612,6 +527,11 @@ $('#tipo_c_pedido').val(found.tipo)
       console.log("option exist!");
      // $('#select_asentamiento_me').find('option:selected').remove().end();
       $("#select_asentamiento_me option[value='" + found.cpId + "']").attr("selected", true);
+    }
+
+    if (found['tipo']=="Negocio" || found['tipo'] =="Punto de venta") {
+      $('#descuento-upd-cliente').removeClass('d-none');
+      $('#descuento_upd_cliente1').val(found['monto_nuevo']);
     }
 
     if ($("#reg_zona_cliente_pedido option[value='" + found.sucursaleId + "']").length == 0) {
@@ -715,7 +635,15 @@ $('#tipo_c_pedido').val(found.tipo)
     $("#id_chofer").val(id_chofer);
   })
 
-  console.log('tabla clientes:' + $('#exampleClientes').length)
+ $('#tipo-cliente-reg').change((e)=>{
+console.log(e.target.value)
+let valor= e.target.value;
+if (valor=="Negocio" || valor =="Punto de venta") {
+  $('#descuento-reg-cliente').removeClass('d-none');
+  $('#descuento_reg_cliente1').val(0);
+}
+
+ })
  
   if ($('#exampleClientes').length == 0) {
     $('#add_cliente_modal').click(()=>{
@@ -760,35 +688,38 @@ if ($('#color_tag_reg_cliente').val() == '0') {
         }
         let clientes
         if ($('#pedidostable').length ==0) {
-          console.log('here')
-         clientes= data.clientes
-         $('#array').val(JSON.stringify(data.clientes))
+          console.log('here');
+         clientes= data.clientes;
+         $('#array').val(JSON.stringify(data.clientes));
         }else{
-         clientes= JSON.parse(data.clientes)
-         $('#array').val(data.clientes)
-         console.log(JSON.parse($('#array').val()))
+         clientes= JSON.parse(data.clientes);
+         $('#array').val(data.clientes);
+         console.log(JSON.parse($('#array').val()));
         }
         
-        $('#id_cliente_reg_pedido').empty()
-        $('#id_cliente_reg_pedido').append(`<option selected="" value="default"> Seleccione un cliente </option>`)
+        $('#id_cliente_reg_pedido').empty();
+        $('#id_cliente_reg_pedido').append(`<option selected="" value="default"> Seleccione un cliente </option>`);
         let asentamiento
         for (let i = 0; i < clientes.length; i++) {  
             
           if (clientes[i]['cp'] == null) {
             console.log(clientes[i]['cp'])
              console.log(clientes[i])
-          }     
-        if (clientes[i]['cp']['asentamiento']) {
-          asentamiento = clientes[i]['cp']['asentamiento']
+             asentamiento ="";
+          }else{
+            if (clientes[i]['cp']['asentamiento']) {
+          asentamiento = clientes[i]['cp']['asentamiento'];
         }
+          }     
+        
           $('#id_cliente_reg_pedido').append(`<option value="${clientes[i].id}"> ${clientes[i].firstName} ${clientes[i].lastName} / ${asentamiento}</option>`)
         }
-        $('#form_reg_cliente')[0].reset()
+        $('#form_reg_cliente')[0].reset();
   $('.modal').modal('hide');
-  Swal.fire('Se creó con éxito al cliente')
+  Swal.fire('Se creó con éxito al cliente');
       },
       error: function (jqXHR, textStatus) {
-        console.log('error:' + jqXHR)
+        console.log('error:' + jqXHR);
       }
     });
   })
