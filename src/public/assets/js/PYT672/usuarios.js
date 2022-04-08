@@ -42,7 +42,6 @@ function cargarTablaUsuarios() {
             if (full['puesto'] != "Administrador") {
               options =`
               <div class="d-flex align-items-center">
-                <a href="#" class="btn btn-sm ms-1 text-primary" onclick="deleteUser('${full['id']}')">${feather.icons['trash'].toSvg()}</a>
                 <a href="#" class="btn btn-sm text-primary" onclick="enabledDisUser('${full['id']}','${full['enabled']}')">${enableIcon}</a>
                 <a href="#" class="dropdown-toggle text-center ms-1 text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
                   ${feather.icons['more-vertical'].toSvg()}
@@ -52,10 +51,10 @@ function cargarTablaUsuarios() {
                   <a class="dropdown-item" href="#" onclick="edituser('${full['id']}')">
                     Editar
                   </a>
+                  <a href="#" class="dropdown-item align-items-center" onclick="deleteUser('${full['id']}')">Eliminar</a>
                 </div>
-                
-                
               </div>`
+              //${feather.icons['trash'].toSvg()}
             }
             return options;
           }
