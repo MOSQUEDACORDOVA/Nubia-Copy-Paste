@@ -1598,9 +1598,9 @@ exports.historial = (req, res) => {
   });
 };
 
-// * OBTENER DETALLES DE ALUMNO - LECCIONES - CALIFICACIONES
+// * DETALLES CONTROL CAJA 
 exports.detallesControl = (req, res) => {
-  console.log(req.body)
+  
 }
 
 // * MODULO CAJA
