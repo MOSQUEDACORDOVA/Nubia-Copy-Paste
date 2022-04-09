@@ -320,9 +320,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES ADMIN
-    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor) {
+    RegistrarMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1,usuarioId:vendedor})
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton, distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1,usuarioId:vendedor})
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);

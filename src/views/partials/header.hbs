@@ -17,7 +17,11 @@
     <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600"
         rel="stylesheet">
-        <link rel="shortcut icon" type="image/x-icon" href="{{#if py4}}
+        <link rel="shortcut icon" type="image/x-icon" href="
+        {{#if py4AppHome}}
+../../../dataPY4/images/pyt_4_logo.png
+        {{/if}}
+        {{#if py4}}
 ../../../dataPY4/images/pyt_4_logo.png
 {{/if}}{{#if login}}
 ../../../dataPY4/images/pyt_4_logo.png
@@ -77,6 +81,14 @@
     
     {{#if disabled_chofer}}      
     {{/if}}
+    {{/if}}
+
+    {{#if py4App}}
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/forms/select/select2.min.css">
     {{/if}}
     
 
@@ -610,6 +622,11 @@
 {{#if py4}}
 
 {{>py4_menu/menu}}
+{{/if}}
+
+{{#if py4App}}
+
+{{>py4app_menu/menu}}
 {{/if}}
 
 {{#if py21}}

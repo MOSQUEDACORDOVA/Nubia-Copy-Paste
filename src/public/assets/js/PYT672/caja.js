@@ -7,6 +7,11 @@ $(function () {
 
   /**FUNCIONES AL SELECCIONAR EL ALUMNO */
   $(".alumno-select").change(async (e) => {
+    $("#btnComentarios").removeAttr("disabled");
+    $("#btnControl").removeAttr("disabled");
+    $("#btnTrasladar").removeAttr("disabled");
+    $("#btnCongelar").removeAttr("disabled");
+    
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
@@ -990,6 +995,19 @@ $(function () {
   });
 
   /** CARGAR COMENTARIOS DEL ALUMNO AL PRESIONAR CLICK EN EL BOTON COMENTARIOS */
+  $('#btnComentarios').on('click', function () {
+    $("#btn-add-commnet").click();
+  });
+  $('#btnTrasladar').on('click', function () {
+    $("#btn-trasladar-alumno").click();
+  });
+  $('#btnCongelar').on('click', function () {
+    $("#btn-congelar-alumno").click();
+  });
+  $('#btnControl').on('click', function () {
+    $("#btn-control").click();
+  });
+
   $("#btn-add-commnet").click(async () => {
     $("#commentAdmin").empty();
     let id_alumno = $("#id-alumno-form").val();

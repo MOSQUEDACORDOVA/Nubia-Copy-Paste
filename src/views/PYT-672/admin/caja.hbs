@@ -386,21 +386,41 @@
 
                             <div class="price-details">
                                 <div class="d-grid">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Comentarios" id="btnComentarios" disabled>
+                                            <i data-feather='file-text' class="feather"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Control" id="btnControl" disabled>
+                                            <i data-feather='clipboard' class="feather"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Trasladar" id="btnTrasladar" disabled>
+                                            <i data-feather='upload' class="feather"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger waves-effect" data-bs-toggle="tooltip" data-bs-placement="top" title="" data-bs-original-title="Congelar" id="btnCongelar" disabled>
+                                            <i data-feather='user-x' class="feather"></i>
+                                        </button>
+                                    </div>
                                     <button type="button"
-                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1 d-none"
                                         id="btn-add-commnet" data-bs-toggle="modal" data-bs-target="#comentariosModal"
                                         disabled>
                                         Comentar
                                     </button>
                                     <button type="button"
-                                        class="btn btn-primary waves-effect waves-float waves-light mb-1"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1 d-none"
+                                        id="btn-control" data-bs-toggle="modal" data-bs-target="#controlModal">
+                                        Control
+                                    </button>
+
+                                    <button type="button"
+                                        class="btn btn-primary waves-effect waves-float waves-light mb-1 d-none"
                                         id="btn-trasladar-alumno" data-bs-toggle="modal" data-bs-target="#createAppModal"
                                         disabled >
                                         Trasladar Alumno
                                     </button>
 
                                     <button type="button"
-                                        class="btn btn-danger waves-effect waves-float waves-light d-flex align-items-center justify-content-center"
+                                        class="btn btn-danger waves-effect waves-float waves-light d-flex align-items-center justify-content-center d-none"
                                         id="btn-congelar-alumno" 
                                         disabled >                                        
                                         
@@ -419,7 +439,7 @@
                                             
                                     </button>
                                     <button type="button"
-                                        class="d-none btn btn-success btn-glow waves-effect waves-float waves-light"
+                                        class="d-none btn btn-success btn-glow waves-effect waves-float waves-light mt-1"
                                         id="btn-activar-alumno" 
                                         >
                                         <!-- Icono de user con un check-->
@@ -796,7 +816,373 @@
             </div>
             <!--/ Modal Traslado-->
 
+            <!--/ Modal Control-->
+            <div class="modal fade" id="controlModal" tabindex="-1" aria-modal="true" role="dialog">
+                <div class="modal-dialog modal-dialog-centered modal-md">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body pb-3 px-sm-3">
+                            <h1 class="mb-2" id="controlTitle">Isaac Mosqueda</h1>
 
+                            <div class="row m-0">
+                                <div class="col-12 p-0">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tbody id="tablaControl">
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 1</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 2</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 3</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 4</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 5</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 6</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 7</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 8</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 9</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-primary me-1">10</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                                <tr>
+                                                    <div class="d-flex flex-column pb-0">
+
+                                                        <div class="d-flex align-items-center mb-1">
+                                                            <span class="me-1 fw-bolder">Lección 10</span>
+                                                        </div>
+
+                                                        <div class="d-flex align-items-end">
+                                                            <div class="">
+                                                            
+                                                                <span class="emp_post fw-bolder">Fecha</span><br>
+                                                                <span class="emp_post">23-12-2022</span>
+
+                                                            </div>
+                                                            <div class="mx-2 text-center">
+                                                            
+                                                                <span class="emp_post fw-bolder">Aistencia</span><br>
+
+                                                                <span class="badge rounded-pill badge-light-success">
+                                                                Presente
+                                                                </span>
+                                                                
+                                                            </div>
+
+                                                            <div class="text-center">
+                                                                
+                                                                <span class="emp_post fw-bolder">Calificación</span><br>
+                                                                <span class="badge rounded-pill badge-light-info me-1">No aplica</span>
+
+                                                            </div>
+                                                        </div>
+                                                        <hr class="mb-0">
+                                                    </div>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Modal Control-->
+
+            
         </div>
     </div>
 </div>
