@@ -19,7 +19,7 @@ const fileupload = require('express-fileupload');
 // Conectar con la base de datos
 db.sync()
  	.then(() => {
- 		console.log('Base de datos conectada');
+ 		console.log('Base de datos conectada jjaa');
  	})
  	.catch(err => {
  		console.log('Error: ', err);
