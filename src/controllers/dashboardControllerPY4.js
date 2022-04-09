@@ -4494,3 +4494,38 @@ exports.save_cliente_edit_cupon = (req, res) => {
       return res.redirect("/errorpy4/" + msg);
     });
 };
+
+// * LOGIN APP CHOFERES 
+exports.appLogin = (req, res) => {
+  let msg = false;
+
+  res.render("PYT-4/app/auth/login", {
+      pageName: "Bwater App - Login",
+      py4App: true,
+      login: true
+  });
+};
+
+// * INDEX APP CHOFERES 
+exports.appHome = (req, res) => {
+  let msg = false;
+
+  res.render("PYT-4/app/index", {
+      pageName: "Bwater App",
+      py4App: true,
+      py4AppHome: true
+
+  });
+};
+
+// * PEDIDO APP CHOFERES 
+exports.appPedido = (req, res) => {
+  let msg = false;
+
+  res.render("PYT-4/app/pedido", {
+      pageName: "Bwater App",
+      py4App: true,
+      py4AppHome: true
+
+  });
+};
