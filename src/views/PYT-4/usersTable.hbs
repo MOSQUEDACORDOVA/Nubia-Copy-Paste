@@ -8,6 +8,10 @@
 }
     }
 </style>
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
+{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
+<link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 
 {{#if msg}}
 <label id="msgs" hidden>{{msg}}</label>
@@ -67,7 +71,9 @@
                                               <th>Titulo</th>
                                               <th>Teléfono</th>
                                               <th>Correo</th> 
-                                              <th>Referidos</th>  
+                                              <th>Descuentos Disp.</th>
+                                              <th>Referidos</th>
+                                              <th>Estado</th>     
                                               <th>Nuevo </th>
                                               <th>Opciones</th>
                                           </tr>
@@ -337,6 +343,11 @@
                   <option> Negocio </option>
                   <option> Punto de venta </option>
                 </select></div>
+                <div class="form-group d-none" id="descuento-edit-cliente">
+                  <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                  <input type="number" name="descuento_edit_cliente" class="form-control mb-2" id="descuento_edit_cliente1" value="0">
+                </div>
+
               <div class="form-group"><label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                   cliente?</label>
                 <div class="custom-control custom-checkbox"><input type="checkbox" id="cliente_nuevo_edited"

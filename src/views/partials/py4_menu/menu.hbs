@@ -512,6 +512,10 @@ padding-left: 0.7rem;
                             </select>
 
                         </div>
+                        <div class="form-group d-none" id="descuento-upd-cliente">
+                  <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                  <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_upd_cliente1" value="0">
+                </div>
                         <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select
                   aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2" id="reg_zona_cliente_pedido">
                   <option selected="" value="0">Seleccione una Zona</option>
@@ -1033,11 +1037,15 @@ padding-left: 0.7rem;
                     </div>
                     <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
                             cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20"
-                            name="tipo_cliente" class="form-control mb-2">
-                            <option selected=""> Residencial </option>
-                            <option> Negocio </option>
-                            <option> Punto de venta </option>
+                            name="tipo_cliente" class="form-control mb-2" id="tipo-cliente-reg">
+                            <option selected="" value="Residencial"> Residencial </option>
+                            <option value="Negocio"> Negocio </option>
+                            <option value="Punto de venta"> Punto de venta </option>
                         </select></div>
+                    <div class="form-group d-none" id="descuento-reg-cliente">
+                  <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                  <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_reg_cliente1" value="0">
+                </div>
                     <div class="form-group">
                         <label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
                             cliente?</label>

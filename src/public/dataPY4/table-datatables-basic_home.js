@@ -78,7 +78,7 @@
        end = normalizeDate(endDate);
        var  min2 = minDate2.val();
        var max2 = maxDate2.val();
-       let f = aData[9]       
+       let f = aData[10]       
        let fechaN = f.split('-')       
        var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
        var date = new Date(date1);
@@ -147,7 +147,7 @@ maxDate2 = new DateTime($('#max1'), {
 });
   // DataTable with buttons
   // --------------------------------------------------------------------
-  let groupColumn = 11;
+  let groupColumn = 12;
   console.log(status_pedido)
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
@@ -169,7 +169,7 @@ $('#filterValue').val(this.value)
     });
     $('.select_chofer_pedidos').on('change', function(){
 
-      dt_basic.column(11).search(this.value).draw();   
+      dt_basic.column(12).search(this.value).draw();   
    });
    $('.select_etiqueta_pedidos').on('change', function(){
     dt_basic.search(this.value).draw();   
@@ -180,6 +180,7 @@ $('#filterValue').val(this.value)
       columns: [
         { data: 'id' },
         { data: 'id' },
+        { data: 'sucursaleId' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
@@ -235,7 +236,7 @@ Rf:${rf}.
 CJ: ${CJ}.
 Env: ${Env}.
 Tipo Pago:${full['metodo_pago']}
-Dueda anterior: ${full['deuda_anterior']}
+Deuda anterior: ${full['deuda_anterior']}
 Garrafones prestados: ${full['garrafones_prestamos']}
 Observaciones:${full['observacion']}
 </p>`  
@@ -267,7 +268,7 @@ Observaciones:${full['observacion']}
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { visible: false, targets: 12,
+        { visible: false, targets: 13,
           render: function (data, type, full) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
@@ -301,6 +302,18 @@ Observaciones:${full['observacion']}
           // Label
           targets: 2,
           render: function (data, type, full, meta) {
+            for (let i = 0; i < zonas.length; i++) {
+              if (zonas[i].id == data) {
+                var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+              }                     
+            }
+            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+          }
+        },
+        {
+          // Label
+          targets: 3,
+          render: function (data, type, full, meta) {
             let asentamiento = ""
             for (let i = 0; i < codigosP_arr.length; i++) {
               if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
@@ -329,13 +342,13 @@ Observaciones:${full['observacion']}
         }
         //aqui activa el modal info del cliente
             return (
-              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
             );
           }
         },
          {
           // Label
-          targets: 3,className:'to_garra',
+          targets: 4,className:'to_garra',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
@@ -349,10 +362,13 @@ Observaciones:${full['observacion']}
         },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
             detailRefill = parseFloat(full['total_refill_pedido'])*35
+            if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
+              detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
+            }
             detailCanje = parseFloat(full['total_canje_pedido'])*55
             detailNuevo = parseFloat(full['total_nv_pedido'])*105
             adeudo = full['deuda_anterior']
@@ -368,7 +384,7 @@ Observaciones:${full['observacion']}
       },
       {
         // Label
-        targets: 5,
+        targets: 6,
         render: function (data, type, full, meta) {
          return (
           '<span class="badge rounded-pill badge-light-danger " >$' +
@@ -379,7 +395,7 @@ Observaciones:${full['observacion']}
     },
         {
           // Label
-          targets: 6,
+          targets: 7,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -403,7 +419,7 @@ Observaciones:${full['observacion']}
         },
         {
           // Label
-          targets: 7,
+          targets: 8,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -423,7 +439,7 @@ Observaciones:${full['observacion']}
           }
         },
         {
-          targets: 9,className:'fecha_pedido',
+          targets: 10,className:'fecha_pedido',
           render:function(data, type, full){
             let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;
@@ -433,11 +449,18 @@ Observaciones:${full['observacion']}
       ],
      
      
-      order: [[9,'desc'],[11,'asc'],[2,'asc']],
+      order: [[10,'desc'],[12,'asc'],[3,'asc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
       lengthMenu: [7, 10, 25, 50, 75, 100],
+      initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(2).visible( false );
+      }
+        
+      },
       drawCallback: function (settings) {
         let sumaG = 0
 $('.datatables-basic').dataTable().$('.cantidad').each(function(){
@@ -460,13 +483,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             if (last !== group) {
               $(rows)
                 .eq(i)
-                .before('<tr class="group"><td colspan="11"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+                .before('<tr class="group"><td colspan="12"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
 
               last = group;
             }
           });
 
-          api.column(3, { page: 'current' }).data().each(function(group, i){
+          api.column(4, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });
@@ -500,12 +523,12 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
-      filterByDate(9); // We call our filter function
+      filterByDate(10); // We call our filter function
       dt_basic.draw();
       });
   }
   if (dt_basic_table2.length) {
-  let groupColumn2 = 9
+  let groupColumn2 = 10
     $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
     $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
       var title = $(this).text();
@@ -521,7 +544,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     });
     $('.select_chofer_ventas').on('change', function(){
       
-      dt_basic2.column(9).search(this.value).draw();   
+      dt_basic2.column(10).search(this.value).draw();   
    });  
     $('.select_etiqueta_ventas').on('change', function(){
       
@@ -531,6 +554,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       data: status_pedido2,
       columns: [
         { data: 'id' },
+        { data: 'sucursaleId' },
         { data: 'cliente.firstName' },
         { data: 'total_garrafones_pedido' },
         { data: 'monto_total'}, // used for sorting so will hide this column
@@ -574,7 +598,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           { visible: false, targets: groupColumn2,
            
           },
-          { visible: false, targets: 10,
+          { visible: false, targets: 11,
             render: function (data, type, full) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
@@ -614,6 +638,18 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             // Label
             targets: 1,
             render: function (data, type, full, meta) {
+              for (let i = 0; i < zonas.length; i++) {
+                if (zonas[i].id == data) {
+                  var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                }                     
+              }
+              return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 2,
+            render: function (data, type, full, meta) {
               let asentamiento = ""
               for (let i = 0; i < codigosP_arr.length; i++) {
                 if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
@@ -640,13 +676,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             color_text="white"
           }
           return (
-            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span>`
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
           );
             }
           },
         {
           // Label
-          targets: 2,className:'to_garra2',
+          targets: 3,className:'to_garra2',
           render: function (data, type, full, meta) {
             let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
             return (
@@ -660,7 +696,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
         {
           // Label
-          targets: 3,
+          targets: 4,
           render: function (data, type, full, meta) {
             
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
@@ -679,7 +715,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       },
         {
           // Label
-          targets: 4,
+          targets: 5,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pedido'];
             var $status = {
@@ -701,7 +737,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
         {
           // Label
-          targets: 5,
+          targets: 6,
           render: function (data, type, full, meta) {
             var $status_number = full['status_pago'];
             var $status = {
@@ -720,7 +756,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             );
           }
         },{
-          targets: 7,
+          targets: 8,
           render:function(data){
             let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
             return fecha;
@@ -728,11 +764,17 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         },
       ],
      
-      order: [[7,'desc'],[9,'asc'],[1,'asc']],
+      order: [[8,'desc'],[10,'asc'],[2,'asc']],
       dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,
-      lengthMenu: [7, 10, 25, 50, 75, 100],
+      lengthMenu: [7, 10, 25, 50, 75, 100], initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(1).visible( false );
+      }
+        
+      },
       drawCallback: function (settings) {
         let sumaG = 0;
         $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
@@ -763,7 +805,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
               last = group;
             }
           });
-          api.column(2, { page: 'current' }).data().each(function(group, i){
+          api.column(3, { page: 'current' }).data().each(function(group, i){
             sumaT +=parseInt(group)
            
         });
@@ -822,6 +864,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     }else{
       $('#change_chofer').modal('show')
     }
+    console.log(valoresCheck)
   $("#ids_pedido").val(valoresCheck);
   });
 
@@ -835,7 +878,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
       url: `/change_chofer_pedido`,
       type: 'POST',
       data: $('#change_chofer_form').serialize(),
-      success: function (data, textStatus, jqXHR) {
+      success: async function (data, textStatus, jqXHR) {
         $('#array_pedido').val(JSON.stringify(data.pedidos_let))
         $('.datatables-basic').dataTable().fnDestroy();
          $('.datatables-basic').empty();
@@ -843,6 +886,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         <tr>                                                
             <th></th>
             <th>#Pedido</th>
+            <th></th>
             <th class="cliente">Cliente</th>
             <th>To. garr.</th>
             <th>Monto Total</th>
@@ -857,24 +901,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         </tr>
     </thead>
     <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
         <tr>
             <th>Nº Pedido</th>
+            <th></th>
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
@@ -883,14 +929,31 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
+            <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
         
-        cargaTablas('si')
+      await  cargaTablas('si').then(()=>{
+          if ($('#filterPosition').val() != "") {
+            console.log($('#filterValue').val()) 
+             $(`#${$('#filterPosition').val()}`).val(`${$('#filterValue').val()}`).trigger('keyup');
+            }
+        });     
+        
   $('.modal').modal('hide');
   Swal.fire('Se cambió con éxito el(los) choferes')
       },
@@ -961,6 +1024,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         <tr>                                                
             <th></th>
             <th>#Pedido</th>
+            <th></th>
             <th class="cliente">Cliente</th>
             <th>To. garr.</th>
             <th>Monto Total</th>
@@ -975,24 +1039,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
         </tr>
     </thead>
     <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
         $('.datatables-basic2').dataTable().fnDestroy();
         $('.datatables-basic2').empty();
         $('.datatables-basic2').html(`<thead>
         <tr>
             <th>Nº Pedido</th>
+            <th></th>
             <th>Cliente</th>
             <th>Total garrafones</th>
             <th>Monto Total</th>
@@ -1001,14 +1067,25 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
             <th>Metodo de Pago</th>
             <th>Fecha</th>
             <th>Opciones</th>
-            
-        
-        <th>oculto choferes </th> 
+            <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
         </tr>
-    </thead>`);
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
         
-        cargaTablas('si')
+        cargaTablas('si');
         $('.datatables-resumen').dataTable().fnDestroy();
         $('.datatables-resumen').empty();
         $('.datatables-resumen').html(`<thead>
@@ -1035,7 +1112,9 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $('#deuda_box').attr('style','display:none')
    $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
    $("#id_cliente_reg_pedido").val('default').trigger('change');
-
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
   
         } else {
           Swal.fire('Se creó con éxito el pedido')
@@ -1051,6 +1130,9 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
    $("#id_cliente_reg_pedido").val('default').trigger('change');
    let hoy= moment().format('YYYY-MM-DD')
 $('#fecha_pedido').val(hoy)
+if ($('#filterPosition').val() != "") {
+  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+ }
         }
         
   
@@ -1166,6 +1248,26 @@ $.contextMenu({
       };
   }
 });
+
+$.contextMenu({
+  selector: '.zona',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var Array = e.currentTarget['dataset']["arrzona"];
+     var zona = JSON.parse(decodeURIComponent(Array));
+   console.log(zona)
+   
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Zona": { name: `Zona: ${zona.nombre}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
  
 
   // Filter form control to default size for all tables
@@ -1184,15 +1286,16 @@ $.contextMenu({
       url: `/editar_pedido_save`,
       type: 'POST',
       data:$("#form_edit_pedido").serialize(),
-      success: function (data, textStatus, jqXHR) {
+      success: async function (data, textStatus, jqXHR) {
   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
-  
+
   $('.datatables-basic').dataTable().fnDestroy();
    $('.datatables-basic').empty();
    $('.datatables-basic').html(`<thead>
    <tr>                                                
        <th></th>
        <th>#Pedido</th>
+       <th></th>
        <th class="cliente">Cliente</th>
        <th>To. garr.</th>
        <th>Monto Total</th>
@@ -1207,18 +1310,19 @@ $.contextMenu({
    </tr>
 </thead>
 <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
    
    $('.datatables-basic2').dataTable().fnDestroy();
@@ -1226,6 +1330,7 @@ $.contextMenu({
    $('.datatables-basic2').html(`<thead>
    <tr>
        <th>Nº Pedido</th>
+       <th></th>
        <th>Cliente</th>
        <th>Total garrafones</th>
        <th>Monto Total</th>
@@ -1234,14 +1339,29 @@ $.contextMenu({
        <th>Metodo de Pago</th>
        <th>Fecha</th>
        <th>Opciones</th>
-       
-   
-   <th>oculto choferes </th> 
+       <th>oculto choferes </th> 
    <th>oculto asentamiento </th> 
    </tr>
-</thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
    
-   cargaTablas('si')
+   await cargaTablas('si').then(()=>{
+    if ($('#filterPosition').val() != "") {
+      $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+     }
+   });
 
 if ($('.select_chofer_pedidos').val() != "") {
   $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
@@ -1264,7 +1384,7 @@ if ($('.select_etiqueta_pedidos').val() != "") {
    
    cargaTableResumen('si')
    if ($('#filterPosition').val() != "") {
-    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
   }
   $('#edit_pedido').modal('hide')
       },
@@ -1456,7 +1576,7 @@ if (estado) {
     cache: false,
     contentType: false,
     processData: false,
-    success: function (data, textStatus, jqXHR) {
+    success: async function (data, textStatus, jqXHR) {
       console.log(data)
 $('#array_pedido').val(JSON.stringify(data.pedidos_let))
 $('#carga_').val(JSON.stringify(data.carga_let))
@@ -1466,6 +1586,7 @@ $('.datatables-basic').html(`<thead>
 <tr>                                                
     <th></th>
     <th>#Pedido</th>
+    <th></th>
     <th class="cliente">Cliente</th>
     <th>To. garr.</th>
     <th>Monto Total</th>
@@ -1480,18 +1601,19 @@ $('.datatables-basic').html(`<thead>
 </tr>
 </thead>
 <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
 
 $('.datatables-basic2').dataTable().fnDestroy();
@@ -1499,6 +1621,7 @@ $('.datatables-basic2').empty();
 $('.datatables-basic2').html(`<thead>
 <tr>
     <th>Nº Pedido</th>
+    <th></th>
     <th>Cliente</th>
     <th>Total garrafones</th>
     <th>Monto Total</th>
@@ -1507,14 +1630,29 @@ $('.datatables-basic2').html(`<thead>
     <th>Metodo de Pago</th>
     <th>Fecha</th>
     <th>Opciones</th>
-    
-
-<th>oculto choferes </th> 
+    <th>oculto choferes </th> 
 <th>oculto asentamiento </th> 
 </tr>
-</thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
 
-cargaTablas('si')
+await cargaTablas('si').then(()=>{
+  if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+ });
 $('.datatables-resumen').dataTable().fnDestroy();
 $('.datatables-resumen').empty();
 $('.datatables-resumen').html(`<thead>
@@ -1530,7 +1668,7 @@ $('.datatables-resumen').html(`<thead>
 
 cargaTableResumen('si')
 if ($('#filterPosition').val() != "") {
- $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
 }
     },
     error: function (jqXHR, textStatus) {
@@ -1580,7 +1718,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
+        success: async function (data, textStatus, jqXHR) {
     $('#array_pedido').val(JSON.stringify(data.pedidos_let))
     
     $('.datatables-basic').dataTable().fnDestroy();
@@ -1589,6 +1727,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     <tr>                                                
         <th></th>
         <th>#Pedido</th>
+        <th></th>
         <th class="cliente">Cliente</th>
         <th>To. garr.</th>
         <th>Monto Total</th>
@@ -1601,26 +1740,28 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>
     <tr>
         <th>Nº Pedido</th>
+        <th></th>
         <th>Cliente</th>
         <th>Total garrafones</th>
         <th>Monto Total</th>
@@ -1629,17 +1770,29 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>Metodo de Pago</th>
         <th>Fecha</th>
         <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
+        <th>oculto choferes </th> 
     <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
     
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+    await cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -1805,7 +1958,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         cache: false,
         contentType: false,
         processData: false,
-        success: function (data, textStatus, jqXHR) {
+        success:async function (data, textStatus, jqXHR) {
     console.log(data)
        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
     
@@ -1815,6 +1968,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     <tr>                                                
         <th></th>
         <th>#Pedido</th>
+        <th></th>
         <th class="cliente">Cliente</th>
         <th>To. garr.</th>
         <th>Monto Total</th>
@@ -1827,26 +1981,28 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>oculto choferes </th> 
         <th>oculto asentamiento </th> 
     </tr>
-  </thead>
-  <tfoot>
-    <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
 </tfoot>`);
     $('.datatables-basic2').dataTable().fnDestroy();
     $('.datatables-basic2').empty();
     $('.datatables-basic2').html(`<thead>
     <tr>
         <th>Nº Pedido</th>
+        <th></th>
         <th>Cliente</th>
         <th>Total garrafones</th>
         <th>Monto Total</th>
@@ -1855,17 +2011,29 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         <th>Metodo de Pago</th>
         <th>Fecha</th>
         <th>Opciones</th>
-        
-    
-    <th>oculto choferes </th> 
+        <th>oculto choferes </th> 
     <th>oculto asentamiento </th> 
     </tr>
-  </thead>`);
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
     
-    cargaTablas('si')
-    if ($('#filterPosition').val() != "") {
-     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
-   }
+  await  cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
         },
         error: function (jqXHR, textStatus) {
           console.log('error:' + jqXHR)
@@ -1963,6 +2131,13 @@ $('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] 
 //  $('#metodo_pago_edit').find('option:selected').remove().end();
   $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").attr("selected", true);
 }
+
+if (data['cliente']['tipo']=="Negocio" || data['cliente']['tipo'] =="Punto de venta") {
+  console.log(data)
+  $('#descuento_upd_cliente2').val(data['cliente']['monto_nuevo']);
+  console.log($('#descuento_upd_cliente2').val())
+}
+
 $('.status_pago').val(data['status_pago'])
 $('#status_pedido_edit').val(data['status_pedido'])
 $('#edit_fecha_pedido').val(data['fecha_pedido'])
@@ -2020,7 +2195,7 @@ function delete_pedido(id_, tabla) {
         title: `Pedido ${id} borrado con éxito`,
       })
       if ($('#filterPosition').val() != "") {
-       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
      }
     }
   })
