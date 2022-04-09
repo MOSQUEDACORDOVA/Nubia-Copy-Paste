@@ -148,7 +148,7 @@ exports.cargarExcel = (req, res) => {
       for (let index = 0; index < rows.length; index++) {
         const element = rows[index];
 
-        let nombre = element[0], 
+        let nombre = element[0].toUpperCase(), 
         dni = element[1],
         genero = element[2],
         nacimiento = moment(element[3]).format('DD/MM/YYYY'),
@@ -1007,6 +1007,7 @@ exports.matriculas = async (req, res) => {
       return new Promise ((resolve, reject) => {
         DataBase.ObtenerTodosUsuarios().then((response3) => {
           let usuarios = JSON.parse(response3);
+          usuarios = usuarios.filter(item => item.puesto === "Vendedor")
           resolve(usuarios)
   
         }).catch((err) => {
@@ -2652,6 +2653,7 @@ exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
   let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,vendedor } = req.body;
   let msg = false;
+  let idEncargado = res.locals.user.id;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
@@ -2669,7 +2671,7 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, grupoId,vendedor).then((resp) => {
+    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor).then((resp) => {
     //  console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id

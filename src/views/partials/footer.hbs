@@ -22,10 +22,27 @@
     <!-- BEGIN: Vendor JS-->
     <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
   
- <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
-<script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+    <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
     {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
     <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
+{{#if py4App}}
+    <!-- BEGIN Vendor JS-->
+    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+    <script src="../../../app-assets/js/scripts/forms/form-select2.min.js"></script>
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+    <!-- END: Page Vendor JS-->
+    
+    <!-- BEGIN: Theme JS-->
+    <script src="../../../app-assets/js/core/app-menu.min.js"></script>
+    <script src="../../../app-assets/js/core/app.min.js"></script>
+    <script src="../../../app-assets/js/scripts/customizer.min.js"></script>
+    <!-- END: Theme JS-->
+
+  
+{{/if}}
 
 {{#if py4}}
     <script src="../../../app-assets/js/core/app-menu.js"></script>
@@ -358,6 +375,8 @@
         {{/if}}
     {{/if}}
 
+    {{#if py4App}}
+    {{else}}
     <script>
          $(window).on('load', function() {
             if (feather) {
@@ -449,6 +468,7 @@ A B•WATER SERVICIO AL CLIENTE
         })
 
     </script>
+    {{/if}}
 </body>
 <!-- END: Body-->
 
