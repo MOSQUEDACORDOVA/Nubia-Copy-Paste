@@ -1598,6 +1598,11 @@ exports.historial = (req, res) => {
   });
 };
 
+// * OBTENER DETALLES DE ALUMNO - LECCIONES - CALIFICACIONES
+exports.detallesControl = (req, res) => {
+  console.log(req.body)
+}
+
 // * MODULO CAJA
 exports.caja = async(req, res) => {
   let msg = false;

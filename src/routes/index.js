@@ -599,6 +599,7 @@ router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboard
 router.get('/obtenerusuariospy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
+
 router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
 router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
 router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
@@ -672,6 +673,7 @@ router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashbo
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
 router.get('/cargarExcel/:grupoId/:fileName/:vendedor', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
+router.post('/controlMatricula', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.detallesControl);
 
 
 /*------------ PYT-672-----------------*/
