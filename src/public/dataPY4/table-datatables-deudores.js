@@ -222,10 +222,10 @@ Env: ${Env}.</p>`
               '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
           }
         },
-        { targets: 4,
+        { targets: 4,className:'to_total2',
           render: function (data, type, full) {
             
-            return `$${data}`
+            return `<span class="d-none cantidad">${data}</span>$${data}`
           }
           
         },
@@ -361,7 +361,28 @@ Env: ${Env}.</p>`
           previous: '&nbsp;',
           next: '&nbsp;'
         }
-      }
+      },
+      drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-deudores').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#DataTables_Table_4_info').append(`<span> / Total deudores: ${sumaG} </span>`)
+
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+        let sumaT = 0;
+          api.column(4, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_total2').text(sumaT)
+      },
       
     });
     

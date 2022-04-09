@@ -230,6 +230,7 @@ $(document).ready(function() {
                                             <tr>                                                
                                                 <th></th>
                                                 <th>#Pedido</th>
+                                                <th></th>
                                                 <th class="cliente">Cliente</th>
                                                 <th>To. garr.</th>
                                                 <th>Monto Total</th>
@@ -245,7 +246,8 @@ $(document).ready(function() {
                                         </thead>
                                         <tfoot>
     <tr>
-        <th colspan="3" style="text-align:right"> Total</th>
+        <th colspan="4" style="text-align:right"> Total</th>
+        <th></th>
         <th></th>
         <th></th>
         <th></th>
@@ -296,6 +298,15 @@ $(document).ready(function() {
                                             <th>Fecha Ult. Devolución</th>
                                         </tr>
                                     </thead>
+                                    <tfoot>
+    <tr>
+        <th colspan="1" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+</tfoot>
                                 </table>
                             </div>
                         </div>        
@@ -352,6 +363,7 @@ $(document).ready(function() {
                                           <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
+                                                <th></th>
                                                 <th>Cliente</th>
                                                 <th>Total garrafones</th>
                                                 <th>Monto Total</th>
@@ -474,6 +486,9 @@ $(document).ready(function() {
                         method="post" id="form_edit_pedido">
                         <input type="hidden" name="id_pedido" id="edit_pedido_id">
                         <input type="hidden" name="id_cliente" id="edit_pedido_id_cliente">
+                        <div class="form-group d-none">
+                  <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_upd_cliente2">
+                </div>
                          <div class="form-group">
                         <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
                         <select

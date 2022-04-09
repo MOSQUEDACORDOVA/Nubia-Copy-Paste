@@ -24,10 +24,7 @@
  let hoy = moment().format('YYYY-MM-DD')
   let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
-  // console.log(array_resumen_carga)
-  // console.log(pedidos_resumen)
-  // console.log(pedidos_entregados)
-  var dt_table_resumen = $('.datatables-resumen');
+   var dt_table_resumen = $('.datatables-resumen');
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -126,8 +123,6 @@
           if (suma == 0) {
             resto = 0
           } else {
-            console.log(suma_entregados)
-            console.log(suma)
             resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
           }
           
@@ -210,7 +205,6 @@ $.contextMenu({
   trigger: 'hover',
   autoHide: true,
   build: function ($trigger, e) {
-    console.log(e)
     var Recargas = e.currentTarget['dataset']["arrayrecarga"];
     var carga_inicial = e.currentTarget['dataset']["cargainicial"];
     var my_object = JSON.parse(decodeURIComponent(Recargas));

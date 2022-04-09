@@ -182,13 +182,13 @@ console.log(array)
         {
           targets: 2,
           render:function(data){
-           // return moment.tz(data, 'America/Mexico_City').format('DD/MM/YYYY');
-            return moment(data).format('DD/MM/YYYY');
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
           }
         },
       ],
      
-      order: [[0, 'desc']],
+      order: [[2, 'desc']],
       dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
       displayLength: 10,

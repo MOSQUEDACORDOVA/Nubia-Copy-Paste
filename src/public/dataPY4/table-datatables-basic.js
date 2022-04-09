@@ -3,23 +3,22 @@
  */
  
 function cargaTabla(rechar) {
-  let valor = $('#array').val()
-  let array =""
-  console.log(valor)
+  let valor = $('#array').val();
+  let array ="";
   if (rechar) {
-    array = JSON.parse(valor)
-    console.log(array)
+    array = JSON.parse(valor);
+    console.log(array);
   }else{
-   array = JSON.parse(valor.replace(/&quot;/g,'"')) 
+   array = JSON.parse(valor.replace(/&quot;/g,'"')) ;
   }
   
-  let sucursales = $('#array_sucursales').val()
-  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'))
+  let sucursales = $('#array_sucursales').val();
+  let array_sucursales = JSON.parse(sucursales.replace(/&quot;/g,'"'));
 
-  let codigosP = $('#array_cp').val()
-  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+  let codigosP = $('#array_cp').val();
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'));
   var dt_basic_table = $('.datatables-basic'),
-    dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';;
+    dt_date_table = $('.dt-date'),  assetPath = '../../dataPY4/';
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -31,8 +30,8 @@ function cargaTabla(rechar) {
       $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="'+title+i+'"/>');
   
       $('input', this).on('keyup change', function () {
-        $('#filterPosition').val(this.id)
-        $('#filterValue').val(this.value)
+        $('#filterPosition').val(this.id);
+        $('#filterValue').val(this.value);
         if (dt_basic.column(i).search() !== this.value) {
           dt_basic.column(i).search(this.value).draw();
         }
@@ -40,20 +39,18 @@ function cargaTabla(rechar) {
       
     });
     $('#cliente_nuevo').on('change', function (e) {
-      console.log(e)
       if ($('#cliente_nuevo').is(':checked')) {
-        console.log('hello')
-        if (dt_basic.column(7).search() !== 'SI') {
-        dt_basic.column(7).search('SI').draw();
+        if (dt_basic.column(10).search() !== 'SI') {
+        dt_basic.column(10).search('SI').draw();
       }
       }else{
-        console.log('worfdl')
-        if (dt_basic.column(7).search() !== '') {
-          dt_basic.column(7).search('').draw();
+        if (dt_basic.column(10).search() !== '') {
+          dt_basic.column(10).search('').draw();
         }
       }
       
     });
+    console.log(array)
     // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
       data: array,
@@ -66,6 +63,8 @@ function cargaTabla(rechar) {
         { data: 'telefono' },
         { data: 'email' }, 
         { data: 'cantidad_referidos' }, 
+        { data: 'id' },
+        { data: 'enabled' }, 
         { data: 'nuevo' }, 
         {   // Actions
           targets: -1,
@@ -210,7 +209,35 @@ function cargaTabla(rechar) {
           }
         },
         {
-          targets: 8,visible: false
+          targets: 8,
+          render: function(data, type, full, meta){
+            let referidos = [];
+          for (let i = 0; i < array.length; i++) {
+            if (array[i].referido_de == data) {
+              referidos.push(array[i])
+            }
+          }
+          var arrRef = encodeURIComponent(JSON.stringify(referidos));
+          let ver = `<span class="referidos" data-referidos="${arrRef}">Ver</span>`
+          return ver;
+          }
+        },
+        {
+          targets: 9,
+          render: function (data, type, full, meta) {
+            // var idx = dt_basic_table.DataTable().row( this ).index()
+            // console.log(idx)
+            var statusObj = {
+              1: { title: 'Activo', class: 'badge-light-success' },
+              0: { title: 'Inactivo', class: 'badge-light-secondary' }
+            };
+            var status = data;
+            return (`<span class="badge rounded-pill ${statusObj[status].class}" text-capitalized onclick="DisEn('${full['id']}','${data}')" style="cursor: pointer">${statusObj[status].title}</span>`
+            );
+          }
+        },
+        {
+          targets: 10,visible: false
         },
         {
           // Label
@@ -383,7 +410,9 @@ $('#exampleClientes').append(`<thead>
     <th>Titulo</th>
     <th>Teléfono</th>
     <th>Correo</th> 
-    <th>Referidos</th>  
+    <th>Descuentos Disp.</th>
+    <th>Referidos</th>
+    <th>Estado</th>     
     <th>Nuevo </th>
     <th>Opciones</th>
 </tr>
@@ -461,7 +490,9 @@ $("#id_ad_tag_cliente").val(valoresCheck);
       <th>Titulo</th>
       <th>Teléfono</th>
       <th>Correo</th> 
-      <th>Referidos</th>  
+      <th>Descuentos Disp.</th>
+      <th>Referidos</th>
+      <th>Estado</th>     
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -500,7 +531,9 @@ console.log('entro aqui')
       <th>Titulo</th>
       <th>Teléfono</th>
       <th>Correo</th> 
-      <th>Referidos</th>  
+      <th>Descuentos Disp.</th>
+      <th>Referidos</th>
+      <th>Estado</th>     
       <th>Nuevo </th>
       <th>Opciones</th>
   </tr>
@@ -573,7 +606,9 @@ if ($('#color_tag_reg_cliente').val() == '0') {
             <th>Titulo</th>
             <th>Teléfono</th>
             <th>Correo</th> 
-            <th>Referidos</th>  
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>
+            <th>Estado</th>     
             <th>Nuevo </th>
             <th>Opciones</th>
         </tr>
@@ -626,6 +661,39 @@ if ($('#color_tag_reg_cliente').val() == '0') {
       }
     });
   })
+
+  $.contextMenu({
+    selector: '.referidos',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var Array = e.currentTarget['dataset']["referidos"];
+       var referidos = JSON.parse(decodeURIComponent(Array));
+     console.log(referidos);
+      var items1;
+     if (referidos.length == 0) {
+        items1 = {"Referido-1": {name: `Ref:  No tiene referidos`}};
+     }else{
+       items1 = {"Referido-1": {name: `Ref:  ${referidos[0]['firstName']} ${referidos[0]['lastName']}`}};
+ for (let i = 0; i < referidos.length; i++) {
+        var newUser = "Referido-" + i;
+        items1[newUser] = {name: `Ref:  ${referidos[i]['firstName']} ${referidos[0]['lastName']}`}
+      }
+     }
+    
+     
+     console.log(items1)
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+                console.log(m);
+            },
+            items: 
+            items1
+            
+        };
+    }
+  });
 });
 function edit_cliente(id_edit) {
   if (typeof id_edit =="undefined") {
@@ -644,6 +712,7 @@ $.ajax({
   processData: false,
   success: function (data, textStatus, jqXHR) {
 console.log(data)
+$('#descuento-edit-cliente').addClass('d-none');
 $('#cliente_nuevo_edited').attr('checked', false);  
 $('#id_cliente_edited').val(data['cliente_let']['id'])
 $('#firstName_edited').val(data['cliente_let']['firstName'])
@@ -679,6 +748,10 @@ if ( $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']
   //  $('#metodo_pago_edit').find('option:selected').remove().end();
     $("#tipo_cliente_edited option[value='" + data['cliente_let']['tipo'] + "']").attr("selected", true);
   }
+  if (data['cliente_let']['tipo']=="Negocio" || data['cliente_let']['tipo'] =="Punto de venta") {
+    $('#descuento-edit-cliente').removeClass('d-none');
+    $('#descuento_edit_cliente1').val(data['cliente_let']['monto_nuevo']);
+  }
   if ( data['cliente_let']['nuevo']=="SI" ){
     $('#cliente_nuevo_edited').attr('checked', true);  
     }
@@ -711,18 +784,54 @@ function delete_cliente(id_) {
   var id = id_
   Swal.fire({
     title: 'Eliminar',
-    text: "Seguro desea eliminar el cliente indicado, se borraran los pedidos de ese cliente",
+    text: "Seguro desea eliminar el cliente indicado",
     icon: 'warning',
     showCancelButton: true,
     confirmButtonText: 'Eliminar',
     showLoaderOnConfirm: true,
-    preConfirm: (login) => {
+    preConfirm: (de) => {
       return fetch(`/delete_cliente/${id}`)
         .then(response => {
           if (!response.ok) {
             throw new Error(response.statusText)
           }
           return response.json()
+        }).then((data) => {
+          console.log(data);
+          if (data.Disabled) {
+            $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>
+            <th>Estado</th>     
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+       Swal.fire({
+        title: `El cliente ${id} tiene uno o más pedidos en el sistema, solo se le ha deshabilitado`,
+      })
+          } else {
+      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Cliente ${id} borrado con éxito`,
+      })
+          }
         })
         .catch(error => {
           Swal.showValidationMessage(
@@ -733,11 +842,7 @@ function delete_cliente(id_) {
     allowOutsideClick: () => !Swal.isLoading()
   }).then((result) => {
     if (result.isConfirmed) {
-      console.log(result)
-      $('.datatables-basic').DataTable().row($(`.datatables-basic tbody .delete-record${id}`).parents('tr')).remove().draw();
-      Swal.fire({
-        title: `Cliente ${id} borrado con éxito`,
-      })
+      console.log(result)    
     }
   })
 }
@@ -769,3 +874,64 @@ function copyToClipboard(elemento) {
   $temp.remove();
   Swal.fire('Link de referido copiado en el portapapeles')
   }
+function DisEn(id,estadoActual) {
+  let nuevoEstado = 0, desc= "desactivar";
+  if (estadoActual == 0) {
+    nuevoEstado = 1;
+    desc= "activar";
+  }
+
+  Swal.fire({
+    title: 'Cambiar estado',
+    text: `Seguro desea ${desc} el cliente indicado`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Cambiar',
+    showLoaderOnConfirm: true,
+    preConfirm: (de) => {
+      return fetch(`/enordesClient/${id}/${nuevoEstado}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        }).then((data) => {
+          console.log(data);
+            $('#array').val(JSON.stringify(data.clientes_arr))
+        $('#exampleClientes').dataTable().fnDestroy();
+        $('#exampleClientes').empty();
+        $('#exampleClientes').append(`<thead>
+        <tr>
+            <th> </th>
+            <th>Nombre</th>
+            <th>Zona</th>
+            <th>Etiqueta</th>
+            <th>Titulo</th>
+            <th>Teléfono</th>
+            <th>Correo</th> 
+            <th>Descuentos Disp.</th>
+            <th>Referidos</th>
+            <th>Estado</th>     
+            <th>Nuevo </th>
+            <th>Opciones</th>
+        </tr>
+    </thead>`);
+        cargaTabla('si')
+        if ($('#filterPosition').val() != "") {
+          console.log($('#filterValue').val())
+         $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('change');
+       }
+       Swal.fire({
+        title: `Se cambió con éxito el estado del cliente ${id}`,
+      })
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  })
+
+}

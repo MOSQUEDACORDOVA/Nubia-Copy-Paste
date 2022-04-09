@@ -174,11 +174,14 @@ router.get('/editar_pedido/:id', authControllerPY4.authenticatedUser, dashboardC
 router.post('/editar_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_pedido);
 
 
-router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.delete_cliente);
-router.post('/editar_cliente_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_cliente);
-router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiaS_pedido);
-router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiaS_pedido);
-router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambiachofer_pedido);
+
+router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardControllerPY4.delete_cliente);
+router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
+router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiachofer_pedido);
+router.get('/enordesClient/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoCliente);
+
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
