@@ -1598,6 +1598,11 @@ exports.historial = (req, res) => {
   });
 };
 
+// * DETALLES CONTROL CAJA 
+exports.detallesControl = (req, res) => {
+  
+}
+
 // * MODULO CAJA
 exports.caja = async(req, res) => {
   let msg = false;
