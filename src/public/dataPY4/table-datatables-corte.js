@@ -1100,12 +1100,13 @@ for (let i = 0; i < filter_deudas_pagas.length; i++) {
     sumaDeudaAnterior += parseFloat(filter_deudas_pagas[i]['monto'])
   }   
 }
-//   if (parseFloat(subefectivo) < parseFloat(subDepositos)) {
-//     subtotal =parseFloat(subDepositos)+parseFloat(subefectivo)
-//   }else{
-// subtotal =parseFloat(subefectivo)+parseFloat(subDepositos)
-//   }
-subtotal =parseFloat(subefectivo)
+if (parseFloat(subtotal) < parseFloat(subDepositos)) {
+  subtotal =parseFloat(subDepositos)-parseFloat(subtotal)
+}else{
+subtotal =parseFloat(subtotal)-parseFloat(subDepositos)
+}
+
+///subtotal =parseFloat(subefectivo)
 $('.adeudoA').text(sumaDeudaAnterior)
 if (parseFloat(subtotal) < parseFloat(subadeudo)) {
   subtotal =parseFloat(subadeudo)-parseFloat(subtotal)
