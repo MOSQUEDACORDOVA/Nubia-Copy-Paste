@@ -590,16 +590,16 @@ router.post('/enabledDisUser', dashboardControllerPY672.enabledDisUser);
 router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 
 // TODO: ADMIN
-router.get('/grupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.grupos);
-router.get('/verificargrupos/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.verificargrupos);
-router.get('/matriculas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas);
-router.get('/matriculas/:msg', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.matriculas)
-router.get('/control/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.control);
-router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.controlgrupo);
-router.get('/historial/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.historial);
-router.get('/caja/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.caja);
-router.get('/usuarios672/:id', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.usuarios);
-router.get('/obtenerusuariospy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerusuarios);
+router.get('/grupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.grupos);
+router.get('/verificargrupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.verificargrupos);
+router.get('/matriculas', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
+router.get('/matriculas/:msg', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas)
+router.get('/control/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.control);
+router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedUser, dashboardControllerPY672.controlgrupo);
+router.get('/historial/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.historial);
+router.get('/caja/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.caja);
+router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.usuarios);
+router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
 
@@ -609,14 +609,14 @@ router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposinte
 router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
 
 //COMENTARIOS
-router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.get_comments_alumno);
-router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guardar_comentario);
-router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.comentarios_admin_get);
+router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.get_comments_alumno);
+router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentario);
+router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
-router.post('/guardar-pago-academy', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.guarda_pago);
+router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
-router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_constancia);
-router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.genera_pdf_titulo);
+router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_constancia);
+router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_titulo);
 
 
 
@@ -635,49 +635,49 @@ router.get('/error672/:id', dashboardControllerPY672.error);
 
 // ? POST -------------------------!
 // * CREAR GRUPOS
-router.post('/creargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.creargrupos);
+router.post('/creargrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.creargrupos);
 // * OBTENER LECCION ACTUAL DE GRUPO
 //router.post('/obtenerGrupoLeccionActual', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerGrupoLeccionActual);
 
 // * ACTUALIZAR GRUPOS
-router.post('/actualizargrupospty672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.actualizargrupos);
+router.post('/actualizargrupospty672', authControllerPY672.authenticatedUser, dashboardControllerPY672.actualizargrupos);
 // * BORRAR GRUPOS
-router.post('/borrargrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrargrupo);
+router.post('/borrargrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.borrargrupo);
 // * REGISTRAR ESTUDIANTES
-router.post('/registrarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatricula);
+router.post('/registrarestudiantepy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarmatricula);
 // * EDITAR ESTUDIANTES
-router.post('/edit-estudiantepy627', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.editarmatricula);
+router.post('/edit-estudiantepy627', authControllerPY672.authenticatedUser, dashboardControllerPY672.editarmatricula);
 // * REASIGNA GRUPO ESTUDIANTES
-router.post('/reasignar-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo);
-router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.reasignarGrupo2);
+router.post('/reasignar-grupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.reasignarGrupo);
+router.post('/reasignar2-grupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.reasignarGrupo2);
 // * BORRAR ESTUDIANTES
-router.post('/borrarestudiantespy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.borrarestudiantes);
+router.post('/borrarestudiantespy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.borrarestudiantes);
 // * CONGELAR ESTUDIANTES
-router.post('/congelarestudiantepy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.congelarestudiante);
+router.post('/congelarestudiantepy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.congelarestudiante);
 // * ACTIVAR ESTUDIANTES CONGELADOS
-router.post('/activarestudiantecongeladopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.activarestudiantecongelado);
+router.post('/activarestudiantecongeladopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.activarestudiantecongelado);
 // * BORRAR ESTUDIANTES DE GRUPO
-router.post('/eliminarestudiantedegrupopy672', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarestudiantegrupo);
+router.post('/eliminarestudiantedegrupopy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.eliminarestudiantegrupo);
 // * OBTENER MATRICULA DE GRUPO
-router.post('/obtenermatriculagrupo', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculagrupo);
+router.post('/obtenermatriculagrupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenermatriculagrupo);
 // * REGISTRAR MATRICULA AUSENTE
-router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarmatriculausente);
+router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarmatriculausente);
 // * ELIMINAR MATRICULA AUSENTE
-router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.eliminarmatriculausente);
+router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.eliminarmatriculausente);
 // * OBTENER MATRICULA AUSENTE
-router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenermatriculausente);
+router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenermatriculausente);
 // * REGISTRAR NOTAS
-router.post('/registrarNotas', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarnotas);
+router.post('/registrarNotas', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarnotas);
 // * REGISTRAR PARTICIPACION
-router.post('/registrarParticipacion', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.registrarparticipacion);
+router.post('/registrarParticipacion', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarparticipacion);
 // * OBTENER PROVINCIAS, CANTON, DISTRITOS
-router.get('/obtenerdirecciones', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.obtenerdirecciones);
+router.get('/obtenerdirecciones', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerdirecciones);
 // * GUARDAR ARCHIVO EXCEL
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
-router.get('/cargarExcel/:grupoId/:fileName/:vendedor/:text', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.cargarExcel);
+router.get('/cargarExcel/:grupoId/:fileName/:vendedor/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
 // *  DETALLES CONTROL EN CAJA
-router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedAdmin, dashboardControllerPY672.detallesControl);
+router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
 
 
 /*------------ PYT-672-----------------*/

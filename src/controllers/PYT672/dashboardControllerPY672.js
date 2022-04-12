@@ -57,7 +57,7 @@ exports.controlroles = (req, res) => {
     if (req.user.puesto === 'Administrador') {
       return res.redirect("../grupos/PYT-672");
     } else {
-      return res.redirect("../board672/PYT-672");
+      return res.redirect("../control/PYT-672");
     }
   } else {
     return res.redirect("../loginpy672/PYT-672");
@@ -239,29 +239,39 @@ exports.grupos = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+  let proyecto = req.params.id 
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
   
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    /*console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")*/
     
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
-    console.log(gruposDesde0)
-    console.log("DESDE CERO INICIADOS")
+    /*console.log(gruposDesde0)
+    console.log("DESDE CERO INICIADOS")*/
 
       if (gruposDesde0.length) {
         gruposDesde0.forEach(obj => {
           let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-          console.log(obj)
-          console.log("EACH")
+          /*console.log(obj)
+          console.log("EACH")*/
   
           DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
             let find = JSON.parse(responseGrupos);
-            console.log(find)
-            console.log("FIND MATRICULA")
+            /*console.log(find)
+            console.log("FIND MATRICULA")*/
             
             find.forEach(item => {
               if(item.estado.id === 1) {
@@ -321,19 +331,19 @@ exports.grupos = (req, res) => {
     
     DataBase.ObtenerGruposIntensivo().then((response3) => {
       let gruposIntensivo = JSON.parse(response3);
-      console.log(gruposIntensivo)
-      console.log("INTENSIVOS INICIADOS")
+      /*console.log(gruposIntensivo)
+      console.log("INTENSIVOS INICIADOS")*/
 
         if (gruposIntensivo.length) {
           gruposIntensivo.forEach(obj => {
             let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-            console.log(obj)
-            console.log("EACH")
+            /*console.log(obj)
+            console.log("EACH")*/
     
             DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
               let find = JSON.parse(responseGrupos);
-              console.log(find)
-              console.log("FIND MATRICULA")
+              /*console.log(find)
+              console.log("FIND MATRICULA")*/
               
               find.forEach(item => {
                 if(item.estado.id === 1) {
@@ -467,6 +477,7 @@ exports.grupos = (req, res) => {
       dashboard: true,
       py672: true,
       grupos: true,
+      roleProf, roleAdmin,
       gruposTodos,
       gruposDesde0,
       response2,
@@ -989,6 +1000,15 @@ exports.matriculas = async (req, res) => {
     msg = req.params.msg;
   }
 
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   DataBase.ObtenerTodosGrupos().then(async(response) => {
     let gruposTodos = JSON.parse(response);
    // console.log(gruposTodos)
@@ -1027,6 +1047,7 @@ exports.matriculas = async (req, res) => {
       dashboard: true,
       py672: true,
       matric: true,
+      roleAdmin, roleProf,
       gruposTodos,
       arr,
       response2,msg,gruposTodosStr,
@@ -1052,6 +1073,15 @@ exports.control = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1103,6 +1133,7 @@ exports.control = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      roleAdmin, roleProf,
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
@@ -1128,6 +1159,15 @@ exports.controlgrupo = (req, res) => {
   }
   let proyecto = req.params.id  
   let idGrupo = req.params.grupoid
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1220,6 +1260,7 @@ exports.controlgrupo = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      roleAdmin, roleProf,
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
@@ -1261,6 +1302,15 @@ exports.historial = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1577,6 +1627,7 @@ exports.historial = (req, res) => {
       dashboard: true,
       py672: true,
       historial: true,
+      roleAdmin, roleProf,
       gruposTodos,
       arrString,
       arrGrupos
@@ -1844,7 +1895,16 @@ exports.caja = async(req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+  //console.log(proyecto)
 var matricula = JSON.parse(await DataBase.GruposYMatriculas())
 console.log(matricula)
   DataBase.ObtenerTodosGrupos().then((response) => {
@@ -1859,6 +1919,7 @@ console.log(matricula)
       dashboard: true,
       py672:true,
       caja: true,
+      roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
     });
   }).catch((err) => {
@@ -2071,12 +2132,22 @@ exports.usuarios = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  //console.log(proyecto)
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
     //console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    //console.log("TODOS LOS GRUPOS")
 
     DataBase.ObtenerTodosUsuarios().then((stringUsuarios) => {
       let usuarios = JSON.parse(stringUsuarios);
@@ -2087,6 +2158,7 @@ exports.usuarios = (req, res) => {
       dashboard: true,
       py672:true,
       usuarios: true,
+      roleAdmin, roleProf,
       gruposTodos,
       stringUsuarios
     });
@@ -3111,6 +3183,16 @@ exports.boardUser = (req, res) => {
   }
   let proyecto = req.params.id  
   let role = req.user.puesto, nombre = req.user.nombre
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleUser = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
     res.render(proyecto+"/user/board", {
       pageName: "Tablero",
@@ -3118,7 +3200,8 @@ exports.boardUser = (req, res) => {
       dashboard: true,
       py672:true,
       board: true,
-      roleUser: true,
+      roleAdmin,
+      roleProf,
       role, 
       nombre
     })
