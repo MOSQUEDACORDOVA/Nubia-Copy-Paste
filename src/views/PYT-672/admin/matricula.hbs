@@ -678,11 +678,11 @@
         processData: false,
         success: function (data, textStatus, jqXHR)
         {       
-          console.log(data)     
+          //console.log(data)     
           file = data.fileName
           linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
 
-          EnviarDatos()
+          EnviarDatos("Alumnos guardados")
           
           /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
           setTimeout(() => {
@@ -691,6 +691,7 @@
           }, 1000)*/
         },
         error: function (jqXHR, textStatus) { 
+          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción")
           /*$("#progressBar1").text('100% - Error al cargar el archivo');
           $("#progressBar1").removeClass("progress-bar-success");
           $("#progressBar1").addClass("progress-bar-danger");*/
@@ -698,16 +699,17 @@
       });
     };
 
-  function EnviarDatos() {
-   /* if(linkExcel != "" && file != "") {
-      if($('#grupoIdCargarArchivo').val() === "" || $('#vendedorIdSelect').val() === "") {
-        alert("Complete todos los campos")
-        return
-      }
-      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
-      window.location.href = linkExcel
-    }*/
+  function EnviarDatos(text) {
     linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
-    window.location.href = linkExcel
+
+    if(text) {
+      Swal.fire(
+        `${text}`
+      ).then((result) => {
+        if(result.isConfirmed) {
+          window.location.href = linkExcel
+        }
+      });
+    }
   }
 </script>

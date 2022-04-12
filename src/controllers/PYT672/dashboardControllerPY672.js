@@ -1772,7 +1772,6 @@ exports.detallesControl = (req, res) => {
       //console.log(lecc)
       //console.log("LECCION")
     
-
       userInfo.notas = lecc
       
       //let final = Object.assign(element, userInfo);

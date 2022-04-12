@@ -598,7 +598,7 @@ let formCargarArchivos = document.getElementById('formCargarArchivos')
 
 formCargarArchivos.addEventListener('submit', e => {
   e.preventDefault();
-  let grupoId = document.querySelector('#formCargarArchivos .grupoId')
-  grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
+  /*let grupoId = document.querySelector('#formCargarArchivos .grupoId')
+  grupoId.value = document.querySelector('#grupoIdCargarArchivo').value*/
   //formCargarArchivos.submit()
 });
