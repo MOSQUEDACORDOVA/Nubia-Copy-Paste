@@ -1777,7 +1777,7 @@ async function ControlDetalles(id1, id2) {
   $('#tablaControl').html('');
 
   console.log(alumnoJson)
-  let arrayLeccionesAusentes = alumnoJson.ausentes, leccion = alumnoJson.leccActual
+  let arrayLeccionesAusentes = alumnoJson.fechaLeccionesAusentes, leccion = alumnoJson.leccActual
   
   if(status === 200) {
     let content = new DocumentFragment();

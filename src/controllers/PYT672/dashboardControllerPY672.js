@@ -1666,7 +1666,7 @@ exports.detallesControl = (req, res) => {
     participacion: 0,
     asistencias: 0,
     ausentes: 0,
-    fechaLeccionesAusentes: '',
+    fechaLeccionesAusentes: [],
     notas: []
   };
 
@@ -1865,11 +1865,8 @@ exports.detallesControl = (req, res) => {
       let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
       if(result.length) {
         userInfo.ausentes = parseInt(result.length);
-        userInfo.fechaLeccionesAusentes = asist;
-      } else {
-        userInfo.ausentes = 0;
-        userInfo.fechaLeccionesAusentes = "";
-      }
+        userInfo.fechaLeccionesAusentes = asistencias;
+      } 
     } else {
       userInfo.ausentes = 0;
     }
