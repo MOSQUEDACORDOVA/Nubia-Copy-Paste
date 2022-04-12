@@ -302,6 +302,7 @@ Observaciones:${full['observacion']}
           // Label
           targets: 2,
           render: function (data, type, full, meta) {
+            
             for (let i = 0; i < zonas.length; i++) {
               if (zonas[i].id == data) {
                 var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
