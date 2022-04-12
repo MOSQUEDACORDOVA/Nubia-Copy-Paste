@@ -57,7 +57,7 @@ exports.controlroles = (req, res) => {
     if (req.user.puesto === 'Administrador') {
       return res.redirect("../grupos/PYT-672");
     } else {
-      return res.redirect("../board672/PYT-672");
+      return res.redirect("../control/PYT-672");
     }
   } else {
     return res.redirect("../loginpy672/PYT-672");
@@ -137,7 +137,7 @@ exports.enabledDisUser = (req, res) => {
 };
 
 exports.cargarExcel = (req, res) => {
-  let { grupoId, fileName, vendedor } = req.params
+  let { grupoId, fileName, vendedor, text } = req.params
   let idEncargado = res.locals.user.id;
   console.log(req.params);
   let msg = false;
@@ -170,7 +170,7 @@ exports.cargarExcel = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       }
-      return res.redirect("/matriculas/PYT-672");    
+      return res.redirect("/matriculas/"+text);    
     })
 
   } catch (error) {
@@ -239,29 +239,39 @@ exports.grupos = (req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+  let proyecto = req.params.id 
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
   
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
-    console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    /*console.log(gruposTodos)
+    console.log("TODOS LOS GRUPOS")*/
     
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
-    console.log(gruposDesde0)
-    console.log("DESDE CERO INICIADOS")
+    /*console.log(gruposDesde0)
+    console.log("DESDE CERO INICIADOS")*/
 
       if (gruposDesde0.length) {
         gruposDesde0.forEach(obj => {
           let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-          console.log(obj)
-          console.log("EACH")
+          /*console.log(obj)
+          console.log("EACH")*/
   
           DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
             let find = JSON.parse(responseGrupos);
-            console.log(find)
-            console.log("FIND MATRICULA")
+            /*console.log(find)
+            console.log("FIND MATRICULA")*/
             
             find.forEach(item => {
               if(item.estado.id === 1) {
@@ -321,19 +331,19 @@ exports.grupos = (req, res) => {
     
     DataBase.ObtenerGruposIntensivo().then((response3) => {
       let gruposIntensivo = JSON.parse(response3);
-      console.log(gruposIntensivo)
-      console.log("INTENSIVOS INICIADOS")
+      /*console.log(gruposIntensivo)
+      console.log("INTENSIVOS INICIADOS")*/
 
         if (gruposIntensivo.length) {
           gruposIntensivo.forEach(obj => {
             let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0, matrActivos, matrIncorporados, matrInscritos, matrFusionados, matrCongelados, matrTotal;
-            console.log(obj)
-            console.log("EACH")
+            /*console.log(obj)
+            console.log("EACH")*/
     
             DataBase.ObtenerMatriculaGrupo(obj.id).then((responseGrupos) => {
               let find = JSON.parse(responseGrupos);
-              console.log(find)
-              console.log("FIND MATRICULA")
+              /*console.log(find)
+              console.log("FIND MATRICULA")*/
               
               find.forEach(item => {
                 if(item.estado.id === 1) {
@@ -467,6 +477,7 @@ exports.grupos = (req, res) => {
       dashboard: true,
       py672: true,
       grupos: true,
+      roleProf, roleAdmin,
       gruposTodos,
       gruposDesde0,
       response2,
@@ -989,6 +1000,15 @@ exports.matriculas = async (req, res) => {
     msg = req.params.msg;
   }
 
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   DataBase.ObtenerTodosGrupos().then(async(response) => {
     let gruposTodos = JSON.parse(response);
    // console.log(gruposTodos)
@@ -1027,6 +1047,7 @@ exports.matriculas = async (req, res) => {
       dashboard: true,
       py672: true,
       matric: true,
+      roleAdmin, roleProf,
       gruposTodos,
       arr,
       response2,msg,gruposTodosStr,
@@ -1052,6 +1073,15 @@ exports.control = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1103,6 +1133,7 @@ exports.control = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      roleAdmin, roleProf,
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
@@ -1128,6 +1159,15 @@ exports.controlgrupo = (req, res) => {
   }
   let proyecto = req.params.id  
   let idGrupo = req.params.grupoid
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1220,6 +1260,7 @@ exports.controlgrupo = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      roleAdmin, roleProf,
       gruposTodos,
       gruposDesde0,
       gruposIntensivo,
@@ -1261,6 +1302,15 @@ exports.historial = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
@@ -1577,6 +1627,7 @@ exports.historial = (req, res) => {
       dashboard: true,
       py672: true,
       historial: true,
+      roleAdmin, roleProf,
       gruposTodos,
       arrString,
       arrGrupos
@@ -1600,7 +1651,238 @@ exports.historial = (req, res) => {
 
 // * DETALLES CONTROL CAJA 
 exports.detallesControl = (req, res) => {
+  let idAlumno = req.params.id, idGrupo = req.params.grupo
+  console.log(req.params)
+
+  let userInfo = {
+    leccActual: 0,
+    nivelActualGrupo: 0,
+    leccion9: 0,
+    leccion17: 0,
+    leccion18: 0,
+    leccion25: 0,
+    leccion31: 0,
+    leccion32: 0,
+    participacion: 0,
+    asistencias: 0,
+    ausentes: 0,
+    fechaLeccionesAusentes: [],
+    notas: []
+  };
+
+  DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    /*console.log(grupo)
+    console.log("** GRUPO //")*/
+    let inicioGrupo = grupo.fecha_inicio;
+    let fechaActual = moment().format("DD-MM-YYYY");
+    let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+    let iniciar = moment(iniciado).diff(moment(), 'days');
+
+    /*console.log(iniciado)
+    console.log(iniciar)
+    console.log("INCIAR DIAS DIFERENCIA")
+    //console.log(grupo)
+    //console.log("GRUPO ENCONTRADO")*/
+    
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+    let rest; 
+
+    function EstablecerNivel () {  
+      let nivel1, nivel2, nivel3, nivel4;
+      switch (grupo.lecciones_semanales) {
+        case '1':
+          nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+          nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
   
+          /*console.log("NIVELES")
+          console.log(nivel1)
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("DESDE CERO")*/
+          break;
+/*OJO*/
+        case '2':
+          nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+          nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+  
+          /*console.log("NIVELES")
+          console.log(nivel1)
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("INTENSIVO")*/
+        break;
+      }
+        
+      if (moment().isBefore(nivel2)) {
+        userInfo.nivelActualGrupo = 1
+        
+      } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
+        userInfo.nivelActualGrupo = 2
+        
+      } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
+        userInfo.nivelActualGrupo = 3
+        
+      } else if(moment().isAfter(nivel3)) {
+        userInfo.nivelActualGrupo = 4
+
+      }
+
+      if(grupo.lecciones_semanales === '1') {
+        console.log("DESDE CERO")
+
+        if (userInfo.nivelActualGrupo === 1) {
+          if(diff < 0) {
+            rest = (224 - (-diff)) / 7; 
+          } else {
+            rest = (224 - (diff)) / 7; 
+          }
+        }
+
+        if (userInfo.nivelActualGrupo === 2) {
+          if(diff < 0) {
+            rest = (448 - (-diff)) / 14; 
+          } else {
+            rest = (448 - (diff)) / 14; 
+          }
+          console.log(diff)
+          console.log(rest)
+          console.log("NIVEL 2")
+          /*console.log(rest)
+          console.log(userInfo.nivelActualGrupo)
+          console.log("NIVEL 2")*/
+        } else if (userInfo.nivelActualGrupo === 3) {
+          
+        } else if (userInfo.nivelActualGrupo === 4) {
+          
+        }
+
+      } else {
+        if (userInfo.nivelActualGrupo === 1) {
+          if(diff < 0) {
+            rest = (112 - (-diff)) / 3.5; 
+          } else {
+            rest = (112 - (diff)) / 3.5; 
+          }
+        }
+        
+        if (userInfo.nivelActualGrupo === 2) {
+          if(diff < 0) {
+            rest = (224 - (-diff)) / 7; 
+          } else {
+            rest = (224 - (diff)) / 7; 
+          }
+
+        } else if (userInfo.nivelActualGrupo === 3) {
+          
+        } else if (userInfo.nivelActualGrupo === 4) {
+          
+        }
+      }
+      if(rest < 0) {
+        rest = rest * (-1)
+      }
+      let numPositivo = Math.floor(rest);
+      console.log(grupo.identificador)
+      console.log(rest)
+      userInfo.leccActual = (32 - (numPositivo));
+
+      
+    }
+
+    if (iniciar >= 1 && grupo.estadosGrupoId === 2 || iniciar < 0 && grupo.estadosGrupoId === 2) {
+      EstablecerNivel();
+    } 
+
+    // final = Object.assign(element, userInfo);
+
+    /*console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+
+    console.log(userInfo.leccActual)
+    console.log(final)
+    console.log("OBJETO FINAL")*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.BuscarNotasAlumno(idGrupo, idAlumno).then((leccion) => {
+      let lecc = JSON.parse(leccion);
+      //console.log(lecc)
+      //console.log("LECCION")
+    
+      userInfo.notas = lecc
+      
+      //let final = Object.assign(element, userInfo);
+      /*console.log(userInfo)
+      console.log("FINAL ----- FINAL ---- !!!!!!")*/
+
+      /*console.log(arrString)*/ 
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+  DataBase.BuscarParticipacionMatricula(32, idGrupo, idAlumno).then((part) => {
+    let participacion = JSON.parse(part)[0];
+    /*console.log(participacion)*/
+
+    if(participacion !== undefined) {
+      userInfo.participacion = parseInt(participacion.porcentaje);
+    } else {
+      userInfo.participacion = 0;
+    }
+
+    // final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.ObtenerTodasAsistenciaMatricula(idGrupo, idAlumno).then((asist) => {
+    let asistencias = JSON.parse(asist);
+    /*console.log(asistencias)*/
+
+    if(asistencias !== undefined) {
+      // FILTRAR AUSENCIAS CON LA LECCION ACTUAL
+      let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
+      if(result.length) {
+        userInfo.ausentes = parseInt(result.length);
+        userInfo.fechaLeccionesAusentes = asistencias;
+      } 
+    } else {
+      userInfo.ausentes = 0;
+    }
+
+    userInfo.asistencias += userInfo.leccActual - userInfo.ausentes;
+
+    //let final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+    console.log(userInfo)
+    return res.send(userInfo)
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+          
 }
 
 // * MODULO CAJA
@@ -1610,7 +1892,16 @@ exports.caja = async(req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+  //console.log(proyecto)
 var matricula = JSON.parse(await DataBase.GruposYMatriculas())
 console.log(matricula)
   DataBase.ObtenerTodosGrupos().then((response) => {
@@ -1625,6 +1916,7 @@ console.log(matricula)
       dashboard: true,
       py672:true,
       caja: true,
+      roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
     });
   }).catch((err) => {
@@ -1837,12 +2129,22 @@ exports.usuarios = (req, res) => {
     msg = req.query.msg;
   }
   let proyecto = req.params.id  
-  console.log(proyecto)
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  //console.log(proyecto)
 
   DataBase.ObtenerTodosGrupos().then((response) => {
     let gruposTodos = JSON.parse(response);
     //console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")
+    //console.log("TODOS LOS GRUPOS")
 
     DataBase.ObtenerTodosUsuarios().then((stringUsuarios) => {
       let usuarios = JSON.parse(stringUsuarios);
@@ -1853,6 +2155,7 @@ exports.usuarios = (req, res) => {
       dashboard: true,
       py672:true,
       usuarios: true,
+      roleAdmin, roleProf,
       gruposTodos,
       stringUsuarios
     });
@@ -2877,6 +3180,16 @@ exports.boardUser = (req, res) => {
   }
   let proyecto = req.params.id  
   let role = req.user.puesto, nombre = req.user.nombre
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleUser = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
     res.render(proyecto+"/user/board", {
       pageName: "Tablero",
@@ -2884,7 +3197,8 @@ exports.boardUser = (req, res) => {
       dashboard: true,
       py672:true,
       board: true,
-      roleUser: true,
+      roleAdmin,
+      roleProf,
       role, 
       nombre
     })

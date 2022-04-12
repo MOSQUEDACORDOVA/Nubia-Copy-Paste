@@ -721,6 +721,28 @@ module.exports = {
         });
       });
     },
+    BuscarNotasAlumno(grupoId, matriculaId) {
+      return new Promise((resolve, reject) => {
+        Notas.findAll({
+          where: {
+            grupoId: {
+              [Op.eq]: grupoId,
+            },
+            matriculaId: {
+              [Op.eq]: matriculaId,
+            },
+          } 
+        })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     BuscarNotasLeccion(lecc, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({

@@ -1,6 +1,9 @@
+
 var historial;
 var grupos = JSON.parse($("#arrayGrupos").val());
 var matricula = JSON.parse($("#matricula_st").val());
+let idAlumno, idGrupo;
+
 $(function () {
   var today_day = moment().format("D"),
     hoy = moment();
@@ -10,8 +13,7 @@ $(function () {
     $("#btnComentarios").removeAttr("disabled");
     $("#btnControl").removeAttr("disabled");
     $("#btnTrasladar").removeAttr("disabled");
-    $("#btnCongelar").removeAttr("disabled");
-    
+
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
@@ -23,6 +25,7 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
+
     $("#nombre-alumno").text(filter[0]["nombre"]);
     $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
     $("#grupo-alumno").text(filter[0]["grupo"]["identificador"]);
@@ -53,6 +56,9 @@ $(function () {
       updateHistorial(e.target.value);
       Swal.fire("Alumno congelado");
       return;
+    } else {
+      $("#btn-congelar-alumno").removeClass("d-none");
+      $("#btn-activar-alumno").addClass("d-none");
     }
     let fecha_pago_historial,
       pago_mensualidad = [];
@@ -1005,8 +1011,14 @@ $(function () {
     $("#btn-congelar-alumno").click();
   });
   $('#btnControl').on('click', function () {
-    $("#btn-control").click();
+
+    idAlumno = $('.alumno-select').val()
+    let result = matricula.filter(item => item.id === parseInt(idAlumno))
+    idGrupo = result[0].grupoId
+    ControlDetalles(idAlumno, idGrupo)
+
   });
+
 
   $("#btn-add-commnet").click(async () => {
     $("#commentAdmin").empty();
@@ -1752,4 +1764,171 @@ count++
 function grupoSelected(valor) {
   $("#grupoId").val(valor);
   $("#guarda-grupoNew").removeAttr("disabled");
+}
+
+async function ControlDetalles(id1, id2) {
+  let url = `/controlMatricula/${id1}/${id2}`;
+
+  let response = await fetch(url),
+  status = await response.status,
+  alumnoJson = await response.json();
+
+  $('#controlTitle').text($('#nombre-alumno').text())
+  $('#tablaControl').html('');
+
+  console.log(alumnoJson)
+  let arrayLeccionesAusentes = alumnoJson.fechaLeccionesAusentes, leccion = alumnoJson.leccActual
+  
+  if(status === 200) {
+    let content = new DocumentFragment();
+
+    for (let num = 1; num <= leccion; num++) {
+      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+      
+      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+        alumnoJson.notas.forEach(item => {
+          //console.log(item);
+          if (item && parseInt(item.n_leccion) === num) {
+            notaLeccion = item.nota
+          }
+        });
+        /*console.log(notaLeccion);
+        console.log("NOTA LECCION");*/
+        if (notaLeccion > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+
+        calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+      } else {
+        calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+      }
+      
+      if(arrayLeccionesAusentes.length) {
+
+        let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+        //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+
+        if(result.length && parseInt(result[0].n_leccion) === num) {
+          /*console.log(result)*/
+          td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+              <div class="d-flex align-items-center mb-1">
+                <span class="me-1 fw-bolder">Lección ${num}</span>
+              </div>
+
+              <div class="d-flex align-items-end">
+                <div class="">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post">23-12-2022</span>
+
+                </div>
+                <div class="mx-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-danger">
+                      Ausente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+        } else {
+          td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+              <div class="d-flex align-items-center mb-1">
+                <span class="me-1 fw-bolder">Lección ${num}</span>
+              </div>
+
+              <div class="d-flex align-items-end">
+                <div class="">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post">23-12-2022</span>
+
+                </div>
+                <div class="mx-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-success">
+                      Presente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+        }
+
+      } else {
+        td += 
+          `
+            <div class="d-flex flex-column pb-0">
+
+              <div class="d-flex align-items-center mb-1">
+                <span class="me-1 fw-bolder">Lección ${num}</span>
+              </div>
+
+              <div class="d-flex align-items-end">
+                <div class="">
+                  
+                    <span class="emp_post fw-bolder">Fecha</span><br>
+                    <span class="emp_post">23-12-2022</span>
+
+                </div>
+                <div class="mx-2 text-center">
+                
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                    <span class="badge rounded-pill badge-light-success">
+                      Presente
+                    </span>
+                    
+                </div>
+
+                <div class="text-center">
+                    
+                    <span class="emp_post fw-bolder">Calificación</span><br>
+                    ${calif}
+
+                </div>
+              </div>
+              <hr class="mb-0">
+            </div>
+          `;
+      }
+      row.innerHTML = td;
+      content.appendChild(row);
+    }
+
+    $('#tablaControl').html(content);
+
+    $("#btn-control").click();
+
+  }
 }

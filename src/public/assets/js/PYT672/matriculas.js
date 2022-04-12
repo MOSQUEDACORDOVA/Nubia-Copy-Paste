@@ -598,7 +598,66 @@ let formCargarArchivos = document.getElementById('formCargarArchivos')
 
 formCargarArchivos.addEventListener('submit', e => {
   e.preventDefault();
-  let grupoId = document.querySelector('#formCargarArchivos .grupoId')
-  grupoId.value = document.querySelector('#grupoIdCargarArchivo').value
+  /*let grupoId = document.querySelector('#formCargarArchivos .grupoId')
+  grupoId.value = document.querySelector('#grupoIdCargarArchivo').value*/
   //formCargarArchivos.submit()
 });
+
+// * FUNCION CARGAR ARCHIVOS EXCEL
+
+let linkExcel = "", file;
+  $('#archivoExcel').on('change', (event)=>{
+    subirImagen(event)
+  })
+  
+  $('#grupoIdCargarArchivo').on('change', (event)=>{
+    EnviarDatos()
+  })
+  
+  $('#vendedorIdSelect').on('change', (event)=>{
+    EnviarDatos()
+  })
+
+  const subirImagen = (event) => {
+    //$(`#loading3`).addClass("display");
+    console.log('aqui')
+      const archivos = event.target.files;
+      const data = new FormData();
+      let imagenX = event.target.id;
+      data.append("archivo", archivos[0]);
+      $.ajax({
+        url: '/subirExcel',
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR)
+        {       
+          //console.log(data)     
+          file = data.fileName
+          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
+
+          EnviarDatos("Alumnos guardados")
+          
+          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
+          setTimeout(() => {
+            $(`#progressBar1`).addClass("d-none");
+            $(`#loading3`).removeClass("display");
+          }, 1000)*/
+        },
+        error: function (jqXHR, textStatus) { 
+          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción")
+          /*$("#progressBar1").text('100% - Error al cargar el archivo');
+          $("#progressBar1").removeClass("progress-bar-success");
+          $("#progressBar1").addClass("progress-bar-danger");*/
+        }
+      });
+    };
+
+  function EnviarDatos(text) {
+    if(text) {
+      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()+"/"+text
+      window.location.href = linkExcel
+    }
+  }
