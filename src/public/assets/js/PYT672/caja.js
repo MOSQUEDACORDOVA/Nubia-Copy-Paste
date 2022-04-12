@@ -13,8 +13,7 @@ $(function () {
     $("#btnComentarios").removeAttr("disabled");
     $("#btnControl").removeAttr("disabled");
     $("#btnTrasladar").removeAttr("disabled");
-    $("#btnCongelar").removeAttr("disabled");
-    
+
     $("#btn-add-commnet").removeAttr("disabled");
     $("#btn-trasladar-alumno").removeAttr("disabled");
     $("#btn-congelar-alumno").removeAttr("disabled");
@@ -57,6 +56,9 @@ $(function () {
       updateHistorial(e.target.value);
       Swal.fire("Alumno congelado");
       return;
+    } else {
+      $("#btn-congelar-alumno").removeClass("d-none");
+      $("#btn-activar-alumno").addClass("d-none");
     }
     let fecha_pago_historial,
       pago_mensualidad = [];
