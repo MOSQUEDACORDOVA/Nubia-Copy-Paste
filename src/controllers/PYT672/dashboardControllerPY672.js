@@ -1600,7 +1600,242 @@ exports.historial = (req, res) => {
 
 // * DETALLES CONTROL CAJA 
 exports.detallesControl = (req, res) => {
+  let idAlumno = req.params.id, idGrupo = req.params.grupo
+  console.log(req.params)
+
+  let userInfo = {
+    leccActual: 0,
+    nivelActualGrupo: 0,
+    leccion9: 0,
+    leccion17: 0,
+    leccion18: 0,
+    leccion25: 0,
+    leccion31: 0,
+    leccion32: 0,
+    participacion: 0,
+    asistencias: 0,
+    ausentes: 0,
+    fechaLeccionesAusentes: '',
+    notas: []
+  };
+
+  DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+    let grupo = JSON.parse(respuesta)[0]
+    /*console.log(grupo)
+    console.log("** GRUPO //")*/
+    let inicioGrupo = grupo.fecha_inicio;
+    let fechaActual = moment().format("DD-MM-YYYY");
+    let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+    let iniciar = moment(iniciado).diff(moment(), 'days');
+
+    /*console.log(iniciado)
+    console.log(iniciar)
+    console.log("INCIAR DIAS DIFERENCIA")
+    //console.log(grupo)
+    //console.log("GRUPO ENCONTRADO")*/
+    
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+    let rest; 
+
+    function EstablecerNivel () {  
+      let nivel1, nivel2, nivel3, nivel4;
+      switch (grupo.lecciones_semanales) {
+        case '1':
+          nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
+          nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
   
+          /*console.log("NIVELES")
+          console.log(nivel1)
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("DESDE CERO")*/
+          break;
+/*OJO*/
+        case '2':
+          nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
+          nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+  
+          /*console.log("NIVELES")
+          console.log(nivel1)
+          console.log(nivel2)
+          console.log(nivel3)
+          console.log(nivel4)
+          console.log("INTENSIVO")*/
+        break;
+      }
+        
+      if (moment().isBefore(nivel2)) {
+        userInfo.nivelActualGrupo = 1
+        
+      } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
+        userInfo.nivelActualGrupo = 2
+        
+      } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
+        userInfo.nivelActualGrupo = 3
+        
+      } else if(moment().isAfter(nivel3)) {
+        userInfo.nivelActualGrupo = 4
+
+      }
+
+      if(grupo.lecciones_semanales === '1') {
+        console.log("DESDE CERO")
+
+        if (userInfo.nivelActualGrupo === 1) {
+          if(diff < 0) {
+            rest = (224 - (-diff)) / 7; 
+          } else {
+            rest = (224 - (diff)) / 7; 
+          }
+        }
+
+        if (userInfo.nivelActualGrupo === 2) {
+          if(diff < 0) {
+            rest = (448 - (-diff)) / 14; 
+          } else {
+            rest = (448 - (diff)) / 14; 
+          }
+          console.log(diff)
+          console.log(rest)
+          console.log("NIVEL 2")
+          /*console.log(rest)
+          console.log(userInfo.nivelActualGrupo)
+          console.log("NIVEL 2")*/
+        } else if (userInfo.nivelActualGrupo === 3) {
+          
+        } else if (userInfo.nivelActualGrupo === 4) {
+          
+        }
+
+      } else {
+        if (userInfo.nivelActualGrupo === 1) {
+          if(diff < 0) {
+            rest = (112 - (-diff)) / 3.5; 
+          } else {
+            rest = (112 - (diff)) / 3.5; 
+          }
+        }
+        
+        if (userInfo.nivelActualGrupo === 2) {
+          if(diff < 0) {
+            rest = (224 - (-diff)) / 7; 
+          } else {
+            rest = (224 - (diff)) / 7; 
+          }
+
+        } else if (userInfo.nivelActualGrupo === 3) {
+          
+        } else if (userInfo.nivelActualGrupo === 4) {
+          
+        }
+      }
+      if(rest < 0) {
+        rest = rest * (-1)
+      }
+      let numPositivo = Math.floor(rest);
+      console.log(grupo.identificador)
+      console.log(rest)
+      userInfo.leccActual = (32 - (numPositivo));
+
+      
+    }
+
+    if (iniciar >= 1 && grupo.estadosGrupoId === 2 || iniciar < 0 && grupo.estadosGrupoId === 2) {
+      EstablecerNivel();
+    } 
+
+    // final = Object.assign(element, userInfo);
+
+    /*console.log(fechaActual)
+    console.log(fechaInicio)
+    console.log(diff)
+    console.log(rest)
+
+    console.log(userInfo.leccActual)
+    console.log(final)
+    console.log("OBJETO FINAL")*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.BuscarNotasAlumno(idGrupo, idAlumno).then((leccion) => {
+      let lecc = JSON.parse(leccion);
+      //console.log(lecc)
+      //console.log("LECCION")
+    
+
+      userInfo.notas = lecc
+      
+      //let final = Object.assign(element, userInfo);
+      /*console.log(userInfo)
+      console.log("FINAL ----- FINAL ---- !!!!!!")*/
+
+      /*console.log(arrString)*/ 
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+  
+  DataBase.BuscarParticipacionMatricula(32, idGrupo, idAlumno).then((part) => {
+    let participacion = JSON.parse(part)[0];
+    /*console.log(participacion)*/
+
+    if(participacion !== undefined) {
+      userInfo.participacion = parseInt(participacion.porcentaje);
+    } else {
+      userInfo.participacion = 0;
+    }
+
+    // final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  DataBase.ObtenerTodasAsistenciaMatricula(idGrupo, idAlumno).then((asist) => {
+    let asistencias = JSON.parse(asist);
+    /*console.log(asistencias)*/
+
+    if(asistencias !== undefined) {
+      // FILTRAR AUSENCIAS CON LA LECCION ACTUAL
+      let result = asistencias.filter((item) => parseInt(item.n_leccion) <= userInfo.leccActual);
+      if(result.length) {
+        userInfo.ausentes = parseInt(result.length);
+        userInfo.fechaLeccionesAusentes = asist;
+      } else {
+        userInfo.ausentes = 0;
+        userInfo.fechaLeccionesAusentes = "";
+      }
+    } else {
+      userInfo.ausentes = 0;
+    }
+
+    userInfo.asistencias += userInfo.leccActual - userInfo.ausentes;
+
+    //let final = Object.assign(element, userInfo);
+    /*console.log(final)*/
+    console.log(userInfo)
+    return res.send(userInfo)
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+          
 }
 
 // * MODULO CAJA
