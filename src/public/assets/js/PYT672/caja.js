@@ -1829,7 +1829,7 @@ async function ControlDetalles(id1, id2) {
                 </div>
                 <div class="mx-2 text-center">
                 
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
 
                     <span class="badge rounded-pill badge-light-danger">
                       Ausente
@@ -1865,7 +1865,7 @@ async function ControlDetalles(id1, id2) {
                 </div>
                 <div class="mx-2 text-center">
                 
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
 
                     <span class="badge rounded-pill badge-light-success">
                       Presente
@@ -1903,7 +1903,7 @@ async function ControlDetalles(id1, id2) {
                 </div>
                 <div class="mx-2 text-center">
                 
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
+                    <span class="emp_post fw-bolder">Asistencia</span><br>
 
                     <span class="badge rounded-pill badge-light-success">
                       Presente
