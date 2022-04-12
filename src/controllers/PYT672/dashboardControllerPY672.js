@@ -137,7 +137,7 @@ exports.enabledDisUser = (req, res) => {
 };
 
 exports.cargarExcel = (req, res) => {
-  let { grupoId, fileName, vendedor } = req.params
+  let { grupoId, fileName, vendedor, text } = req.params
   let idEncargado = res.locals.user.id;
   console.log(req.params);
   let msg = false;
@@ -170,7 +170,7 @@ exports.cargarExcel = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       }
-      return res.redirect("/matriculas/PYT-672");    
+      return res.redirect("/matriculas/"+text);    
     })
 
   } catch (error) {
