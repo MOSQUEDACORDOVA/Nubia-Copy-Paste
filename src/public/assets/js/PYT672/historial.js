@@ -323,7 +323,7 @@ $(function () {
     $('#tablaHistorialDetalles').html('');
 
     let content = new DocumentFragment();
-
+    console.log(my_object)
     for (let num = 1; num <= leccion; num++) {
       let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
       

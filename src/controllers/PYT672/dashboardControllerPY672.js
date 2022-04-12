@@ -1768,43 +1768,12 @@ exports.detallesControl = (req, res) => {
   });
 
   DataBase.BuscarNotasAlumno(idGrupo, idAlumno).then((leccion) => {
-      let lecc = JSON.parse(leccion)[0];
-      // console.log(lecc)
-      // console.log("LECCION")
-      // console.log(item)
-      // console.log(idx)
+      let lecc = JSON.parse(leccion);
+      //console.log(lecc)
+      //console.log("LECCION")
+    
 
-      /*if(lecc !== undefined) {
-        if(idx === 0) {
-          userInfo.leccion9 = parseInt(lecc.nota);
-        } else if (idx === 1) {
-          userInfo.leccion17 = parseInt(lecc.nota);
-        } else if (idx === 2) {
-          userInfo.leccion18 = parseInt(lecc.nota);
-        } else if (idx === 3) {
-          userInfo.leccion25 = parseInt(lecc.nota);
-        } else if (idx === 4) {
-          userInfo.leccion31 = parseInt(lecc.nota);
-        } else if (idx === 5) {
-          userInfo.leccion32 = parseInt(lecc.nota);
-        }
-      } else {
-        if(idx === 0) {
-          userInfo.leccion9 = 0;
-        } else if (idx === 1) {
-          userInfo.leccion17 = 0;
-        } else if (idx === 2) {
-          userInfo.leccion18 = 0;
-        } else if (idx === 3) {
-          userInfo.leccion25 = 0;
-        } else if (idx === 4) {
-          userInfo.leccion31 = 0;
-        } else if (idx === 5) {
-          userInfo.leccion32 = 0;
-        }
-      }*/
-
-      userInfo.notas.push(lecc)
+      userInfo.notas = lecc
       
       //let final = Object.assign(element, userInfo);
       /*console.log(userInfo)
