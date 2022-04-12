@@ -50,6 +50,30 @@ function cargaTabla(rechar) {
       }
       
     });
+    $('#view-puntosVenta').on('change', function (e) {
+      if ($('#view-puntosVenta').is(':checked')) {
+        if (dt_basic.column(1).search() !== 'Punto de venta') {
+        dt_basic.column(1).search('Punto de venta').draw();
+      }
+      }else{
+        if (dt_basic.column(1).search() !== '') {
+          dt_basic.column(1).search('').draw();
+        }
+      }
+      
+    });
+    $('#view-Negocios').on('change', function (e) {
+      if ($('#view-Negocios').is(':checked')) {
+        if (dt_basic.column(1).search() !== 'Negocio') {
+        dt_basic.column(1).search('Negocio').draw();
+      }
+      }else{
+        if (dt_basic.column(1).search() !== '') {
+          dt_basic.column(1).search('').draw();
+        }
+      }
+      
+    });
     console.log(array)
     // assetPath+'./clientes.txt'
     var dt_basic = dt_basic_table.DataTable({
@@ -144,8 +168,7 @@ function cargaTabla(rechar) {
             if (typeof $status[$status_number] === 'undefined') {
               return data;
             }
-        var cliente_arr = encodeURIComponent(JSON.stringify(full));
-        var color_tag ="", color_text=""
+        var color_tag ="", color_text="";
         if (full['etiqueta'] ==null) {
           color_tag =0
           color_text="black"
@@ -154,18 +177,13 @@ function cargaTabla(rechar) {
           color_text="white"
         }
         //aqui activa el modal info del cliente
-            return ('<div class="d-flex justify-content-left align-items-center">' +
-            '<div class="avatar ' +
-            ' me-1">' +
-            $output +
-            '</div>' +
-            '<div class="d-flex flex-column">' +
-              '<span class="hover_cliente badge rounded-pill ' +$status[$status_number].class+
-              '" >' +
-              $status[$status_number].title +
-              '</span>'+
-              '</div>' +
-              '</div>'
+            return (`<div class="d-flex justify-content-left align-items-center">
+            <div class="avatar me-1">${$output}</div>
+            <div class="d-flex flex-column">
+              <span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" >${$status[$status_number].title}</span>
+              <span class="d-none" > ${full['tipo']}</span>
+              </div>
+              </div>`
             );
           }
         },
