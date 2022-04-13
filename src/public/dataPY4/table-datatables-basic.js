@@ -890,6 +890,7 @@ function copyToClipboard(elemento) {
   $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
   document.execCommand("copy");
   $temp.remove();
+
   Swal.fire('Link de referido copiado en el portapapeles')
   }
 function DisEn(id,estadoActual) {

@@ -19,6 +19,7 @@ const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 const Recargas = require("../../models/PYT4/Recargas");
 const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
+const CompartirS = require('../../models/PYT4/ShareStatus')
 
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
@@ -687,7 +688,7 @@ module.exports = {
       if (danados =="") {
         danados = 0
       }
-      const Last = await Last_p.findOne().then((las_)=>{
+      const Last = await Last_p.findOne({where:{clienteId:id_cliente}}).then((las_)=>{
         return las_
        })
        console.log(Last)
@@ -700,7 +701,7 @@ module.exports = {
         .then(async (data) => {
           let data_set = JSON.stringify(data);
           console.log('pedidos save')
-                console.log(data.dataValues.id)
+          console.log(data.dataValues.id)
           if (!Last) {
             console.log('pedidos cre')
             Last_p.create({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,
@@ -2767,6 +2768,40 @@ PedidosMaquilaByDay(fecha_pedido) {
     });
   });
 },
+
+SaveStatusCompartir(id_pedido){
+  return new Promise((resolve, reject) => {
+    CompartirS.create({CompartirStatus:1,idPedido:id_pedido}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+findStatusCompartir(id_pedido){
+  return new Promise((resolve, reject) => {
+    CompartirS.findOne({where:{idPedido:id_pedido}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+findStatusCompartirAll(){
+  return new Promise((resolve, reject) => {
+    CompartirS.findAll({}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+}
 
 
 /**END OF EXPORT */};
