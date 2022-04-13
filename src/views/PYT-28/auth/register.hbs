@@ -17,7 +17,7 @@
 
             <form class="auth-login-form mt-2" action="/reguserpy27" method="POST">
                 <div class="mb-1">
-                    <label class="form-label" for="">Username</label>
+                    <label class="form-label" for="">Usuario</label>
                     <input class="form-control" id="username" type="text" name="username" placeholder="Username" autofocus required>
                 </div>
                 <div class="mb-1">
@@ -25,57 +25,57 @@
                     <input class="form-control" id="email" type="text" name="email" placeholder="Email" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">First Name</label>
+                    <label class="form-label" for="">Nombre</label>
                     <input class="form-control" id="" type="text" name="fname" placeholder="First Name" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Last Name</label>
+                    <label class="form-label" for="">Apellido</label>
                     <input class="form-control" id="" type="text" name="lname" placeholder="Last Name" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Date of Birth</label>
+                    <label class="form-label" for="">FEcha de Nacimiento</label>
                     <input type="date" name="bdate" id="fp-default" class="form-control flatpickr-basic flatpickr-input" required />
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Gender</label>
+                    <label class="form-label" for="">Género</label>
                     <select name="gender" class="form-select" required>
                       <option value=""></option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
+                      <option value="male">Masculino</option>
+                      <option value="female">Femenino</option>
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Document Type</label>
+                    <label class="form-label" for="">Tipo de Documento</label>
                     <select name="dtype" class="form-select" required>
                       <option value=""></option>
-                       <option value="DRIVER'S LICENSE">DRIVER'S LICENSE</option>
-                      <option value="PASAPORT">PASAPORT</option>
+                       <option value="DRIVER'S LICENSE">LICENCIA DE CONDUCIR</option>
+                      <option value="PASAPORT">PASAPORTE</option>
                       <option value="DNI">DNI</option>
                     </select>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Document Number</label>
+                    <label class="form-label" for="">Número de Documento</label>
                     <input type="text" class="form-control" name="numdoc" placeholder="Document Number" required>
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Country</label>
+                    <label class="form-label" for="">País</label>
                     <select name="country" id="country" class="form-select" required>
-                      <option>Select your Nationality</option>
+                      <option>Selecciona tu Nacionalidad</option>
                     </select>
                 </div>
                 <div class="mb-1">
                     <label class="form-label" for="">Area</label>
                     <select id="nacionalidad" name="nationality" class="form-select" required>
-                      <option value="-">Country of residence</option>
+                      <option value="-">País de residencia</option>
                     </select>
                 </div>
                 <div class="mb-1 d-none">
-                    <label class="form-label" for="">City</label>
+                    <label class="form-label" for="">Ciudad</label>
                     <input type="text" class="form-control" name="city" placeholder="City" value="-" required>
                 </div>
                 <div class="mb-1">
                   
-                  <label class="form-label" for="">Phone</label>                   
+                  <label class="form-label" for="">Teléfono</label>                   
                   <div class="row p-0">
                     <div class="col-4">
                        <div class="btn-group">
@@ -91,18 +91,18 @@
                         </div>
                     </div>
                      <div class="col-8">
-                        <input type="text" id="phone" class="form-control" name="phone" value="+286" placeholder="Phone" required>
+                        <input type="text" id="phone" class="form-control" name="phone" value="+286" placeholder="" required>
                      </div>
                 </div>
               
                 </div>
                 <div class="mb-1">
-                    <label class="form-label" for="">Address</label>
+                    <label class="form-label" for="">Dirección</label>
                     <input type="text" class="form-control" name="address" placeholder="Address" required>
                 </div>
                 <div class="mb-1">
                     <div class="d-flex justify-content-between">
-                        <label class="form-label" for="password">Password</label>
+                        <label class="form-label" for="password">Contraseña</label>
                     </div>
                     <div class="input-group input-group-merge form-password-toggle">
                         <input class="form-control form-control-merge" id="password" type="password" name="password" placeholder="············" required><span class="input-group-text cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye font-small-4"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></span>
@@ -112,13 +112,13 @@
                   
                     <div class="form-check form-check-primary">
                         <input class="form-check-input" id="remember-me" type="checkbox" tabindex="16">
-                        <label class="form-check-label" for="remember-me"> I agree with <a href="/privacy/PYT-27" target="_blank" class="text-primary">privacy policy and terms.</a></label>
+                        <label class="form-check-label" for="remember-me"> Estoy de acuerdo <a href="/privacy/PYT-27" target="_blank" class="text-primary">con la política de privacidad y los términos.</a></label>
                     </div>
                 </div>
-                <button id="boton" class="btn btn-outline-primary w-100 waves-effect waves-float waves-light mt-1 " disabled >Register Now</button>
+                <button id="boton" class="btn btn-outline-primary w-100 waves-effect waves-float waves-light mt-1 " disabled >Registrarse</button>
             </form>
           </span>
-          <p class="text-center mt-2"><span>¿Do you already have an account?</span><a href="/login27/PYT-27" target="_self"><span class="text-primary">&nbsp; Sign in instead</span></a></p>
+          <p class="text-center mt-2"><span>¿Ya tienes una cuenta?</span><a href="/login28/PYT-28" target="_self"><span class="text-primary">&nbsp; Inicia sesión</span></a></p>
         </div>
       </div>
     </div>

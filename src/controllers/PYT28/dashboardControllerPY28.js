@@ -20,6 +20,7 @@ exports.web = (req, res) => {
     res.render(proyecto+"/landing/minner", {
       pageName: "Minner",
       py28:true,
+      landingpy28: true,
       webmenu: true
     })
 };

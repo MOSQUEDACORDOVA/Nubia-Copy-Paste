@@ -368,7 +368,7 @@ body {
     color: white;
 }
 .py24 .select2-container--classic .select2-results__option[aria-selected='true'], .select2-container--default .select2-results__option[aria-selected='true'] {
-    background-color: #D9A443 !important;
+    background-color: #F0B90b !important;
     color: #fff !important;
 }
 .py24 .pricing-card .docemeses, .py24 .pricing-card .veinticuatromeses {
@@ -396,7 +396,7 @@ body {
     color: white;
 }
 .py28 .select2-container--classic .select2-results__option[aria-selected='true'], .select2-container--default .select2-results__option[aria-selected='true'] {
-    background-color: #D9A443 !important;
+    background-color: #F0B90b !important;
     color: #fff !important;
 }
 .py28 .pricing-card .docemeses, .py28 .pricing-card .veinticuatromeses {
@@ -420,7 +420,7 @@ body {
     height: 190px;
     border-radius: 50%;
     text-align: center;
-    border: 4px solid #D9A443;
+    border: 4px solid #F0B90b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -432,7 +432,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 4px solid #D9A443;
+    border: 4px solid #F0B90b;
 }
 .py24 .graficas .circle p {
     position: relative;
@@ -459,7 +459,7 @@ body {
     height: 190px;
     border-radius: 50%;
     text-align: center;
-    border: 4px solid #D9A443;
+    border: 4px solid #F0B90b;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -471,7 +471,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 4px solid #D9A443;
+    border: 4px solid #F0B90b;
 }
 .py28 .graficas .circle p {
     position: relative;
@@ -506,11 +506,11 @@ body {
     }
 }
 .py24 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: #D9A443 !important;
+    border-color: #F0B90b !important;
     outline: 0;
 }
 .py28 .select2-container--classic.select2-container--open .select2-selection--single, .select2-container--default.select2-container--open .select2-selection--single {
-    border-color: #D9A443 !important;
+    border-color: #F0B90b !important;
     outline: 0;
 }
 .dark-layout .vertical-layout.vertical-menu-modern .main-menu::after {
@@ -529,6 +529,7 @@ body {
     background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
+
 .py24.landheader::after {
     content: ' ';
     width: 100%;
@@ -544,6 +545,15 @@ body {
     background: -ms-linear-gradient(-45deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
     background: linear-gradient(135deg, rgba(191,139,75,1) 0%, rgba(140,77,22,1) 22%, rgba(242,202,128,1) 55%, rgba(140,77,22,1) 84%, rgba(166,105,51,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
+}
+.py28 .vertical-layout.vertical-menu-modern .main-menu::after {
+    content: ' ';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: #F0B90b;
 }
 .py28.landheader::after {
     content: ' ';
@@ -567,7 +577,7 @@ body {
     }
     .py24.landheader .menu .nav-item .nav-link:hover {
         background: #d9a5439d !important;
-        box-shadow: 0 8px 25px -8px #D9A443 !important;
+        box-shadow: 0 8px 25px -8px #d9a5439d !important;
     }
     .py24.landheader .menu .nav-item:hover .nav-link {
         color: white !important;
@@ -584,7 +594,7 @@ body {
     }
     .py28.landheader .menu .nav-item .nav-link:hover {
         background: #d9a5439d !important;
-        box-shadow: 0 8px 25px -8px #D9A443 !important;
+        box-shadow: 0 8px 25px -8px #d9a5439d !important;
     }
     .py28.landheader .menu .nav-item:hover .nav-link {
         color: white !important;
@@ -617,7 +627,7 @@ body {
     }
 }
 .dark-layout .main-menu-content .navigation-main .nav-item.open > a {
-    /* background-color: #D9A443 !important;
+    /* background-color: #F0B90b !important;
     color: white !important; */
     border-radius: 4px;
     transition: .3s ease all;
@@ -641,7 +651,7 @@ body {
     transition: .3s ease all;
 }
 .py24 .nav .nav-item .nav-link:hover {
-    color: #D9A443;
+    color: #F0B90b;
 } */
 .py24.banner {
     display: block;
@@ -672,7 +682,7 @@ body {
 }
 /* BTN LIGHT */
 .py24.banner .btn-outline-light:hover, .py24.pagos .btn-outline-light:hover, .py24.inversion .btn-outline-light:hover {
-    color: #D9A443 !important;
+    color: #F0B90b !important;
 }
 .py24.banner::before {
     position: absolute;
@@ -721,7 +731,7 @@ body {
     transition: .3s ease all;
 }
 .py28 .nav .nav-item .nav-link:hover {
-    color: #D9A443;
+    color: #F0B90b;
 } */
 .py28.banner {
     display: block;
@@ -752,7 +762,7 @@ body {
 }
 /* BTN LIGHT */
 .py28.banner .btn-outline-light:hover, .py28.pagos .btn-outline-light:hover, .py28.inversion .btn-outline-light:hover {
-    color: #D9A443 !important;
+    color: #F0B90b !important;
 }
 .py28.banner::before {
     position: absolute;
@@ -940,7 +950,7 @@ body {
     top: 50%;
     width: 40px;
     height: 40px;
-    background: #D9A443;
+    background: #F0B90b;
     transition: .3s ease all;
 }
 .py24.testimonios .carousel .carousel-control-prev:hover, .py24.testimonios .carousel .carousel-control-next:hover { 
@@ -971,16 +981,16 @@ body {
     transition: .3s ease all;
 }
 .py24.webfooter .nav-link:hover {
-    color: #D9A443;
-    border: 1px solid #D9A443;
+    color: #F0B90b;
+    border: 1px solid #F0B90b;
 }
 .py24.webfooter .btn-outline-primary {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
     background-color: transparent;
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py24.webfooter .btn-outline-primary:hover {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py24.webfooter, .py24.webfooter {
     text-align: center;
@@ -1087,7 +1097,7 @@ body {
     top: 50%;
     width: 40px;
     height: 40px;
-    background: #D9A443;
+    background: #F0B90b;
     transition: .3s ease all;
 }
 .py28.testimonios .carousel .carousel-control-prev:hover, .py28.testimonios .carousel .carousel-control-next:hover { 
@@ -1118,16 +1128,16 @@ body {
     transition: .3s ease all;
 }
 .py28.webfooter .nav-link:hover {
-    color: #D9A443;
-    border: 1px solid #D9A443;
+    color: #F0B90b;
+    border: 1px solid #F0B90b;
 }
 .py28.webfooter .btn-outline-primary {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
     background-color: transparent;
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py28.webfooter .btn-outline-primary:hover {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py28.webfooter, .py28.webfooter {
     text-align: center;
@@ -1215,96 +1225,96 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
 .py24 .progress-bar-primary .progress-bar {
-    background-color: #D9A443;
+    background-color: #F0B90b;
 }
 .py24 .progress-bar-primary {
     background-color: #d9a54327;
 }
 .py24 .btn-primary {
-	border-color: #D9A443 !important;
-    background-color: #D9A443 !important;
+	border-color: #F0B90b !important;
+    background-color: #F0B90b !important;
     color: #fff !important;
 }
 .py24 .bg-light-primary {
     background-color: rgba(217, 165, 67, 0.198) !important;
 }
 .py24 .btn-primary:hover:not(.disabled):not(:disabled) {
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py24 .text-primary {
-	color: #D9A443 !important;
+	color: #F0B90b !important;
 }
 .py24 .input-group-append .input-group-text {
 	padding: 0.800rem 1rem;
 }
 .py24 .nav-item.active a {
     background: #d9a5439d !important;
-    box-shadow: 0 8px 25px -8px #D9A443 !important;
+    box-shadow: 0 8px 25px -8px #d9a5439d !important;
 }
 .py24 .nav-item.nav-info {
     pointer-events: none;
 }
 .py24 .has.sub.active {
     background: #d9a5439d !important;
-    box-shadow: 0 8px 25px -8px #D9A443 !important;
+    box-shadow: 0 8px 25px -8px #d9a5439d !important;
 }
 .py24 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
-    border-color: #D9A443;
+    border-color: #F0B90b;
 }
 .py24 .form-control:focus {
-    border-color: #D9A443;
+    border-color: #F0B90b;
 }
 .py24 .btn-primary:hover:not(.disabled):not(:disabled) {
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py24 .form-check-input:focus {
-    border-color: #D9A443;
+    border-color: #F0B90b;
     box-shadow: 0 2px 4px 0 rgba(var(--bs-primary-rgb), 0.4);
 }
 .py24 .form-check-input:checked {
-    background-color: #D9A443 !important;
-    border-color: #D9A443 !important;
+    background-color: #F0B90b !important;
+    border-color: #F0B90b !important;
 }
 .py24 .dropdown-item {
     transition: .3s ease all;
 }
 .py24 .dropdown-item:hover {
-    background: #D9A443 !important;
+    background: #F0B90b !important;
     color: white !important;
 }
 .py24 .feather-bell {
     transition: .3s ease all;
 }
 .py24 .feather-bell:hover {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py24 input:focus {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
 }
 .py24 button.btn-outline-primary {
-    border: 1px solid #D9A443 !important;
-    color: #D9A443 !important;
+    border: 1px solid #F0B90b !important;
+    color: #F0B90b !important;
 }
 .py24 .form-select:focus {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
 }
 .py24 .alert-primary {
     background-color: rgba(217, 165, 67, 0.198) !important;
 }
 .py24 .main-menu svg {
-    stroke: #D9A443 !important;
+    stroke: #F0B90b !important;
 }
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
-    background-color: #D9A443;
+    background-color: #F0B90b;
     color: #fff;
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py24 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py24 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
     background-color: #d9a5433a;
-    color: #D9A443 !important;
+    color: #F0B90b !important;
 }
 .py24 .dt-bootstrap5 {
     overflow: hidden;
@@ -1329,96 +1339,97 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bf8b4b', endColorstr='#a66933', GradientType=1 );
 }
 .py28 .progress-bar-primary .progress-bar {
-    background-color: #D9A443;
+    background-color: #F0B90b;
 }
 .py28 .progress-bar-primary {
     background-color: #d9a54327;
 }
 .py28 .btn-primary {
-	border-color: #D9A443 !important;
-    background-color: #D9A443 !important;
+	border-color: #F0B90b !important;
+    background-color: #F0B90b !important;
     color: #fff !important;
 }
 .py28 .bg-light-primary {
     background-color: rgba(217, 165, 67, 0.198) !important;
 }
 .py28 .btn-primary:hover:not(.disabled):not(:disabled) {
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py28 .text-primary {
-	color: #D9A443 !important;
+	color: #F0B90b !important;
 }
 .py28 .input-group-append .input-group-text {
 	padding: 0.800rem 1rem;
 }
 .py28 .nav-item.active a {
-    background: #d9a5439d !important;
-    box-shadow: 0 8px 25px -8px #D9A443 !important;
+    color: #6e6b7b !important;
+    background: #e5e3e38f !important;
+    box-shadow: 0 8px 25px -8px #e5e3e38f !important;
 }
 .py28 .nav-item.nav-info {
     pointer-events: none;
 }
 .py28 .has.sub.active {
     background: #d9a5439d !important;
-    box-shadow: 0 8px 25px -8px #D9A443 !important;
+    box-shadow: 0 8px 25px -8px #F0B90b !important;
 }
 .py28 .input-group:not(.bootstrap-touchspin):focus-within .form-control, .input-group:not(.bootstrap-touchspin):focus-within .input-group-text {
-    border-color: #D9A443;
+    border-color: #F0B90b;
 }
 .py28 .form-control:focus {
-    border-color: #D9A443;
+    border-color: #F0B90b;
 }
 .py28 .btn-primary:hover:not(.disabled):not(:disabled) {
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py28 .form-check-input:focus {
-    border-color: #D9A443;
+    border-color: #F0B90b;
     box-shadow: 0 2px 4px 0 rgba(var(--bs-primary-rgb), 0.4);
 }
 .py28 .form-check-input:checked {
-    background-color: #D9A443 !important;
-    border-color: #D9A443 !important;
+    background-color: #F0B90b !important;
+    border-color: #F0B90b !important;
 }
 .py28 .dropdown-item {
     transition: .3s ease all;
 }
 .py28 .dropdown-item:hover {
-    background: #D9A443 !important;
+    background: #F0B90b !important;
     color: white !important;
 }
 .py28 .feather-bell {
     transition: .3s ease all;
 }
 .py28 .feather-bell:hover {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py28 input:focus {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
 }
-.py28 button.btn-outline-primary {
-    border: 1px solid #D9A443 !important;
-    color: #D9A443 !important;
+.py28 .btn-outline-primary {
+    border: 1px solid #F0B90b !important;
+    color: #F0B90b !important;
 }
 .py28 .form-select:focus {
-    border: 1px solid #D9A443 !important;
+    border: 1px solid #F0B90b !important;
 }
 .py28 .alert-primary {
     background-color: rgba(217, 165, 67, 0.198) !important;
 }
 .py28 .main-menu svg {
-    stroke: #D9A443 !important;
+    stroke: #F0B90b !important;
 }
 .py28 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-box {
-    background-color: #D9A443;
+    background-color: #F0B90b;
     color: #fff;
-    box-shadow: 0 8px 25px -8px #D9A443;
+    box-shadow: 0 8px 25px -8px #F0B90b;
 }
 .py28 .bs-stepper .bs-stepper-header .step.active .step-trigger .bs-stepper-label .bs-stepper-title {
-    color: #D9A443;
+    color: #F0B90b;
 }
 .py28 .bs-stepper .bs-stepper-header .step.crossed .step-trigger .bs-stepper-box {
     background-color: #d9a5433a;
-    color: #D9A443 !important;
+    color: #F0B90b !important;
 }
 .py28 .dt-bootstrap5 {
     overflow: hidden;
@@ -1516,7 +1527,7 @@ table tr td {
     font-family: 'Conthrax Sb';
     color: #04246d !important;
     font-weight: 700;
-    transition: rgb(186, 223, 253)e all;
+    transition: rgb(186, 223, 253) all;
 }
 .py27.es .main-menu.menu-light .navigation > li.active > a {
     background: linear-gradient(118deg, #ce0011, #e62435);
@@ -1945,7 +1956,7 @@ table tr td {
 .py28 .auth-login-form::-webkit-scrollbar-thumb {
     background: #dedede;
     border-radius: 5px;
-    background-color: #D9A443;
+    background-color: #F0B90b;
 }
 .py28 .auth-login-form::-webkit-scrollbar:hover {
     background: #e7e7e7;
