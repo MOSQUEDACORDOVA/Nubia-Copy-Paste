@@ -188,6 +188,10 @@ router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardCont
 router.post('/verificar_deuda', authControllerPY4.authenticatedUser, dashboardControllerPY4.verifica_deuda_pedido);
 router.post('/cambia_S_pago_deudor', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago_deudor);
 
+//CopyClipboard
+router.get('/ChangeshareStatusPY4/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.ChangeshareStatusPY4);
+router.get('/shareStatusPY4', authControllerPY4.authenticatedUser, dashboardControllerPY4.shareStatusPY4);
+
 router.get('/clientesBwater', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 router.get('/clientesBwater/:mensaje', authControllerPY4.authenticatedUser, dashboardControllerPY4.usuariosTable);
 // Etiquetas
