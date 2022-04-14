@@ -76,12 +76,6 @@
                     <span class="menu-title text-truncate">Historial</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registrarAlumno">
-                    <i data-feather='user-plus'></i>
-                    <span class="menu-title text-truncate">Incluir Alumno</span>
-                </a>
-            </li>
             {{/if}}
             {{#if roleAdmin}}
             <li class="{{#if grupos}}active{{/if}} nav-item">
@@ -94,6 +88,12 @@
                 <a class="d-flex align-items-center" href="/matriculas">
                     <i data-feather='trending-up'></i>
                     <span class="menu-title text-truncate">Alumnos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registrarAlumno">
+                    <i data-feather='user-plus'></i>
+                    <span class="menu-title text-truncate">Incluir Alumno</span>
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
@@ -349,7 +349,7 @@ $('#formregalumno').attr('action','/registrarestudiantepy672')
 $('#formregalumno')[0].reset()
 $('#grupos-edit').removeClass('d-none')
 $('#edit-title-modal').text('Registrar Alumno')
-//$('#registrarAlumno').modal('show')
+$('#registrarAlumno').modal('show')
 
 
 })
