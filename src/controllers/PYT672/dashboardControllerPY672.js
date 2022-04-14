@@ -1241,20 +1241,15 @@ exports.controlgrupo = (req, res) => {
           let inicioGrupo = grupo.fecha_inicio;
           let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
 
-          console.log(iniciado)
-          console.log("FECHA")
-
           function EstablecerNivel () {  
-            let nivel1, nivel2, nivel3, nivel4;
+            let nivel2, nivel3, nivel4;
             switch (grupo.lecciones_semanales) {
               case '1':
-                nivel1 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel2 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(128, 'w').format('YYYY-MM-DD')
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
         
                 console.log("NIVELES")
-                console.log(nivel1)
                 console.log(nivel2)
                 console.log(nivel3)
                 console.log(nivel4)
@@ -1262,13 +1257,11 @@ exports.controlgrupo = (req, res) => {
                 break;
     
               case '2':
-                nivel1 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
         
                 console.log("NIVELES")
-                console.log(nivel1)
                 console.log(nivel2)
                 console.log(nivel3)
                 console.log(nivel4)
@@ -1276,15 +1269,15 @@ exports.controlgrupo = (req, res) => {
               break;
             }
                    
-            if (moment().isSameOrBefore(nivel1)) {
+            if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
               nivelActual = 1
               
-            } else if (moment().isAfter(nivel1) && moment().isBefore(nivel3)) {
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
               console.log("Estas en nivel 2")
               nivelActual = 2
               
-            } else if(moment().isAfter(nivel2) && moment().isBefore(nivel4)) {
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
               console.log("Estas en nivel 3")
               nivelActual = 3
               
@@ -1294,84 +1287,47 @@ exports.controlgrupo = (req, res) => {
               
             }
   
+            let numPositivo;
             if(grupo.lecciones_semanales === '1') {
-              if (nivelActual === 1) {
-                if (diff < 0) {
-                  rest = (224 - (-diff)) / 7; 
-                } else {
-                  rest = (224 - (diff)) / 7; 
-                }
+              
+              if (diff > 224) {
+                rest = (diff - 224) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                rest = (224 - diff) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
 
-              } else if (nivelActual === 2) {
-                if (diff < 0) {
-                  rest = (448 - (-diff)) / 14; 
-                } else {
-                  rest = (448 - (diff)) / 14; 
-                }
-                
-              } else if (nivelActual === 3) {
-                if (diff < 0) {
-                  rest = (672 - (-diff)) / 21; 
-                } else {
-                  rest = (672 - (diff)) / 21; 
-                }
-                
-              } else if (nivelActual === 4) {
-                if (diff < 0) {
-                  rest = (896 - (-diff)) / 28; 
-                } else {
-                  rest = (896 - (diff)) / 28; 
-                }
-                
               }
-  
+              
             } else {
-              if (nivelActual === 1) {
-                if(diff < 0) {
-                  rest = (112 - (-diff)) / 3.5; 
-                } else {
-                  rest = (112 - (diff)) / 3.5; 
-                }
-              } else if (nivelActual === 2) {
-                if(diff < 0) {
-                  rest = (224 - (-diff)) / 7; 
-                } else {
-                  rest = (224 - (diff)) / 7; 
-                }
+              if (diff > 112) {
+                rest = (diff - 112) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
                 
-              } else if (nivelActual === 3) {
-                if(diff < 0) {
-                  rest = (224 - (-diff)) / 10.5; 
-                } else {
-                  rest = (224 - (diff)) / 10.5; 
-                }
-                
-              } else if (nivelActual === 4) {
-                if(diff < 0) {
-                  rest = (336 - (-diff)) / 14; 
-                } else {
-                  rest = (336 - (diff)) / 14; 
-                }
-                
+              } else {
+                rest = (112 - diff) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
+
               }
+
             }
-            if(rest < 0) {
-              rest = rest * (-1)
-            }
-            let numPositivo = Math.floor(rest);
-            //console.log(grupo.identificador)
-            //console.log(numPositivo)
-            console.log(rest)
-            console.log(diff)
+
+            console.log(numPositivo)
+            console.log("POSITIVO")
+            
+            console.log("REST",rest)
+            console.log("DIFF",diff)
             
           }
-    
+          
           EstablecerNivel();  
-
+          
           // *-------------------------------- //
-
-          numLeccion = (32 - Math.floor(rest))
-          console.log(numLeccion)
 
 
     res.render(proyecto+"/admin/control", {
@@ -1480,17 +1436,16 @@ exports.historial = (req, res) => {
         let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
         let rest; 
 
+        
         function EstablecerNivel () {  
-          let nivel1, nivel2, nivel3, nivel4;
+          let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel1 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(128, 'w').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
       
               console.log("NIVELES")
-              console.log(nivel1)
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
@@ -1498,13 +1453,11 @@ exports.historial = (req, res) => {
               break;
   
             case '2':
-              nivel1 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
       
               console.log("NIVELES")
-              console.log(nivel1)
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
@@ -1512,15 +1465,15 @@ exports.historial = (req, res) => {
             break;
           }
                  
-          if (moment().isSameOrBefore(nivel1)) {
+          if (moment().isBefore(nivel2)) {
             console.log("Estas en nivel 1")
             userInfo.nivelActualGrupo = 1
             
-          } else if (moment().isAfter(nivel1) && moment().isBefore(nivel3)) {
+          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
             console.log("Estas en nivel 2")
             userInfo.nivelActualGrupo = 2
             
-          } else if(moment().isAfter(nivel2) && moment().isBefore(nivel4)) {
+          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
             console.log("Estas en nivel 3")
             userInfo.nivelActualGrupo = 3
             
@@ -1530,76 +1483,42 @@ exports.historial = (req, res) => {
             
           }
 
+          let numPositivo;
           if(grupo.lecciones_semanales === '1') {
-            if (userInfo.nivelActualGrupo === 1) {
-              if (diff < 0) {
-                rest = (224 - (-diff)) / 7; 
-              } else {
-                rest = (224 - (diff)) / 7; 
-              }
+            
+            if (diff > 224) {
+              rest = (diff - 224) / 7; 
+              numPositivo = Math.floor(rest)
+              userInfo.leccActual = 1 + numPositivo
+              
+            } else {
+              rest = (224 - diff) / 7; 
+              numPositivo = Math.floor(rest)
+              userInfo.leccActual = 32 - numPositivo
 
-            } else if (userInfo.nivelActualGrupo === 2) {
-              if (diff < 0) {
-                rest = (448 - (-diff)) / 14; 
-              } else {
-                rest = (448 - (diff)) / 14; 
-              }
-              
-            } else if (userInfo.nivelActualGrupo === 3) {
-              if (diff < 0) {
-                rest = (672 - (-diff)) / 21; 
-              } else {
-                rest = (672 - (diff)) / 21; 
-              }
-              
-            } else if (userInfo.nivelActualGrupo === 4) {
-              if (diff < 0) {
-                rest = (896 - (-diff)) / 28; 
-              } else {
-                rest = (896 - (diff)) / 28; 
-              }
-              
             }
-
+            
           } else {
-            if (userInfo.nivelActualGrupo === 1) {
-              if(diff < 0) {
-                rest = (112 - (-diff)) / 3.5; 
-              } else {
-                rest = (112 - (diff)) / 3.5; 
-              }
-            } else if (userInfo.nivelActualGrupo === 2) {
-              if(diff < 0) {
-                rest = (224 - (-diff)) / 7; 
-              } else {
-                rest = (224 - (diff)) / 7; 
-              }
+            if (diff > 112) {
+              rest = (diff - 112) / 3.5; 
+              numPositivo = Math.floor(rest)
+              userInfo.leccActual = 1 + numPositivo
               
-            } else if (userInfo.nivelActualGrupo === 3) {
-              if(diff < 0) {
-                rest = (224 - (-diff)) / 10.5; 
-              } else {
-                rest = (224 - (diff)) / 10.5; 
-              }
-              
-            } else if (userInfo.nivelActualGrupo === 4) {
-              if(diff < 0) {
-                rest = (336 - (-diff)) / 14; 
-              } else {
-                rest = (336 - (diff)) / 14; 
-              }
-              
+            } else {
+              rest = (112 - diff) / 3.5; 
+              numPositivo = Math.floor(rest)
+              userInfo.leccActual = 32 - numPositivo
+
             }
-          }
-          if(rest < 0) {
-            rest = rest * (-1)
-          }
-          let numPositivo = Math.floor(rest);
 
-          console.log(rest)
-          console.log(diff)
-          userInfo.leccActual = (32 - (numPositivo));
+          }
 
+          console.log(numPositivo)
+          console.log("POSITIVO")
+          
+          console.log("REST",rest)
+          console.log("DIFF",diff)
+          
         }
   
         EstablecerNivel();
