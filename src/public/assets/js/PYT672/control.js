@@ -77,6 +77,7 @@ $(document).ready(function () {
             participacion = "",
             notas = 0,
             participacionPorcentaje = 0,
+            usuarioCongelado,
             commentarioP = "",
             GcommentProfForm="",
             GcommentAdminForm="";
@@ -110,6 +111,7 @@ $(document).ready(function () {
             participacionPorcentaje = response2[0].participacion;
             
           }
+
           if (
             lecc === 9 ||
             lecc === 17 ||
@@ -117,7 +119,8 @@ $(document).ready(function () {
             lecc === 25 ||
             lecc === 31 ||
             lecc === 32
-          ) {
+          ) 
+          {
             if (result.length) {
                 let readonlyUse = "readonly"
                 let disabledUse = "disabled"
@@ -183,7 +186,8 @@ $(document).ready(function () {
                         `;
             }
           }
-          
+
+          // * LECCIONES AUSENTES / PRESENTES
           if (result.length) {
            
             div.innerHTML = `
@@ -301,6 +305,66 @@ $(document).ready(function () {
                                         })}
                                         ${feather.icons["user-minus"].toSvg({
                                           class: "feather text-success uncheck",
+                                          style: "pointer-events: none;",
+                                        })}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+          }
+          // * CONGELADO
+          if(matricula.estadoId === 5) {
+                        div.innerHTML = `
+                    <label class="card-title estudiante" hidden>${
+                      matricula.nombre
+                    }</label>
+                        <div class="card card-statistics border-secondary" id="estudiante${
+                          matricula.id
+                        }">
+                            <div class="row m-0 p-0">
+                                <div class="col-10 col-xl-11">
+                                    <div class="row card-header p-1">
+                                        <div class="col-12">
+                                            <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+
+                                                <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                    <h1 class="me-1"><b>${
+                                                      matricula.nombre
+                                                    }</b></h1>
+                                                    <h5><span class="badge bg-dark">Congelado</span></h5>
+                                                </div>
+                                                <div class="d-flex flex-row">
+                                                    ${calif}
+
+                                                    ${participacion}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!--Area de comentarios-->
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="mb-1">
+                                                    <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                    
+                                                </div>
+                                            </div>
+                                       
+                                  
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-2 col-xl-1 p-0">
+                                    <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" disabled>
+                                        ${feather.icons["user-check"].toSvg({
+                                          class: "feather text-secondary check",
+                                          style: "pointer-events: none;",
+                                        })}
+                                        ${feather.icons["user-minus"].toSvg({
+                                          class:
+                                            "feather text-success d-none uncheck",
                                           style: "pointer-events: none;",
                                         })}
                                     </div>
