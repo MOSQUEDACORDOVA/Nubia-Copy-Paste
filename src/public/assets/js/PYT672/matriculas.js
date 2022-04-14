@@ -289,8 +289,9 @@ $(function () {
   });
 
   $(".congelar-estudiante").on("click", (e) => {
-    let form = e.target;
-    //  form.submit();
+    if (!e.target.classList.contains('dropdown-item')) {
+      e.target.submit()
+    }
   });
 
   $(".eliminar-estudiante-grupo").on("click", (e) => {
