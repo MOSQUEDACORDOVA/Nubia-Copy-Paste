@@ -5,6 +5,14 @@ function FetchData () {
       .then(response => response.json())
       .then(data => {
           usuarios = data.usuarios
+          let check = usuarios.filter(usuario => usuario.puesto === "Administrador")
+          if (check.length < 2) {
+            for (let index = 0; index < usuarios.length; index++) {
+              if (usuarios[index].puesto === "Administrador") {
+                usuarios.splice(index, 1)
+              }
+            }
+          }
           cargarTablaUsuarios();
       });
 }

@@ -65,23 +65,6 @@ exports.controlroles = (req, res) => {
 };
 
 // * REGISTRO DE USUARIOS
-/*exports.reguser = (req, res) => {
-  console.log(req.body);
-  const { nombre, dni, email, pais, fechaN, puesto, password } = req.body;
-  let msg = false;
-  if (nombre.trim() === '' || dni.trim() === '' || email.trim() === '' || pais.trim() === '' || fechaN.trim() === '' || puesto.trim() === '' || password.trim() === '') {
-    console.log('complete todos los campos')
-    return res.redirect('/registerpy672/PYT-672');
-  } else {
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, puesto, password).then((respuesta) =>{
-      res.redirect('/loginpy672/PYT-672')
-    }).catch((err) => {
-      console.log(err)
-      let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
-    });
-  }
-};*/
 exports.reguser = (req, res) => {
   console.log(req.body);
   let { nombre, apellidos, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
@@ -96,6 +79,11 @@ exports.reguser = (req, res) => {
       return res.redirect("/error672/PYT-672");
     });
 };
+
+exports.generarRegistroPDF = (req, res) => {
+  
+}
+
 exports.deleteuser = (req, res) => {
   console.log(req.body);
   let { id_usuario } = req.body;
