@@ -91,7 +91,8 @@ router.get('/home/:id', dashboardController.dashboard);
 
 //PYT-4 
 router.post('/upload-file', fileController4.subirArchivo);
-router.get('/errorpy4/:msg', dashboardControllerPY4.dashboard);
+router.get('/errorpy4/:msg', dashboardControllerPY4.error);
+router.get('/errorpy4Cuponera/:msg', dashboardControllerPY4.errorCuponera);
 router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);

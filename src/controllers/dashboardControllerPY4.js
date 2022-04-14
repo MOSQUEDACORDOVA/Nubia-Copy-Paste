@@ -9,6 +9,32 @@ const request = require("request");
 var moment = require("moment-timezone");
 const { encrypt, decrypt } = require("./crypto"); //Encrypt / decrypt
 
+exports.error = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  res.render("PYT-4/404", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4: true,
+      login: true
+    })
+};
+exports.errorCuponera = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  res.render("PYT-4/404", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4Cup: true,
+    cuponeraerr: true,
+    })
+};
 exports.crea_codigo_ref = (req, res) => {
   let id_referido = req.params.id_referido;
 
@@ -748,7 +774,7 @@ exports.save_cliente_cuponera = (req, res) => {
     color,
   } = req.body;
   let msg = false;
-
+console.log(req.body);
   DataBase.registrar_clienteCuponera(
     firstName,
     cp,
@@ -775,19 +801,21 @@ exports.save_cliente_cuponera = (req, res) => {
           "Este domicilio ya se se encuentra registrado favor de comunicarse con el titular de la cuenta, contactar con Bwater sí requieren más ayuda";
         res.redirect("/log_cupon/" + respuesta);
       } else {
-        let cliente_created = JSON.parse(respuesta)[0];
+        let cliente_created = JSON.parse(respuesta);
+        console.log(cliente_created)
         await DataBase.saveCupNotificacionClientNew(
           "Nuevo cliente",
           "0",
           "Se ha creado un nuevo cliente desde la cuponera",
           cliente_created.id
         );
-        res.redirect("/log_cuponera/" + respuesta);
+        res.redirect("/log_cuponera/Registro exitoso");
       }
     })
     .catch((err) => {
+      console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
+      return res.redirect("/errorpy4Cuponera/" + msg);
     });
 };
 

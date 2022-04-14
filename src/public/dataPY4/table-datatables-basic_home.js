@@ -799,7 +799,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           sumaG += parseFloat($(this).text());
     }    
   });
-  $('#DataTables_Table_0_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+  $('#ventas-table_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
 
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();

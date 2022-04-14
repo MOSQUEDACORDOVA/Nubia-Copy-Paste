@@ -240,25 +240,22 @@ module.exports = {
   registrar_clienteCuponera(firstName,cp,asentamiento,lastName,ciudad,municipio,fraccionamiento,coto,casa, calle, avenida, referencia, telefono, tipo_cliente, sucursal, email,color) {
     return new Promise((resolve, reject) => {
       Clientes.findOne({
-        where: { ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,telefono:telefono, }
-      }).then((data)=>{
-
+        where: {
+          [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono}],  }}).then((data)=>{
         if (!data) {
           Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a"}).then((data_cliente)=>{
-          let data_set = JSON.stringify(data);
+          let data_set = JSON.stringify(data_cliente);
         console.log(data_set);
         resolve(data_set);
-
-          })
-          
+          })          
         }else{
           console.log('ya existe esa dirección')
           resolve('0');
-        }
-        
+        }       
         
       })
       .catch((err) => {
+        console.log(err);
         reject(err)
       });
     /*  Clientes.create(
