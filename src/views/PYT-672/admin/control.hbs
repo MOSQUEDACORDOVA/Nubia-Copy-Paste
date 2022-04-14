@@ -26,6 +26,7 @@
 
                     <input type="text" class="d-none" value="{{grupoId}}" id="grupoId">
                     <input type="text" class="d-none" value="{{numLeccion}}" id="numeroLeccion">
+                    <input type="text" class="d-none" value="{{nivelActual}}" id="nivelActual">
                     <input type="text" class="d-none" value="{{matri}}" id="matriculaGrupo">
 
                     <div class="col-12 mb-1">
@@ -105,7 +106,7 @@
 
                             <div class="col col-md-3 mb-1">
                                 <label for="" class="form-label">Nivel </label>
-                                <select name="" id="" class="form-select select2">
+                                <select name="" id="" class="form-select select2 nivel">
                                     {{#if matri}}
                                     <option value="1">1</option>
                                     <option value="2" disabled>2</option>
@@ -185,7 +186,7 @@
 
                             <div class="col col-md-3 mb-1">
                                 <label for="" class="form-label">Nivel</label>
-                                <select name="" id="" class="form-select select2">
+                                <select name="" id="" class="form-select select2 nivel">
                                     {{#if matri}}
                                     <option value="1">1</option>
                                     <option value="2" disabled>2</option>
@@ -265,7 +266,7 @@
 
                             <div class="col col-md-3 mb-1">
                                 <label for="" class="form-label">Nivel</label>
-                                <select name="" id="" class="form-select select2">
+                                <select name="" id="" class="form-select select2 nivel">
                                     {{#if matri}}
                                     <option value="1">1</option>
                                     <option value="2" disabled>2</option>

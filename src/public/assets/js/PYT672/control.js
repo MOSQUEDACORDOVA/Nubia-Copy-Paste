@@ -11,7 +11,7 @@ $(document).ready(function () {
 
   const EstablecerMatriculaPorLeccion = () => {
     let fragment = new DocumentFragment(),
-      esContainer = document.getElementById("estudiantes");
+    esContainer = document.getElementById("estudiantes");
     esContainer.innerHTML = "";
 
     matriculaGrupo.forEach((matricula) => {
@@ -19,11 +19,12 @@ $(document).ready(function () {
       div.classList.add("col-12");
       div.classList.add("item");
       let lecc = null,
-        idAusentes = null;
+      idAusentes = null;
 
       // * DETECTAR FILTRO DE GRUPOS
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        
         $("#ausenteNumLeccion").val(
           $("#filtrosDesdeCero .select2.leccion").val()
         );
@@ -31,6 +32,7 @@ $(document).ready(function () {
 
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
+
         $("#ausenteNumLeccion").val(
           $("#filtrosIntensivo .select2.leccion").val()
         );
@@ -38,6 +40,7 @@ $(document).ready(function () {
 
       } else {
         lecc = parseInt($("#filtrosKids .select2.leccion").val());
+
         $("#ausenteNumLeccion").val(
           $("#filtrosKids .select2.leccion").val()
         );
@@ -345,18 +348,33 @@ $(document).ready(function () {
 
   if ($("#grupoId").val() != "") {
     let arr = Object.values(selectDesdeCero.options),
-      arr2 = Object.values(selectIntensivo.options),
-      arr3 = Object.values(selectKids.options);
+    arr2 = Object.values(selectIntensivo.options),
+    arr3 = Object.values(selectKids.options);
+
+    let nivel;
+      
     arr.forEach((item) => {
       if (item.value === $("#grupoId").val()) {
         $("#filtrosDesdeCero select.grupo").val($("#grupoId").val());
         $("#filtrosDesdeCero select.grupo").trigger("change");
+
         $("#filtrosDesdeCero select.leccion").val($("#numeroLeccion").val());
         $("#filtrosDesdeCero select.leccion").trigger("change");
+
+
         let numLecciones = parseInt($("#numeroLeccion").val());
         for (i = 0; i <= numLecciones; i++) {
           $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
         }
+
+        // * DETECTAR NIVEL
+        nivel = parseInt($("#nivelActual").val())
+        for (let index = 0; index < nivel; index++) {
+          $("#filtrosDesdeCero select.nivel")[0].options[index].disabled = false;
+        }
+        
+        $("#filtrosDesdeCero select.nivel").val($("#nivelActual").val());
+        $("#filtrosDesdeCero select.nivel").trigger("change");
       }
     });
 
@@ -364,12 +382,24 @@ $(document).ready(function () {
       if (item.value === $("#grupoId").val()) {
         $("#filtrosIntensivo select.grupo").val($("#grupoId").val());
         $("#filtrosIntensivo select.grupo").trigger("change");
+
         $("#filtrosIntensivo select.leccion").val($("#numeroLeccion").val());
         $("#filtrosIntensivo select.leccion").trigger("change");
+        
         let numLecciones = parseInt($("#numeroLeccion").val());
         for (i = 0; i <= numLecciones; i++) {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
         }
+        
+        // * DETECTAR NIVEL
+        nivel = parseInt($("#nivelActual").val())
+        for (let index = 0; index < nivel; index++) {
+          $("#filtrosIntensivo select.nivel")[0].options[index].disabled = false;
+        }
+
+        $("#filtrosIntensivo select.nivel").val($("#nivelActual").val());
+        $("#filtrosIntensivo select.nivel").trigger("change");
+
         checkDesde0.checked = false;
         checkIntensivo.checked = true;
         checkKids.checked = false;
@@ -383,12 +413,23 @@ $(document).ready(function () {
       if (item.value === $("#grupoId").val()) {
         $("#filtrosKids select.grupo").val($("#grupoId").val());
         $("#filtrosKids select.grupo").trigger("change");
+        
         $("#filtrosKids select.leccion").val($("#numeroLeccion").val());
         $("#filtrosKids select.leccion").trigger("change");
+
         let numLecciones = parseInt($("#numeroLeccion").val());
         for (i = 0; i <= numLecciones; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = false;
         }
+        // * DETECTAR NIVEL
+        nivel = parseInt($("#nivelActual").val())
+        for (let index = 0; index < nivel; index++) {
+          $("#filtrosKids select.nivel")[0].options[index].disabled = false;
+        }
+
+        $("#filtrosKids select.nivel").val($("#nivelActual").val());
+        $("#filtrosKids select.nivel").trigger("change");
+
         checkDesde0.checked = false;
         checkIntensivo.checked = false;
         checkKids.checked = true;
