@@ -167,7 +167,7 @@ function cargarTablaMatricula(editada) {
             } else if (full["estado"]["id"] === 5) {
               estado = `
                 <div class="badge-wrapper me-1">
-                  <span class="badge rounded-pill badge-light-danger">${full["estado"]["estado"]}</span>
+                  <span class="badge rounded-pill bg-dark">${full["estado"]["estado"]}</span>
                 </div>
               `;
             }
