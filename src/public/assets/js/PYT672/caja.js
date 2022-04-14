@@ -43,7 +43,8 @@ $(function () {
       .then((data) => {
         return data.obtener_historia;
       });
-    if (filter[0]["estadoId"] == "5") {
+    console.log(filter[0])
+    if (filter[0]["estadoId"] === 5) {
       $("#form-reg-pago").append(
         `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
       );
@@ -1288,7 +1289,7 @@ $(function () {
   $("#btn-congelar-alumno").click(() => {
     let id_estudiante = $("#id-alumno-form").val();
     let data = new FormData();
-    data.append("id_estudiante", id_estudiante);
+    data.append("id", id_estudiante);
     $.ajax({
       url: `/congelarestudiantepy672`,
       type: "POST",
@@ -1312,7 +1313,7 @@ $(function () {
   $("#btn-activar-alumno").click(() => {
     let id_estudiante = $("#id-alumno-form").val();
     let data = new FormData();
-    data.append("id_estudiante", id_estudiante);
+    data.append("id", id_estudiante);
     $.ajax({
       url: `/activarestudiantecongeladopy672`,
       type: "POST",
