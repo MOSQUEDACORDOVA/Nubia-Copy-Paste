@@ -52,6 +52,7 @@ $(document).ready(function () {
       $("#ausenteMatriculaId").val(matricula.id);
       let form = new FormData(document.getElementById("procesarAusente"));
       form.append("arr", $("#matriculaGrupo").val());
+      form.append("nivel", $("#nivelActual").val());
 
       fetch("/obtenerMatriculaAusente", {
         method: "POST",
@@ -65,6 +66,7 @@ $(document).ready(function () {
 
           let response = data.resp;
           let response2 = data.matricula;
+          //console.log(response2)
 
           if (response.length) {
             idAusentes = response[0].matriculaId;
@@ -93,12 +95,11 @@ $(document).ready(function () {
                 GcommentAdminForm = response2[i].commentAdminForm;
               }              
             }
+            let nivelSeleccioando = $('#nivelActual').val()
             
             /*console.log(GcommentProfForm)*/
             let found;
             found = response2.filter(item => item.id === matricula.id)
-            /*console.log(found);
-            console.log("FILTER");*/
 
             if (found) {
               let num = found[0].notas;
@@ -367,13 +368,15 @@ $(document).ready(function () {
             }
           } else { // * SI ESTA PRESENTE
             commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-          
+            
             if (matricula.estadoId === 5) {
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" disabled>${GcommentProfForm}</textarea>`
+
               div.innerHTML = `
                       <label class="card-title estudiante" hidden>${
                         matricula.nombre
                       }</label>
-                          <div class="card card-statistics border-success" id="estudiante${
+                          <div class="card card-statistics border-secondary" id="estudiante${
                             matricula.id
                           }">
                               <div class="row m-0 p-0">
@@ -676,9 +679,10 @@ $(document).ready(function () {
   function guardarNotas(id, calif) {
     guardarNota = setTimeout(() => {
       let nota = document.querySelector("#procesarNotas .nota"),
-        leccion = document.querySelector("#procesarNotas .leccion"),
-        grupo = document.querySelector("#procesarNotas .grupo"),
-        matricula = document.querySelector("#procesarNotas .matricula");
+      leccion = document.querySelector("#procesarNotas .leccion"),
+      grupo = document.querySelector("#procesarNotas .grupo"),
+      matricula = document.querySelector("#procesarNotas .matricula"),
+      nivel = document.querySelector('#procesarNotas .nivel');
 
       nota.value = calif;
       leccion.value = $("#numeroLeccion").val();
@@ -687,8 +691,16 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-      } else {
+        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
+        
+      } else if ($("#filtrosIntensivo .select2.leccion").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
+        
+      } else {
+        leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
+
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -730,8 +742,10 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-      } else {
+      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      } else {
+        leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -775,8 +789,10 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-      } else {
+      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      } else {
+        leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -820,8 +836,10 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-      } else {
+      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      } else {
+        leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
       }
 
       let form = new FormData(document.getElementById("procesarParticipacion"));

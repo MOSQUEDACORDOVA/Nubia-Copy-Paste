@@ -81,7 +81,7 @@ exports.reguser = (req, res) => {
 };
 
 exports.generarRegistroPDF = (req, res) => {
-  
+
 }
 
 exports.deleteuser = (req, res) => {
@@ -2770,20 +2770,20 @@ exports.registrarparticipacion = (req, res) => {
 
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
-  const { nota, leccion, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
+  const { nota, leccion, nivel, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
   console.log(req.body);
   let msg = false;
 const userId = res.locals.user.id
-  if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (nota.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
     let err = { error: "complete todos los campos 2095" };
     res.send({err});
   } else {
-    DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
+    DataBase.BuscarNotasLeccion(leccion, nivel, grupoId, matriculaId).then((response) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
           if (commentProfForm != "") {
              const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
@@ -2796,7 +2796,7 @@ const userId = res.locals.user.id
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
           if (commentProfForm != "") {
             const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
@@ -2863,18 +2863,18 @@ exports.eliminarmatriculausente = (req, res) => {
 
 // * OBTENER MATRICULA AUSENTE
 exports.obtenermatriculausente = (req, res) => {
-  const { arr, leccion, grupoId, matriculaId } = req.body;
+  const { arr, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos');
     let err = { error: "complete todos los campos 2182" };
     res.send({err});
   } else {
     let matricula = JSON.parse(arr);
     matricula.forEach(item => {
-      DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
+      DataBase.ObtenerNotasMatricula(leccion, nivel, grupoId, item.id).then((response) => {
         let result = JSON.parse(response)[0];
         /*console.log(result)*/
         if (result) {

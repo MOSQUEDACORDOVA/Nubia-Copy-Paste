@@ -18,6 +18,10 @@ const Notas = db672.define('notas', {
 		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
+	nivel: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
 	commentProfForm: {
 		type: DataTypes.STRING(255),
 		allowNull: true,
