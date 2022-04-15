@@ -678,6 +678,9 @@ router.post('/subirExcel', fileController672.subirArchivo);
 router.get('/cargarExcel/:grupoId/:fileName/:vendedor/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
 // *  DETALLES CONTROL EN CAJA
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
+// * GENERAR COMPROBANTE PDF DE REGISTRO
+router.get('/generarRegistroPDF/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.generarRegistroPDF);
+router.get('/prueba/:id', dashboardControllerPY672.prueba);
 
 
 /*------------ PYT-672-----------------*/

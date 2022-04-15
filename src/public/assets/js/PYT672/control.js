@@ -513,16 +513,16 @@ $(document).ready(function () {
   }
 
   let checkDesde0 = document.getElementById("inlineRadio3"),
-    checkIntensivo = document.getElementById("inlineRadio4"),
-    checkKids = document.getElementById("inlineRadio5"),
-    filtrosDesdeCero = document.getElementById("filtrosDesdeCero"),
-    selectDesdeCero = document.querySelector("#filtrosDesdeCero select.grupo"),
-    filtrosIntensivo = document.getElementById("filtrosIntensivo"),
-    selectIntensivo = document.querySelector("#filtrosIntensivo select.grupo"),
-    filtrosKids = document.getElementById("filtrosKids"),
-    selectKids = document.querySelector("#filtrosKids select.grupo"),
-    grupoForm = document.getElementById("grupoForm"),
-    grupoFormInput = document.querySelector("#grupoForm input.grupoId");
+  checkIntensivo = document.getElementById("inlineRadio4"),
+  checkKids = document.getElementById("inlineRadio5"),
+  filtrosDesdeCero = document.getElementById("filtrosDesdeCero"),
+  selectDesdeCero = document.querySelector("#filtrosDesdeCero select.grupo"),
+  filtrosIntensivo = document.getElementById("filtrosIntensivo"),
+  selectIntensivo = document.querySelector("#filtrosIntensivo select.grupo"),
+  filtrosKids = document.getElementById("filtrosKids"),
+  selectKids = document.querySelector("#filtrosKids select.grupo"),
+  grupoForm = document.getElementById("grupoForm"),
+  grupoFormInput = document.querySelector("#grupoForm input.grupoId");
 
   checkDesde0.addEventListener("change", (e) => {
     if (checkDesde0.checked === true) {

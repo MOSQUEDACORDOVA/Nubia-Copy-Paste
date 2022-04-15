@@ -18,7 +18,8 @@ module.exports = {
       Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password,telefono:telefono })
         .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Usuario registrado con éxito');
+            console.log('Usuario registrado con éxito')
+            resolve(data_set);
         })
         .catch((err) => {
             reject(err)
@@ -584,6 +585,30 @@ module.exports = {
           .catch((err) => {
               reject(err)
           });
+      });
+    },
+    // * OBTENER MATRICULA
+    ObtenerMatricula(id) {
+      return new Promise((resolve, reject) => {   
+        Matriculas.findAll({ where: {
+          id: id,
+        },
+        include:[
+          {association: Matriculas.TipoEstudiante},
+          {association: Matriculas.Grupos},
+          {association: Matriculas.Estado},          
+          {association: Matriculas.Usuarios},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
       });
     },
     // * OBTENER MATRICULA DE GRUPOS
