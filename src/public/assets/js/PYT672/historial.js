@@ -136,19 +136,11 @@ function cargarTablaMatricula(editada) {
 
             let color;
 
-            if (total <= 20) {
-              color = "#ea5455"
-            } else if (total <= 30 && total > 20) {
-              color = "#adb5bd"
-            } else if (total <= 40 && total > 30) {
-              color = "#ffc107"
-            } else if (total <= 50 && total > 40) {
-              color = "#0dcaf0"
-            } else if (total <= 75 && total > 50) {
-              color = "#d63384"
-            } else if (total > 75) {
-              color = "#0833a2";
-            }
+            if (total >= 80) {
+              color = "#28c76f"
+            } else {
+              color = "#82868b"
+            } 
 
             let item = document.querySelector(`#chartPart${full['id']}`);
             if(item) {
@@ -170,19 +162,11 @@ function cargarTablaMatricula(editada) {
 
             let color;
 
-            if (total <= 20) {
-              color = "#ea5455"
-            } else if (total <= 30 && total > 20) {
-              color = "#adb5bd"
-            } else if (total <= 40 && total > 30) {
-              color = "#ffc107"
-            } else if (total <= 50 && total > 40) {
-              color = "#0dcaf0"
-            } else if (total <= 75 && total > 50) {
-              color = "#d63384"
-            } else if (total > 75) {
-              color = "#0833a2";
-            }
+            if (total >= 70) {
+              color = "#28c76f"
+            } else {
+              color = "#82868b"
+            } 
 
             let item = document.querySelector(`#chart${full['id']}`);
             if(item) {
@@ -210,7 +194,7 @@ function cargarTablaMatricula(editada) {
               if (totalAsistencias >= 80 && totalNotas >= 70) {
                 info = `<span class="badge badge-light-success">Aprobado</span>`
               } else {
-                info = `<span class="badge badge-light-danger">Reprobado</span>`
+                info = `<span class="badge badge-light-secondary">Reprobado</span>`
               }
             }
             return info;

@@ -167,7 +167,7 @@ function cargarTablaMatricula(editada) {
             } else if (full["estado"]["id"] === 5) {
               estado = `
                 <div class="badge-wrapper me-1">
-                  <span class="badge rounded-pill badge-light-danger">${full["estado"]["estado"]}</span>
+                  <span class="badge rounded-pill bg-dark">${full["estado"]["estado"]}</span>
                 </div>
               `;
             }
@@ -289,8 +289,9 @@ $(function () {
   });
 
   $(".congelar-estudiante").on("click", (e) => {
-    let form = e.target;
-    //  form.submit();
+    if (!e.target.classList.contains('dropdown-item')) {
+      e.target.submit()
+    }
   });
 
   $(".eliminar-estudiante-grupo").on("click", (e) => {
