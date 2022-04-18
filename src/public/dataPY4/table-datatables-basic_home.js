@@ -6,7 +6,7 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- var zonas;
+ var zonas, copyReady;
 
  // Custom filtering function which will search data in column four between two values
 //  $.fn.dataTable.ext.search.push(
@@ -175,6 +175,13 @@ $('#filterValue').val(this.value)
     dt_basic.search(this.value).draw();   
  });
 
+copyReady= await fetch("/shareStatusPY4/")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    return data.findStatusCompartir;
+  });
+
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
       columns: [
@@ -194,6 +201,7 @@ $('#filterValue').val(this.value)
           title: 'Opciones',
           orderable: false,
           render: function (data, type, full, meta) {
+            
             let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
             let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
             let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
@@ -207,13 +215,19 @@ for (let i = 0; i < codigosP_arr.length; i++) {
 if ($('#otro_rol').length>0) {
 let Hoy = moment().format('DD/MM/YYYY'); 
 let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
-    var fecha_final= moment(Hoy).isAfter(fecha); // true
-        
+    var fecha_final= moment(Hoy).isAfter(fecha); // true        
 } 
-let modif = ""
-
+let modif = "";
 if (fecha_final == true) {
-  modif = "d-none"
+  modif = "d-none";
+}
+let styleCopy = "";
+console.log(copyReady);
+for (let i = 0; i < copyReady.length; i++) {
+  if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
+    styleCopy = "style='background-color: #001871; color: white;'";
+  }
+  
 }
             return (
               '<div class="d-inline-flex">' +
@@ -223,7 +237,7 @@ if (fecha_final == true) {
               '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
-              '<a href="javascript:;" class="'+full['id']+' dropdown-item share_record '+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
+              '<a href="javascript:;" '+styleCopy+' class="'+full['id']+' dropdown-item share_record'+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
               feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
               '</a>' +
              `<p id="CopyPedido${full['id']}" class="d-none">
@@ -785,7 +799,7 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           sumaG += parseFloat($(this).text());
     }    
   });
-  $('#DataTables_Table_0_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+  $('#ventas-table_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
 
         var api = this.api();
         var rows = api.rows({ page: 'current' }).nodes();
@@ -1399,7 +1413,7 @@ if ($('.select_etiqueta_pedidos').val() != "") {
     if (typeof id_edit =="undefined") {
       return console.log(id_edit)
     }
-    copyToClipboard(`#CopyPedido${id_edit}`)
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
 
   });
 
@@ -1434,14 +1448,24 @@ function filterColumn(i, val) {
     $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
   }
 }
-function copyToClipboard(elemento) {
+async function copyToClipboard(elemento,id_edit) {
   var $temp = $("<textarea>")
   var brRegex = /<br\s*[\/]?>/gi;
   $("body").append($temp);
   $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
   document.execCommand("copy");
   $temp.remove();
+  console.log(id_edit)
+  await fetch("/ChangeshareStatusPY4/" + id_edit)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    $(`.share_record${id_edit}`).attr('style','background-color: #001871; color: white;');
+    //return data.obtener_historia;
+  });
+
   Swal.fire('Pedido copiado en el portapapeles')
+
   }
   function copyToClipboardVarios(elemento) {
     if ($("#checkboxSelectAll").is(':checked')) {
@@ -2209,5 +2233,5 @@ function share_record(id_) {
     }
     /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
     $('#p1').text(direction_copy)*/
-    copyToClipboard(`#CopyPedido${id_edit}`)
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
 }
