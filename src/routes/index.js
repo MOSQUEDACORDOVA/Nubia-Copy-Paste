@@ -597,7 +597,7 @@ router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 // TODO: ADMIN
 router.get('/grupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.verificargrupos);
-router.get('/matriculas', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
+router.get('/matriculas/:id?', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
 router.get('/matriculas/:msg', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas)
 router.get('/control/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedUser, dashboardControllerPY672.controlgrupo);
@@ -683,6 +683,8 @@ router.post('/subirExcel', fileController672.subirArchivo);
 router.get('/cargarExcel/:grupoId/:fileName/:vendedor/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
 // *  DETALLES CONTROL EN CAJA
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
+// * GENERAR COMPROBANTE PDF DE REGISTRO
+router.get('/comprobante/:id', dashboardControllerPY672.generarRegistroPDF);
 
 
 /*------------ PYT-672-----------------*/

@@ -8,6 +8,8 @@ let moment = require('moment-timezone');
 var pdf = require('html-pdf');
 const { group } = require("console");
 const xlsxFile = require('read-excel-file/node');
+const { toJpeg } = require('html-to-image');
+
 
 // TODO: AUTH
 // * LOGIN
@@ -71,18 +73,16 @@ exports.reguser = (req, res) => {
   nombre = nombre + " " + apellidos;
   let msg = false;
 
-    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) =>{
-      return res.send({success: 'Usuario Registrado'});
+    DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) => {
+      console.log(respuesta)
+
+      return res.redirect('/loginpy672/PYT-672');
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
 };
-
-exports.generarRegistroPDF = (req, res) => {
-  
-}
 
 exports.deleteuser = (req, res) => {
   console.log(req.body);
@@ -165,6 +165,33 @@ exports.cargarExcel = (req, res) => {
     console.log(error);
     return res.redirect("/error672/PYT-672");    
   }
+};
+
+// * VISTA COMPROBANTE DE REGISTRO
+exports.generarRegistroPDF = (req, res) => {
+  let msg = false;
+  let idUser = req.params.id  
+
+  DataBase.ObtenerMatricula(idUser).then((response) => {
+    let find = JSON.parse(response)[0];
+    console.log(find)
+    console.log("USUARIO")
+    
+    res.render("PYT-672/docs/registro-pdf", {
+      pageName: "Comprobante",
+      dashboardPage: true,
+      dashboard: true,
+      py672:true,
+      login: true,
+      find
+    })
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
 };
 
 // * VISTA LOGIN
@@ -988,6 +1015,11 @@ exports.matriculas = async (req, res) => {
     msg = req.params.msg;
   }
 
+  let idUser = null
+  if (req.params.id) {
+    idUser = req.params.id;
+  }
+
   let roleAdmin, roleProf
   if(req.user.puesto === "Administrador") {
     roleAdmin = true
@@ -1035,6 +1067,7 @@ exports.matriculas = async (req, res) => {
       dashboard: true,
       py672: true,
       matric: true,
+      idUser,
       roleAdmin, roleProf,
       gruposTodos,
       arr,
@@ -1213,7 +1246,13 @@ exports.controlgrupo = (req, res) => {
         
         DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
           let grupo = JSON.parse(respuesta)[0]
-          let numLeccion, nivelActual;
+          let numLeccion, nivelActual, 
+          fechaNiveles = {
+            nivel1: '',
+            nivel2: '',
+            nivel3: '',
+            nivel4: '',
+          };
           /*console.log(grupo)
           console.log("GRUPO ENCONTRADO")*/
           
@@ -1256,6 +1295,14 @@ exports.controlgrupo = (req, res) => {
                 console.log("INTENSIVO")
               break;
             }
+
+            fechaNiveles = {
+              nivel1: fechaInicio,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            };
+            fechaNiveles = JSON.stringify(fechaNiveles)
                    
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
@@ -1305,11 +1352,11 @@ exports.controlgrupo = (req, res) => {
 
             }
 
-            console.log(numPositivo)
+            /*console.log(numPositivo)
             console.log("POSITIVO")
             
             console.log("REST",rest)
-            console.log("DIFF",diff)
+            console.log("DIFF",diff)*/
             
           }
           
@@ -1336,7 +1383,8 @@ exports.controlgrupo = (req, res) => {
       fechaInicio,
       diff,
       rest,
-      nivelActual
+      nivelActual,
+      fechaNiveles
     });
   }).catch((err) => {
     console.log(err)
@@ -2770,20 +2818,20 @@ exports.registrarparticipacion = (req, res) => {
 
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
-  const { nota, leccion, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
+  const { nota, leccion, nivel, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
   console.log(req.body);
   let msg = false;
 const userId = res.locals.user.id
-  if (nota.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (nota.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
     let err = { error: "complete todos los campos 2095" };
     res.send({err});
   } else {
-    DataBase.BuscarNotasLeccion(leccion, grupoId, matriculaId).then((response) => {
+    DataBase.BuscarNotasLeccion(leccion, nivel, grupoId, matriculaId).then((response) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
           if (commentProfForm != "") {
              const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
@@ -2796,7 +2844,7 @@ const userId = res.locals.user.id
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
           if (commentProfForm != "") {
             const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
@@ -2863,18 +2911,18 @@ exports.eliminarmatriculausente = (req, res) => {
 
 // * OBTENER MATRICULA AUSENTE
 exports.obtenermatriculausente = (req, res) => {
-  const { arr, leccion, grupoId, matriculaId } = req.body;
+  const { arr, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos');
     let err = { error: "complete todos los campos 2182" };
     res.send({err});
   } else {
     let matricula = JSON.parse(arr);
     matricula.forEach(item => {
-      DataBase.ObtenerNotasMatricula(leccion, grupoId, item.id).then((response) => {
+      DataBase.ObtenerNotasMatricula(leccion, nivel, grupoId, item.id).then((response) => {
         let result = JSON.parse(response)[0];
         /*console.log(result)*/
         if (result) {
@@ -3020,7 +3068,7 @@ exports.registrarmatricula = async(req, res) => {
       return res.redirect('/matriculas/'+msg);
     }
     DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor).then((resp) => {
-    //  console.log(resp)
+      //console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
@@ -3030,7 +3078,8 @@ exports.registrarmatricula = async(req, res) => {
         msg = `El grupo seleccionado ya cuenta con ${countNew} registrados`
         return res.redirect('/matriculas/'+msg);
       }
-      return res.redirect('/matriculas');
+
+      return res.redirect('/matriculas/'+idEstudiante);
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

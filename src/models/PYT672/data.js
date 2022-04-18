@@ -18,7 +18,8 @@ module.exports = {
       Usuarios.create({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI, password: password,telefono:telefono })
         .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Usuario registrado con éxito');
+            console.log('Usuario registrado con éxito')
+            resolve(data_set);
         })
         .catch((err) => {
             reject(err)
@@ -586,6 +587,30 @@ module.exports = {
           });
       });
     },
+    // * OBTENER MATRICULA
+    ObtenerMatricula(id) {
+      return new Promise((resolve, reject) => {   
+        Matriculas.findAll({ where: {
+          id: id,
+        },
+        include:[
+          {association: Matriculas.TipoEstudiante},
+          {association: Matriculas.Grupos},
+          {association: Matriculas.Estado},          
+          {association: Matriculas.Usuarios},
+        ],order: [
+          ["id", "DESC"],
+        ],})
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
     // * OBTENER MATRICULA DE GRUPOS
     ObtenerMatriculaGrupo(id) {
       return new Promise((resolve, reject) => {   
@@ -648,10 +673,10 @@ module.exports = {
         });
       });
     },
-    RegistrarNotas(nota, lecc, grupoId, matriculaId, commentProfForm,  commentAdminForm) {
+    RegistrarNotas(nota, lecc, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm) {
       return new Promise((resolve, reject) => {
         Notas.create({
-          nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm
+          nota: nota, n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -696,12 +721,15 @@ module.exports = {
       });
     },
 
-    ObtenerNotasMatricula(lecc, grupoId, matriculaId) {
+    ObtenerNotasMatricula(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -743,12 +771,15 @@ module.exports = {
         });
       });
     },
-    BuscarNotasLeccion(lecc, grupoId, matriculaId) {
+    BuscarNotasLeccion(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -847,7 +878,7 @@ module.exports = {
         });
       });
     },
-    ActualizarNotas(nota, lecc, grupoId, matriculaId,commentProfForm,  commentAdminForm ) {
+    ActualizarNotas(nota, lecc, nivel, grupoId, matriculaId,commentProfForm,  commentAdminForm ) {
       return new Promise((resolve, reject) => {
         Notas.update({
           nota: nota, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId, commentProfForm:commentProfForm,  commentAdminForm:commentAdminForm 
@@ -855,6 +886,9 @@ module.exports = {
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,

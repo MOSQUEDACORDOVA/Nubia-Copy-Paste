@@ -1761,6 +1761,8 @@ count++
     bInfo: false,
     order: [[2, "desc"]],
   });
+  $('#grupos_table_wrapper').removeClass('dataTables_wrapper')
+  $('#grupos_table').removeClass('dataTable')
 };
 function grupoSelected(valor) {
   $("#grupoId").val(valor);

@@ -1360,13 +1360,20 @@ $('.fecha-inicio').on('change',(e)=>{
     
     dia_fechaSelect = moment(e.target.value,'DD-MM-YYYY').locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].trim().toLowerCase())    
-    console.log(dia_fechaSelect)
+    console.log(dia[0].trim().toLowerCase())  
+    console.log('fecha_h')  
+    console.log(fecha_h)
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
     if($('#customOptionsCheckableRadios2').is(':checked')){
-        console.log(dia[1].trim().toLowerCase())
+        
         if (dia_fechaSelect == dia[0].trim().toLowerCase() || dia_fechaSelect == dia[1].trim().toLowerCase()) {
+            console.log(dia[1].trim().toLowerCase())
+            if (fecha_anterior == true){
+                swal.fire('Debe seleccionar una fecha superior a la actual.')		
+                            $('#date').val('')
+                return
+            }
                 return
         }else {
             swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
@@ -1394,17 +1401,18 @@ $('#date').on('change',(e)=>{
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
     fecha_h = e.target.value
     console.log(dia[0].toLowerCase())
-    console.log(dia_fechaSelect)
+    console.log(fecha_h)
+    console.log("fecha ")
 
-	let fecha_anterior = moment(hoy).isAfter(moment(fecha_h),'d'); // true
+	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
 			if (dia_fechaSelect != dia[0].toLowerCase()) {
                 swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
 								$('#date').val('')
 					return
             }
-				if (fecha_anterior == true){
-					swal.fire('Debe seleccionar una fecha superior a la actual.')		
-								$('#date').val('')
-					return
-				}
+            if (fecha_anterior == true){
+                swal.fire('Debe seleccionar una fecha superior a la actual.')		
+                            $('#date').val('')
+                return
+            }
 })

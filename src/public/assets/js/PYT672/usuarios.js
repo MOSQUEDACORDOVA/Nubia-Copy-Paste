@@ -151,6 +151,7 @@ function RegistrarUsuario (data) {
       })
       .then(response => {
           console.log('Success:', response)
+          
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
           Toast("Usuario Registrado");
