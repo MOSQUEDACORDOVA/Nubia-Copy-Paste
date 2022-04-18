@@ -9,6 +9,32 @@ const request = require("request");
 var moment = require("moment-timezone");
 const { encrypt, decrypt } = require("./crypto"); //Encrypt / decrypt
 
+exports.error = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  res.render("PYT-4/404", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4: true,
+      login: true
+    })
+};
+exports.errorCuponera = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  res.render("PYT-4/404", {
+    pageName: "Bwater",
+    dashboardPage: true,
+    dashboard: true,
+    py4Cup: true,
+    cuponeraerr: true,
+    })
+};
 exports.crea_codigo_ref = (req, res) => {
   let id_referido = req.params.id_referido;
 
@@ -34,7 +60,7 @@ exports.change_sucursal = (req, res) => {
 };
 
 exports.prestados = (req,res)=>{
-  console.log(req.params.day)
+  
   if (req.params.day!='Invalid date') {
     dia = moment(req.params.day, "YYYY-DD-MM").format("YYYY-MM-DD");
   } else {
@@ -113,8 +139,7 @@ let id_sucursal = req.session.sucursal_select;
       break;
   }
 let zonas =JSON.parse(await getZonas())
-console.log(zonas)
-                              res.send({zonas})
+res.send({zonas})
 }
 
 exports.dashboard = (req, res) => {
@@ -202,7 +227,7 @@ exports.dashboard = (req, res) => {
                   for (let i = 0; i < pedidos_letG.length; i++) {
                     if (pedidos_letG[i].status_pedido == "Entregado") {
                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido);
+                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
                         duration = hoy.diff(dia_pedido, "days");
                         if (duration >= 10 && duration < 20) {
                           notif1_2.push({
@@ -222,7 +247,7 @@ exports.dashboard = (req, res) => {
                         pedidos_letG[i].total_garrafones_pedido >= 3 &&
                         pedidos_letG[i].total_garrafones_pedido <= 5
                       ) {
-                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido);
+                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
                         duration = hoy.diff(dia_pedido, "days");
                         if (duration >= 20 && duration < 30) {
                           notif3_5.push({
@@ -239,10 +264,9 @@ exports.dashboard = (req, res) => {
                         }
                       }
                       if (
-                        pedidos_letG[i].total_garrafones_pedido >= 6 &&
-                        pedidos_letG[i].total_garrafones_pedido <= 12
+                        pedidos_letG[i].total_garrafones_pedido >= 6 
                       ) {
-                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido);
+                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
                         duration = hoy.diff(dia_pedido, "days");
                         if (duration >= 30) {
                           notif6_12.push({
@@ -316,7 +340,7 @@ exports.dashboard = (req, res) => {
                                           "No se ha realizado la carga inicial, verificar";
                                       }
                                      let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido())
-                                     console.log(clientes_arr)
+                                     
                                      cont_not = cont_not + parseInt(verifica_pedidos_referido.length)
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
@@ -658,13 +682,12 @@ exports.save_cliente_py4 = async (req, res) => {
   if (telefono_familiar_2 == null) {
     telefono_familiar_2 = "";
   }
-  console.log('respuesta')
+  
   DataBase.registrar_cliente(firstName, cp, asentamiento, lastName, ciudad, municipio, fraccionamiento, coto, casa, calle, avenida, referencia, telefono, nombre_familiar_1,
     apellido_familiar_1, telefono_familiar_1, nombre_familiar_2,apellido_familiar_2, telefono_familiar_2, tipo_cliente,modo_cliente, fecha_ultimo_pedido, utimos_botellones,
     sucursal, email, color,descuento_reg_cliente)
     .then(async(respuesta) => {
       
-      console.log(respuesta)
       let clientes = await ClientesDB(id_sucursal)
       if (req.body.dashboard) {
         return res.send({clientes});
@@ -751,7 +774,7 @@ exports.save_cliente_cuponera = (req, res) => {
     color,
   } = req.body;
   let msg = false;
-
+console.log(req.body);
   DataBase.registrar_clienteCuponera(
     firstName,
     cp,
@@ -778,19 +801,21 @@ exports.save_cliente_cuponera = (req, res) => {
           "Este domicilio ya se se encuentra registrado favor de comunicarse con el titular de la cuenta, contactar con Bwater sí requieren más ayuda";
         res.redirect("/log_cupon/" + respuesta);
       } else {
-        let cliente_created = JSON.parse(respuesta)[0];
+        let cliente_created = JSON.parse(respuesta);
+        console.log(cliente_created)
         await DataBase.saveCupNotificacionClientNew(
           "Nuevo cliente",
           "0",
           "Se ha creado un nuevo cliente desde la cuponera",
           cliente_created.id
         );
-        res.redirect("/log_cuponera/" + respuesta);
+        res.redirect("/log_cuponera/Registro exitoso");
       }
     })
     .catch((err) => {
+      console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
+      return res.redirect("/errorpy4Cuponera/" + msg);
     });
 };
 
@@ -798,7 +823,7 @@ exports.delete_cliente = async (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id;
 let PedidosByclient = JSON.parse(await DataBase.PedidosReferido(id_));
-console.log(PedidosByclient.length);
+
  let Disabled,deleteClient;
 if (PedidosByclient.length>0) {
   Disabled = JSON.parse(await DataBase.Disabled_client(id_));
@@ -1485,7 +1510,7 @@ exports.cambiaS_pedido = (req, res) => {
           let p = [];
           for (let i = 0; i < pedidos_let.length; i++) {
             reprogramado = moment(dia).isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido),
+              moment(pedidos_let[i].fecha_pedido,'YYYY-MM-DD'),
               "day"
             ); // true
             
@@ -1520,7 +1545,7 @@ exports.cambiaS_pedido = (req, res) => {
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;
-console.log(ids_pedido)
+  
   let split_id = ids_pedido.split(",");
 
   for (let i = 0; i < split_id.length; i++) {
@@ -1612,6 +1637,31 @@ exports.cambia_S_pago = (req, res) => {
       return res.redirect("/errorpy4/" + msg);
     });
 };
+
+//**copyClipboard  */
+exports.ChangeshareStatusPY4 = async (req, res) => {
+  const user = res.locals.user;
+  const id_pedido = req.params.id;
+  
+   let findStatusCompartir0 =  JSON.parse(await DataBase.findStatusCompartir(id_pedido));
+   
+  if (findStatusCompartir0) {
+   return res.send({findStatusCompartir0})  
+  }
+  let cambiaEstadoCopy =  JSON.parse(await DataBase.SaveStatusCompartir(id_pedido));
+  
+  res.send({cambiaEstadoCopy})
+
+};
+exports.shareStatusPY4 = async (req, res) => {
+  const user = res.locals.user;
+  const id_pedido = req.params.id;
+  
+   let findStatusCompartir =  JSON.parse(await DataBase.findStatusCompartirAll());
+  res.send({findStatusCompartir})
+
+};
+
 exports.cambia_S_pago_deudor = async (req, res) => {
   const user = res.locals.user;
   const id_pedido = req.body.id;
@@ -3471,7 +3521,6 @@ exports.introCup = (req, res) => {
   });
 };
 exports.sessionCuponera = (req, res) => {
-  
   passport.authenticate("cuponera", function (err, user, info) {
     if (err) {
       return next(err);
@@ -3484,7 +3533,6 @@ exports.sessionCuponera = (req, res) => {
       if (err) {
           return next(err);
       }
-      
       if (user.dataValues.cuponera == "" || user.dataValues.cuponera == "c/a") {
         return res.redirect("/cuponera");
       } else {
@@ -4004,21 +4052,13 @@ exports.notificaciones_table = (req, res) => {
                                     notificacion_g = [];
                                   let hoy = moment();
                                   var duration = "";
-                                  for (
-                                    let i = 0;
-                                    i < pedidos_letG.length;
-                                    i++
-                                  ) {
-                                    if (
-                                      pedidos_letG[i].status_pedido ==
-                                      "Entregado"
-                                    ) {
-                                      if (
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido <= 2
-                                      ) {
+                                  
+                                  for (let i = 0; i < pedidos_letG.length; i++) {
+                                    if (pedidos_letG[i].status_pedido =="Entregado") {
+                                      
+                                      if (pedidos_letG[i].total_garrafones_pedido <= 2) {
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 10 && duration < 20) {
@@ -4048,10 +4088,11 @@ exports.notificaciones_table = (req, res) => {
                                         pedidos_letG[i]
                                           .total_garrafones_pedido <= 5
                                       ) {
+                                        
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
-                                        duration = hoy.diff(dia_pedido, "days");
+                                        duration = hoy.diff(dia_pedido, "d");
                                         if (duration >= 20 && duration < 30) {
                                           notif3_5.push({
                                             id_pedido: pedidos_letG[i].id,
@@ -4075,12 +4116,9 @@ exports.notificaciones_table = (req, res) => {
                                       }
                                       if (
                                         pedidos_letG[i]
-                                          .total_garrafones_pedido >= 6 &&
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido <= 12
-                                      ) {
+                                          .total_garrafones_pedido >= 6 ) {
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 30) {
@@ -4313,7 +4351,7 @@ exports.reportes = (req, res) => {
                                           .total_garrafones_pedido <= 2
                                       ) {
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 10 && duration < 20) {
@@ -4344,7 +4382,7 @@ exports.reportes = (req, res) => {
                                           .total_garrafones_pedido <= 5
                                       ) {
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 20 && duration < 30) {
@@ -4370,12 +4408,10 @@ exports.reportes = (req, res) => {
                                       }
                                       if (
                                         pedidos_letG[i]
-                                          .total_garrafones_pedido >= 6 &&
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido <= 12
+                                          .total_garrafones_pedido >=6
                                       ) {
                                         let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido
+                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
                                         );
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 30) {
