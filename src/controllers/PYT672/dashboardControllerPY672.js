@@ -86,124 +86,108 @@ exports.generarRegistroPDF = (req, res) => {
   let idUser = req.params.id
   
   DataBase.ObtenerMatricula(idUser).then((response) => {
-    let find = JSON.parse(response);
+    let find = JSON.parse(response)[0];
     console.log(find)
+    console.log("USUARIO")
 
-    
-  let fecha_nacimiento = moment(estudiante.fecha_nacimiento, 'DD-MM-YYYY')
-  let hoy = moment()
-  console.log(fecha_nacimiento)
-  console.log(hoy)
-  let edad = hoy.diff(fecha_nacimiento, 'years')
-  console.log('edad:' + edad)
-  let contenido = `<html class="loading dark-layout" lang="en" data-layout="dark-layout" data-textdirection="ltr">
-      <head>
-          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-          <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-          <title>PDF Constancia</title>
-          <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
-          <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
-          <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
-          <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
-          <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
-      </head>
-      <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
-          <div class="app-content content ">
-              <div class="content-overlay"></div>
-              <div class="header-navbar-shadow"></div>
-              <div class="content-wrapper">
-                  <div class="content-header row">
-                  </div>
-                  <div class="content-body">
-                      <div class="invoice-print p-3">
-                          <div class="invoice-header d-flex justify-content-between flex-md-row flex-column pb-2">
-                                  <div class="d-flex mb-1">
-                                      <img src="../../../app-assets/images/logo/logoAA.png" alt="" style="width: 100px; height: auto;">
-                                      <div class="d-flex align-items-center ms-2">
-                                          <h1 class="text-primary fw-bold">Academia Americana</h1>
-                                      </div>
-                                  </div>                           
-                          </div>
-                          <div class="d-flex justify-content-center p-2">
-                              <h1>CONSTANCIA DE ESTUDIOS</h1>
-                          </div>
-                          <div class="d-flex justify-content-center p-2">
-                              <p>El director del Centro de Educacion "Academia Americana" de Costa Rica </p>
-                          </div>
-                          <div class="d-flex justify-content-center p-2">
-                              <h4><u>HACE CONSTAR:</u></h4>
-                          </div>
-                          <div class="d-flex justify-content-center p-2">
-                              <p class="text-center">
-                                  Que el alumno: 
-                                  ${estudiante.nombre}, 
-                                  identificado con documento de identidad:
-                                  ${estudiante.nro_identificacion},
-                                  de 
-                                  ${edad} años de edad,
-                                  viene cursando el
-                                  ${estudiante.grupo.nivel} 
-                                  en la forma 
-                                  ${estudiante.grupo.identificador}
-                                  de
-                                  ${estudiante.grupo.dia_horario},
-                                  asistiendo en forma regular a clases
-                                  en esta institución.
-                                  <br>
-                                  <br>
-                                  Se expide la presente a solicitud de la parte interesada para los fines convenientes.
-                              </p>
-                          </div>
-                          <div class="d-flex justify-content-end my-5 p-4">
-                              <p>
-                                  Costa Rica, ${fech}
-                              </p>
-                          </div>                     
-                          <div class="d-flex justify-content-around p-4">
-                              <div class="text-center border-top border-2 pt-2" style="width: 150px;">
-                                  <p>
-                                      Coordinador
-                                      Administrativo
-                                  </p>
-                              </div>
-                              <div class="text-center border-top border-2 pt-2" style="width: 150px;">
-                                  <p>
-                                      Director
-                                  </p>
-                              </div>
-                          </div>
-                          <hr class="my-2"/>
-                      </div>
-                  </div>
+  let contenido = `<html class="loading" lang="en" data-textdirection="ltr">
+  <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
+      <title>PDF Constancia</title>
+      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
+      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
+      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
+      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
+      <style>
+            .fw-bolder {
+                font-weight: 600 !important;
+            }
+            .bg-primary {
+                background-color: #0833a2 !important;
+            }
+      </style>
+  </head>
+  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
+      <div class="app-content content ">
+          <div class="content-overlay"></div>
+          <div class="header-navbar-shadow"></div>
+          <div class="content-wrapper">
+              <div class="content-header row">
+              </div>
+              <div class="content-body py672">
+                    <div class="row">
+                        <div class="col-12 mb-1">
+                            <img class="img-fluid m-auto d-block" style="max-width: 150px;" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
+                        </div>
+                        <div class="col-12 py-1 text-center d-none">
+                            <h3 class="fw-bolder">Comprobante de Matrícula</h2>
+                        </div>
+                        <div class="col-12 py-1 text-center">
+                            <hr>
+                            <h3 class="fw-bolder">Nombre Del Estudiante:</h2>
+                            <h3 class="fw-bolder">${find.nombre}</h3>
+                            <p class="lead fw-bolder">Identificación: ${find.nro_identificacion}</p>
+                            <hr>
+                        </div>
+                        <div class="col-12 bg-primary text-white">
+                            <div class="row py-1 justify-content-center">
+                                <div class="col-12">
+                                    <p class="lead fw-bolder text-center">Grupo: ${find.grupo.nombre} - ${find.grupo.identificador}</p>
+                                </div>
+                                <div class="col-2 text-center fw-bolder">INICIO</div>
+                                <div class="col-2 text-center fw-bolder">DÍAS</div>
+                                <div class="col-3 col-lg-2 text-center fw-bolder">HORARIO</div>
+                                <div class="col-3 col-lg-2 text-center fw-bolder">FECHAS DE PAGO</div>
+                                <div class="col-2 text-center fw-bolder">MONTO</div>
+
+                                <div class="col-12"></div>
+
+                                <div class="col-2 text-center">${find.grupo.fecha_inicio}</div>
+                                <div class="col-2 text-center">${find.grupo.dia_horario}</div>
+                                <div class="col-3 col-lg-2 text-center">08:30 am a 11:am</div>
+                                <div class="col-3 col-lg-2 text-center">${find.grupo.dia_pagos}</div>
+                                <div class="col-2 text-center">17 000</div>
+                            </div>
+                            <hr>
+                        </div>
+                        <div class="col-12 py-1 text-white text-center d-none">
+                            <h3 class="fw-bolder">RECARGO POR MORA: 1.000</h3>
+                        </div>
+                    </div>
+              
               </div>
           </div>
-          <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-          <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
-          <script src="../../../app-assets/js/core/app-menu.js"></script>
-          <script src="../../../app-assets/js/core/app.js"></script>
-          <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
-      </body></html>`;
+    </div>
+    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+    <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
+    <script src="../../../app-assets/js/core/app-menu.js"></script>
+    <script src="../../../app-assets/js/core/app.js"></script>
+    <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+</body>
+</html>`;
 
-    /*pdf.create(contenido).toStream(function (err, stream) {
+    pdf.create(contenido).toStream(function (err, stream) {
       if (err) {
           console.log(err);
       }
       res.writeHead(200, {
           'Content-Type': 'application/force-download',
-          'Content-disposition': 'attachment; filename=constancia.pdf'
+          'Content-disposition': 'attachment; filename=comprobante.pdf'
       });
       stream.pipe(res);
-    });*/
+    });
     
   }).catch((err) => {
     console.log(err)
@@ -297,23 +281,17 @@ exports.cargarExcel = (req, res) => {
   }
 };
 
-// * VISTA LOGIN
+// * VISTA COMPROBANTE DE REGISTRO
 exports.prueba = (req, res) => {
   let msg = false;
-  if (req.params.msg) {
-    req.flash("error", 'Usuario desactivado por el administrador')
-    msg = req.flash();
-  }
-
   let proyecto = req.params.id  
-  console.log(msg)
+
     res.render(proyecto+"/docs/registro-pdf", {
-      pageName: "Login",
+      pageName: "Comprobante",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       login: true,
-      messages: msg
     })
 };
 
@@ -3170,7 +3148,7 @@ exports.registrarmatricula = async(req, res) => {
       return res.redirect('/matriculas/'+msg);
     }
     DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor).then((resp) => {
-    //  console.log(resp)
+      //console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
       console.log(idEstudiante)
