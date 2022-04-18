@@ -662,3 +662,16 @@ let linkExcel = "", file;
       window.location.href = linkExcel
     }
   }
+
+let interval = '', idUser = $('#idUser').val()
+
+interval = setInterval(() => {
+  if (document.readyState === "complete" && idUser != '') {
+    window.open('/comprobante/'+idUser, '_blank');
+    $('#idUser').val('');
+    setTimeout(() => {
+      window.location.href = "/matriculas";
+    }, 3000);
+    clearInterval(interval);
+  }
+}, 300);
