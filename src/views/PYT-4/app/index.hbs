@@ -1,7 +1,24 @@
 <div class="app-content py4 py4app">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body home">
-            <div class="row pt-1">
+            <div class="row">
+                <div class="col-12 mb-1">
+                    <div class="row m-0">
+                        <div class="col-4">
+                            <p class="lead">CA - 5</p>
+                            <p class="lead">CF - 7</p>
+                        </div>
+                        <div class="col-4">
+                            <p class="lead">#G - 26</p>
+                            <p class="lead">#P - 31</p>
+                        </div>
+                        <div class="col-4">
+                            <a href="#" class="btn btn-sm btn-primary mb-50">Pedido Nuevo</a>
+                            <a href="#" class="btn btn-sm btn-primary">Cliente Nuevo</a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-4 position-relative">
                     <span class="badge rounded-pill bg-primary badge-up">6</span>
 
@@ -166,86 +183,33 @@
                                 <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>Nombre</th>
                                         <th>Direccion</th>
-                                        <th>N° Pedido</th>
-                                        <th>Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                                <div class="fw-bolder">Dixons</div>
-                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                        </td>
-                                        <td>
-                                                <span>Lima Peru</span>
-                                        </td>
-                                        <td>
-                                                #5615
-                                        </td>
-                                        <td>
-                                                <span class="fw-bolder">$891.2</span>
+                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                                <div class="fw-bolder">Dixons</div>
-                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                        </td>
-                                        <td>
-                                                <span>Lima Peru</span>
-                                        </td>
-                                        <td>
-                                                #5615
-                                        </td>
-                                        <td>
-                                                <span class="fw-bolder">$891.2</span>
+                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                                <div class="fw-bolder">Dixons</div>
-                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                        </td>
-                                        <td>
-                                                <span>Lima Peru</span>
-                                        </td>
-                                        <td>
-                                                #5615
-                                        </td>
-                                        <td>
-                                                <span class="fw-bolder">$891.2</span>
+                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                                <div class="fw-bolder">Dixons</div>
-                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                        </td>
-                                        <td>
-                                                <span>Lima Peru</span>
-                                        </td>
-                                        <td>
-                                                #5615
-                                        </td>
-                                        <td>
-                                                <span class="fw-bolder">$891.2</span>
+                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                                <div class="fw-bolder">Dixons</div>
-                                                <div class="font-small-2 text-muted">meguc@ruj.io</div>
-                                        </td>
-                                        <td>
-                                                <span>Lima Peru</span>
-                                        </td>
-                                        <td>
-                                                #5615
-                                        </td>
-                                        <td>
-                                                <span class="fw-bolder">$891.2</span>
+                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -265,7 +229,7 @@
 
 <script>
     let cuadrosBtns = document.querySelectorAll('.home .col-4'),
-    infoZonas = document.querySelectorAll('.home .col-12')
+    infoZonas = document.querySelectorAll('.home .col-12.card')
 
     cuadrosBtns.forEach(btn => {
         btn.addEventListener('click', e => {
