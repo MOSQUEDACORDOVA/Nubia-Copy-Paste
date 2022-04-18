@@ -29,6 +29,9 @@
                   <div class="content-body py672">
                       <main>
                         <div class="row">
+                            <div class="col-12 d-none my-3 text-center" id="btnVolver">
+                                <a class="btn btn-primary mb-2 btn-sm-block waves-effect waves-float waves-light" href="/matriculas">Volver</a>
+                            </div>
                             <div class="col-12 mb-1">
                                 <img class="img-fluid m-auto d-block" style="max-width: 150px;" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
                             </div>
@@ -74,5 +77,16 @@
         <script src="../../../app-assets/js/core/app-menu.js"></script>
         <script src="../../../app-assets/js/core/app.js"></script>
         <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
+        <script>
+            let btn = document.getElementById('btnVolver')
+            let interval = ''
+
+            interval = setInterval(() => {
+                if (document.readyState === "complete") {
+                    btn.classList.remove('d-none')
+                    clearInterval(interval);
+                }
+            }, 2000);
+        </script>
     </body>
 </html>

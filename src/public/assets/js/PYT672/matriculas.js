@@ -664,14 +664,18 @@ let linkExcel = "", file;
   }
 
 let interval = '', idUser = $('#idUser').val()
-
+if (idUser != '') {
+  localStorage.setItem('idUser', idUser);
+  console.log("guardado")
+}
 interval = setInterval(() => {
-  if (document.readyState === "complete" && idUser != '') {
-    window.open('/comprobante/'+idUser, '_blank');
-    $('#idUser').val('');
-    setTimeout(() => {
-      window.location.href = "/matriculas";
-    }, 3000);
+  if (document.readyState === "complete") {
+    const result = localStorage.getItem('idUser')
+    if (result) {
+      localStorage.removeItem('idUser')
+      window.location.href = "/comprobante/"+result
+    }
+
     clearInterval(interval);
   }
 }, 300);
