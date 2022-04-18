@@ -233,9 +233,9 @@ router.post('/save-edit-pedido-maquila', authControllerPY4.authenticatedUser, ma
 router.get('/ventas-del-dia/:dia_select', authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 
 
-router.get('/app-home/:id', dashboardControllerPY4.appHome);
-router.get('/app-login/:id', dashboardControllerPY4.appLogin);
-router.get('/app-pedido/:id', dashboardControllerPY4.appPedido);
+router.get('/app-home', dashboardControllerPY4.appHome);
+router.get('/app-login', dashboardControllerPY4.appLogin);
+router.get('/app-pedido', dashboardControllerPY4.appPedido);
 
 /* ---FIN PY4---  */
 
