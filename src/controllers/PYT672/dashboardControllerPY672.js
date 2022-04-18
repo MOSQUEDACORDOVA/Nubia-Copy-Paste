@@ -8,6 +8,8 @@ let moment = require('moment-timezone');
 var pdf = require('html-pdf');
 const { group } = require("console");
 const xlsxFile = require('read-excel-file/node');
+const { toJpeg } = require('html-to-image');
+
 
 // TODO: AUTH
 // * LOGIN
@@ -81,122 +83,6 @@ exports.reguser = (req, res) => {
       return res.redirect("/error672/PYT-672");
     });
 };
-
-exports.generarRegistroPDF = (req, res) => {
-  let idUser = req.params.id
-  
-  DataBase.ObtenerMatricula(idUser).then((response) => {
-    let find = JSON.parse(response)[0];
-    console.log(find)
-    console.log("USUARIO")
-
-  let contenido = `<html class="loading" lang="en" data-textdirection="ltr">
-  <head>
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=0,minimal-ui">
-      <title>PDF Constancia</title>
-      <link rel="apple-touch-icon" href="../../../app-assets/images/ico/apple-icon-120.png">
-      <link rel="shortcut icon" type="image/x-icon" href="../../../app-assets/images/ico/favicon.ico">
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500;1,600" rel="stylesheet">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/vendors.min.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/bootstrap-extended.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/colors.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/components.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/dark-layout.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/bordered-layout.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/themes/semi-dark-layout.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/core/menu/menu-types/horizontal-menu.css">
-      <link rel="stylesheet" type="text/css" href="../../../app-assets/css/pages/app-invoice-print.css">
-      <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">  
-      <style>
-            .fw-bolder {
-                font-weight: 600 !important;
-            }
-            .bg-primary {
-                background-color: #0833a2 !important;
-            }
-      </style>
-  </head>
-  <body class="horizontal-layout horizontal-menu blank-page navbar-floating footer-static  " data-open="hover" data-menu="horizontal-menu" data-col="blank-page">
-      <div class="app-content content ">
-          <div class="content-overlay"></div>
-          <div class="header-navbar-shadow"></div>
-          <div class="content-wrapper">
-              <div class="content-header row">
-              </div>
-              <div class="content-body py672">
-                    <div class="row">
-                        <div class="col-12 mb-1">
-                            <img class="img-fluid m-auto d-block" style="max-width: 150px;" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
-                        </div>
-                        <div class="col-12 py-1 text-center d-none">
-                            <h3 class="fw-bolder">Comprobante de Matrícula</h2>
-                        </div>
-                        <div class="col-12 py-1 text-center">
-                            <hr>
-                            <h3 class="fw-bolder">Nombre Del Estudiante:</h2>
-                            <h3 class="fw-bolder">${find.nombre}</h3>
-                            <p class="lead fw-bolder">Identificación: ${find.nro_identificacion}</p>
-                            <hr>
-                        </div>
-                        <div class="col-12 bg-primary text-white">
-                            <div class="row py-1 justify-content-center">
-                                <div class="col-12">
-                                    <p class="lead fw-bolder text-center">Grupo: ${find.grupo.nombre} - ${find.grupo.identificador}</p>
-                                </div>
-                                <div class="col-2 text-center fw-bolder">INICIO</div>
-                                <div class="col-2 text-center fw-bolder">DÍAS</div>
-                                <div class="col-3 col-lg-2 text-center fw-bolder">HORARIO</div>
-                                <div class="col-3 col-lg-2 text-center fw-bolder">FECHAS DE PAGO</div>
-                                <div class="col-2 text-center fw-bolder">MONTO</div>
-
-                                <div class="col-12"></div>
-
-                                <div class="col-2 text-center">${find.grupo.fecha_inicio}</div>
-                                <div class="col-2 text-center">${find.grupo.dia_horario}</div>
-                                <div class="col-3 col-lg-2 text-center">08:30 am a 11:am</div>
-                                <div class="col-3 col-lg-2 text-center">${find.grupo.dia_pagos}</div>
-                                <div class="col-2 text-center">17 000</div>
-                            </div>
-                            <hr>
-                        </div>
-                        <div class="col-12 py-1 text-white text-center d-none">
-                            <h3 class="fw-bolder">RECARGO POR MORA: 1.000</h3>
-                        </div>
-                    </div>
-              
-              </div>
-          </div>
-    </div>
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-    <script src="../../../app-assets/vendors/js/ui/jquery.sticky.js"></script>
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <script src="../../../app-assets/js/scripts/pages/app-invoice-print.js"></script>
-</body>
-</html>`;
-
-    pdf.create(contenido).toStream(function (err, stream) {
-      if (err) {
-          console.log(err);
-      }
-      res.writeHead(200, {
-          'Content-Type': 'application/force-download',
-          'Content-disposition': 'attachment; filename=comprobante.pdf'
-      });
-      stream.pipe(res);
-    });
-    
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-
-
-}
 
 exports.deleteuser = (req, res) => {
   console.log(req.body);
@@ -282,17 +168,30 @@ exports.cargarExcel = (req, res) => {
 };
 
 // * VISTA COMPROBANTE DE REGISTRO
-exports.prueba = (req, res) => {
+exports.generarRegistroPDF = (req, res) => {
   let msg = false;
-  let proyecto = req.params.id  
+  let idUser = req.params.id  
 
-    res.render(proyecto+"/docs/registro-pdf", {
+  DataBase.ObtenerMatricula(idUser).then((response) => {
+    let find = JSON.parse(response)[0];
+    console.log(find)
+    console.log("USUARIO")
+    
+    res.render("PYT-672/docs/registro-pdf", {
       pageName: "Comprobante",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       login: true,
+      find
     })
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
 };
 
 // * VISTA LOGIN
@@ -1116,6 +1015,11 @@ exports.matriculas = async (req, res) => {
     msg = req.params.msg;
   }
 
+  let idUser = null
+  if (req.params.id) {
+    idUser = req.params.id;
+  }
+
   let roleAdmin, roleProf
   if(req.user.puesto === "Administrador") {
     roleAdmin = true
@@ -1163,6 +1067,7 @@ exports.matriculas = async (req, res) => {
       dashboard: true,
       py672: true,
       matric: true,
+      idUser,
       roleAdmin, roleProf,
       gruposTodos,
       arr,
@@ -1341,7 +1246,13 @@ exports.controlgrupo = (req, res) => {
         
         DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
           let grupo = JSON.parse(respuesta)[0]
-          let numLeccion, nivelActual;
+          let numLeccion, nivelActual, 
+          fechaNiveles = {
+            nivel1: '',
+            nivel2: '',
+            nivel3: '',
+            nivel4: '',
+          };
           /*console.log(grupo)
           console.log("GRUPO ENCONTRADO")*/
           
@@ -1384,6 +1295,14 @@ exports.controlgrupo = (req, res) => {
                 console.log("INTENSIVO")
               break;
             }
+
+            fechaNiveles = {
+              nivel1: fechaInicio,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            };
+            fechaNiveles = JSON.stringify(fechaNiveles)
                    
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
@@ -1433,11 +1352,11 @@ exports.controlgrupo = (req, res) => {
 
             }
 
-            console.log(numPositivo)
+            /*console.log(numPositivo)
             console.log("POSITIVO")
             
             console.log("REST",rest)
-            console.log("DIFF",diff)
+            console.log("DIFF",diff)*/
             
           }
           
@@ -1464,7 +1383,8 @@ exports.controlgrupo = (req, res) => {
       fechaInicio,
       diff,
       rest,
-      nivelActual
+      nivelActual,
+      fechaNiveles
     });
   }).catch((err) => {
     console.log(err)
@@ -3158,7 +3078,8 @@ exports.registrarmatricula = async(req, res) => {
         msg = `El grupo seleccionado ya cuenta con ${countNew} registrados`
         return res.redirect('/matriculas/'+msg);
       }
-      return res.redirect('/generarRegistroPDF/'+idEstudiante);
+
+      return res.redirect('/matriculas/'+idEstudiante);
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
