@@ -196,9 +196,7 @@ exports.dashboard = (req, res) => {
       let cp_arr = JSON.parse(cp_);
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
-          let clientes_arr = JSON.parse(clientes_d);
-          let count = clientes_arr.length;
-          
+          let clientes_arr = JSON.parse(clientes_d);          
           PedidosDB(id_sucursal)
             .then((pedidos_) => {
               let pedidos_let = JSON.parse(pedidos_);
@@ -906,9 +904,11 @@ exports.editar_cliente = (req, res) => {
   let id_sucursal = req.session.sucursal_select;
   //DATA-COMUNES
   DataBase.ClientebyId(id_)
-    .then((clientes_) => {
+    .then(async (clientes_) => {
       let cliente_let = JSON.parse(clientes_);
-
+      let id_user = user.id;
+      let description =`Pidio ver la info cliente ${id_}`;
+      let Log = await DataBase.SaveLogs(id_user,'ClientebyId','editar_cliente',description);
       res.send({ cliente_let });
     })
     .catch((err) => {
