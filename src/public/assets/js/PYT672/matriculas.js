@@ -615,9 +615,9 @@ let linkExcel = "", file;
     EnviarDatos()
   })
   
-  $('#vendedorIdSelect').on('change', (event)=>{
+  /*$('#vendedorIdSelect').on('change', (event)=>{
     EnviarDatos()
-  })
+  })*/
 
   const subirImagen = (event) => {
     //$(`#loading3`).addClass("display");
@@ -637,7 +637,7 @@ let linkExcel = "", file;
         {       
           //console.log(data)     
           file = data.fileName
-          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()
+          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"
 
           EnviarDatos("Alumnos guardados")
           
@@ -658,24 +658,27 @@ let linkExcel = "", file;
 
   function EnviarDatos(text) {
     if(text) {
-      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+$('#vendedorIdSelect').val()+"/"+text
+      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+text
       window.location.href = linkExcel
     }
   }
 
 let interval = '', idUser = $('#idUser').val()
-if (idUser != '') {
+//console.log(idUser)
+if (idUser != '' && parseInt(idUser)) {
   localStorage.setItem('idUser', idUser);
-  console.log("guardado")
+  //console.log("guardado")
 }
+
 interval = setInterval(() => {
   if (document.readyState === "complete") {
     const result = localStorage.getItem('idUser')
-    if (result) {
+    /*console.log(result)
+    console.log("RESULT")*/
+    if (result != null && parseInt(result)) {
       localStorage.removeItem('idUser')
       window.location.href = "/comprobante/"+result
     }
-
     clearInterval(interval);
   }
 }, 300);

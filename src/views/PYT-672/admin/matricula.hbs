@@ -48,7 +48,7 @@
           <input class="d-none" value="{{gruposTodosStr}}" id="arrayGrupos" />
           <section id="basic-datatable">
             <div class="row">
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+              <div class="col-md-6 mb-1 mb-md-2">
                   <select class="select2 form-select" id="grupoIdCargarArchivo">
                     <option value="" selected>
                       Seleccione un Grupo
@@ -61,7 +61,7 @@
                   </select>
               </div>
 
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+              <!--<div class="col-md-6 col-lg-4 mb-1 mb-md-2">
                 <select name="" id="vendedorIdSelect" class="form-control select2">
                   <option value="" selected>Seleccione un Vendedor</option>
                   {{#each vendedores as |item i|}}
@@ -70,9 +70,9 @@
                   </option>
                   {{/each}}                   
                 </select>
-              </div>
+              </div>-->
 
-              <div class="col-md-6 col-lg-4 mb-1 mb-md-2">
+              <div class="col-md-6 mb-1 mb-md-2">
                 <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
                   <input class="form-control d-none grupoId" type="text" name="grupoId">
                   <input class="form-control d-none vendedorId" type="text" name="vendedor">

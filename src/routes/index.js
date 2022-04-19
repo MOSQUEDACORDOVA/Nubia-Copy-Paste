@@ -597,8 +597,7 @@ router.get('/logout/PYT-672', userControllerPY672.closeSesion);
 // TODO: ADMIN
 router.get('/grupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.grupos);
 router.get('/verificargrupos/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.verificargrupos);
-router.get('/matriculas/:id?', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
-router.get('/matriculas/:msg', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas)
+router.get('/matriculas/:item?', authControllerPY672.authenticatedUser, dashboardControllerPY672.matriculas);
 router.get('/control/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.control);
 router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedUser, dashboardControllerPY672.controlgrupo);
 router.get('/historial/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.historial);
@@ -680,7 +679,7 @@ router.get('/obtenerdirecciones', authControllerPY672.authenticatedUser, dashboa
 // * GUARDAR ARCHIVO EXCEL
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
-router.get('/cargarExcel/:grupoId/:fileName/:vendedor/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
+router.get('/cargarExcel/:grupoId/:fileName/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
 // *  DETALLES CONTROL EN CAJA
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
 // * GENERAR COMPROBANTE PDF DE REGISTRO
