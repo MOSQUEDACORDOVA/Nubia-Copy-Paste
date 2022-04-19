@@ -227,7 +227,10 @@ exports.dashboard = (req, res) => {
                   for (let i = 0; i < pedidos_letG.length; i++) {
                     if (pedidos_letG[i].status_pedido == "Entregado") {
                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
+                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');  
+            if (!dia_pedido.isValid()) {
+              dia_pedido = moment(pedidos_letG[i].fecha_pedido,'YYYY-MM-DD');
+            }
                         duration = hoy.diff(dia_pedido, "days");
                         if (duration >= 10 && duration < 20) {
                           notif1_2.push({
@@ -687,8 +690,11 @@ exports.save_cliente_py4 = async (req, res) => {
     apellido_familiar_1, telefono_familiar_1, nombre_familiar_2,apellido_familiar_2, telefono_familiar_2, tipo_cliente,modo_cliente, fecha_ultimo_pedido, utimos_botellones,
     sucursal, email, color,descuento_reg_cliente)
     .then(async(respuesta) => {
-      
-      let clientes = await ClientesDB(id_sucursal)
+      let id_cliente_nuevo = JSON.parse(respuesta)['id'];
+      let id_user = res.locals.user.id;
+      let description =`Guardó los datos del cliente ${id_cliente_nuevo} desde dash: ${req.body.dashboard}`;
+      let Log = await DataBase.SaveLogs(id_user,'registrar_cliente','save_cliente_py4',description);
+      let clientes = await ClientesDB(id_sucursal);
       if (req.body.dashboard) {
         return res.send({clientes});
       }
@@ -802,7 +808,6 @@ console.log(req.body);
         res.redirect("/log_cupon/" + respuesta);
       } else {
         let cliente_created = JSON.parse(respuesta);
-        console.log(cliente_created)
         await DataBase.saveCupNotificacionClientNew(
           "Nuevo cliente",
           "0",
@@ -827,8 +832,14 @@ let PedidosByclient = JSON.parse(await DataBase.PedidosReferido(id_));
  let Disabled,deleteClient;
 if (PedidosByclient.length>0) {
   Disabled = JSON.parse(await DataBase.Disabled_client(id_));
+      let id_user = user.id;
+      let description =`Deshabilito los datos del cliente ${id_} `;
+      let Log = await DataBase.SaveLogs(id_user,'Disabled_client','delete_cliente',description);
 }else{
   deleteClient = JSON.parse(await DataBase.Delete_Cliente(id_));
+      let id_user = user.id;
+      let description =`Eliminó los datos del cliente ${id_} desde dash: ${req.body.dashboard}`;
+      let Log = await DataBase.SaveLogs(id_user,'Delete_Cliente','delete_cliente',description);
 }
     let id_sucursal = req.session.sucursal_select;
     let ClientesDB = "";
@@ -967,8 +978,13 @@ exports.save_cliente_edit = (req, res) => {
     email,
     color,descuento_edit_cliente
   )
-    .then((respuesta) => {
+    .then(async (respuesta) => {
+      let id_user = res.locals.user.id;
+      let description =`Actualizó los datos del cliente ${id_cliente}`;
+      let Log = await DataBase.SaveLogs(id_user,'update_cliente','save_cliente_edit',description);
+
       let id_sucursal = req.session.sucursal_select;
+
       let ClientesDB = "";
       switch (req.session.tipo) {
         case "Director":
@@ -1245,6 +1261,9 @@ if (desc_referido > 0) {
     fecha_pedido,descuento,asentamiento,descuento_reg_cliente
   )
     .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Registró el pedido ${respuesta} al cliente ${id_cliente} en la zona ${sucursal}`;
+      let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
       await PedidosDB(id_sucursal)
         .then((pedidos_) => {
@@ -1280,8 +1299,11 @@ exports.delete_pedido = (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id;
 
-  DataBase.Delete_Pedido(id_).then((respuesta) => {
+  DataBase.Delete_Pedido(id_).then(async(respuesta) => {
     let msg = "Pedido Eliminado con éxito";
+    let id_user = user.id;
+    let description =`Borró el pedido ${id_}`;
+    let Log = await DataBase.SaveLogs(id_user,'Delete_Pedido','delete_pedido',description);
     return res.send({ respuesta: msg });
     //res.redirect('/homepy4/'+msg)
   });
@@ -1293,7 +1315,7 @@ exports.editar_pedido = (req, res) => {
   let id_ = req.body.id;
 
   DataBase.PedidoById2(id_)
-    .then((pedidos_) => {
+    .then(async(pedidos_) => {
       let pedido_let = JSON.parse(pedidos_);
       let id_sucursal = req.session.sucursal_select;
 
@@ -1438,6 +1460,9 @@ exports.Save_editPedidoPy4 = (req, res) => {
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
+      let id_user = user.id;
+    let description =`Editó el pedido ${id_pedido}`;
+    let Log = await DataBase.SaveLogs(id_user,'PedidosUpd','Save_editPedidoPy4',description);
       await PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -1445,9 +1470,9 @@ exports.Save_editPedidoPy4 = (req, res) => {
           let reprogramado = "";
           let p = [];
           for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment(dia).isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido),
-              "day"
+            reprogramado = moment().isSameOrAfter(
+              moment(pedidos_let[i].fecha_pedido, 'YYYY-MM-DD'),
+              "d"
             ); // true
             
             if (reprogramado) {
@@ -1500,7 +1525,10 @@ exports.cambiaS_pedido = (req, res) => {
   }
   
   CambiaStatus(id_pedido, status, motivo, fecha_rep)
-    .then((respuesta) => {
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el estado del pedido ${id_pedido}, status: ${status}, motivo: ${motivo}, fecha: ${fecha_rep}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaStatus','cambiaS_pedido',description);
       PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -1545,7 +1573,7 @@ exports.cambiaS_pedido = (req, res) => {
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;
-  
+  let id_user = user.id;
   let split_id = ids_pedido.split(",");
 
   for (let i = 0; i < split_id.length; i++) {
@@ -1553,7 +1581,11 @@ exports.cambiachofer_pedido = async (req, res) => {
       continue
     }
     await DataBase.cambiaChofer(split_id[i], chofer);
+let description =`Cambio el chofer del pedido ${split_id[i]}, chofer: ${chofer}`;
+  let Log = await DataBase.SaveLogs(id_user,'cambiaChofer','cambiachofer_pedido',description);
   }
+  
+  
   let id_sucursal = req.session.sucursal_select;
   let PedidosDB = "";
   switch (req.session.tipo) {
@@ -1607,7 +1639,10 @@ exports.cambia_S_pago = (req, res) => {
       break;
   }
   DataBase.CambiaStatusPago(id_pedido, status)
-    .then((respuesta) => {
+    .then(async(respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el Status de Pago del pedido ${id_pedido} nuevo status: ${status}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaStatusPago','cambia_S_pago',description);
       PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -1748,7 +1783,7 @@ exports.personal_table = (req, res) => {
       ClientesDB = DataBase.ClientesAll;
       PedidosDB = DataBase.PedidosAll;
       ChoferesDB = DataBase.ChoferesAll;
-      PersonalDB = DataBase.PersonalAll;
+      PersonalDB = DataBase.PersonalAllT;
       break;
 
     default:
@@ -1891,7 +1926,7 @@ exports.save_personal = (req, res) => {
       let PersonalDB = "";
       switch (req.session.tipo) {
         case "Director":
-          PersonalDB = DataBase.PersonalAll;
+          PersonalDB = DataBase.PersonalAllT;
           break;
 
         default:
@@ -1976,7 +2011,7 @@ exports.save_personal_py4 = (req, res) => {
       let PersonalDB = "";
       switch (req.session.tipo) {
         case "Director":
-          PersonalDB = DataBase.PersonalAll;
+          PersonalDB = DataBase.PersonalAllT;
           break;
 
         default:
@@ -1997,6 +2032,35 @@ exports.save_personal_py4 = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
+};
+exports.newEstadoPersonal = async (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id;
+  let estado = req.params.estado;
+let NewEstado = JSON.parse(await DataBase.CambiarEstadoPersonal(id_, estado));
+let id_user = user.id;
+      let description =`Cambio el estado del personal: ${id_}, nuevo estado: ${estado}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiarEstadoPersonal','newEstadoPersonal',description);
+    let id_sucursal = req.session.sucursal_select;
+      let PersonalDB = "";
+      switch (req.session.tipo) {
+        case "Director":
+          PersonalDB = DataBase.PersonalAllT;
+          break;
+
+        default:
+          PersonalDB = DataBase.PersonalAllS;
+          break;
+      }
+      PersonalDB(id_sucursal)
+        .then((personal_) => {
+          let personal_let = JSON.parse(personal_);
+          res.send({ personal_let });
+        })
+        .catch((err) => {
+              let msg = "Error en sistema";
+          return res.redirect("/errorpy4/" + msg);
+        });
 };
 
 //USUARIOS
@@ -3533,7 +3597,7 @@ exports.sessionCuponera = (req, res) => {
       if (err) {
           return next(err);
       }
-      if (user.dataValues.cuponera == "" || user.dataValues.cuponera == "c/a") {
+      if (user.dataValues.cuponera != "s/a") {
         return res.redirect("/cuponera");
       } else {
         let msg =

@@ -37,8 +37,7 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
 })
         $('.cp_select').on('keyup', (e) => {
             $(".select_asentamiento_me").empty();
-            let cp = e.target.value
-            console.log(cp)
+            let cp = e.target.value;
             const data = new FormData();
             data.append("cp", cp);
             $.ajax({
@@ -48,46 +47,26 @@ return $('#reg_pedido_modal1').unbind('submit').submit()
                 cache: false,
                 contentType: false,
                 processData: false,
-                /*xhr: function () {        
-                    var xhr = $.ajaxSettings.xhr();
-                    xhr.upload.onprogress = function (event) {
-                        var perc = Math.round((event.loaded / event.total) * 100);
-                       // $("#nombreArchivoCalendario1").text(inputFile.name);
-                       
-                        $("#progressBar1").text(perc + '%');
-                        $("#progressBar1").css('width', perc + '%');
-                    };
-                    return xhr;
-                },
-                beforeSend: function (xhr) {
-                  displayLoading()
-                    $("#progressBar1").text('0%');
-                    $("#progressBar1").css('width', '0%');
-                },*/
                 success: function (data, textStatus, jqXHR) {
-                    var municipio = ""
+                    var municipio = "";
                     for (let i = 0; i < data.cp_let.length; i++) {
-
-                        municipio = data.cp_let[0].municipio
+                        municipio = data.cp_let[0].municipio;
                         $(".select_asentamiento_me").append('<option value="' + data.cp_let[i].id + '">' + data.cp_let[i].asentamiento + '</option>');
                     }
-                    console.log(municipio)
-                    $('.municipio').val(municipio)
+                    $('.municipio').val(municipio);
                 },
                 error: function (jqXHR, textStatus) {
-                    console.log('error:' + jqXHR)
+                    console.log('error:' + jqXHR);
                 }
             });
         })
 
 $('#bell_not').on('click', ()=>{
-    console.log('hola munco notificacion')
-    console.log($('#bell_not .badge').text())
-    $('#bell_not .badge').attr('style', 'display:none')
+    $('#bell_not .badge').attr('style', 'display:none');
 })
 
-$('.referido-notif').mouseleave((e)=>{
-    $(e.target).remove()
+$('.referido-notif').mouseleave(function (e){
+    $(this).remove();
 })
     })
 
@@ -173,7 +152,7 @@ $('.referido-notif').mouseleave((e)=>{
                       {{/each}}
 
                       {{#each notif1_2 as |nt1_2 i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
@@ -187,7 +166,7 @@ $('.referido-notif').mouseleave((e)=>{
                   </div></a>
                       {{/each}}
                       {{#each notif3_5 as |nt i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
@@ -201,7 +180,7 @@ $('.referido-notif').mouseleave((e)=>{
                   </div></a>
                       {{/each}}
                       {{#each notif6_12 as |nt i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
@@ -217,7 +196,7 @@ $('.referido-notif').mouseleave((e)=>{
 
 
                   {{#each notif_maquila_relleno as |nt i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>
@@ -230,7 +209,7 @@ $('.referido-notif').mouseleave((e)=>{
                   </div></a>
                       {{/each}}
                        {{#each notif_maquila_bwater as |nt i|}}
-                <a class="d-flex" href="#">
+                <a class="d-flex referido-notif" href="#">
                 <div class="list-item d-flex align-items-start">
                     <div class="me-1">
                       <div class="avatar"><img src="../../dataPY4/images/avatar-s-pyt4.jpg" alt="avatar" width="32" height="32"></div>

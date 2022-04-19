@@ -52,8 +52,11 @@ let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full
           // Avatar image/badge, Name and post
           targets: 3,
           render: function (data, type, full, meta) {
-
-            return moment(data).format('DD/MM/YYYY');
+            let fecha = moment(data,'DD/MM/YYYY').format('DD/MM/YYYY');
+            if (fecha == 'Invalid date') {
+              fecha = moment(data,'YYYY-MM-DD').format('DD/MM/YYYY');
+            }
+            return fecha;
           }
         },
       ],

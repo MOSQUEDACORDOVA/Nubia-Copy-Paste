@@ -115,7 +115,7 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser, dashboar
 router.post('/editar_personal_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_personal);
 
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser, dashboardControllerPY4.save_personal_py4);
-
+router.get('/enordesPersonal/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoPersonal);
 
 router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
 router.post('/editar_usuario', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
