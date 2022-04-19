@@ -3,18 +3,24 @@
         <div class="content-body home">
             <div class="row">
                 <div class="col-12 mb-1">
-                    <div class="row m-0">
-                        <div class="col-4">
-                            <p class="lead">CA - 5</p>
-                            <p class="lead">CF - 7</p>
-                        </div>
-                        <div class="col-4">
-                            <p class="lead">#G - 26</p>
-                            <p class="lead">#P - 31</p>
-                        </div>
-                        <div class="col-4">
-                            <a href="#" class="btn btn-sm btn-primary mb-50">Pedido Nuevo</a>
-                            <a href="#" class="btn btn-sm btn-primary">Cliente Nuevo</a>
+                    <div class="card card-body m-0">
+                        <div class="row m-0">
+                            <div class="col-4 text-center">
+                                <p class="lead">CA - 5</p>
+                                <p class="lead">CF - 7</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <p class="lead">#G - 26</p>
+                                <p class="lead">#P - 31</p>
+                            </div>
+                            <div class="col-4 text-center">
+                                <button type="button" class="btn btn-sm btn-primary waves-effect mb-50" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
+                                    <span>Pedido</span>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-primary waves-effect" data-bs-toggle="modal" data-bs-target="#add_cliente">
+                                    <span>Cliente</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -223,6 +229,536 @@
                 </div>
             </div>
 
+                <div class="modal fade" id="add_cliente" aria-modal="true" role="dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalScrollableTitle">Agregar Cliente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-cliente"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="needs-validation was-validated" action="/save_cliente_py4" method="post" id="form_reg_cliente">
+                        <div class="form-group"><label for="register-firstName" class="form-label">Nombre</label>
+                            <input type="text" name="firstName" placeholder="Pedro" aria-describedby="register-firstName" tabindex="1" autofocus="" class="form-control mb-2" id="nombre-cliente-reg"> 
+                        </div>
+                        <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input type="text" name="lastName" placeholder="Pérez" aria-describedby="register-lastName" tabindex="2" class="form-control mb-2" id="apellido-cliente-reg"></div>
+                        <div class="divider">
+                            <div class="divider-text">Dirección</div>
+                        </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
+                                Postal</label>
+                                <div class="input-group">
+                                <div class="input-group-prepend"><span id="basic-addon1" class=""><button type="button" class="btn btn-primary waves-effect waves-float waves-light" data-bs-target="#add_cp" data-bs-toggle="modal" data-bs-dismiss="modal" title="Agregar CP">+ </button></span>
+                                </div>
+                                <input type="text" name="cp" placeholder="cp" aria-describedby="register-lastName" tabindex="2" class="form-control cp_select" id="cp_select">
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Estado</label><input type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName" tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly="">
+                        </div>
+
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName" tabindex="2" class="form-control municipio" id="municipio" readonly="">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                            <div class="position-relative"><select class="select2 form-select select_asentamiento_me select2-hidden-accessible" id="select_asentamiento" name="asentamiento" data-select2-id="select_asentamiento" tabindex="-1" aria-hidden="true">
+
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="6" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-select_asentamiento-container"><span class="select2-selection__rendered" id="select2-select_asentamiento-container" role="textbox" aria-readonly="true"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+
+                        </div>
+                        <div class="form-group" hidden=""><label for="register-fraccionamiento" class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento" placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text" name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text" name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label><input type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9" class="form-control mb-2"></div>
+                        <div class="form-group">
+                            <label for="register-referencia" class="form-label">Referencia</label>
+                            <input type="text" name="referencia" placeholder="Referencia" aria-describedby="register-referencia" tabindex="9" class="form-control mb-2">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="register-telefono" class="form-label">Teléfono</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                </div>
+                                <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00" aria-describedby="register-telefono" tabindex="11" class="form-control" required="" id="tlf-add-cliente">
+                            </div>
+                        </div>
+                        <div class="divider">
+                            <div class="divider-text">Familiares</div>
+                        </div>
+                        <div class="form-group"><label for="register-nombre_familiar_1" class="form-label">Nombre del
+                                familiar
+                                1</label><input type="text" name="nombre_familiar_1" placeholder="Pedro" aria-describedby="register-nombre_familiar_1" tabindex="12" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-apellido_familiar_1" class="form-label">Apellido del
+                                familiar
+                                1</label><input type="text" name="apellido_familiar_1" placeholder="Pérez" aria-describedby="register-apellido_familiar_1" tabindex="13" class="form-control mb-2">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="register-telefono_familiar_1" class="form-label">Teléfono del
+                                familiar
+                                1</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                </div>
+                                <input type="number" name="telefono_familiar_1" placeholder="(760) 123 00 00" mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_1" tabindex="14" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="register-nombre_familiar_2" class="form-label">Nombre del
+                                familiar
+                                2</label><input type="text" name="nombre_familiar_2" placeholder="Pedro" aria-describedby="register-nombre_familiar_2" tabindex="15" class="form-control mb-2"></div>
+                        <div class="form-group"><label for="register-apellido_familiar_2" class="form-label">Apellido del
+                                familiar
+                                2</label><input type="text" name="apellido_familiar_2" placeholder="Pérez" aria-describedby="register-apellido_familiar_2" tabindex="16" class="form-control mb-2">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="register-telefono_familiar_2" class="form-label">Teléfono del
+                                familiar
+                                2</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                </div>
+                                <input type="number" name="telefono_familiar_2" placeholder="(760) 123 00 00" mask="(000) 000 00 00" aria-describedby="register-telefono_familiar_2" tabindex="17" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group"><label for="register-tipo_cliente" class="form-label">Tipo de
+                                cliente</label><select aria-describedby="register-tipo_cliente" tabindex="20" name="tipo_cliente" class="form-control mb-2" id="tipo-cliente-reg">
+                                <option selected="" value="Residencial"> Residencial </option>
+                                <option value="Negocio"> Negocio </option>
+                                <option value="Punto de venta"> Punto de venta </option>
+                            </select></div>
+                        <div class="form-group d-none" id="descuento-reg-cliente">
+                    <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                    <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_reg_cliente1" value="0">
+                    </div>
+                        <div class="form-group">
+                            <label for="register-cliente_nuevo" class="form-label">¿Es un nuevo
+                                cliente?</label>
+
+                            <div class="custom-control custom-checkbox mb-1">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input me-1" type="checkbox" id="customCheck1" name="cliente_nuevo" value="SI">
+                                    <label class="form-check-label" for="customCheck1">Sí</label>
+                                </div>
+                            </div>
+                        </div>
+                                            <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2" id="reg_zona_cliente">
+                                <option selected="" value="0"> Seleccione una zona </option>
+                                <option value="1"> Zona Sur </option>
+                                <option value="2"> Zona Patria </option>
+                                <option value="3"> Matriz  </option>
+                            </select></div>
+                    <div class="form-group mb-2">
+                    <label for="register-lastName" class="form-label">Etiqueta</label>
+                    <div class="position-relative"><select class="select2 form-select select2-hidden-accessible" id="color_tag_reg_cliente" name="color" data-select2-id="color_tag_reg_cliente" tabindex="-1" aria-hidden="true">
+                        <option selected="" value="0" data-select2-id="8"> Seleccione una etiqueta </option>
+                        <option value="6"> Ruta Lunes</option>
+                        <option value="7"> Ruta Martes</option>
+                        <option value="8"> Ruta Miércoles</option>
+                        <option value="9"> Ruta Jueves</option>
+                        <option value="29"> Martes Y Viernes</option>
+                        <option value="30"> Punto De Venta </option>
+                        <option value="31"> Negocio, Establecimiento</option>
+                        <option value="32"> Ruta Sábado</option>
+                        <option value="33"> Ruta Lunes Y Jueves</option>
+                    </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="7" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-color_tag_reg_cliente-container"><span class="select2-selection__rendered" id="select2-color_tag_reg_cliente-container" role="textbox" aria-readonly="true" title=" Seleccione una etiqueta "> Seleccione una etiqueta </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>                
+                    </div>
+                        <div class="form-group mb-2"><label for="register-fecha_ultimo_pedido" class="form-label">Fecha del
+                                último
+                                pedido</label><input type="date" name="fecha_ultimo_pedido" placeholder="01/02/2023" class="form-control flatpickr-basic flatpickr-input"></div>
+                        <div class="form-group"><label for="register-utimos_botellones" class="form-label">Cantidad de
+                                garrafones
+                                en el último pedido</label><input type="text" name="utimos_botellones" placeholder="0" aria-describedby="register-utimos_botellones" tabindex="23" class="form-control"></div>
+
+
+                    <input type="hidden" name="dashboard" value="1">
+                        <div class="divider">
+                            <div class="divider-text">Acceso</div>
+                        </div>
+                        <div class="form-group"><label for="register-email" class="form-label">Correo</label><input type="text" name="email" placeholder="pedro@example.com" aria-describedby="register-email" tabindex="25" class="form-control mb-2"></div>
+                </form></div>
+                <div class="modal-footer">
+                    <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="add_cliente_modal">Regístrate</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+<div class="modal fade" id="registro_pedido_modal" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">Registrar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close-pedido"></button>
+            </div>
+            <div class="modal-body">
+
+                <form class="needs-validation was-validated repeater" method="post" id="reg_pedido_modal1">
+
+
+                    <div class="form-group">
+                        <label class="form-label" for="id_cliente_reg_pedido">Cliente</label>
+                        <div class="position-relative"><select class="select2 form-select select2-hidden-accessible" id="id_cliente_reg_pedido" name="id_cliente" data-select2-id="id_cliente_reg_pedido" tabindex="-1" aria-hidden="true">
+                            <option selected="" value="default" data-select2-id="2"> Seleccione un cliente </option>
+                            <option value="48"> Regina  Aguilar / Villa California</option>
+                            <option value="706"> Antonio  Vargas  / Cortijo de San Agustin</option>
+                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="1" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-id_cliente_reg_pedido-container"><span class="select2-selection__rendered" id="select2-id_cliente_reg_pedido-container" role="textbox" aria-readonly="true" title=" Seleccione un cliente "> Seleccione un cliente </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                    </div>
+
+                    <button class="btn btn-primary mt-1 waves-effect waves-float waves-light" type="button" data-bs-toggle="collapse" data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                        Modificar Cliente
+                    </button>
+
+                    <div class="collapse" id="client-info">
+                        <input type="text" id="tipo_c_pedido" hidden="">
+
+                        <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
+                            <input type="text" name="firstName" placeholder="Primer Nombre" aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" autofocus="" id="nombre_c_pedido">
+                        </div>
+
+                        <div class="form-group"><label for="register-lastName" class="form-label">Apellido</label><input type="text" name="lastName" placeholder="Apellido" aria-describedby="register-lastName" tabindex="2" class="form-control mb-2" id="apellido_c_pedido"></div>
+                        <div class="divider">
+                            <div class="divider-text">Dirección</div>
+                        </div>
+
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Códido
+                                Postal</label><input type="text" name="cp" placeholder="cp" aria-describedby="register-lastName" tabindex="2" class="form-control cp_select" id="cp_select_pedido">
+                        </div>
+
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Estado</label><input type="text" name="ciudad" placeholder="Ciudad" aria-describedby="register-lastName" tabindex="2" class="form-control" value="Jalisco" id="ciudad_select" readonly="">
+                        </div>
+                        <div class="form-group mb-2"><label for="register-lastName" class="form-label">Municipio</label><input type="text" name="municipio" placeholder="Municipio" aria-describedby="register-lastName" tabindex="2" class="form-control municipio" id="municipio_pedido" readonly="">
+                        </div>
+                        <div class="form-group mb-2">
+                            <label for="register-ciudad" class="form-label">Asentamiento</label>
+
+                            <div class="position-relative"><select class="select2 form-select select_asentamiento_me select2-hidden-accessible" id="select_asentamiento_me" name="asentamiento" data-select2-id="select_asentamiento_me" tabindex="-1" aria-hidden="true">
+
+                            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="3" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-select_asentamiento_me-container"><span class="select2-selection__rendered" id="select2-select_asentamiento_me-container" role="textbox" aria-readonly="true"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+
+                        </div>
+                        <div class="form-group d-none" id="descuento-upd-cliente">
+                  <label for="register-apellido_familiar_2" class="form-label">Monto nuevo</label>
+                  <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_upd_cliente1" value="0">
+                </div>
+                        <div class="form-group"><label for="register-sucursal" class="form-label">Zona</label><select aria-describedby="register-sucursal" tabindex="24" name="sucursal" class="form-control mb-2" id="reg_zona_cliente_pedido">
+                  <option selected="" value="0">Seleccione una Zona</option>
+                  <option value="1"> Zona Sur </option>
+                  <option value="2"> Zona Patria </option>
+                  <option value="3"> Matriz  </option>
+                </select></div>
+                                <div class="form-group">
+                  <label for="register-lastName" class="form-label">Color</label>
+                  <div class="position-relative"><select class="select2 form-select select2-hidden-accessible" id="color_tag_reg_pedido" name="color" data-select2-id="color_tag_reg_pedido" tabindex="-1" aria-hidden="true">
+                    <option value="default" data-select2-id="5"> Seleccione una etiqueta </option>
+                    <option value="6"> Ruta Lunes</option>
+                    <option value="7"> Ruta Martes</option>
+                    <option value="8"> Ruta Miércoles</option>
+                    <option value="9"> Ruta Jueves</option>
+                    <option value="29"> Martes Y Viernes</option>
+                    <option value="30"> Punto De Venta </option>
+                    <option value="31"> Negocio, Establecimiento</option>
+                    <option value="32"> Ruta Sábado</option>
+                    <option value="33"> Ruta Lunes Y Jueves</option>
+                  </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="4" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-color_tag_reg_pedido-container"><span class="select2-selection__rendered" id="select2-color_tag_reg_pedido-container" role="textbox" aria-readonly="true" title=" Seleccione una etiqueta "> Seleccione una etiqueta </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>                
+                </div>
+                        <div class="form-group" hidden=""><label for="register-fraccionamiento" class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento" placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5" class="form-control mb-2" id="fraccionamiento_pedido">
+                        </div>
+                        <div class="form-group"><label for="register-coto" class="form-label">Coto</label><input type="text" name="coto" placeholder="Coto" aria-describedby="register-coto" tabindex="6" class="form-control mb-2" id="coto_c_pedido"></div>
+
+                        <div class="form-group"><label for="register-casa" class="form-label">Casa</label><input type="text" name="casa" placeholder="Casa" aria-describedby="register-casa" tabindex="7" class="form-control mb-2" id="casa_c_pedido"></div>
+
+                        <div class="form-group"><label for="register-calle" class="form-label">Calle</label><input type="text" name="calle" placeholder="Calle" aria-describedby="register-calle" tabindex="8" class="form-control mb-2" id="calle_c_pedido"></div>
+                        <div class="form-group"><label for="register-avenida" class="form-label">Avenida</label>
+                            <input type="text" name="avenida" placeholder="Avenida" aria-describedby="register-avenida" tabindex="9" class="form-control mb-2" id="avenida_c_pedido">
+                        </div>
+
+                        <div class="form-group"><label for="register-referencia" class="form-label">Referencia</label><input type="text" name="referencia" placeholder="Referencia" aria-describedby="register-referencia" tabindex="9" class="form-control mb-2" id="referencia_c_pedido"></div>
+
+                        <div class="form-group"><label for="register-telefono" class="form-label">Teléfono</label>
+                            <div class="input-group mb-2">
+                                <div class="input-group-prepend"><span id="basic-addon1" class="input-group-text">+52</span>
+                                </div>
+                                <input type="number" name="telefono" placeholder="(760) 123 00 00" mask="(000) 000 00 00" aria-describedby="register-telefono" tabindex="11" class="form-control" id="telefono_c_pedido">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="divider">
+                        <div class="divider-text">Chofer</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
+                        <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3" class="form-control mb-2 chofer_reg_modal_pedido" id="chofer">
+                            <option default="" value="default">Seleccione un chofer</option>
+                            <option data-id="1" value="1">01 Referido </option>
+                            <option data-id="8" value="8">Gabriel Gutierrez</option>
+                            <option data-id="13" value="13">Jose Figueroa</option>
+                            <option data-id="14" value="14">Marcos  Velazquez Tellez</option>
+                            <option data-id="15" value="15">Arturo  Navarro</option>
+                        </select>
+                        <input type="hidden" id="id_chofer" name="id_chofer">
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">Fecha Pedido</div>
+                    </div>
+                    <div class="form-group mb-2"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input" id="fecha_pedido">
+                    </div>
+                    <div class="divider">
+                        <div class="divider-text">Productos</div>
+                    </div>
+
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon" aria-expanded="true">Garrafon 19L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella" aria-expanded="false">Botella 1L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l" aria-expanded="false">Garrafon 11L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l" aria-expanded="false">Botella 5L</a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon" aria-labelledby="garrafon-tab" aria-expanded="true">
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_refill_garrafon" name="refill_cant_garrafon"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_garrafon_mont" readonly="readonly" value="0" name="refill_garrafon_mont" hidden="">
+                                </div>
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_canje_garrafon" name="canje_cant_garrafon"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_garrafon_mont" readonly="readonly" value="0" name="canje_garrafon_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enNew_garrafon" name="enNew_cant_garrafon"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon_mont" readonly="readonly" value="0" name="nuevo_garrafon_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="number" class="" value="0" id="total_garrafon" name="total_garrafon_cant" hidden="">
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon_input" name="total_garrafon" hidden="">
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon">0</span></p>
+                            </div>
+
+
+
+                            <div class="tab-pane" id="botella" role="tabpanel" aria-labelledby="botella-tab" aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_refill_botella" name="refill_cant_botella"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+
+                                    </div>
+                                    <input type="text" class="form-control mb-1 w-50" id="refill_botella_mont" readonly="readonly" value="0" name="refill_botella_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_canje_botella" name="canje_cant_botella"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="canje_botella_mont" readonly="readonly" value="0" name="canje_botella_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enNew_botella" name="enNew_cant_botella"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella_mont" readonly="readonly" value="0" name="nuevo_botella_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="number" class="" value="0" id="total_botella" name="total_botella_cant" hidden="">
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella_input" name="total_botella" hidden="">
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella">0</span></p>
+                            </div>
+
+
+                            <div class="tab-pane" id="garrafon11l" role="tabpanel" aria-labelledby="garrafon11l-tab" aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_refill_garrafon11l" name="refill_cant_garrafon11l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="refill_garrafon11l_mont" readonly="readonly" value="0" name="refill_garrafon11l_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_canje_garrafon11l" name="canje_cant_garrafon11l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_garrafon11l_mont" readonly="readonly" value="0" name="canje_garrafon11l_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_garrafon11l_mont" readonly="readonly" value="0" name="nuevo_garrafon11l_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="number" class="" value="0" id="total_garrafon11l" name="total_garrafon11l_cant" hidden="">
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_garrafon11l_input" name="total_garrafon11l" hidden="">
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l">0</span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l" role="tabpanel" aria-labelledby="botella5l-tab" aria-expanded="false">
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_refill_botella5l" name="refill_cant_botella5l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="refill_botella5l_mont" readonly="readonly" value="0" name="refill_botella5l_mont" hidden="">
+
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_canje_botella5l" name="canje_cant_botella5l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50" id="canje_botella5l_mont" readonly="readonly" value="0" name="canje_botella5l_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enNew_botella5l" name="enNew_cant_botella5l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50" id="enNew_botella5l_mont" readonly="readonly" value="0" name="nuevo_botella5l_mont" hidden="">
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly="">
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm bootstrap-touchspin">
+                                            <span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-down" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span><input type="number" class="touchspin form-control" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l"><span class="input-group-btn bootstrap-touchspin-injected"><button class="btn btn-primary bootstrap-touchspin-up" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="number" class="" value="0" id="total_botella5l" name="total_botella5l_cant" hidden="">
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella5l">0</span></p>
+                                <input type="number" class="" value="0" id="monto_botella5l_input" name="total_botella5l" hidden="">
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella5l">0</span></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                      <div class="form-group" style="display: none;" id="deuda_box">
+                        <b class="m-0" id="subTotal_pedido">Sub Total: $<span id="sub_total_total">0</span></b><br>
+                        <label for="register-firstName" class="form-label" style="color: red">Adeudo de: <strong>$<span id="deuda_verf"></span></strong></label><br>
+                         <input type="text" name="deuda_anterior" class="d-none">   
+                        </div>
+                        <div class="form-group" style="display: none;" id="prestados_box">
+                        <br>
+                        <label for="register-firstName" class="form-label" style="color: red">Prestados: <span id="prestados_anterior"></span> garrafone(s)</label><br>   
+                        </div>
+
+                       <div class="form-group d-none" id="descuento_referido_box">
+                        <b class="m-0" id="">Descuento Referido: $<span id="desc_referido">0</span></b><br>
+                         <input type="text" name="desc_referido" class="d-none" id="inp_desc_ref">
+                         <input type="text" name="id_referenciado" class="d-none" id="id_referenciado">   
+                        </div>
+                    <div class="d-flex m-0">                        
+                        <input type="number" class="" value="0" id="total_total_inp" name="total_total_inp" hidden="">
+                        <b class="m-0">Monto Total: $<span id="total_total">0</span></b>
+                    </div>
+                    
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                        <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago" tabindex="3" class="form-control mb-2" id="metodo_pago">
+                            <option selected=""> Efectivo </option>
+                            <option> Tarjeta </option>
+                            <option> Transferencia </option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pago</label>
+                        <input type="text" name="status_pago" tabindex="1" class="form-control mb-2" readonly="" id="status_pago" value="Pagado">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del Pedido</label>
+                        <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly="" value="Por entregar">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            prestados(S/R)</label>
+                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados" aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" required="">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            dañados</label>
+                        <input type="text" name="danados" placeholder="Garrafones Dañados" aria-describedby="register-firstName" tabindex="1" class="form-control mb-2">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="observacion" placeholder="Observación" id="observaciion-reg-pedido" tabindex="1" class="form-control mb-2" required="">
+                    </div>
+            </form></div>
+            <div class="modal-footer">
+                <button tabindex="26" rippleeffect="" class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="btn_reg_pedido">Regístrar</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
         </div>
     </div>
 </div>
