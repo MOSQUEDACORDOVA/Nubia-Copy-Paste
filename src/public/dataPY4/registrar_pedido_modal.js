@@ -18,7 +18,7 @@ $(function () {
 
     let monto = parseInt(cant) * 35
 
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+    if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
       monto = parseInt(cant) * 30
     }
     if ($('#descuento_upd_cliente1').val()>0) {
@@ -60,7 +60,7 @@ $(function () {
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
     let monto = parseInt(cant) * 55
 
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+    if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
       monto = parseInt(cant) * 30
     }
     $('#canje_garrafon_mont').val(monto)
@@ -145,7 +145,7 @@ $(function () {
     let count_enobsequio_botella = $('#count_enobsequio_botella').val()
     let suma = parseInt(cant) + parseInt(count_canje_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
     let monto = parseInt(cant) * 35
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+    if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
       monto = parseInt(cant) * 30
     }
     
@@ -262,7 +262,7 @@ $(function () {
     let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
     let suma = parseInt(cant) + parseInt(count_canje_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
     let monto = parseInt(cant) * 35
-    if ($('#tipo_c_pedido').val() == "Punto de venta") {
+    if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
       monto = parseInt(cant) * 30
     }
     if ($('#descuento_upd_cliente1').val()>0) {

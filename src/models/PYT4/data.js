@@ -19,8 +19,8 @@ const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 const Recargas = require("../../models/PYT4/Recargas");
 const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
-const CompartirS = require('../../models/PYT4/ShareStatus')
-
+const CompartirS = require('../../models/PYT4/ShareStatus');
+const logsUse = require('../../models/PYT4/Logs');
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
 const Pedidos_maquila = require("../../models/PYT4/Pedidos_maquila");
@@ -243,7 +243,7 @@ module.exports = {
         where: {
           [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono}],  }}).then((data)=>{
         if (!data) {
-          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a"}).then((data_cliente)=>{
+          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a", nuevo:"SI"}).then((data_cliente)=>{
           let data_set = JSON.stringify(data_cliente);
         console.log(data_set);
         resolve(data_set);
@@ -720,7 +720,7 @@ module.exports = {
               cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal,monto_nuevo:descuento_reg_cliente  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
-                resolve("Se creó correctamente el pedido");
+                resolve(data.dataValues.id);
                 //console.log(planes);
               })          
             .catch((err) => {                      
@@ -1534,6 +1534,26 @@ console.log(hoy)
           });
       });
     },
+    CambiarEstadoPersonal(id,estado) {
+      return new Promise((resolve, reject) => {
+        Personal.update(
+          {
+            enabled:estado},{
+              where:
+              {
+                id: id
+              }
+            })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
       return new Promise((resolve, reject) => {
         Personal.update(
@@ -1554,6 +1574,20 @@ console.log(hoy)
    
     PersonalAll(){
       return new Promise((resolve, reject) => {
+        Personal.findAll({where: {enabled:1}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    PersonalAllT(){
+      return new Promise((resolve, reject) => {
         Personal.findAll()
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -1568,7 +1602,7 @@ console.log(hoy)
     },
 PersonalAllS(id){
       return new Promise((resolve, reject) => {
-        Personal.findAll({where: {sucursaleId:id}})
+        Personal.findAll({where: {enabled:1,sucursaleId:id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1602,7 +1636,7 @@ PersonalAllS(id){
     ChoferesAll(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer' }})
+          cargo: 'Chofer', enabled:1 }})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1634,7 +1668,7 @@ PersonalAllS(id){
     ChoferesAllS(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer', sucursaleId: id }})
+          cargo: 'Chofer', sucursaleId: id, enabled:1}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -2798,7 +2832,20 @@ findStatusCompartirAll(){
       reject(err)
     });
   });
-}
+},
+
+SaveLogs(id_user,type,tfunction,description){
+  return new Promise((resolve, reject) => {
+    logsUse.create({id_user:id_user,type:type,tfunction:tfunction,description:description}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
 
 
 /**END OF EXPORT */};

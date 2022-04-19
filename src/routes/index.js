@@ -115,7 +115,7 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser, dashboar
 router.post('/editar_personal_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_personal);
 
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser, dashboardControllerPY4.save_personal_py4);
-
+router.get('/enordesPersonal/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoPersonal);
 
 router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
 router.post('/editar_usuario', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
@@ -233,9 +233,9 @@ router.post('/save-edit-pedido-maquila', authControllerPY4.authenticatedUser, ma
 router.get('/ventas-del-dia/:dia_select', authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 
 
-router.get('/app-home/:id', dashboardControllerPY4.appHome);
-router.get('/app-login/:id', dashboardControllerPY4.appLogin);
-router.get('/app-pedido/:id', dashboardControllerPY4.appPedido);
+router.get('/app-home', dashboardControllerPY4.appHome);
+router.get('/app-login', dashboardControllerPY4.appLogin);
+router.get('/app-pedido', dashboardControllerPY4.appPedido);
 
 /* ---FIN PY4---  */
 

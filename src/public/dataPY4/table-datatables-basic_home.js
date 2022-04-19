@@ -108,7 +108,6 @@ zonas =await  fetch('/obtenerzonaspy4')
 .then(data => {
     return data.zonas
 });
-  console.log(zonas)
   let valor = $('#array_pedido').val()
   let array2 = ""
   if (rechar) {    
@@ -148,7 +147,6 @@ maxDate2 = new DateTime($('#max1'), {
   // DataTable with buttons
   // --------------------------------------------------------------------
   let groupColumn = 12;
-  console.log(status_pedido)
   if (dt_basic_table.length) {
     $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
     $('.dt-column-search thead tr:eq(1) th').each(function (i) {
@@ -178,7 +176,6 @@ $('#filterValue').val(this.value)
 copyReady= await fetch("/shareStatusPY4/")
   .then((response) => response.json())
   .then((data) => {
-    console.log(data);
     return data.findStatusCompartir;
   });
 
@@ -222,7 +219,6 @@ if (fecha_final == true) {
   modif = "d-none";
 }
 let styleCopy = "";
-console.log(copyReady);
 for (let i = 0; i < copyReady.length; i++) {
   if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
     styleCopy = "style='background-color: #001871; color: white;'";
@@ -879,7 +875,6 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     }else{
       $('#change_chofer').modal('show')
     }
-    console.log(valoresCheck)
   $("#ids_pedido").val(valoresCheck);
   });
 
@@ -1302,6 +1297,7 @@ $.contextMenu({
       type: 'POST',
       data:$("#form_edit_pedido").serialize(),
       success: async function (data, textStatus, jqXHR) {
+        console.log(data)
   $('#array_pedido').val(JSON.stringify(data.pedidos_let))
 
   $('.datatables-basic').dataTable().fnDestroy();
@@ -1455,7 +1451,6 @@ async function copyToClipboard(elemento,id_edit) {
   $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
   document.execCommand("copy");
   $temp.remove();
-  console.log(id_edit)
   await fetch("/ChangeshareStatusPY4/" + id_edit)
   .then((response) => response.json())
   .then((data) => {
@@ -1469,7 +1464,6 @@ async function copyToClipboard(elemento,id_edit) {
   }
   function copyToClipboardVarios(elemento) {
     if ($("#checkboxSelectAll").is(':checked')) {
-      console.log('borra el primero')
       var new_elemento = elemento.shift()
     }
     var $temp = $("<textarea>")
@@ -1707,9 +1701,7 @@ if ($('#filterPosition').val() != "") {
  }
 
 async function cambioPago(id, status, fecha_pedido, monto) {
-  console.log(fecha_pedido)
   
-
   if (moment().isSame(fecha_pedido, 'day')) {
     const { value: estado } = await Swal.fire({
       title: 'Seleccione un nuevo Status',
@@ -1826,12 +1818,8 @@ async function cambioPago(id, status, fecha_pedido, monto) {
     
     }
   } else {
-    console.log(moment().isSame(fecha_pedido, 'day'))
-    console.log('otro cambio')
-    let chof = $('#choferes').val()
-    console.log(chof)
-    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'))
-    console.log(choferes)
+    let chof = $('#choferes').val();
+    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'));
     let arr=[]
   for (let i = 0; i < choferes.length; i++) {
     arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
@@ -1841,7 +1829,6 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       function(o) {
           options[o.id] = o.name;
       });
-    console.log(options) 
     const { value: status_ } = await Swal.fire({
       title: 'Seleccione un nuevo Status',
       input: 'select',
@@ -1862,8 +1849,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       }
     })
     
-    if (status_) {
-      console.log(status_)   
+    if (status_) {  
     var tipo_p, fecha_pago, chofer_r
     if (status_ == "Pagado") {
       const { value: tipo } = await Swal.fire({
@@ -1878,7 +1864,6 @@ async function cambioPago(id, status, fecha_pedido, monto) {
         showCancelButton: true,
         inputValidator: (value) => {
           return new Promise((resolve) => {
-            console.log(value)
             if (!value) {
               resolve('Debe colocar un tipo')
             } else {
@@ -1964,11 +1949,7 @@ async function cambioPago(id, status, fecha_pedido, monto) {
       }
       chofer_r = 'Null'
       fecha_pago =fecha_re
-    }
-    console.log("id pedido: "+id)
-      console.log(tipo_p)
-      console.log(chofer_r)
-      console.log(fecha_pago)         
+    }         
       const data_C = new FormData();
       data_C.append("id", id);
       data_C.append("status", status_);
