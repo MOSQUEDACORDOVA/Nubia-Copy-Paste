@@ -125,7 +125,7 @@ exports.enabledDisUser = (req, res) => {
 };
 
 exports.cargarExcel = (req, res) => {
-  let { grupoId, fileName, vendedor, text } = req.params
+  let { grupoId, fileName, text } = req.params
   let idEncargado = res.locals.user.id;
   console.log(req.params);
   let msg = false;
@@ -133,31 +133,45 @@ exports.cargarExcel = (req, res) => {
   try {
     xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
       console.log(rows);
-      for (let index = 0; index < rows.length; index++) {
-        const element = rows[index];
+      DataBase.ObtenerTodosUsuarios().then((resp) =>{
+        let usuarios = JSON.parse(resp)
+        /*console.log(usuarios)
+        console.log("usuarios")*/
 
-        let nombre = element[0].toUpperCase(), 
-        dni = element[1],
-        genero = element[2],
-        nacimiento = moment(element[3]).format('DD/MM/YYYY'),
-        tlf1 = element[4],
-        tlf2 = element[5] != "" ? element[5] : null,
-        email = element[6],
-        provincia = element[7],
-        canton = element[8],
-        distrito = element[9],
-        tipo = element[10],
-        grupo = grupoId;
-        vendedor = vendedor != "" ? vendedor : null;
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+  
+          let nombre = element[0].toUpperCase(), 
+          dni = element[1],
+          genero = element[2],
+          nacimiento = moment(element[3]).format('DD/MM/YYYY'),
+          tlf1 = element[4],
+          tlf2 = element[5] != "" ? element[5] : null,
+          email = element[6],
+          provincia = element[7],
+          canton = element[8],
+          distrito = element[9],
+          tipo = element[10],
+          grupo = grupoId;
+          vendedor = usuarios.filter(vendedor => vendedor.dni == element[11]);
+          vendedorId = vendedor[0].id
 
-        DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, tipo, grupo, vendedor).then((respuesta) =>{
-          console.log(respuesta);
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
+          /*console.log(vendedorId)
+          console.log("VENDEDOR")*/
+  
+          DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, tipo, grupo, vendedorId).then((respuesta) =>{
+            console.log(respuesta);
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
       return res.redirect("/matriculas/"+text);    
     })
 
@@ -1011,13 +1025,14 @@ exports.verificargrupos = (req, res) => {
 
 exports.matriculas = async (req, res) => {
   let msg = false;
-  if (req.params.msg) {
-    msg = req.params.msg;
+  if (req.params.item) {
+    msg = req.params.item;
   }
 
-  let idUser = null
-  if (req.params.id) {
-    idUser = req.params.id;
+  let idUser = ''
+  if (req.params.item && parseInt(req.params.item)) {
+    msg = false;
+    idUser = req.params.item;
   }
 
   let roleAdmin, roleProf
