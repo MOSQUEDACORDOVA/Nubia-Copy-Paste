@@ -67,7 +67,7 @@ function cargarTablaAperturas() {
         });  
 
         tableApert = aperturasTable.DataTable({
-            "orderFixed": [ 0, "asc" ],
+            "orderFixed": [[ 0, "asc" ]],
             paging:   false,
             data: gruposApertura,
             columns: [
@@ -244,7 +244,7 @@ function cargarTablaDesde0() {
         });
 
         tableDesde0 = desde0Table.DataTable({
-            "orderFixed": [ 0, "asc" ],
+            "orderFixed": [[ 0, "asc" ]],
             paging:   false,
             data: gruposDesde0,
             columns: [
@@ -416,7 +416,7 @@ function cargarTablaIntensivos() {
         }); 
 
         tableIntensivos = intensivosTable.DataTable({
-            order: [0, 'desc'],
+            order: [[0, 'asc']],
             paging:   false,
             data: gruposIntensivos,
             columns: [
@@ -584,7 +584,7 @@ $('#profesorGrupo3').on('change', function(){
             tablaKids.search(this.value).draw();   
         }); 
         tablaKids = kidsTable.DataTable({
-            "orderFixed": [ 0, "asc" ],
+            "orderFixed": [[ 0, "asc" ]],
             paging:   false,
             data: gruposKids,
             columns: [
