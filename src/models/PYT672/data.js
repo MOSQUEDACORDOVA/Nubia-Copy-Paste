@@ -266,11 +266,10 @@ module.exports = {
           });
       });
     },
-    ActualizarNivelesGrupos(id, identif, fin, nivel, code) {
+    ActualizarNivelesGrupos(id, identif, nivel, code) {
       return new Promise((resolve, reject) => {
         Grupos.update({
           identificador: identif,
-          fecha_finalizacion: fin,
           nivel: nivel,
           codigo_nivel: code,
         }, { where: {
