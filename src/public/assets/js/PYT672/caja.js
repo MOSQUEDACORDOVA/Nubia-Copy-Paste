@@ -30,7 +30,19 @@ $(function () {
     $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
     $("#grupo-alumno").text(filter[0]["grupo"]["identificador"]);
     $("#horario-alumno").text(filter[0]["grupo"]["dia_horario"]);
-    $("#profesor-alumno").text("Isaac");
+
+    $("#profesor-alumno").text(filter[0]["grupo"]["usuario"]["nombre"]);
+
+    $('#estado-alumno').addClass('d-none')
+    $('#estado-congelado-alumno').addClass('d-none')
+    if (filter[0]["estadoId"] === 1) {
+      $('#estado-alumno').text(filter[0]["estado"]["estado"])
+      $('#estado-alumno').removeClass('d-none')
+    } else {
+      $('#estado-congelado-alumno').text(filter[0]["estado"]["estado"])
+      $('#estado-congelado-alumno').removeClass('d-none')
+    }
+
     $("#telefonos-alumno").text(
       filter[0]["telefono1"] + " - " + filter[0]["telefono2"]
     );
