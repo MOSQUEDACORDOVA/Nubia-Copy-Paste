@@ -1,29 +1,158 @@
+<style>
+    table tr td {
+        white-space: normal !important;
+    }
+</style>
 <div class="app-content py4 py4app">
     <div class="content-wrapper container-xxxl p-0">
         <div class="content-body home">
             <div class="row">
-                <div class="col-12 mb-1">
-                    <div class="card card-body m-0">
-                        <div class="row m-0">
-                            <div class="col-4 text-center">
-                                <p class="lead">CA - 5</p>
-                                <p class="lead">CF - 7</p>
+
+                <div class="col-lg-4 col-md-6 col-12">
+                    <div class="card card-developer-meetup">
+                        <div class="meetup-img-wrapper rounded-top text-center">
+                            <img src="../../../app-assets/images/illustration/email.svg" alt="Meeting Pic" height="100">
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 mb-1">
+                                    <div class="item d-flex align-items-center">
+                                        <div class="avatar bg-light-primary rounded me-1">
+                                            <div class="avatar-content">
+                                                <div class="avatar-icon">15</div>
+                                            </div>
+                                        </div>
+                                        <div class="more-info">
+                                            <h6 class="mb-0">Carga Inicial</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 mb-1">
+                                    <div class="item d-flex align-items-center">
+                                        <div class="avatar bg-light-primary rounded me-1">
+                                            <div class="avatar-content">
+                                                <div class="avatar-icon">52</div>
+                                            </div>
+                                        </div>
+                                        <div class="more-info">
+                                            <h6 class="mb-0">Garrafones</h6>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="item d-flex align-items-center">
+                                        <div class="avatar bg-light-primary rounded me-1">
+                                            <div class="avatar-content">
+                                                <div class="avatar-icon">30</div>
+                                            </div>
+                                        </div>
+                                        <div class="more-info">
+                                            <h6 class="mb-0">Carga Final</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="item d-flex align-items-center">
+                                        <div class="avatar bg-light-primary rounded me-1">
+                                            <div class="avatar-content">
+                                                <div class="avatar-icon">22</div>
+                                            </div>
+                                        </div>
+                                        <div class="more-info">
+                                            <h6 class="mb-0">Pedidos</h6>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-4 text-center">
-                                <p class="lead">#G - 26</p>
-                                <p class="lead">#P - 31</p>
-                            </div>
-                            <div class="col-4 text-center">
-                                <button type="button" class="btn btn-sm btn-primary waves-effect mb-50" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
+                        </div>
+                        <div class="row border-top text-center mx-0">
+                            <div class="col-6 border-end py-1">
+                                <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
                                     <span>Pedido</span>
                                 </button>
-                                <button type="button" class="btn btn-sm btn-primary waves-effect" data-bs-toggle="modal" data-bs-target="#add_cliente">
+                            </div>
+                            <div class="col-6 py-1">
+                                <button type="button" class="btn btn-primary waves-effect" data-bs-toggle="modal" data-bs-target="#add_cliente">
                                     <span>Cliente</span>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!--<div class="col-12 mb-1">
+                    <div class="card card-body m-0">
+                        <div class="row m-0">
+                            <div class="col-4">
+                                <div class="transaction-item mb-1">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-light-info rounded float-start">
+                                            <div class="avatar-content">
+                                                <i data-feather='trending-up' class="feather feather-trending-up avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="transaction-percentage mx-1">
+                                            <h6 class="transaction-title mb-0">CI:</h6>
+                                        </div>  
+                                        <div class="fw-bolder text-primary">98</div>
+                                    </div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-light-warning rounded float-start">
+                                            <div class="avatar-content">
+                                                <i data-feather='trending-down' class="feather feather-trending-up avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="transaction-percentage mx-1">
+                                            <h6 class="transaction-title mb-0">CF:</h6>
+                                        </div>  
+                                        <div class="fw-bolder text-primary">100</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="transaction-item mb-1">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-light-primary rounded float-start">
+                                            <div class="avatar-content">
+                                                <i data-feather='droplet' class="feather feather-trending-up avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="transaction-percentage mx-1">
+                                            <h6 class="transaction-title mb-0">#G:</h6>
+                                        </div>  
+                                        <div class="fw-bolder text-primary">50</div>
+                                    </div>
+                                </div>
+                                <div class="transaction-item">
+                                    <div class="d-flex align-items-center">
+                                        <div class="avatar bg-light-success rounded float-start">
+                                            <div class="avatar-content">
+                                                <i data-feather='file-text' class="feather feather-trending-up avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="transaction-percentage mx-1">
+                                            <h6 class="transaction-title mb-0">#P:</h6>
+                                        </div>  
+                                        <div class="fw-bolder text-primary">25</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="d-flex justify-content-center flex-column h-100">
+                                    <button type="button" class="btn btn-sm btn-primary waves-effect mb-1" data-bs-toggle="modal" data-bs-target="#registro_pedido_modal">
+                                        <span>Pedido</span>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-primary waves-effect" data-bs-toggle="modal" data-bs-target="#add_cliente">
+                                        <span>Cliente</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
 
                 <div class="col-4 position-relative">
                     <span class="badge rounded-pill bg-primary badge-up">6</span>
@@ -177,6 +306,60 @@
                 </div>
             </div>
 
+            <div class="col-12">
+                <div class="design-group">
+                    <h6 class="section-label text-dark">Disel</h6>
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Fecha</p>
+                                <h6 class="mb-0">12 Apr, 21</h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Cantidad</p>
+                                <h6 class="mb-0">52</h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Kilometraje</p>
+                                <h6 class="mb-0">50</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="design-group">
+                    <h6 class="section-label text-dark">Meta</h6>
+                    
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Fecha</p>
+                                <h6 class="mb-0">12 Apr, 21</h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Cantidad</p>
+                                <h6 class="mb-0">52</h6>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="card card-body design-planning bg-white">
+                                <p class="card-text mb-25">Dinero</p>
+                                <h6 class="mb-0">50</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="modal fade text-start" id="fullscreenModal" tabindex="-1" aria-modal="true" role="dialog">
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
@@ -195,27 +378,27 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
+                                            <span>Las Víboras (Fraccionamiento Valle de las Flores), coto K, casa 31</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
+                                            <span>Las Víboras (Fraccionamiento Valle de las Flores), coto K, casa 31</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
+                                            <span>Las Víboras (Fraccionamiento Valle de las Flores), coto K, casa 31</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
+                                            <span>Las Víboras (Fraccionamiento Valle de las Flores), coto K, casa 31</span>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span>Lima Peru - Lorem ipsum dolor sit, amet consectetur elit.</span>
+                                            <span>Las Víboras (Fraccionamiento Valle de las Flores), coto K, casa 31</span>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -266,7 +449,7 @@
 
                             <div class="position-relative"><select class="select2 form-select select_asentamiento_me select2-hidden-accessible" id="select_asentamiento" name="asentamiento" data-select2-id="select_asentamiento" tabindex="-1" aria-hidden="true">
 
-                            </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="6" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-select_asentamiento-container"><span class="select2-selection__rendered" id="select2-select_asentamiento-container" role="textbox" aria-readonly="true"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                            </select></div>
 
                         </div>
                         <div class="form-group" hidden=""><label for="register-fraccionamiento" class="form-label">Fraccionamiento</label><input type="text" name="fraccionamiento" placeholder="Fraccionamiento" aria-describedby="register-fraccionamiento" tabindex="5" class="form-control mb-2"></div>
@@ -406,7 +589,7 @@
                             <option selected="" value="default" data-select2-id="2"> Seleccione un cliente </option>
                             <option value="48"> Regina  Aguilar / Villa California</option>
                             <option value="706"> Antonio  Vargas  / Cortijo de San Agustin</option>
-                        </select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="1" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-id_cliente_reg_pedido-container"><span class="select2-selection__rendered" id="select2-id_cliente_reg_pedido-container" role="textbox" aria-readonly="true" title=" Seleccione un cliente "> Seleccione un cliente </span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span></div>
+                        </select></div>
                     </div>
 
                     <button class="btn btn-primary mt-1 waves-effect waves-float waves-light" type="button" data-bs-toggle="collapse" data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">

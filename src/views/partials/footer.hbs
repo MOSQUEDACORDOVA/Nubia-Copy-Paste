@@ -27,7 +27,9 @@
     {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
     <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
 {{#if py4App}}
+
     <!-- BEGIN Vendor JS-->
+     <script src="../../../app-assets/js/scripts/ui/ui-feather.min.js"></script>
     <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
     <script src="../../../app-assets/js/scripts/forms/form-select2.min.js"></script>
     <!-- BEGIN: Page Vendor JS-->
@@ -376,6 +378,18 @@
     {{/if}}
 
     {{#if py4App}}
+    <script>
+         $(window).on('load', function() {
+            if (feather) {
+                feather.replace({
+                    width: 14,
+                    height: 14
+                });
+            }
+            
+            $('#button_modal_init').click()
+        })
+    </script>
     {{else}}
     <script>
          $(window).on('load', function() {
