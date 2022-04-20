@@ -67,7 +67,7 @@ function cargarTablaAperturas() {
         });  
 
         tableApert = aperturasTable.DataTable({
-            ordering: true,
+            "orderFixed": [ 0, "asc" ],
             paging:   false,
             data: gruposApertura,
             columns: [
@@ -192,7 +192,6 @@ function cargarTablaAperturas() {
                     }
                 },
             ],
-            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -245,7 +244,7 @@ function cargarTablaDesde0() {
         });
 
         tableDesde0 = desde0Table.DataTable({
-            ordering: true,
+            "orderFixed": [ 0, "asc" ],
             paging:   false,
             data: gruposDesde0,
             columns: [
@@ -366,7 +365,6 @@ function cargarTablaDesde0() {
                     }
                 },
             ],
-            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -418,7 +416,7 @@ function cargarTablaIntensivos() {
         }); 
 
         tableIntensivos = intensivosTable.DataTable({
-            ordering: true,
+            order: [0, 'desc'],
             paging:   false,
             data: gruposIntensivos,
             columns: [
@@ -536,7 +534,6 @@ function cargarTablaIntensivos() {
                     }
                 },
             ],
-            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,
@@ -587,7 +584,7 @@ $('#profesorGrupo3').on('change', function(){
             tablaKids.search(this.value).draw();   
         }); 
         tablaKids = kidsTable.DataTable({
-            ordering: true,
+            "orderFixed": [ 0, "asc" ],
             paging:   false,
             data: gruposKids,
             columns: [
@@ -705,7 +702,6 @@ $('#profesorGrupo3').on('change', function(){
                     }
                 },
             ],
-            order: [[0, 'desc']],
             dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-4"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             orderCellsTop: true,
             displayLength: 5,

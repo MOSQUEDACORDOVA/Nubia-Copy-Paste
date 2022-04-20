@@ -29,7 +29,7 @@ function cargarTablaMatricula(editada) {
     });  
 
     tableMatr = historialTable.DataTable({
-      ordering: false,
+      "orderFixed": [[ 0, "asc" ]],
       paging:   false,
       data: matriculaParsed,
       columns: [

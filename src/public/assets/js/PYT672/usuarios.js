@@ -24,7 +24,7 @@ function cargarTablaUsuarios() {
   if (usuariosTable.length) {
     console.log(usuarios);
     let tableUsuarios = usuariosTable.DataTable({
-      ordering: false,
+      "orderFixed": [[ 0, "asc" ]],
       paging: false,
       data: usuarios,
       columns: [

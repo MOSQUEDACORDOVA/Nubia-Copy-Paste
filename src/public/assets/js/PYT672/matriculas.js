@@ -17,11 +17,9 @@ function cargarTablaMatricula(editada) {
   }
 
   // --------------------------------------------------------------------
-  console.log(estudiantesParsed);
-  console.log(grupos);
   if (matriculaTable.length) {
     var tableMatr = matriculaTable.DataTable({
-      ordering: false,
+      "orderFixed": [[ 0, "asc" ]],
       paging: false,
       data: estudiantesParsed,
       columns: [
