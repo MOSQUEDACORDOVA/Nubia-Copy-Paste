@@ -901,89 +901,68 @@ exports.verificargrupos = (req, res) => {
       let inicioGrupo = row.fecha_inicio;
       let actual = moment();
       let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
-      console.log('LINEA 773 VERIFICA FECHA INICIADO')
+      console.log('LINEA VERIFICA FECHA INICIADO')
       console.log(iniciado)
       let iniciar = moment(iniciado).diff(actual, 'days');
 
       let nivelCode, nivel;
-    
+
+      let fechaInicio = moment(row.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+      let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+      let rest;
+      
       function EstablecerNivel () {  
-        if (row.nombre === "Desde cero") {
-          switch (row.lecciones_semanales) {
-            case '1':
-              nivel1 = moment(iniciado).add(31, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(62, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(124, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(248, 'w').format('YYYY-MM-DD')
-      
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              console.log(nivel4)
-              console.log("DESDE CERO")
-              break;
-          }
-
-        } else if (row.nombre === "Intensivo") {
-          switch (row.lecciones_semanales) {
-            case '2':
-              nivel1 = moment(iniciado).add(15, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(30, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(45, 'w').add(2,'d').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(60, 'w').add(2,'d').format('YYYY-MM-DD')
-      
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              console.log(nivel4)
-              console.log("INTENSIVO")
+        let nivel2, nivel3, nivel4;
+        switch (row.lecciones_semanales) {
+          case '1':
+            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+    
+            console.log("NIVELES")
+            console.log(nivel2)
+            console.log(nivel3)
+            console.log(nivel4)
+            console.log("DESDE CERO")
             break;
-          }
-          
-        } else {
-          switch (row.lecciones_semanales) {
-            case '1':
-              nivel1 = moment(iniciado).add(15, 'w').format('YYYY-MM-DD')
-              nivel2 = moment(iniciado).add(30, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(45, 'w').format('YYYY-MM-DD')
-      
-              console.log("NIVELES")
-              console.log(nivel1)
-              console.log(nivel2)
-              console.log(nivel3)
-              //console.log(nivel4)
-              console.log("KIDS")
-            break;
-          }
 
+          case '2':
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+    
+            console.log("NIVELES")
+            console.log(nivel2)
+            console.log(nivel3)
+            console.log(nivel4)
+            console.log("INTENSIVO")
+          break;
         }
-          
+               
         if (moment().isBefore(nivel2)) {
-          fechaFin = moment(nivel1, "YYYY-MM-DD").format("DD-MM-YYYY")
+          console.log("Estas en nivel 1")
           nivelCode = '-1';
           nivel = 'Principiante';
-            
-        } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
-          fechaFin = moment(nivel2, "YYYY-MM-DD").format("DD-MM-YYYY")
+          
+        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+          console.log("Estas en nivel 2")
           nivelCode = '-2';
           nivel = 'Básico';
           
-        } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
-          fechaFin = moment(nivel3, "YYYY-MM-DD").format("DD-MM-YYYY")
+        } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+          console.log("Estas en nivel 3")
           nivelCode = '-3';
           nivel = 'Intermedio';
           
-        } else if(row.nombre !== "Kids") {
-          if(moment().isAfter(nivel3)) {
-            fechaFin = moment(nivel4, "YYYY-MM-DD").format("DD-MM-YYYY")
-            nivelCode = '-4';
-            nivel = 'Avanzado';
-
-          }
+        } else {
+          console.log("Estas en nivel 4")
+          nivelCode = '-4';
+          nivel = 'Avanzado';
+          
         }
+
       }
+      //* --------
 
       if (iniciar >= 1) {
         EstablecerNivel();
@@ -994,7 +973,7 @@ exports.verificargrupos = (req, res) => {
 
         if(row.estadosGrupoId === 1) {
           DataBase.IniciarGrupos(row.id).then((actualizado) => {
-            console.log("GRUPO INICIADO - RES CONTROLLER")
+            console.log("GRUPO INICIADO")
           }).catch((err) => {
             console.log(err)
             let msg = "Error en sistema";
@@ -1005,7 +984,7 @@ exports.verificargrupos = (req, res) => {
         let identificador = row.identificador.slice(0,-2) + nivelCode;
         console.log(identificador)
 
-        DataBase.ActualizarNivelesGrupos(row.id, identificador, fechaFin, nivel, nivelCode).then((actualizado) => {
+        DataBase.ActualizarNivelesGrupos(row.id, identificador, nivel, nivelCode).then((actualizado) => {
           console.log(actualizado)
           console.log("GRUPO ACTUALIZADO")
         }).catch((err) => {
@@ -1485,8 +1464,7 @@ exports.historial = (req, res) => {
         
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
         let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-        let rest; 
-
+        let rest;
         
         function EstablecerNivel () {  
           let nivel2, nivel3, nivel4;
@@ -2368,17 +2346,14 @@ exports.error = (req, res) => {
 exports.creargrupos = (req, res) => {
   console.log(req.body);
   const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
-  var profesor1 = profesor
+  let profesor1 = profesor
   let msg = false;
-  console.log(moment(fechaInicio,'DD-MM-YYYY'));
   let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
   let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
   inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
 
   numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
-  console.log(numAño)
-  console.log("AÑO DE IDENTIFICADOR")
 
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
@@ -2400,20 +2375,12 @@ exports.creargrupos = (req, res) => {
           let grupos = JSON.parse(response);
           inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
-          // FILTRAR POR AÑO
-          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
           
           grupos.forEach(row => {
             let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-            console.log(numAño)
-            console.log(añoGrupo)
-            console.log("MOMENTO INICIO")
   
             if (numAño === añoGrupo) {
               count++;
-              console.log("CONTIENEN EL MISMO AÑO")
-              console.log(count)
-              console.log("NUMERO DE IDENTIFICADOR")
             }
           }); 
   
@@ -2421,23 +2388,18 @@ exports.creargrupos = (req, res) => {
   
           nivelCode = '-1';
           nivel = 'Principiante';
-                                        // 224
-          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(31, 'w').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(128, 'w').format('DD-MM-YYYY');
           finNivel = "32 Semanas";      
-          console.log(fechaFin)
-          console.log("FECHAR FINALIZAR")
+
           numId += numGrupo;
           identificador = `C${numAño}${numId}${nivelCode}`;
-          console.log(identificador)
-          console.log("IDENTIFICADOR GENERADO")
+
           if (profesor1 == 'NULL') {
             profesor1 = null
           }
           DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor1).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
-            console.log(grupoId)
-            console.log("GRUPO CREADO SATISFACTORIAMENTE")
   
             return res.send({success: 'creado'});
   
@@ -2452,25 +2414,16 @@ exports.creargrupos = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        console.log("GRUPOS KIDS")
         DataBase.ObtenerTodosGruposKids().then((response) => {
           let grupos = JSON.parse(response);
           inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
           count = 0;
-          // FILTRAR POR AÑO
-          console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
           
           grupos.forEach(row => {
             let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-            console.log(numAño)
-            console.log(añoGrupo)
-            console.log("MOMENTO INICIO")
   
             if (numAño === añoGrupo) {
               count++;
-              console.log("CONTIENEN EL MISMO AÑO")
-              console.log(count)
-              console.log("NUMERO DE IDENTIFICADOR")
             }
           }); 
   
@@ -2478,23 +2431,16 @@ exports.creargrupos = (req, res) => {
   
           nivelCode = '-1';
           nivel = 'Principiante';
-                                        // 112
-          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').format('DD-MM-YYYY');
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
           finNivel = "16 Semanas";      
-          console.log(fechaFin)
-          console.log("FECHAR FINALIZAR")
           numId += numGrupo;
           identificador = `N${numAño}${numId}${nivelCode}`;
-          console.log(identificador)
-          console.log("IDENTIFICADOR GENERADO")
           if (profesor1 == 'NULL') {
             profesor1 = null
           }
           DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
             let grupoCreado = JSON.parse(respuesta)
             let grupoId = grupoCreado.id
-            console.log(grupoId)
-            console.log("GRUPO CREADO SATISFACTORIAMENTE")
   
             return res.send({success: 'creado'});
   
@@ -2512,24 +2458,15 @@ exports.creargrupos = (req, res) => {
     } else {
       DataBase.ObtenerTodosGruposIntensivo().then((response) => {
         let grupos = JSON.parse(response);
-        console.log("INTENSIVOS")
-        // FILTRAR POR AÑO
         inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
         count = 0;
         // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
         
         grupos.forEach(row => {
           let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
           if (numAño === añoGrupo) {
             count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
           }
         }); 
 
@@ -2537,21 +2474,15 @@ exports.creargrupos = (req, res) => {
 
         nivelCode = '-1';
         nivel = 'Principiante';
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        //fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
         finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
         numId += numGrupo;
         identificador = `I${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
         if (profesor1 == 'NULL') {
           profesor1 = null
         }
         DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO CREADO SATISFACTORIAMENTE")
 
           return res.send(grupoCreado);
 

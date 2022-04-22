@@ -11,13 +11,13 @@
             </ul>
         </div>
         <ul class="nav navbar-nav align-items-center ms-auto">
-            {{#if roleProf}}{{else}}
+            <!--{{#if roleProf}}{{else}}
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="#" id="modal-reg-alumno">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus ficon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
                 </a>
             </li>
-            {{/if}}
+            {{/if}}-->
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="#" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <div class="user-nav d-sm-flex d-none">
@@ -93,7 +93,7 @@
             <li class="nav-item">
                 <a class="d-flex align-items-center" href="#" data-bs-toggle="modal" data-bs-target="#registrarAlumno">
                     <i data-feather='user-plus'></i>
-                    <span class="menu-title text-truncate">Incluir Alumno</span>
+                    <span class="menu-title text-truncate">Incluir</span>
                 </a>
             </li>
             <li class="{{#if asistencias}}active{{/if}} nav-item">
@@ -172,10 +172,10 @@
                         </div>
 
 
-                        <div class="col-12 mb-1">
-                            <div class="flex-grow-1">
+                        <div class="col-12">
+                            <div class="flex-grow-1 d-lg-none">
                                 <label class="form-label" for="">Documento de Identidad</label>
-                                <div class="demo-inline-spacing">
+                                <div class="demo-inline-spacing d-none">
                                     <div class="form-check form-check-inline mt-0">
                                         <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
                                         <label class="form-check-label" for="inlineRadio1">Nacional</label>
@@ -189,11 +189,13 @@
 
                             <div class="row m-0 p-0">
                                 <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
-                                    <div class="flex-grow-1">
+                                    <div class="flex-grow-1 d-none">
                                         <label class="form-label" for="fp-default">&nbsp</label>
                                     </div>
-                                    <div class="flex-grow-1 d-flex">
-                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación nacional"/>
+                                    <div class="flex-grow-1">
+                                        <label class="form-label d-none d-lg-block" for="">Documento de Identidad</label>
+
+                                        <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación"/>
 
                                         {{!-- <input type="number" class="form-control" id="primerCampo" minlength="1" maxlength="1" autocomplete="off">
                                         <input type="number" class="form-control mx-1"id="segundoCampo" min="0" minlength="4" maxlength="4" autocomplete="off">
@@ -231,6 +233,13 @@
 
                         <div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 1</label>
+                                <input type="text" class="form-control tlfNacional"  name="telefono1" id="inputTlf1" required>
+                            </div>
+                        </div>
+
+                        <!--<div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
                                 <label class="form-label" for="">Teléfono 1 - <span class="nacional1text">Nacional</span><span class="d-none extranjero1text">Extranjero</span></label>
                                 <div class="col-md">
                                     <div class="mb-1">
@@ -245,9 +254,16 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <div class="col-12 col-md-6 col-lg-4 mb-1">
+                            <div class="flex-grow-1">
+                                <label class="form-label" for="">Teléfono 2</label>
+                                <input type="text" class="form-control tlfNacional"  name="telefono2" id="inputTlf2">
+                            </div>
+                        </div>
+
+                        <!--<div class="col-12 col-md-6 col-lg-4 mb-1">
                             <div class="flex-grow-1">
                                 <label class="form-label" for="">Teléfono 2 - <span class="nacional2text">Nacional</span><span class="d-none extranjero2text">Extranjero</span></label>
                                 <div class="col-md">
@@ -263,7 +279,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
 
                         <div class="col-12 col-lg-4 mb-1">
@@ -392,7 +408,7 @@ $('#registrarAlumno').modal('show')
         }
     });
 
-    tlf1Check.addEventListener('change', e => {
+    /*tlf1Check.addEventListener('change', e => {
         let text = document.querySelector('.nacional1text'),
         text2 = document.querySelector('.extranjero1text');
 
@@ -422,7 +438,7 @@ $('#registrarAlumno').modal('show')
             text2.classList.remove('d-none');
             tlf2.classList.remove('tlfNacional')
         }
-    });
+    });*/
     
     const SetRadio1 = () => {
         nacionalC.classList.remove('d-none');
