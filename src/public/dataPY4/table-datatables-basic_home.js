@@ -6,29 +6,29 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- var zonas, copyReady;
+ var zonas, copyReady,array_pedido;
 
- // Custom filtering function which will search data in column four between two values
-//  $.fn.dataTable.ext.search.push(
-//      function( settings, data, dataIndex ) {
-//          var min = minDate.val();
-//          var max = maxDate.val();
+ ///Custom filtering function which will search data in column four between two values
+ $.fn.dataTable.ext.search.push(
+     function( settings, data, dataIndex ) {
+         var min = minDate.val();
+         var max = maxDate.val();
        
 
-//      let f = data[9]
+     let f = data[9]
     
-//          var date = new Date(f);
-//          if (
-//              ( min === null && max === null ) ||
-//              ( min === null && date <= max ) ||
-//              ( min <= date   && max === null ) ||
-//              ( min <= date   && date <= max ) 
-//          ) {
-//              return true;
-//          }
-//          return false;
-//      }
-//  );
+         var date = new Date(f);
+         if (
+             ( min === null && max === null ) ||
+             ( min === null && date <= max ) ||
+             ( min <= date   && max === null ) ||
+             ( min <= date   && date <= max ) 
+         ) {
+             return true;
+         }
+         return false;
+     }
+ );
  
  
  // Datepicker for advanced filter
@@ -72,13 +72,13 @@
  // We pass the column location, the start date, and the end date
  var filterByDate = function (column, startDate, endDate) {
    // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTableExt.afnFiltering.push(function (oSettings, aData, iDataIndex) {
+   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
      var rowDate = normalizeDate(aData[column]),
        start = normalizeDate(startDate),
        end = normalizeDate(endDate);
        var  min2 = minDate2.val();
        var max2 = maxDate2.val();
-       let f = aData[10]       
+       let f = aData[10] 
        let fechaN = f.split('-')       
        var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
        var date = new Date(date1);
@@ -121,16 +121,7 @@ zonas =await  fetch('/obtenerzonaspy4')
   let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
   let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
   var dt_basic_table = $('.datatables-basic'),
-    dt_date_table = $('.dt-date'),
-    dt_basic_table2 = $('.datatables-basic2'),
-    dt_adv_filter_table = $('.datatables-basic'),
-    dt_row_grouping_table = $('.dt-row-grouping'),
-    dt_multilingual_table = $('.dt-multilingual'),
-    assetPath = '../../dataPY4/';
-
-  if ($('body').attr('data-framework') === 'laravel') {
-    assetPath = $('body').attr('data-asset-path');
-  }
+    dt_basic_table2 = $('.datatables-basic2');
   minDate = new DateTime($('#min'), {
     format: 'DD/MM/YYYY'
 });

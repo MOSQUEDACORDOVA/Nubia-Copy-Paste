@@ -89,7 +89,6 @@ router.get('/notificaciones_panel', authControllerPY4.authenticatedUser, dashboa
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
-//PYT-4 
 router.post('/upload-file', fileController4.subirArchivo);
 router.get('/errorpy4/:msg', dashboardControllerPY4.error);
 router.get('/errorpy4Cuponera/:msg', dashboardControllerPY4.errorCuponera);
@@ -102,6 +101,9 @@ router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 router.get('/reportes', dashboardControllerPY4.reportes);
+
+router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
+//PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
 // OBTENER VENTAS POR ZONAS

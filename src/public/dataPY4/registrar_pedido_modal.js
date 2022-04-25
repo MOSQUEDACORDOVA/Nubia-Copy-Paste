@@ -495,6 +495,7 @@ $(function () {
   //OTROS DESPUES DE LOS SELECT DE PRODUCTOS
 
   $('#id_cliente_reg_pedido').on('change', (e) => {
+    $('#modifica_cliente_input').val('NO');
     var valor = $('#array').val()
     var array = JSON.parse(valor.replace(/&quot;/g, '"'))
     $('#descuento_referido_box').addClass('d-none')
@@ -847,3 +848,8 @@ $('#btn-close-cliente').on('click', ()=>{
   $("#color_tag_reg_cliente").val('0').trigger('change');
 })
 });
+
+$('#modifica_cliente_btn').on('click', function () {  
+  console.log('Testing');
+  $('#modifica_cliente_input').val('SI');
+})
