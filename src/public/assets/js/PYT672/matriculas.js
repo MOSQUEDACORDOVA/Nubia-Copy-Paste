@@ -142,7 +142,7 @@ function cargarTablaMatricula(array) {
                 <div role="button" class="text-primary edit-btn-alumno me-1" data-id="${
                   full["id"]
                 }">
-                <span style="pointer-events: none">${feather.icons["edit"].toSvg()}</span>
+                ${feather.icons["edit"].toSvg()}
                 
                 </div>
                 <div class="">
@@ -266,6 +266,7 @@ $(function () {
 
   $(".edit-btn-alumno").on("click", (e) => {
     let data = e.target.getAttribute('data-id');
+    
     /*let filterStudiante = estudiantesParsed.filter(
       (element) => element.id == data
     );*/
