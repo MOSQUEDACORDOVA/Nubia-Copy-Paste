@@ -66,9 +66,9 @@ module.exports = {
       });
     },
     // * CREAR GRUPOS ADMIN
-    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, nivel, profesor) {
+    CrearGrupo(identificador, nombre, lecciones, horario, diaPagos, finNivel, fecha, fechaFin, profesor) {
     return new Promise((resolve, reject) => {
-        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: nivel,usuarioId:profesor, estadosGrupoId: 1 })
+        Grupos.create({ identificador: identificador, nombre: nombre, lecciones_semanales: lecciones, dia_horario: horario, dia_pagos: diaPagos, finalizar_nivel: finNivel, fecha_inicio: fecha, fecha_finalizacion: fechaFin, nivel: "Principiante", codigo_nivel: 1, usuarioId: profesor, estadosGrupoId: 1 })
           .then((data) => {
             let data_set = JSON.stringify(data);
             
@@ -269,7 +269,6 @@ module.exports = {
     ActualizarNivelesGrupos(id, identif, nivel, code) {
       return new Promise((resolve, reject) => {
         Grupos.update({
-          identificador: identif,
           nivel: nivel,
           codigo_nivel: code,
         }, { where: {
@@ -333,9 +332,9 @@ module.exports = {
       });
     },
     // * REGISTRAR ESTUDIANTES EXCEL
-    RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId, vendedor) {
+    RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, grupoId, vendedor) {
     return new Promise((resolve, reject) => {
-      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: tipo, grupoId: grupoId, estadoId: 1, usuarioId:vendedor })
+      Matriculas.create({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, resgistradoPor: idEncargado, tipoEstudianteId: 1, grupoId: grupoId, estadoId: 1, usuarioId:vendedor })
           .then((data) => {
             let data_set = JSON.stringify(data);
             resolve(data_set);

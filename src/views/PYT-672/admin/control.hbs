@@ -52,13 +52,8 @@
 
                             <div class="col-12 col-md-3 mb-1">
                                 <label for="" class="form-label">Seleccionar Grupo</label>
-                                <select name="" id="" class="form-select select2 grupo">
+                                <select name="" class="form-select select2 grupo" id="gruposDesde0select">
                                     <option value="-">Seleccionar Grupo</option>
-                                    {{#each gruposDesde0 as |grupo i|}}
-                                    <option value="{{grupo.id}}">
-                                        {{grupo.identificador}}
-                                    </option>
-                                    {{/each}}
                                 </select>
                             </div>
 
@@ -132,13 +127,8 @@
                         <div class="row m-0 p-0">
                             <div class="col-12 col-md-3 mb-1">
                                 <label for="" class="form-label">Seleccionar Grupo</label>
-                                <select name="" id="" class="form-select select2 grupo">
+                                <select name="" class="form-select select2 grupo" id="gruposIntensivoSelect">
                                     <option value="-">Seleccionar Grupo</option>
-                                    {{#each gruposIntensivo as |grupo i|}}
-                                    <option value="{{grupo.id}}">
-                                        {{grupo.identificador}}
-                                    </option>
-                                    {{/each}}
                                 </select>
                             </div>
 
@@ -212,13 +202,8 @@
                         <div class="row m-0 p-0">
                             <div class="col-12 col-md-3 mb-1">
                                 <label for="" class="form-label">Seleccionar Grupo</label>
-                                <select name="" id="" class="form-select select2 grupo">
+                                <select name="" class="form-select select2 grupo" id="gruposKidsSelect">
                                     <option value="-">Seleccionar Grupo</option>
-                                    {{#each gruposKids as |grupo i|}}
-                                    <option value="{{grupo.id}}">
-                                        {{grupo.identificador}}
-                                    </option>
-                                    {{/each}}
                                 </select>
                             </div>
 
@@ -242,22 +227,6 @@
                                     <option value="14" disabled>14</option>
                                     <option value="15" disabled>15</option>
                                     <option value="16" disabled>16</option>
-                                    <option value="17" disabled>17</option>
-                                    <option value="18" disabled>18</option>
-                                    <option value="19" disabled>19</option>
-                                    <option value="20" disabled>20</option>
-                                    <option value="21" disabled>21</option>
-                                    <option value="22" disabled>22</option>
-                                    <option value="23" disabled>23</option>
-                                    <option value="24" disabled>24</option>
-                                    <option value="25" disabled>25</option>
-                                    <option value="26" disabled>26</option>
-                                    <option value="27" disabled>27</option>
-                                    <option value="28" disabled>28</option>
-                                    <option value="29" disabled>29</option>
-                                    <option value="30" disabled>30</option>
-                                    <option value="31" disabled>31</option>
-                                    <option value="32" disabled>32</option>
                                 </select>
                             </div>
 
@@ -268,12 +237,10 @@
                                     <option value="1">1</option>
                                     <option value="2" disabled>2</option>
                                     <option value="3" disabled>3</option>
-                                    <option value="4" disabled>4</option>
                                     {{else}}
                                     <option value="1" disabled>1</option>
                                     <option value="2" disabled>2</option>
                                     <option value="3" disabled>3</option>
-                                    <option value="4" disabled>4</option>
                                     {{/if}}
                                 </select>
                             </div>

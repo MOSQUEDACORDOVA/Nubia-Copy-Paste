@@ -1,11 +1,63 @@
 let matriculaTable = $(".matricula");
-var grupos = $("#arrayGrupos").val();
-var estudiantes = $("#arrayEstudiantes").val();
+let grupos = $("#arrayGrupos").val();
+let estudiantes = $("#arrayEstudiantes").val();
 
-var estudiantesParsed = "";
+let estudiantesParsed = "";
 
-function cargarTablaMatricula(editada) {
-  if (editada) {
+let gruposTodos, usuarios, matriculasTodos;
+
+async function FetchData (num) {
+  gruposTodos = await fetch('/obtenerGruposAll')
+      .then(response => response.json())
+      .then(data => {
+          gruposTodos = data;
+          
+          moment.locale('es');
+          gruposTodos.forEach(item => {
+              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+              $('#grupoIdCargarArchivo').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+          });
+          $('#gruposMenu').trigger("change");
+          $('#grupoIdCargarArchivo').trigger("change");
+          return data
+      });
+
+  // * OBTENER USUARIOS VENDEDORES PROFESORES ALL
+  if (num === 1) {
+      usuarios = await fetch('/obtenerusuariospy672')
+          .then(response => response.json())
+          .then(data => {
+              usuarios = data.usuarios
+              for (let i = 0; i < usuarios.length; i++) {
+                  if (usuarios[i]['puesto']=="Profesor") {
+                      $('.profesor').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
+                      $('.profesor2').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
+                  }                
+              }
+              return usuarios
+          });
+
+  } else if (num === 2) {
+    async function GetAlumnos () {
+        matriculasTodos = await fetch('/obtenerMatriculasAll')
+            .then(response => response.json())
+            .then(data => {
+                return data
+            });
+        return matriculasTodos
+    }
+    let array = await GetAlumnos()
+    cargarTablaMatricula(array)
+      
+  }
+
+}
+
+FetchData(2)
+
+function cargarTablaMatricula(array) {
+  /*if (editada) {
     estudiantesParsed = JSON.parse(estudiantes);
     grupos = JSON.parse(grupos);
   } else {
@@ -14,14 +66,14 @@ function cargarTablaMatricula(editada) {
   }
   if ($("body").attr("data-framework") === "laravel") {
     assetPath = $("body").attr("data-asset-path");
-  }
+  }*/
 
   // --------------------------------------------------------------------
   if (matriculaTable.length) {
-    var tableMatr = matriculaTable.DataTable({
+    let tableMatr = matriculaTable.DataTable({
       "orderFixed": [[ 0, "asc" ]],
       paging: false,
-      data: estudiantesParsed,
+      data: array,
       columns: [
         { data: "nombre" },
         { data: "email" }, // used for sorting so will hide this column
@@ -87,10 +139,11 @@ function cargarTablaMatricula(editada) {
             var arrData = encodeURIComponent(JSON.stringify(full));
 
             return `<div class="d-inline-flex align-items-center">
-                <div role="button" class="text-primary edit-btn-alumno me-1" data-bs-id="${
+                <div role="button" class="text-primary edit-btn-alumno me-1" data-id="${
                   full["id"]
                 }">
-                ${feather.icons["edit"].toSvg()}
+                <span style="pointer-events: none">${feather.icons["edit"].toSvg()}</span>
+                
                 </div>
                 <div class="">
                     <a href="#" class="dropdown-toggle text-center text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown">
@@ -121,15 +174,16 @@ function cargarTablaMatricula(editada) {
           render: function (data, type, full) {
             let grupo;
             if (full["grupo"]) {
-              grupo = `
-            <div class="badge-wrapper me-1">
-                <span class="badge rounded-pill badge-light-primary">${full["grupo"]["identificador"]}</span>
-            </div>`;
+                let find = gruposTodos.filter(item => item.id === full.grupo.id)
+                grupo = `
+                <div class="badge-wrapper me-1">
+                    <span class="badge rounded-pill badge-light-primary">${find[0].identificador}</span>
+                </div>`;
             } else {
-              grupo = `
-            <div class="badge-wrapper me-1">
-                <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-            </div>`;
+                grupo = `
+                <div class="badge-wrapper me-1">
+                    <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
+                </div>`;
             }
 
             return grupo;
@@ -205,21 +259,17 @@ function cargarTablaMatricula(editada) {
       .getElementById("matricula_info")
       .parentElement.parentElement.classList.add("align-items-center");
   }
-}
 
+  
 $(function () {
-  "use strict";
-  cargarTablaMatricula();
 
-  $(".odd").addClass("selector");
-  $(".even").addClass("selector");
 
   $(".edit-btn-alumno").on("click", (e) => {
-    let data = e.currentTarget["dataset"]["bsId"];
-    let filterStudiante = estudiantesParsed.filter(
+    let data = e.target.getAttribute('data-id');
+    /*let filterStudiante = estudiantesParsed.filter(
       (element) => element.id == data
-    );
-    console.log(filterStudiante);
+    );*/
+    let filterStudiante = matriculasTodos.filter(element => element.id == data);
     $("#edit-title-modal").text("Editar Alumno");
     $("#formregalumno").removeAttr("action");
 
@@ -309,15 +359,18 @@ $(function () {
     $(`#tlfReagrupar`).text(
       `${my_object["telefono1"]} - ${my_object["telefono2"]}`
     );
-    let filter_group_alumnos = estudiantesParsed.filter(
+    /*let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
+    );*/
+    let filter_group_alumnos = matriculasTodos.filter(
+      (filter2) => filter2.grupo.id == my_object["grupoId"]
     );
 
     $("#id_estudiante").val(my_object["id"]);
     $("#nombre_reaginador").val(my_object["nombre"]);
     $("#grupoId_actual").val(my_object["grupo"]["id"]);
-
-    $(`#grupoReag`).text(`${my_object["grupo"]["identificador"]}`);
+      let find = gruposTodos.filter(item => my_object["grupoId"] == item.id)
+    $(`#grupoReag`).text(`${find[0].identificador}`);
     $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
     $(`#profesorreag`).text(`${my_object["grupo"]["usuario"]["nombre"]} `);
     $(`#tipogrupoReag`).text(
@@ -468,7 +521,8 @@ for (let i = 0; i < comentarios.length; i++) {
     /**fin carga modal alumno */
   });
 
-}); //END OF READY FUNCTION
+});
+}
 
 $("#guarda-grupoNew").click(() => {
   if ($("#grupoId_actual").val() == $("#grupoId").val()) {
@@ -588,6 +642,7 @@ const leccionActualGrupos = async () => {
   var dt_gruposActi = $("#grupos_table");  
   dt_gruposActi.DataTable({"bPaginate": false, "bFilter": false, "bInfo": false,order: [[2, 'desc']] })
 };
+
 function grupoSelected(valor) {
   $("#grupoId").val(valor);
   $("#guarda-grupoNew").removeAttr("disabled");
@@ -652,7 +707,7 @@ let linkExcel = "", file;
           $("#progressBar1").addClass("progress-bar-danger");*/
         }
       });
-    };
+  };
 
   function EnviarDatos(text) {
     if(text) {

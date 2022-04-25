@@ -1,13 +1,72 @@
 $(document).ready(function () {
-  let matriculaGrupo = document.getElementById("matriculaGrupo").value;
+  let gruposTodos, usuarios, gruposDesde0, gruposIntensivo, gruposKids, gruposControl
 
+  let matriculaGrupo = document.getElementById("matriculaGrupo").value;
+  
   if (matriculaGrupo != "") {
-    matriculaGrupo = JSON.parse(
-      document.getElementById("matriculaGrupo").value
-    );
+    matriculaGrupo = JSON.parse(document.getElementById("matriculaGrupo").value);
   } else {
     matriculaGrupo = "";
   }
+
+  function FetchData (num) {
+    gruposTodos = fetch('/obtenerGruposAll')
+        .then(response => response.json())
+        .then(data => {
+            gruposTodos = data;
+
+            moment.locale('es');
+            gruposTodos.forEach(item => {
+                let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+                $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+              });
+              $('#gruposMenu').trigger("change");
+
+            return gruposTodos
+        });
+        
+    gruposControl = fetch('/gruposControl')
+        .then(response => response.json())
+        .then(data => {
+            gruposControl = data
+            
+            gruposControl.forEach(grupo => {
+              let find = gruposTodos.filter(item => item.id === grupo.grupoId)
+              //let format = moment(find[0].fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+
+              if (find[0].nombre == "Desde cero" && find[0].estadosGrupoId === 2) {
+                $('#gruposDesde0select').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                $('#gruposDesde0select').trigger("change");
+                
+              } else if (find[0].nombre == "Intensivo" && find[0].estadosGrupoId === 2) {
+                $('#gruposIntensivoSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                $('#gruposIntensivoSelect').trigger("change");
+                
+              } else if (find[0].nombre == "Kids" && find[0].estadosGrupoId === 2) {
+                $('#gruposKidsSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                $('#gruposKidsSelect').trigger("change");
+                
+              }
+
+            });
+
+            DetectarGrupo();
+
+            return gruposControl
+        });
+
+
+    if (num === 1) {
+        usuarios = fetch('/obtenerusuariospy672')
+            .then(response => response.json())
+            .then(data => {
+                usuarios = data.usuarios
+                return usuarios
+            });
+    }
+  }
+
+  FetchData(1)
 
   const EstablecerMatriculaPorLeccion = () => {
     let fragment = new DocumentFragment(),
@@ -18,37 +77,33 @@ $(document).ready(function () {
       let div = document.createElement("div");
       div.classList.add("col-12");
       div.classList.add("item");
-      let lecc = null,
-      idAusentes = null;
+      let lecc = null, idAusentes = null;
 
       // * DETECTAR FILTRO DE GRUPOS
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
         
-        $("#ausenteNumLeccion").val(
-          $("#filtrosDesdeCero .select2.leccion").val()
-        );
-        $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
+        $("#ausenteNumLeccion").val(parseInt($("#filtrosDesdeCero .select2.leccion").val()));
+
+        $("#ausenteGrupoId").val(parseInt($("#filtrosDesdeCero .select2.grupo").val()));
 
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
 
-        $("#ausenteNumLeccion").val(
-          $("#filtrosIntensivo .select2.leccion").val()
-        );
-        $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
+        $("#ausenteNumLeccion").val(parseInt($("#filtrosIntensivo .select2.leccion").val()));
 
-      } else {
+        $("#ausenteGrupoId").val(parseInt($("#filtrosIntensivo .select2.grupo").val()));
+
+      } else if($("#filtrosKids .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosKids .select2.leccion").val());
 
-        $("#ausenteNumLeccion").val(
-          $("#filtrosKids .select2.leccion").val()
-        );
-        $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
+        $("#ausenteNumLeccion").val(parseInt($("#filtrosKids .select2.leccion").val()));
+
+        $("#ausenteGrupoId").val(parseInt($("#filtrosKids .select2.grupo").val()));
 
       }
+      console.log(lecc)
 
-      $("#ausenteMatriculaId").val("");
       $("#ausenteMatriculaId").val(matricula.id);
       let form = new FormData(document.getElementById("procesarAusente"));
       form.append("arr", $("#matriculaGrupo").val());
@@ -61,12 +116,11 @@ $(document).ready(function () {
         .then((response) => response.json())
         .then(async (data) => {
 
-          /*console.log(data);
-          console.log("DATA AUSENTE");*/
+          console.log(data);
+          console.log("DATA AUSENTE");
 
           let response = data.resp;
           let response2 = data.matricula;
-          response2.sort()
           //console.log(response2)
 
           if (response.length) {
@@ -87,6 +141,7 @@ $(document).ready(function () {
 
 
           if (response2.length) {
+            response2.sort()
             /*console.log(response2)*/
             for (let i = 0; i < response2.length; i++) { 
               if (matricula.id === response2[i].id) {
@@ -675,15 +730,6 @@ $(document).ready(function () {
     esContainer.appendChild(fragment);
   };
 
-  if (matriculaGrupo != "") {
-    let docListo = setInterval(() => {
-      if (document.readyState === "complete") {
-        EstablecerMatriculaPorLeccion();
-        clearInterval(docListo);
-      }
-    }, 1000);
-  }
-
   let checkDesde0 = document.getElementById("inlineRadio3"),
   checkIntensivo = document.getElementById("inlineRadio4"),
   checkKids = document.getElementById("inlineRadio5"),
@@ -704,100 +750,125 @@ $(document).ready(function () {
     }
   });
 
-  if ($("#grupoId").val() != "") {
-    let arr = Object.values(selectDesdeCero.options),
-    arr2 = Object.values(selectIntensivo.options),
-    arr3 = Object.values(selectKids.options);
-
-    let nivel;
+  function DetectarGrupo() {
+    if ($("#grupoId").val() != "") {
+      let arr = Object.values(selectDesdeCero.options),
+      arr2 = Object.values(selectIntensivo.options),
+      arr3 = Object.values(selectKids.options);
+  
+      let nivel;
+        
+      arr.forEach((item) => {
+        if (item.value === $("#grupoId").val()) {
+          $("#filtrosDesdeCero select.grupo").val($("#grupoId").val());
+          $("#filtrosDesdeCero select.grupo").trigger("change");
+  
+          $("#filtrosDesdeCero select.leccion").val($("#numeroLeccion").val());
+          $("#filtrosDesdeCero select.leccion").trigger("change");
+  
+          let numLecciones = parseInt($("#numeroLeccion").val());
+          for (i = 0; i <= numLecciones; i++) {
+            $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
+          }
+  
+          // * DETECTAR NIVEL
+          nivel = parseInt($("#nivelActual").val())
+          for (let index = 0; index < nivel; index++) {
+            $("#filtrosDesdeCero select.nivel")[0].options[index].disabled = false;
+          }
+          
+          $("#filtrosDesdeCero select.nivel").val($("#nivelActual").val());
+          $("#filtrosDesdeCero select.nivel").trigger("change");
+        }
+      });
+  
+      arr2.forEach((item) => {
+        if (item.value === $("#grupoId").val()) {
+          $("#filtrosIntensivo select.grupo").val($("#grupoId").val());
+          $("#filtrosIntensivo select.grupo").trigger("change");
+  
+          $("#filtrosIntensivo select.leccion").val($("#numeroLeccion").val());
+          $("#filtrosIntensivo select.leccion").trigger("change");
+          
+          let numLecciones = parseInt($("#numeroLeccion").val());
+          for (i = 0; i <= numLecciones; i++) {
+            $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
+          }
+          
+          // * DETECTAR NIVEL
+          nivel = parseInt($("#nivelActual").val())
+          for (let index = 0; index < nivel; index++) {
+            $("#filtrosIntensivo select.nivel")[0].options[index].disabled = false;
+          }
+  
+          $("#filtrosIntensivo select.nivel").val($("#nivelActual").val());
+          $("#filtrosIntensivo select.nivel").trigger("change");
+  
+          checkDesde0.checked = false;
+          checkIntensivo.checked = true;
+          checkKids.checked = false;
+          filtrosIntensivo.classList.remove("d-none");
+          filtrosKids.classList.add("d-none");
+          filtrosDesdeCero.classList.add("d-none");
+        }
+      });
+  
+      arr3.forEach((item) => {
+        if (item.value === $("#grupoId").val()) {
+          $("#filtrosKids select.grupo").val($("#grupoId").val());
+          $("#filtrosKids select.grupo").trigger("change");
+          
+          $("#filtrosKids select.leccion").val($("#numeroLeccion").val());
+          $("#filtrosKids select.leccion").trigger("change");
+  
+          let numLecciones = parseInt($("#numeroLeccion").val());
+          for (i = 0; i <= numLecciones; i++) {
+            $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+          }
+          // * DETECTAR NIVEL
+          nivel = parseInt($("#nivelActual").val())
+          for (let index = 0; index < nivel; index++) {
+            $("#filtrosKids select.nivel")[0].options[index].disabled = false;
+          }
+  
+          $("#filtrosKids select.nivel").val($("#nivelActual").val());
+          $("#filtrosKids select.nivel").trigger("change");
+  
+          checkDesde0.checked = false;
+          checkIntensivo.checked = false;
+          checkKids.checked = true;
+          filtrosIntensivo.classList.add("d-none");
+          filtrosDesdeCero.classList.add("d-none");
+          filtrosKids.classList.remove("d-none");
+        }
+      });
+  
+      // * DETECTAR FILTRO DE GRUPOS
+      if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+        
+        $("#ausenteNumLeccion").val($("#filtrosDesdeCero .select2.leccion").val());
+  
+        $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
+  
+      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
+  
+        $("#ausenteNumLeccion").val($("#filtrosIntensivo .select2.leccion").val());
+  
+        $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
+  
+      } else if($("#filtrosKids .select2.grupo").val() != "-") {
+  
+        $("#ausenteNumLeccion").val($("#filtrosKids .select2.leccion").val());
+  
+        $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
+  
+      }
       
-    arr.forEach((item) => {
-      if (item.value === $("#grupoId").val()) {
-        $("#filtrosDesdeCero select.grupo").val($("#grupoId").val());
-        $("#filtrosDesdeCero select.grupo").trigger("change");
-
-        $("#filtrosDesdeCero select.leccion").val($("#numeroLeccion").val());
-        $("#filtrosDesdeCero select.leccion").trigger("change");
-
-
-        let numLecciones = parseInt($("#numeroLeccion").val());
-        for (i = 0; i <= numLecciones; i++) {
-          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
-        }
-
-        // * DETECTAR NIVEL
-        nivel = parseInt($("#nivelActual").val())
-        for (let index = 0; index < nivel; index++) {
-          $("#filtrosDesdeCero select.nivel")[0].options[index].disabled = false;
-        }
-        
-        $("#filtrosDesdeCero select.nivel").val($("#nivelActual").val());
-        $("#filtrosDesdeCero select.nivel").trigger("change");
-      }
-    });
-
-    arr2.forEach((item) => {
-      if (item.value === $("#grupoId").val()) {
-        $("#filtrosIntensivo select.grupo").val($("#grupoId").val());
-        $("#filtrosIntensivo select.grupo").trigger("change");
-
-        $("#filtrosIntensivo select.leccion").val($("#numeroLeccion").val());
-        $("#filtrosIntensivo select.leccion").trigger("change");
-        
-        let numLecciones = parseInt($("#numeroLeccion").val());
-        for (i = 0; i <= numLecciones; i++) {
-          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
-        }
-        
-        // * DETECTAR NIVEL
-        nivel = parseInt($("#nivelActual").val())
-        for (let index = 0; index < nivel; index++) {
-          $("#filtrosIntensivo select.nivel")[0].options[index].disabled = false;
-        }
-
-        $("#filtrosIntensivo select.nivel").val($("#nivelActual").val());
-        $("#filtrosIntensivo select.nivel").trigger("change");
-
-        checkDesde0.checked = false;
-        checkIntensivo.checked = true;
-        checkKids.checked = false;
-        filtrosIntensivo.classList.remove("d-none");
-        filtrosKids.classList.add("d-none");
-        filtrosDesdeCero.classList.add("d-none");
-      }
-    });
-
-    arr3.forEach((item) => {
-      if (item.value === $("#grupoId").val()) {
-        $("#filtrosKids select.grupo").val($("#grupoId").val());
-        $("#filtrosKids select.grupo").trigger("change");
-        
-        $("#filtrosKids select.leccion").val($("#numeroLeccion").val());
-        $("#filtrosKids select.leccion").trigger("change");
-
-        let numLecciones = parseInt($("#numeroLeccion").val());
-        for (i = 0; i <= numLecciones; i++) {
-          $("#filtrosKids select.leccion")[0].options[i].disabled = false;
-        }
-        // * DETECTAR NIVEL
-        nivel = parseInt($("#nivelActual").val())
-        for (let index = 0; index < nivel; index++) {
-          $("#filtrosKids select.nivel")[0].options[index].disabled = false;
-        }
-
-        $("#filtrosKids select.nivel").val($("#nivelActual").val());
-        $("#filtrosKids select.nivel").trigger("change");
-
-        checkDesde0.checked = false;
-        checkIntensivo.checked = false;
-        checkKids.checked = true;
-        filtrosIntensivo.classList.add("d-none");
-        filtrosDesdeCero.classList.add("d-none");
-        filtrosKids.classList.remove("d-none");
-      }
-    });
+      EstablecerMatriculaPorLeccion();
+    }  
   }
-
+  
+  
   $("#filtrosDesdeCero .select2.grupo").on("select2:select", function (e) {
     let select = selectDesdeCero.options[selectDesdeCero.selectedIndex].value;
     let data = e.params.data;
@@ -988,8 +1059,6 @@ $(document).ready(function () {
     }, 2000);
   }
 
-
-
   let guardarParticip;
 
   function guardarParticipacion(id, part) {
@@ -1122,6 +1191,7 @@ $(document).ready(function () {
       guardarParticipacion(target, participacion.value);
     }
   });
+
   controlEstudiantes.addEventListener("change", (e) => {
       console.log(e.target.classList)
     if (e.target.classList.contains("commentProf")) {
@@ -1276,4 +1346,5 @@ $(document).ready(function () {
       }
     }
   });
+
 });

@@ -1,62 +1,41 @@
 
-let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposApertura, gruposDesde0, gruposIntensivos, gruposKids,usuarios;
+let aperturasTable = $('#tabla-aperturas'), desde0Table = $('#tablaDesde0'), intensivosTable = $('#tablaIntensivo'), kidsTable = $('#tablaKids'), gruposTodos, gruposApertura, gruposDesde0, gruposIntensivos, gruposKids, usuarios;
 
-function FetchData (tabla) {
-    if(tabla === 0) {
-        fetch('/obtenerusuariospy672')
+function FetchData (num) {
+    fetch('/obtenerGruposAll')
         .then(response => response.json())
         .then(data => {
-            usuarios = data.usuarios
-            console.log(usuarios)
-            for (let i = 0; i < usuarios.length; i++) {
-                if (usuarios[i]['puesto']=="Profesor") {
-                   $('.profesor').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
-                   $('.profesor2').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
-                }                
-            }
-            
+            gruposTodos = data;
+            cargarTablaAperturas();
+            cargarTablaDesde0();
+            cargarTablaIntensivos();
+            cargarTablaKids();
+
+            moment.locale('es');
+            gruposTodos.forEach(item => {
+                let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+                $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            });
+            $('#gruposMenu').trigger("change");
         });
 
-    }else  if(tabla === 1) {
-        fetch('/obtenergruposapertura')
+    if (num === 1) {
+        fetch('/obtenerusuariospy672')
             .then(response => response.json())
             .then(data => {
-                gruposApertura = data[0]
-                cargarTablaAperturas();
+                usuarios = data.usuarios
+                for (let i = 0; i < usuarios.length; i++) {
+                    if (usuarios[i]['puesto']=="Profesor") {
+                        $('.profesor').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
+                        $('.profesor2').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
+                    }                
+                }
+                
             });
-
-    } else if (tabla === 2) {
-        fetch('/obtenergruposdesde0')
-            .then(response => response.json())
-            .then(data => {
-                gruposDesde0 = data[0]
-                cargarTablaDesde0();
-            });
-
-    } else if (tabla === 3) {
-        fetch('/obtenergruposintensivo')
-            .then(response => response.json())
-            .then(data => {
-                gruposIntensivos = data[0]
-                cargarTablaIntensivos();
-            });
-
-    } else if (tabla === 4) {
-        fetch('/obtenergruposkids')
-            .then(response => response.json())
-            .then(data => {
-                gruposKids = data[0]
-                cargarTablaKids();
-            });
-
     }
 }
-  
-FetchData(0);
-FetchData(1) 
-FetchData(2) 
-FetchData(3) 
-FetchData(4) 
+
+FetchData(1)
 
 function cargarTablaAperturas() {
     let tableApert;
@@ -65,6 +44,8 @@ function cargarTablaAperturas() {
         $('#filtroApertura').on('keyup change', function(){
             tableApert.search(this.value).draw();   
         });  
+
+        gruposApertura = gruposTodos.filter(grupo => grupo.estadosGrupoId === 1)
 
         tableApert = aperturasTable.DataTable({
             "orderFixed": [[ 0, "asc" ]],
@@ -76,8 +57,8 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor
-                        if (full.usuario!=null) {
+                        let profesor = 'No asignado'
+                        if (full.usuarioId != null) {
                             profesor = full.usuario.nombre
                         }
                         let identif;
@@ -93,47 +74,47 @@ function cargarTablaAperturas() {
                             <p class="d-none">${full.nombre}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}">${identif}</a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-identificador="${full.identificador}" data-fecha="${full.fecha_inicio}">${identif}</a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-identificador="${full.identificador}"  data-consulta="activos" role="button">
                                             ${full.activos}                                       
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                 
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-identificador="${full.identificador}" data-consulta="incorporados" role="button">
                                             ${full.incorporados}                                                                                   
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-identificador="${full.identificador}" data-consulta="inscritos" role="button">
                                             ${full.inscritos}                                         
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-identificador="${full.identificador}" data-consulta="fusionados" role="button">
                                                 ${full.fusionados}                                            
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-identificador="${full.identificador}" data-consulta="congelados" role="button">
                                             ${full.congelados}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-identificador="${full.identificador}" data-consulta="todos" role="button">
                                             ${full.total}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -243,6 +224,8 @@ function cargarTablaDesde0() {
             tableDesde0.search(this.value).draw();   
         });
 
+        gruposDesde0 = gruposTodos.filter(grupo => grupo.estadosGrupoId === 2 && grupo.nombre === "Desde cero")
+
         tableDesde0 = desde0Table.DataTable({
             "orderFixed": [[ 0, "asc" ]],
             paging:   false,
@@ -253,8 +236,8 @@ function cargarTablaDesde0() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor
-                        if (full.usuario!=null) {
+                        let profesor = 'No asignado'
+                        if (full.usuarioId != null) {
                             profesor = full.usuario.nombre
                         }
                         let grupo = `
@@ -268,42 +251,42 @@ function cargarTablaDesde0() {
                                 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-identificador="${full.identificador}" data-consulta="activos" role="button">
                                             ${full.activos}                                       
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                 
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-identificador="${full.identificador}" data-consulta="incorporados" role="button">
                                             ${full.incorporados}                                                                                   
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-identificador="${full.identificador}" data-consulta="inscritos" role="button">
                                             ${full.inscritos}                                         
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-identificador="${full.identificador}" data-consulta="fusionados" role="button">
                                                 ${full.fusionados}                                            
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-identificador="${full.identificador}" data-consulta="congelados" role="button">
                                             ${full.congelados}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-identificador="${full.identificador}" data-consulta="todos" role="button">
                                             ${full.total}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -415,6 +398,8 @@ function cargarTablaIntensivos() {
             tableIntensivos.search(this.value).draw();   
         }); 
 
+        gruposIntensivos = gruposTodos.filter(grupo => grupo.estadosGrupoId === 2 && grupo.nombre === "Intensivo")
+
         tableIntensivos = intensivosTable.DataTable({
             order: [[0, 'asc']],
             paging:   false,
@@ -425,8 +410,8 @@ function cargarTablaIntensivos() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor
-                        if (full.usuario!=null) {
+                        let profesor = 'No asignado'
+                        if (full.usuarioId != null) {
                             profesor = full.usuario.nombre
                         }
                         let grupo = `
@@ -440,42 +425,42 @@ function cargarTablaIntensivos() {
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-identificador="${full.identificador}" data-consulta="activos" role="button">
                                             ${full.activos}                                       
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                 
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-identificador="${full.identificador}" data-consulta="incorporados" role="button">
                                             ${full.incorporados}                                                                                   
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-identificador="${full.identificador}" data-consulta="inscritos" role="button">
                                             ${full.inscritos}                                         
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-identificador="${full.identificador}" data-consulta="fusionados" role="button">
                                                 ${full.fusionados}                                            
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-identificador="${full.identificador}" data-consulta="congelados" role="button">
                                             ${full.congelados}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-identificador="${full.identificador}" data-consulta="todos" role="button">
                                             ${full.total}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -580,9 +565,12 @@ function cargarTablaKids() {
         $('#pagosGrupo3').on('change', function(){
             tablaKids.search(this.value).draw();   
         });  
-$('#profesorGrupo3').on('change', function(){
+        $('#profesorGrupo3').on('change', function(){
             tablaKids.search(this.value).draw();   
         }); 
+
+        gruposKids = gruposTodos.filter(grupo => grupo.estadosGrupoId === 2 && grupo.nombre === "Kids")
+
         tablaKids = kidsTable.DataTable({
             "orderFixed": [[ 0, "asc" ]],
             paging:   false,
@@ -593,8 +581,8 @@ $('#profesorGrupo3').on('change', function(){
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor
-                        if (full.usuario!=null) {
+                        let profesor = 'No asignado'
+                        if (full.usuarioId != null) {
                             profesor = full.usuario.nombre
                         }
                         let grupo = `
@@ -608,42 +596,42 @@ $('#profesorGrupo3').on('change', function(){
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
                                     <div class="d-flex">
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-consulta="activos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-success me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Activos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Activos" data-identificador="${full.identificador}" data-consulta="activos" role="button">
                                             ${full.activos}                                       
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                 
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-consulta="incorporados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-info me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Incorporados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Incorporados" data-identificador="${full.identificador}" data-consulta="incorporados" role="button">
                                             ${full.incorporados}                                                                                   
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-consulta="inscritos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-secondary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Inscritos" data-popup="tooltip-De otro grupo" data-bs-placement="top" data-bs-original-title="Inscritos" data-identificador="${full.identificador}" data-consulta="inscritos" role="button">
                                             ${full.inscritos}                                         
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-consulta="fusionados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-warning me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Fusionados" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Fusionados" data-identificador="${full.identificador}" data-consulta="fusionados" role="button">
                                                 ${full.fusionados}                                            
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-consulta="congelados" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-danger me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Congeldos" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Congelados" data-identificador="${full.identificador}" data-consulta="congelados" role="button">
                                             ${full.congelados}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
                                             </form>
                                         </button>
                                         
-                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-consulta="todos" role="button">
+                                        <button class="btn-circle btn-sm badge rounded-pill badge-light-primary me-1 btnModalMatricula" data-bs-toggle="tooltip" title="Total" data-popup="tooltip-custom" data-bs-placement="top" data-bs-original-title="Total" data-identificador="${full.identificador}" data-consulta="todos" role="button">
                                             ${full.total}                                          
                                             <form action="">
                                                 <input type="text" class="d-none" name="id" value="${full.id}">
@@ -824,7 +812,6 @@ kidsForm.addEventListener('submit', e => {
 });
 
 function CrearGruposFetch (data) {
-    
     fetch('/creargrupopy672', {
         method: 'POST',
         body: data, 
@@ -889,10 +876,7 @@ function UpdateTables() {
         </tr>
     </thead>`);
     
-    FetchData(1);
-    FetchData(2);
-    FetchData(3);
-    FetchData(4);
+    FetchData();
 }
 
 inputDesde0.addEventListener('change', () => {
@@ -956,6 +940,9 @@ tablaGrupos.forEach(tabla => {
         if(e.target.classList.contains('editar-grupo')) {
             tituloIn.value = e.target.getAttribute('data-nombre');
             fechaIn.value = e.target.getAttribute('data-fecha');
+            // * ESTA PENDIENTE MOSTRAR FECHA DE INICIO DE GRUPO SELECCIONADO EN MODAL EDITAR
+            /*console.log(e.target.getAttribute('data-fecha'))
+            console.log(e.target)*/
             
             idIn.forEach(inp => {
                 inp.value = e.target.getAttribute('data-id')
@@ -979,317 +966,121 @@ tablaGrupos.forEach(tabla => {
         // MODAL DETALLES DE ALUMNOS
         if(e.target.classList.contains('btnModalMatricula')) {
             let consulta = e.target.getAttribute('data-consulta'),
-            form = new FormData(e.target.childNodes[1]);
+            form = new FormData(e.target.childNodes[1]), 
+            fragment = new DocumentFragment(),
+            data;
             
             identificadorGrupo.innerText = '';
             btnModalRows.innerHTML = '';
             
-            if(consulta === 'todos') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                let newRow = document.createElement('tr');
-                                let telefonos = row.telefono1, estado;
-                                id = row.grupo.identificador;
-                                
-                                if(row.estado.id === 1) {
-                                    estado = `<span class="badge rounded-pill badge-light-success">${row.estado.estado}</span>`
-                                } else if(row.estado.id === 2) {
-                                    estado = `<span class="badge rounded-pill badge-light-info">${row.estado.estado}</span>`
-                                } else if(row.estado.id === 3) {
-                                    estado = `<span class="badge rounded-pill badge-light-secondary">${row.estado.estado}</span>`
-                                } else if(row.estado.id === 4) {
-                                    estado = `<span class="badge rounded-pill badge-light-warning">${row.estado.estado}</span>`
-                                } else if(row.estado.id === 5) {
-                                    estado = `<span class="badge rounded-pill badge-light-danger">${row.estado.estado}</span>`
-                                }
-            
-                                if (row.telefono2 != '-' && row.telefono2) {
-                                    telefonos += ', ' + row.telefono2;
-                                } 
-                                newRow.innerHTML = 
-                                `
-                                    <td>${row.nombre}</td>
-                                    <td>${row.email}</td>
-                                    <td>${row.tipo_estudiante.tipo}</td>
-                                    <td>${row.nro_identificacion}</td>
-                                    <td>${row.fecha_nacimiento}</td>
-                                    <td>${telefonos}</td>
-                                    <td>${row.provincia}</td>
-                                    <td>${row.canton}</td>
-                                    <td>${row.distrito}</td>
-                                    <td>
-                                        ${estado}
-                                    </td>
-                                `;
-                                fragment.appendChild(newRow);
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow);
+            fetch('/obtenermatriculagrupo', {
+                method: 'POST', 
+                body: form,
+            }).then(res => res.json())
+                .catch(error => console.error('Error:', error))
+                .then(response => {
+                    data = response.find,
+                    console.log(data)
+        
+                    if(data.length >= 1) {
+                        if (consulta === "todos") {
+                            MostrarFilasEstudiantes()
+
+                        } else if (consulta === "activos") {
+                            MostrarFilasEstudiantes(1)
+
+                        } else if (consulta === "incorporados") {
+                            MostrarFilasEstudiantes(2)
+
+                        } else if (consulta === "inscritos") {
+                            MostrarFilasEstudiantes(3)
+                            
+                        } else if (consulta === "fusionados") {
+                            MostrarFilasEstudiantes(4)
+
+                        } else if (consulta === "congelados") {
+                            MostrarFilasEstudiantes(5)
                         }
-                        btnModalTabla.click();
-                  });
-            
-            } else if(consulta === 'activos') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                if(row.estado.id === 1) {
-                                    let newRow = document.createElement('tr');
-                                    let telefonos = row.telefono1;
-                                    id = row.grupo.identificador;
-                                    console.log(row)
-                                    if (row.telefono2 != '-') {
-                                        telefonos += ', ' + row.telefono2;
-                                    } 
-                                    newRow.innerHTML = 
-                                    `
-                                        <td>${row.nombre}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.tipo_estudiante.tipo}</td>
-                                        <td>${row.nro_identificacion}</td>
-                                        <td>${row.fecha_nacimiento}</td>
-                                        <td>${telefonos}</td>
-                                        <td>${row.provincia}</td>
-                                        <td>${row.canton}</td>
-                                        <td>${row.distrito}</td>
-                                        <td>
-                                            <span class="badge rounded-pill badge-light-success">${row.estado.estado}</span>
-                                        </td>
-                                    `;
-                                    fragment.appendChild(newRow);
-                                }
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow)
+                    } else {
+                        let newRow = document.createElement('tr');
+                        newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
+                        btnModalRows.appendChild(newRow);
+                    }
+                });
+        
+
+            function MostrarFilasEstudiantes(a) {
+                let id, num = a ? a : '';
+                data.forEach(row => {
+                    let estadoEstudiante = ''
+
+                    if(row.estado.id === num) {
+                        if (num === 1) {     
+                            estadoEstudiante = `<span class="badge rounded-pill badge-light-success">${row.estado.estado}</span>`
+                        } else if (num === 5) {
+                            estadoEstudiante = `<span class="badge rounded-pill bg-dark">${row.estado.estado}</span>`
                         }
-                        btnModalTabla.click();
-                  });
-            } else if(consulta === 'incorporados') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                if(row.estado.id === 2) {
-                                    let newRow = document.createElement('tr');
-                                    let telefonos = row.telefono1;
-                                    id = row.grupo.identificador;
-                                    console.log(row)
-                                    if (row.telefono2 != '-') {
-                                        telefonos += ', ' + row.telefono2;
-                                    } 
-                                    newRow.innerHTML = 
-                                    `
-                                        <td>${row.nombre}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.tipo_estudiante.tipo}</td>
-                                        <td>${row.nro_identificacion}</td>
-                                        <td>${row.fecha_nacimiento}</td>
-                                        <td>${telefonos}</td>
-                                        <td>${row.provincia}</td>
-                                        <td>${row.canton}</td>
-                                        <td>${row.distrito}</td>
-                                        <td>
-                                            <span class="badge rounded-pill badge-light-info">${row.estado.estado}</span>
-                                        </td>
-                                    `;
-                                    fragment.appendChild(newRow);
-                                }
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow)
+
+                        let newRow = document.createElement('tr');
+                        let telefonos = row.telefono1;
+                        id = e.target.getAttribute('data-identificador');
+
+                        if (row.telefono2 != '-') {
+                            telefonos += ', ' + row.telefono2;
+                        } 
+                        newRow.innerHTML = 
+                        `
+                            <td>${row.nombre}</td>
+                            <td>${row.email}</td>
+                            <td>${row.tipo_estudiante.tipo}</td>
+                            <td>${row.nro_identificacion}</td>
+                            <td>${row.fecha_nacimiento}</td>
+                            <td>${telefonos}</td>
+                            <td>${row.provincia}</td>
+                            <td>${row.canton}</td>
+                            <td>${row.distrito}</td>
+                            <td>
+                            ${estadoEstudiante}
+                            </td>
+                        `;
+                        fragment.appendChild(newRow);
+
+                    } else {
+                        if (row.estadoId === 1) {     
+                            estadoEstudiante = `<span class="badge rounded-pill badge-light-success">${row.estado.estado}</span>`
+                        } else if (row.estadoId === 5) {
+                            estadoEstudiante = `<span class="badge rounded-pill bg-dark">${row.estado.estado}</span>`
                         }
-                        btnModalTabla.click();
-                  });
-            } else if(consulta === 'inscritos') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                if(row.estado.id === 3) {
-                                    let newRow = document.createElement('tr');
-                                    let telefonos = row.telefono1;
-                                    id = row.grupo.identificador;
-                                    console.log(row)
-                                    if (row.telefono2 != '-') {
-                                        telefonos += ', ' + row.telefono2;
-                                    } 
-                                    newRow.innerHTML = 
-                                    `
-                                        <td>${row.nombre}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.tipo_estudiante.tipo}</td>
-                                        <td>${row.nro_identificacion}</td>
-                                        <td>${row.fecha_nacimiento}</td>
-                                        <td>${telefonos}</td>
-                                        <td>${row.provincia}</td>
-                                        <td>${row.canton}</td>
-                                        <td>${row.distrito}</td>
-                                        <td>
-                                            <span class="badge rounded-pill badge-light-secondary">${row.estado.estado}</span>
-                                        </td>
-                                    `;
-                                    fragment.appendChild(newRow);
-                                }
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow)
-                        }
-                        btnModalTabla.click();
-                  });
-            } else if(consulta === 'fusionados') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                if(row.estado.id === 4) {
-                                    let newRow = document.createElement('tr');
-                                    let telefonos = row.telefono1;
-                                    id = row.grupo.identificador;
-                                    console.log(row)
-                                    if (row.telefono2 != '-') {
-                                        telefonos += ', ' + row.telefono2;
-                                    } 
-                                    newRow.innerHTML = 
-                                    `
-                                        <td>${row.nombre}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.tipo_estudiante.tipo}</td>
-                                        <td>${row.nro_identificacion}</td>
-                                        <td>${row.fecha_nacimiento}</td>
-                                        <td>${telefonos}</td>
-                                        <td>${row.provincia}</td>
-                                        <td>${row.canton}</td>
-                                        <td>${row.distrito}</td>
-                                        <td>
-                                            <span class="badge rounded-pill badge-light-warning">${row.estado.estado}</span>
-                                        </td>
-                                    `;
-                                    fragment.appendChild(newRow);
-                                }
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow)
-                        }
-                        btnModalTabla.click();
-                  });
-            } else if(consulta === 'congelados') {
-                fetch('/obtenermatriculagrupo', {
-                    method: 'POST', 
-                    body: form,
-                }).then(res => res.json())
-                  .catch(error => console.error('Error:', error))
-                  .then(response => {
-                        let data = response.find,
-                        fragment = new DocumentFragment();
-                        console.log(data)
-            
-                        if(data.length >= 1) {
-                            let id;
-                            data.forEach(row => {
-                                if(row.estado.id === 5) {
-                                    let newRow = document.createElement('tr');
-                                    let telefonos = row.telefono1;
-                                    id = row.grupo.identificador;
-                                    console.log(row)
-                                    if (row.telefono2 != '-') {
-                                        telefonos += ', ' + row.telefono2;
-                                    } 
-                                    newRow.innerHTML = 
-                                    `
-                                        <td>${row.nombre}</td>
-                                        <td>${row.email}</td>
-                                        <td>${row.tipo_estudiante.tipo}</td>
-                                        <td>${row.nro_identificacion}</td>
-                                        <td>${row.fecha_nacimiento}</td>
-                                        <td>${telefonos}</td>
-                                        <td>${row.provincia}</td>
-                                        <td>${row.canton}</td>
-                                        <td>${row.distrito}</td>
-                                        <td>
-                                            <span class="badge rounded-pill badge-light-danger">${row.estado.estado}</span>
-                                        </td>
-                                    `;
-                                    fragment.appendChild(newRow);
-                                }
-                            });
-                            identificadorGrupo.innerText = id;
-                            btnModalRows.appendChild(fragment);
-                        } else {
-                            let newRow = document.createElement('tr');
-                            newRow.innerHTML = '<td>Este grupo no poseé estudiantes actualmente.</td>'
-                            btnModalRows.appendChild(newRow)
-                        }
-                        btnModalTabla.click();
-                  });
+
+                        let newRow = document.createElement('tr');
+                        let telefonos = row.telefono1;
+                        id = e.target.getAttribute('data-identificador');
+
+                        if (row.telefono2 != '-') {
+                            telefonos += ', ' + row.telefono2;
+                        } 
+                        newRow.innerHTML = 
+                        `
+                            <td>${row.nombre}</td>
+                            <td>${row.email}</td>
+                            <td>${row.tipo_estudiante.tipo}</td>
+                            <td>${row.nro_identificacion}</td>
+                            <td>${row.fecha_nacimiento}</td>
+                            <td>${telefonos}</td>
+                            <td>${row.provincia}</td>
+                            <td>${row.canton}</td>
+                            <td>${row.distrito}</td>
+                            <td>
+                            ${estadoEstudiante}
+                            </td>
+                        `;
+                        fragment.appendChild(newRow);
+                    }
+                });
+                identificadorGrupo.innerText = id;
+                btnModalRows.appendChild(fragment);
             }
+            btnModalTabla.click();
         }
     
         // BORRAR GRUPOS
@@ -1313,19 +1104,7 @@ tablaGrupos.forEach(tabla => {
                     // NOTIFICACION
                     Toast("Grupo Eliminado");
 
-                    if(current === "tabla-aperturas") {
-                        FetchData(1);
-
-                    } else if (current === "tablaDesde0") {
-                        FetchData(2);
-                        
-                    } else if (current === "tablaIntensivo") {
-                        FetchData(3);
-                        
-                    } else if (current === "tablaKids") {
-                        FetchData(4);
-
-                    }
+                    UpdateTables();
                 } 
             }).catch(function(err) {
                 console.log(err);
@@ -1391,6 +1170,7 @@ $('.fecha-inicio').on('change',(e)=>{
 					return
 				}
 })
+
 $('#date').on('change',(e)=>{
     let dia = ($('.horario').val()).split(':')
     

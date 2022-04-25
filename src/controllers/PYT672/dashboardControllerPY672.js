@@ -151,15 +151,14 @@ exports.cargarExcel = (req, res) => {
           provincia = element[7],
           canton = element[8],
           distrito = element[9],
-          tipo = element[10],
           grupo = grupoId;
-          vendedor = usuarios.filter(vendedor => vendedor.dni == element[11]);
-          vendedorId = vendedor[0].id
+          vendedor = usuarios.filter(vendedor => vendedor.dni == element[10]);
+          vendedorId = vendedor ? vendedor[0].id : ''
 
           /*console.log(vendedorId)
           console.log("VENDEDOR")*/
   
-          DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, tipo, grupo, vendedorId).then((respuesta) =>{
+          DataBase.RegistrarMatriculaExcel(nombre, dni, genero, nacimiento, tlf1, tlf2, email, provincia, canton, distrito, idEncargado, grupo, vendedorId).then((respuesta) =>{
             console.log(respuesta);
           }).catch((err) => {
             console.log(err)
@@ -279,6 +278,33 @@ exports.grupos = (req, res) => {
     roleProf = true
   }
 
+    res.render(proyecto+"/admin/grupos", {
+      pageName: "Academia Americana - Grupos",
+      dashboardPage: true,
+      dashboard: true,
+      py672: true,
+      grupos: true,
+      roleProf, roleAdmin,
+    });
+}
+
+// TODO: ADMINISTRADOR RESPALDO
+exports.safasf = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id 
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
   console.log(proyecto)
   
   DataBase.ObtenerTodosGrupos().then((response) => {
@@ -288,8 +314,8 @@ exports.grupos = (req, res) => {
     
   DataBase.ObtenerGruposDesdeCero().then((response2) => {
     let gruposDesde0 = JSON.parse(response2);
-    /*console.log(gruposDesde0)
-    console.log("DESDE CERO INICIADOS")*/
+    console.log(gruposDesde0)
+    console.log("DESDE CERO INICIADOS")
 
       if (gruposDesde0.length) {
         gruposDesde0.forEach(obj => {
@@ -537,7 +563,161 @@ exports.grupos = (req, res) => {
   });
 };
 
-// * AJAX
+// * AJAX PRINCIPAL - GENERAR ID GRUPOS
+exports.obtenerGruposAll = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+  console.log(proyecto)
+   
+  let arrIdGrupos = []
+
+  DataBase.ObtenerTodosGrupos().then(async (response) => {
+    let gruposTodos = JSON.parse(response);
+    let gruposGenerados = IdentificadorGrupos(gruposTodos)
+  
+
+    function IdentificadorGrupos(arr) {
+        let grupos = arr
+
+        // * VARIABLES GENERALES
+        for (let i = 0; i < grupos.length; i++) {
+          let identificador, numGrupo = 1, numId = 100, nivelCode, count = 0;
+          const elemento = grupos[i];
+          let result = arrIdGrupos.filter(item => item === elemento.identificador)
+          arrIdGrupos.push(elemento.identificador)
+          count = result ? result.length : 0
+          
+          numGrupo += count;
+          
+          nivelCode = NivelGrupos(elemento.nombre, elemento.fecha_inicio);
+          numId += numGrupo;
+          identificador = `${elemento.identificador}${numId}-${nivelCode}`;
+          let Obj = {
+            identificador: identificador
+          }
+          Object.assign(elemento, Obj)
+        }
+
+        console.log(grupos)
+        return grupos;
+    }
+
+    function NivelGrupos(nombre, fecha) {
+        let inicioGrupo = fecha;
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+
+        let nivelActual, nivel2, nivel3, nivel4;
+        switch (nombre) {
+          case 'Desde cero':
+            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+        
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+                nivelActual = 3
+            
+            } else {
+                nivelActual = 4
+            }
+          break;
+            
+          case 'Intensivo':
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+            
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+                nivelActual = 3
+            
+            } else {
+                nivelActual = 4
+            }
+          break;
+                
+          case 'Kids':
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            
+            if (moment().isBefore(nivel2)) {
+                nivelActual = 1
+            
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+                nivelActual = 2
+            
+            } else if(moment().isSameOrAfter(nivel3)) {
+                nivelActual = 3
+            } 
+          break;
+        }
+        
+        return nivelActual;
+    }
+
+    for (let index = 0; index < gruposGenerados.length; index++) {
+      let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0;
+      
+      let data = await DataBase.ObtenerMatriculaGrupo(gruposGenerados[index].id).then((responseGrupos) => {
+        let find = JSON.parse(responseGrupos);
+        
+        find.forEach(item => {
+          if(item.estado.id === 1) {
+            numActivos += 1;
+          } else if (item.estado.id === 2) {
+            numIncorporados += 1;
+          } else if (item.estado.id === 3) {
+            numInscritos += 1;
+          } else if (item.estado.id === 4) {
+            numFusionados += 1;
+          } else if (item.estado.id === 5) {
+            numCongelados += 1;
+          }
+          numTotal += 1;
+        });
+  
+        let newObj = {
+          activos: numActivos,
+          incorporados: numIncorporados,
+          inscritos: numInscritos,
+          fusionados: numFusionados,
+          congelados: numCongelados,
+          total: numTotal,
+        }
+  
+        let result = Object.assign(gruposGenerados[index], newObj);
+  
+        return JSON.stringify(gruposGenerados)
+      })
+      let count = gruposGenerados.length - 1
+      if(count === index) {
+        return res.send(gruposGenerados)
+      }
+    }
+  
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+  
+};
+
+/*// * AJAX
 exports.obtenergruposapertura = async (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -881,7 +1061,7 @@ exports.obtenergruposkids = async (req, res) => {
     return res.redirect("/error672/PYT-672");
   });
   
-};
+};*/
 
 // * VERIFICAR GRUPOS
 exports.verificargrupos = (req, res) => {
@@ -915,15 +1095,14 @@ exports.verificargrupos = (req, res) => {
         let nivel2, nivel3, nivel4;
         switch (row.lecciones_semanales) {
           case '1':
-            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-    
-            console.log("NIVELES")
-            console.log(nivel2)
-            console.log(nivel3)
-            console.log(nivel4)
-            console.log("DESDE CERO")
+            if (row.nombre === "Desde cero") {
+              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+              
+            } else {
+
+            }
             break;
 
           case '2':
@@ -931,32 +1110,27 @@ exports.verificargrupos = (req, res) => {
             nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
             nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
     
-            console.log("NIVELES")
-            console.log(nivel2)
-            console.log(nivel3)
-            console.log(nivel4)
-            console.log("INTENSIVO")
           break;
         }
                
         if (moment().isBefore(nivel2)) {
           console.log("Estas en nivel 1")
-          nivelCode = '-1';
+          nivelCode = '1';
           nivel = 'Principiante';
           
         } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
           console.log("Estas en nivel 2")
-          nivelCode = '-2';
+          nivelCode = '2';
           nivel = 'Básico';
           
         } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
           console.log("Estas en nivel 3")
-          nivelCode = '-3';
+          nivelCode = '3';
           nivel = 'Intermedio';
           
         } else {
           console.log("Estas en nivel 4")
-          nivelCode = '-4';
+          nivelCode = '4';
           nivel = 'Avanzado';
           
         }
@@ -981,10 +1155,7 @@ exports.verificargrupos = (req, res) => {
           });
         } 
 
-        let identificador = row.identificador.slice(0,-2) + nivelCode;
-        console.log(identificador)
-
-        DataBase.ActualizarNivelesGrupos(row.id, identificador, nivel, nivelCode).then((actualizado) => {
+        DataBase.ActualizarNivelesGrupos(row.id, nivel, nivelCode).then((actualizado) => {
           console.log(actualizado)
           console.log("GRUPO ACTUALIZADO")
         }).catch((err) => {
@@ -995,6 +1166,22 @@ exports.verificargrupos = (req, res) => {
       }
     });
     return res.redirect("/grupos/PYT-672");
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+};
+
+// * AJAX PRINCIPAL DE ESTUDIANTES
+exports.obtenerMatriculasAll = async (req, res) => {
+  DataBase.GruposYMatriculas().then(async(response) => {
+    let matriculas = JSON.parse(response);
+    console.log(matriculas)
+    console.log("MATRICULAS ALL")
+
+    return res.send(matriculas)
+
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1030,7 +1217,8 @@ exports.matriculas = async (req, res) => {
 
     DataBase.GruposYMatriculas().then(async(response2) => {
       let arr = JSON.parse(response2);
-      //console.log(arr)
+      console.log(arr)
+      console.log(arr)
 
       let gruposTodosStr = JSON.stringify(gruposTodos)
       let proyecto = req.params.id  
@@ -1098,11 +1286,6 @@ exports.control = (req, res) => {
     roleProf = true
   }
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    /*console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")*/
-
     DataBase.ObtenerMatriculasDistinct().then((response2) => {
       let gruposDist = JSON.parse(response2);
       /*.log(gruposDist)
@@ -1149,16 +1332,28 @@ exports.control = (req, res) => {
       py672: true,
       asistencias: true,
       roleAdmin, roleProf,
-      gruposTodos,
-      gruposDesde0,
-      gruposIntensivo,
-      gruposKids
     });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
     return res.redirect("/error672/PYT-672");
   });
+};
+
+// * DISTINC GRUPOS CONTROL
+exports.gruposControl = async (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+
+    DataBase.ObtenerMatriculasDistinct().then((response2) => {
+      let gruposDist = JSON.parse(response2);
+      /*.log(gruposDist)
+      console.log("GRUPOS DISTINCTS")*/
+      
+      return res.send(gruposDist)
+    
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -1184,180 +1379,165 @@ exports.controlgrupo = (req, res) => {
     roleProf = true
   }
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    /*console.log(gruposTodos)
-    console.log("TODOS LOS GRUPOS")*/
+    let matri, grupoIdentificador;
 
-    DataBase.ObtenerMatriculasDistinct().then((response2) => {
-      let gruposDist = JSON.parse(response2);
-      /*console.log(gruposDist)
-      console.log("GRUPOS DISTINCTS")*/
+    DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
+      matri = response2;
+      let grupoId = idGrupo;
+      /*if (matri.length) {
+        grupoIdentificador = matri[0].grupo.identificador
+      } else {
+        grupoIdentificador = "El grupo selecionado no poseé una matrícula";
+      }
+      console.log(grupoIdentificador)*/
       
-      let gruposDesde0 = [], gruposIntensivo = [], gruposKids=[];
+      DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
+        let grupo = JSON.parse(respuesta)[0]
+        let numLeccion, nivelActual, 
+        fechaNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        };
+        /*console.log(grupo)
+        console.log("GRUPO ENCONTRADO")*/
+        
+        let fechaActual = moment().format("DD-MM-YYYY");
+
+        let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
+        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+
+        let rest; 
+
+        // *-------------------------------//
+        let inicioGrupo = grupo.fecha_inicio;
+        let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
+
+        function EstablecerNivel () {  
+          let nivel2, nivel3, nivel4;
+          switch (grupo.lecciones_semanales) {
+            case '1':
+              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
       
-      gruposDist.forEach(element => {
-        DataBase.BuscarGrupos(element.grupoId).then((response3) => {
-          let gruposFounds = JSON.parse(response3);
-          /*console.log(gruposFounds)
-          console.log("GRUPOS ENCONTRADOS")*/
-
-          gruposFounds.forEach(found => {
-            if(found.estadosGrupoId === 2) {
-              switch (found.nombre) {
-                case "Desde cero":
-                  gruposDesde0.push(found);
-                  break;
-              case "Intensivo":
-                  gruposIntensivo.push(found);
-                  break;
-                   case "Kids":
-                    gruposKids.push(found);
-                  break;
-                default:
-                  break;
-              }
-            }
-          });
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
-      let matri, grupoIdentificador;
-
-      DataBase.ObtenerMatriculaGrupo(idGrupo).then((response2) => {
-        matri = response2;
-        let grupoId = idGrupo;
-        /*if (matri.length) {
-          grupoIdentificador = matri[0].grupo.identificador
-        } else {
-          grupoIdentificador = "El grupo selecionado no poseé una matrícula";
-        }
-        console.log(grupoIdentificador)*/
-        
-        DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
-          let grupo = JSON.parse(respuesta)[0]
-          let numLeccion, nivelActual, 
-          fechaNiveles = {
-            nivel1: '',
-            nivel2: '',
-            nivel3: '',
-            nivel4: '',
-          };
-          /*console.log(grupo)
-          console.log("GRUPO ENCONTRADO")*/
-          
-          let fechaActual = moment().format("DD-MM-YYYY");
-
-          let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-
-          let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-
-          let rest; 
-
-          // *-------------------------------//
-          let inicioGrupo = grupo.fecha_inicio;
-          let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
-
-          function EstablecerNivel () {  
-            let nivel2, nivel3, nivel4;
-            switch (grupo.lecciones_semanales) {
-              case '1':
-                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-        
-                console.log("NIVELES")
-                console.log(nivel2)
-                console.log(nivel3)
-                console.log(nivel4)
-                console.log("DESDE CERO")
-                break;
-    
-              case '2':
-                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
-        
-                console.log("NIVELES")
-                console.log(nivel2)
-                console.log(nivel3)
-                console.log(nivel4)
-                console.log("INTENSIVO")
+              console.log("NIVELES")
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("DESDE CERO")
               break;
-            }
-
-            fechaNiveles = {
-              nivel1: fechaInicio,
-              nivel2: nivel2,
-              nivel3: nivel3,
-              nivel4: nivel4,
-            };
-            fechaNiveles = JSON.stringify(fechaNiveles)
-                   
-            if (moment().isBefore(nivel2)) {
-              console.log("Estas en nivel 1")
-              nivelActual = 1
-              
-            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-              console.log("Estas en nivel 2")
-              nivelActual = 2
-              
-            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-              console.log("Estas en nivel 3")
-              nivelActual = 3
-              
-            } else {
-              console.log("Estas en nivel 4")
-              nivelActual = 4
-              
-            }
   
-            let numPositivo;
-            if(grupo.lecciones_semanales === '1') {
-              
+            case '2':
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+      
+              console.log("NIVELES")
+              console.log(nivel2)
+              console.log(nivel3)
+              console.log(nivel4)
+              console.log("INTENSIVO")
+            break;
+          }
+
+          fechaNiveles = {
+            nivel1: fechaInicio,
+            nivel2: nivel2,
+            nivel3: nivel3,
+            nivel4: nivel4,
+          };
+          fechaNiveles = JSON.stringify(fechaNiveles)
+                  
+          if (moment().isBefore(nivel2)) {
+            console.log("Estas en nivel 1")
+            nivelActual = 1
+            
+          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+            console.log("Estas en nivel 2")
+            nivelActual = 2
+            
+          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+            console.log("Estas en nivel 3")
+            nivelActual = 3
+            
+          } else {
+            console.log("Estas en nivel 4")
+            nivelActual = 4
+            
+          }
+
+          let numPositivo;
+          if(grupo.lecciones_semanales === '1') {
+
               if (diff > 224) {
+                console.log("positivo")
                 rest = (diff - 224) / 7; 
                 numPositivo = Math.floor(rest)
                 numLeccion = 1 + numPositivo
-                
-              } else {
-                rest = (224 - diff) / 7; 
-                numPositivo = Math.floor(rest)
-                numLeccion = 32 - numPositivo
+              } 
+              else {
+                if (diff < 0) {
+                  console.log("negativo") 
+                  diff = diff * (-1)
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  console.log("else")
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
 
+                }
               }
-              
-            } else {
+
+            
+          } else {
               if (diff > 112) {
                 rest = (diff - 112) / 3.5; 
                 numPositivo = Math.floor(rest)
                 numLeccion = 1 + numPositivo
                 
               } else {
-                rest = (112 - diff) / 3.5; 
-                numPositivo = Math.floor(rest)
-                numLeccion = 32 - numPositivo
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 3.5; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
 
+                }
+  
               }
-
-            }
-
-            /*console.log(numPositivo)
-            console.log("POSITIVO")
-            
-            console.log("REST",rest)
-            console.log("DIFF",diff)*/
-            
           }
-          
-          EstablecerNivel();  
-          
-          // *-------------------------------- //
 
+          console.log(numLeccion)
+          console.log("LECCION")
+          console.log(numPositivo)
+          console.log("POSITIVO")
+          
+          console.log("REST",rest)
+          console.log("DIFF",diff)
+          
+        }
+        
+        EstablecerNivel();  
+        
+        // *-------------------------------- //
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1366,10 +1546,6 @@ exports.controlgrupo = (req, res) => {
       py672: true,
       asistencias: true,
       roleAdmin, roleProf,
-      gruposTodos,
-      gruposDesde0,
-      gruposIntensivo,
-      gruposKids,
       matri,
       grupoId,
       numLeccion,
@@ -1380,16 +1556,6 @@ exports.controlgrupo = (req, res) => {
       nivelActual,
       fechaNiveles
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2028,6 +2194,7 @@ exports.historial_caja = async(req, res) => {
   console.log(obtener_historia)
   return res.send({obtener_historia})
 };
+
 //OBTENER COMENTARIOS POR ALUMNO
 exports.get_comments_alumno = async(req, res) => {
   let id_alumno = req.params.id_alumno
@@ -2057,7 +2224,6 @@ exports.comentarios_admin_get = async(req, res) => {
   console.log(obtener_comentarios)
   return res.send({obtener_comentarios})
 };
-
 
 /**GENERAL PDF CONSTANCIA */
 exports.genera_pdf_constancia = async (req, res) => {
@@ -2345,6 +2511,150 @@ exports.error = (req, res) => {
 // * CREAR GRUPOS ADMIN
 exports.creargrupos = (req, res) => {
   console.log(req.body);
+  let { nombre, lecciones, horario, fechaInicio, profesor } = req.body;
+  profesor = profesor ? profesor : null
+  let msg = false;
+  let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
+  let identificador, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel;
+
+  inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
+
+  numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
+
+  if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
+    fechaPagos = "01 de cada mes";
+  } else {
+    fechaPagos = "15 de cada mes";
+  }
+  
+  if (nombre.trim() === '' || lecciones.trim() === '' || horario.trim() === '' || fechaInicio.trim() === '') {
+    console.log('complete todos los campos')
+    let error = {
+      msg: 'complete todos los campos'
+    }
+
+    return res.send(error);
+  } else {
+    if (lecciones === '1') {
+      if(nombre === "Desde cero") {
+        DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+          count = 0;
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+  
+            if (numAño === añoGrupo) {
+              count++;
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(128, 'w').format('DD-MM-YYYY');
+          finNivel = "32 Semanas";      
+
+          numId += numGrupo;
+          identificador = `C${numAño}`;
+
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin,profesor).then((respuesta) => {
+            console.log(respuesta)
+
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      } else {
+        DataBase.ObtenerTodosGruposKids().then((response) => {
+          let grupos = JSON.parse(response);
+          inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+          count = 0;
+          
+          grupos.forEach(row => {
+            let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+  
+            if (numAño === añoGrupo) {
+              count++;
+            }
+          }); 
+  
+          numGrupo += count;
+  
+          fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
+          finNivel = "16 Semanas";      
+          numId += numGrupo;
+          identificador = `N${numAño}`;
+    
+          DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, profesor).then((respuesta) => {
+            console.log(respuesta)
+  
+            return res.send({success: 'creado'});
+  
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }
+    } else {
+      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
+        let grupos = JSON.parse(response);
+        inicio = moment(fechaInicio,'DD-MM-YYYY').format("DD-MM-YYYY")
+        count = 0;
+        // FILTRAR POR AÑO
+        
+        grupos.forEach(row => {
+          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
+
+          if (numAño === añoGrupo) {
+            count++;
+          }
+        }); 
+
+        numGrupo += count;
+
+        //fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+        fechaFin = moment(fechaInicio,'DD-MM-YYYY').add(64, 'w').format('DD-MM-YYYY');
+        finNivel = "16 Semanas";      
+        numId += numGrupo;
+        identificador = `I${numAño}`;
+   
+        DataBase.CrearGrupo(identificador, nombre, lecciones, horario, fechaPagos, finNivel, inicio, fechaFin, profesor).then((respuesta) => {
+          console.log(respuesta)
+
+          return res.send({success: 'creado'});
+
+        }).catch((err) => {
+          console.log(err)
+          let msg = "Error en sistema";
+          return res.redirect("/error672/PYT-672");
+        });
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+    } 
+  }
+};
+
+// ? CREAR GRUPOS RESPALDO
+/*exports.creargrupos = (req, res) => {
+  console.log(req.body);
   const { nombre, lecciones, horario, fechaInicio,profesor } = req.body;
   let profesor1 = profesor
   let msg = false;
@@ -2498,7 +2808,7 @@ exports.creargrupos = (req, res) => {
       });
     } 
   }
-};
+};*/
 
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
