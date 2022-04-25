@@ -187,7 +187,9 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagarView}</span>
+  <div class="d-flex align-items-center">
+    <span class="fw-bold">Mensualidad</span><p class="text-capitalize mb-0">${mes_a_pagarView}</p>
+  </div>
 </td>
 
 <td>${mensualidad_coste}</td>
@@ -942,14 +944,15 @@ $(function () {
     }
     Swal.fire({
       title: "Datos adicionales",
-      html: `<div class="mb-1">
-      <label class="form-label" for="itemcost">Fecha</label>
-      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-      </div>
+      html: `
       <div class="mb-1">
       <label class="form-label" for="itemquantity">Banco</label>
       
       <div class="demo-inline-spacing justify-content-around">
+        <div class="form-check form-check-inline">
+          <input class="form-check-input EFE" type="radio" name="bank-serv" id="EFE" value="EFE" />
+          <label class="form-check-label" for="BNA">EFE</label>
+        </div>
         <div class="form-check form-check-inline">
           <input class="form-check-input BNA" type="radio" name="bank-serv" id="BNA" value="BNA" />
           <label class="form-check-label" for="BNA">BNA</label>
@@ -971,11 +974,17 @@ $(function () {
 
     </div> 
     <div id="transct" class="col">
-    <div class="mb-1">
-      <label class="form-label" for="itemquantity">Transaccion #:</label>
-      <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      <div class="mb-1">
+        <label class="form-label" for="itemquantity">Transaccion #:</label>
+        <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      </div>
     </div>
-  </div>`,
+
+    <div class="mb-1">
+      <label class="form-label" for="itemcost">Fecha</label>
+      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic flatpickr-input" placeholder="DD-MM-YYYY" name="fecha" required>
+    </div>
+  `,
       confirmButtonText: "Continuar",
       focusConfirm: false,
       preConfirm: () => {
@@ -1407,6 +1416,7 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").removeClass("btn-primary");
   $("#btn-descarga-titulo").attr("disabled", true);
 
+  let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
   for (let i = 0; i < historial.length; i++) {
     fecha_pago_historial = moment(historial[i]["observacion"]).format(
       "DD-MM-YYYY" );
@@ -1418,7 +1428,7 @@ async function updateHistorial(id_estudiante) {
       <p class="mb-tl">${fecha_pago_historial}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1437,9 +1447,7 @@ async function updateHistorial(id_estudiante) {
       )}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${
-        filter[0]["grupo"]["identificador"]
-      }</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1456,7 +1464,7 @@ async function updateHistorial(id_estudiante) {
       <p class="mb-tl">${historial[i]["observacion"]}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1815,6 +1823,54 @@ function grupoSelected(valor) {
   $("#guarda-grupoNew").removeAttr("disabled");
 }
 
+function SetGrap (item, total, color) {
+  console.log(item, total, color) 
+  let options = {
+    chart: {
+      width: 100,
+      height: 100,
+      type: "radialBar"
+    },
+    
+    series: [total],
+    colors: [`${color}`],
+    
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 0,
+          size: "40%"
+        },
+        
+        dataLabels: {
+          showOn: "always",
+          name: {
+            offsetY: -10,
+            show: false,
+            color: "#888",
+            fontSize: "13px"
+          },
+          value: {
+            color: "#111",
+            fontSize: "16px",
+            show: false,
+          },
+        }
+      }
+    },
+  
+    stroke: {
+      lineCap: "round",
+    },
+    labels: ["Total"]
+  };
+
+  let chart = new ApexCharts(item, options);
+  if(chart !== null) {
+    chart.render();
+  }
+}
+
 async function ControlDetalles(id1, id2) {
   let url = `/controlMatricula/${id1}/${id2}`;
 
@@ -1823,9 +1879,64 @@ async function ControlDetalles(id1, id2) {
   alumnoJson = await response.json();
 
   $('#controlTitle').text($('#nombre-alumno').text())
+  $('#grupoNivel').text(alumnoJson.nivelActualGrupo);
+
+  let valorAsistencia = 3.125
+  let leccionesAusentes = parseFloat(alumnoJson.ausentes * valorAsistencia).toFixed(2);
+  let totalAsis = parseFloat(100 - leccionesAusentes);
+  alumnoJson.leccion9 = alumnoJson.notas.filter(item => item.n_leccion == 9 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion17 = alumnoJson.notas.filter(item => item.n_leccion == 17 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion18 = alumnoJson.notas.filter(item => item.n_leccion == 18 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion25 = alumnoJson.notas.filter(item => item.n_leccion == 25 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion31 = alumnoJson.notas.filter(item => item.n_leccion == 31 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion32 = alumnoJson.notas.filter(item => item.n_leccion == 32 && item.nivel === alumnoJson.nivelActualGrupo)
+  let totalNotas = alumnoJson.leccion9 + alumnoJson.leccion17 + alumnoJson.leccion18 + alumnoJson.leccion25 + alumnoJson.leccion31+ alumnoJson.leccion32 + alumnoJson.participacion;
+  let color1, color2;
+  console.log(totalAsis)
+
+  if (totalAsis >= 80) {
+    color1 = "#28c76f"
+  } else {
+    color1 = "#82868b"
+  } 
+  
+  if (totalNotas >= 70) {
+    color2 = "#28c76f"
+  } else {
+    color2 = "#82868b"
+  } 
+
+  let asistenciaHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0">Asistencias</h6>
+      <h6 class="m-0">${totalAsis}%</h6>
+    </div>
+    <div id="chartAsistencia${id1}"></div>
+  </div>`;
+  $('#col-asis').html(asistenciaHtml)
+
+  let item1 = document.querySelector(`#chartAsistencia${id1}`);
+  if(item1) {
+    SetGrap(item1, totalAsis, color1);
+  }
+
+  let notasHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0">Notas</h6>
+      <h6 class="m-0">${totalNotas}%</h6>
+    </div>
+    <div id="chartNota${id1}"></div>
+  </div>`;
+  $('#col-notas').html(notasHtml)
+
+  let item2 = document.querySelector(`#chartNota${id1}`);
+  if(item2) {
+    SetGrap(item2, totalNotas, color2);
+  }
   $('#tablaControl').html('');
 
-  console.log(alumnoJson)
   let arrayLeccionesAusentes = alumnoJson.fechaLeccionesAusentes, leccion = alumnoJson.leccActual
   
   if(status === 200) {
@@ -1843,6 +1954,7 @@ async function ControlDetalles(id1, id2) {
         });
         /*console.log(notaLeccion);
         console.log("NOTA LECCION");*/
+      
         if (notaLeccion > 7) {
           color = 'badge-light-success'
         } else {
