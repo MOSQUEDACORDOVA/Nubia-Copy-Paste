@@ -9,8 +9,8 @@ $(document).ready(function () {
     matriculaGrupo = "";
   }
 
-  function FetchData (num) {
-    gruposTodos = fetch('/obtenerGruposAll')
+  async function FetchData (num) {
+    gruposTodos = await fetch('/obtenerGruposAll')
         .then(response => response.json())
         .then(data => {
             gruposTodos = data;
@@ -19,54 +19,57 @@ $(document).ready(function () {
             gruposTodos.forEach(item => {
                 let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
                 $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
-              });
-              $('#gruposMenu').trigger("change");
+            });
+            $('#gruposMenu').trigger("change");
 
             return gruposTodos
         });
         
-    gruposControl = fetch('/gruposControl')
-        .then(response => response.json())
-        .then(data => {
-            gruposControl = data
-            
-            data.forEach(grupo => {
-              let find = gruposTodos.filter(item => item.id === grupo.grupoId)
-              //let format = moment(find[0].fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
 
-              if (find[0].nombre == "Desde cero" && find[0].estadosGrupoId === 2) {
-                $('#gruposDesde0select').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
-                $('#gruposDesde0select').trigger("change");
-                
-              } else if (find[0].nombre == "Intensivo" && find[0].estadosGrupoId === 2) {
-                $('#gruposIntensivoSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
-                $('#gruposIntensivoSelect').trigger("change");
-                
-              } else if (find[0].nombre == "Kids" && find[0].estadosGrupoId === 2) {
-                $('#gruposKidsSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
-                $('#gruposKidsSelect').trigger("change");
-                
-              }
-
-            });
-
-            DetectarGrupo();
-
-            return gruposControl
-        });
 
 
     if (num === 1) {
-        usuarios = fetch('/obtenerusuariospy672')
+        usuarios = await fetch('/obtenerusuariospy672')
             .then(response => response.json())
             .then(data => {
                 usuarios = data.usuarios
                 return usuarios
             });
+
+    } else if (num === 2) {
+        gruposControl = await fetch('/gruposControl')
+            .then(response => response.json())
+            .then(data => {
+                gruposControl = data
+                
+                gruposControl.forEach(grupo => {
+                  let find = gruposTodos.filter(item => item.id === grupo.grupoId)
+                  //let format = moment(find[0].fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+
+                  if (find[0].nombre == "Desde cero" && find[0].estadosGrupoId === 2) {
+                    $('#gruposDesde0select').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                    $('#gruposDesde0select').trigger("change");
+                    
+                  } else if (find[0].nombre == "Intensivo" && find[0].estadosGrupoId === 2) {
+                    $('#gruposIntensivoSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                    $('#gruposIntensivoSelect').trigger("change");
+                    
+                  } else if (find[0].nombre == "Kids" && find[0].estadosGrupoId === 2) {
+                    $('#gruposKidsSelect').append(`<option value="${find[0].id}">${find[0].identificador}</option>`);
+                    $('#gruposKidsSelect').trigger("change");
+                    
+                  }
+                });
+
+            DetectarGrupo();
+
+            return gruposControl
+        });
     }
   }
 
   FetchData(1)
+  FetchData(2)
 
   const EstablecerMatriculaPorLeccion = () => {
     let fragment = new DocumentFragment(),
