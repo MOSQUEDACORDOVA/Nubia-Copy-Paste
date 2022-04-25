@@ -2427,6 +2427,9 @@ table tr td {
     background-color: rgb(40, 199, 111, 0.12);
     border-color: #28c76f;
 }
+.py672 .edit-btn-alumno > * {
+    pointer-events: none !important;
+}
 
 .tablaAlum {
     margin-left: 12px !important;

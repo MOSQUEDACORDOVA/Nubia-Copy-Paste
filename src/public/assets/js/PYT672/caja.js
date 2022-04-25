@@ -2,9 +2,27 @@
 var historial;
 var grupos = JSON.parse($("#arrayGrupos").val());
 var matricula = JSON.parse($("#matricula_st").val());
-let idAlumno, idGrupo;
+let idAlumno, idGrupo, gruposTodos;
 
 $(function () {
+  function FetchData (num) {
+    gruposTodos = fetch('/obtenerGruposAll')
+        .then(response => response.json())
+        .then(data => {
+            gruposTodos = data;
+
+            moment.locale('es');
+            gruposTodos.forEach(item => {
+                let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+                $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            });
+            $('#gruposMenu').trigger("change");
+            return data
+        });
+  }
+
+  FetchData()
+
   var today_day = moment().format("D"),
     hoy = moment();
 
@@ -26,12 +44,18 @@ $(function () {
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
 
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+
     $("#nombre-alumno").text(filter[0]["nombre"]);
     $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
-    $("#grupo-alumno").text(filter[0]["grupo"]["identificador"]);
+
+    $("#grupo-alumno").text(grupoIdentif[0].identificador);
+
     $("#horario-alumno").text(filter[0]["grupo"]["dia_horario"]);
 
-    $("#profesor-alumno").text(filter[0]["grupo"]["usuario"]["nombre"]);
+    let prof = filter[0].grupo.usuarioId ? filter[0].grupo.usuario.nombre : 'No asignado'
+
+    $("#profesor-alumno").text(prof);
 
     $('#estado-alumno').addClass('d-none')
     $('#estado-congelado-alumno').addClass('d-none')
@@ -1142,9 +1166,15 @@ $(function () {
     $("#nombre_reaginador").val(filter[0]["nombre"]);
     $("#grupoId_actual").val(filter[0]["grupo"]["id"]);
 
-    $(`#grupoReag`).text(`${filter[0]["grupo"]["identificador"]}`);
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+
+    $(`#grupoReag`).text(grupoIdentif[0].identificador);
     $(`.horarioreag`).text(`${filter[0]["grupo"]["dia_horario"]} `);
-    $(`#profesorreag`).text(`${filter[0]["grupo"]["usuario"]["nombre"]} `);
+    
+    let prof = filter[0].grupo.usuarioId ? filter[0].grupo.usuario.nombre : 'No asignado'
+
+    $(`#profesorreag`).text(prof);
+
     $(`#tipogrupoReag`).text(
       `${filter[0]["grupo"]["nombre"]}- ${filter[0]["grupo"]["identificador"]}`
     );
@@ -1708,6 +1738,9 @@ const leccionActualGrupos = async () => {
     }
 
     numLeccion = 32 - Math.floor(rest);
+
+    let prof = grupos[i].usuarioId ? grupos[i].usuario.nombre : 'No asignado'
+
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -1727,7 +1760,8 @@ const leccionActualGrupos = async () => {
         ).length;
         gruposAct.push(grupos[i]);
         let fstChar2 = grupos[i]["identificador"].charAt(0);
-        
+
+
         if (
           (fstChar == "C" && fstChar2 == "I") ||
           (fstChar == "I" && fstChar2 == "C") ||
@@ -1741,7 +1775,7 @@ const leccionActualGrupos = async () => {
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
     <td>${filter_group_alumnos}</td>
-    <td>${grupos[i]["usuario"]["nombre"]}</td>
+    <td>${prof}</td>
 </tr>`);
 count++
         }

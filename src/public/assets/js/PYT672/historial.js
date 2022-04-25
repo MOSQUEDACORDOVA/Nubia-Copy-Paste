@@ -1,4 +1,30 @@
-var historialTable = $('.historial');
+let historialTable = $('.historial'), gruposTodos, usuarios;
+
+async function FetchData (num) {
+  gruposTodos = await fetch('/obtenerGruposAll')
+      .then(response => response.json())
+      .then(data => {
+          gruposTodos = data;
+
+          moment.locale('es');
+          gruposTodos.forEach(item => {
+              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+          });
+          $('#gruposMenu').trigger("change");
+          return data
+      });
+
+  if (num === 1) {
+      usuarios = await fetch('/obtenerusuariospy672')
+          .then(response => response.json())
+          .then(data => {
+              usuarios = data.usuarios
+              cargarTablaMatricula();
+              return data.usuarios
+          });
+  }
+}
 
 function cargarTablaMatricula(editada) {
 
@@ -39,9 +65,10 @@ function cargarTablaMatricula(editada) {
       columnDefs: [
         {
           targets: 0, render: function (data, type, full) {
-            let grupo;
+            let grupo, find;
             if(full.grupo) {
-              grupo = full.grupo.identificador;
+              find = gruposTodos.filter(grupo => grupo.id === full.grupoId)
+              grupo = find[0].identificador;
               /*grupo = `
               <div class="badge-wrapper me-1">
               <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
@@ -278,160 +305,219 @@ function cargarTablaMatricula(editada) {
       chart.render();
     }
   }
-}
 
-
-$(function () {
-  cargarTablaMatricula();
-  'use strict';
- 
-  $('.odd').addClass('selector');
-  $('.even').addClass('selector'); 
   
-  $('.btnHistorialDetalles').on('click', function () {
-
-    var Array = this.getAttribute('data-arrEstudiante');
-    var my_object = JSON.parse(decodeURIComponent(Array));
-
-    let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
+  $(function () {
+    'use strict';
+   
+    $('.odd').addClass('selector');
+    $('.even').addClass('selector'); 
     
-    if(arrayLeccionesAusentes.includes("[{")) {
-      arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
-    }
-    /*console.log(notas)
-    if(notas.includes("[{")) {
-      notas = notas.split(';');
-    }
-    console.log(notas)*/
-    $('#tablaHistorialDetalles').html('');
-
-    let content = new DocumentFragment();
-    console.log(my_object)
-    for (let num = 1; num <= leccion; num++) {
-      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+    $('.btnHistorialDetalles').on('click', function () {
+  
+      var Array = this.getAttribute('data-arrEstudiante');
+      var my_object = JSON.parse(decodeURIComponent(Array));
+  
+      let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
       
-      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-        my_object.notas.forEach(item => {
-          //console.log(item);
-          if (item && parseInt(item.n_leccion) === num) {
-            notaLeccion = item.nota
-          }
-        });
-        /*console.log(notaLeccion);
-        console.log("NOTA LECCION");*/
-        if (notaLeccion > 7) {
-          color = 'badge-light-success'
-        } else {
-          color = 'badge-light-danger'
-        }
-
-        calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
-      } else {
-        calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+      if(arrayLeccionesAusentes.includes("[{")) {
+        arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
       }
-      
-      if(arrayLeccionesAusentes.length) {
-
-        let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
-        //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
-
-        if(result.length && parseInt(result[0].n_leccion) === num) {
-          /*console.log(result)*/
-          td += 
-          `
-            <div class="d-flex flex-column pb-0">
-
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
-
-              <div class="d-flex align-items-end">
-                <div class="">
+      /*console.log(notas)
+      if(notas.includes("[{")) {
+        notas = notas.split(';');
+      }
+      console.log(notas)*/
+      $('#tablaHistorialDetalles').html('');
+  
+      let content = new DocumentFragment();
+      console.log(my_object)
+      for (let num = 1; num <= leccion; num++) {
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+        
+        if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+          my_object.notas.forEach(item => {
+            //console.log(item);
+            if (item && parseInt(item.n_leccion) === num) {
+              notaLeccion = item.nota
+            }
+          });
+          /*console.log(notaLeccion);
+          console.log("NOTA LECCION");*/
+          if (notaLeccion > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+  
+          calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+        } else {
+          calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+        }
+        
+        if(arrayLeccionesAusentes.length) {
+  
+          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+          //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+  
+          if(result.length && parseInt(result[0].n_leccion) === num) {
+            /*console.log(result)*/
+            td += 
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
                   
-                    <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
-
-                </div>
-                <div class="mx-2 text-center">
-                
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
-
-                    <span class="badge rounded-pill badge-light-danger">
-                      Ausente
-                    </span>
-                    
-                </div>
-
-                <div class="text-center">
-                    
-                    <span class="emp_post fw-bolder">Calificación</span><br>
-                    ${calif}
-
-                </div>
-              </div>
-              <hr class="mb-0">
-            </div>
-          `;
-          /*td += `
-            <tr>
-              <td>${num}</td>
-              <td>-</td>
-              <td>
-                  <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
-              </td>
-              <td>
-                  ${calif}
-              </td>
-              <td>          
-                <div class="btn-group">
-                  <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    ${feather.icons['folder'].toSvg()}
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">C21105-1</a>
-                      <a class="dropdown-item" href="#">C21101-1</a>
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-danger">
+                        Ausente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+  
                   </div>
                 </div>
-              </td>
-            </tr>
-          `;*/
+                <hr class="mb-0">
+              </div>
+            `;
+            /*td += `
+              <tr>
+                <td>${num}</td>
+                <td>-</td>
+                <td>
+                    <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
+                </td>
+                <td>
+                    ${calif}
+                </td>
+                <td>          
+                  <div class="btn-group">
+                    <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      ${feather.icons['folder'].toSvg()}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">C21105-1</a>
+                        <a class="dropdown-item" href="#">C21101-1</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;*/
+          } else {
+            td += 
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
+                  
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-success">
+                        Presente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+  
+                  </div>
+                </div>
+                <hr class="mb-0">
+              </div>
+            `;
+  
+            /*td += `
+              <tr>
+                <td>${num}</td>
+                <td>-</td>
+                <td>
+                    <span class="badge rounded-pill badge-light-success me-1">Presente</span>
+                </td>
+                <td>
+                    ${calif}
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                      ${feather.icons['folder'].toSvg()}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">C21105-1</a>
+                        <a class="dropdown-item" href="#">C21101-1</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            `;*/
+          }
+  
         } else {
           td += 
-          `
-            <div class="d-flex flex-column pb-0">
-
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
-
-              <div class="d-flex align-items-end">
-                <div class="">
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
                   
-                    <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
-
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-success">
+                        Presente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+  
+                  </div>
                 </div>
-                <div class="mx-2 text-center">
-                
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
-
-                    <span class="badge rounded-pill badge-light-success">
-                      Presente
-                    </span>
-                    
-                </div>
-
-                <div class="text-center">
-                    
-                    <span class="emp_post fw-bolder">Calificación</span><br>
-                    ${calif}
-
-                </div>
+                <hr class="mb-0">
               </div>
-              <hr class="mb-0">
-            </div>
-          `;
-
+            `;
           /*td += `
             <tr>
               <td>${num}</td>
@@ -440,7 +526,7 @@ $(function () {
                   <span class="badge rounded-pill badge-light-success me-1">Presente</span>
               </td>
               <td>
-                  ${calif}
+                ${calif}
               </td>
               <td>
                 <div class="btn-group">
@@ -456,96 +542,39 @@ $(function () {
             </tr>
           `;*/
         }
-
-      } else {
-        td += 
-          `
-            <div class="d-flex flex-column pb-0">
-
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
-
-              <div class="d-flex align-items-end">
-                <div class="">
-                  
-                    <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
-
-                </div>
-                <div class="mx-2 text-center">
-                
-                    <span class="emp_post fw-bolder">Aistencia</span><br>
-
-                    <span class="badge rounded-pill badge-light-success">
-                      Presente
-                    </span>
-                    
-                </div>
-
-                <div class="text-center">
-                    
-                    <span class="emp_post fw-bolder">Calificación</span><br>
-                    ${calif}
-
-                </div>
-              </div>
-              <hr class="mb-0">
-            </div>
-          `;
-        /*td += `
-          <tr>
-            <td>${num}</td>
-            <td>-</td>
-            <td>
-                <span class="badge rounded-pill badge-light-success me-1">Presente</span>
-            </td>
-            <td>
-              ${calif}
-            </td>
-            <td>
-              <div class="btn-group">
-                <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                  ${feather.icons['folder'].toSvg()}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="#">C21105-1</a>
-                    <a class="dropdown-item" href="#">C21101-1</a>
-                </div>
-              </div>
-            </td>
-          </tr>
-        `;*/
+        row.innerHTML = td;
+        content.appendChild(row);
       }
-      row.innerHTML = td;
-      content.appendChild(row);
-    }
-$(`#nombre-historial`).text(my_object['nombre'])
-$(`#dni-historial`).text(my_object['nro_identificacion'])
-$(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
-$(`#email-historial`).text(my_object['email'])
-$(`#grupo-historial`).text(my_object['grupo']['identificador'])
-$(`#horario-historial`).text(my_object['grupo']['dia_horario'])
-
-    $('#tablaHistorialDetalles').append(content);
-
-    $('#btnHistorialDetalles').click();
-
-  });
-
-  /*$('.borrar-btn').on('click', (e)=>{ 
-    let data = e.target.childNodes[1];
-    data.submit()
-  });
-
-  $('.congelar-estudiante').on('click', (e)=>{
-    console.log(e.target)
-    let form = e.target;
-    form.submit();
-  });
+  $(`#nombre-historial`).text(my_object['nombre'])
+  $(`#dni-historial`).text(my_object['nro_identificacion'])
+  $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
+  $(`#email-historial`).text(my_object['email'])
+  $(`#grupo-historial`).text(my_object['grupo']['identificador'])
+  $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
   
-  $('.eliminar-estudiante-grupo').on('click', (e)=>{
-    console.log(e.target)
-    let form = e.target;
-  });*/
-});
+      $('#tablaHistorialDetalles').append(content);
+  
+      $('#btnHistorialDetalles').click();
+  
+    });
+  
+    /*$('.borrar-btn').on('click', (e)=>{ 
+      let data = e.target.childNodes[1];
+      data.submit()
+    });
+  
+    $('.congelar-estudiante').on('click', (e)=>{
+      console.log(e.target)
+      let form = e.target;
+      form.submit();
+    });
+    
+    $('.eliminar-estudiante-grupo').on('click', (e)=>{
+      console.log(e.target)
+      let form = e.target;
+    });*/
+  });
+}
+
+FetchData(1)
+
