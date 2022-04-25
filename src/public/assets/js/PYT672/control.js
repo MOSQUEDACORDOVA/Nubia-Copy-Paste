@@ -30,7 +30,7 @@ $(document).ready(function () {
         .then(data => {
             gruposControl = data
             
-            gruposControl.forEach(grupo => {
+            data.forEach(grupo => {
               let find = gruposTodos.filter(item => item.id === grupo.grupoId)
               //let format = moment(find[0].fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
 
