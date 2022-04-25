@@ -796,13 +796,25 @@
 
             <!--/ Modal Control-->
             <div class="modal fade" id="controlModal" tabindex="-1" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body pb-3 px-sm-3">
-                            <h1 class="mb-2" id="controlTitle"></h1>
+                            <div class="row m-0 align-items-center">
+                                <div class="col-12 col-lg-6 p-0">
+                                    <h1 class="mb-1 h3" id="controlTitle"></h1>
+                                    <h5 class="mb-1 mb-lg-0">Nivel: <span id="grupoNivel"></span></h1>
+                                </div>
+                                <div class="col-12 col-lg-6 p-0">
+                                    <div id="asistenciasNotas" class="d-flex align-items-center">
+                                        <div id="col-asis"></div>
+                                        <div id="col-notas"></div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
 
                             <div class="row m-0">
                                 <div class="col-12 p-0">
