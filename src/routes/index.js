@@ -606,11 +606,18 @@ router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardC
 router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
-
-router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
+// * GENERAR ID GRUPOS PRINCIPAL
+router.get('/obtenerGruposAll', dashboardControllerPY672.obtenerGruposAll);
+/*router.get('/obtenergruposapertura', dashboardControllerPY672.obtenergruposapertura);
 router.get('/obtenergruposdesde0', dashboardControllerPY672.obtenergruposdesde0);
 router.get('/obtenergruposintensivo', dashboardControllerPY672.obtenergruposintensivos);
-router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);
+router.get('/obtenergruposkids', dashboardControllerPY672.obtenergruposkids);*/
+
+// * OBTENER ESTUDIANTES ALL
+router.get('/obtenerMatriculasAll', dashboardControllerPY672.obtenerMatriculasAll);
+
+// * DISTINC GRUPOS CONTROL
+router.get('/gruposControl', dashboardControllerPY672.gruposControl);
 
 //COMENTARIOS
 router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.get_comments_alumno);

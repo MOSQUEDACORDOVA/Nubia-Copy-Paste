@@ -151,13 +151,8 @@
                                     }
                                 </style>
                                 <div class="position-relative" id="grupoId-reg">
-                                    <select class="select2 form-select" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                    <select class="select2 form-select" id="gruposMenu" tabindex="-1" name="grupoId" aria-hidden="true" required>
                                         <option>Seleccione un grupo</option>
-                                        {{#each gruposTodos as |item i|}}
-                                        <option value="{{id}}" data-bs-iden="{{nombre}}">
-                                            {{identificador}} - {{dia_horario}} - {{#fechamenumatriculapy672 fecha_inicio}}{{/fechamenumatriculapy672}}
-                                        </option>
-                                        {{/each}}
                                     </select>
                                 </div>
                                 
@@ -340,6 +335,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
@@ -359,16 +355,14 @@
 
     let exp =  /^[0-9]+$/;
 
-$('#modal-reg-alumno').click(()=>{
-$('#formregalumno').removeAttr('action')
-$('#formregalumno').attr('action','/registrarestudiantepy672')
-$('#formregalumno')[0].reset()
-$('#grupos-edit').removeClass('d-none')
-$('#edit-title-modal').text('Registrar Alumno')
-$('#registrarAlumno').modal('show')
-
-
-})
+    $('#modal-reg-alumno').click(() => {
+        $('#formregalumno').removeAttr('action')
+        $('#formregalumno').attr('action','/registrarestudiantepy672')
+        $('#formregalumno')[0].reset()
+        $('#grupos-edit').removeClass('d-none')
+        $('#edit-title-modal').text('Registrar Alumno')
+        $('#registrarAlumno').modal('show')
+    });
 
     radio1.addEventListener('change', e => {
         SetRadio1();
@@ -408,46 +402,12 @@ $('#registrarAlumno').modal('show')
         }
     });
 
-    /*tlf1Check.addEventListener('change', e => {
-        let text = document.querySelector('.nacional1text'),
-        text2 = document.querySelector('.extranjero1text');
-
-        tlf1.value = '';
-        if(tlf1Check.checked === false) {
-            text.classList.remove('d-none');
-            text2.classList.add('d-none');
-            tlf1.classList.add('tlfNacional')
-        } else {
-            text.classList.add('d-none');
-            text2.classList.remove('d-none');
-            tlf1.classList.remove('tlfNacional')
-        }
-    });
-
-    tlf2Check.addEventListener('change', e => {
-        let text = document.querySelector('.nacional2text'),
-        text2 = document.querySelector('.extranjero2text');
-
-        tlf2.value = '';
-        if(tlf2Check.checked === false) {
-            text.classList.remove('d-none');
-            text2.classList.add('d-none');
-            tlf2.classList.add('tlfNacional')
-        } else {
-            text.classList.add('d-none');
-            text2.classList.remove('d-none');
-            tlf2.classList.remove('tlfNacional')
-        }
-    });*/
-    
     const SetRadio1 = () => {
         nacionalC.classList.remove('d-none');
         nacionalC.classList.add('d-block');
 
         nacionalDni.classList.remove('d-none');
         nacionalDni.classList.add('d-block');
-
-       
 
         exC.classList.remove('d-block');
         exC.classList.add('d-none');
@@ -476,5 +436,4 @@ $('#registrarAlumno').modal('show')
         nacionalDni.value = exDni.value;
     });
 
-      
 </script>
