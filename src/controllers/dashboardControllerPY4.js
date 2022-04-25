@@ -141,7 +141,64 @@ let id_sucursal = req.session.sucursal_select;
 let zonas =JSON.parse(await getZonas())
 res.send({zonas})
 }
+exports.obtenerPedidos = async (req, res)=>{
+  if (req.params.day) {
+    dia = moment(req.params.day, "YYYY-DD-MM").format("YYYY-MM-DD");
+  } else {
+    dia = moment();
+  }
+  let id_sucursal = req.session.sucursal_select;
+  
+  //DATA-COMUNES
+  let ClientesDB = "",
+    PedidosDB = "",
+    ChoferesDB = "",
+    LastPedidosAll = "",
+    PrestadosGroupByCliente = "",
+    Carga_init = "",
+    Entregados_resumen = "",
+    Etiquetas = "";
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB = DataBase.ClientesAll;
+      PedidosDB = DataBase.PedidosAll;
+      ChoferesDB = DataBase.ChoferesAll;
+      LastPedidosAll = DataBase.LastPedidosAll;
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByCliente;
+      Carga_init = DataBase.Carga_initResumen;
+      Entregados_resumen = DataBase.entregados_resumen;
+      break;
 
+    default:
+      ClientesDB = DataBase.ClientesAllS;
+      PedidosDB = DataBase.PedidosAllS;
+      ChoferesDB = DataBase.ChoferesAll;
+      LastPedidosAll = DataBase.LastPedidosAllS;
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByClienteS;
+      Carga_init = DataBase.Carga_initSResumen;
+      Entregados_resumen = DataBase.entregados_resumen;
+      break;
+  }
+  let hoy = moment();        
+          PedidosDB(id_sucursal)
+            .then((pedidos_) => {
+              let pedidos_let = JSON.parse(pedidos_);
+              let reprogramado = "";
+              let p = [];
+              for (let i = 0; i < pedidos_let.length; i++) {
+                reprogramado = moment(dia).isSameOrAfter(
+                  moment(pedidos_let[i].fecha_pedido),
+                  "day"
+                ); // true
+                
+                if (reprogramado) {
+                  p.push(pedidos_let[i]);
+                }
+              }
+              pedidos_ = JSON.stringify(p);
+              res.send({array_pedido:pedidos_})
+            })
+}
 exports.dashboard = (req, res) => {
   
   //Push.create('Hello World!')
@@ -1164,7 +1221,7 @@ exports.regPedidoPy4 = async (req, res) => {
     id_chofer,
     sucursal,
     deuda_anterior,
-    fecha_pedido,desc_referido,id_referenciado,asentamiento,descuento_reg_cliente
+    fecha_pedido,desc_referido,id_referenciado,asentamiento,descuento_reg_cliente,modifica_cliente_input
   } = req.body;
 
   let total_garrafones_pedido =
@@ -1258,11 +1315,14 @@ if (desc_referido > 0) {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido,descuento,asentamiento,descuento_reg_cliente
+    fecha_pedido,descuento,asentamiento,descuento_reg_cliente,modifica_cliente_input
   )
     .then(async (respuesta) => {
+      console.log(respuesta)
+      let pedidoGuardado = JSON.parse(respuesta)
       let id_user = user.id;
-      let description =`Registró el pedido ${respuesta} al cliente ${id_cliente} en la zona ${sucursal}`;
+      console.log(pedidoGuardado['id'])
+      let description =`Registró el pedido ${pedidoGuardado['id']} al cliente ${id_cliente} en la zona ${sucursal}`;
       let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
       await PedidosDB(id_sucursal)
@@ -1282,7 +1342,7 @@ if (desc_referido > 0) {
           }
           pedidos_let = p;
           let msg = respuesta;
-          return res.send({ msg: msg, pedidos_let });
+          return res.send({ msg: msg, pedidos_let,pedidoGuardado });
         })
         .catch((err) => {
               let msg = "Error en sistema";

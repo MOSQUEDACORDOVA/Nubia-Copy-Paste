@@ -673,7 +673,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento,descuento_reg_cliente) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento,descuento_reg_cliente,modifica_cliente_input) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -713,19 +713,23 @@ module.exports = {
               total_nv_pedido:total_nuevo_cant_pedido,
               total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},{where:{clienteId: id_cliente,}})
           }
-
-          Clientes.update(
+if (modifica_cliente_input == "SI") {
+  logsUse.create({id_user:id_usuario,type:'logsUse',tfunction:'PedidosReg',description:'Se modifico el cliente desde registrar pedido'})
+  Clientes.update(
             {
               firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: asentamiento,
               cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal,monto_nuevo:descuento_reg_cliente  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
-                resolve(data.dataValues.id);
-                //console.log(planes);
+                resolve(data_set);
               })          
             .catch((err) => {                      
               reject(err)
             });
+} else {
+  resolve(data_set);
+}
+          
         })
         .catch((err) => {
           reject(err)

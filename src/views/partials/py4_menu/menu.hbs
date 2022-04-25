@@ -445,12 +445,13 @@ padding-left: 0.7rem;
                     </div>
 
                     <button class="btn btn-primary mt-1" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample">
+                        data-bs-target="#client-info" aria-expanded="false" aria-controls="collapseExample" id="modifica_cliente_btn">
                         Modificar Cliente
                     </button>
 
                     <div class="collapse" id="client-info">
                         <input type="text"   id="tipo_c_pedido" hidden>
+                        <input type="text"   id="modifica_cliente_input" hidden value="NO" name="modifica_cliente_input">
 
                         <div class="form-group mt-2"><label for="register-firstName" class="form-label">Nombre</label>
                             <input type="text" name="firstName" placeholder="Primer Nombre"
