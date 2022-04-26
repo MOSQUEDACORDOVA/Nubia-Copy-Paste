@@ -1760,7 +1760,7 @@ const leccionActualGrupos = async () => {
     numLeccion = 32 - Math.floor(rest);
 
     let prof = grupos[i].usuarioId ? grupos[i].usuario.nombre : 'No asignado'
-    
+
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === grupos[i].id)
 
     if (numLeccion) {
@@ -1907,7 +1907,6 @@ async function ControlDetalles(id1, id2) {
   alumnoJson.leccion32 = alumnoJson.notas.filter(item => item.n_leccion == 32 && item.nivel === alumnoJson.nivelActualGrupo)
   let totalNotas = alumnoJson.leccion9 + alumnoJson.leccion17 + alumnoJson.leccion18 + alumnoJson.leccion25 + alumnoJson.leccion31+ alumnoJson.leccion32 + alumnoJson.participacion;
   let color1, color2;
-  console.log(totalAsis)
 
   if (totalAsis >= 80) {
     color1 = "#28c76f"
@@ -1939,7 +1938,7 @@ async function ControlDetalles(id1, id2) {
   let notasHtml = `
   <div class="d-flex align-items-center">
     <div class="d-flex align-items-center flex-column justify-content-center">
-      <h6 class="m-0 fw-bolder">Notas</h6>
+      <h6 class="m-0 fw-bolder">Calificación</h6>
       <h6 class="m-0 card-text">${totalNotas}%</h6>
     </div>
     <div id="chartNota${id1}"></div>
@@ -1992,18 +1991,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -2028,18 +2028,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -2066,18 +2067,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 

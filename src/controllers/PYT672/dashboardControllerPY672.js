@@ -2386,35 +2386,73 @@ exports.usuarios = (req, res) => {
     roleProf = true
   }
 
-  //console.log(proyecto)
-
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    //console.log(gruposTodos)
-    //console.log("TODOS LOS GRUPOS")
-
-    DataBase.ObtenerTodosUsuarios().then((stringUsuarios) => {
-      let usuarios = JSON.parse(stringUsuarios);
-    
-    res.render(proyecto+"/admin/usuarios", {
-      pageName: "Usuarios",
-      dashboardPage: true,
-      dashboard: true,
-      py672:true,
-      usuarios: true,
-      roleAdmin, roleProf,
-      gruposTodos,
-      stringUsuarios
-    });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
+  res.render(proyecto+"/admin/usuarios", {
+    pageName: "Usuarios",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    usuarios: true,
+    roleAdmin, roleProf,
   });
+};
+
+// * GESTIONAR CONTRASEÑAS DE USUARIOS
+exports.managUsuarios = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+    
+  res.render(proyecto+"/admin/changeuser-password", {
+    pageName: "Usuarios",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    managUsuarios: true,
+    roleAdmin, roleProf,
+  });
+};
+
+// * OBTENER CONTRASEÑA DE USUARIOS
+exports.getPasswordUser = (req, res) => {
+  let idUser = req.params.id
+
+  DataBase.ObtenerUsuario(idUser).then((response) => {
+    let usuario = JSON.parse(response);
+    console.log(usuario)
+    return res.send({usuario})
+
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
+    return res.send({error: 'Error al realizar la tarea'});
+  });
+};
+
+// * CAMBIAR CONTRASEÑA DE USUARIO
+exports.changePasswordUser = (req, res) => {
+  let { idUser, password } = req.body
+  console.log(req.body)
+
+  DataBase.ChangePasswordUser(idUser, password).then((response) => {
+    console.log(response)
+    
+    return res.redirect('/manag-user/PYT-672')
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.send({error: 'Error al realizar la tarea'});
   });
 };
 
@@ -2435,7 +2473,7 @@ exports.obtenerusuarios = (req, res) => {
       console.log(err)
       let msg = "Error en sistema";
       return res.send({error: 'Error al realizar la tarea'});
-  });
+    });
 };
 
 // * OBTENER LECCION ACTUAL DE GRUPO

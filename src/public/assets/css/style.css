@@ -2431,6 +2431,10 @@ table tr td {
     pointer-events: none !important;
 }
 
+.py672 .changePasswordUser > * {
+    pointer-events: none !important;
+}
+
 .tablaAlum {
     margin-left: 12px !important;
     padding-right: 22px !important;
