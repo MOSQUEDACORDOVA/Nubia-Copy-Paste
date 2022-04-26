@@ -949,10 +949,7 @@ $(function () {
       <label class="form-label" for="itemquantity">Banco</label>
       
       <div class="demo-inline-spacing justify-content-around">
-        <div class="form-check form-check-inline">
-          <input class="form-check-input EFE" type="radio" name="bank-serv" id="EFE" value="EFE" />
-          <label class="form-check-label" for="BNA">EFE</label>
-        </div>
+   
         <div class="form-check form-check-inline">
           <input class="form-check-input BNA" type="radio" name="bank-serv" id="BNA" value="BNA" />
           <label class="form-check-label" for="BNA">BNA</label>
@@ -969,13 +966,17 @@ $(function () {
           <input class="form-check-input BPO" type="radio" name="bank-serv" id="BPO" value="BPO" />
           <label class="form-check-label" for="BPO">BPO</label>
         </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input EFE" type="radio" name="bank-serv" id="EFE" value="EFE" />
+          <label class="form-check-label" for="EFE">EFE</label>
+        </div>
         
       </div>
 
     </div> 
     <div id="transct" class="col">
       <div class="mb-1">
-        <label class="form-label" for="itemquantity">Transaccion #:</label>
+        <label class="form-label" for="itemquantity">N° Transacción</label>
         <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
       </div>
     </div>
@@ -1760,6 +1761,8 @@ const leccionActualGrupos = async () => {
 
     let prof = grupos[i].usuarioId ? grupos[i].usuario.nombre : 'No asignado'
 
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === grupos[i].id)
+
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -1789,7 +1792,7 @@ const leccionActualGrupos = async () => {
         ) {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
@@ -1802,7 +1805,7 @@ count++
         if (fstChar == "N" && fstChar2 == "N") {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
@@ -1889,8 +1892,9 @@ async function ControlDetalles(id1, id2) {
   status = await response.status,
   alumnoJson = await response.json();
 
-  $('#controlTitle').text($('#nombre-alumno').text())
-  $('#grupoNivel').text(alumnoJson.nivelActualGrupo);
+  $('#controlTitle').text($('#nombre-alumno').text());
+  $('#grupoNivel').val(alumnoJson.nivelActualGrupo);
+  $('#grupoNivel').trigger('change');
 
   let valorAsistencia = 3.125
   let leccionesAusentes = parseFloat(alumnoJson.ausentes * valorAsistencia).toFixed(2);
@@ -1903,7 +1907,6 @@ async function ControlDetalles(id1, id2) {
   alumnoJson.leccion32 = alumnoJson.notas.filter(item => item.n_leccion == 32 && item.nivel === alumnoJson.nivelActualGrupo)
   let totalNotas = alumnoJson.leccion9 + alumnoJson.leccion17 + alumnoJson.leccion18 + alumnoJson.leccion25 + alumnoJson.leccion31+ alumnoJson.leccion32 + alumnoJson.participacion;
   let color1, color2;
-  console.log(totalAsis)
 
   if (totalAsis >= 80) {
     color1 = "#28c76f"
@@ -1920,8 +1923,8 @@ async function ControlDetalles(id1, id2) {
   let asistenciaHtml = `
   <div class="d-flex align-items-center">
     <div class="d-flex align-items-center flex-column justify-content-center">
-      <h6 class="m-0">Asistencias</h6>
-      <h6 class="m-0">${totalAsis}%</h6>
+      <h6 class="m-0 fw-bolder">Asistencias</h6>
+      <h6 class="m-0 card-text">${totalAsis}%</h6>
     </div>
     <div id="chartAsistencia${id1}"></div>
   </div>`;
@@ -1935,8 +1938,8 @@ async function ControlDetalles(id1, id2) {
   let notasHtml = `
   <div class="d-flex align-items-center">
     <div class="d-flex align-items-center flex-column justify-content-center">
-      <h6 class="m-0">Notas</h6>
-      <h6 class="m-0">${totalNotas}%</h6>
+      <h6 class="m-0 fw-bolder">Calificación</h6>
+      <h6 class="m-0 card-text">${totalNotas}%</h6>
     </div>
     <div id="chartNota${id1}"></div>
   </div>`;
@@ -1988,18 +1991,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -2024,18 +2028,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -2062,18 +2067,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 

@@ -11,6 +11,8 @@ const Distritos = require("../../models/PYT672/Distritos");
 const Usuarios = require("../../models/PYT672/Usuarios");
 const Caja = require("../../models/PYT672/Caja");
 const Comentarios = require("../../models/PYT672/Comentarios");
+const bcrypt = require('bcrypt-nodejs');
+
 module.exports = {
     // * REGISTRO DE USUARIOS
     RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono) {
@@ -26,32 +28,48 @@ module.exports = {
         });
       });
     }, 
-      // * EDIT DE USUARIOS
-      EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono) {
-        return new Promise((resolve, reject) => {
-        Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI,telefono:telefono },{where:{id:id_usuario}})
-          .then((data) => {
-              let data_set = JSON.stringify(data);
-              resolve('Usuario actualizado con éxito');
-          })
-          .catch((err) => {
-              reject(err)
-          });
+    // * CAMBIAR PASSWORD DE USUARIOS
+    async ChangePasswordUser(id, password) {
+      let passHash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+      
+      return new Promise((resolve, reject) => {
+      Usuarios.update({ password: passHash },
+        { where: { id: id } })
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
         });
-      }, 
-            // * EDIT ESTADO  DE USUARIOS
-            EditEnabledUser(id_usuario, estado ) {
-              return new Promise((resolve, reject) => {
-              Usuarios.update({enabled:estado},{where:{id:id_usuario}})
-                .then((data) => {
-                    let data_set = JSON.stringify(data);
-                    resolve('Usuario actualizado con éxito');
-                })
-                .catch((err) => {
-                    reject(err)
-                });
-              });
-            }, 
+      });
+    }, 
+    // * EDIT DE USUARIOS
+    EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono) {
+      return new Promise((resolve, reject) => {
+      Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, puesto: puesto, fecha_nacimiento: fechaN, fecha_inicio: fechaI,telefono:telefono },{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
+    // * EDIT ESTADO  DE USUARIOS
+    EditEnabledUser(id_usuario, estado ) {
+      return new Promise((resolve, reject) => {
+      Usuarios.update({enabled:estado},{where:{id:id_usuario}})
+        .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve('Usuario actualizado con éxito');
+        })
+        .catch((err) => {
+            reject(err)
+        });
+      });
+    }, 
     // * DELETE DE USUARIOS
     DeleteUser(id) {
       return new Promise((resolve, reject) => {
@@ -345,32 +363,32 @@ module.exports = {
       });
     },
 
-       // * EDITAR ESTUDIANTES ADMIN
-       EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
-        return new Promise((resolve, reject) => {
-          Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1, usuarioId:vendedor}, {where:{id:id_estudiante}})
-              .then((data) => {
-                let data_set = JSON.stringify(data);
-                resolve(data_set);
-              })
-              .catch((err) => {
-                reject(err)
-              });
+    // * EDITAR ESTUDIANTES ADMIN
+    EditMatricula(nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante,vendedor) {
+    return new Promise((resolve, reject) => {
+      Matriculas.update({ nombre: nombre, nro_identificacion: dni, genero: genero, fecha_nacimiento: nacimiento, telefono1: telefono1, telefono2: telefono2, email: email, provincia: provincia, canton: canton,  distrito: distrito, tipoEstudianteId: tipo, estadoId: 1, usuarioId:vendedor}, {where:{id:id_estudiante}})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
           });
-        },
-           // * REASIGNA GRUPO ESTUDIANTES ADMIN
-           ReasignarGrupoEstudiante(grupoId, id_estudiante) {
-            return new Promise((resolve, reject) => {
-              Matriculas.update({grupoId: grupoId}, {where:{id:id_estudiante}})
-                  .then((data) => {
-                    let data_set = JSON.stringify(data);
-                    resolve(data_set);
-                  })
-                  .catch((err) => {
-                    reject(err)
-                  });
-              });
-            },
+      });
+    },
+    // * REASIGNA GRUPO ESTUDIANTES ADMIN
+    ReasignarGrupoEstudiante(grupoId, id_estudiante) {
+    return new Promise((resolve, reject) => {
+      Matriculas.update({grupoId: grupoId}, {where:{id:id_estudiante}})
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     // * ELIMINAR ESTUDIANTES ADMIN
     BorrarEstudiantes(id){
       return new Promise((resolve, reject) => {
@@ -542,6 +560,22 @@ module.exports = {
         Grupos.findAll({ where: {
           id: id
         }})
+          .then((data) => {
+              let data_p = JSON.stringify(data);
+              resolve(data_p);
+          })
+          .catch((err) => {
+              reject(err)
+          });
+      });
+    },
+    // * OBTENER USUARIO
+    ObtenerUsuario(id) {
+      return new Promise((resolve, reject) => {
+        Usuarios.findAll({
+          where: {
+            id: id
+          }})
           .then((data) => {
               let data_p = JSON.stringify(data);
               resolve(data_p);

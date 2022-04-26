@@ -30,6 +30,12 @@
                     </span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-user">
+                    {{#if roleAdmin}}
+                    <a class="dropdown-item" href="/manag-user/PYT-672">
+                        <i class="me-50" data-feather="users"></i> 
+                        Contraseñas
+                    </a>
+                    {{/if}}
                     <a class="dropdown-item" href="/logout/PYT-672">
                         <i class="me-50" data-feather="power"></i> 
                         Cerrar sesión
