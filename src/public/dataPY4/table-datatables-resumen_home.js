@@ -1,1 +1,288 @@
-"use strict";function cargaTableResumen(a){let e,t=$("#carga_").val(),r=$("#array_pedido").val(),o="";a?(o=JSON.parse(t),e=JSON.parse(r)):(o=JSON.parse(t.replace(/&quot;/g,'"')),e=JSON.parse(r.replace(/&quot;/g,'"')));$("#array_cp").val();let n=moment().format("YYYY-MM-DD"),s=e.filter(a=>"En proceso"==a.status_pedido&&a.fecha_pedido==n||"Rezagado"==a.status_pedido&&a.fecha_pedido==n||"Por entregar"==a.status_pedido&&a.fecha_pedido==n||"Devuelto"==a.status_pedido&&a.fecha_pedido==n||"Reprogramado"==a.status_pedido&&a.fecha_pedido==n),l=e.filter(a=>"Entregado"==a.status_pedido&&a.fecha_pedido==n);var d=$(".datatables-resumen");if(d.length){$(".dt-column-search_resumen thead tr").clone(!0).appendTo(".dt-column-search_resumen thead"),$(".dt-column-search_resumen thead tr:eq(1) th").each(function(a){var e=$(this).text();$(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar '+e+'" />'),$("input",this).on("keyup change",function(){c.column(a).search()!==this.value&&c.column(a).search(this.value).draw()})}),$(".select_chofer_pedidos").on("change",function(){c.column(4).search(this.value).draw()}),$(".select_etiqueta_pedidos").on("change",function(){c.search(this.value).draw()});var c=d.DataTable({data:o,columns:[{data:"recarga"},{data:"recarga"},{data:"recarga"},{data:"recarga"},{data:"personal.name"}],columnDefs:[{visible:!1,targets:4},{targets:0,render:function(a,e,t,r){return`<span class="badge rounded-pill badge-light-info hover_recarga" style="cursor:pointer;"   data-arrayrecarga="${encodeURIComponent(JSON.stringify(t.Recargas))}" data-cargainicial="${t.cantidad_inicial}">\n              ${a} </span></i>`}},{targets:1,render:function(a,e,t){let r=0,o=0;for(let a=0;a<s.length;a++)s[a].personalId==t.personalId&&(r+=parseInt(s[a].total_garrafones_pedido));for(let a=0;a<l.length;a++)l[a].personalId==t.personalId&&(o+=parseInt(l[a].total_garrafones_pedido));return r+=o}},{targets:2,render:function(a,e,t){let r=0;for(let a=0;a<l.length;a++)l[a].personalId==t.personalId&&(r+=parseInt(l[a].total_garrafones_pedido));return r}},{targets:3,render:function(a,e,t){let r=0,o=0,n=0;for(let a=0;a<s.length;a++)s[a].personalId==t.personalId&&(n+=parseInt(s[a].total_garrafones_pedido));for(let a=0;a<l.length;a++)l[a].personalId==t.personalId&&(o+=parseInt(l[a].total_garrafones_pedido));return r=0==(n+=o)?0:n>o?n-o:o-n}}],order:[[0,"desc"]],dom:'<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',orderCellsTop:!0,displayLength:10,lengthMenu:[7,10,25,50,75,100],drawCallback:function(a){var e=this.api(),t=e.rows({page:"current"}).nodes(),r=null;e.column(4,{page:"current"}).data().each(function(a,e){r!==a&&($(t).eq(e).before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                '+a+"</td></tr>"),r=a)})},language:{decimal:"",emptyTable:"No hay información",info:"Total _TOTAL_ registros",infoEmpty:"Total _TOTAL_ registros",infoFiltered:"(Filtrado de _MAX_ registros totales)",infoPostFix:"",thousands:",",lengthMenu:"Mostrar _MENU_ Entradas",loadingRecords:"Cargando...",processing:"Procesando...",search:"Buscar:",zeroRecords:"Sin resultados encontrados",paginate:{previous:"&nbsp;",next:"&nbsp;"}}});$("div.head-label").html('<h6 class="mb-0">DataTable with Buttons</h6>'),$("#min1, #max1").on("change",function(){filterByDate(5),c.draw()})}}function filterColumn(a,e){if(5==a){var t=$(".start_date").val(),r=$(".end_date").val();""!==t&&""!==r&&filterByDate(a,t,r),""==t&&""==r&&location.reload(),$(".datatables-basic").dataTable().fnDraw()}else $(".datatables-basic").DataTable().column(a).search(e,!1,!0).draw()}function filterColumn2(a,e){if(5==a){var t=$(".start_date2").val(),r=$(".end_date2").val();""!==t&&""!==r&&filterByDate(a,t,r),$(".datatables-basic2").dataTable().fnDraw()}else $(".datatables-basic2").DataTable().column(a).search(e,!1,!0).draw()}$(function(){cargaTableResumen();let a=$("#array_cp").val();JSON.parse(a.replace(/&quot;/g,'"'));$.contextMenu({selector:".hover_recarga",trigger:"hover",autoHide:!0,build:function(a,e){var t=e.currentTarget.dataset.arrayrecarga,r=e.currentTarget.dataset.cargainicial,o=JSON.parse(decodeURIComponent(t)),n={"Carga inicial":{name:`Carga inicial =  ${r}`}};for(let a=0;a<o.length;a++){n["Recarga"+a]={name:`Recargó ${a+1}º =  ${o[a].recarga}`}}return{callback:function(a,e){var t="clicked: "+a;console.log(t)},items:n}}}),$(".dataTables_filter .form-control").removeClass("form-control-sm"),$(".dataTables_length .form-select").removeClass("form-select-sm").removeClass("form-control-sm"),$(".odd").addClass("selector"),$(".even").addClass("selector")});
+/**
+ * DataTables Advanced
+ */
+
+ 'use strict';
+
+
+ 
+
+ function cargaTableResumen(rechar) {
+    
+  let valor = $('#carga_').val()
+  let valor_pedido = $('#array_pedido').val()
+  let array_resumen_carga = "", array_pedido
+  if (rechar) {
+    
+    array_resumen_carga = JSON.parse(valor)
+    array_pedido = JSON.parse(valor_pedido)
+  }else{
+    array_resumen_carga = JSON.parse(valor.replace(/&quot;/g,'"'))
+    array_pedido = JSON.parse(valor_pedido.replace(/&quot;/g,'"'))
+  }
+  let codigosP = $('#array_cp').val()
+ let hoy = moment().format('YYYY-MM-DD')
+  let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
+  let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
+   var dt_table_resumen = $('.datatables-resumen');
+
+  // DataTable with buttons
+  // --------------------------------------------------------------------
+  var groupColumn = 4;
+  if (dt_table_resumen.length) {
+    console.log(array_resumen_carga)
+    $('.dt-column-search_resumen thead tr').clone(true).appendTo('.dt-column-search_resumen thead');
+    $('.dt-column-search_resumen thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" />');
+  
+      $('input', this).on('keyup change', function () {
+        if (dt_table_resumenN.column(i).search() !== this.value) {
+          dt_table_resumenN.column(i).search(this.value).draw();
+        }
+      });
+    });
+    $('.select_chofer_pedidos').on('change', function(){
+      dt_table_resumenN.column(4).search(this.value).draw();   
+   });
+   $('.select_etiqueta_pedidos').on('change', function(){
+ 
+    dt_table_resumenN.search(this.value).draw();   
+ });
+    var dt_table_resumenN = dt_table_resumen.DataTable({
+      data: array_resumen_carga,
+      columns: [
+        { data: 'recarga' },
+        { data: 'recarga' },
+        { data: 'recarga' },
+        { data: 'recarga' },
+        { data: 'personal.name' },
+      ], columnDefs: [
+        { visible: false, targets: groupColumn,
+         
+        },
+        {
+          targets: 0,
+          render:function(data, type, full, meta){
+            var recarga_arr = encodeURIComponent(JSON.stringify(full['Recargas']));
+            return (
+             `<span class="badge rounded-pill badge-light-info hover_recarga" style="cursor:pointer;"   data-arrayrecarga="${recarga_arr}" data-cargainicial="${full['cantidad_inicial']}">
+              ${data} </span></i>`
+            );
+          }
+        },
+        { targets: 1, render: function (data, type, full) {
+          let suma =0,suma_entregados = 0
+          for (let i = 0; i < pedidos_resumen.length; i++) {
+            if (pedidos_resumen[i]['personalId'] == full['personalId']) {
+              suma += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])
+              
+            }
+            
+          }
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados+= parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+         
+            suma = suma + suma_entregados
+          
+          return suma
+        },
+         
+        },
+        { targets: 2, render: function (data, type, full) {
+          let suma_entregados = 0
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados += parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+          return  suma_entregados
+
+        },
+         
+        },
+        { targets: 3, render: function (data, type, full) {
+          let resto =0,suma_entregados=0, suma=0;
+          for (let i = 0; i < pedidos_resumen.length; i++) {
+            if (pedidos_resumen[i]['personalId'] == full['personalId']) {
+              suma += parseInt(pedidos_resumen[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+          for (let i = 0; i < pedidos_entregados.length; i++) {
+            if (pedidos_entregados[i]['personalId'] == full['personalId']) {
+              suma_entregados+= parseInt(pedidos_entregados[i]['total_garrafones_pedido'])              
+            }
+            
+          }
+          suma = suma + suma_entregados
+          if (suma == 0) {
+            resto = 0
+          } else {
+            resto = suma > suma_entregados ? suma - suma_entregados : suma_entregados - suma;//suma- suma_entregados
+          }
+          
+          return resto
+        },
+         
+        },
+      ],
+     
+      order: [[0, 'desc']],
+      dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100],
+      drawCallback: function (settings) {
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+
+        api
+          .column(groupColumn, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+                .before('<tr class="group"><td colspan="8"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+
+              last = group;
+            }
+          });
+      },
+     
+      language: {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+    });
+    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+      // on key up from input field
+ /* $('input.dt-input').on('keyup change', function () {
+    filterColumn($(this).attr('data-column'), $(this).val());
+  });**/
+
+
+    // Refilter the table
+    $('#min1, #max1').on('change', function () {
+      filterByDate(5); // We call our filter function
+      dt_table_resumenN.draw();
+      });
+  }
+}
+
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+  cargaTableResumen()
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+
+  //ACA SE ACTIVAS LOS CONTEXT MENU
+
+$.contextMenu({
+  selector: '.hover_recarga',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var Recargas = e.currentTarget['dataset']["arrayrecarga"];
+    var carga_inicial = e.currentTarget['dataset']["cargainicial"];
+    var my_object = JSON.parse(decodeURIComponent(Recargas));
+     var items1 = {"Carga inicial": {name: `Carga inicial =  ${carga_inicial}`}}
+    for (let i = 0; i < my_object.length; i++) {
+      var newUser = "Recarga" + i;
+      items1[newUser] = {name: `Recargó ${i+1}º =  ${my_object[i]['recarga']}`}
+    }
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+              console.log(m);
+          },
+          items: 
+          items1
+          
+      };
+  }
+})
+
+
+
+  // Responsive Table
+  // --------------------------------------------------------------------
+
+
+  // Filter form control to default size for all tables
+  $('.dataTables_filter .form-control').removeClass('form-control-sm');
+  $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
+  // Delete Record
+  
+  $('.odd').addClass('selector');
+  $('.even').addClass('selector'); 
+
+ 
+
+
+});
+
+// Filter column wise function
+function filterColumn(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date').val(),
+      endDate = $('.end_date').val();
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+    if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }
+    $('.datatables-basic').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
+  }
+}
+
+// Filter column wise function
+function filterColumn2(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date2').val(),
+      endDate = $('.end_date2').val();
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+ /*   if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }*/
+    $('.datatables-basic2').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
+  }
+}
