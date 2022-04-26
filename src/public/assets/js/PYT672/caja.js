@@ -43,11 +43,11 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
-
+    console.log(filter)
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
 
     $("#nombre-alumno").text(filter[0]["nombre"]);
-    $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
+    $("#nivel-grupo-alumno").text(filter[0]["grupo"] ? filter[0]["grupo"]["codigo_nivel"] : "");
 
     $("#grupo-alumno").text(grupoIdentif[0].identificador);
 
@@ -187,7 +187,9 @@ $(function () {
       /**LLENAR TABLA */
       $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
 <td>
-    <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagarView}</span>
+  <div class="d-flex align-items-center">
+    <span class="fw-bold">Mensualidad</span><p class="text-capitalize mb-0">${mes_a_pagarView}</p>
+  </div>
 </td>
 
 <td>${mensualidad_coste}</td>
@@ -942,14 +944,12 @@ $(function () {
     }
     Swal.fire({
       title: "Datos adicionales",
-      html: `<div class="mb-1">
-      <label class="form-label" for="itemcost">Fecha</label>
-      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="fecha" required>
-      </div>
+      html: `
       <div class="mb-1">
       <label class="form-label" for="itemquantity">Banco</label>
       
       <div class="demo-inline-spacing justify-content-around">
+   
         <div class="form-check form-check-inline">
           <input class="form-check-input BNA" type="radio" name="bank-serv" id="BNA" value="BNA" />
           <label class="form-check-label" for="BNA">BNA</label>
@@ -966,16 +966,26 @@ $(function () {
           <input class="form-check-input BPO" type="radio" name="bank-serv" id="BPO" value="BPO" />
           <label class="form-check-label" for="BPO">BPO</label>
         </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input EFE" type="radio" name="bank-serv" id="EFE" value="EFE" />
+          <label class="form-check-label" for="EFE">EFE</label>
+        </div>
         
       </div>
 
     </div> 
     <div id="transct" class="col">
-    <div class="mb-1">
-      <label class="form-label" for="itemquantity">Transaccion #:</label>
-      <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      <div class="mb-1">
+        <label class="form-label" for="itemquantity">N° Transacción</label>
+        <input type="text" class="form-control" id="trans-serv" aria-describedby="precio" value="">
+      </div>
     </div>
-  </div>`,
+
+    <div class="mb-1">
+      <label class="form-label" for="itemcost">Fecha</label>
+      <input type="date" id="fecha-servicio" class="form-control flatpickr-basic flatpickr-input" placeholder="DD-MM-YYYY" name="fecha" required>
+    </div>
+  `,
       confirmButtonText: "Continuar",
       focusConfirm: false,
       preConfirm: () => {
@@ -1389,6 +1399,8 @@ async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
   var filter = matricula.filter((element) => element.id == id_estudiante);
+  console.log(filter)
+  console.log("HISTORIAL LIST")
   /**OBTENER HISTORIAL DE CAJA */
   historial = await fetch("/historia-caja-academy/" + id_estudiante)
     .then((response) => response.json())
@@ -1407,18 +1419,24 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").removeClass("btn-primary");
   $("#btn-descarga-titulo").attr("disabled", true);
 
+  let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
   for (let i = 0; i < historial.length; i++) {
-    fecha_pago_historial = moment(historial[i]["observacion"]).format(
-      "DD-MM-YYYY" );
+    console.log(historial)
+    let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
+    let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
+    fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );
     let lista = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Recargo</h6>
+      </div>
+      
       <p class="mb-tl">${fecha_pago_historial}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1431,15 +1449,14 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${moment(historial[i]["createdAt"]).format(
-        "DD-MM-YYYY"
-      )}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Inscripción</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${
-        filter[0]["grupo"]["identificador"]
-      }</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1452,11 +1469,14 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${historial[i]["observacion"]}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Cuota</h6><p class="text-capitalize mb-0">${text}</p>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
-      <p class="mb-tl"><strong> Grupo:</strong> <span>${filter[0]["grupo"]["identificador"]}</span></p>
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
       <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
     </div>
     <div class="d-flex justify-content-between">
@@ -1741,6 +1761,8 @@ const leccionActualGrupos = async () => {
 
     let prof = grupos[i].usuarioId ? grupos[i].usuario.nombre : 'No asignado'
 
+    let grupoIdentif = gruposTodos.filter(grupo => grupo.id === grupos[i].id)
+
     if (numLeccion) {
       jjaa = numLeccion;
     } else {
@@ -1770,7 +1792,7 @@ const leccionActualGrupos = async () => {
         ) {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
@@ -1783,7 +1805,7 @@ count++
         if (fstChar == "N" && fstChar2 == "N") {
           $(`#gruposAct`).append(`<tr>
     <td><div class="form-check"> <input class="form-check-input dt-checkboxes grupoSelected" name="grupoSelected" type="radio" value="${grupos[i]["id"]}" id="checkbox${grupos[i]["id"]}" onclick="grupoSelected(this.value)"/><label class="form-check-label" for="checkbox${grupos[i]["id"]}"></label></div></td>
-    <td>${grupos[i]["identificador"]}</td>
+    <td>${grupoIdentif[0].identificador}</td>
     <td>${jjaa}</td>
     <td>${grupos[i]["dia_horario"]}</td>
     <td>${grupos[i]["dia_pagos"]}</td>
@@ -1815,6 +1837,54 @@ function grupoSelected(valor) {
   $("#guarda-grupoNew").removeAttr("disabled");
 }
 
+function SetGrap (item, total, color) {
+  console.log(item, total, color) 
+  let options = {
+    chart: {
+      width: 100,
+      height: 100,
+      type: "radialBar"
+    },
+    
+    series: [total],
+    colors: [`${color}`],
+    
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          margin: 0,
+          size: "40%"
+        },
+        
+        dataLabels: {
+          showOn: "always",
+          name: {
+            offsetY: -10,
+            show: false,
+            color: "#888",
+            fontSize: "13px"
+          },
+          value: {
+            color: "#111",
+            fontSize: "16px",
+            show: false,
+          },
+        }
+      }
+    },
+  
+    stroke: {
+      lineCap: "round",
+    },
+    labels: ["Total"]
+  };
+
+  let chart = new ApexCharts(item, options);
+  if(chart !== null) {
+    chart.render();
+  }
+}
+
 async function ControlDetalles(id1, id2) {
   let url = `/controlMatricula/${id1}/${id2}`;
 
@@ -1822,10 +1892,65 @@ async function ControlDetalles(id1, id2) {
   status = await response.status,
   alumnoJson = await response.json();
 
-  $('#controlTitle').text($('#nombre-alumno').text())
+  $('#controlTitle').text($('#nombre-alumno').text());
+  $('#grupoNivel').val(alumnoJson.nivelActualGrupo);
+  $('#grupoNivel').trigger('change');
+
+  let valorAsistencia = 3.125
+  let leccionesAusentes = parseFloat(alumnoJson.ausentes * valorAsistencia).toFixed(2);
+  let totalAsis = parseFloat(100 - leccionesAusentes);
+  alumnoJson.leccion9 = alumnoJson.notas.filter(item => item.n_leccion == 9 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion17 = alumnoJson.notas.filter(item => item.n_leccion == 17 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion18 = alumnoJson.notas.filter(item => item.n_leccion == 18 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion25 = alumnoJson.notas.filter(item => item.n_leccion == 25 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion31 = alumnoJson.notas.filter(item => item.n_leccion == 31 && item.nivel === alumnoJson.nivelActualGrupo)
+  alumnoJson.leccion32 = alumnoJson.notas.filter(item => item.n_leccion == 32 && item.nivel === alumnoJson.nivelActualGrupo)
+  let totalNotas = alumnoJson.leccion9 + alumnoJson.leccion17 + alumnoJson.leccion18 + alumnoJson.leccion25 + alumnoJson.leccion31+ alumnoJson.leccion32 + alumnoJson.participacion;
+  let color1, color2;
+
+  if (totalAsis >= 80) {
+    color1 = "#28c76f"
+  } else {
+    color1 = "#82868b"
+  } 
+  
+  if (totalNotas >= 70) {
+    color2 = "#28c76f"
+  } else {
+    color2 = "#82868b"
+  } 
+
+  let asistenciaHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0 fw-bolder">Asistencias</h6>
+      <h6 class="m-0 card-text">${totalAsis}%</h6>
+    </div>
+    <div id="chartAsistencia${id1}"></div>
+  </div>`;
+  $('#col-asis').html(asistenciaHtml)
+
+  let item1 = document.querySelector(`#chartAsistencia${id1}`);
+  if(item1) {
+    SetGrap(item1, totalAsis, color1);
+  }
+
+  let notasHtml = `
+  <div class="d-flex align-items-center">
+    <div class="d-flex align-items-center flex-column justify-content-center">
+      <h6 class="m-0 fw-bolder">Calificación</h6>
+      <h6 class="m-0 card-text">${totalNotas}%</h6>
+    </div>
+    <div id="chartNota${id1}"></div>
+  </div>`;
+  $('#col-notas').html(notasHtml)
+
+  let item2 = document.querySelector(`#chartNota${id1}`);
+  if(item2) {
+    SetGrap(item2, totalNotas, color2);
+  }
   $('#tablaControl').html('');
 
-  console.log(alumnoJson)
   let arrayLeccionesAusentes = alumnoJson.fechaLeccionesAusentes, leccion = alumnoJson.leccActual
   
   if(status === 200) {
@@ -1843,6 +1968,7 @@ async function ControlDetalles(id1, id2) {
         });
         /*console.log(notaLeccion);
         console.log("NOTA LECCION");*/
+      
         if (notaLeccion > 7) {
           color = 'badge-light-success'
         } else {
@@ -1865,18 +1991,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -1901,18 +2028,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 
@@ -1939,18 +2067,19 @@ async function ControlDetalles(id1, id2) {
           `
             <div class="d-flex flex-column pb-0">
 
-              <div class="d-flex align-items-center mb-1">
-                <span class="me-1 fw-bolder">Lección ${num}</span>
-              </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="d-flex align-items-center me-1 me-lg-2">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
 
-              <div class="d-flex align-items-end">
-                <div class="">
+                <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
                     <span class="emp_post">23-12-2022</span>
 
                 </div>
-                <div class="mx-2 text-center">
+                <div class="me-1 me-lg-2 text-center">
                 
                     <span class="emp_post fw-bolder">Asistencia</span><br>
 

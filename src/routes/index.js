@@ -605,6 +605,7 @@ router.get('/controlgrupo/:id/:grupoid', authControllerPY672.authenticatedUser, 
 router.get('/historial/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.historial);
 router.get('/caja/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.caja);
 router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.usuarios);
+router.get('/manag-user/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.managUsuarios);
 router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
 
@@ -693,6 +694,11 @@ router.get('/cargarExcel/:grupoId/:fileName/:text', authControllerPY672.authenti
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
 // * GENERAR COMPROBANTE PDF DE REGISTRO
 router.get('/comprobante/:id', dashboardControllerPY672.generarRegistroPDF);
+
+// * OBTENER CONTRASEÑA DE USUARIO
+//router.get('/getPasswordUser/:id', dashboardControllerPY672.getPasswordUser);
+// * CAMBIAR CONTRASEÑA DE USUARIO
+router.post('/changePasswordUser', dashboardControllerPY672.changePasswordUser);
 
 
 /*------------ PYT-672-----------------*/
