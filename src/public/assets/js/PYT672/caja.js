@@ -43,11 +43,11 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
-
+    console.log(filter)
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
 
     $("#nombre-alumno").text(filter[0]["nombre"]);
-    $("#nivel-grupo-alumno").text(filter[0]["grupo"]["codigo_nivel"]);
+    $("#nivel-grupo-alumno").text(filter[0]["grupo"] ? filter[0]["grupo"]["codigo_nivel"] : "");
 
     $("#grupo-alumno").text(grupoIdentif[0].identificador);
 
@@ -1398,6 +1398,8 @@ async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
   var filter = matricula.filter((element) => element.id == id_estudiante);
+  console.log(filter)
+  console.log("HISTORIAL LIST")
   /**OBTENER HISTORIAL DE CAJA */
   historial = await fetch("/historia-caja-academy/" + id_estudiante)
     .then((response) => response.json())
@@ -1418,13 +1420,18 @@ async function updateHistorial(id_estudiante) {
 
   let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
   for (let i = 0; i < historial.length; i++) {
-    fecha_pago_historial = moment(historial[i]["observacion"]).format(
-      "DD-MM-YYYY" );
+    console.log(historial)
+    let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
+    let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
+    fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );
     let lista = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Recargo</h6>
+      </div>
+      
       <p class="mb-tl">${fecha_pago_historial}</p>
     </div>
     <div class="d-flex justify-content-between">
@@ -1441,10 +1448,11 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${moment(historial[i]["createdAt"]).format(
-        "DD-MM-YYYY"
-      )}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Inscripción</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
       <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
@@ -1460,8 +1468,11 @@ async function updateHistorial(id_estudiante) {
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
-      <h6>${historial[i]["concepto"]}</h6>
-      <p class="mb-tl">${historial[i]["observacion"]}</p>
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Cuota</h6><p class="text-capitalize mb-0">${text}</p>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
     </div>
     <div class="d-flex justify-content-between">
       <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
