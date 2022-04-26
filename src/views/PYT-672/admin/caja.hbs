@@ -61,7 +61,7 @@
                     <div class="card">
                         <div class="row m-0 mt-1 justify-content-end">
                             <!-- FILTRO -->
-                            <div class="col-12" >
+                            <div class="col-12 mb-1">
                                 <!--<label class="form-label" for="fp-default">Alumnos:</label>-->
                                 
                                 <select class="select2 form-select alumno-select sizeOption" tabindex="-1" name="alumno"
@@ -81,10 +81,6 @@
                         <div class="modal-body pb-5 px-sm-2 pt-50">
                             <div class="col-12">
                                 <div class="card">
-                                    <div class="card-header d-flex justify-content-start px-0">
-                                        <div class="">
-                                        </div>
-                                    </div>
                                     <div class="card-body p-0">
                                         <form action="#" class="invoice-repeater">
                                             <div data-repeater-list="invoice">
@@ -796,24 +792,37 @@
 
             <!--/ Modal Control-->
             <div class="modal fade" id="controlModal" tabindex="-1" aria-modal="true" role="dialog">
-                <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-dialog modal-dialog-centered modal-md">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body pb-3 px-sm-3">
-                            <div class="row m-0 align-items-center">
-                                <div class="col-12 col-lg-6 p-0">
-                                    <h1 class="mb-1 h3" id="controlTitle"></h1>
-                                    <h5 class="mb-1 mb-lg-0">Nivel: <span id="grupoNivel"></span></h1>
-                                </div>
-                                <div class="col-12 col-lg-6 p-0">
-                                    <div id="asistenciasNotas" class="d-flex align-items-center">
-                                        <div id="col-asis"></div>
-                                        <div id="col-notas"></div>
+                            <div class="card card-body">
+                                <div class="row m-0 align-items-center justify-content-center">
+                                    <div class="col-12 p-0">
+                                        <div class="row m-0 align-items-center">
+                                            <div class="col-12 col-md-9 p-0 mb-1 mb-lg-0">
+                                                <h1 class="h4 fw-bolder mb-0" id="controlTitle"></h1>
+                                            </div>
+                                            <div class="col-12 col-md-3 p-0">
+                                                <select name="nivel" id="grupoNivel" class="form-select select2">
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 p-0">
+                                        <div id="asistenciasNotas" class="d-flex align-items-center justify-content-between">
+                                            <div id="col-asis"></div>
+                                            <div id="col-notas"></div>
+                                        </div>
                                     </div>
                                 </div>
-                                <hr>
+            
                             </div>
 
                             <div class="row m-0">
@@ -837,7 +846,7 @@
         </div>
     </div>
 </div>
-<input type="text" id="countGrupos">
+<input type="text" class="d-none" id="countGrupos">
 <form id="form-reg-pago" hidden>
 </form>
 <form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>

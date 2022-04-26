@@ -1372,7 +1372,7 @@ table tr td {
     font-family: 'Conthrax Sb';
     color: #04246d !important;
     font-weight: 700;
-    transition: rgb(186, 223, 253)e all;
+    transition: rgb(186, 223, 253) ease all;
 }
 
 .py27.es .main-menu.menu-light .navigation>li.active>a {
@@ -2487,6 +2487,11 @@ table tr td {
 .BCR:checked {
     background-color: blue;
     border: blue;
+}
+
+.EFE:checked {
+    background-color: rgb(153, 53, 53);
+    border: rgb(153, 53, 53);
 }
 
 .BAC:checked {
