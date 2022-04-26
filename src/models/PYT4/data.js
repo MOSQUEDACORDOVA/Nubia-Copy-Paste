@@ -1125,7 +1125,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ],order: [
+    ],limit: 600, order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
@@ -1148,7 +1148,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ],order: [
+    ], limit: 600 ,order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
