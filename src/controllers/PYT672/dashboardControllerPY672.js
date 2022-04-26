@@ -2441,12 +2441,14 @@ exports.getPasswordUser = (req, res) => {
 
 // * CAMBIAR CONTRASEÑA DE USUARIO
 exports.changePasswordUser = (req, res) => {
-  let { idUser, password } = req.body
+  let { password } = req.body
+  let idUser = res.locals.user.id
+  console.log(res.locals)
   console.log(req.body)
 
   DataBase.ChangePasswordUser(idUser, password).then((response) => {
     console.log(response)
-    
+
     return res.redirect('/manag-user/PYT-672')
 
   }).catch((err) => {
