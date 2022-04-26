@@ -11,8 +11,8 @@
  ///Custom filtering function which will search data in column four between two values
  $.fn.dataTable.ext.search.push(
      function( settings, data, dataIndex ) {
-         var min = minDate.val();
-         var max = maxDate.val();
+         var min = minDate2.val();
+         var max = maxDate2.val();
        
 
      let f = data[9]
