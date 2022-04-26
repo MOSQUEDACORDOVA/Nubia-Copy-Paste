@@ -1,1 +1,2209 @@
-"use strict";var minDate,maxDate,minDate2,maxDate2,zonas,copyReady,array_pedido,separator=" - ",rangePickr=$(".flatpickr-range"),dateFormat="MM/DD/YYYY",options={autoUpdateInput:!1,autoApply:!0,locale:{format:dateFormat,separator:separator},opens:"rtl"===$("html").attr("data-textdirection")?"left":"right"};rangePickr.length&&rangePickr.flatpickr({mode:"range",dateFormat:"m/d/Y",onClose:function(t,e,a){var n="",o=new Date;null!=t[0]&&(n=t[0].getMonth()+1+"/"+t[0].getDate()+"/"+t[0].getFullYear(),$(".start_date").val(n)),null!=t[1]&&(o=t[1].getMonth()+1+"/"+t[1].getDate()+"/"+t[1].getFullYear(),$(".end_date").val(o)),$(rangePickr).trigger("change").trigger("keyup")}});var filterByDate=function(t,e,a){$.fn.dataTable.ext.search.push(function(n,o,l){normalizeDate(o[t]),normalizeDate(e),normalizeDate(a);var r=minDate2.val(),i=maxDate2.val();let s=o[10].split("-");var d=moment(s[1],"DD/MM/YYYY").format("MM/DD/YYYY"),c=new Date(d);return null===r&&null===i||null===r&&c<=i||r<=c&&null===i||r<=c&&c<=i})},normalizeDate=function(t){var e=new Date(t);return e.getFullYear()+""+("0"+(e.getMonth()+1)).slice(-2)+("0"+e.getDate()).slice(-2)};async function cargaTablas(t){zonas=await fetch("/obtenerzonaspy4").then(t=>t.json()).then(t=>t.zonas);let e=$("#array_pedido").val(),a="";a=t?JSON.parse(e):JSON.parse(e.replace(/&quot;/g,'"'));let n=$("#array_cp").val(),o=JSON.parse(n.replace(/&quot;/g,'"')),l=a.filter(t=>"En proceso"==t.status_pedido||"Reprogramado"==t.status_pedido||"Por entregar"==t.status_pedido||"Devuelto"==t.status_pedido),r=a.filter(t=>"Entregado"==t.status_pedido||"Reasignado"==t.status_pedido||"Cancelado"==t.status_pedido);var i=$(".datatables-basic"),s=$(".datatables-basic2");minDate=new DateTime($("#min"),{format:"DD/MM/YYYY"}),maxDate=new DateTime($("#max"),{format:"DD/MM/YYYY"}),minDate2=new DateTime($("#min1"),{format:"DD/MM/YYYY"}),maxDate2=new DateTime($("#max1"),{format:"DD/MM/YYYY"});if(i.length){$(".dt-column-search thead tr").clone(!0).appendTo(".dt-column-search thead"),$(".dt-column-search thead tr:eq(1) th").each(function(t){var e=$(this).text();$(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar '+e+'" id="P'+e+t+'"/>'),$("input",this).on("keyup",function(){let e=this.value;$("#filterPosition").val(this.id),$("#filterValue").val(this.value),d.column(t).search()!==this.value?d.column(t).search(this.value).draw():d.column(t).search(e).draw()})}),$(".select_chofer_pedidos").on("change",function(){d.column(12).search(this.value).draw()}),$(".select_etiqueta_pedidos").on("change",function(){d.search(this.value).draw()}),copyReady=await fetch("/shareStatusPY4/").then(t=>t.json()).then(t=>t.findStatusCompartir);var d=i.DataTable({data:l,columns:[{data:"id"},{data:"id"},{data:"sucursaleId"},{data:"cliente.firstName"},{data:"total_garrafones_pedido"},{data:"monto_total"},{data:"deuda_anterior"},{data:"status_pedido"},{data:"status_pago"},{data:"metodo_pago"},{data:"fecha_pedido"},{targets:-1,title:"Opciones",orderable:!1,render:function(t,e,a,n){let l=parseInt(JSON.parse(a.botella1L).refill_cant)+parseInt(JSON.parse(a.botella5L).refill_cant)+parseInt(JSON.parse(a.garrafon11L).refill_cant)+parseInt(JSON.parse(a.garrafon19L).refill_cant),r=parseInt(JSON.parse(a.botella1L).canje_cant)+parseInt(JSON.parse(a.botella5L).canje_cant)+parseInt(JSON.parse(a.garrafon11L).canje_cant)+parseInt(JSON.parse(a.garrafon19L).canje_cant),i=parseInt(JSON.parse(a.botella1L).nuevo_cant)+parseInt(JSON.parse(a.botella5L).nuevo_cant)+parseInt(JSON.parse(a.garrafon11L).nuevo_cant)+parseInt(JSON.parse(a.garrafon19L).nuevo_cant),s="";for(let t=0;t<o.length;t++)o[t].id==a.cliente.cpId&&(s=o[t].asentamiento);if($("#otro_rol").length>0){let t=moment().format("DD/MM/YYYY"),e=moment(a.fecha_pedido).format("DD/MM/YYYY");var d=moment(t).isAfter(e)}let c="";1==d&&(c="d-none");let h="";for(let t=0;t<copyReady.length;t++)a.id==copyReady[t].idPedido&&moment().isSame(moment(copyReady[t].createdAt),"d")&&(h="style='background-color: #001871; color: white;'");return'<div class="d-inline-flex"><a href="javascript:;" class="'+a.id+" dropdown-item delete-record"+a.id+'" onclick=\'delete_pedido("'+a.id+'",".datatables-basic")\'>'+feather.icons["trash-2"].toSvg({class:"font-small-4 "+a.id})+'</a><a href="javascript:;" class="'+a.id+" dropdown-item "+c+'" onclick=\'edit_pedido("'+a.id+"\")'>"+feather.icons["file-text"].toSvg({class:"font-small-4 "+a.id})+'</a><a href="javascript:;" '+h+' class="'+a.id+" dropdown-item share_record"+a.id+'" onclick=\'share_record("'+a.id+"\")'>"+feather.icons["share-2"].toSvg({class:"font-small-4 "+a.id})+"</a>"+`<p id="CopyPedido${a.id}" class="d-none">\n--------------------------------------------------------------\n#Pedido:${a.id} -\nCliente:  ${a.cliente.firstName} ${a.cliente.lastName}.\nDirección: ${s}, Coto ${a.cliente.coto}, Casa ${a.cliente.casa},Calle ${a.cliente.calle}, Avenida ${a.cliente.avenida}.\nReferencia:${a.cliente.referencia}.\nRf:${l}.\nCJ: ${r}.\nEnv: ${i}.\nTipo Pago:${a.metodo_pago}\nDeuda anterior: ${a.deuda_anterior}\nGarrafones prestados: ${a.garrafones_prestamos}\nObservaciones:${a.observacion}\n</p>`}},{data:"personal.name"},{data:"cliente.cpId"}],columnDefs:[{visible:!1,targets:12},{targets:0,orderable:!1,searchable:!1,responsivePriority:3,render:function(t,e,a,n){return'<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+t+'" id="checkbox'+t+'" /><label class="form-check-label" for="checkbox'+t+'"></label></div>'},checkboxes:{selectAllRender:'<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'}},{visible:!1,targets:13,render:function(t,e,a){let n="";for(let t=0;t<o.length;t++)o[t].id==a.cliente.cpId&&(n=o[t].asentamiento);return n}},{targets:1,render:function(t,e,a,n){var o,l="",r="";return null==a.cliente.etiqueta?(l=0,r="black",o=""):(l=a.cliente.etiqueta.color,r="white",o=a.cliente.etiqueta.etiquetas),`<span class="d-none">${o}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${l}; color:${r}"> ${a.id}</span>`}},{targets:2,render:function(t,e,a,n){for(let e=0;e<zonas.length;e++)if(zonas[e].id==t)var o=encodeURIComponent(JSON.stringify(zonas[e]));return`<span class="zona" style="cursor:pointer;" data-arrzona="${o}">${t}</span>`}},{targets:3,render:function(t,e,a,n){let l="";for(let t=0;t<o.length;t++)o[t].id==a.cliente.cpId&&(l=o[t].asentamiento);var r=a.cliente.tipo,i={Residencial:{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:"badge-light-info"},"Punto de venta":{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:" badge-light-success"},Negocio:{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:" badge-light-danger"}};if(void 0===i[r])return t;var s=encodeURIComponent(JSON.stringify(a.cliente));return null==a.cliente.etiqueta?(0,"black"):(a.cliente.etiqueta.color,"white"),`<span class="d-none">${l}</span><span class="hover_cliente badge rounded-pill ${i[r].class}" data-id="${a.cliente.id}" data-arraycliente="${s}" data-title="Datos de ${a.cliente.firstName}" >${i[r].title}</span><span class="d-none">${a.cliente.calle} ${a.cliente.casa} ${a.cliente.avenida}</span>`}},{targets:4,className:"to_garra",render:function(t,e,a,n){let o=parseInt(t)-parseInt(a.total_obsequio_pedido);return'<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad" data-id="'+a.cliente.id+'" data-rfeill="'+a.total_refill_pedido+'" data-total="'+t+'" data-canje="'+a.total_canje_pedido+'" data-env="'+a.total_nv_pedido+'" data-obsequio="'+a.total_obsequio_pedido+'" data-title="Detalle garrafones"  style="cursor:pointer;" >'+o+"</span>"}},{targets:5,render:function(t,e,a,n){let o,l=0,r=0,i=0,s=0,d=0,c=0;return l=35*parseFloat(a.total_refill_pedido),"Negocio"!=a.cliente.tipo&&"Punto de venta"!=a.cliente.tipo||(l=parseFloat(a.total_refill_pedido)*parseFloat(a.cliente.monto_nuevo)),r=55*parseFloat(a.total_canje_pedido),i=105*parseFloat(a.total_nv_pedido),c=a.deuda_anterior,s=a.descuento,o=t,d=parseFloat(t)-parseFloat(s),'<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+a.cliente.id+'" data-rfeill="'+l+'" data-total="'+t+'" data-canje="'+r+'" data-env="'+i+'" data-obsequio="'+a.total_obsequio_pedido+'" data-descuento="'+s+'" data-title="Detalle monto total" data-sindesc="'+o+'" data-condesc="'+d+'" data-adeudo="'+c+'" style="cursor:pointer;" >$'+d+"</span>"}},{targets:6,render:function(t,e,a,n){return'<span class="badge rounded-pill badge-light-danger " >$'+t+"</span>"}},{targets:7,render:function(t,e,a,n){var o=a.status_pedido,l={Devuelto:{title:"En proceso",class:"badge-light-primary"},"Por entregar":{title:"Por entregar",class:" badge-light-yellow"},Devuelto:{title:"Devuelto",class:" badge-light-danger"},Reprogramado:{title:"Reprogramado",class:" badge-light-warning"},"En proceso":{title:"En proceso",class:" badge-light-info"}};return void 0===l[o]?t:'<span class="badge rounded-pill '+l[o].class+'" style="cursor:pointer"   onclick=\'cambioSP("'+a.id+'","'+a.status_pedido+'")\' data-status="'+a.status_pedido+'" data-id="'+a.id+'">'+l[o].title+"</span>"}},{targets:8,render:function(t,e,a,n){var o=a.status_pago,l={Pagado:{title:"Pagado",class:"badge-light-success"},"Por verificar":{title:"Por verificar",class:" badge-light-yellow"}};return void 0===l[o]?t:'<span class="badge rounded-pill '+l[o].class+'" style="cursor:pointer" onclick=\'cambioPago("'+a.id+'","'+a.status_pago+'","'+a.fecha_pedido+'","'+a.monto_total+"\")'>"+l[o].title+"</span>"}},{targets:10,className:"fecha_pedido",render:function(t,e,a){return`<span class="d-none">${moment(t).format("YYYYMMDD")}-</span>${moment(t).format("DD/MM/YYYY")}`}}],order:[[10,"desc"],[12,"asc"],[3,"asc"]],dom:'<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',orderCellsTop:!0,displayLength:10,lengthMenu:[7,10,25,50,75,100],initComplete:function(t,e){var a=this.api();$("#otro_rol").length>0&&a.column(2).visible(!1)},drawCallback:function(t){let e=0;$(".datatables-basic").dataTable().$(".cantidad").each(function(){"-"==$(this).text()||(e+=parseFloat($(this).text()))}),$("#example_info").append(`<span> / Total garrafones: ${e} </span>`);var a=this.api(),n=a.rows({page:"current"}).nodes(),o=null,l=0;a.column(12,{page:"current"}).data().each(function(t,e){o!==t&&($(n).eq(e).before('<tr class="group"><td colspan="12"><i class="fas fa-truck me-1"></i>                '+t+"</td></tr>"),o=t)}),a.column(4,{page:"current"}).data().each(function(t,e){l+=parseInt(t)}),$("tfoot .to_garra").text(l)},language:{decimal:"",emptyTable:"No hay información",info:"Total _TOTAL_ registros",infoEmpty:"Total _TOTAL_ registros",infoFiltered:"(Filtrado de _MAX_ registros totales)",infoPostFix:"",thousands:",",lengthMenu:"Mostrar _MENU_ Entradas",loadingRecords:"Cargando...",processing:"Procesando...",search:"Buscar:",zeroRecords:"Sin resultados encontrados",paginate:{previous:"&nbsp;",next:"&nbsp;"}}});$("#min1, #max1").on("change",function(){filterByDate(10),d.draw()})}if(s.length){let t=10;$(".dt-column-search2 thead tr").clone(!0).appendTo(".dt-column-search2 thead"),$(".dt-column-search2 thead tr:eq(1) th").each(function(t){var e=$(this).text();$(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar '+e+'" id="V'+e+t+'"/>'),$("input",this).on("keyup",function(){$("#filterPosition").val(this.id),$("#filterValue").val(this.value),c.column(t).search()!==this.value&&c.column(t).search(this.value).draw()})}),$(".select_chofer_ventas").on("change",function(){c.column(10).search(this.value).draw()}),$(".select_etiqueta_ventas").on("change",function(){c.search(this.value).draw()});var c=s.DataTable({data:r,columns:[{data:"id"},{data:"sucursaleId"},{data:"cliente.firstName"},{data:"total_garrafones_pedido"},{data:"monto_total"},{data:"status_pedido"},{data:"status_pago"},{data:"metodo_pago"},{data:"fecha_pedido"},{targets:-1,title:"Opciones",orderable:!1,render:function(t,e,a,n){if($("#otro_rol").length>0){let t=moment().format("DD/MM/YYYY"),e=moment(a.fecha_pedido).format("DD/MM/YYYY");var o=moment(t).isAfter(e)}let l="";return 1==o&&(l="d-none"),'<div class="d-inline-flex"><a href="javascript:;" class="'+a.id+" dropdown-item delete-record"+a.id+'" onclick=\'delete_pedido("'+a.id+'",".datatables-basic2")\'>'+feather.icons["trash-2"].toSvg({class:"font-small-4 "+a.id})+'</a><a href="javascript:;" class="'+a.id+" dropdown-item "+l+'" onclick=\'edit_pedido("'+a.id+"\")'>"+feather.icons["file-text"].toSvg({class:"font-small-4 "+a.id})+"</a>"}},{data:"personal.name"},{data:"cliente.cpId"}],columnDefs:[{visible:!1,targets:t},{visible:!1,targets:11,render:function(t,e,a){let n="";for(let t=0;t<o.length;t++)o[t].id==a.cliente.cpId&&(n=o[t].asentamiento);return n}},{targets:0,render:function(t,e,a,n){encodeURIComponent(JSON.stringify(a.cliente));var o,l="",r="";return null==a.cliente.etiqueta?(l=0,r="black",o=""):(l=a.cliente.etiqueta.color,r="white",o=a.cliente.etiqueta.etiquetas),`<span class="d-none">${o}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${l}; color:${r}"> ${a.id}</span>`}},{targets:1,render:function(t,e,a,n){for(let e=0;e<zonas.length;e++)if(zonas[e].id==t)var o=encodeURIComponent(JSON.stringify(zonas[e]));return`<span class="zona" style="cursor:pointer;" data-arrzona="${o}">${t}</span>`}},{targets:2,render:function(t,e,a,n){let l="";for(let t=0;t<o.length;t++)o[t].id==a.cliente.cpId&&(l=o[t].asentamiento);var r=a.cliente.tipo,i={Residencial:{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:"badge-light-info"},"Punto de venta":{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:" badge-light-success"},Negocio:{title:a.cliente.firstName+" "+a.cliente.lastName+" / "+l,class:" badge-light-danger"}};if(void 0===i[r])return t;var s=encodeURIComponent(JSON.stringify(a.cliente));return null==a.cliente.etiqueta?(0,"black"):(a.cliente.etiqueta.color,"white"),`<span class="d-none">${l}</span><span class="hover_cliente badge rounded-pill ${i[r].class}" data-id="${a.cliente.id}" data-arraycliente="${s}" data-title="Datos de ${a.cliente.firstName}" >${i[r].title}</span><span class="d-none">${a.cliente.calle} ${a.cliente.casa} ${a.cliente.avenida}</span>`}},{targets:3,className:"to_garra2",render:function(t,e,a,n){let o=parseInt(t)-parseInt(a.total_obsequio_pedido);return'<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad"  data-id="'+a.cliente.id+'" data-rfeill="'+a.total_refill_pedido+'" data-total="'+t+'" data-canje="'+a.total_canje_pedido+'" data-env="'+a.total_nv_pedido+'" data-obsequio="'+a.total_obsequio_pedido+'" data-title="Detalle garrafones"   style="cursor:pointer;" >'+o+"</span>"}},{targets:4,render:function(t,e,a,n){let o,l=0,r=0,i=0,s=0,d=0;return l=35*parseFloat(a.total_refill_pedido),r=55*parseFloat(a.total_canje_pedido),i=105*parseFloat(a.total_nv_pedido),s=a.descuento,o=t,d=parseFloat(t)-parseFloat(s),'<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+a.cliente.id+'" data-rfeill="'+l+'" data-total="'+t+'" data-canje="'+r+'" data-env="'+i+'" data-obsequio="'+a.total_obsequio_pedido+'" data-descuento="'+s+'" data-title="Detalle monto total" data-sindesc="'+o+'" data-condesc="'+d+'" style="cursor:pointer;" >$'+d+"</span>"}},{targets:5,render:function(t,e,a,n){var o=a.status_pedido,l={Reasignado:{title:"Reasignado",class:"badge-light-primary"},Entregado:{title:"Entregado",class:" badge-light-success"},Cancelado:{title:"Devuelto",class:" badge-light-danger",motivo:" motivo_hover"}};return void 0===l[o]?t:'<span class="badge rounded-pill'+l[o].class+" "+l[o].motivo+'" style="cursor:pointer"   data-status="'+a.status_pedido+'" data-motivo="'+a.motivo+'" data-id="'+a.id+'" onclick=\'cambioSP("'+a.id+'","'+a.status_pedido+"\")'>"+l[o].title+"</span>"}},{targets:6,render:function(t,e,a,n){var o=a.status_pago,l={Pagado:{title:"Pagado",class:"badge-light-success"},"Por verificar":{title:"Por verificar",class:" badge-light-yellow"}};return void 0===l[o]?t:'<span class="badge rounded-pill '+l[o].class+'" style="cursor:pointer" onclick=\'cambioPago("'+a.id+'","'+a.status_pago+'","'+a.fecha_pedido+'","'+a.monto_total+"\")'>"+l[o].title+"</span>"}},{targets:8,render:function(t){return`<span class="d-none">${moment(t).format("YYYYMMDD")}</span>${moment(t).format("DD/MM/YYYY")}`}}],order:[[8,"desc"],[10,"asc"],[2,"asc"]],dom:'<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',orderCellsTop:!0,displayLength:10,lengthMenu:[7,10,25,50,75,100],initComplete:function(t,e){var a=this.api();$("#otro_rol").length>0&&a.column(1).visible(!1)},drawCallback:function(e){let a=0;$(".datatables-basic2").dataTable().$(".cantidad").each(function(){"-"==$(this).text()||(a+=parseFloat($(this).text()))}),$("#ventas-table_info").append(`<span> / Total garrafones: ${a} </span>`);var n=this.api(),o=n.rows({page:"current"}).nodes(),l=null;let r=0;n.column(t,{page:"current"}).data().each(function(t,e){l!==t&&($(o).eq(e).before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>'+t+"</td></tr>"),l=t)}),n.column(3,{page:"current"}).data().each(function(t,e){r+=parseInt(t)}),$("tfoot .to_garra2").text(r)},language:{decimal:"",emptyTable:"No hay información",info:"Total _TOTAL_ registros",infoEmpty:"Total _TOTAL_ registros",infoFiltered:"(Filtrado de _MAX_ registros totales)",infoPostFix:"",thousands:",",lengthMenu:"Mostrar _MENU_ Entradas",loadingRecords:"Cargando...",processing:"Procesando...",search:"Buscar:",zeroRecords:"Sin resultados encontrados",paginate:{previous:"&nbsp;",next:"&nbsp;"}}});$("div.head-label").html('<h6 class="mb-0">DataTable with Buttons</h6>'),$("#min, #max").on("change",function(){c.draw()})}}function filterColumn(t,e){if(5==t){var a=$(".start_date").val(),n=$(".end_date").val();""!==a&&""!==n&&filterByDate(t,a,n),""==a&&""==n&&location.reload(),$(".datatables-basic").dataTable().fnDraw()}else $(".datatables-basic").DataTable().column(t).search(e,!1,!0).draw()}async function copyToClipboard(t,e){var a=$("<textarea>");$("body").append(a),a.val($(t).html().replace(/<br\s*[\/]?>/gi,"\r\n")).select(),document.execCommand("copy"),a.remove(),await fetch("/ChangeshareStatusPY4/"+e).then(t=>t.json()).then(t=>{console.log(t),$(`.share_record${e}`).attr("style","background-color: #001871; color: white;")}),Swal.fire("Pedido copiado en el portapapeles")}function copyToClipboardVarios(t){if($("#checkboxSelectAll").is(":checked"))t.shift();var e=$("<textarea>"),a=/<br\s*[\/]?>/gi;$("body").append(e);for(let n=0;n<t.length;n++){array[n];e.append($(`#CopyPedido${t[n]}`).html().replace(a,"\r\n")).select()}document.execCommand("copy"),e.remove(),Swal.fire("Pedido copiado en el portapapeles")}function filterColumn2(t,e){if(5==t){var a=$(".start_date2").val(),n=$(".end_date2").val();""!==a&&""!==n&&filterByDate(t,a,n),$(".datatables-basic2").dataTable().fnDraw()}else $(".datatables-basic2").DataTable().column(t).search(e,!1,!0).draw()}async function cambioSP(t,e){const{value:a}=await Swal.fire({title:"Seleccione un nuevo Status",input:"select",inputOptions:{Entregado:"Entregado",Cancelado:"Cancelado",Reprogramado:"Reprogramado","Por entregar":"Por entregar"},inputPlaceholder:"Seleccione un nuevo Status",showCancelButton:!0,inputValidator:t=>new Promise(a=>{console.log(t),"Reprogramado"===t?a():t===e?a("Debe seleccionar un estado diferente"):a()})});if(a){if(a){var n,o;if("Cancelado"==a){const{value:t}=await Swal.fire({title:"Indique el motivo",input:"text",inputPlaceholder:"Motivo",showCancelButton:!0,inputValidator:t=>new Promise(e=>{t?e():e("Debe colocar un motivo")})});if(!t)return void Swal.fire("Debe llenar todos los campos, por favor!");n=t}if("Reprogramado"==a){const{value:t}=await Swal.fire({title:"Indique la fecha",html:'<input id="swal-input1" class="swal2-input" type="date">',focusConfirm:!1,preConfirm:()=>{return Swal.getPopup().querySelector("#swal-input1").value||Swal.showValidationMessage("Debe llenar todos los campos, por favor!"),[document.getElementById("swal-input1").value]}});if(!t)return void Swal.fire("Debe llenar todos los campos, por favor!");o=t}const e=new FormData;e.append("id",t),e.append("status",a),e.append("motivo",n),e.append("fecha_re",o),$.ajax({url:"/cambiaS_pedido",type:"POST",data:e,cache:!1,contentType:!1,processData:!1,success:async function(t,e,a){console.log(t),$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$("#carga_").val(JSON.stringify(t.carga_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n<tr>                                                \n    <th></th>\n    <th>#Pedido</th>\n    <th></th>\n    <th class="cliente">Cliente</th>\n    <th>To. garr.</th>\n    <th>Monto Total</th>\n    <th>Adeudo</th>\n    <th>Status del Pedido</th>\n    <th>Status de Pago</th>\n    <th>Forma de Pago</th>\n    <th>Fecha</th>\n    <th>Opciones</th>\n    <th>oculto choferes </th> \n    <th>oculto asentamiento </th> \n</tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n<tr>\n    <th>Nº Pedido</th>\n    <th></th>\n    <th>Cliente</th>\n    <th>Total garrafones</th>\n    <th>Monto Total</th>\n    <th>Status del Pedido</th>\n    <th>Status de Pago</th>\n    <th>Metodo de Pago</th>\n    <th>Fecha</th>\n    <th>Opciones</th>\n    <th>oculto choferes </th> \n<th>oculto asentamiento </th> \n</tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),await cargaTablas("si").then(()=>{""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")}),$(".datatables-resumen").dataTable().fnDestroy(),$(".datatables-resumen").empty(),$(".datatables-resumen").html("<thead>\n<tr>\n    <th>Carga Inicial</th>\n    <th>Pedidos</th>\n    <th>Entregados</th>\n    <th>Pendientes</th>                                                \n\n<th>oculto choferes </th>  \n</tr>\n</thead>"),cargaTableResumen("si"),""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")},error:function(t,e){console.log("error:"+t)}})}}else Swal.fire("Debe llenar todos los campos, por favor!")}async function cambioPago(t,e,a,n){if(moment().isSame(a,"day")){const{value:a}=await Swal.fire({title:"Seleccione un nuevo Status",input:"select",inputOptions:{Pagado:"Pagado","Por verificar":"Por verificar"},inputPlaceholder:"Seleccione un nuevo Status",showCancelButton:!0,inputValidator:t=>new Promise(a=>{t===e?a("Debe seleccionar un estado diferente"):a()})});if(a){const e=new FormData;e.append("id",t),e.append("status",a),$.ajax({url:"/cambia_S_pago",type:"POST",data:e,cache:!1,contentType:!1,processData:!1,success:async function(t,e,a){$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n    <tr>                                                \n        <th></th>\n        <th>#Pedido</th>\n        <th></th>\n        <th class="cliente">Cliente</th>\n        <th>To. garr.</th>\n        <th>Monto Total</th>\n        <th>Adeudo</th>\n        <th>Status del Pedido</th>\n        <th>Status de Pago</th>\n        <th>Forma de Pago</th>\n        <th>Fecha</th>\n        <th>Opciones</th>\n        <th>oculto choferes </th> \n        <th>oculto asentamiento </th> \n    </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n    <tr>\n        <th>Nº Pedido</th>\n        <th></th>\n        <th>Cliente</th>\n        <th>Total garrafones</th>\n        <th>Monto Total</th>\n        <th>Status del Pedido</th>\n        <th>Status de Pago</th>\n        <th>Metodo de Pago</th>\n        <th>Fecha</th>\n        <th>Opciones</th>\n        <th>oculto choferes </th> \n    <th>oculto asentamiento </th> \n    </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),await cargaTablas("si").then(()=>{""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")})},error:function(t,e){console.log("error:"+t)}})}}else{let a=$("#choferes").val(),s=JSON.parse(a.replace(/&quot;/g,'"')),d=[];for(let t=0;t<s.length;t++)d.push({id:s[t].id,name:s[t].name+" "+s[t].lastName});var o={};$.map(d,function(t){o[t.id]=t.name});const{value:c}=await Swal.fire({title:"Seleccione un nuevo Status",input:"select",inputOptions:{Pagado:"Pagado","Por verificar":"Por verificar"},inputPlaceholder:"Seleccione un nuevo Status",showCancelButton:!0,inputValidator:t=>new Promise(a=>{t===e?a("Debe seleccionar un estado diferente"):a()})});if(c){var l,r,i;if("Pagado"==c){const{value:t}=await Swal.fire({title:"Indique el tipo",input:"select",inputOptions:{Efectivo:"Efectivo",Tarjeta:"Tarjeta",Transferencia:"Transferencia"},inputPlaceholder:"tipo",showCancelButton:!0,inputValidator:t=>new Promise(e=>{t?e():e("Debe colocar un tipo")})});if(!t)return void Swal.fire("Debe llenar todos los campos, por favor!");l=t}if("Efectivo"==l){const{value:t}=await Swal.fire({title:"Indique el chofer",input:"select",inputOptions:o,inputPlaceholder:"Chofer",showCancelButton:!0,inputValidator:t=>new Promise(e=>{t?e():e("Debe colocar un chofer")})});if(!t)return void Swal.fire("Debe llenar todos los campos, por favor!");i=t;const{value:e}=await Swal.fire({title:"Indique la fecha",html:'<input id="swal-input2" class="swal2-input" type="date">',focusConfirm:!1,preConfirm:()=>{return Swal.getPopup().querySelector("#swal-input2").value||Swal.showValidationMessage("Debe llenar todos los campos, por favor!"),[document.getElementById("swal-input2").value]}});if(!e)return void Swal.fire("Debe llenar todos los campos, por favor!");r=e}else{const{value:t}=await Swal.fire({title:"Indique la fecha",html:'<input id="swal-input1" class="swal2-input" type="date">',focusConfirm:!1,preConfirm:()=>{return Swal.getPopup().querySelector("#swal-input1").value||Swal.showValidationMessage("Debe llenar todos los campos, por favor!"),[document.getElementById("swal-input1").value]}});if(!t)return void Swal.fire("Debe llenar todos los campos, por favor!");i="Null",r=t}const e=new FormData;e.append("id",t),e.append("status",c),e.append("tipo_pago",l),e.append("chofer_r",i),e.append("fecha_pago",r),e.append("monto",n),$.ajax({url:"/cambia_S_pago_deudor",type:"POST",data:e,cache:!1,contentType:!1,processData:!1,success:async function(t,e,a){console.log(t),$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n    <tr>                                                \n        <th></th>\n        <th>#Pedido</th>\n        <th></th>\n        <th class="cliente">Cliente</th>\n        <th>To. garr.</th>\n        <th>Monto Total</th>\n        <th>Adeudo</th>\n        <th>Status del Pedido</th>\n        <th>Status de Pago</th>\n        <th>Forma de Pago</th>\n        <th>Fecha</th>\n        <th>Opciones</th>\n        <th>oculto choferes </th> \n        <th>oculto asentamiento </th> \n    </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n    <tr>\n        <th>Nº Pedido</th>\n        <th></th>\n        <th>Cliente</th>\n        <th>Total garrafones</th>\n        <th>Monto Total</th>\n        <th>Status del Pedido</th>\n        <th>Status de Pago</th>\n        <th>Metodo de Pago</th>\n        <th>Fecha</th>\n        <th>Opciones</th>\n        <th>oculto choferes </th> \n    <th>oculto asentamiento </th> \n    </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),await cargaTablas("si").then(()=>{""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")})},error:function(t,e){console.log("error:"+t)}})}}}function edit_pedido(t){if(void 0===t)return console.log(t);const e=new FormData;e.append("id",t),$.ajax({url:"/editar_pedido",type:"POST",data:e,cache:!1,contentType:!1,processData:!1,success:function(t,e,a){0==$(".chofer option[value='"+t.personalId+"']").length||$(".chofer option[value='"+t.personalId+"']").attr("selected",!0),$("#id_chofer_edit").val(t.personalId),$("#edit_pedido_id").val(t.id),$("#edit_pedido_id_cliente").val(t.clienteId);let n=JSON.parse(t.garrafon19L),o=JSON.parse(t.garrafon11L),l=JSON.parse(t.botella1L),r=JSON.parse(t.botella5L);if($(".count_refill_garrafon").val(n.refill_cant),$(".refill_garrafon_mont").val(n.refill_mont),$(".count_canje_garrafon").val(n.canje_cant),$(".canje_garrafon_mont").val(n.canje_mont),$(".count_enNew_garrafon").val(n.nuevo_cant),$(".enNew_garrafon_mont").val(n.nuevo_mont),$(".count_enobsequio_garrafon").val(n.enobsequio_cant_garrafon),$(".total_garrafon").val(n.total_cant),$(".cant_garrafon").text(n.total_cant),$(".monto_garrafon_input").val(n.total_cost),$(".monto_garrafon").text(n.total_cost),$(".count_refill_botella").val(l.refill_cant),$(".refill_botella_mont").val(l.refill_mont),$(".count_canje_botella").val(l.canje_cant),$(".canje_botella_mont").val(l.canje_mont),$(".count_enNew_botella").val(l.nuevo_cant),$(".enNew_botella_mont").val(l.nuevo_mont),$(".count_enobsequio_botella").val(l.enobsequio_cant_botella),$(".total_botella").val(l.total_cant),$(".cant_botella").text(l.total_cant),$(".monto_botella_input").val(l.total_cost),$(".monto_botella").text(l.total_cost),$(".count_refill_garrafon11l").val(o.refill_cant),$(".refill_garrafon11l_mont").val(o.refill_mont),$(".count_canje_garrafon11l").val(o.canje_cant),$(".canje_garrafon11l_mont").val(o.canje_mont),$(".count_enNew_garrafon11l").val(o.nuevo_cant),$(".enNew_garrafon11l_mont").val(o.nuevo_mont),$(".count_enobsequio_garrafon11l").val(o.enobsequio_cant_garrafon11l),$(".total_garrafon11l").val(o.total_cant),$(".cant_garrafon11l").text(o.total_cant),$(".monto_garrafon11l_input").val(o.total_cost),$(".monto_garrafon11l").text(o.total_cost),$(".count_refill_botella5l").val(r.refill_cant),$(".refill_botella5l_mont").val(r.refill_mont),$(".count_canje_botella5l").val(r.canje_cant),$(".canje_botella5l_mont").val(r.canje_mont),$(".count_enNew_botella5l").val(r.nuevo_cant),$(".enNew_botella5l_mont").val(r.nuevo_mont),$(".count_enobsequio_botella5l").val(r.enobsequio_cant_botella5l),$(".total_botella5l").val(r.total_cant),$(".cant_botella5l").text(r.total_cant),$(".monto_botella5l_input").val(r.total_cost),$(".monto_botella5l").text(r.total_cost),$(".total_total_inp").val(t.monto_total),$(".total_total").text(t.monto_total),0==$("#metodo_pago_edit option[value='"+t.metodo_pago+"']").length?$("#metodo_pago_edit").prepend('<option selected value="'+t.metodo_pago+'">'+t.metodo_pago+"</option>"):$("#metodo_pago_edit option[value='"+t.metodo_pago+"']").attr("selected",!0),"Negocio"!=t.cliente.tipo&&"Punto de venta"!=t.cliente.tipo||(console.log(t),$("#descuento_upd_cliente2").val(t.cliente.monto_nuevo),console.log($("#descuento_upd_cliente2").val())),$(".status_pago").val(t.status_pago),$("#status_pedido_edit").val(t.status_pedido),$("#edit_fecha_pedido").val(t.fecha_pedido),$("#prestados_edit").val(t.garrafones_prestamos),$("#danados_edit").val(t.danados),$("#descuento_edit").val(t.descuento),$("#total_total_inp").val(t.monto_total),t.descuento>0){$("#monto_descuento").removeClass("d-none"),console.log($("#total_total_inp").val());let e=parseInt($("#total_total_inp").val())-parseInt(t.descuento);$("#total_desc").text(e)}$("#observacion_edit").val(t.observacion),$("#edit_pedido").modal("show")},error:function(t,e){console.log("error:"+t)}})}function delete_pedido(t,e){if($("#otro_rol").length)return void Swal.fire("Función valida solo para directores");var a=t;let n=e;Swal.fire({title:"Eliminar",text:"Seguro desea eliminar el pedido indicado",icon:"warning",showCancelButton:!0,confirmButtonText:"Eliminar",showLoaderOnConfirm:!0,preConfirm:t=>fetch(`/delete_pedido/${a}`).then(t=>{if(!t.ok)throw new Error(t.statusText);return t.json()}).catch(t=>{Swal.showValidationMessage(`Request failed: ${t}`)}),allowOutsideClick:()=>!Swal.isLoading()}).then(t=>{t.isConfirmed&&($(`${n}`).DataTable().row($(`${n} tbody .delete-record${a}`).parents("tr")).remove().draw(),Swal.fire({title:`Pedido ${a} borrado con éxito`}),""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup"))})}function share_record(t){var e=t;if(void 0===e)return console.log(e);copyToClipboard(`#CopyPedido${e}`,e)}$(function(){cargaTablas();let t=$("#array_cp").val(),e=JSON.parse(t.replace(/&quot;/g,'"'));$("#button_change_chofer").on("click",function(t){let e=[];$("input[type=checkbox]:checked").each(function(){e.push(this.value)}),0!=e.length?($("#change_chofer").modal("show"),$("#ids_pedido").val(e)):Swal.fire("Debe seleccionar por lo menos un pedido para hacer el cambio de chofer")}),$("#change_chofer_btn").on("click",async t=>{"default"!=$("#chofer_cambia").val()?$.ajax({url:"/change_chofer_pedido",type:"POST",data:$("#change_chofer_form").serialize(),success:async function(t,e,a){$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n        <tr>                                                \n            <th></th>\n            <th>#Pedido</th>\n            <th></th>\n            <th class="cliente">Cliente</th>\n            <th>To. garr.</th>\n            <th>Monto Total</th>\n            <th>Adeudo</th>\n            <th>Status del Pedido</th>\n            <th>Status de Pago</th>\n            <th>Forma de Pago</th>\n            <th>Fecha</th>\n            <th>Opciones</th>\n            <th>oculto choferes </th> \n            <th>oculto asentamiento </th> \n        </tr>\n    </thead>\n    <tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n        <tr>\n            <th>Nº Pedido</th>\n            <th></th>\n            <th>Cliente</th>\n            <th>Total garrafones</th>\n            <th>Monto Total</th>\n            <th>Status del Pedido</th>\n            <th>Status de Pago</th>\n            <th>Metodo de Pago</th>\n            <th>Fecha</th>\n            <th>Opciones</th>\n            <th>oculto choferes </th> \n        <th>oculto asentamiento </th> \n        </tr>\n    </thead>\n    <tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),await cargaTablas("si").then(()=>{""!=$("#filterPosition").val()&&(console.log($("#filterValue").val()),$(`#${$("#filterPosition").val()}`).val(`${$("#filterValue").val()}`).trigger("keyup"))}),$(".modal").modal("hide"),Swal.fire("Se cambió con éxito el(los) choferes")},error:function(t,e){console.log("error:"+t)}}):Swal.fire("Debe seleccionar un chofer")}),$("#button_copiar_varios").on("click",function(t){let e=[];$("input[type=checkbox]:checked").each(function(){e.push(this.value)}),0!=e.length?(console.log("copiando..."),copyToClipboardVarios(e)):Swal.fire("Debe seleccionar por lo menos un pedido para Copiar el pedido")}),$("#btn_reg_pedido").on("click",async t=>"default"==$("#id_cliente_reg_pedido").val()?(Swal.fire("Debe seleccionar un cliente"),void $("#id_cliente_reg_pedido").focus()):"default"==$("#chofer").val()?(Swal.fire("Debe seleccionar un chofer"),void $("#chofer").focus()):void("0"!=$("#reg_zona_cliente_pedido").val()?"0"!=$("#color_tag_reg_pedido").val()?"0"!=$("#total_total_inp").val()?$.ajax({url:"/reg_pedido_modal",type:"POST",data:$("#reg_pedido_modal1").serialize(),success:function(t,e,a){if(console.log(t),t.fail)Swal.fire(t.msg);else if($("#carga_").length>0){$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n        <tr>                                                \n            <th></th>\n            <th>#Pedido</th>\n            <th></th>\n            <th class="cliente">Cliente</th>\n            <th>To. garr.</th>\n            <th>Monto Total</th>\n            <th>Adeudo</th>\n            <th>Status del Pedido</th>\n            <th>Status de Pago</th>\n            <th>Forma de Pago</th>\n            <th>Fecha</th>\n            <th>Opciones</th>\n            <th>oculto choferes </th> \n            <th>oculto asentamiento </th> \n        </tr>\n    </thead>\n    <tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n        <tr>\n            <th>Nº Pedido</th>\n            <th></th>\n            <th>Cliente</th>\n            <th>Total garrafones</th>\n            <th>Monto Total</th>\n            <th>Status del Pedido</th>\n            <th>Status de Pago</th>\n            <th>Metodo de Pago</th>\n            <th>Fecha</th>\n            <th>Opciones</th>\n            <th>oculto choferes </th> \n        <th>oculto asentamiento </th> \n        </tr>\n    </thead>\n    <tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),cargaTablas("si"),$(".datatables-resumen").dataTable().fnDestroy(),$(".datatables-resumen").empty(),$(".datatables-resumen").html("<thead>\n        <tr>\n            <th>Carga Inicial</th>\n            <th>Pedidos</th>\n            <th>Entregados</th>\n            <th>Pendientes</th>                                                \n        \n        <th>oculto choferes </th>  \n        </tr>\n    </thead>"),cargaTableResumen("si"),Swal.fire("Se creó con éxito el pedido"),$(".modal").modal("hide"),$("#reg_pedido_modal1").trigger("reset");let e=moment().format("YYYY-MM-DD");$("#fecha_pedido").val(e),$("#cant_garrafon").text("0"),$("#monto_garrafon").text("0"),$("#sub_total_total").text("0"),$("#deuda_verf").text("0"),$("#total_total").text("0"),$("#deuda_box").attr("style","display:none"),$("#id_cliente_reg_pedido option[value='default']").attr("selected",!0),$("#id_cliente_reg_pedido").val("default").trigger("change"),""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")}else{Swal.fire("Se creó con éxito el pedido"),$(".modal").modal("hide"),$("#reg_pedido_modal1").trigger("reset"),$("#cant_garrafon").text("0"),$("#monto_garrafon").text("0"),$("#sub_total_total").text("0"),$("#deuda_verf").text("0"),$("#total_total").text("0"),$("#deuda_box").attr("style","display:none"),$("#id_cliente_reg_pedido option[value='default']").attr("selected",!0),$("#id_cliente_reg_pedido").val("default").trigger("change");let t=moment().format("YYYY-MM-DD");$("#fecha_pedido").val(t),""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")}},error:function(t,e){console.log("error:"+t)}}):Swal.fire("Debe agregar al menos un producto para continuar"):Swal.fire("Debe asignar una etiqueta al cliente"):Swal.fire("Debe asignar una zona al cliente"))),$.contextMenu({selector:".motivo_hover",trigger:"hover",autoHide:!0,build:function(t,e){return{callback:function(t,e){},items:{Motivo:{name:`Motivo: ${e.currentTarget.dataset.motivo}`}}}}}),$.contextMenu({selector:".modal_detail_garrafones",trigger:"hover",autoHide:!0,build:function(t,e){e.currentTarget.dataset.title;var a=e.currentTarget.dataset.rfeill,n=e.currentTarget.dataset.canje,o=e.currentTarget.dataset.env;e.currentTarget.dataset.obsequio;return{callback:function(t,e){},items:{Refill:{name:`Refill: ${a}`,className:"list-group-item d-flex justify-content-between align-items-center"},Canje:{name:`Canje: ${n}`,className:"list-group-item d-flex justify-content-between align-items-center"},"Envase Nuevo":{name:`Envase Nuevo: ${o}`,className:"list-group-item d-flex justify-content-between align-items-center"},Total:{name:`Total: ${e.currentTarget.dataset.total}`,className:"list-group-item d-flex justify-content-between align-items-center"}}}}}),$.contextMenu({selector:".detail_monto",trigger:"hover",autoHide:!0,build:function(t,e){e.currentTarget.dataset.title;var a=e.currentTarget.dataset.rfeill,n=e.currentTarget.dataset.canje,o=e.currentTarget.dataset.env,l=e.currentTarget.dataset.descuento,r=e.currentTarget.dataset.sindesc,i=(e.currentTarget.dataset.condesc,e.currentTarget.dataset.adeudo);e.currentTarget.dataset.obsequio;return{callback:function(t,e){},items:{Refill:{name:`Refill: $${a}`,className:"list-group-item d-flex justify-content-between align-items-center"},Canje:{name:`Canje: $${n}`,className:"list-group-item d-flex justify-content-between align-items-center"},"Envase Nuevo":{name:`Envase Nuevo: $${o}`,className:"list-group-item d-flex justify-content-between align-items-center"},"Sub-Total":{name:`Sub-Total: $${r}`,className:"list-group-item d-flex justify-content-between align-items-center"},Adeudo:{name:`Adeudo: $${i}`,className:"list-group-item d-flex justify-content-between align-items-center"},"Desc.":{name:`Desc.: $${l}`,className:"list-group-item d-flex justify-content-between align-items-center"},Total:{name:`Total: $${parseInt(r)+parseInt(i)-parseInt(l)}`,className:"list-group-item d-flex justify-content-between align-items-center"}}}}}),$.contextMenu({selector:".hover_cliente",trigger:"hover",autoHide:!0,build:function(t,a){a.currentTarget.dataset.title;var n=a.currentTarget.dataset.arraycliente,o=JSON.parse(decodeURIComponent(n));let l="";for(let t=0;t<e.length;t++)o.cpId==e[t].id&&(l=e[t].asentamiento);return{callback:function(t,e){},items:{Asentamiento:{name:`Asentamiento: ${l}`,className:"list-group-item d-flex justify-content-between align-items-center"},Coto:{name:`Coto: ${o.coto}`,className:"list-group-item d-flex justify-content-between align-items-center"},Casa:{name:`Casa: ${o.casa}`,className:"list-group-item d-flex justify-content-between align-items-center"},Tel:{name:`Tel: ${o.telefono}`,className:"list-group-item d-flex justify-content-between align-items-center"}}}}}),$.contextMenu({selector:".zona",trigger:"hover",autoHide:!0,build:function(t,e){var a=e.currentTarget.dataset.arrzona,n=JSON.parse(decodeURIComponent(a));return console.log(n),{callback:function(t,e){},items:{Zona:{name:`Zona: ${n.nombre}`,className:"list-group-item d-flex justify-content-between align-items-center"}}}}}),$(".dataTables_filter .form-control").removeClass("form-control-sm"),$(".dataTables_length .form-select").removeClass("form-select-sm").removeClass("form-control-sm"),$(".odd").addClass("selector"),$(".even").addClass("selector"),$("#form_edit_pedido").submit(t=>{t.preventDefault(),$.ajax({url:"/editar_pedido_save",type:"POST",data:$("#form_edit_pedido").serialize(),success:async function(t,e,a){console.log(t),$("#array_pedido").val(JSON.stringify(t.pedidos_let)),$(".datatables-basic").dataTable().fnDestroy(),$(".datatables-basic").empty(),$(".datatables-basic").html('<thead>\n   <tr>                                                \n       <th></th>\n       <th>#Pedido</th>\n       <th></th>\n       <th class="cliente">Cliente</th>\n       <th>To. garr.</th>\n       <th>Monto Total</th>\n       <th>Adeudo</th>\n       <th>Status del Pedido</th>\n       <th>Status de Pago</th>\n       <th>Forma de Pago</th>\n       <th>Fecha</th>\n       <th>Opciones</th>\n       <th>oculto choferes </th> \n       <th>oculto asentamiento </th> \n   </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="4" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),$(".datatables-basic2").dataTable().fnDestroy(),$(".datatables-basic2").empty(),$(".datatables-basic2").html('<thead>\n   <tr>\n       <th>Nº Pedido</th>\n       <th></th>\n       <th>Cliente</th>\n       <th>Total garrafones</th>\n       <th>Monto Total</th>\n       <th>Status del Pedido</th>\n       <th>Status de Pago</th>\n       <th>Metodo de Pago</th>\n       <th>Fecha</th>\n       <th>Opciones</th>\n       <th>oculto choferes </th> \n   <th>oculto asentamiento </th> \n   </tr>\n</thead>\n<tfoot>\n<tr>\n<th colspan="2" style="text-align:right"> Total</th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n<th></th>\n</tr>\n</tfoot>'),await cargaTablas("si").then(()=>{""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup")}),""!=$(".select_chofer_pedidos").val()&&$(".select_chofer_pedidos").val(`${$(".select_chofer_pedidos").val()}`).trigger("change"),""!=$(".select_etiqueta_pedidos").val()&&$(".select_etiqueta_pedidos").val(`${$(".select_etiqueta_pedidos").val()}`).trigger("change"),$(".datatables-resumen").dataTable().fnDestroy(),$(".datatables-resumen").empty(),$(".datatables-resumen").html("<thead>\n   <tr>\n       <th>Carga Inicial</th>\n       <th>Pedidos</th>\n       <th>Entregados</th>\n       <th>Pendientes</th>                                                \n   \n   <th>oculto choferes </th>  \n   </tr>\n   </thead>"),cargaTableResumen("si"),""!=$("#filterPosition").val()&&$(`#${$("#filterPosition").val()}`).val($("#filterValue").val()).trigger("keyup"),$("#edit_pedido").modal("hide")},error:function(t,e){console.log("error:"+t)}})}),$(".datatables-basic tbody").on("click",".share_record",function(t){var e=t.target.classList[0];if(void 0===e)return console.log(e);copyToClipboard(`#CopyPedido${e}`,e)}),$(".datatables-basic2 tbody").on("click",".edit_record",function(t){var e=t.target.classList[0];if(void 0===e)return console.log(e);$("#edit_pedido").modal("show")})});
+/**
+ * DataTables Advanced
+ */
+
+ 'use strict';
+ // Advanced Search Functions Starts
+ // --------------------------------------------------------------------
+ var minDate, maxDate,minDate2, maxDate2;
+ var zonas, copyReady,array_pedido;
+
+ ///Custom filtering function which will search data in column four between two values
+ $.fn.dataTable.ext.search.push(
+     function( settings, data, dataIndex ) {
+         var min = minDate2.val();
+         var max = maxDate2.val();
+       
+
+     let f = data[9]
+    
+         var date = new Date(f);
+         if (
+             ( min === null && max === null ) ||
+             ( min === null && date <= max ) ||
+             ( min <= date   && max === null ) ||
+             ( min <= date   && date <= max ) 
+         ) {
+             return true;
+         }
+         return false;
+     }
+ );
+ 
+ 
+ // Datepicker for advanced filter
+ var separator = ' - ',
+   rangePickr = $('.flatpickr-range'),
+   dateFormat = 'MM/DD/YYYY';
+ var options = {
+   autoUpdateInput: false,
+   autoApply: true,
+   locale: {
+     format: dateFormat,
+     separator: separator
+   },
+   opens: $('html').attr('data-textdirection') === 'rtl' ? 'left' : 'right'
+ };
+ 
+ //
+ if (rangePickr.length) {
+   rangePickr.flatpickr({
+     mode: 'range',
+     dateFormat: 'm/d/Y',
+     onClose: function (selectedDates, dateStr, instance) {
+       var startDate = '',
+         endDate = new Date();
+       if (selectedDates[0] != undefined) {
+         startDate =
+           selectedDates[0].getMonth() + 1 + '/' + selectedDates[0].getDate() + '/' + selectedDates[0].getFullYear();
+         $('.start_date').val(startDate);
+       }
+       if (selectedDates[1] != undefined) {
+         endDate =
+           selectedDates[1].getMonth() + 1 + '/' + selectedDates[1].getDate() + '/' + selectedDates[1].getFullYear();
+         $('.end_date').val(endDate);
+       }
+       $(rangePickr).trigger('change').trigger('keyup');
+     }
+   });
+ }
+ 
+ // Advance filter function
+ // We pass the column location, the start date, and the end date
+ var filterByDate = function (column, startDate, endDate) {
+   // Custom filter syntax requires pushing the new filter to the global filter array
+   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
+     var rowDate = normalizeDate(aData[column]),
+       start = normalizeDate(startDate),
+       end = normalizeDate(endDate);
+       var  min2 = minDate2.val();
+       var max2 = maxDate2.val();
+       let f = aData[10] 
+       let fechaN = f.split('-')       
+       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
+       var date = new Date(date1);
+     // If our date from the row is between the start and end
+     if (
+      ( min2 === null && max2 === null ) ||
+      ( min2 === null && date <= max2 ) ||
+      ( min2 <= date   && max2 === null ) ||
+      ( min2 <= date   && date <= max2 ) 
+  ) {
+      return true;
+  }
+  return false;
+   });
+ };
+ 
+ // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
+ var normalizeDate = function (dateString) {
+   var date = new Date(dateString);
+   var normalized =
+     date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
+   return normalized;
+ };
+ async function cargaTablas(rechar) {
+zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+  let valor = $('#array_pedido').val()
+  let array2 = ""
+  if (rechar) {    
+    array2 = JSON.parse(valor)
+  }else{
+    array2 = JSON.parse(valor.replace(/&quot;/g,'"'))
+  }
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+  //let stproductos = JSON.parse(array.productos)
+  let status_pedido = array2.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
+  let status_pedido2 = array2.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  var dt_basic_table = $('.datatables-basic'),
+    dt_basic_table2 = $('.datatables-basic2');
+  minDate = new DateTime($('#min'), {
+    format: 'DD/MM/YYYY'
+});
+maxDate = new DateTime($('#max'), {
+    format: 'DD/MM/YYYY'
+});
+
+minDate2 = new DateTime($('#min1'), {
+  format: 'DD/MM/YYYY'
+});
+maxDate2 = new DateTime($('#max1'), {
+  format: 'DD/MM/YYYY'
+});
+  // DataTable with buttons
+  // --------------------------------------------------------------------
+  let groupColumn = 12;
+  if (dt_basic_table.length) {
+    $('.dt-column-search thead tr').clone(true).appendTo('.dt-column-search thead');
+    $('.dt-column-search thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="P'+title+i+'"/>');
+      $('input', this).on('keyup', function () {
+        let valor = this.value
+$('#filterPosition').val(this.id)
+$('#filterValue').val(this.value)
+        if (dt_basic.column(i).search() !== this.value) {
+
+          dt_basic.column(i).search(this.value).draw();
+        }else{
+          dt_basic.column(i).search(valor).draw();
+          
+        }
+      });
+    });
+    $('.select_chofer_pedidos').on('change', function(){
+
+      dt_basic.column(12).search(this.value).draw();   
+   });
+   $('.select_etiqueta_pedidos').on('change', function(){
+    dt_basic.search(this.value).draw();   
+ });
+
+copyReady= await fetch("/shareStatusPY4/")
+  .then((response) => response.json())
+  .then((data) => {
+    return data.findStatusCompartir;
+  });
+
+    var dt_basic = dt_basic_table.DataTable({
+      data: status_pedido,
+      columns: [
+        { data: 'id' },
+        { data: 'id' },
+        { data: 'sucursaleId' },
+        { data: 'cliente.firstName' },
+        { data: 'total_garrafones_pedido' },
+        { data: 'monto_total'}, // used for sorting so will hide this column
+        { data: 'deuda_anterior'},
+        { data: 'status_pedido' },
+        { data: 'status_pago' },
+        { data: 'metodo_pago' },
+        { data: 'fecha_pedido'},
+        {   // Actions
+          targets: -1,
+          title: 'Opciones',
+          orderable: false,
+          render: function (data, type, full, meta) {
+            
+            let rf= parseInt((JSON.parse(full['botella1L']))['refill_cant'])+parseInt((JSON.parse(full['botella5L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon11L']))['refill_cant'])+parseInt((JSON.parse(full['garrafon19L']))['refill_cant'])
+            let CJ= parseInt((JSON.parse(full['botella1L']))['canje_cant'])+parseInt((JSON.parse(full['botella5L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon11L']))['canje_cant'])+parseInt((JSON.parse(full['garrafon19L']))['canje_cant'])
+            let Env= parseInt((JSON.parse(full['botella1L']))['nuevo_cant'])+parseInt((JSON.parse(full['botella5L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon11L']))['nuevo_cant'])+parseInt((JSON.parse(full['garrafon19L']))['nuevo_cant'])
+            let asentamiento = ""
+for (let i = 0; i < codigosP_arr.length; i++) {
+  if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+    asentamiento = codigosP_arr[i]['asentamiento']
+  }
+  
+}
+if ($('#otro_rol').length>0) {
+let Hoy = moment().format('DD/MM/YYYY'); 
+let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
+    var fecha_final= moment(Hoy).isAfter(fecha); // true        
+} 
+let modif = "";
+if (fecha_final == true) {
+  modif = "d-none";
+}
+let styleCopy = "";
+for (let i = 0; i < copyReady.length; i++) {
+  if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
+    styleCopy = "style='background-color: #001871; color: white;'";
+  }
+  
+}
+            return (
+              '<div class="d-inline-flex">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' +
+              '<a href="javascript:;" '+styleCopy+' class="'+full['id']+' dropdown-item share_record'+full['id']+'" onclick=\'share_record("'+full['id']+'")\'>' +
+              feather.icons['share-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>' +
+             `<p id="CopyPedido${full['id']}" class="d-none">
+--------------------------------------------------------------
+#Pedido:${full['id']} -
+Cliente:  ${full['cliente']['firstName']} ${full['cliente']['lastName']}.
+Dirección: ${asentamiento}, Coto ${full['cliente']['coto']}, Casa ${full['cliente']['casa']},Calle ${full['cliente']['calle']}, Avenida ${full['cliente']['avenida']}.
+Referencia:${full['cliente']['referencia']}.
+Rf:${rf}.
+CJ: ${CJ}.
+Env: ${Env}.
+Tipo Pago:${full['metodo_pago']}
+Deuda anterior: ${full['deuda_anterior']}
+Garrafones prestados: ${full['garrafones_prestamos']}
+Observaciones:${full['observacion']}
+</p>`  
+            );
+          }, 
+        },
+        { data: 'personal.name' },
+        { data: 'cliente.cpId' },
+      ], columnDefs: [
+        { visible: false, targets: groupColumn,
+        },
+        {
+          // For Checkboxes
+          targets: 0,
+          orderable: false,
+          searchable: false,
+          responsivePriority: 3,
+          render: function (data, type, full, meta) {
+            return (
+              '<div class="form-check"> <input class="form-check-input dt-checkboxes" type="checkbox" value="'+data+'" id="checkbox' +
+              data +
+              '" /><label class="form-check-label" for="checkbox' +
+              data +
+              '"></label></div>'
+            );
+          },
+          checkboxes: {
+            selectAllRender:
+              '<div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="checkboxSelectAll" /><label class="form-check-label" for="checkboxSelectAll"></label></div>'
+          }
+        },
+        { visible: false, targets: 13,
+          render: function (data, type, full) {
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+            return asentamiento
+          }
+         
+        },
+        {
+          // Label
+          targets: 1,
+          render: function (data, type, full, meta) {
+            var color_tag ="", color_text="", nombre;
+            if (full['cliente']['etiqueta'] ==null) {
+              color_tag =0
+              color_text="black"
+              nombre=""
+            }else{
+              color_tag =full['cliente']['etiqueta']['color']
+              color_text="white"
+              nombre=full['cliente']['etiqueta']['etiquetas']
+            }
+            return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+          }
+        },
+        {
+          // Label
+          targets: 2,
+          render: function (data, type, full, meta) {
+            
+            for (let i = 0; i < zonas.length; i++) {
+              if (zonas[i].id == data) {
+                var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+              }                     
+            }
+            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+          }
+        },
+        {
+          // Label
+          targets: 3,
+          render: function (data, type, full, meta) {
+            let asentamiento = ""
+            for (let i = 0; i < codigosP_arr.length; i++) {
+              if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                asentamiento = codigosP_arr[i]['asentamiento']
+              }
+              
+            }
+       
+            var $status_number = full['cliente']['tipo'];
+            var $status = {
+              "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+              "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+              "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+        var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+        var color_tag ="", color_text=""
+        if (full['cliente']['etiqueta'] ==null) {
+          color_tag =0
+          color_text="black"
+        }else{
+          color_tag =full['cliente']['etiqueta']['color']
+          color_text="white"
+        }
+        //aqui activa el modal info del cliente
+            return (
+              `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
+            );
+          }
+        },
+         {
+          // Label
+          targets: 4,className:'to_garra',
+          render: function (data, type, full, meta) {
+            let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
+            return (
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad" data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"  style="cursor:pointer;" >' +
+              total +
+              '</span>'
+            );
+          }
+
+        
+        },
+        {
+          // Label
+          targets: 5,
+          render: function (data, type, full, meta) {
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
+              detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
+            }
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            adeudo = full['deuda_anterior']
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
+           return (
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" data-adeudo="'+adeudo+'" style="cursor:pointer;" >$' +
+            condesc +
+            '</span>'
+          );
+        }
+      },
+      {
+        // Label
+        targets: 6,
+        render: function (data, type, full, meta) {
+         return (
+          '<span class="badge rounded-pill badge-light-danger " >$' +
+          data +
+          '</span>'
+        );
+      }
+    },
+        {
+          // Label
+          targets: 7,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pedido'];
+            var $status = {
+              "Devuelto": { title: 'En proceso', class: 'badge-light-primary' },
+              "Por entregar": { title: 'Por entregar', class: ' badge-light-yellow' },
+              "Devuelto": { title: 'Devuelto', class: ' badge-light-danger' },
+              "Reprogramado": { title: 'Reprogramado', class: ' badge-light-warning' },
+              "En proceso": { title: 'En proceso', class: ' badge-light-info' }
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer"   onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\' data-status="'+full['status_pedido'] +'" data-id="'+full['id']+'">' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
+          targets: 8,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          targets: 10,className:'fecha_pedido',
+          render:function(data, type, full){
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
+          }
+        },
+        
+      ],
+     
+     
+      order: [[10,'desc'],[12,'asc'],[3,'asc']],
+      dom: '<"none "<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100],
+      initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(2).visible( false );
+      }
+        
+      },
+      drawCallback: function (settings) {
+        let sumaG = 0
+$('.datatables-basic').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#example_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+        var sumaT = 0
+        api
+          .column(groupColumn, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+                .before('<tr class="group"><td colspan="12"><i class="fas fa-truck me-1"></i>                ' + group + '</td></tr>');//AQUI LOS CHOFERES AGRUPADOS
+
+              last = group;
+            }
+          });
+
+          api.column(4, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra').text(sumaT)
+        
+      },
+      
+     
+      language: {
+      "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+      
+    });
+    
+
+    // Refilter the table
+    $('#min1, #max1').on('change', function () {
+      filterByDate(10); // We call our filter function
+      dt_basic.draw();
+      });
+  }
+  if (dt_basic_table2.length) {
+  let groupColumn2 = 10
+    $('.dt-column-search2 thead tr').clone(true).appendTo('.dt-column-search2 thead');
+    $('.dt-column-search2 thead tr:eq(1) th').each(function (i) {
+      var title = $(this).text();
+      $(this).html('<input type="text" class="form-control form-control-sm" placeholder="Buscar ' + title + '" id="V'+title+i+'"/>');
+
+      $('input', this).on('keyup', function () {
+        $('#filterPosition').val(this.id)
+        $('#filterValue').val(this.value)
+        if (dt_basic2.column(i).search() !== this.value) {
+          dt_basic2.column(i).search(this.value).draw();
+        }
+      });
+    });
+    $('.select_chofer_ventas').on('change', function(){
+      
+      dt_basic2.column(10).search(this.value).draw();   
+   });  
+    $('.select_etiqueta_ventas').on('change', function(){
+      
+      dt_basic2.search(this.value).draw();   
+   });
+    var dt_basic2 = dt_basic_table2.DataTable({
+      data: status_pedido2,
+      columns: [
+        { data: 'id' },
+        { data: 'sucursaleId' },
+        { data: 'cliente.firstName' },
+        { data: 'total_garrafones_pedido' },
+        { data: 'monto_total'}, // used for sorting so will hide this column
+        { data: 'status_pedido' },
+        { data: 'status_pago' },
+        { data: 'metodo_pago' },
+        { data: 'fecha_pedido'},
+        {   // Actions
+          targets: -1,
+          title: 'Opciones',
+          orderable: false,
+          render: function (data, type, full, meta) {
+            if ($('#otro_rol').length>0) {
+              
+                
+            let Hoy = moment().format('DD/MM/YYYY'); 
+            
+            let fecha =moment(full['fecha_pedido']).format('DD/MM/YYYY')
+            
+                var fecha_final= moment(Hoy).isAfter(fecha); // true
+                    
+            } 
+            let modif = ""
+            
+            if (fecha_final == true) {
+              modif = "d-none"
+            }
+            return (
+              '<div class="d-inline-flex">' +
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic2")\'>' +
+              feather.icons['trash-2'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'+
+              '<a href="javascript:;" class="'+full['id']+' dropdown-item '+modif+'" onclick=\'edit_pedido("'+full['id']+'")\'>' +
+              feather.icons['file-text'].toSvg({ class: 'font-small-4 '+full['id']+'' }) +
+              '</a>'              
+            );
+          } },
+          { data: 'personal.name' },
+          { data: 'cliente.cpId' },
+        ], columnDefs: [
+          { visible: false, targets: groupColumn2,
+           
+          },
+          { visible: false, targets: 11,
+            render: function (data, type, full) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              return asentamiento
+            }
+          },
+          {
+            // Label
+            targets: 0,
+            render: function (data, type, full, meta) {
+            //  let fecha_creado = full['fecha_pedido'], modificado = full['updatedAt']
+            //  let modificacion = moment(fecha_creado).isSame(modificado)
+            //   if (modificacion == false) {
+            //     return (`<span class="badge rounded-pill badge-light-danger"> ${full['id']}</span>`);
+            //   }
+              var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+              var color_tag ="", color_text="", nombre;
+              if (full['cliente']['etiqueta'] ==null) {
+                color_tag =0
+                color_text="black"
+                nombre=""
+              }else{
+                color_tag =full['cliente']['etiqueta']['color']
+                color_text="white"
+                nombre=full['cliente']['etiqueta']['etiquetas']
+              }
+  
+              return (`<span class="d-none">${nombre}</span><span class="badge rounded-pill " style="cursor:pointer; background-color: ${color_tag}; color:${color_text}"> ${full['id']}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 1,
+            render: function (data, type, full, meta) {
+              for (let i = 0; i < zonas.length; i++) {
+                if (zonas[i].id == data) {
+                  var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                }                     
+              }
+              return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+            }
+          },
+          {
+            // Label
+            targets: 2,
+            render: function (data, type, full, meta) {
+              let asentamiento = ""
+              for (let i = 0; i < codigosP_arr.length; i++) {
+                if (codigosP_arr[i]['id'] == full['cliente']['cpId']) {
+                  asentamiento = codigosP_arr[i]['asentamiento']
+                }
+                
+              }
+              var $status_number = full['cliente']['tipo'];
+              var $status = {
+                "Residencial": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: 'badge-light-info' },
+                "Punto de venta": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-success' },
+                "Negocio": { title: full['cliente']['firstName'] +" "+ full['cliente']['lastName'] + " / "+ asentamiento, class: ' badge-light-danger' },
+              };
+              if (typeof $status[$status_number] === 'undefined') {
+                return data;
+              }
+          var cliente_arr = encodeURIComponent(JSON.stringify(full['cliente']));
+          var color_tag ="", color_text=""
+          if (full['cliente']['etiqueta'] ==null) {
+            color_tag =0
+            color_text="black"
+          }else{
+            color_tag =full['cliente']['etiqueta']['color']
+            color_text="white"
+          }
+          return (
+            `<span class="d-none">${asentamiento}</span><span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" data-id="${full['cliente']['id']}" data-arraycliente="${cliente_arr}" data-title="Datos de ${full['cliente']['firstName']}" >${$status[$status_number].title}</span><span class="d-none">${full['cliente']['calle']} ${full['cliente']['casa']} ${full['cliente']['avenida']}</span>`
+          );
+            }
+          },
+        {
+          // Label
+          targets: 3,className:'to_garra2',
+          render: function (data, type, full, meta) {
+            let total = parseInt(data)- parseInt(full['total_obsequio_pedido'])
+            return (
+              '<span class="badge rounded-pill badge-light-info modal_detail_garrafones cantidad"  data-id="'+full['cliente']['id']+'" data-rfeill="'+full['total_refill_pedido']+'" data-total="'+data+'" data-canje="'+full['total_canje_pedido']+'" data-env="'+full['total_nv_pedido']+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-title="Detalle garrafones"   style="cursor:pointer;" >' +
+              total +
+              '</span>'
+            );
+          }
+        
+        
+        },
+        {
+          // Label
+          targets: 4,
+          render: function (data, type, full, meta) {
+            
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
+            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            detailCanje = parseFloat(full['total_canje_pedido'])*55
+            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            desc = full['descuento']
+            sindesc = data
+            condesc =parseFloat(data)- parseFloat(desc) 
+           return (
+            '<span class="badge rounded-pill badge-light-info detail_monto " data-id="'+full['cliente']['id']+'" data-rfeill="'+detailRefill+'" data-total="'+data+'" data-canje="'+detailCanje+'" data-env="'+detailNuevo+'" data-obsequio="'+full['total_obsequio_pedido']+'" data-descuento="'+desc+'" data-title="Detalle monto total" data-sindesc="'+sindesc+'" data-condesc="'+condesc+'" style="cursor:pointer;" >$' +
+            condesc +
+            '</span>'
+          );
+        }
+      },
+        {
+          // Label
+          targets: 5,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pedido'];
+            var $status = {
+              "Reasignado": { title: 'Reasignado', class: 'badge-light-primary' },
+              "Entregado": { title: 'Entregado', class: ' badge-light-success' },
+              "Cancelado": { title: 'Devuelto', class: ' badge-light-danger' , motivo: ' motivo_hover'},
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill' +
+              $status[$status_number].class +" "+ $status[$status_number].motivo +
+              '" style="cursor:pointer"   data-status="'+full['status_pedido'] +'" data-motivo="'+full['motivo'] +'" data-id="'+full['id']+'" onclick=\'cambioSP("'+full['id'] +'","'+full['status_pedido'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },
+        {
+          // Label
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var $status_number = full['status_pago'];
+            var $status = {
+              "Pagado": { title: 'Pagado', class: 'badge-light-success' },
+              "Por verificar": { title: 'Por verificar', class: ' badge-light-yellow' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (
+              '<span class="badge rounded-pill ' +
+              $status[$status_number].class +
+              '" style="cursor:pointer" onclick=\'cambioPago("'+full['id'] +'","'+full['status_pago'] +'","'+full['fecha_pedido'] +'","'+full['monto_total'] +'")\'>' +
+              $status[$status_number].title +
+              '</span>'
+            );
+          }
+        },{
+          targets: 8,
+          render:function(data){
+            let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}</span>${moment(data).format('DD/MM/YYYY')}`
+            return fecha;
+          }
+        },
+      ],
+     
+      order: [[8,'desc'],[10,'asc'],[2,'asc']],
+      dom: '<" none"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+      orderCellsTop: true,
+      displayLength: 10,
+      lengthMenu: [7, 10, 25, 50, 75, 100], initComplete: function(settings, json) {
+        var api = this.api();
+      if ($('#otro_rol').length>0) {
+        api.column(1).visible( false );
+      }
+        
+      },
+      drawCallback: function (settings) {
+        let sumaG = 0;
+        $('.datatables-basic2').dataTable().$('.cantidad').each(function(){
+    if ($(this).text() == "-") {
+      sumaG
+    }else{
+          sumaG += parseFloat($(this).text());
+    }    
+  });
+  $('#ventas-table_info').append(`<span> / Total garrafones: ${sumaG} </span>`)
+
+        var api = this.api();
+        var rows = api.rows({ page: 'current' }).nodes();
+        var last = null;
+        let sumaT = 0;
+        api
+          .column(groupColumn2, { page: 'current' })
+          .data()
+          .each(function (group, i) {
+            let icono =`<i class="fas fa-truck"></i>`
+            if (last !== group) {
+              $(rows)
+                .eq(i)
+
+                .before('<tr class="group"><td colspan="9"><i class="fas fa-truck me-1"></i>' + group + '</td></tr>');
+
+
+              last = group;
+            }
+          });
+          api.column(3, { page: 'current' }).data().each(function(group, i){
+            sumaT +=parseInt(group)
+           
+        });
+        $('tfoot .to_garra2').text(sumaT)
+      },
+      language: {
+        "decimal": "",
+      "emptyTable": "No hay información",
+      "info": "Total _TOTAL_ registros",
+      "infoEmpty": "Total _TOTAL_ registros",
+      "infoFiltered": "(Filtrado de _MAX_ registros totales)",
+      "infoPostFix": "",
+      "thousands": ",",
+      "lengthMenu": "Mostrar _MENU_ Entradas",
+      "loadingRecords": "Cargando...",
+      "processing": "Procesando...",
+      "search": "Buscar:",
+      "zeroRecords": "Sin resultados encontrados",
+        paginate: {
+          // remove previous & next text from pagination
+          previous: '&nbsp;',
+          next: '&nbsp;'
+        }
+      }
+    });
+
+    $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
+
+
+  $('#min, #max').on('change', function () {
+    dt_basic2.draw();
+    });
+
+  }
+}
+
+ // Advanced Search Functions Ends
+ $(function () {
+  'use strict';
+  cargaTablas()
+  let codigosP = $('#array_cp').val()
+  let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
+
+  //CAMBIA CHOFER TABLA PEDIDOS
+  $("#button_change_chofer").on('click', function (e) {
+    let valoresCheck = [];
+  
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para hacer el cambio de chofer')
+  
+      return
+    }else{
+      $('#change_chofer').modal('show')
+    }
+  $("#ids_pedido").val(valoresCheck);
+  });
+
+  $('#change_chofer_btn').on('click', async (e)=>{
+    if ($('#chofer_cambia').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      return
+    }
+
+    $.ajax({
+      url: `/change_chofer_pedido`,
+      type: 'POST',
+      data: $('#change_chofer_form').serialize(),
+      success: async function (data, textStatus, jqXHR) {
+        $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th></th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th></th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+        
+      await  cargaTablas('si').then(()=>{
+          if ($('#filterPosition').val() != "") {
+            console.log($('#filterValue').val()) 
+             $(`#${$('#filterPosition').val()}`).val(`${$('#filterValue').val()}`).trigger('keyup');
+            }
+        });     
+        
+  $('.modal').modal('hide');
+  Swal.fire('Se cambió con éxito el(los) choferes')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+
+  //COPIA VARIOS PEDIDOS
+  $("#button_copiar_varios").on('click', function (e) {
+    let valoresCheck = [];
+  
+    $("input[type=checkbox]:checked").each(function(){
+        valoresCheck.push(this.value);
+    });
+    if (valoresCheck.length == 0) {    
+      
+      Swal.fire('Debe seleccionar por lo menos un pedido para Copiar el pedido')
+  
+      return
+    }else{
+      console.log('copiando...')
+    }
+    copyToClipboardVarios(valoresCheck)
+  });
+  //ACA REGISTRA PEDIDO AJAX
+  $('#btn_reg_pedido').on('click', async (e)=>{
+    if ($('#id_cliente_reg_pedido').val() =="default") {
+      Swal.fire('Debe seleccionar un cliente')
+      $('#id_cliente_reg_pedido').focus()
+      return
+    }
+    if ($('#chofer').val() =="default") {
+      Swal.fire('Debe seleccionar un chofer')
+      $('#chofer').focus()
+      return
+    }
+    if ($('#reg_zona_cliente_pedido').val() == "0" ) {
+      Swal.fire('Debe asignar una zona al cliente')
+      return
+    }
+    if ($('#color_tag_reg_pedido').val() == "0") {
+      Swal.fire('Debe asignar una etiqueta al cliente')
+      return
+    }
+  if ($('#total_total_inp').val() == "0") {
+      Swal.fire('Debe agregar al menos un producto para continuar')
+      return
+    }
+    $.ajax({
+      url: `/reg_pedido_modal`,
+      type: 'POST',
+      data: $('#reg_pedido_modal1').serialize(),
+      success: function (data, textStatus, jqXHR) {
+        console.log(data)
+               if (data.fail) {
+          Swal.fire(data.msg)
+          return
+          
+        }
+        if ($('#carga_').length>0) {
+          $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+        $('.datatables-basic').dataTable().fnDestroy();
+         $('.datatables-basic').empty();
+        $('.datatables-basic').html(`<thead>
+        <tr>                                                
+            <th></th>
+            <th>#Pedido</th>
+            <th></th>
+            <th class="cliente">Cliente</th>
+            <th>To. garr.</th>
+            <th>Monto Total</th>
+            <th>Adeudo</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Forma de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+            <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+        $('.datatables-basic2').dataTable().fnDestroy();
+        $('.datatables-basic2').empty();
+        $('.datatables-basic2').html(`<thead>
+        <tr>
+            <th>Nº Pedido</th>
+            <th></th>
+            <th>Cliente</th>
+            <th>Total garrafones</th>
+            <th>Monto Total</th>
+            <th>Status del Pedido</th>
+            <th>Status de Pago</th>
+            <th>Metodo de Pago</th>
+            <th>Fecha</th>
+            <th>Opciones</th>
+            <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+        </tr>
+    </thead>
+    <tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+        
+        cargaTablas('si');
+        $('.datatables-resumen').dataTable().fnDestroy();
+        $('.datatables-resumen').empty();
+        $('.datatables-resumen').html(`<thead>
+        <tr>
+            <th>Carga Inicial</th>
+            <th>Pedidos</th>
+            <th>Entregados</th>
+            <th>Pendientes</th>                                                
+        
+        <th>oculto choferes </th>  
+        </tr>
+    </thead>`);
+        cargaTableResumen('si')
+        Swal.fire('Se creó con éxito el pedido')
+  $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  let hoy= moment().format('YYYY-MM-DD')
+  $('#fecha_pedido').val(hoy)
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+  
+        } else {
+          Swal.fire('Se creó con éxito el pedido')
+  $('.modal').modal('hide');
+  $('#reg_pedido_modal1').trigger("reset");
+  $('#cant_garrafon').text('0')
+  $('#monto_garrafon').text('0')
+  $('#sub_total_total').text('0')
+  $('#deuda_verf').text('0')
+   $('#total_total').text('0')
+   $('#deuda_box').attr('style','display:none')
+   $("#id_cliente_reg_pedido option[value='default']").attr("selected", true);
+   $("#id_cliente_reg_pedido").val('default').trigger('change');
+   let hoy= moment().format('YYYY-MM-DD')
+$('#fecha_pedido').val(hoy)
+if ($('#filterPosition').val() != "") {
+  $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+ }
+        }
+        
+  
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });
+    
+  })
+  //ACA SE ACTIVAS LOS CONTEXT MENU
+  $.contextMenu({
+    selector: '.motivo_hover',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var motivo = e.currentTarget['dataset']["motivo"];
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Motivo": { name: `Motivo: ${motivo}`},
+            }
+        };
+    }
+  });
+
+  $.contextMenu({
+    selector: '.modal_detail_garrafones',
+    trigger: 'hover',
+    autoHide: true,
+    build: function ($trigger, e) {
+      var title = e.currentTarget['dataset']["title"];
+      var rfeill = e.currentTarget['dataset']["rfeill"];
+      var canje = e.currentTarget['dataset']["canje"];
+     var Env = e.currentTarget['dataset']["env"] 
+     var obsequio = e.currentTarget['dataset']["obsequio"];
+     var total = e.currentTarget['dataset']["total"] 
+        return {
+            callback: function (key, options) {
+                var m = "clicked: " + key;
+            },
+            items: {
+                "Refill": { name: `Refill: ${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Canje": { name: `Canje: ${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Envase Nuevo": { name: `Envase Nuevo: ${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+                "Total": { name: `Total: ${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+            }
+        };
+    }
+  });
+
+$.contextMenu({
+  selector: '.detail_monto',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    
+    var title = e.currentTarget['dataset']["title"];
+    var rfeill = e.currentTarget['dataset']["rfeill"];
+    var canje = e.currentTarget['dataset']["canje"];
+   var Env = e.currentTarget['dataset']["env"] 
+   var desc = e.currentTarget['dataset']["descuento"] 
+   var sindesc = e.currentTarget['dataset']["sindesc"] 
+   var condesc = e.currentTarget['dataset']["condesc"] 
+   var adeudo = e.currentTarget['dataset']["adeudo"] 
+   var obsequio = e.currentTarget['dataset']["obsequio"];
+   //var total = e.currentTarget['dataset']["total"] 
+   var total = (parseInt(sindesc) +parseInt(adeudo))-parseInt(desc)
+
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Refill": { name: `Refill: $${rfeill}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Canje": { name: `Canje: $${canje}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Envase Nuevo": { name: `Envase Nuevo: $${Env}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Sub-Total": { name: `Sub-Total: $${sindesc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Adeudo": { name: `Adeudo: $${adeudo}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Desc.": { name: `Desc.: $${desc}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Total": { name: `Total: $${total}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
+$.contextMenu({
+  selector: '.hover_cliente',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var title = e.currentTarget['dataset']["title"];
+    var Array = e.currentTarget['dataset']["arraycliente"];
+     var my_object = JSON.parse(decodeURIComponent(Array));
+   //  $("#home_modalBody").append(txt2);
+   let asentamiento =""
+   for (let i = 0; i < codigosP_arr.length; i++) {
+   if (my_object['cpId'] == codigosP_arr[i]['id']) {
+     asentamiento = codigosP_arr[i]['asentamiento']
+   }
+   }
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Asentamiento": { name: `Asentamiento: ${asentamiento}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Coto": { name: `Coto: ${my_object['coto']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Casa": { name: `Casa: ${my_object['casa']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+              "Tel": { name: `Tel: ${my_object['telefono']}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
+
+$.contextMenu({
+  selector: '.zona',
+  trigger: 'hover',
+  autoHide: true,
+  build: function ($trigger, e) {
+    var Array = e.currentTarget['dataset']["arrzona"];
+     var zona = JSON.parse(decodeURIComponent(Array));
+   console.log(zona)
+   
+      return {
+          callback: function (key, options) {
+              var m = "clicked: " + key;
+          },
+          items: {
+              "Zona": { name: `Zona: ${zona.nombre}`,className: 'list-group-item d-flex justify-content-between align-items-center'},
+          }
+      };
+  }
+});
+ 
+
+  // Filter form control to default size for all tables
+  $('.dataTables_filter .form-control').removeClass('form-control-sm');
+  $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
+  // Delete Record
+  
+  $('.odd').addClass('selector');
+  $('.even').addClass('selector'); 
+
+ 
+
+  $('#form_edit_pedido').submit((e)=>{
+    e.preventDefault()
+    $.ajax({
+      url: `/editar_pedido_save`,
+      type: 'POST',
+      data:$("#form_edit_pedido").serialize(),
+      success: async function (data, textStatus, jqXHR) {
+        console.log(data)
+  $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+
+  $('.datatables-basic').dataTable().fnDestroy();
+   $('.datatables-basic').empty();
+   $('.datatables-basic').html(`<thead>
+   <tr>                                                
+       <th></th>
+       <th>#Pedido</th>
+       <th></th>
+       <th class="cliente">Cliente</th>
+       <th>To. garr.</th>
+       <th>Monto Total</th>
+       <th>Adeudo</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Forma de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       <th>oculto choferes </th> 
+       <th>oculto asentamiento </th> 
+   </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+   
+   $('.datatables-basic2').dataTable().fnDestroy();
+   $('.datatables-basic2').empty();
+   $('.datatables-basic2').html(`<thead>
+   <tr>
+       <th>Nº Pedido</th>
+       <th></th>
+       <th>Cliente</th>
+       <th>Total garrafones</th>
+       <th>Monto Total</th>
+       <th>Status del Pedido</th>
+       <th>Status de Pago</th>
+       <th>Metodo de Pago</th>
+       <th>Fecha</th>
+       <th>Opciones</th>
+       <th>oculto choferes </th> 
+   <th>oculto asentamiento </th> 
+   </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+   
+   await cargaTablas('si').then(()=>{
+    if ($('#filterPosition').val() != "") {
+      $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+     }
+   });
+
+if ($('.select_chofer_pedidos').val() != "") {
+  $(".select_chofer_pedidos").val(`${$('.select_chofer_pedidos').val()}`).trigger('change');
+}
+if ($('.select_etiqueta_pedidos').val() != "") {
+  $(".select_etiqueta_pedidos").val(`${$('.select_etiqueta_pedidos').val()}`).trigger('change');
+}
+   $('.datatables-resumen').dataTable().fnDestroy();
+   $('.datatables-resumen').empty();
+   $('.datatables-resumen').html(`<thead>
+   <tr>
+       <th>Carga Inicial</th>
+       <th>Pedidos</th>
+       <th>Entregados</th>
+       <th>Pendientes</th>                                                
+   
+   <th>oculto choferes </th>  
+   </tr>
+   </thead>`);
+   
+   cargaTableResumen('si')
+   if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+  }
+  $('#edit_pedido').modal('hide')
+      },
+      error: function (jqXHR, textStatus) {
+        console.log('error:' + jqXHR)
+      }
+    });   
+  });
+  $('.datatables-basic tbody').on('click', '.share_record', function (e) {
+    var id_edit = e.target.classList[0]
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
+
+  });
+
+  $('.datatables-basic2 tbody').on('click', '.edit_record', function (e) {
+    var id_edit2 = e.target.classList[0]
+    if (typeof id_edit2 =="undefined") {
+      return console.log(id_edit2)
+    }
+$('#edit_pedido').modal('show')
+
+  });
+
+
+});
+// Filter column wise function
+function filterColumn(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date').val(),
+      endDate = $('.end_date').val();
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+    if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }
+    $('.datatables-basic').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic').DataTable().column(i).search(val, false, true).draw();
+  }
+}
+async function copyToClipboard(elemento,id_edit) {
+  var $temp = $("<textarea>")
+  var brRegex = /<br\s*[\/]?>/gi;
+  $("body").append($temp);
+  $temp.val($(elemento).html().replace(brRegex, "\r\n")).select();
+  document.execCommand("copy");
+  $temp.remove();
+  await fetch("/ChangeshareStatusPY4/" + id_edit)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data);
+    $(`.share_record${id_edit}`).attr('style','background-color: #001871; color: white;');
+    //return data.obtener_historia;
+  });
+
+  Swal.fire('Pedido copiado en el portapapeles')
+
+  }
+  function copyToClipboardVarios(elemento) {
+    if ($("#checkboxSelectAll").is(':checked')) {
+      var new_elemento = elemento.shift()
+    }
+    var $temp = $("<textarea>")
+    var brRegex = /<br\s*[\/]?>/gi;
+    $("body").append($temp);
+    for (let i = 0; i < elemento.length; i++) {
+      const element = array[i];
+      $temp.append($(`#CopyPedido${elemento[i]}`).html().replace(brRegex, "\r\n")).select();
+    }
+
+    
+    document.execCommand("copy");
+    $temp.remove();
+    Swal.fire('Pedido copiado en el portapapeles')
+    }
+// Filter column wise function
+function filterColumn2(i, val) {
+  if (i == 5) {
+    var startDate = $('.start_date2').val(),
+      endDate = $('.end_date2').val();
+    if (startDate !== '' && endDate !== '') {
+      
+      filterByDate(i, startDate, endDate); // We call our filter function
+    }
+    
+ /*   if (startDate == '' && endDate == '') {
+      
+      location.reload();
+    }*/
+    $('.datatables-basic2').dataTable().fnDraw();
+    
+  } else {
+    $('.datatables-basic2').DataTable().column(i).search(val, false, true).draw();
+  }
+}
+// cambiar estados
+ async function cambioSP(id, status) {
+ const { value: estado } = await Swal.fire({
+  title: 'Seleccione un nuevo Status',
+  input: 'select',
+  inputOptions: {
+      Entregado: 'Entregado',
+      Cancelado: 'Cancelado',
+      Reprogramado: 'Reprogramado',
+      'Por entregar': 'Por entregar',
+  },
+  inputPlaceholder: 'Seleccione un nuevo Status',
+  showCancelButton: true,
+  inputValidator: (value) => {
+    return new Promise((resolve) => {
+      console.log(value)
+      if (value ==='Reprogramado') {
+        resolve() 
+      } else if (value === status) {
+        resolve('Debe seleccionar un estado diferente')
+      } else {
+         resolve()
+      }
+    })
+  }
+})
+if (!estado) {
+  Swal.fire(`Debe llenar todos los campos, por favor!`);
+  return
+} 
+if (estado) { 
+  var motiv, fecha_rep
+  if (estado == "Cancelado") {
+    const { value: motivo } = await Swal.fire({
+      title: 'Indique el motivo',
+      input: 'text',
+      inputPlaceholder: 'Motivo',
+     // inputValue: inputValue,
+      showCancelButton: true,
+      inputValidator: (value) => {
+        
+        return new Promise((resolve) => {
+          
+          if (!value) {
+            resolve('Debe colocar un motivo')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+  if (!motivo) {
+    Swal.fire(`Debe llenar todos los campos, por favor!`);
+    return
+  }  
+
+    motiv = motivo
+  }
+  if (estado == "Reprogramado") {
+    const { value: fecha_re } = await Swal.fire({
+      title: 'Indique la fecha',
+      html:
+      '<input id="swal-input1" class="swal2-input" type="date">',
+    focusConfirm: false,
+    preConfirm: () => {
+      const fecha_pago =
+      Swal.getPopup().querySelector("#swal-input1").value;      
+    if (!fecha_pago) {
+      Swal.showValidationMessage(
+        `Debe llenar todos los campos, por favor!`
+      );
+    }
+      return [
+        document.getElementById('swal-input1').value,
+      ]
+    }
+    })
+    if (!fecha_re) {
+      Swal.fire(`Debe llenar todos los campos, por favor!`);
+      return
+    }  
+    fecha_rep =fecha_re
+  }
+  
+  const data_C = new FormData();
+  data_C.append("id", id);
+  data_C.append("status", estado);
+  data_C.append("motivo", motiv);
+  data_C.append("fecha_re", fecha_rep);
+  $.ajax({
+    url: `/cambiaS_pedido`,
+    type: 'POST',
+    data: data_C,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: async function (data, textStatus, jqXHR) {
+      console.log(data)
+$('#array_pedido').val(JSON.stringify(data.pedidos_let))
+$('#carga_').val(JSON.stringify(data.carga_let))
+$('.datatables-basic').dataTable().fnDestroy();
+ $('.datatables-basic').empty();
+$('.datatables-basic').html(`<thead>
+<tr>                                                
+    <th></th>
+    <th>#Pedido</th>
+    <th></th>
+    <th class="cliente">Cliente</th>
+    <th>To. garr.</th>
+    <th>Monto Total</th>
+    <th>Adeudo</th>
+    <th>Status del Pedido</th>
+    <th>Status de Pago</th>
+    <th>Forma de Pago</th>
+    <th>Fecha</th>
+    <th>Opciones</th>
+    <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+
+$('.datatables-basic2').dataTable().fnDestroy();
+$('.datatables-basic2').empty();
+$('.datatables-basic2').html(`<thead>
+<tr>
+    <th>Nº Pedido</th>
+    <th></th>
+    <th>Cliente</th>
+    <th>Total garrafones</th>
+    <th>Monto Total</th>
+    <th>Status del Pedido</th>
+    <th>Status de Pago</th>
+    <th>Metodo de Pago</th>
+    <th>Fecha</th>
+    <th>Opciones</th>
+    <th>oculto choferes </th> 
+<th>oculto asentamiento </th> 
+</tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+
+await cargaTablas('si').then(()=>{
+  if ($('#filterPosition').val() != "") {
+    $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+   }
+ });
+$('.datatables-resumen').dataTable().fnDestroy();
+$('.datatables-resumen').empty();
+$('.datatables-resumen').html(`<thead>
+<tr>
+    <th>Carga Inicial</th>
+    <th>Pedidos</th>
+    <th>Entregados</th>
+    <th>Pendientes</th>                                                
+
+<th>oculto choferes </th>  
+</tr>
+</thead>`);
+
+cargaTableResumen('si')
+if ($('#filterPosition').val() != "") {
+ $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+}
+    },
+    error: function (jqXHR, textStatus) {
+      console.log('error:' + jqXHR)
+    }
+  });
+
+
+// window.location.href = `/cambiaS_pedido/${id}/${estado}`;
+}
+ }
+
+async function cambioPago(id, status, fecha_pedido, monto) {
+  
+  if (moment().isSame(fecha_pedido, 'day')) {
+    const { value: estado } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (estado) {
+        
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", estado);
+      $.ajax({
+        url: `/cambia_S_pago`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: async function (data, textStatus, jqXHR) {
+    $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th></th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th></th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+    
+    await cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
+  } else {
+    let chof = $('#choferes').val();
+    let choferes  = JSON.parse(chof.replace(/&quot;/g,'"'));
+    let arr=[]
+  for (let i = 0; i < choferes.length; i++) {
+    arr.push({id:choferes[i]['id'],name: choferes[i]['name']+ " "+ choferes[i]['lastName']})  
+  }
+  var options = {};
+  $.map(arr,
+      function(o) {
+          options[o.id] = o.name;
+      });
+    const { value: status_ } = await Swal.fire({
+      title: 'Seleccione un nuevo Status',
+      input: 'select',
+      inputOptions: {
+          Pagado: 'Pagado',
+          'Por verificar': 'Por verificar',
+      },
+      inputPlaceholder: 'Seleccione un nuevo Status',
+      showCancelButton: true,
+      inputValidator: (value) => {
+        return new Promise((resolve) => {
+          if (value === status) {
+            resolve('Debe seleccionar un estado diferente')
+          } else {
+             resolve()
+          }
+        })
+      }
+    })
+    
+    if (status_) {  
+    var tipo_p, fecha_pago, chofer_r
+    if (status_ == "Pagado") {
+      const { value: tipo } = await Swal.fire({
+        title: 'Indique el tipo',
+        input: 'select',
+      inputOptions: {
+          Efectivo: 'Efectivo',
+          'Tarjeta': 'Tarjeta',
+          'Transferencia': 'Transferencia'
+      },
+        inputPlaceholder: 'tipo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (!value) {
+              resolve('Debe colocar un tipo')
+            } else {
+               resolve()
+            }
+          })
+        }
+      })
+      if (!tipo) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
+      tipo_p = tipo    
+    }
+   
+    if (tipo_p == "Efectivo") {
+      const { value: chofer } = await Swal.fire({
+        title: 'Indique el chofer',
+        input: 'select',
+      inputOptions: options,
+        inputPlaceholder: 'Chofer',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (!value) {
+              resolve('Debe colocar un chofer')
+            } else {
+               resolve()
+            }
+          })
+        }
+      })
+      if (!chofer) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      } 
+      chofer_r = chofer
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input2" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input2").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
+      }
+        return [
+          document.getElementById('swal-input2').value,
+        ]
+      }
+      })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
+      fecha_pago =fecha_re
+    }else{
+      const { value: fecha_re } = await Swal.fire({
+        title: 'Indique la fecha',
+        html:
+        '<input id="swal-input1" class="swal2-input" type="date">',
+      focusConfirm: false,
+      preConfirm: () => {
+        const fecha_pago =
+        Swal.getPopup().querySelector("#swal-input1").value;      
+      if (!fecha_pago) {
+        Swal.showValidationMessage(
+          `Debe llenar todos los campos, por favor!`
+        );
+      }
+        return [
+          document.getElementById('swal-input1').value,
+        ]
+      }
+      })
+      if (!fecha_re) {
+        Swal.fire(`Debe llenar todos los campos, por favor!`);
+        return
+      }
+      chofer_r = 'Null'
+      fecha_pago =fecha_re
+    }         
+      const data_C = new FormData();
+      data_C.append("id", id);
+      data_C.append("status", status_);
+      data_C.append("tipo_pago", tipo_p);
+      data_C.append("chofer_r", chofer_r);
+      data_C.append("fecha_pago", fecha_pago);
+      data_C.append("monto", monto);
+      $.ajax({
+        url: `/cambia_S_pago_deudor`,
+        type: 'POST',
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success:async function (data, textStatus, jqXHR) {
+    console.log(data)
+       $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+    
+    $('.datatables-basic').dataTable().fnDestroy();
+    $('.datatables-basic').empty();
+    $('.datatables-basic').html(`<thead>
+    <tr>                                                
+        <th></th>
+        <th>#Pedido</th>
+        <th></th>
+        <th class="cliente">Cliente</th>
+        <th>To. garr.</th>
+        <th>Monto Total</th>
+        <th>Adeudo</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Forma de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+        <th>oculto asentamiento </th> 
+    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="4" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+    $('.datatables-basic2').dataTable().fnDestroy();
+    $('.datatables-basic2').empty();
+    $('.datatables-basic2').html(`<thead>
+    <tr>
+        <th>Nº Pedido</th>
+        <th></th>
+        <th>Cliente</th>
+        <th>Total garrafones</th>
+        <th>Monto Total</th>
+        <th>Status del Pedido</th>
+        <th>Status de Pago</th>
+        <th>Metodo de Pago</th>
+        <th>Fecha</th>
+        <th>Opciones</th>
+        <th>oculto choferes </th> 
+    <th>oculto asentamiento </th> 
+    </tr>
+</thead>
+<tfoot>
+<tr>
+<th colspan="2" style="text-align:right"> Total</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</tfoot>`);
+    
+  await  cargaTablas('si').then(()=>{
+      if ($('#filterPosition').val() != "") {
+        $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+       }
+     });
+        },
+        error: function (jqXHR, textStatus) {
+          console.log('error:' + jqXHR)
+        }
+      });
+    
+    }
+  }
+
+}
+function edit_pedido(id_edit) {
+  if (typeof id_edit =="undefined") {
+    return console.log(id_edit)
+  }
+ //window.location.href = `/editar_pedido/${id_edit2}`;
+
+const data_C = new FormData();
+data_C.append("id", id_edit);
+$.ajax({
+  url: `/editar_pedido`,
+  type: 'POST',
+  data: data_C,
+  cache: false,
+  contentType: false,
+  processData: false,
+  success: function (data, textStatus, jqXHR) {
+if ( $(".chofer option[value='" + data['personalId'] + "']").length == 0 ){
+//$('.chofer').prepend('<option selected value="' + data['chofer'] + '">' + data['chofer'] + '</option>');  
+}else{
+  //$('.chofer').find('option:selected').remove().end();
+  $(".chofer option[value='" + data['personalId'] + "']").attr("selected", true);
+}
+
+$('#id_chofer_edit').val(data['personalId'])
+$('#edit_pedido_id').val(data['id'])
+$('#edit_pedido_id_cliente').val(data['clienteId'])
+let garrafon19L = JSON.parse(data['garrafon19L'])
+let garrafon11L = JSON.parse(data['garrafon11L'])
+let botella1L = JSON.parse(data['botella1L'])
+let botella5L = JSON.parse(data['botella5L'])
+$('.count_refill_garrafon').val(garrafon19L['refill_cant'])
+$('.refill_garrafon_mont').val(garrafon19L['refill_mont'])
+$('.count_canje_garrafon').val(garrafon19L['canje_cant'])
+$('.canje_garrafon_mont').val(garrafon19L['canje_mont'])
+$('.count_enNew_garrafon').val(garrafon19L['nuevo_cant'])
+$('.enNew_garrafon_mont').val(garrafon19L['nuevo_mont'])
+$('.count_enobsequio_garrafon').val(garrafon19L['enobsequio_cant_garrafon'])
+$('.total_garrafon').val(garrafon19L['total_cant'])
+$('.cant_garrafon').text(garrafon19L['total_cant'])
+$('.monto_garrafon_input').val(garrafon19L['total_cost'])
+$('.monto_garrafon').text(garrafon19L['total_cost'])
+
+$('.count_refill_botella').val(botella1L['refill_cant'])
+$('.refill_botella_mont').val(botella1L['refill_mont'])
+$('.count_canje_botella').val(botella1L['canje_cant'])
+$('.canje_botella_mont').val(botella1L['canje_mont'])
+$('.count_enNew_botella').val(botella1L['nuevo_cant'])
+$('.enNew_botella_mont').val(botella1L['nuevo_mont'])
+$('.count_enobsequio_botella').val(botella1L['enobsequio_cant_botella'])
+$('.total_botella').val(botella1L['total_cant'])
+$('.cant_botella').text(botella1L['total_cant'])
+$('.monto_botella_input').val(botella1L['total_cost'])
+$('.monto_botella').text(botella1L['total_cost'])
+
+$('.count_refill_garrafon11l').val(garrafon11L['refill_cant'])
+$('.refill_garrafon11l_mont').val(garrafon11L['refill_mont'])
+$('.count_canje_garrafon11l').val(garrafon11L['canje_cant'])
+$('.canje_garrafon11l_mont').val(garrafon11L['canje_mont'])
+$('.count_enNew_garrafon11l').val(garrafon11L['nuevo_cant'])
+$('.enNew_garrafon11l_mont').val(garrafon11L['nuevo_mont'])
+$('.count_enobsequio_garrafon11l').val(garrafon11L['enobsequio_cant_garrafon11l'])
+$('.total_garrafon11l').val(garrafon11L['total_cant'])
+$('.cant_garrafon11l').text(garrafon11L['total_cant'])
+$('.monto_garrafon11l_input').val(garrafon11L['total_cost'])
+$('.monto_garrafon11l').text(garrafon11L['total_cost'])
+
+$('.count_refill_botella5l').val(botella5L['refill_cant'])
+$('.refill_botella5l_mont').val(botella5L['refill_mont'])
+$('.count_canje_botella5l').val(botella5L['canje_cant'])
+$('.canje_botella5l_mont').val(botella5L['canje_mont'])
+$('.count_enNew_botella5l').val(botella5L['nuevo_cant'])
+$('.enNew_botella5l_mont').val(botella5L['nuevo_mont'])
+$('.count_enobsequio_botella5l').val(botella5L['enobsequio_cant_botella5l'])
+$('.total_botella5l').val(botella5L['total_cant'])
+$('.cant_botella5l').text(botella5L['total_cant'])
+$('.monto_botella5l_input').val(botella5L['total_cost'])
+$('.monto_botella5l').text(botella5L['total_cost'])
+
+$('.total_total_inp').val(data['monto_total'])
+$('.total_total').text(data['monto_total'])
+
+if ( $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").length == 0 ){
+$('#metodo_pago_edit').prepend('<option selected value="' + data['metodo_pago'] + '">' + data['metodo_pago'] + '</option>');  
+}else{
+//  $('#metodo_pago_edit').find('option:selected').remove().end();
+  $("#metodo_pago_edit option[value='" + data['metodo_pago'] + "']").attr("selected", true);
+}
+
+if (data['cliente']['tipo']=="Negocio" || data['cliente']['tipo'] =="Punto de venta") {
+  console.log(data)
+  $('#descuento_upd_cliente2').val(data['cliente']['monto_nuevo']);
+  console.log($('#descuento_upd_cliente2').val())
+}
+
+$('.status_pago').val(data['status_pago'])
+$('#status_pedido_edit').val(data['status_pedido'])
+$('#edit_fecha_pedido').val(data['fecha_pedido'])
+$('#prestados_edit').val(data['garrafones_prestamos'])
+$('#danados_edit').val(data['danados'])
+$('#descuento_edit').val(data['descuento'])
+$('#total_total_inp').val(data['monto_total'])
+if (data['descuento']>0) {
+  $('#monto_descuento').removeClass('d-none')
+  console.log($('#total_total_inp').val())
+  let descuento = parseInt($('#total_total_inp').val()) - parseInt(data['descuento'])
+  $('#total_desc').text(descuento)
+}
+$('#observacion_edit').val(data['observacion'])
+$('#edit_pedido').modal('show')
+  },
+  error: function (jqXHR, textStatus) {
+    console.log('error:' + jqXHR)
+  }
+});
+}
+function delete_pedido(id_, tabla) {
+  if ($('#otro_rol').length) {
+    Swal.fire("Función valida solo para directores")
+    return
+  }
+  var id = id_
+  let dt_basic = tabla
+  Swal.fire({
+    title: 'Eliminar',
+    text: "Seguro desea eliminar el pedido indicado",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Eliminar',
+    showLoaderOnConfirm: true,
+    preConfirm: (login) => {
+      return fetch(`/delete_pedido/${id}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(response.statusText)
+          }
+          return response.json()
+        })
+        .catch(error => {
+          Swal.showValidationMessage(
+            `Request failed: ${error}`              
+          )
+        })
+    },
+    allowOutsideClick: () => !Swal.isLoading()
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $(`${dt_basic}`).DataTable().row($(`${dt_basic} tbody .delete-record${id}`).parents('tr')).remove().draw();
+      Swal.fire({
+        title: `Pedido ${id} borrado con éxito`,
+      })
+      if ($('#filterPosition').val() != "") {
+       $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+     }
+    }
+  })
+}
+function share_record(id_) {
+    //dt_basic.row($(this).parents('tr')).remove().draw();
+    var id_edit = id_
+    if (typeof id_edit =="undefined") {
+      return console.log(id_edit)
+    }
+    /*let direction_copy = location.host + `/ver_pedido/${id_edit}`;
+    $('#p1').text(direction_copy)*/
+    copyToClipboard(`#CopyPedido${id_edit}`,id_edit)
+}
