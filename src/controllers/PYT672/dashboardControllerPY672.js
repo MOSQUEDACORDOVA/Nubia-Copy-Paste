@@ -2412,14 +2412,18 @@ exports.managUsuarios = (req, res) => {
     roleAdmin = false
     roleProf = true
   }
+
+  let { nombre, email, dni, fecha_nacimiento, fecha_inicio, pais, telefono, puesto } = res.locals.user
+  console.log(res.locals.user)
     
   res.render(proyecto+"/admin/changeuser-password", {
-    pageName: "Usuarios",
+    pageName: "Perfil de Usuario",
     dashboardPage: true,
     dashboard: true,
     py672:true,
     managUsuarios: true,
     roleAdmin, roleProf,
+    nombre, email, dni, fecha_nacimiento, fecha_inicio, pais, telefono, puesto
   });
 };
 
