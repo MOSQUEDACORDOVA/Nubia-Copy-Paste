@@ -41,7 +41,6 @@ function tablanotif1_2(editada) {
           // Avatar image/badge, Name and post
           targets: 0,
           render: function (data, type, full, meta) {
-console.log(full)
 let nombre = full['nombre_cliente']+ " " + full['apellido_cliente']+ " / "+ full['asentamiento']
 
         //aqui activa el modal info del cliente

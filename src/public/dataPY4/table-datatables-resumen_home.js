@@ -11,20 +11,13 @@
     
   let valor = $('#carga_').val()
   let valor_pedido = $('#array_pedido').val()
-  let array_resumen_carga = "", array_pedido
-  if (rechar) {
-    
-    array_resumen_carga = JSON.parse(valor)
-    array_pedido = JSON.parse(valor_pedido)
-  }else{
-    array_resumen_carga = JSON.parse(valor.replace(/&quot;/g,'"'))
-    array_pedido = JSON.parse(valor_pedido.replace(/&quot;/g,'"'))
-  }
+  let array_resumen_carga = "";
+   array_resumen_carga = JSON.parse(valor)
   let codigosP = $('#array_cp').val()
  let hoy = moment().format('YYYY-MM-DD')
   let pedidos_resumen = array_pedido.filter(status => status.status_pedido == "En proceso" && status.fecha_pedido == hoy|| status.status_pedido == "Rezagado" && status.fecha_pedido == hoy || status.status_pedido == "Por entregar" && status.fecha_pedido == hoy || status.status_pedido == "Devuelto" && status.fecha_pedido == hoy || status.status_pedido == "Reprogramado" && status.fecha_pedido == hoy);
   let pedidos_entregados = array_pedido.filter(status => status.status_pedido == "Entregado" && status.fecha_pedido == hoy ); // return implicito
-   var dt_table_resumen = $('.datatables-resumen');
+   var dt_table_resumen = $('#resume-table');
 
   // DataTable with buttons
   // --------------------------------------------------------------------
@@ -195,7 +188,7 @@
  // Advanced Search Functions Ends
  $(function () {
   'use strict';
-  cargaTableResumen()
+  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
 

@@ -253,23 +253,7 @@ exports.dashboard = (req, res) => {
       let cp_arr = JSON.parse(cp_);
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
-          let clientes_arr = JSON.parse(clientes_d);          
-          PedidosDB(id_sucursal)
-            .then((pedidos_) => {
-              let pedidos_let = JSON.parse(pedidos_);
-              let reprogramado = "";
-              let p = [];
-              for (let i = 0; i < pedidos_let.length; i++) {
-                reprogramado = moment(dia).isSameOrAfter(
-                  moment(pedidos_let[i].fecha_pedido),
-                  "day"
-                ); // true
-                
-                if (reprogramado) {
-                  p.push(pedidos_let[i]);
-                }
-              }
-              pedidos_ = JSON.stringify(p);
+          let clientes_arr = JSON.parse(clientes_d);
               //COLOCAR AQUI QUE CUANDO EL PEDIDO TENGA EL STATUS REPROGRAMADO,Y SU FECHA SEA MAYOR A LA DE HOY, NO SE CARGE EN EL ARRAY pedidos_
               LastPedidosAll(id_sucursal)
                 .then((pedidos_g) => {
@@ -362,10 +346,7 @@ exports.dashboard = (req, res) => {
                               for (let i = 0; i < prestamos_let.length; i++) {
                                 fecha_created = prestamos_let[i].fecha_ingreso;
 
-                                let iguales = moment(fecha_created,'MM/DD/YYYY').isSame(
-                                  moment(),
-                                  "day"
-                                ); // true
+                                let iguales = moment(fecha_created,'MM/DD/YYYY').isSame(moment(), "day"); // true
                                ///if (iguales == true) {
                                   prestamos_byday.push(prestamos_let[i]); 
                                   
@@ -383,7 +364,7 @@ exports.dashboard = (req, res) => {
                                       break;
                                   }
                                // }
-                              }
+                              };
                               prestamos_byday = JSON.stringify(prestamos_byday);
                               DataBase.EtiquetasAll(id_sucursal)
                                 .then((etiquetas_) => {
@@ -410,8 +391,6 @@ exports.dashboard = (req, res) => {
                                         admin,
                                         clientes_d,
                                         clientes_arr,
-                                        pedidos_,
-                                        pedidos_let,
                                         choferes_,
                                         prestamos_byday,
                                         prestamos_,
@@ -425,12 +404,6 @@ exports.dashboard = (req, res) => {
                                         msg,
                                         carga_,verifica_pedidos_referido,choferes
                                       });
-                                    })
-                                    .catch((err) => {
-                                      console.log(err)
-                                                                      let msg = "Error en sistema";
-                                      return res.redirect("/errorpy4/" + msg);
-                                    });
                                 })
                                 .catch((err) => {
                                   console.log(err)
@@ -1326,7 +1299,7 @@ if (desc_referido > 0) {
       let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
       await PedidosDB(id_sucursal)
-        .then((pedidos_) => {
+        .then(async (pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
           let reprogramado = "";
           let p = [];
@@ -1342,7 +1315,9 @@ if (desc_referido > 0) {
           }
           pedidos_let = p;
           let msg = respuesta;
-          return res.send({ msg: msg, pedidos_let,pedidoGuardado });
+          let pedido = JSON.parse(await DataBase.PedidoById(pedidoGuardado['id']));
+              console.log(pedido)
+          return res.send({ msg: msg, pedidos_let,pedido });
         })
         .catch((err) => {
               let msg = "Error en sistema";
@@ -1523,32 +1498,13 @@ exports.Save_editPedidoPy4 = (req, res) => {
       let id_user = user.id;
     let description =`Editó el pedido ${id_pedido}`;
     let Log = await DataBase.SaveLogs(id_user,'PedidosUpd','Save_editPedidoPy4',description);
-      await PedidosDB(id_sucursal)
-        .then((pedidos_) => {
-          let pedidos_let = JSON.parse(pedidos_);
-          let msg = respuesta;
-          let reprogramado = "";
-          let p = [];
-          for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment().isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido, 'YYYY-MM-DD'),
-              "d"
-            ); // true
-            
-            if (reprogramado) {
-              p.push(pedidos_let[i]);
-            }
-          }
-          pedidos_let = p;
-          return res.send({ msg: msg, pedidos_let });
-          // res.redirect('/homepy4/'+msg)
-        })
-        .catch((err) => {
-              let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
-        });
+      
+          let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+              console.log(pedido)
+          return res.send({ pedido });
     })
     .catch((err) => {
+      console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
@@ -1589,46 +1545,26 @@ exports.cambiaS_pedido = (req, res) => {
       let id_user = user.id;
       let description =`Cambio el estado del pedido ${id_pedido}, status: ${status}, motivo: ${motivo}, fecha: ${fecha_rep}`;
       let Log = await DataBase.SaveLogs(id_user,'CambiaStatus','cambiaS_pedido',description);
-      PedidosDB(id_sucursal)
-        .then((pedidos_) => {
-          let pedidos_let = JSON.parse(pedidos_);
-          let hoy = moment();
-          let forma_hoy = hoy.format("L");
-          let reprogramado = "";
-          let p = [];
-          for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment(dia).isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido,'YYYY-MM-DD'),
-              "day"
-            ); // true
-            
-            if (reprogramado) {
-              p.push(pedidos_let[i]);
-            }
-          }
-          pedidos_let = p;
-          Carga_init(id_sucursal, forma_hoy)
+          Carga_init(id_sucursal, moment().format("L"))
             .then(async (carga_) => {
               let carga_let = JSON.parse(carga_);
 
               let msg = respuesta;
-              return res.send({ msg: msg, pedidos_let, carga_let });
+              let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+              console.log(pedido)
+              return res.send({ msg: msg, carga_let,pedido });
               // res.redirect('/homepy4/'+msg)
             })
             .catch((err) => {
-                      let msg = "Error en sistema";
-              return res.redirect("/errorpy4/" + msg);
+              console.log(err)
+              return res.send({ err });
             });
         })
         .catch((err) => {
+          console.log(err)
               let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
+              return res.send({ err });
         });
-    })
-    .catch((err) => {
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
 };
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;

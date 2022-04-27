@@ -853,6 +853,7 @@ console.log(hoy)
           //console.log(planes);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -1165,12 +1166,13 @@ console.log(hoy)
   },
   PedidoById(id){
     return new Promise((resolve, reject) => {
-      Pedidos.findAll({where: {
+      Pedidos.findOne({where: {
         id: id
       },include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        //{ model: Productos_pedidos,as:'Productos_' }
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       })
         .then((data) => {
@@ -1180,6 +1182,7 @@ console.log(hoy)
           ////console.log(id_usuario);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
