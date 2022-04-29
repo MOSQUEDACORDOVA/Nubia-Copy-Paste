@@ -378,9 +378,9 @@ exports.dashboard = (req, res) => {
                                         msg =
                                           "No se ha realizado la carga inicial, verificar";
                                       }
-                                     let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido())
-                                     
-                                     cont_not = cont_not + parseInt(verifica_pedidos_referido.length)
+                                     let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido());                                     
+                                     cont_not = cont_not + parseInt(verifica_pedidos_referido.length);
+                                     console.log('renderingpage');
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
                                         dashboardPage: true,
