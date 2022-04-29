@@ -615,7 +615,11 @@
        $('#status_pago').val('Por verificar')
      } else {
        console.log("Pagado")
-       if ($('#deuda_anterior').val() !="") {
+       
+      let deuda_anterior =$('#deuda_anterior').val();
+      
+       if (deuda_anterior >0) {
+         console.log(deuda_anterior)
          return  $('#status_pago').val('Por verificar')
        }
        $('#status_pago').val('Pagado')
