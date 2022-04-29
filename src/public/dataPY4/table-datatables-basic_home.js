@@ -309,11 +309,12 @@ Observaciones:${full['observacion']}
           render: function (data, type, full, meta) {
             
             for (let i = 0; i < zonas.length; i++) {
-              if (zonas[i].id == data) {
+              console.log(full['cliente']['sucursaleId'])
+              if (zonas[i].id == full['cliente']['sucursaleId']) {
                 var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
               }                     
             }
-            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${data}</span>`);
+            return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${full['cliente']['sucursaleId']}</span>`);
           }
         },
         {
