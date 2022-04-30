@@ -1236,8 +1236,10 @@ exports.regPedidoPy4 = async (req, res) => {
   var verificaPedido = JSON.parse(
     await DataBase.VerificaDuplicado(fecha_pedido, id_cliente)
   );
+  console.log(verificaPedido)
+  
    if (verificaPedido != null) {
-    msg = "El cliente ya cuenta con un pedido, para el día de hoy!";
+    msg = "El cliente ya cuenta con un pedido, del día: " + verificaPedido.fecha_pedido;
     return res.send({ msg: msg, fail: "duplicado" });
   }
   let descuento
