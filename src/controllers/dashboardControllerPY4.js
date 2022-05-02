@@ -1568,6 +1568,51 @@ exports.cambiaS_pedido = (req, res) => {
               return res.send({ err });
         });
 };
+exports.cambia_M_pago = (req, res) => {
+  const user = res.locals.user;
+  const id_pedido = req.body.id;
+  const mpago = req.body.mpago;
+  let id_sucursal = req.session.sucursal_select;
+  let Carga_init = "",
+    CambiaStatus = "";
+  switch (req.session.tipo) {
+    case "Director":
+      Carga_init = DataBase.Carga_initResumen;
+      PedidosDB = DataBase.PedidosAll;
+      break;
+
+    default:
+      Carga_init = DataBase.Carga_initSResumen;
+      PedidosDB = DataBase.PedidosAllS;
+      break;
+  }  
+  DataBase.CambiaMPago(id_pedido, mpago)
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el metodo de pago del pedido ${id_pedido}, nuevoM: ${mpago}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaMPago','cambia_M_pago',description);
+          // Carga_init(id_sucursal, moment().format("L"))
+          //   .then(async (carga_) => {
+          //     let carga_let = JSON.parse(carga_);
+
+          //     let msg = respuesta;
+          //     let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+          //     console.log(pedido)
+              
+          //     // res.redirect('/homepy4/'+msg)
+          //   })
+          //   .catch((err) => {
+          //     console.log(err)
+          //     return res.send({ err });
+          //   });
+            return res.send({ msg: 'Done'});
+        })
+        .catch((err) => {
+          console.log(err)
+              let msg = "Error en sistema";
+              return res.send({ err });
+        });
+};
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;

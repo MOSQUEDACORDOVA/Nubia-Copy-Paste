@@ -858,6 +858,29 @@ console.log(hoy)
         });
     });
   },
+  CambiaMPago(id_pedido,mpago) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          metodo_pago: mpago}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({metodo_pago: mpago},{where:{pedidoId:id_pedido}}).then((pedido_) =>{
+           resolve("Se actualizó el metodo con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
   CambiaStatusFecha(id_pedido,status, motivo,fecha_rep) {
     return new Promise((resolve, reject) => {
         
