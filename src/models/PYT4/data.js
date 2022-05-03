@@ -313,6 +313,25 @@ module.exports = {
         });
     });
   },
+  CambiaTituloCliente(id,nTitulo) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          titulo:nTitulo},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   guardaReferidoACliente(id,agrega_cantidad) {
     return new Promise((resolve, reject) => {
       Clientes.update(

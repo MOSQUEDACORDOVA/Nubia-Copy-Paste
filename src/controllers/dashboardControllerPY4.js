@@ -1613,6 +1613,25 @@ exports.cambia_M_pago = (req, res) => {
               return res.send({ err });
         });
 };
+exports.cambia_titulo_cliente = (req, res) => {
+  const user = res.locals.user;
+  const id_cliente = req.body.id;
+  const nTitulo = req.body.nTitulo;
+  DataBase.CambiaTituloCliente(id_cliente, nTitulo)
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el titulo del clinete ${id_cliente}, nuevoT: ${nTitulo}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaTituloCliente','cambia_titulo_cliente',description);
+            return res.send({ msg: 'Done'});
+        })
+        .catch((err) => {
+          console.log(err)
+              let msg = "Error en sistema";
+              return res.send({ err });
+        });
+};
+
+
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;

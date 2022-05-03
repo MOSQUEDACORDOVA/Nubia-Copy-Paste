@@ -185,7 +185,7 @@ router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardCont
 router.post('/cambia_M_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_M_pago);
 router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiachofer_pedido);
 router.get('/enordesClient/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoCliente);
-
+router.post('/cambia_titulo_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_titulo_cliente);
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);

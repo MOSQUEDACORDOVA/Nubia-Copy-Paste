@@ -92,7 +92,7 @@ async function cargaPedidos() {
           { data: 'firstName' },
           { data: 'sucursaleId' },
           { data: 'etiqueta' },
-          { data: 'id' },
+          { data: 'titulo' },///4
           { data: 'telefono' },
           { data: 'email' }, 
           { data: 'cantidad_referidos' }, 
@@ -233,6 +233,14 @@ async function cargaPedidos() {
             render: function (data, type, full, meta) {
            
           return "S/T"
+            }
+          },
+          {
+            // Label
+            targets: 4,
+            render: function (data, type, full, meta) {
+              let span = `<span id="titulo${full['id']}" class="badge rounded-pill badge-light-info" style="cursor:pointer" onclick=\'cambiaTitulo("${full['id']}","${data}","${meta.row}","datatables-basic")\'>${data}</span>`;
+              return span;
             }
           },
           {
@@ -962,4 +970,62 @@ async function cargaPedidos() {
       allowOutsideClick: () => !Swal.isLoading()
     })
   
+  }
+  async function cambiaTitulo (id, tituloActual, rowNum,dtTable) {
+    var cell = $(`#titulo${id}`).closest("td");
+    console.log(rowNum)
+      const { value: nTitulo } = await Swal.fire({
+        title: 'Seleccione un titulo',
+        input: 'select',
+        inputOptions: {
+          'A': 'A',
+          'B': 'B',
+          'C': 'C',
+          'D': 'D',
+          'E': 'E',
+          'F': 'F',
+          'G': 'G',
+          'H': 'H',
+          'I': 'I',
+          'J': 'J',
+
+        },
+        inputPlaceholder: 'Seleccione un nuevo titulo',
+        showCancelButton: true,
+        inputValidator: (value) => {
+          return new Promise((resolve) => {
+            if (value === tituloActual) {
+              resolve('Debe seleccionar un titulo diferente')
+            } else {
+               resolve()
+            }
+          })
+        }
+      })
+      
+      if (nTitulo) {
+          
+        const data_C = new FormData();
+        data_C.append("id", id);
+        data_C.append("nTitulo", nTitulo);
+        $.ajax({
+          url: `/cambia_titulo_cliente`,
+          type: 'POST',
+          data: data_C,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: async function (data, textStatus, jqXHR) {
+      // $('#array_pedido').val(JSON.stringify(data.pedidos_let))
+      $('.'+dtTable).DataTable().row(rowNum).cell(cell).data(`${nTitulo}`).draw();
+     if ($('#filterPosition').val() != "") {
+          $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
+         }
+          },
+          error: function (jqXHR, textStatus) {
+            console.log('error:' + jqXHR)
+          }
+        });
+      
+      }
   }
