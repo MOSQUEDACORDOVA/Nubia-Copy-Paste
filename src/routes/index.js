@@ -622,10 +622,13 @@ router.get('/obtenerMatriculasAll', dashboardControllerPY672.obtenerMatriculasAl
 
 // * DISTINC GRUPOS CONTROL
 router.get('/gruposControl', dashboardControllerPY672.gruposControl);
+// * COMPROBAR CONTRASEÑA
+router.get('/validacionPassw/:passw', dashboardControllerPY672.validacionPassw)
 
 //COMENTARIOS
 router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.get_comments_alumno);
 router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentario);
+router.get('/guardar_comentario_admin_academy/:id_alumno/:comentario', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentarioCaja);
 router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);

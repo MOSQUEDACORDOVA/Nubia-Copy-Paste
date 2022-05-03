@@ -91,7 +91,10 @@ $(function () {
       $("#btn-congelar-alumno").addClass("d-none");
       $("#btn-activar-alumno").removeClass("d-none");
       updateHistorial(e.target.value);
-      Swal.fire("Alumno congelado");
+      Swal.fire({
+        title: 'Alumno congelado!',
+        icon: 'info',
+      })
       return;
     } else {
       $("#btn-congelar-alumno").removeClass("d-none");
@@ -192,7 +195,7 @@ $(function () {
   </div>
 </td>
 
-<td>${mensualidad_coste}</td>
+<td class="monto">${mensualidad_coste}</td>
 <td>
     <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -212,7 +215,7 @@ $(function () {
       titulo('a');
       incripcion();
     }
-
+    
     /**FIN DEL SELECT ALUMNO */
   });
 
@@ -348,6 +351,42 @@ $(function () {
     // document.getElementById("transct").classList.replace("col-4", "col-6");
     $(".mensualidadAdd").addClass("d-none");
   }
+
+  const TotalAPagar = () => {
+    let total = 0
+    $("#body-table-pago #tr-total-pagar").remove();
+    let montos = document.querySelectorAll('#body-table-pago .monto')
+
+    montos.forEach(monto => {
+      console.log(monto.innerText)
+      total += parseInt(monto.innerText);
+    });
+
+    $("#body-table-pago").append(`
+    <tr id="tr-total-pagar">
+      <td>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold">Total a Pagar</span>
+        </div>
+      </td>
+
+      <td class="montoTotal">${total}</td>
+      <td>
+          <a class="item borrar" onclick="borrarFila('tr-total-pagar', 'total')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="feather feather-trash me-50">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                  </path>
+              </svg>
+              <span>Eliminar</span>
+          </a>
+      </td>
+    </tr>`);
+  }
+
   /**INICIO HABILITAR MENSUALIDAD */
   const recargo = async () => {
     let id_alumno = $("#id-alumno-form").val();
@@ -373,7 +412,7 @@ $(function () {
 <td>
 <span class="fw-bold">Recargo</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
 <a class="item borrar recargo" onclick="borrarFila('tr-recargo','recargo')">
    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -388,6 +427,7 @@ $(function () {
 </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT RECARGO */
 
   /**INICIO HABILITAR MENSUALIDAD */
@@ -495,7 +535,7 @@ $(function () {
     <td>
     <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagar}</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
  <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -510,6 +550,7 @@ $(function () {
  </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT MENSUALIDAD */
   /**INICIO HABILITAR MENSUALIDAD */
   const incripcion = async () => {
@@ -549,7 +590,7 @@ $(function () {
       <td>
       <span class="fw-bold">Inscripción</span>
   </td>
-  <td>5000</td>
+  <td class="monto">5000</td>
   <td>
    <a class="item borrar inscripcion"  onclick="borrarFila('tr-inscripcion','inscripcion')">
        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -565,6 +606,7 @@ $(function () {
   </td>
   </tr>`);
   $("#select-servicio").prepend(`<option value="inscripcion">Inscripción</option>`);
+  TotalAPagar();
     }
   
   }; /**FIN BNT INSCRIPCION */
@@ -594,7 +636,7 @@ $(function () {
 <td>
     <span class="fw-bold">Traslado</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
     <a class="item borrar traslado" onclick="borrarFila('tr-traslado','traslado')">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -615,6 +657,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**HABILITAR CONSTANCIA */
@@ -648,7 +691,7 @@ $(function () {
 <td>
 <span class="fw-bold">Constancia</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
 <a class="item borrar Constancia" onclick="borrarFila('tr-Constancia','Constancia')">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -669,6 +712,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**BTN HABILITAR TITULO */
@@ -774,7 +818,7 @@ $(function () {
 <td>
 <span class="fw-bold">Título N${nivel_grupo}</span>
 </td>
-<td>20000</td>
+<td class="monto">20000</td>
 <td>
 <a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -795,6 +839,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("20000");
     $("#itemPrice").val("20000");
+    TotalAPagar();
   }; /**FIN BNT TITULO */
 
   /**BTN HABILITAR REPOSICION */
@@ -826,7 +871,7 @@ $(function () {
 <td>
   <span class="fw-bold">Reposición L${leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
   <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -847,7 +892,7 @@ $(function () {
 </li>`);
       $("#total-servicios").text("10000");
       $("#itemPrice").val("10000");
-    
+      TotalAPagar();
   }; /**FIN BNT REPOSICION */
 
   /**BTN GENERAR CONSTANCIA */
@@ -1338,60 +1383,185 @@ $(function () {
     });
   });
 
-  $("#btn-congelar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id", id_estudiante);
-    $.ajax({
-      url: `/congelarestudiantepy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se congelo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
+  $("#btn-congelar-alumno").click(async () => {
+
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea congelar usuario seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+      // optional classes to avoid backdrop blinking between steps
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        Swal.fire({
+          title: 'Añadir motivo!',
+          icon: 'info',
+          input: 'text',
+          inputLabel: 'Comentario',
+          inputPlaceholder: 'Ingresa un comentario',
+          inputAttributes: {
+            minlength: 20,
+            autocapitalize: 'off',
+            autocorrect: 'off'
           }
-        });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
+        }).then((result2) => {
+          let comentario = result2.value,
+          id = $('.alumno-select').val()
+          let save = new Promise((resolve, reject) => {
+            resolve(GuardarComment(id, comentario))
+
+          }).then((response) => {
+            //console.log(response)
+            if(response === 200) {
+              Swal.fire({
+                title: 'Ingrese su contraseña',
+                icon: 'info',
+                input: 'password',
+                inputLabel: 'Password',
+                inputPlaceholder: 'Contraseña',
+                inputAttributes: {
+                  autocapitalize: 'off',
+                  autocorrect: 'off'
+                }
+              }).then((result3) => {
+                console.log(result3.value)
+                if(result3.isConfirmed) {
+                  let comprobarPassw = new Promise ((resolve, reject) => {
+                    resolve(ValidatePassw(result3.value))
+                  }).then((check) => {
+                    console.log(check)
+                    console.log("check")
+                    if(check.validation) {
+                      let id_estudiante = $("#id-alumno-form").val();
+                      let data = new FormData();
+                      data.append("id", id_estudiante);
+                      $.ajax({
+                        url: `/congelarestudiantepy672`,
+                        type: "POST",
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, textStatus, jqXHR) {
+                          
+                          $("#createAppModal").modal("hide");
+                          Swal.fire({
+                            title: 'Alumno congelado!',
+                            icon: 'success',
+                          }).then((resp) => {
+                            if (resp.isDismissed || resp.isConfirmed) {
+                              window.location.reload();
+                            }
+                          });
+                        },
+                        error: function (jqXHR, textStatus) {
+                        },
+                      });
+                      
+                    } else {
+                      Swal.fire({
+                        title: 'Estimano Usuario!',
+                        text: 'La contraseña es incorrecta.',
+                        icon: 'error',
+                        // optional classes to avoid backdrop blinking between steps
+                        showClass: { backdrop: 'swal2-noanimation' },
+                        hideClass: { backdrop: 'swal2-noanimation' },
+                      })
+                    }
+                  });
+
+                }
+              })
+
+             
+            } else {
+              Swal.fire({
+                title: 'Lo sentimos!',
+                text: 'Hubo un error al realizar la tarea.',
+                icon: 'error',
+                // optional classes to avoid backdrop blinking between steps
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+              })
+  
+            }
+          })
+          .catch((err) => {
+            reject(err)
+          })
+         
+
+        })
+
+      }
+    })
+
+    async function ValidatePassw (passw) {
+      let validate = await fetch('/validacionPassw/'+passw)
+      let response = await validate.json()
+
+      return response
+    }
+
+    async function GuardarComment (id, comentario) {
+      let init = await fetch('/guardar_comentario_admin_academy/'+id+"/"+comentario)
+      let response = await init.json()
+      
+      return init.status
+    }
   });
   $("#btn-activar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id", id_estudiante);
-    $.ajax({
-      url: `/activarestudiantecongeladopy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se reactivo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
-          }
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea activar el usuario seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let id_estudiante = $("#id-alumno-form").val();
+        let data = new FormData();
+        data.append("id", id_estudiante);
+        $.ajax({
+          url: `/activarestudiantecongeladopy672`,
+          type: "POST",
+          data: data,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function (data, textStatus, jqXHR) {
+            
+            $("#createAppModal").modal("hide");
+            Swal.fire({
+              title: 'Alumno activado!',
+              icon: 'success',
+            }).then((resp) => {
+              if (resp.isDismissed || resp.isConfirmed) {
+                window.location.reload();
+              }
+            });
+          },
+          error: function (jqXHR, textStatus) {
+          },
         });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
+      }
+    })
   });
 
   /**FIN DOCUMENT READY */
 });
 
 function borrarFila(t, identificador) {
-  
+    if (identificador === "total") {
+      $(`#${t}`).remove();
+      return
+    }
   $(`#${t}`).remove();
   $(`#${identificador}`).remove();
 }

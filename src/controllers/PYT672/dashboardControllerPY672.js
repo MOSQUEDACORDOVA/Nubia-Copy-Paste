@@ -9,6 +9,7 @@ var pdf = require('html-pdf');
 const { group } = require("console");
 const xlsxFile = require('read-excel-file/node');
 const { toJpeg } = require('html-to-image');
+const bcrypt = require('bcrypt-nodejs');
 
 
 // TODO: AUTH
@@ -2204,11 +2205,39 @@ exports.get_comments_alumno = async(req, res) => {
   return res.send({obtener_comentarios})
 };
 
+exports.validacionPassw = async (req, res) => {
+  let { passw } = req.params
+  const userId = res.locals.user.id
+  console.log(passw)
+  
+  const usuario = JSON.parse(await DataBase.ObtenerUsuario(userId))
+  console.log(usuario)
+  
+  let passHash = await bcrypt.hashSync(passw, bcrypt.genSaltSync(10));
+  console.log(passw)
+  console.log(passHash)
+
+  let validation = await bcrypt.compareSync(passw, usuario[0].password)
+  console.log(validation)
+  return res.send({validation})
+};
+
 exports.guardar_comentario = async(req, res) => {
-  var {id_alumno,
-    comentario} = req.body
-const userId = res.locals.user.id
-    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno,userId)
+  let { id_alumno, comentario } = req.body
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
+  console.log(comentario_save)
+
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
+  console.log(obtener_comentarios) 
+
+  return res.send({obtener_comentarios})
+};
+
+exports.guardar_comentarioCaja = async(req, res) => {
+  let { id_alumno, comentario } = req.params
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
   console.log(comentario_save)
 
   const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
