@@ -313,6 +313,25 @@ module.exports = {
         });
     });
   },
+  CambiaTituloCliente(id,nTitulo) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          titulo:nTitulo},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   guardaReferidoACliente(id,agrega_cantidad) {
     return new Promise((resolve, reject) => {
       Clientes.update(
@@ -851,6 +870,29 @@ console.log(hoy)
          
             
           //console.log(planes);
+        })
+        .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
+  CambiaMPago(id_pedido,mpago) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          metodo_pago: mpago}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({metodo_pago: mpago},{where:{pedidoId:id_pedido}}).then((pedido_) =>{
+           resolve("Se actualizó el metodo con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
         })
         .catch((err) => {
           console.log(err)

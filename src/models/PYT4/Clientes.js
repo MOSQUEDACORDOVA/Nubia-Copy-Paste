@@ -153,6 +153,11 @@ const Clientes = db.define('clientes', {
 		allowNull: true,
 		defaultValue: 1
 	},
+	titulo: {
+		type: DataTypes.STRING(2),
+		allowNull: true,
+		defaultValue: 'A'
+	},
 
 
 
