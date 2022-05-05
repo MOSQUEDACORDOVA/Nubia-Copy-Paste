@@ -408,7 +408,7 @@ $(function () {
       /*console.log(historial)
       console.log(filter)
       console.log("HISTORIAL")*/
-      if (filter.length) {
+      if (filter.length && filter[0].estado === "Pendiente") {
         /**FORM */
         $("#form-reg-pago").append(`
         <div id="reactivacion" class="reactivacion">
@@ -1816,9 +1816,7 @@ async function updateHistorial(id_estudiante) {
       $("#historial-list").append(lista_mensualidad);
     }
 
-    if (historial[i]["concepto"] == "Reactivacion") {
-      console.log(historial[i])
-      console.log("HERE")
+    if (historial[i]["concepto"] == "Reactivacion" && historial[i]["estado"] === "Pagado") {
       $("#historial-list").append(reactivacion);
     }
 
