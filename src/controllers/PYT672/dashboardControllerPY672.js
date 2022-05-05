@@ -125,6 +125,61 @@ exports.enabledDisUser = (req, res) => {
     });
 };
 
+exports.cargarPagosExcel = (req, res) => {
+  let { fileName } = req.params
+  console.log(req.params);
+  let msg = false;
+
+  let text = ""
+  
+  try {
+    xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
+      console.log(rows);
+      DataBase.GruposYMatriculas().then((resp) =>{
+        let alumnos = JSON.parse(resp)
+        console.log(alumnos)
+        console.log("alumnos")
+
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+  
+          let concepto = element[0], 
+          fecha_pago = element[1],
+          monto = element[2],
+          observacion = element[3],
+          banco = element[4],
+          transaccion = element[5],
+          alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
+          mora = "-",
+          id_alumno = alumnoFind[0].id
+
+          console.log(alumnoFind)
+          console.log(id_alumno)
+          console.log("alumno encontrado")
+  
+          DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_alumno).then((respuesta) =>{
+            console.log(respuesta)
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      text = "Pagos Registrados"
+      return res.redirect("/caja/PYT-672/");    
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/error672/PYT-672");    
+  }
+};
+
 exports.cargarExcel = (req, res) => {
   let { grupoId, fileName, text } = req.params
   let idEncargado = res.locals.user.id;
@@ -2139,7 +2194,9 @@ exports.caja = async(req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+
+  let proyecto = req.params.id
+  let alert = req.params.text
 
   let roleAdmin, roleProf
   if(req.user.puesto === "Administrador") {
@@ -2164,6 +2221,7 @@ console.log(matricula)
       dashboard: true,
       py672:true,
       caja: true,
+      alert,
       roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
     });
