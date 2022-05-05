@@ -2176,16 +2176,34 @@ console.log(matricula)
 
 exports.guarda_pago = async(req, res) => {
   console.log(req.body)
-  var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
+  console.log("DATA")
+  var { idCaja, id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
   
-for (let i = 0; i < concepto.length; i++) {
-    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
-      transaccion,id_alumno)
-  console.log(save_pago)
-  
-}
+  for (let i = 0; i < concepto.length; i++) {
+    if (concepto[i] === "Reactivacion") {
+      const save_pago = await DataBase.actualizarPagoPendiente(idCaja, fecha_pago, banco,
+        transaccion)
+      
+        console.log(save_pago)
+    } else {
+      const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
+        transaccion,id_alumno)
+
+        console.log(save_pago)
+    }
+    
+  }
 
   return res.send({response:'Se guardo bien'})
+};
+
+exports.guardarPagoReactivar = async(req, res) => {
+  console.log(req.body)
+  let {id_alumno, concepto, monto, mora, observacion} = req.body
+  
+  const save_pago = await DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id_alumno)
+    console.log(save_pago)
+  return res.redirect('/caja/PYT-672')
 };
 
 exports.historial_caja = async(req, res) => {

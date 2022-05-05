@@ -629,6 +629,7 @@ router.get('/guardar_comentario_admin_academy/:id_alumno/:comentario', authContr
 router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);
+router.post('/guardar-pago-reactivar', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardarPagoReactivar);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
 router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_constancia);
 router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_titulo);
