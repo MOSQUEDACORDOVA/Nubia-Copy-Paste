@@ -294,7 +294,12 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-end">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex align-items-center">
+                                    <span class="fw-bolder text-primary me-50">Total a Pagar: </span>
+                                    <p class="lead mb-0">₡<span id="totalMonto">0</span></p>
+
+                                </div>
                                 <button type="button" class="btn btn-primary waves-effect waves-float waves-light"
                                     id="btn-guardar-pago">
                                     Guardar
@@ -847,7 +852,9 @@
     </div>
 </div>
 <input type="text" class="d-none" id="countGrupos">
-<form id="form-reg-pago" hidden>
+<form id="form-reg-pago" method="POST" hidden>
+</form>
+<form id="form-pago-pendiente" method="POST" action="/guardar-pago-reactivar" hidden>
 </form>
 <form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
   <input type="text" id="grupoId_actual" name="_actual">

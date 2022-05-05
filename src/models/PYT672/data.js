@@ -1059,7 +1059,32 @@ module.exports = {
 /** TODO CAJA */    
 guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_alumno) {
   return new Promise((resolve, reject) => {
-    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, matriculaId:id_alumno})
+    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, estado: "Pagado",matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+/** TODO CAJA */    
+guardarCajaPendiente(concepto,monto,mora,observacion,id_alumno) {
+  return new Promise((resolve, reject) => {
+    Caja.create({concepto: concepto,monto: monto,mora: mora,observacion: observacion,estado: "Pendiente",matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+actualizarPagoPendiente(idCaja, fecha, banco, transaccion) {
+  return new Promise((resolve, reject) => {
+    Caja.update({fecha_pago:fecha, banco: banco, transaccion:transaccion, estado: "Pagado"},{where:{id:idCaja}})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);
