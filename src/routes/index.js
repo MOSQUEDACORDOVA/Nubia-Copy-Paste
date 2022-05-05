@@ -695,6 +695,8 @@ router.get('/obtenerdirecciones', authControllerPY672.authenticatedUser, dashboa
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
 router.get('/cargarExcel/:grupoId/:fileName/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
+// * REGISTRAR EXCEL DE PAGOS
+router.get('/cargarExcelPagos/:fileName', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarPagosExcel);
 // *  DETALLES CONTROL EN CAJA
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
 // * GENERAR COMPROBANTE PDF DE REGISTRO

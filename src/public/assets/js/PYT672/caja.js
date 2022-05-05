@@ -2419,3 +2419,65 @@ async function ControlDetalles(id1, id2) {
 
   }
 }
+
+// * FUNCION CARGAR ARCHIVOS EXCEL
+let linkExcel = "", file;
+  $('#archivoExcel').on('change', (event)=>{
+    subirImagen(event)
+  })
+
+  const subirImagen = (event) => {
+    //$(`#loading3`).addClass("display");
+      const archivos = event.target.files;
+      const data = new FormData();
+      let imagenX = event.target.id;
+      data.append("archivo", archivos[0]);
+      $.ajax({
+        url: '/subirExcel',
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR)
+        {       
+          //console.log(data)     
+          file = data.fileName
+          linkExcel = "/cargarExcelPagos/"+file
+
+          EnviarDatos("Pagos guardados", "succ")
+          
+          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
+          setTimeout(() => {
+            $(`#progressBar1`).addClass("d-none");
+            $(`#loading3`).removeClass("display");
+          }, 1000)*/
+        },
+        error: function (jqXHR, textStatus) { 
+          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción", "err")
+          /*$("#progressBar1").text('100% - Error al cargar el archivo');
+          $("#progressBar1").removeClass("progress-bar-success");
+          $("#progressBar1").addClass("progress-bar-danger");*/
+        }
+      });
+  };
+
+  function EnviarDatos(text, type) {
+    if(text && type === "succ") {
+      Swal.fire({
+        title: 'Pagos registrados!',
+        icon: 'success',
+      }).then((value) => {
+        if (value.isConfirmed || value.isDismissed) {
+          linkExcel = "/cargarExcelPagos/"+file
+          window.location.href = linkExcel
+        }
+      })
+    } else {
+      Swal.fire({
+        title: 'Estimado Usuario!',
+        text: 'Hubo un error al realizar la acción',
+        icon: 'error',
+      })
+    }
+  }

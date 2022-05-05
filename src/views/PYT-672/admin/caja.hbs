@@ -14,28 +14,29 @@
         border-radius: 6px;
     }
     .select2-container--default .select2-selection--single {
-        height: 46px;
-        padding: 10px 16px;
-        font-size: 18px;
-        line-height: 1.33;
-        border-radius: 6px;
+        height: 46px !important;
+        padding: 10px 16px !important;
+        font-size: 18px !important;
+        line-height: 1.33 !important;
+        border-radius: 6px !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__arrow b {
-        top: 85%;
+        top: 85% !important;
     }
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 22px;
+        line-height: 22px !important;
     }
     .select2-container--default .select2-selection--single {
-        border: 1px solid #CCC;
-        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset;
-        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+        border: 1px solid #CCC !important;
+        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset !important;
+        transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s !important;
     }
     .btn-success.btn-glow {
         box-shadow: 0 1px 20px 1px #28c76f;
     }
 </style>
 
+<input class="d-none" type="text" value="{{alert}}" id="alert"/>
 <input class="d-none" type="text" value="{{matricula_st}}" id="matricula_st" />
 <div class="app-content content py672">
     <div class="content-wrapper container-xxl p-0">
@@ -56,6 +57,7 @@
             </button>
 
             <section class="row">
+
                 <!-- Checkout Place Order Left starts -->
                 <div class="col-12 col-lg-8">
                     <div class="card">
@@ -78,7 +80,7 @@
                             </div>
                         </div>
 
-                        <div class="modal-body pb-5 px-sm-2 pt-50">
+                        <div class="modal-body pb-3 px-sm-2 pt-50">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-body p-0">
@@ -305,6 +307,15 @@
                                     Guardar
                                 </button>
                             </div>
+
+                            <div class="col-12 mt-3">
+                                <label for="" class="form-label">Cargar Excel Pagos</label>
+                                <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
+                                    <input class="form-control d-none grupoId" type="text" name="grupoId">
+                                    <input class="form-control d-none vendedorId" type="text" name="vendedor">
+                                    <input class="form-control" type="file" name="archivo" id="archivoExcel">
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -504,6 +515,7 @@
                     <!-- Timeline (Historial de pagos) termina aqui -->
                 </div>
             </section>
+
             <!--Modal Comentarios-->
             <div class="modal fade" id="comentariosModal" aria-hidden="true" aria-labelledby="comentariosModal"
                 tabindex="-1">
