@@ -149,15 +149,15 @@ exports.cargarPagosExcel = (req, res) => {
           observacion = element[3],
           banco = element[4],
           transaccion = element[5],
-          alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
-          mora = "-",
-          id_alumno = alumnoFind[0].id
+          //alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
+          mora = "-";
+          //id_alumno = alumnoFind[0].id
 
-          console.log(alumnoFind)
-          console.log(id_alumno)
+          /*console.log(alumnoFind)
+          console.log(id_alumno)*/
           console.log("alumno encontrado")
   
-          DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_alumno).then((respuesta) =>{
+          DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion).then((respuesta) =>{
             console.log(respuesta)
           }).catch((err) => {
             console.log(err)

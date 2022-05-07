@@ -2434,6 +2434,9 @@ table tr td {
 .py672 .changePasswordUser > * {
     pointer-events: none !important;
 }
+.py672 #table-pagos tr.disabled td:nth-child(1) span, .py672 #table-pagos tr.disabled td:nth-child(1) p, .py672 #table-pagos tr.disabled .monto {
+    text-decoration-line: line-through !important;
+}
 
 .tablaAlum {
     margin-left: 12px !important;
