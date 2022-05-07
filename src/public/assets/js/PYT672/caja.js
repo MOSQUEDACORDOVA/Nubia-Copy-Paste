@@ -362,8 +362,10 @@ $(function () {
     let montos = document.querySelectorAll('#body-table-pago .monto')
 
     montos.forEach(monto => {
-      console.log(monto.innerText)
-      total += parseInt(monto.innerText);
+      console.log(monto.parentElement)
+      if (!monto.parentElement.classList.contains('disabled')) {
+        total += parseInt(monto.innerText);
+      }
     });
     $('#totalMonto').text(total)
     
@@ -1677,6 +1679,20 @@ function borrarFila(t, identificador) {
   $('#totalMonto').text(total)
 }
 
+function TotalAPagar () {
+  let total = 0
+  let montos = document.querySelectorAll('#body-table-pago .monto')
+
+  montos.forEach(monto => {
+    console.log(monto.parentElement)
+    if (!monto.parentElement.classList.contains('disabled')) {
+      total += parseInt(monto.innerText);
+    }
+  });
+  $('#totalMonto').text(total)
+  
+}
+
 function deshabilitarFila(row, item) {
   let fila = $('#'+row)
   fila.addClass('disabled')
@@ -1686,19 +1702,21 @@ function deshabilitarFila(row, item) {
   </a>`)
   console.log(row)
   console.log(item)
+  TotalAPagar()
 }
 
 function restaurarFila(row, item) {
   let fila = $('#'+row)
   fila.removeClass('disabled')
-
+  
   $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="deshabilitarFila('${row} ','${row}')">
-    ${feather.icons['trash'].toSvg()}
+  ${feather.icons['trash'].toSvg()}
   <span>Eliminar</span>
   </a>`)
-
+  
   console.log(row)
   console.log(item)
+  TotalAPagar()
 }
 
 async function updateHistorial(id_estudiante) {
