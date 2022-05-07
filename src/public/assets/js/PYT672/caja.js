@@ -45,7 +45,7 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
-    console.log(filter)
+    //console.log(filter)
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
 
     $("#nombre-alumno").text(filter[0]["nombre"]);
@@ -200,7 +200,7 @@ $(function () {
 
       <td class="monto">${mensualidad_coste}</td>
       <td>
-          <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
+          <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="deshabilitarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
                   fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                   stroke-linejoin="round" class="feather feather-trash me-50">
@@ -650,7 +650,7 @@ TotalAPagar();
   </td>
   <td class="monto">5000</td>
   <td>
-   <a class="item borrar inscripcion"  onclick="borrarFila('tr-inscripcion','inscripcion')">
+   <a class="item borrar inscripcion" onclick="deshabilitarFila('tr-inscripcion','inscripcion')">
        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
            stroke-linejoin="round" class="feather feather-trash me-50">
@@ -931,7 +931,7 @@ TotalAPagar();
 </td>
 <td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
+  <a class="item borrar reposicion${leccion}" onclick="deshabilitarFila('tr-reposicion${leccion}','reposicion${leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -1442,7 +1442,6 @@ TotalAPagar();
   });
 
   $("#btn-congelar-alumno").click(async () => {
-
     Swal.fire({
       title: 'Atención!',
       text: 'Desea congelar el alumno seleccionado?',
@@ -1677,6 +1676,31 @@ function borrarFila(t, identificador) {
   });
   $('#totalMonto').text(total)
 }
+
+function deshabilitarFila(row, item) {
+  let fila = $('#'+row)
+  fila.addClass('disabled')
+  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="restaurarFila('${row} ','${row}')">
+    ${feather.icons['refresh-cw'].toSvg()}
+  <span>Restaurar</span>
+  </a>`)
+  console.log(row)
+  console.log(item)
+}
+
+function restaurarFila(row, item) {
+  let fila = $('#'+row)
+  fila.removeClass('disabled')
+
+  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="deshabilitarFila('${row} ','${row}')">
+    ${feather.icons['trash'].toSvg()}
+  <span>Eliminar</span>
+  </a>`)
+
+  console.log(row)
+  console.log(item)
+}
+
 async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
