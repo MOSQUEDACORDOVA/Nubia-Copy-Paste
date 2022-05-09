@@ -69,16 +69,8 @@ function cargarTablaMatricula(editada) {
             if(full.grupo) {
               find = gruposTodos.filter(grupo => grupo.id === full.grupoId)
               grupo = find[0].identificador;
-              /*grupo = `
-              <div class="badge-wrapper me-1">
-              <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
-              </div>`;*/
             } else {
               grupo = "Sin Grupo";
-                /*grupo = `
-                <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-                </div>`;*/
             }
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
@@ -227,6 +219,9 @@ function cargarTablaMatricula(editada) {
           }
         },
       ],
+      drawCallback: function (settings) {
+        $('[data-bs-toggle="tooltip"]').tooltip();
+      },
       order: [[2, 'desc']],
       dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
@@ -252,6 +247,8 @@ function cargarTablaMatricula(editada) {
         }
       }
     });
+
+  
     $('div.head-label').html('<h6 class="mb-0">Historial</h6>');
     document.getElementById('historial_info').classList.add('py-2')
     document.getElementById('historial_filter').classList.add('d-none')
