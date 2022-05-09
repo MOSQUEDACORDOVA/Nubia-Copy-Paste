@@ -1641,11 +1641,6 @@ exports.historial = (req, res) => {
     roleProf = true
   }
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    //console.log(gruposTodos)
-    //console.log("TODOS LOS GRUPOS")
-
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
     //console.log(matriculas)
@@ -1945,27 +1940,10 @@ exports.historial = (req, res) => {
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
+      let stringGrupos = JSON.stringify(gruposDist)
       //console.log(gruposDist)
       //console.log("GRUPOS DISTINCTS")
       
-      let arrGrupos = [];
-      
-      gruposDist.forEach(element => {
-        DataBase.BuscarGrupos(element.grupoId).then((response4) => {
-          let gruposFounds = JSON.parse(response4);
-          //console.log(gruposFounds)
-          //console.log("GRUPOS ENCONTRADOS")
-
-          gruposFounds.forEach(found => {
-            arrGrupos.push(found);
-          });
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
 
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
@@ -1974,15 +1952,9 @@ exports.historial = (req, res) => {
       py672: true,
       historial: true,
       roleAdmin, roleProf,
-      gruposTodos,
       arrString,
-      arrGrupos
+      stringGrupos,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";

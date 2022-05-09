@@ -8,10 +8,19 @@ async function FetchData (num) {
 
           moment.locale('es');
           gruposTodos.forEach(item => {
-              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
-              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+            $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
           });
           $('#gruposMenu').trigger("change");
+            
+          let gruposBuscador = JSON.parse($('#arrGrupos').val())
+          gruposBuscador.forEach(grupo => {
+            let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
+            $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
+            
+            $('#buscadorGrupos').trigger("change");
+          });
+
           return data
       });
 
@@ -81,7 +90,6 @@ function cargarTablaMatricula(editada) {
 
             let nombreEst = `
             <div class="d-flex flex-column">
-
               <div class="d-flex align-items-center mb-1">
                 <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}" data-arrEstudiante = "${arrData}">${full['nombre']}</span>
 
