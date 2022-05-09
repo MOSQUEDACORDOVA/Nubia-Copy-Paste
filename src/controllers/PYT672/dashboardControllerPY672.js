@@ -3581,13 +3581,14 @@ exports.congelarestudiante = (req, res) => {
 
   DataBase.CongelarEstudiante(id).then((resp) => {
     console.log(resp)
-
-    let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
-  
+    
+    /*let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
     DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id).then((value) => {
       console.log(value)
+
       return res.redirect('/matriculas');
-    })
+    })*/
+    return res.send({success: true})
 
   }).catch((err) => {
     console.log(err)
