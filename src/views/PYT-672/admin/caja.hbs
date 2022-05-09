@@ -308,14 +308,17 @@
                                 </button>
                             </div>
 
-                            <div class="col-12 mt-3">
-                                <label for="" class="form-label">Cargar Excel Pagos</label>
-                                <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
-                                    <input class="form-control d-none grupoId" type="text" name="grupoId">
-                                    <input class="form-control d-none vendedorId" type="text" name="vendedor">
-                                    <input class="form-control" type="file" name="archivo" id="archivoExcel">
-                                </form>
-                            </div>
+                        </div>
+
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <label for="" class="form-label">Cargar Excel Pagos</label>
+                            <form action="/subirExcel" method="POST" class="input-group" id="formCargarArchivos">
+                                <input class="form-control d-none grupoId" type="text" name="grupoId">
+                                <input class="form-control d-none vendedorId" type="text" name="vendedor">
+                                <input class="form-control" type="file" name="archivo" id="archivoExcel">
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -866,7 +869,7 @@
 <input type="text" class="d-none" id="countGrupos">
 <form id="form-reg-pago" method="POST" hidden>
 </form>
-<form id="form-pago-pendiente" method="POST" action="/guardar-pago-reactivar" hidden>
+<form id="form-pago-pendiente" method="POST" action="/guardar-pago-reactivar" class="d-none">
 </form>
 <form id="form-reasignar-grupo" action="/reasignar-grupopy672" method="post" hidden>
   <input type="text" id="grupoId_actual" name="_actual">

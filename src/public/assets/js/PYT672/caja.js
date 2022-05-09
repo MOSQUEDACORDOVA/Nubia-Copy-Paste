@@ -407,10 +407,12 @@ $(function () {
       });
 
       let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
-      /*console.log(historial)
+      console.log(historial)
       console.log(filter)
-      console.log("HISTORIAL")*/
+      console.log("HISTORIAL")
       if (filter.length && filter[0].estado === "Pendiente") {
+        $("#btn-activar-alumno").attr("disabled", true);
+        $("#btn-guardar-pago").attr("disabled", false);
         /**FORM */
         $("#form-reg-pago").append(`
         <div id="reactivacion" class="reactivacion">
@@ -444,7 +446,10 @@ $(function () {
         </td>
         </tr>`);
         TotalAPagar();
+        return
       }
+      $("#btn-activar-alumno").attr("disabled", false);
+      $("#btn-guardar-pago").attr("disabled", true);
   }; /**FIN REACTIVACION */
 
   /**INICIO HABILITAR MENSUALIDAD */
@@ -1487,7 +1492,7 @@ TotalAPagar();
                   autocorrect: 'off'
                 },
               }).then((result3) => {
-                console.log(result3.value)
+                //console.log(result3.value)
                 if(result3.isConfirmed) {
                   let comprobarPassw = new Promise ((resolve, reject) => {
                     resolve(ValidatePassw(result3.value))
@@ -1505,7 +1510,7 @@ TotalAPagar();
                         contentType: false,
                         processData: false,
                         success: function (data, textStatus, jqXHR) {
-                          
+                          //console.log(data)
                           $("#createAppModal").modal("hide");
                           Swal.fire({
                             title: 'Alumno congelado!',
@@ -1748,7 +1753,7 @@ async function updateHistorial(id_estudiante) {
   //console.log(grupoFind)
 
   for (let i = 0; i < historial.length; i++) {
-    console.log(historial)
+    //console.log(historial)
     let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
     let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
     fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );

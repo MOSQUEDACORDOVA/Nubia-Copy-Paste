@@ -1674,20 +1674,25 @@ exports.historial = (req, res) => {
         /*console.log(grupo)
         console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
-        let fechaActual = moment().format("DD-MM-YYYY");
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
         let iniciar = moment(iniciado).diff(moment(), 'days');
 
-        /*console.log(iniciado)
-        console.log(iniciar)
-        console.log("INCIAR DIAS DIFERENCIA")
-        //console.log(grupo)
-        //console.log("GRUPO ENCONTRADO")*/
+        let numLeccion, nivelActual, 
+        fechaNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        };
         
+        let fechaActual = moment().format("DD-MM-YYYY");
+
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
         let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-        let rest;
-        
+
+        let rest; 
+
         function EstablecerNivel () {  
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
@@ -1715,55 +1720,93 @@ exports.historial = (req, res) => {
               console.log("INTENSIVO")
             break;
           }
-                 
+
+          fechaNiveles = {
+            nivel1: fechaInicio,
+            nivel2: nivel2,
+            nivel3: nivel3,
+            nivel4: nivel4,
+          };
+          fechaNiveles = JSON.stringify(fechaNiveles)
+                  
           if (moment().isBefore(nivel2)) {
             console.log("Estas en nivel 1")
-            userInfo.nivelActualGrupo = 1
+            nivelActual = 1
             
           } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
             console.log("Estas en nivel 2")
-            userInfo.nivelActualGrupo = 2
+            nivelActual = 2
             
           } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
             console.log("Estas en nivel 3")
-            userInfo.nivelActualGrupo = 3
+            nivelActual = 3
             
           } else {
             console.log("Estas en nivel 4")
-            userInfo.nivelActualGrupo = 4
+            nivelActual = 4
             
           }
+
+          userInfo.nivelActualGrupo = nivelActual
 
           let numPositivo;
           if(grupo.lecciones_semanales === '1') {
-            
-            if (diff > 224) {
-              rest = (diff - 224) / 7; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 1 + numPositivo
-              
-            } else {
-              rest = (224 - diff) / 7; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 32 - numPositivo
 
-            }
-            
+              if (diff > 224) {
+                console.log("positivo")
+                rest = (diff - 224) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+              } 
+              else {
+                if (diff < 0) {
+                  console.log("negativo") 
+                  diff = diff * (-1)
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  console.log("else")
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+
+                }
+              }
+
           } else {
-            if (diff > 112) {
-              rest = (diff - 112) / 3.5; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 1 + numPositivo
-              
-            } else {
-              rest = (112 - diff) / 3.5; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 32 - numPositivo
+              if (diff > 112) {
+                rest = (diff - 112) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 3.5; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
 
-            }
-
+                }
+  
+              }
           }
+          userInfo.leccActual = numLeccion
 
+          console.log(numLeccion)
+          console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
           
@@ -1771,9 +1814,9 @@ exports.historial = (req, res) => {
           console.log("DIFF",diff)
           
         }
-  
-        EstablecerNivel();
-
+        
+        EstablecerNivel(); 
+        
         let final = Object.assign(element, userInfo);
 
         /*console.log(fechaActual)
@@ -3581,13 +3624,14 @@ exports.congelarestudiante = (req, res) => {
 
   DataBase.CongelarEstudiante(id).then((resp) => {
     console.log(resp)
-
-    let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
-  
+    
+    /*let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
     DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id).then((value) => {
       console.log(value)
+
       return res.redirect('/matriculas');
-    })
+    })*/
+    return res.send({success: true})
 
   }).catch((err) => {
     console.log(err)
