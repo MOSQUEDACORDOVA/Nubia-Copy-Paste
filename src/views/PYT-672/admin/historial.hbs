@@ -22,11 +22,9 @@
                 </div>
 
                 <div class="col-12 col-md-4 mb-2">
-                    <select name="" id="" class="form-select select2 buscar-grupos">
+                    <input type="text" id="arrGrupos" class="d-none" value="{{stringGrupos}}">
+                    <select name="" id="buscadorGrupos" class="form-select select2 buscar-grupos">
                         <option value="">Seleccionar Grupo</option>
-                        {{#each arrGrupos as |item i|}}
-                        <option value="{{identificador}}">{{identificador}}</option>
-                        {{/each}}
                     </select>
                 </div>
 
