@@ -752,7 +752,6 @@ module.exports = {
         });
       });
     },
-
     ObtenerNotasMatricula(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Notas.findAll({
@@ -771,6 +770,19 @@ module.exports = {
             },
           } 
         })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerTodasNotas() {
+      return new Promise((resolve, reject) => {
+        Notas.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
           
@@ -831,11 +843,27 @@ module.exports = {
         });
       });
     },
-    BuscarParticipacionMatricula(lecc, grupoId, matriculaId) {
+    ObtenerTodasParticipacion() {
+      return new Promise((resolve, reject) => {
+        Participacion.findAll()
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+        
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    BuscarParticipacionMatricula(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.findAll({
           where: {
             n_leccion: {
+              [Op.eq]: lecc,
+            },
+            nivel: {
               [Op.eq]: lecc,
             },
             grupoId: {
@@ -939,14 +967,17 @@ module.exports = {
         });
       });
     },
-    ActualizarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+    ActualizarParticipacion(porcentaje, lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.update({
-          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId,  
+          porcentaje: porcentaje  
         }, {
           where: {
             n_leccion: {
               [Op.eq]: lecc,
+            },
+            nivel: {
+              [Op.eq]: nivel,
             },
             grupoId: {
               [Op.eq]: grupoId,
@@ -989,6 +1020,18 @@ module.exports = {
             n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
           }
         })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          resolve(data_p);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+      });
+    },
+    ObtenerAsistenciasAll() {
+      return new Promise((resolve, reject) => {
+        Asistencia.findAll()
         .then((data) => {
           let data_p = JSON.stringify(data);
           resolve(data_p);
@@ -1085,6 +1128,18 @@ guardarCajaPendiente(concepto,monto,mora,observacion,id_alumno) {
 actualizarPagoPendiente(idCaja, fecha, banco, transaccion) {
   return new Promise((resolve, reject) => {
     Caja.update({fecha_pago:fecha, banco: banco, transaccion:transaccion, estado: "Pagado"},{where:{id:idCaja}})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+historialCompleto() {
+  return new Promise((resolve, reject) => {
+    Caja.findAll()
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

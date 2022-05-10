@@ -630,6 +630,7 @@ router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.auth
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);
 router.post('/guardar-pago-reactivar', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardarPagoReactivar);
+router.get('/historialCompleto', dashboardControllerPY672.historialCompleto);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
 router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_constancia);
 router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_titulo);
@@ -682,6 +683,16 @@ router.post('/registrarMatriculaAusente', authControllerPY672.authenticatedUser,
 router.post('/eliminarMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.eliminarmatriculausente);
 // * OBTENER MATRICULA AUSENTE
 router.post('/obtenerMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenermatriculausente);
+
+
+// * OBTENER TODA MATRICULA AUSENTE
+router.get('/obtenerTodaMatriculaAusente', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodaMatriculAusente);
+// * OBTENER TODAS NOTAS
+router.get('/obtenerTodasNotas', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodasNotas);
+// * OBTENER TODAS PARTICIPACION
+router.get('/obtenerTodasParticipacion', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerTodasParticipaciones);
+
+
 // * REGISTRAR NOTAS
 router.post('/registrarNotas', authControllerPY672.authenticatedUser, dashboardControllerPY672.registrarnotas);
 // * REGISTRAR PARTICIPACION
