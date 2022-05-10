@@ -21,6 +21,8 @@ const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
 const CompartirS = require('../../models/PYT4/ShareStatus');
 const logsUse = require('../../models/PYT4/Logs');
+const Historial_observaciones = require('../../models/PYT4/Historial_observaciones');
+
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
 const Pedidos_maquila = require("../../models/PYT4/Pedidos_maquila");
@@ -2874,6 +2876,29 @@ findStatusCompartir(id_pedido){
 findStatusCompartirAll(){
   return new Promise((resolve, reject) => {
     CompartirS.findAll({}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+findhistorialObservacionesAll(clienteId){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.findAll({where: {clienteId: clienteId}, include:[{association: Historial_observaciones.Personal}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:tipo_origen,clienteId:clienteID,usuarioId:userId}).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);      
     })

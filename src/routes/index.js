@@ -96,11 +96,14 @@ router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/prestadospy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
-router.get('/prestados/:day', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
+router.get('/prestadospy4-2', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 router.get('/reportes', dashboardControllerPY4.reportes);
+
+router.get('/historyobserpy4/:clienteId',authControllerPY4.authenticatedUser, dashboardControllerPY4.getHistorialObservaciones);
+router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.saveHistorialObservaciones);
 
 router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
 //PYT-4 

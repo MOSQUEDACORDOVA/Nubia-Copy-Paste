@@ -2499,7 +2499,7 @@ exports.corte_table = (req, res) => {
 };
 
 //CORTE PRESTADOS
-exports.corte_prestados_table = (req, res) => {
+exports.corte_prestados_table = async (req, res) => {
   let id_chofer = req.params.id_chofer,
     cantidad = req.params.cantidad,
     id_cliente = req.params.id_cliente,
@@ -2510,7 +2510,7 @@ exports.corte_prestados_table = (req, res) => {
       let desc__let = JSON.parse(desc_)[0];
 
       let devueltos_nuevo = parseInt(desc__let.devueltos) + parseInt(cantidad);
-      let nueva_cantidad = parseInt(desc__let.cantidad) - parseInt(cantidad);
+      let nueva_cantidad = parseInt(desc__let.cantidad) - parseInt(cantidad);     
 
       DataBase.UpdateGPRestados(
         id_chofer,
@@ -2518,9 +2518,12 @@ exports.corte_prestados_table = (req, res) => {
         id_cliente,
         fecha,
         nueva_cantidad
-      ).then((personal_) => {
+      ).then(async (personal_) => {
         let pedidos_let = JSON.parse(personal_)[0];
 
+      let id_user = res.locals.user.id;
+      let description =`Se descontaron garrfones del cliente ${id_cliente}; de: ${desc__let.cantidad} a: ${nueva_cantidad}`;
+      let Log = await DataBase.SaveLogs(id_user,'DescontarGPrestados','corte_prestados_table',description);
         res.send(pedidos_let.devueltos);
       });
     }
@@ -4657,6 +4660,25 @@ exports.save_cliente_edit_cupon = (req, res) => {
     });
 };
 
+// * GET HISTORIAL OBSERVACIONES CLIENTES
+exports.getHistorialObservaciones = async (req, res) => {
+  let clienteId = req.params.clienteId
+let hystory = await DataBase.findhistorialObservacionesAll(clienteId);
+console.log(hystory)
+return res.send({hystory});
+}
+// * SAVE HISTORIAL OBSERVACIONES CLIENTES
+exports.saveHistorialObservaciones = async (req, res) => {
+  const {clienteID,  observacion} = req.body;
+  let userId = res.locals.user.id;
+  let fecha = moment().format('DD/MM/YYYY');
+  let tipo_origen = 'Tabla cliente'
+let hystory = await DataBase.savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen);
+console.log(hystory)
+let description =`Guardó observación al cliente ${clienteID} desde tabla cliente`;
+      let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
+return res.send({hystory});
+}
 // * LOGIN APP CHOFERES 
 exports.appLogin = (req, res) => {
   let msg = false;
