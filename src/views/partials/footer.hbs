@@ -423,11 +423,15 @@
 				}
   }
        
-    }){{/if}}
+    })
+        {{/if}}
                 
             if ( $("#msgs").length ) {
                 let mensaje = $('#msgs').text();
-            Swal.fire(mensaje)
+                Swal.fire({
+                    title: mensaje,
+                    icon: 'info',
+                })
             }
              if ( $("#msgsRef").length ) {
                 let mensaje = $('#msgsRef').text();

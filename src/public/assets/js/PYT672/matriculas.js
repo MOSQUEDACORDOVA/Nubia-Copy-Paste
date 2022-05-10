@@ -527,9 +527,11 @@ for (let i = 0; i < comentarios.length; i++) {
 
 $("#guarda-grupoNew").click(() => {
   if ($("#grupoId_actual").val() == $("#grupoId").val()) {
-    swal.fire(
-      "El grupo actual y el seleccionado son el mismo, elija otro grupo"
-    );
+    Swal.fire({
+      title: 'Atención!',
+      text: 'El grupo actual y el seleccionado son el mismo, elija otro grupo',
+      icon: 'error',
+    })
     return;
   }
   $("#form-reasignar-grupo").submit();

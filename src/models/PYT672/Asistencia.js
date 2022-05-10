@@ -14,6 +14,10 @@ const Asistencia = db672.define('asistencias', {
 		type: DataTypes.STRING(255),
 		allowNull: false
 	},
+	nivel: {
+		type: DataTypes.STRING(255),
+		allowNull: false
+	},
 	h_e: {
 		type: DataTypes.STRING(255),
 		allowNull: true,

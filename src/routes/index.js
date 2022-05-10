@@ -622,13 +622,17 @@ router.get('/obtenerMatriculasAll', dashboardControllerPY672.obtenerMatriculasAl
 
 // * DISTINC GRUPOS CONTROL
 router.get('/gruposControl', dashboardControllerPY672.gruposControl);
+// * COMPROBAR CONTRASEÑA
+router.get('/validacionPassw/:passw', dashboardControllerPY672.validacionPassw)
 
 //COMENTARIOS
 router.get('/comentarios-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.get_comments_alumno);
 router.post('/guardar_comentario_admin_academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentario);
+router.get('/guardar_comentario_admin_academy/:id_alumno/:comentario', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardar_comentarioCaja);
 router.get('/comentarios_admin_get-academy/:id_alumno', authControllerPY672.authenticatedUser, dashboardControllerPY672.comentarios_admin_get);
 //** ADMIN CAJA */
 router.post('/guardar-pago-academy', authControllerPY672.authenticatedUser, dashboardControllerPY672.guarda_pago);
+router.post('/guardar-pago-reactivar', authControllerPY672.authenticatedUser, dashboardControllerPY672.guardarPagoReactivar);
 router.get('/historia-caja-academy/:id_alumno', dashboardControllerPY672.historial_caja);
 router.get('/genera-pdf-constancia/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_constancia);
 router.get('/genera-pdf-titulo/:id_estudiante', authControllerPY672.authenticatedUser, dashboardControllerPY672.genera_pdf_titulo);
@@ -691,6 +695,8 @@ router.get('/obtenerdirecciones', authControllerPY672.authenticatedUser, dashboa
 router.post('/subirExcel', fileController672.subirArchivo);
 // * REGISTRAR EXCEL DE ALUMNOS
 router.get('/cargarExcel/:grupoId/:fileName/:text', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarExcel);
+// * REGISTRAR EXCEL DE PAGOS
+router.get('/cargarExcelPagos/:fileName', authControllerPY672.authenticatedUser, dashboardControllerPY672.cargarPagosExcel);
 // *  DETALLES CONTROL EN CAJA
 router.get('/controlMatricula/:id/:grupo', authControllerPY672.authenticatedUser, dashboardControllerPY672.detallesControl);
 // * GENERAR COMPROBANTE PDF DE REGISTRO

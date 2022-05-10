@@ -691,10 +691,10 @@ module.exports = {
         });
       });
     },
-    RegistrarAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    RegistrarAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.create({
-          n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -982,11 +982,11 @@ module.exports = {
         });
       });
     },
-    ObtenerAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    ObtenerAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.findAll({
           where: {
-            n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+            n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
           }
         })
         .then((data) => {
@@ -1057,9 +1057,34 @@ module.exports = {
 
 
 /** TODO CAJA */    
-guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id_alumno) {
+guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion) {
   return new Promise((resolve, reject) => {
-    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, matriculaId:id_alumno})
+    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, estado: "Pagado"})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+/** TODO CAJA */    
+guardarCajaPendiente(concepto,monto,mora,observacion,id_alumno) {
+  return new Promise((resolve, reject) => {
+    Caja.create({concepto: concepto,monto: monto,mora: mora,observacion: observacion,estado: "Pendiente",matriculaId:id_alumno})
+    .then((data) => {
+      let data_p = JSON.stringify(data);
+      resolve(data_p);
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+actualizarPagoPendiente(idCaja, fecha, banco, transaccion) {
+  return new Promise((resolve, reject) => {
+    Caja.update({fecha_pago:fecha, banco: banco, transaccion:transaccion, estado: "Pagado"},{where:{id:idCaja}})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);

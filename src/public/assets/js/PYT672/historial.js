@@ -8,10 +8,19 @@ async function FetchData (num) {
 
           moment.locale('es');
           gruposTodos.forEach(item => {
-              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
-              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+            $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
           });
           $('#gruposMenu').trigger("change");
+            
+          let gruposBuscador = JSON.parse($('#arrGrupos').val())
+          gruposBuscador.forEach(grupo => {
+            let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
+            $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
+            
+            $('#buscadorGrupos').trigger("change");
+          });
+
           return data
       });
 
@@ -69,16 +78,8 @@ function cargarTablaMatricula(editada) {
             if(full.grupo) {
               find = gruposTodos.filter(grupo => grupo.id === full.grupoId)
               grupo = find[0].identificador;
-              /*grupo = `
-              <div class="badge-wrapper me-1">
-              <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
-              </div>`;*/
             } else {
               grupo = "Sin Grupo";
-                /*grupo = `
-                <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-                </div>`;*/
             }
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
@@ -89,7 +90,6 @@ function cargarTablaMatricula(editada) {
 
             let nombreEst = `
             <div class="d-flex flex-column">
-
               <div class="d-flex align-items-center mb-1">
                 <span class="me-1 btnHistorialDetalles" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}" data-arrEstudiante = "${arrData}">${full['nombre']}</span>
 
@@ -227,6 +227,9 @@ function cargarTablaMatricula(editada) {
           }
         },
       ],
+      drawCallback: function (settings) {
+        $('[data-bs-toggle="tooltip"]').tooltip();
+      },
       order: [[2, 'desc']],
       dom: '<"card-header border-bottom p-1"<"head-label"><"dt-action-buttons text-end"B>><"d-flex justify-content-between align-items-center mx-0 row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>t<"d-flex justify-content-between mx-0 row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       orderCellsTop: true,
@@ -252,6 +255,8 @@ function cargarTablaMatricula(editada) {
         }
       }
     });
+
+  
     $('div.head-label').html('<h6 class="mb-0">Historial</h6>');
     document.getElementById('historial_info').classList.add('py-2')
     document.getElementById('historial_filter').classList.add('d-none')
