@@ -81,36 +81,39 @@ $(document).ready(function () {
       div.classList.add("col-12");
       div.classList.add("item");
       let lecc = null, idAusentes = null;
+      let nivelSelec = "";
 
       // * DETECTAR FILTRO DE GRUPOS
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-        
+        nivelSelec = $("#filtrosDesdeCero .select2.nivel").val()
         $("#ausenteNumLeccion").val(parseInt($("#filtrosDesdeCero .select2.leccion").val()));
-
+        
         $("#ausenteGrupoId").val(parseInt($("#filtrosDesdeCero .select2.grupo").val()));
-
+        
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
-
+        nivelSelec = $("#filtrosIntensivo .select2.nivel").val()
+        
         $("#ausenteNumLeccion").val(parseInt($("#filtrosIntensivo .select2.leccion").val()));
-
+        
         $("#ausenteGrupoId").val(parseInt($("#filtrosIntensivo .select2.grupo").val()));
-
+        
       } else if($("#filtrosKids .select2.grupo").val() != "-") {
         lecc = parseInt($("#filtrosKids .select2.leccion").val());
+        nivelSelec = $("#filtrosKids .select2.nivel").val()
 
         $("#ausenteNumLeccion").val(parseInt($("#filtrosKids .select2.leccion").val()));
 
         $("#ausenteGrupoId").val(parseInt($("#filtrosKids .select2.grupo").val()));
 
       }
-      console.log(lecc)
+      //console.log(lecc)
 
       $("#ausenteMatriculaId").val(matricula.id);
       let form = new FormData(document.getElementById("procesarAusente"));
+      $("nivel").val(nivelSelec);
       form.append("arr", $("#matriculaGrupo").val());
-      form.append("nivel", $("#nivelActual").val());
 
       fetch("/obtenerMatriculaAusente", {
         method: "POST",
@@ -119,20 +122,26 @@ $(document).ready(function () {
         .then((response) => response.json())
         .then(async (data) => {
 
-          console.log(data);
-          console.log("DATA AUSENTE");
+          //console.log(data);
+          //console.log("DATA AUSENTE");
 
           let response = data.resp;
           let response2 = data.matricula;
-          //console.log(response2)
+          let selectNivel;
 
-          if (response.length) {
+          /*console.log(response)
+          console.log(response2)
+          console.log("AUSENCIAS")*/
+
+          if (response && response.length) {
             idAusentes = response[0].matriculaId;
           }
           //console.log(idAusentes);
 
           let result = matriculaGrupo.filter(item => item.id === idAusentes);
-
+          /*console.log(result)
+          console.log("USUARIO AUSENTE")*/
+          
           let calif = "",
             participacion = "",
             notas = 0,
@@ -142,8 +151,7 @@ $(document).ready(function () {
             GcommentProfForm="",
             GcommentAdminForm="";
 
-
-          if (response2.length) {
+          if (response2 && response2.length) {
             response2.sort()
             /*console.log(response2)*/
             for (let i = 0; i < response2.length; i++) { 
@@ -155,6 +163,20 @@ $(document).ready(function () {
               }              
             }
             let nivelSeleccioando = $('#nivelActual').val()
+
+            if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+        
+              selectNivel = $("#filtrosDesdeCero .select2.nivel").val()
+              
+            } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
+              
+              selectNivel = $("#filtrosIntensivo .select2.nivel").val()
+              
+            } else if($("#filtrosKids .select2.grupo").val() != "-") {
+              
+              selectNivel = $("#filtrosKids .select2.nivel").val()
+        
+            }
             
             /*console.log(GcommentProfForm)*/
             let found;
@@ -345,7 +367,8 @@ $(document).ready(function () {
             }
           }
 
-          if (result.length) { // * SI ESTA AUSENTE
+          // * ASISTENCIAS
+          if (result.length && response[0].nivel == selectNivel) { // * SI ESTA AUSENTE
             if (matricula.estadoId != 5) {
               div.innerHTML = `
                       <label class="card-title estudiante" hidden>${
@@ -1242,29 +1265,41 @@ $(document).ready(function () {
     EstablecerMatriculaPorLeccion();
   });
 
+  // * ACTIVAR FILTROS POR NIVEL
+  $("#filtrosDesdeCero select.nivel").on("change", (e) => {
+    EstablecerMatriculaPorLeccion();
+  });
+
+  $("#filtrosIntensivo select.nivel").on("change", (e) => {
+    EstablecerMatriculaPorLeccion();
+  });
+
+  $("#filtrosKids select.nivel").on("change", (e) => {
+    EstablecerMatriculaPorLeccion();
+  });
+
   const GuardarMatriculaAusente = (id) => {
+    $("#nivel").val("")
     if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
-      $("#ausenteNumLeccion").val(
-        $("#filtrosDesdeCero .select2.leccion").val()
-      );
+      $("#ausenteNumLeccion").val($("#filtrosDesdeCero .select2.leccion").val());
+      $("#nivel").val($('#filtrosDesdeCero .select2.nivel').val());
       $("#ausenteGrupoId").val($("#filtrosDesdeCero .select2.grupo").val());
 
     } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
-      $("#ausenteNumLeccion").val(
-        $("#filtrosIntensivo .select2.leccion").val()
-      );
+      $("#ausenteNumLeccion").val($("#filtrosIntensivo .select2.leccion").val());
+      $("#nivel").val($('#filtrosIntensivo .select2.nivel').val());
       $("#ausenteGrupoId").val($("#filtrosIntensivo .select2.grupo").val());
       
     } else {
-      $("#ausenteNumLeccion").val(
-        $("#filtrosKids .select2.leccion").val()
-      );
+      $("#ausenteNumLeccion").val($("#filtrosKids .select2.leccion").val());
+      $("#nivel").val($('#filtrosKids .select2.nivel').val());
       $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
 
     }
     $("#ausenteMatriculaId").val(id);
-    /*console.log($('#filtrosDesdeCero .select2.grupo').val())
-        console.log($('#filtrosIntensivo .select2.grupo').val())*/
+    console.log($('#filtrosDesdeCero .select2.nivel').val())
+        console.log($('#filtrosIntensivo .select2.nivel').val())
+        console.log($('#filtrosKids .select2.nivel').val())
 
     let form = new FormData(document.getElementById("procesarAusente"));
 
