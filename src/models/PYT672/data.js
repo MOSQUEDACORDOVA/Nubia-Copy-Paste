@@ -691,10 +691,10 @@ module.exports = {
         });
       });
     },
-    RegistrarAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    RegistrarAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.create({
-          n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -982,11 +982,11 @@ module.exports = {
         });
       });
     },
-    ObtenerAsistenciaMatriculaAusente(lecc, grupoId, matriculaId) {
+    ObtenerAsistenciaMatriculaAusente(lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Asistencia.findAll({
           where: {
-            n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+            n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
           }
         })
         .then((data) => {

@@ -3287,16 +3287,16 @@ const userId = res.locals.user.id
 
 // * REGISTRAR MATRICULA AUSENTE
 exports.registrarmatriculausente = (req, res) => {
-  const { leccion, grupoId, matriculaId } = req.body;
+  const { leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos 2138" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response) =>{
       let resp = JSON.parse(response);
       return res.send({resp});
     }).catch((err) => {
@@ -3403,7 +3403,7 @@ exports.obtenermatriculausente = (req, res) => {
       });
     });
 
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response3) =>{
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response3) =>{
       let resp = JSON.parse(response3);
       return res.send({resp, matricula});
     }).catch((err) => {
