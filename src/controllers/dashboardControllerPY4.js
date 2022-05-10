@@ -4660,6 +4660,25 @@ exports.save_cliente_edit_cupon = (req, res) => {
     });
 };
 
+// * GET HISTORIAL OBSERVACIONES CLIENTES
+exports.getHistorialObservaciones = async (req, res) => {
+  let clienteId = req.params.clienteId
+let hystory = await DataBase.findhistorialObservacionesAll(clienteId);
+console.log(hystory)
+return res.send({hystory});
+}
+// * SAVE HISTORIAL OBSERVACIONES CLIENTES
+exports.saveHistorialObservaciones = async (req, res) => {
+  const {clienteID,  observacion} = req.body;
+  let userId = res.locals.user.id;
+  let fecha = moment().format('DD/MM/YYYY');
+  let tipo_origen = 'Tabla cliente'
+let hystory = await DataBase.savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen);
+console.log(hystory)
+let description =`Guardó observación al cliente ${clienteID} desde tabla cliente`;
+      let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
+return res.send({hystory});
+}
 // * LOGIN APP CHOFERES 
 exports.appLogin = (req, res) => {
   let msg = false;

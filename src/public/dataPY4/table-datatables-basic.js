@@ -1,7 +1,7 @@
 /**
  * DataTables Basic
  */
- var array_pedido;
+ var array_pedido, historial_observaciones;
 async function cargaPedidos() {
     array_pedido = await fetch('/array_pedidoPy4')
     .then(response => response.json())
@@ -186,7 +186,7 @@ async function cargaPedidos() {
             color_text="white"
           }
           //aqui activa el modal info del cliente
-              return (`<div class="d-flex justify-content-left align-items-center">
+              return (`<div class="d-flex justify-content-left align-items-center" onclick="getHistorial(${full['id']})">
               <div class="avatar me-1">${$output}</div>
               <div class="d-flex flex-column">
                 <span class="hover_cliente badge rounded-pill ${$status[$status_number].class}" >${$status[$status_number].title}</span>
@@ -729,6 +729,41 @@ async function cargaPedidos() {
           };
       }
     });
+
+    
+    /** AGREGAR observacion */
+    $("#addComment").change(function () {
+      let clienteID = $("#clienteID").val();
+      const data_C = new FormData();
+      data_C.append("clienteID", clienteID);
+      data_C.append("observacion", $(this).val());
+      $.ajax({
+        url: `/saveObservacionClientePy4`,
+        type: "POST",
+        data: data_C,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR) {
+          console.log(data)
+          let newOb = JSON.parse(data.hystory)
+          $("#addComment").val("");
+            $("#observaciones").append(`<div class="col-12" id="observacion${newOb.id}">
+            <div class="mb-1">
+              <div class="class="d-inline-flex""><label class="form-label" for="exampleFormControlTextarea1">Observación sin pedido.- Fecha: ${moment(newOb.fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
+              <a href="javascript:;" class="dropdown-item" onclick=\'delete_observacion("${newOb.id}")\'>
+              ${feather.icons['delete'].toSvg()}
+              </a></div>
+              
+              <textarea class="form-control"  rows="1" data-id="47" readonly>${newOb.observacion}</textarea>
+            </div>
+          </div>`);
+        },
+        error: function (jqXHR, textStatus) {
+        },
+      });
+    }); /**FIN ADDCOMMENT */
+    /**FIN DOCUMENT READY */
   });
   function edit_cliente(id_edit) {
     if (typeof id_edit =="undefined") {
@@ -1028,4 +1063,40 @@ async function cargaPedidos() {
         });
       
       }
+  }
+  async function getHistorial(clienteID) {
+    $("#observaciones").empty();
+    $('#clienteID').val(clienteID);
+    historial_observaciones = await fetch('/historyobserpy4/'+clienteID)
+    .then(response => response.json())
+    .then(data => {
+
+        return JSON.parse(data.hystory)
+    });
+    console.log(historial_observaciones);
+    let div;
+    for (let i = 0; i < historial_observaciones.length; i++) {
+      let observacion =historial_observaciones[i].observacion;
+      
+      if (historial_observaciones[i].tipo_origen == "" || historial_observaciones[i].tipo_origen =="pedido") {
+        div= `<div class="col-12">
+        <div class="mb-1">
+          <label class="form-label" for="exampleFormControlTextarea1">Observación al pedido:${historial_observaciones[i].pedidoId} (${historial_observaciones[i].personal.name} ${historial_observaciones[i].personal.lastName}) - ${moment(historial_observaciones[i].fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
+          <textarea class="form-control" id="observacion${historial_observaciones[i].id}" rows="1" data-id="47" readonly>${observacion}</textarea>
+        </div>
+      </div>`;
+      }else{
+        div= `<div class="col-12">
+        <div class="mb-1">
+        <div class="class="d-inline-flex""><label class="form-label" for="exampleFormControlTextarea1">Observación sin pedido.- Fecha: ${moment(historial_observaciones[i].fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
+        <a href="javascript:;" class="dropdown-item" onclick=\'delete_observacion("${historial_observaciones[i].id}")\'>
+        ${feather.icons['delete'].toSvg()}
+        </a></div>
+          <textarea class="form-control" id="observacion${historial_observaciones[i].id}" rows="1" data-id="47" readonly>${observacion}</textarea>
+        </div>
+      </div>`;
+      }
+      $("#observaciones").append(div);
+    }
+    $('#observacionesH').modal('show')
   }

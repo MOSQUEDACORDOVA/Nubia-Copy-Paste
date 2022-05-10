@@ -2885,6 +2885,29 @@ findStatusCompartirAll(){
   });
 },
 
+findhistorialObservacionesAll(clienteId){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.findAll({where: {clienteId: clienteId}, include:[{association: Historial_observaciones.Personal}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:tipo_origen,clienteId:clienteID,usuarioId:userId}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
 SaveLogs(id_user,type,tfunction,description){
   return new Promise((resolve, reject) => {
     logsUse.create({id_user:id_user,type:type,tfunction:tfunction,description:description}).then((data)=>{

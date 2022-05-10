@@ -102,6 +102,9 @@ router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 router.get('/reportes', dashboardControllerPY4.reportes);
 
+router.get('/historyobserpy4/:clienteId',authControllerPY4.authenticatedUser, dashboardControllerPY4.getHistorialObservaciones);
+router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.saveHistorialObservaciones);
+
 router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
 //PYT-4 
 //ZONAS
