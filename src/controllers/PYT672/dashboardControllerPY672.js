@@ -9,6 +9,7 @@ var pdf = require('html-pdf');
 const { group } = require("console");
 const xlsxFile = require('read-excel-file/node');
 const { toJpeg } = require('html-to-image');
+const bcrypt = require('bcrypt-nodejs');
 
 
 // TODO: AUTH
@@ -122,6 +123,61 @@ exports.enabledDisUser = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/error672/PYT-672");
     });
+};
+
+exports.cargarPagosExcel = (req, res) => {
+  let { fileName } = req.params
+  console.log(req.params);
+  let msg = false;
+
+  let text = ""
+  
+  try {
+    xlsxFile(path.join(__dirname, '../../public/assets/uploads/' + fileName)).then((rows) => {
+      console.log(rows);
+      DataBase.GruposYMatriculas().then((resp) =>{
+        let alumnos = JSON.parse(resp)
+        console.log(alumnos)
+        console.log("alumnos")
+
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+  
+          let concepto = element[0], 
+          fecha_pago = element[1],
+          monto = element[2],
+          observacion = element[3],
+          banco = element[4],
+          transaccion = element[5],
+          //alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
+          mora = "-";
+          //id_alumno = alumnoFind[0].id
+
+          /*console.log(alumnoFind)
+          console.log(id_alumno)*/
+          console.log("alumno encontrado")
+  
+          DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion).then((respuesta) =>{
+            console.log(respuesta)
+          }).catch((err) => {
+            console.log(err)
+            let msg = "Error en sistema";
+            return res.redirect("/error672/PYT-672");
+          });
+        }
+      }).catch((err) => {
+        console.log(err)
+        let msg = "Error en sistema";
+        return res.redirect("/error672/PYT-672");
+      });
+      text = "Pagos Registrados"
+      return res.redirect("/caja/PYT-672/");    
+    })
+
+  } catch (error) {
+    console.log(error);
+    return res.redirect("/error672/PYT-672");    
+  }
 };
 
 exports.cargarExcel = (req, res) => {
@@ -1585,11 +1641,6 @@ exports.historial = (req, res) => {
     roleProf = true
   }
 
-  DataBase.ObtenerTodosGrupos().then((response) => {
-    let gruposTodos = JSON.parse(response);
-    //console.log(gruposTodos)
-    //console.log("TODOS LOS GRUPOS")
-
   DataBase.GruposYMatriculas().then((response2) => {
     let matriculas = JSON.parse(response2);
     //console.log(matriculas)
@@ -1618,20 +1669,25 @@ exports.historial = (req, res) => {
         /*console.log(grupo)
         console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
-        let fechaActual = moment().format("DD-MM-YYYY");
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
         let iniciar = moment(iniciado).diff(moment(), 'days');
 
-        /*console.log(iniciado)
-        console.log(iniciar)
-        console.log("INCIAR DIAS DIFERENCIA")
-        //console.log(grupo)
-        //console.log("GRUPO ENCONTRADO")*/
+        let numLeccion, nivelActual, 
+        fechaNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        };
         
+        let fechaActual = moment().format("DD-MM-YYYY");
+
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+
         let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-        let rest;
-        
+
+        let rest; 
+
         function EstablecerNivel () {  
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
@@ -1659,55 +1715,93 @@ exports.historial = (req, res) => {
               console.log("INTENSIVO")
             break;
           }
-                 
+
+          fechaNiveles = {
+            nivel1: fechaInicio,
+            nivel2: nivel2,
+            nivel3: nivel3,
+            nivel4: nivel4,
+          };
+          fechaNiveles = JSON.stringify(fechaNiveles)
+                  
           if (moment().isBefore(nivel2)) {
             console.log("Estas en nivel 1")
-            userInfo.nivelActualGrupo = 1
+            nivelActual = 1
             
           } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
             console.log("Estas en nivel 2")
-            userInfo.nivelActualGrupo = 2
+            nivelActual = 2
             
           } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
             console.log("Estas en nivel 3")
-            userInfo.nivelActualGrupo = 3
+            nivelActual = 3
             
           } else {
             console.log("Estas en nivel 4")
-            userInfo.nivelActualGrupo = 4
+            nivelActual = 4
             
           }
+
+          userInfo.nivelActualGrupo = nivelActual
 
           let numPositivo;
           if(grupo.lecciones_semanales === '1') {
-            
-            if (diff > 224) {
-              rest = (diff - 224) / 7; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 1 + numPositivo
-              
-            } else {
-              rest = (224 - diff) / 7; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 32 - numPositivo
 
-            }
-            
+              if (diff > 224) {
+                console.log("positivo")
+                rest = (diff - 224) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+              } 
+              else {
+                if (diff < 0) {
+                  console.log("negativo") 
+                  diff = diff * (-1)
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  console.log("else")
+                  rest = (224 - diff) / 7; 
+                  if (rest < 0) {
+                    rest = rest * (-1) 
+                  }
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+
+                }
+              }
+
           } else {
-            if (diff > 112) {
-              rest = (diff - 112) / 3.5; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 1 + numPositivo
-              
-            } else {
-              rest = (112 - diff) / 3.5; 
-              numPositivo = Math.floor(rest)
-              userInfo.leccActual = 32 - numPositivo
+              if (diff > 112) {
+                rest = (diff - 112) / 3.5; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 3.5; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 32 - numPositivo
 
-            }
-
+                }
+  
+              }
           }
+          userInfo.leccActual = numLeccion
 
+          console.log(numLeccion)
+          console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
           
@@ -1715,9 +1809,9 @@ exports.historial = (req, res) => {
           console.log("DIFF",diff)
           
         }
-  
-        EstablecerNivel();
-
+        
+        EstablecerNivel(); 
+        
         let final = Object.assign(element, userInfo);
 
         /*console.log(fechaActual)
@@ -1846,27 +1940,10 @@ exports.historial = (req, res) => {
 
     DataBase.ObtenerMatriculasDistinct().then((response3) => {
       let gruposDist = JSON.parse(response3);
+      let stringGrupos = JSON.stringify(gruposDist)
       //console.log(gruposDist)
       //console.log("GRUPOS DISTINCTS")
       
-      let arrGrupos = [];
-      
-      gruposDist.forEach(element => {
-        DataBase.BuscarGrupos(element.grupoId).then((response4) => {
-          let gruposFounds = JSON.parse(response4);
-          //console.log(gruposFounds)
-          //console.log("GRUPOS ENCONTRADOS")
-
-          gruposFounds.forEach(found => {
-            arrGrupos.push(found);
-          });
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      });
 
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
@@ -1875,15 +1952,9 @@ exports.historial = (req, res) => {
       py672: true,
       historial: true,
       roleAdmin, roleProf,
-      gruposTodos,
       arrString,
-      arrGrupos
+      stringGrupos,
     });
-  }).catch((err) => {
-    console.log(err)
-    let msg = "Error en sistema";
-    return res.redirect("/error672/PYT-672");
-  });
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
@@ -2138,7 +2209,9 @@ exports.caja = async(req, res) => {
   if (req.query.msg) {
     msg = req.query.msg;
   }
-  let proyecto = req.params.id  
+
+  let proyecto = req.params.id
+  let alert = req.params.text
 
   let roleAdmin, roleProf
   if(req.user.puesto === "Administrador") {
@@ -2163,6 +2236,7 @@ console.log(matricula)
       dashboard: true,
       py672:true,
       caja: true,
+      alert,
       roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
     });
@@ -2175,16 +2249,34 @@ console.log(matricula)
 
 exports.guarda_pago = async(req, res) => {
   console.log(req.body)
-  var {id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
+  console.log("DATA")
+  var { idCaja, id_alumno, concepto,fecha_pago, monto, mora, observacion,banco, transaccion} = req.body
   
-for (let i = 0; i < concepto.length; i++) {
-    const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
-      transaccion,id_alumno)
-  console.log(save_pago)
-  
-}
+  for (let i = 0; i < concepto.length; i++) {
+    if (concepto[i] === "Reactivacion") {
+      const save_pago = await DataBase.actualizarPagoPendiente(idCaja, fecha_pago, banco,
+        transaccion)
+      
+        console.log(save_pago)
+    } else {
+      const save_pago = await DataBase.guardar_caja(concepto[i],fecha_pago, monto[i], mora[i], observacion[i],banco,
+        transaccion,id_alumno)
+
+        console.log(save_pago)
+    }
+    
+  }
 
   return res.send({response:'Se guardo bien'})
+};
+
+exports.guardarPagoReactivar = async(req, res) => {
+  console.log(req.body)
+  let {id_alumno, concepto, monto, mora, observacion} = req.body
+  
+  const save_pago = await DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id_alumno)
+    console.log(save_pago)
+  return res.redirect('/caja/PYT-672')
 };
 
 exports.historial_caja = async(req, res) => {
@@ -2204,11 +2296,39 @@ exports.get_comments_alumno = async(req, res) => {
   return res.send({obtener_comentarios})
 };
 
+exports.validacionPassw = async (req, res) => {
+  let { passw } = req.params
+  const userId = res.locals.user.id
+  console.log(passw)
+  
+  const usuario = JSON.parse(await DataBase.ObtenerUsuario(userId))
+  console.log(usuario)
+  
+  let passHash = await bcrypt.hashSync(passw, bcrypt.genSaltSync(10));
+  console.log(passw)
+  console.log(passHash)
+
+  let validation = await bcrypt.compareSync(passw, usuario[0].password)
+  console.log(validation)
+  return res.send({validation})
+};
+
 exports.guardar_comentario = async(req, res) => {
-  var {id_alumno,
-    comentario} = req.body
-const userId = res.locals.user.id
-    const comentario_save = await DataBase.Guarda_comentarios(comentario,id_alumno,userId)
+  let { id_alumno, comentario } = req.body
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
+  console.log(comentario_save)
+
+  const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
+  console.log(obtener_comentarios) 
+
+  return res.send({obtener_comentarios})
+};
+
+exports.guardar_comentarioCaja = async(req, res) => {
+  let { id_alumno, comentario } = req.params
+  const userId = res.locals.user.id
+  const comentario_save = await DataBase.Guarda_comentarios(comentario, id_alumno, userId)
   console.log(comentario_save)
 
   const obtener_comentarios = JSON.parse(await DataBase.comentariosByAlumnoAdmin(id_alumno))
@@ -3167,16 +3287,16 @@ const userId = res.locals.user.id
 
 // * REGISTRAR MATRICULA AUSENTE
 exports.registrarmatriculausente = (req, res) => {
-  const { leccion, grupoId, matriculaId } = req.body;
+  const { leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos 2138" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response) =>{
+    DataBase.RegistrarAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response) =>{
       let resp = JSON.parse(response);
       return res.send({resp});
     }).catch((err) => {
@@ -3283,7 +3403,7 @@ exports.obtenermatriculausente = (req, res) => {
       });
     });
 
-    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, grupoId, matriculaId).then((response3) =>{
+    DataBase.ObtenerAsistenciaMatriculaAusente(leccion, nivel, grupoId, matriculaId).then((response3) =>{
       let resp = JSON.parse(response3);
       return res.send({resp, matricula});
     }).catch((err) => {
@@ -3473,11 +3593,17 @@ exports.congelarestudiante = (req, res) => {
   let msg = false;
 
   console.log(req.body);
+
   DataBase.CongelarEstudiante(id).then((resp) => {
     console.log(resp)
+    
+    /*let concepto = "Reactivacion", monto = 5000, mora = "-", observacion = "-"
+    DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id).then((value) => {
+      console.log(value)
 
-    return res.redirect('/matriculas');
-    //return res.send({congelado:'congelado'});
+      return res.redirect('/matriculas');
+    })*/
+    return res.send({success: true})
 
   }).catch((err) => {
     console.log(err)

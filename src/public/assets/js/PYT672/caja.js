@@ -28,6 +28,8 @@ $(function () {
 
   /**FUNCIONES AL SELECCIONAR EL ALUMNO */
   $(".alumno-select").change(async (e) => {
+    $('#totalMonto').text(0)
+
     $("#btnComentarios").removeAttr("disabled");
     $("#btnControl").removeAttr("disabled");
     $("#btnTrasladar").removeAttr("disabled");
@@ -43,7 +45,7 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
-    console.log(filter)
+    //console.log(filter)
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
 
     $("#nombre-alumno").text(filter[0]["nombre"]);
@@ -91,7 +93,11 @@ $(function () {
       $("#btn-congelar-alumno").addClass("d-none");
       $("#btn-activar-alumno").removeClass("d-none");
       updateHistorial(e.target.value);
-      Swal.fire("Alumno congelado");
+      Swal.fire({
+        title: 'Alumno congelado!',
+        icon: 'info',
+      })
+      reactivacion();
       return;
     } else {
       $("#btn-congelar-alumno").removeClass("d-none");
@@ -173,45 +179,47 @@ $(function () {
         .append(`<input type="text" name="id_alumno" id="id-alumno-form" value="${
         filter[0]["id"]
       }">
-<div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
-<!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
-        "YYYY-MM-DD"
-      )}">-->
-<input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
-<input type="text" name="mora[]" id="mora-form" value="-">
-<input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
-</div>`);
-      /**FIN FORM */
+      <div id="mensualidad-${mes_a_pagar}" class="mensualidad-${mes_a_pagar}"><input type="text" name="concepto[]" id="concepto-form" value="Mensualidad">
+      <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form" value="${moment().format(
+              "YYYY-MM-DD"
+            )}">-->
+      <input type="text" name="monto[]" id="monto-form" value="${mensualidad_coste}">
+      <input type="text" name="mora[]" id="mora-form" value="-">
+      <input type="text" name="observacion[]" id="observacion-form" class="mensualidad" value="${mes_a_pagar}">
+      </div>`);
+            /**FIN FORM */
 
-      $("#mensualidad-alumno").text(mensualidad_coste);
-      /**LLENAR TABLA */
-      $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
-<td>
-  <div class="d-flex align-items-center">
-    <span class="fw-bold">Mensualidad</span><p class="text-capitalize mb-0">${mes_a_pagarView}</p>
-  </div>
-</td>
+            $("#mensualidad-alumno").text(mensualidad_coste);
+            /**LLENAR TABLA */
+            $("#body-table-pago").append(`<tr id="tr-mensualidad-${mes_a_pagar}">
+      <td>
+        <div class="d-flex align-items-center">
+          <span class="fw-bold">Mensualidad</span><p class="text-capitalize mb-0">${mes_a_pagarView}</p>
+        </div>
+      </td>
 
-<td>${mensualidad_coste}</td>
-<td>
-    <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" class="feather feather-trash me-50">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path
-                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-            </path>
-        </svg>
-        <span>Eliminar</span>
-    </a>
-</td>
-</tr>`);
+      <td class="monto">${mensualidad_coste}</td>
+      <td>
+          <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="deshabilitarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+                  fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round" class="feather feather-trash me-50">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                  </path>
+              </svg>
+              <span>Eliminar</span>
+          </a>
+      </td>
+      </tr>`);
       updateHistorial(e.target.value);
       verificareposicion(e.target.value);
       titulo('a');
       incripcion();
     }
+    
+    reactivacion();
 
     /**FIN DEL SELECT ALUMNO */
   });
@@ -348,6 +356,102 @@ $(function () {
     // document.getElementById("transct").classList.replace("col-4", "col-6");
     $(".mensualidadAdd").addClass("d-none");
   }
+
+  const TotalAPagar = ()=> {
+    let total = 0
+    let montos = document.querySelectorAll('#body-table-pago .monto')
+
+    montos.forEach(monto => {
+      console.log(monto.parentElement)
+      if (!monto.parentElement.classList.contains('disabled')) {
+        total += parseInt(monto.innerText);
+      }
+    });
+    $('#totalMonto').text(total)
+    
+  }
+
+  /**INICIO REACTIVACION */
+  const addReactivacion = async () => {
+    let id_alumno = $("#id-alumno-form").val();
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+
+    $("#form-pago-pendiente").append(`
+    <div id="reactivacion" class="reactivacion">
+      <input type="text" name="id_alumno" value="${id_alumno}">
+      <input type="text" name="concepto" id="concepto-form" value="Reactivacion">
+      <input type="text" name="monto" id="monto-form" value="5000">
+      <input type="text" name="mora" id="mora-form" value="-">
+      <input type="text" name="observacion" id="observacion-form" value="-">
+    </div>`);
+
+    $("#form-pago-pendiente").submit()
+    
+  }; /**FIN REACTIVACION */
+
+  /**INICIO REACTIVACION */
+  const reactivacion = async () => {
+    let id_alumno = $("#id-alumno-form").val();
+    if (!id_alumno) {
+      swal.fire("Debe seleccionar un alumno para habilitar esta opción");
+      return;
+    }
+
+    historial = await fetch("/historia-caja-academy/" + id_alumno)
+      .then((response) => response.json())
+      .then((data) => {
+        return data.obtener_historia;
+      });
+
+      let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
+      console.log(historial)
+      console.log(filter)
+      console.log("HISTORIAL")
+      if (filter.length && filter[0].estado === "Pendiente") {
+        $("#btn-activar-alumno").attr("disabled", true);
+        $("#btn-guardar-pago").attr("disabled", false);
+        /**FORM */
+        $("#form-reg-pago").append(`
+        <div id="reactivacion" class="reactivacion">
+        <input type="text" name="idCaja" id="concepto-form" value="${filter[0].id}">
+        <input type="text" name="concepto[]" id="concepto-form" value="Reactivacion">
+        <input type="text" name="monto[]" id="monto-form" value="5000">
+        <input type="text" name="mora[]" id="mora-form" value="-">
+        <input type="text" name="observacion[]" id="observacion-form" value="-">
+        </div>`);
+        /**FIN FORM */
+        
+        $("#pago-mensual-detail").text(5000);
+      /**LLENAR TABLA */
+        $("#body-table-pago").append(`<tr id="tr-reactivacion">
+        <td>
+        <span class="fw-bold">Reactivación</span>
+        </td>
+        <td class="monto">5000</td>
+        <td>
+        <a class="item borrar reactivacion" onclick="borrarFila('tr-reactivacion','total')">
+           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+               stroke-linejoin="round" class="feather feather-trash me-50">
+               <polyline points="3 6 5 6 21 6"></polyline>
+               <path
+                   d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+               </path>
+           </svg>
+           <span>Eliminar</span>
+        </a>
+        </td>
+        </tr>`);
+        TotalAPagar();
+        return
+      }
+      $("#btn-activar-alumno").attr("disabled", false);
+      $("#btn-guardar-pago").attr("disabled", true);
+  }; /**FIN REACTIVACION */
+
   /**INICIO HABILITAR MENSUALIDAD */
   const recargo = async () => {
     let id_alumno = $("#id-alumno-form").val();
@@ -373,7 +477,7 @@ $(function () {
 <td>
 <span class="fw-bold">Recargo</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
 <a class="item borrar recargo" onclick="borrarFila('tr-recargo','recargo')">
    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -388,6 +492,7 @@ $(function () {
 </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT RECARGO */
 
   /**INICIO HABILITAR MENSUALIDAD */
@@ -495,7 +600,7 @@ $(function () {
     <td>
     <span class="fw-bold">Mensualidad</span><span class="text-capitalize"> ${mes_a_pagar}</span>
 </td>
-<td>${$("#itemPrice").val()}</td>
+<td class="monto">${$("#itemPrice").val()}</td>
 <td>
  <a class="item borrar mensualidad-${mes_a_pagar}" data-observacion="${mes_a_pagar}" onclick="borrarFila('tr-mensualidad-${mes_a_pagar}','mensualidad-${mes_a_pagar}')">
      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -510,6 +615,7 @@ $(function () {
  </a>
 </td>
 </tr>`);
+TotalAPagar();
   }; /**FIN BNT MENSUALIDAD */
   /**INICIO HABILITAR MENSUALIDAD */
   const incripcion = async () => {
@@ -549,9 +655,9 @@ $(function () {
       <td>
       <span class="fw-bold">Inscripción</span>
   </td>
-  <td>5000</td>
+  <td class="monto">5000</td>
   <td>
-   <a class="item borrar inscripcion"  onclick="borrarFila('tr-inscripcion','inscripcion')">
+   <a class="item borrar inscripcion" onclick="deshabilitarFila('tr-inscripcion','inscripcion')">
        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
            stroke-linejoin="round" class="feather feather-trash me-50">
@@ -565,6 +671,7 @@ $(function () {
   </td>
   </tr>`);
   $("#select-servicio").prepend(`<option value="inscripcion">Inscripción</option>`);
+  TotalAPagar();
     }
   
   }; /**FIN BNT INSCRIPCION */
@@ -594,7 +701,7 @@ $(function () {
 <td>
     <span class="fw-bold">Traslado</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
     <a class="item borrar traslado" onclick="borrarFila('tr-traslado','traslado')">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -615,6 +722,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**HABILITAR CONSTANCIA */
@@ -648,7 +756,7 @@ $(function () {
 <td>
 <span class="fw-bold">Constancia</span>
 </td>
-<td>5000</td>
+<td class="monto">5000</td>
 <td>
 <a class="item borrar Constancia" onclick="borrarFila('tr-Constancia','Constancia')">
     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -669,6 +777,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("5000");
     $("#itemPrice").val("5000");
+    TotalAPagar();
   }; /**FIN BNT TRASLADO */
 
   /**BTN HABILITAR TITULO */
@@ -774,7 +883,7 @@ $(function () {
 <td>
 <span class="fw-bold">Título N${nivel_grupo}</span>
 </td>
-<td>20000</td>
+<td class="monto">20000</td>
 <td>
 <a class="item borrar Titulo" onclick="borrarFila('tr-Titulo','Titulo')">
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
@@ -795,6 +904,7 @@ $(function () {
 </li>`);
     $("#total-servicios").text("20000");
     $("#itemPrice").val("20000");
+    TotalAPagar();
   }; /**FIN BNT TITULO */
 
   /**BTN HABILITAR REPOSICION */
@@ -826,9 +936,9 @@ $(function () {
 <td>
   <span class="fw-bold">Reposición L${leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${leccion}" onclick="borrarFila('tr-reposicion${leccion}','reposicion${leccion}')">
+  <a class="item borrar reposicion${leccion}" onclick="deshabilitarFila('tr-reposicion${leccion}','reposicion${leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -847,7 +957,7 @@ $(function () {
 </li>`);
       $("#total-servicios").text("10000");
       $("#itemPrice").val("10000");
-    
+      TotalAPagar();
   }; /**FIN BNT REPOSICION */
 
   /**BTN GENERAR CONSTANCIA */
@@ -1338,63 +1448,282 @@ $(function () {
     });
   });
 
-  $("#btn-congelar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id", id_estudiante);
-    $.ajax({
-      url: `/congelarestudiantepy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se congelo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
+  $("#btn-congelar-alumno").click(async () => {
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea congelar el alumno seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        Swal.fire({
+          title: 'Añadir motivo!',
+          icon: 'info',
+          html: '<label for="input-comment" class="swal2-input-label mb-1">Comentario</label><input minlength="20" autocapitalize="off" autocorrect="off" class="form-control swal2-input m-0 d-block w-100" id="input-comment" placeholder="Ingresa un comentario" type="text">',
+          preConfirm: () => {
+            const input = document.querySelector('#input-comment').value
+            console.log(input)
+            if (input.length < 20) {
+              Swal.showValidationMessage(`Agregue mas descripción al comentario`)
+            }
           }
-        });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
-  });
-  $("#btn-activar-alumno").click(() => {
-    let id_estudiante = $("#id-alumno-form").val();
-    let data = new FormData();
-    data.append("id", id_estudiante);
-    $.ajax({
-      url: `/activarestudiantecongeladopy672`,
-      type: "POST",
-      data: data,
-      cache: false,
-      contentType: false,
-      processData: false,
-      success: function (data, textStatus, jqXHR) {
-        
-        $("#createAppModal").modal("hide");
-        Swal.fire("Se reactivo el alumno con éxito").then((resp) => {
-          if (resp.isDismissed || resp.isConfirmed) {
-            window.location.reload();
-          }
-        });
-      },
-      error: function (jqXHR, textStatus) {
-      },
-    });
+        }).then((result2) => {
+          let comentario = result2.value,
+          id = $('.alumno-select').val()
+          let save = new Promise((resolve, reject) => {
+            resolve(GuardarComment(id, comentario))
+
+          }).then((response) => {
+            //console.log(response)
+            if(response === 200) {
+              Swal.fire({
+                title: 'Verifique la solicitud',
+                icon: 'info',
+                input: 'password',
+                inputLabel: 'Ingrese su contraseña',
+                inputPlaceholder: 'Contraseña',
+                inputAttributes: {
+                  autocapitalize: 'off',
+                  autocorrect: 'off'
+                },
+              }).then((result3) => {
+                //console.log(result3.value)
+                if(result3.isConfirmed) {
+                  let comprobarPassw = new Promise ((resolve, reject) => {
+                    resolve(ValidatePassw(result3.value))
+                  }).then((check) => {
+                    
+                    if(check.validation) {
+                      let id_estudiante = $("#id-alumno-form").val();
+                      let data = new FormData();
+                      data.append("id", id_estudiante);
+                      $.ajax({
+                        url: `/congelarestudiantepy672`,
+                        type: "POST",
+                        data: data,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        success: function (data, textStatus, jqXHR) {
+                          //console.log(data)
+                          $("#createAppModal").modal("hide");
+                          Swal.fire({
+                            title: 'Alumno congelado!',
+                            icon: 'success',
+                          }).then((resp) => {
+                            if (resp.isDismissed || resp.isConfirmed) {
+                              addReactivacion()
+                              //window.location.reload();
+                            }
+                          });
+                        },
+                        error: function (jqXHR, textStatus) {
+                        },
+                      });
+                      
+                    } else {
+                      Swal.fire({
+                        title: 'Estimano Usuario!',
+                        text: 'La contraseña es incorrecta.',
+                        icon: 'error',
+                        // optional classes to avoid backdrop blinking between steps
+                        showClass: { backdrop: 'swal2-noanimation' },
+                        hideClass: { backdrop: 'swal2-noanimation' },
+                      })
+                    }
+                  });
+
+                }
+              })
+             
+            } else {
+              Swal.fire({
+                title: 'Lo sentimos!',
+                text: 'Hubo un error al realizar la tarea.',
+                icon: 'error',
+                // optional classes to avoid backdrop blinking between steps
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+              })
+  
+            }
+
+          })
+          .catch((err) => {
+            reject(err)
+          })
+         
+        })
+
+      }
+    })
+
   });
 
-  /**FIN DOCUMENT READY */
+  async function ValidatePassw (passw) {
+    let validate = await fetch('/validacionPassw/'+passw)
+    let response = await validate.json()
+
+    return response
+  }
+
+  async function GuardarComment (id, comentario) {
+    let init = await fetch('/guardar_comentario_admin_academy/'+id+"/"+comentario)
+    let response = await init.json()
+    
+    return init.status
+  }
+
+  $("#btn-activar-alumno").click(() => {
+    
+    Swal.fire({
+      title: 'Atención!',
+      text: 'Desea activar el alumno seleccionado?',
+      icon: 'info',
+      showDenyButton: true,
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+      showClass: { backdrop: 'swal2-noanimation' },
+      hideClass: { backdrop: 'swal2-noanimation' },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Verifique la solicitud',
+          icon: 'info',
+          input: 'password',
+          inputLabel: 'Ingrese su contraseña',
+          inputPlaceholder: 'Contraseña',
+          inputAttributes: {
+            autocapitalize: 'off',
+            autocorrect: 'off'
+          }
+        }).then((result2) => {
+          console.log(result2)
+          let comprobarPassw = new Promise ((resolve, reject) => {
+            resolve(ValidatePassw(result2.value))
+          }).then((check) => {
+            console.log(check)
+            
+            if(check.validation) {
+              let id_estudiante = $("#id-alumno-form").val();
+              let data = new FormData();
+              data.append("id", id_estudiante);
+              $.ajax({
+                url: `/activarestudiantecongeladopy672`,
+                type: "POST",
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (data, textStatus, jqXHR) {
+                  
+                  $("#createAppModal").modal("hide");
+                  Swal.fire({
+                    title: 'Alumno activado!',
+                    icon: 'success',
+                  }).then((resp) => {
+                    if (resp.isDismissed || resp.isConfirmed) {
+                      window.location.reload();
+                    }
+                  });
+                },
+                error: function (jqXHR, textStatus) {
+                },
+              });
+              
+              
+            } else {
+              Swal.fire({
+                title: 'Estimano Usuario!',
+                text: 'La contraseña es incorrecta.',
+                icon: 'error',
+                // optional classes to avoid backdrop blinking between steps
+                showClass: { backdrop: 'swal2-noanimation' },
+                hideClass: { backdrop: 'swal2-noanimation' },
+              })
+            }
+          });
+          
+        })
+
+      }
+    })
+
+  });
+
 });
 
 function borrarFila(t, identificador) {
-  
+  if (identificador === "total") {
+    $(`#${t}`).remove();
+    let total = 0
+    let montos = document.querySelectorAll('#body-table-pago .monto')
+
+    montos.forEach(monto => {
+      console.log(monto.innerText)
+      total += parseInt(monto.innerText);
+    });
+    $('#totalMonto').text(total)
+    
+    return
+  }
   $(`#${t}`).remove();
   $(`#${identificador}`).remove();
+  let total = 0
+  let montos = document.querySelectorAll('#body-table-pago .monto')
+
+  montos.forEach(monto => {
+    console.log(monto.innerText)
+    total += parseInt(monto.innerText);
+  });
+  $('#totalMonto').text(total)
 }
+
+function TotalAPagar () {
+  let total = 0
+  let montos = document.querySelectorAll('#body-table-pago .monto')
+
+  montos.forEach(monto => {
+    console.log(monto.parentElement)
+    if (!monto.parentElement.classList.contains('disabled')) {
+      total += parseInt(monto.innerText);
+    }
+  });
+  $('#totalMonto').text(total)
+  
+}
+
+function deshabilitarFila(row, item) {
+  let fila = $('#'+row)
+  fila.addClass('disabled')
+  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="restaurarFila('${row} ','${row}')">
+    ${feather.icons['refresh-cw'].toSvg()}
+  <span>Restaurar</span>
+  </a>`)
+  console.log(row)
+  console.log(item)
+  TotalAPagar()
+}
+
+function restaurarFila(row, item) {
+  let fila = $('#'+row)
+  fila.removeClass('disabled')
+  
+  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="deshabilitarFila('${row} ','${row}')">
+  ${feather.icons['trash'].toSvg()}
+  <span>Eliminar</span>
+  </a>`)
+  
+  console.log(row)
+  console.log(item)
+  TotalAPagar()
+}
+
 async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
@@ -1419,9 +1748,12 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").removeClass("btn-primary");
   $("#btn-descarga-titulo").attr("disabled", true);
 
+  //console.log(gruposTodos)
   let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
+  //console.log(grupoFind)
+
   for (let i = 0; i < historial.length; i++) {
-    console.log(historial)
+    //console.log(historial)
     let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
     let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
     fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );
@@ -1442,6 +1774,26 @@ async function updateHistorial(id_estudiante) {
     <div class="d-flex justify-content-between">
       <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
       <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let reactivacion = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Reactivación</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</h6>
     </div>
     </div>
     </li>`;
@@ -1509,6 +1861,10 @@ async function updateHistorial(id_estudiante) {
 
     if (historial[i]["concepto"] == "Mensualidad") {
       $("#historial-list").append(lista_mensualidad);
+    }
+
+    if (historial[i]["concepto"] == "Reactivacion" && historial[i]["estado"] === "Pagado") {
+      $("#historial-list").append(reactivacion);
     }
 
     var hora_registro_pago = moment(historial[i]["createdAt"]);
@@ -2110,3 +2466,65 @@ async function ControlDetalles(id1, id2) {
 
   }
 }
+
+// * FUNCION CARGAR ARCHIVOS EXCEL
+let linkExcel = "", file;
+  $('#archivoExcel').on('change', (event)=>{
+    subirImagen(event)
+  })
+
+  const subirImagen = (event) => {
+    //$(`#loading3`).addClass("display");
+      const archivos = event.target.files;
+      const data = new FormData();
+      let imagenX = event.target.id;
+      data.append("archivo", archivos[0]);
+      $.ajax({
+        url: '/subirExcel',
+        type: 'POST',
+        data: data,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (data, textStatus, jqXHR)
+        {       
+          //console.log(data)     
+          file = data.fileName
+          linkExcel = "/cargarExcelPagos/"+file
+
+          EnviarDatos("Pagos guardados", "succ")
+          
+          /*$(`#progressBar1`).text('Se cargó correctamente la imágen - 100%');
+          setTimeout(() => {
+            $(`#progressBar1`).addClass("d-none");
+            $(`#loading3`).removeClass("display");
+          }, 1000)*/
+        },
+        error: function (jqXHR, textStatus) { 
+          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción", "err")
+          /*$("#progressBar1").text('100% - Error al cargar el archivo');
+          $("#progressBar1").removeClass("progress-bar-success");
+          $("#progressBar1").addClass("progress-bar-danger");*/
+        }
+      });
+  };
+
+  function EnviarDatos(text, type) {
+    if(text && type === "succ") {
+      Swal.fire({
+        title: 'Pagos registrados!',
+        icon: 'success',
+      }).then((value) => {
+        if (value.isConfirmed || value.isDismissed) {
+          linkExcel = "/cargarExcelPagos/"+file
+          window.location.href = linkExcel
+        }
+      })
+    } else {
+      Swal.fire({
+        title: 'Estimado Usuario!',
+        text: 'Hubo un error al realizar la acción',
+        icon: 'error',
+      })
+    }
+  }
