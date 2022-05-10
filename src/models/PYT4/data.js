@@ -21,6 +21,8 @@ const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
 const CompartirS = require('../../models/PYT4/ShareStatus');
 const logsUse = require('../../models/PYT4/Logs');
+const Historial_observaciones = require('../../models/PYT4/Historial_observaciones');
+
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
 const Pedidos_maquila = require("../../models/PYT4/Pedidos_maquila");
