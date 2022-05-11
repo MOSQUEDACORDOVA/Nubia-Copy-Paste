@@ -1475,7 +1475,6 @@ exports.controlgrupo = (req, res) => {
 
         let rest; 
 
-        // *-------------------------------//
         let inicioGrupo = grupo.fecha_inicio;
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
 
@@ -1483,9 +1482,16 @@ exports.controlgrupo = (req, res) => {
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = ""
+              }
       
               console.log("NIVELES")
               console.log(nivel2)
@@ -1515,22 +1521,40 @@ exports.controlgrupo = (req, res) => {
           };
           fechaNiveles = JSON.stringify(fechaNiveles)
                   
-          if (moment().isBefore(nivel2)) {
-            console.log("Estas en nivel 1")
-            nivelActual = 1
-            
-          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-            console.log("Estas en nivel 2")
-            nivelActual = 2
-            
-          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-            console.log("Estas en nivel 3")
-            nivelActual = 3
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } else {
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              
+            }
             
           } else {
-            console.log("Estas en nivel 4")
-            nivelActual = 4
-            
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } 
+
           }
 
           let numPositivo;
@@ -1703,9 +1727,16 @@ exports.historial = (req, res) => {
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = ""
+              }
       
               console.log("NIVELES")
               console.log(nivel2)
@@ -1735,22 +1766,40 @@ exports.historial = (req, res) => {
           };
           fechaNiveles = JSON.stringify(fechaNiveles)
                   
-          if (moment().isBefore(nivel2)) {
-            console.log("Estas en nivel 1")
-            nivelActual = 1
-            
-          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-            console.log("Estas en nivel 2")
-            nivelActual = 2
-            
-          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-            console.log("Estas en nivel 3")
-            nivelActual = 3
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } else {
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              
+            }
             
           } else {
-            console.log("Estas en nivel 4")
-            nivelActual = 4
-            
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } 
+
           }
 
           userInfo.nivelActualGrupo = nivelActual
