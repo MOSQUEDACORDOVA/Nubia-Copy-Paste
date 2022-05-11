@@ -40,9 +40,10 @@ const Personal = db.define('personal', {
 		type: DataTypes.TEXT,
 		allowNull: true,
 	},
-	sucursal: {
-		type: DataTypes.TEXT,
+	enabled: {
+		type: DataTypes.INTEGER,
 		allowNull: true,
+		defaultValue: 1
 	},
 });
 

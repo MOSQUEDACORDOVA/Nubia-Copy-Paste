@@ -89,7 +89,6 @@ router.get('/notificaciones_panel', authControllerPY4.authenticatedUser, dashboa
 router.get('/dashboard', dashboardController.dashboard);
 router.get('/home/:id', dashboardController.dashboard);
 
-//PYT-4 
 router.post('/upload-file', fileController4.subirArchivo);
 router.get('/errorpy4/:msg', dashboardControllerPY4.error);
 router.get('/errorpy4Cuponera/:msg', dashboardControllerPY4.errorCuponera);
@@ -97,11 +96,17 @@ router.get('/py4/:id', dashboardControllerPY4.login);
 router.get('/homepy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/homepy4/:msg', authControllerPY4.authenticatedUser, dashboardControllerPY4.dashboard);
 router.get('/prestadospy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
-router.get('/prestados/:day', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
+router.get('/prestadospy4-2', authControllerPY4.authenticatedUser, dashboardControllerPY4.prestados);
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
 router.get('/reportes', dashboardControllerPY4.reportes);
+
+router.get('/historyobserpy4/:clienteId',authControllerPY4.authenticatedUser, dashboardControllerPY4.getHistorialObservaciones);
+router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.saveHistorialObservaciones);
+
+router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
+//PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
 // OBTENER VENTAS POR ZONAS
@@ -115,7 +120,7 @@ router.get('/delete_personal/:id', authControllerPY4.authenticatedUser, dashboar
 router.post('/editar_personal_id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_personal);
 
 router.post('/save_personal_py4_edit', authControllerPY4.authenticatedUser, dashboardControllerPY4.save_personal_py4);
-
+router.get('/enordesPersonal/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoPersonal);
 
 router.get('/editar_usuario/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
 router.post('/editar_usuario', authControllerPY4.authenticatedUser, dashboardControllerPY4.editar_usuarios);
@@ -180,9 +185,10 @@ router.get('/delete_cliente/:id', authControllerPY4.authenticatedUser,dashboardC
 router.post('/editar_cliente_id', authControllerPY4.authenticatedUser,dashboardControllerPY4.editar_cliente);
 router.get('/cambiaS_pedido/:id/:status', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
 router.post('/cambiaS_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiaS_pedido);
+router.post('/cambia_M_pago', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_M_pago);
 router.post('/change_chofer_pedido', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambiachofer_pedido);
 router.get('/enordesClient/:id/:estado', authControllerPY4.authenticatedUser,dashboardControllerPY4.newEstadoCliente);
-
+router.post('/cambia_titulo_cliente', authControllerPY4.authenticatedUser,dashboardControllerPY4.cambia_titulo_cliente);
 
 router.get('/cambia_S_pago/:id/:status', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
 router.post('/cambia_S_pago', authControllerPY4.authenticatedUser, dashboardControllerPY4.cambia_S_pago);
@@ -233,9 +239,9 @@ router.post('/save-edit-pedido-maquila', authControllerPY4.authenticatedUser, ma
 router.get('/ventas-del-dia/:dia_select', authControllerPY4.authenticatedUser, maquilaControllerPY4.ventas_del_dia);
 
 
-router.get('/app-home/:id', dashboardControllerPY4.appHome);
-router.get('/app-login/:id', dashboardControllerPY4.appLogin);
-router.get('/app-pedido/:id', dashboardControllerPY4.appPedido);
+router.get('/app-home', dashboardControllerPY4.appHome);
+router.get('/app-login', dashboardControllerPY4.appLogin);
+router.get('/app-pedido', dashboardControllerPY4.appPedido);
 
 /* ---FIN PY4---  */
 

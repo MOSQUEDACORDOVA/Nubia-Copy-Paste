@@ -141,7 +141,64 @@ let id_sucursal = req.session.sucursal_select;
 let zonas =JSON.parse(await getZonas())
 res.send({zonas})
 }
+exports.obtenerPedidos = async (req, res)=>{
+  if (req.params.day) {
+    dia = moment(req.params.day, "YYYY-DD-MM").format("YYYY-MM-DD");
+  } else {
+    dia = moment();
+  }
+  let id_sucursal = req.session.sucursal_select;
+  
+  //DATA-COMUNES
+  let ClientesDB = "",
+    PedidosDB = "",
+    ChoferesDB = "",
+    LastPedidosAll = "",
+    PrestadosGroupByCliente = "",
+    Carga_init = "",
+    Entregados_resumen = "",
+    Etiquetas = "";
+  switch (req.session.tipo) {
+    case "Director":
+      ClientesDB = DataBase.ClientesAll;
+      PedidosDB = DataBase.PedidosAll;
+      ChoferesDB = DataBase.ChoferesAll;
+      LastPedidosAll = DataBase.LastPedidosAll;
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByCliente;
+      Carga_init = DataBase.Carga_initResumen;
+      Entregados_resumen = DataBase.entregados_resumen;
+      break;
 
+    default:
+      ClientesDB = DataBase.ClientesAllS;
+      PedidosDB = DataBase.PedidosAllS;
+      ChoferesDB = DataBase.ChoferesAll;
+      LastPedidosAll = DataBase.LastPedidosAllS;
+      PrestadosGroupByCliente = DataBase.PrestadosGroupByClienteS;
+      Carga_init = DataBase.Carga_initSResumen;
+      Entregados_resumen = DataBase.entregados_resumen;
+      break;
+  }
+  let hoy = moment();        
+          PedidosDB(id_sucursal)
+            .then((pedidos_) => {
+              let pedidos_let = JSON.parse(pedidos_);
+              let reprogramado = "";
+              let p = [];
+              for (let i = 0; i < pedidos_let.length; i++) {
+                reprogramado = moment(dia).isSameOrAfter(
+                  moment(pedidos_let[i].fecha_pedido),
+                  "day"
+                ); // true
+                
+                if (reprogramado) {
+                  p.push(pedidos_let[i]);
+                }
+              }
+              pedidos_ = JSON.stringify(p);
+              res.send({array_pedido:pedidos_})
+            })
+}
 exports.dashboard = (req, res) => {
   
   //Push.create('Hello World!')
@@ -197,24 +254,6 @@ exports.dashboard = (req, res) => {
       ClientesDB(id_sucursal)
         .then((clientes_d) => {
           let clientes_arr = JSON.parse(clientes_d);
-          let count = clientes_arr.length;
-          
-          PedidosDB(id_sucursal)
-            .then((pedidos_) => {
-              let pedidos_let = JSON.parse(pedidos_);
-              let reprogramado = "";
-              let p = [];
-              for (let i = 0; i < pedidos_let.length; i++) {
-                reprogramado = moment(dia).isSameOrAfter(
-                  moment(pedidos_let[i].fecha_pedido),
-                  "day"
-                ); // true
-                
-                if (reprogramado) {
-                  p.push(pedidos_let[i]);
-                }
-              }
-              pedidos_ = JSON.stringify(p);
               //COLOCAR AQUI QUE CUANDO EL PEDIDO TENGA EL STATUS REPROGRAMADO,Y SU FECHA SEA MAYOR A LA DE HOY, NO SE CARGE EN EL ARRAY pedidos_
               LastPedidosAll(id_sucursal)
                 .then((pedidos_g) => {
@@ -227,7 +266,10 @@ exports.dashboard = (req, res) => {
                   for (let i = 0; i < pedidos_letG.length; i++) {
                     if (pedidos_letG[i].status_pedido == "Entregado") {
                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
+                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');  
+            if (!dia_pedido.isValid()) {
+              dia_pedido = moment(pedidos_letG[i].fecha_pedido,'YYYY-MM-DD');
+            }
                         duration = hoy.diff(dia_pedido, "days");
                         if (duration >= 10 && duration < 20) {
                           notif1_2.push({
@@ -304,10 +346,7 @@ exports.dashboard = (req, res) => {
                               for (let i = 0; i < prestamos_let.length; i++) {
                                 fecha_created = prestamos_let[i].fecha_ingreso;
 
-                                let iguales = moment(fecha_created,'MM/DD/YYYY').isSame(
-                                  moment(),
-                                  "day"
-                                ); // true
+                                let iguales = moment(fecha_created,'MM/DD/YYYY').isSame(moment(), "day"); // true
                                ///if (iguales == true) {
                                   prestamos_byday.push(prestamos_let[i]); 
                                   
@@ -325,7 +364,7 @@ exports.dashboard = (req, res) => {
                                       break;
                                   }
                                // }
-                              }
+                              };
                               prestamos_byday = JSON.stringify(prestamos_byday);
                               DataBase.EtiquetasAll(id_sucursal)
                                 .then((etiquetas_) => {
@@ -339,9 +378,9 @@ exports.dashboard = (req, res) => {
                                         msg =
                                           "No se ha realizado la carga inicial, verificar";
                                       }
-                                     let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido())
-                                     
-                                     cont_not = cont_not + parseInt(verifica_pedidos_referido.length)
+                                     let verifica_pedidos_referido = JSON.parse(await DataBase.verificaPedidosReferido());                                     
+                                     cont_not = cont_not + parseInt(verifica_pedidos_referido.length);
+                                     console.log('renderingpage');
                                       res.render("PYT-4/home", {
                                         pageName: "Bwater",
                                         dashboardPage: true,
@@ -352,8 +391,6 @@ exports.dashboard = (req, res) => {
                                         admin,
                                         clientes_d,
                                         clientes_arr,
-                                        pedidos_,
-                                        pedidos_let,
                                         choferes_,
                                         prestamos_byday,
                                         prestamos_,
@@ -367,12 +404,6 @@ exports.dashboard = (req, res) => {
                                         msg,
                                         carga_,verifica_pedidos_referido,choferes
                                       });
-                                    })
-                                    .catch((err) => {
-                                      console.log(err)
-                                                                      let msg = "Error en sistema";
-                                      return res.redirect("/errorpy4/" + msg);
-                                    });
                                 })
                                 .catch((err) => {
                                   console.log(err)
@@ -687,8 +718,11 @@ exports.save_cliente_py4 = async (req, res) => {
     apellido_familiar_1, telefono_familiar_1, nombre_familiar_2,apellido_familiar_2, telefono_familiar_2, tipo_cliente,modo_cliente, fecha_ultimo_pedido, utimos_botellones,
     sucursal, email, color,descuento_reg_cliente)
     .then(async(respuesta) => {
-      
-      let clientes = await ClientesDB(id_sucursal)
+      let id_cliente_nuevo = JSON.parse(respuesta)['id'];
+      let id_user = res.locals.user.id;
+      let description =`Guardó los datos del cliente ${id_cliente_nuevo} desde dash: ${req.body.dashboard}`;
+      let Log = await DataBase.SaveLogs(id_user,'registrar_cliente','save_cliente_py4',description);
+      let clientes = await ClientesDB(id_sucursal);
       if (req.body.dashboard) {
         return res.send({clientes});
       }
@@ -802,7 +836,6 @@ console.log(req.body);
         res.redirect("/log_cupon/" + respuesta);
       } else {
         let cliente_created = JSON.parse(respuesta);
-        console.log(cliente_created)
         await DataBase.saveCupNotificacionClientNew(
           "Nuevo cliente",
           "0",
@@ -827,8 +860,14 @@ let PedidosByclient = JSON.parse(await DataBase.PedidosReferido(id_));
  let Disabled,deleteClient;
 if (PedidosByclient.length>0) {
   Disabled = JSON.parse(await DataBase.Disabled_client(id_));
+      let id_user = user.id;
+      let description =`Deshabilito los datos del cliente ${id_} `;
+      let Log = await DataBase.SaveLogs(id_user,'Disabled_client','delete_cliente',description);
 }else{
   deleteClient = JSON.parse(await DataBase.Delete_Cliente(id_));
+      let id_user = user.id;
+      let description =`Eliminó los datos del cliente ${id_} desde dash: ${req.body.dashboard}`;
+      let Log = await DataBase.SaveLogs(id_user,'Delete_Cliente','delete_cliente',description);
 }
     let id_sucursal = req.session.sucursal_select;
     let ClientesDB = "";
@@ -895,9 +934,11 @@ exports.editar_cliente = (req, res) => {
   let id_sucursal = req.session.sucursal_select;
   //DATA-COMUNES
   DataBase.ClientebyId(id_)
-    .then((clientes_) => {
+    .then(async (clientes_) => {
       let cliente_let = JSON.parse(clientes_);
-
+      let id_user = user.id;
+      let description =`Pidio ver la info cliente ${id_}`;
+      let Log = await DataBase.SaveLogs(id_user,'ClientebyId','editar_cliente',description);
       res.send({ cliente_let });
     })
     .catch((err) => {
@@ -967,8 +1008,13 @@ exports.save_cliente_edit = (req, res) => {
     email,
     color,descuento_edit_cliente
   )
-    .then((respuesta) => {
+    .then(async (respuesta) => {
+      let id_user = res.locals.user.id;
+      let description =`Actualizó los datos del cliente ${id_cliente}`;
+      let Log = await DataBase.SaveLogs(id_user,'update_cliente','save_cliente_edit',description);
+
       let id_sucursal = req.session.sucursal_select;
+
       let ClientesDB = "";
       switch (req.session.tipo) {
         case "Director":
@@ -1148,7 +1194,7 @@ exports.regPedidoPy4 = async (req, res) => {
     id_chofer,
     sucursal,
     deuda_anterior,
-    fecha_pedido,desc_referido,id_referenciado,asentamiento,descuento_reg_cliente
+    fecha_pedido,desc_referido,id_referenciado,asentamiento,descuento_reg_cliente,modifica_cliente_input
   } = req.body;
 
   let total_garrafones_pedido =
@@ -1190,8 +1236,10 @@ exports.regPedidoPy4 = async (req, res) => {
   var verificaPedido = JSON.parse(
     await DataBase.VerificaDuplicado(fecha_pedido, id_cliente)
   );
+  console.log(verificaPedido)
+  
    if (verificaPedido != null) {
-    msg = "El cliente ya cuenta con un pedido, para el día de hoy!";
+    msg = "El cliente ya cuenta con un pedido, del día: " + verificaPedido.fecha_pedido;
     return res.send({ msg: msg, fail: "duplicado" });
   }
   let descuento
@@ -1242,12 +1290,18 @@ if (desc_referido > 0) {
     total_canje_cant_pedido,
     total_nuevo_cant_pedido,
     total_obsequio_pedido,
-    fecha_pedido,descuento,asentamiento,descuento_reg_cliente
+    fecha_pedido,descuento,asentamiento,descuento_reg_cliente,modifica_cliente_input
   )
     .then(async (respuesta) => {
+      console.log(respuesta)
+      let pedidoGuardado = JSON.parse(respuesta)
+      let id_user = user.id;
+      console.log(pedidoGuardado['id'])
+      let description =`Registró el pedido ${pedidoGuardado['id']} al cliente ${id_cliente} en la zona ${sucursal}`;
+      let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
       await PedidosDB(id_sucursal)
-        .then((pedidos_) => {
+        .then(async (pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
           let reprogramado = "";
           let p = [];
@@ -1263,7 +1317,9 @@ if (desc_referido > 0) {
           }
           pedidos_let = p;
           let msg = respuesta;
-          return res.send({ msg: msg, pedidos_let });
+          let pedido = JSON.parse(await DataBase.PedidoById(pedidoGuardado['id']));
+              console.log(pedido)
+          return res.send({ msg: msg, pedidos_let,pedido });
         })
         .catch((err) => {
               let msg = "Error en sistema";
@@ -1280,8 +1336,11 @@ exports.delete_pedido = (req, res) => {
   const user = res.locals.user;
   let id_ = req.params.id;
 
-  DataBase.Delete_Pedido(id_).then((respuesta) => {
+  DataBase.Delete_Pedido(id_).then(async(respuesta) => {
     let msg = "Pedido Eliminado con éxito";
+    let id_user = user.id;
+    let description =`Borró el pedido ${id_}`;
+    let Log = await DataBase.SaveLogs(id_user,'Delete_Pedido','delete_pedido',description);
     return res.send({ respuesta: msg });
     //res.redirect('/homepy4/'+msg)
   });
@@ -1293,7 +1352,7 @@ exports.editar_pedido = (req, res) => {
   let id_ = req.body.id;
 
   DataBase.PedidoById2(id_)
-    .then((pedidos_) => {
+    .then(async(pedidos_) => {
       let pedido_let = JSON.parse(pedidos_);
       let id_sucursal = req.session.sucursal_select;
 
@@ -1438,32 +1497,16 @@ exports.Save_editPedidoPy4 = (req, res) => {
   )
     .then(async (respuesta) => {
       let id_sucursal = req.session.sucursal_select;
-      await PedidosDB(id_sucursal)
-        .then((pedidos_) => {
-          let pedidos_let = JSON.parse(pedidos_);
-          let msg = respuesta;
-          let reprogramado = "";
-          let p = [];
-          for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment(dia).isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido),
-              "day"
-            ); // true
-            
-            if (reprogramado) {
-              p.push(pedidos_let[i]);
-            }
-          }
-          pedidos_let = p;
-          return res.send({ msg: msg, pedidos_let });
-          // res.redirect('/homepy4/'+msg)
-        })
-        .catch((err) => {
-              let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
-        });
+      let id_user = user.id;
+    let description =`Editó el pedido ${id_pedido}`;
+    let Log = await DataBase.SaveLogs(id_user,'PedidosUpd','Save_editPedidoPy4',description);
+      
+          let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+              console.log(pedido)
+          return res.send({ pedido });
     })
     .catch((err) => {
+      console.log(err)
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
@@ -1500,52 +1543,99 @@ exports.cambiaS_pedido = (req, res) => {
   }
   
   CambiaStatus(id_pedido, status, motivo, fecha_rep)
-    .then((respuesta) => {
-      PedidosDB(id_sucursal)
-        .then((pedidos_) => {
-          let pedidos_let = JSON.parse(pedidos_);
-          let hoy = moment();
-          let forma_hoy = hoy.format("L");
-          let reprogramado = "";
-          let p = [];
-          for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment(dia).isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido,'YYYY-MM-DD'),
-              "day"
-            ); // true
-            
-            if (reprogramado) {
-              p.push(pedidos_let[i]);
-            }
-          }
-          pedidos_let = p;
-          Carga_init(id_sucursal, forma_hoy)
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el estado del pedido ${id_pedido}, status: ${status}, motivo: ${motivo}, fecha: ${fecha_rep}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaStatus','cambiaS_pedido',description);
+          Carga_init(id_sucursal, moment().format("L"))
             .then(async (carga_) => {
               let carga_let = JSON.parse(carga_);
 
               let msg = respuesta;
-              return res.send({ msg: msg, pedidos_let, carga_let });
+              let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+              console.log(pedido)
+              return res.send({ msg: msg, carga_let,pedido });
               // res.redirect('/homepy4/'+msg)
             })
             .catch((err) => {
-                      let msg = "Error en sistema";
-              return res.redirect("/errorpy4/" + msg);
+              console.log(err)
+              return res.send({ err });
             });
         })
         .catch((err) => {
+          console.log(err)
               let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
+              return res.send({ err });
         });
-    })
-    .catch((err) => {
-      let msg = "Error en sistema";
-      return res.redirect("/errorpy4/" + msg);
-    });
 };
+exports.cambia_M_pago = (req, res) => {
+  const user = res.locals.user;
+  const id_pedido = req.body.id;
+  const mpago = req.body.mpago;
+  let id_sucursal = req.session.sucursal_select;
+  let Carga_init = "",
+    CambiaStatus = "";
+  switch (req.session.tipo) {
+    case "Director":
+      Carga_init = DataBase.Carga_initResumen;
+      PedidosDB = DataBase.PedidosAll;
+      break;
+
+    default:
+      Carga_init = DataBase.Carga_initSResumen;
+      PedidosDB = DataBase.PedidosAllS;
+      break;
+  }  
+  DataBase.CambiaMPago(id_pedido, mpago)
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el metodo de pago del pedido ${id_pedido}, nuevoM: ${mpago}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaMPago','cambia_M_pago',description);
+          // Carga_init(id_sucursal, moment().format("L"))
+          //   .then(async (carga_) => {
+          //     let carga_let = JSON.parse(carga_);
+
+          //     let msg = respuesta;
+          //     let pedido = JSON.parse(await DataBase.PedidoById(id_pedido));
+          //     console.log(pedido)
+              
+          //     // res.redirect('/homepy4/'+msg)
+          //   })
+          //   .catch((err) => {
+          //     console.log(err)
+          //     return res.send({ err });
+          //   });
+            return res.send({ msg: 'Done'});
+        })
+        .catch((err) => {
+          console.log(err)
+              let msg = "Error en sistema";
+              return res.send({ err });
+        });
+};
+exports.cambia_titulo_cliente = (req, res) => {
+  const user = res.locals.user;
+  const id_cliente = req.body.id;
+  const nTitulo = req.body.nTitulo;
+  DataBase.CambiaTituloCliente(id_cliente, nTitulo)
+    .then(async (respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el titulo del clinete ${id_cliente}, nuevoT: ${nTitulo}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaTituloCliente','cambia_titulo_cliente',description);
+            return res.send({ msg: 'Done'});
+        })
+        .catch((err) => {
+          console.log(err)
+              let msg = "Error en sistema";
+              return res.send({ err });
+        });
+};
+
+
 exports.cambiachofer_pedido = async (req, res) => {
   const user = res.locals.user;
   const { ids_pedido, chofer } = req.body;
-  
+  let id_user = user.id;
   let split_id = ids_pedido.split(",");
 
   for (let i = 0; i < split_id.length; i++) {
@@ -1553,7 +1643,11 @@ exports.cambiachofer_pedido = async (req, res) => {
       continue
     }
     await DataBase.cambiaChofer(split_id[i], chofer);
+let description =`Cambio el chofer del pedido ${split_id[i]}, chofer: ${chofer}`;
+  let Log = await DataBase.SaveLogs(id_user,'cambiaChofer','cambiachofer_pedido',description);
   }
+  
+  
   let id_sucursal = req.session.sucursal_select;
   let PedidosDB = "";
   switch (req.session.tipo) {
@@ -1607,7 +1701,10 @@ exports.cambia_S_pago = (req, res) => {
       break;
   }
   DataBase.CambiaStatusPago(id_pedido, status)
-    .then((respuesta) => {
+    .then(async(respuesta) => {
+      let id_user = user.id;
+      let description =`Cambio el Status de Pago del pedido ${id_pedido} nuevo status: ${status}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiaStatusPago','cambia_S_pago',description);
       PedidosDB(id_sucursal)
         .then((pedidos_) => {
           let pedidos_let = JSON.parse(pedidos_);
@@ -1748,7 +1845,7 @@ exports.personal_table = (req, res) => {
       ClientesDB = DataBase.ClientesAll;
       PedidosDB = DataBase.PedidosAll;
       ChoferesDB = DataBase.ChoferesAll;
-      PersonalDB = DataBase.PersonalAll;
+      PersonalDB = DataBase.PersonalAllT;
       break;
 
     default:
@@ -1891,7 +1988,7 @@ exports.save_personal = (req, res) => {
       let PersonalDB = "";
       switch (req.session.tipo) {
         case "Director":
-          PersonalDB = DataBase.PersonalAll;
+          PersonalDB = DataBase.PersonalAllT;
           break;
 
         default:
@@ -1976,7 +2073,7 @@ exports.save_personal_py4 = (req, res) => {
       let PersonalDB = "";
       switch (req.session.tipo) {
         case "Director":
-          PersonalDB = DataBase.PersonalAll;
+          PersonalDB = DataBase.PersonalAllT;
           break;
 
         default:
@@ -1997,6 +2094,35 @@ exports.save_personal_py4 = (req, res) => {
       let msg = "Error en sistema";
       return res.redirect("/errorpy4/" + msg);
     });
+};
+exports.newEstadoPersonal = async (req, res) => {
+  const user = res.locals.user;
+  let id_ = req.params.id;
+  let estado = req.params.estado;
+let NewEstado = JSON.parse(await DataBase.CambiarEstadoPersonal(id_, estado));
+let id_user = user.id;
+      let description =`Cambio el estado del personal: ${id_}, nuevo estado: ${estado}`;
+      let Log = await DataBase.SaveLogs(id_user,'CambiarEstadoPersonal','newEstadoPersonal',description);
+    let id_sucursal = req.session.sucursal_select;
+      let PersonalDB = "";
+      switch (req.session.tipo) {
+        case "Director":
+          PersonalDB = DataBase.PersonalAllT;
+          break;
+
+        default:
+          PersonalDB = DataBase.PersonalAllS;
+          break;
+      }
+      PersonalDB(id_sucursal)
+        .then((personal_) => {
+          let personal_let = JSON.parse(personal_);
+          res.send({ personal_let });
+        })
+        .catch((err) => {
+              let msg = "Error en sistema";
+          return res.redirect("/errorpy4/" + msg);
+        });
 };
 
 //USUARIOS
@@ -2373,7 +2499,7 @@ exports.corte_table = (req, res) => {
 };
 
 //CORTE PRESTADOS
-exports.corte_prestados_table = (req, res) => {
+exports.corte_prestados_table = async (req, res) => {
   let id_chofer = req.params.id_chofer,
     cantidad = req.params.cantidad,
     id_cliente = req.params.id_cliente,
@@ -2384,7 +2510,7 @@ exports.corte_prestados_table = (req, res) => {
       let desc__let = JSON.parse(desc_)[0];
 
       let devueltos_nuevo = parseInt(desc__let.devueltos) + parseInt(cantidad);
-      let nueva_cantidad = parseInt(desc__let.cantidad) - parseInt(cantidad);
+      let nueva_cantidad = parseInt(desc__let.cantidad) - parseInt(cantidad);     
 
       DataBase.UpdateGPRestados(
         id_chofer,
@@ -2392,9 +2518,12 @@ exports.corte_prestados_table = (req, res) => {
         id_cliente,
         fecha,
         nueva_cantidad
-      ).then((personal_) => {
+      ).then(async (personal_) => {
         let pedidos_let = JSON.parse(personal_)[0];
 
+      let id_user = res.locals.user.id;
+      let description =`Se descontaron garrfones del cliente ${id_cliente}; de: ${desc__let.cantidad} a: ${nueva_cantidad}`;
+      let Log = await DataBase.SaveLogs(id_user,'DescontarGPrestados','corte_prestados_table',description);
         res.send(pedidos_let.devueltos);
       });
     }
@@ -3533,7 +3662,7 @@ exports.sessionCuponera = (req, res) => {
       if (err) {
           return next(err);
       }
-      if (user.dataValues.cuponera == "" || user.dataValues.cuponera == "c/a") {
+      if (user.dataValues.cuponera != "s/a") {
         return res.redirect("/cuponera");
       } else {
         let msg =
@@ -4531,6 +4660,25 @@ exports.save_cliente_edit_cupon = (req, res) => {
     });
 };
 
+// * GET HISTORIAL OBSERVACIONES CLIENTES
+exports.getHistorialObservaciones = async (req, res) => {
+  let clienteId = req.params.clienteId
+let hystory = await DataBase.findhistorialObservacionesAll(clienteId);
+console.log(hystory)
+return res.send({hystory});
+}
+// * SAVE HISTORIAL OBSERVACIONES CLIENTES
+exports.saveHistorialObservaciones = async (req, res) => {
+  const {clienteID,  observacion} = req.body;
+  let userId = res.locals.user.id;
+  let fecha = moment().format('DD/MM/YYYY');
+  let tipo_origen = 'Tabla cliente'
+let hystory = await DataBase.savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen);
+console.log(hystory)
+let description =`Guardó observación al cliente ${clienteID} desde tabla cliente`;
+      let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
+return res.send({hystory});
+}
 // * LOGIN APP CHOFERES 
 exports.appLogin = (req, res) => {
   let msg = false;

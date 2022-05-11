@@ -44,6 +44,7 @@ function cargaTablaPersonal(editada) {
         } 
       },
         { data: 'telefono' },
+        { data: 'enabled' },//6
         {   // Actions
           targets: -1,
           title: 'Opciones',
@@ -107,6 +108,23 @@ function cargaTablaPersonal(editada) {
         {
           // Avatar image/badge, Name and post
           targets: 2,visible:false
+        },
+        {
+          // Avatar image/badge, Name and post
+          targets: 6,
+          render: function (data, type, full, meta) {
+            var $status_number = data;
+            var $status = {
+              0: { title: 'Inactivo', class: 'badge-light-danger' },
+              1: { title: 'Activo', class: ' badge-light-success' },
+            };
+            if (typeof $status[$status_number] === 'undefined') {
+              return data;
+            }
+            return (`<span class="badge rounded-pill ${$status[$status_number].class}" style="cursor:pointer;" onclick="DisEn('${full['id']}','${data}')">
+              ${$status[$status_number].title}</span>`
+            );
+          }
         },
         {
           // Label
@@ -480,6 +498,7 @@ return (
           <th>Cargo</th>
           <th>Salario</th>
           <th>Teléfono</th>
+          <th>Estado</th>
           <th>Opciones</th>
         </tr>
       </thead>`);
@@ -646,6 +665,7 @@ cargaTablaUsuarios('si')
           <th>Cargo</th>
           <th>Salario</th>
           <th>Teléfono</th>
+          <th>Estado</th>
           <th>Opciones</th>
         </tr>
       </thead>`);
@@ -847,4 +867,55 @@ cargaTablaUsuarios('si')
       console.log('error:' + jqXHR)
     }
   });
+  }
+  function DisEn(id,estadoActual) {
+    let nuevoEstado = 0, desc= "desactivar";
+    if (estadoActual == 0) {
+      nuevoEstado = 1;
+      desc= "activar";
+    }
+  
+    Swal.fire({
+      title: 'Cambiar estado',
+      text: `Seguro desea ${desc} el personal indicado`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Cambiar',
+      showLoaderOnConfirm: true,
+      preConfirm: (de) => {
+        return fetch(`/enordesPersonal/${id}/${nuevoEstado}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          }).then((data) => {
+            console.log(data);
+            $('#array_personal').val(JSON.stringify(data.personal_let))
+            $('.datatables-basic_personal').dataTable().fnDestroy();
+             $('.datatables-basic_personal').empty();
+            $('.datatables-basic_personal').html(`<thead>
+            <tr>
+              <th>id</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Cargo</th>
+              <th>Salario</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Opciones</th>
+            </tr>
+          </thead>`);
+          cargaTablaPersonal('si')
+     $('.modal').modal('hide');
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    })
+  
   }

@@ -19,7 +19,9 @@ const Asig_chofer = require("../../models/PYT4/Asig_chofer");
 const Recargas = require("../../models/PYT4/Recargas");
 const Pagos_deudores = require("../../models/PYT4/Pagos_deudores");
 var moment = require('moment-timezone');
-const CompartirS = require('../../models/PYT4/ShareStatus')
+const CompartirS = require('../../models/PYT4/ShareStatus');
+const logsUse = require('../../models/PYT4/Logs');
+const Historial_observaciones = require('../../models/PYT4/Historial_observaciones');
 
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
@@ -243,7 +245,7 @@ module.exports = {
         where: {
           [Op.or]: [{estado:cp, cpId: asentamiento,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida},{telefono:telefono}],  }}).then((data)=>{
         if (!data) {
-          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a"}).then((data_cliente)=>{
+          Clientes.create({firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio,fraccionamiento: asentamiento,coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono, tipo:tipo_cliente,  email:email , estado:cp, cpId: asentamiento, cuponera:"s/a", nuevo:"SI"}).then((data_cliente)=>{
           let data_set = JSON.stringify(data_cliente);
         console.log(data_set);
         resolve(data_set);
@@ -307,6 +309,25 @@ module.exports = {
           Notificaciones.update({estado:'1'}, {where:{clienteId:id}})
           resolve(data_set);
           //console.log(planes);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  CambiaTituloCliente(id,nTitulo) {
+    return new Promise((resolve, reject) => {
+      Clientes.update(
+        {
+          titulo:nTitulo},{
+            where:
+            {
+              id: id
+            }
+          })
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          resolve(data_set);
         })
         .catch((err) => {
           reject(err)
@@ -673,7 +694,7 @@ module.exports = {
   },
 
    //Pedidos
-   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento,descuento_reg_cliente) {
+   PedidosReg(id_cliente, firstName, lastName,  ciudad, municipio,fraccionamiento, coto, casa, calle, avenida, referencia, telefono, chofer, total_total_inp, metodo_pago,   status_pago, status_pedido, garrafones_prestamos, observacion,danados,id_chofer, garrafon19L,botella1L, garrafon11L, botella5L, id_usuario, sucursal,deuda_anterior,total_garrafones_pedido,total_refill_cant_pedido, total_canje_cant_pedido, total_nuevo_cant_pedido, total_obsequio_pedido,fecha_pedido,desc_referido,asentamiento,descuento_reg_cliente,modifica_cliente_input) {
     return new Promise(async (resolve, reject) => {
       let garrafon19L_ = JSON.stringify(garrafon19L);
       let botella1L_ = JSON.stringify(botella1L);
@@ -713,19 +734,23 @@ module.exports = {
               total_nv_pedido:total_nuevo_cant_pedido,
               total_obsequio_pedido:total_obsequio_pedido,fecha_pedido:fecha_pedido,descuento: desc_referido},{where:{clienteId: id_cliente,}})
           }
-
-          Clientes.update(
+if (modifica_cliente_input == "SI") {
+  logsUse.create({id_user:id_usuario,type:'logsUse',tfunction:'PedidosReg',description:'Se modifico el cliente desde registrar pedido'})
+  Clientes.update(
             {
               firstName: firstName,lastName: lastName,ciudad: ciudad,municipio:municipio, fraccionamiento: asentamiento,
               cpId: asentamiento, coto: coto,casa: casa, calle: calle, avenida: avenida,referencia:referencia,telefono:telefono,sucursaleId:sucursal,monto_nuevo:descuento_reg_cliente  },{ where:{
                   id: id_cliente
               }}) .then((data_cli) => {
-                resolve("Se creó correctamente el pedido");
-                //console.log(planes);
+                resolve(data_set);
               })          
             .catch((err) => {                      
               reject(err)
             });
+} else {
+  resolve(data_set);
+}
+          
         })
         .catch((err) => {
           reject(err)
@@ -849,6 +874,30 @@ console.log(hoy)
           //console.log(planes);
         })
         .catch((err) => {
+          console.log(err)
+          reject(err)
+        });
+    });
+  },
+  CambiaMPago(id_pedido,mpago) {
+    return new Promise((resolve, reject) => {
+        
+      Pedidos.update(
+        {
+          metodo_pago: mpago}, { where:{
+            id: id_pedido
+        }})
+        .then((data) => {
+          let data_set = JSON.stringify(data);
+          Last_p.update({metodo_pago: mpago},{where:{pedidoId:id_pedido}}).then((pedido_) =>{
+           resolve("Se actualizó el metodo con éxito");
+          }).catch((err) => {
+                           console.log(err)
+                           reject(err)
+                         })
+        })
+        .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -1144,7 +1193,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ],order: [
+    ], order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
@@ -1161,12 +1210,13 @@ console.log(hoy)
   },
   PedidoById(id){
     return new Promise((resolve, reject) => {
-      Pedidos.findAll({where: {
+      Pedidos.findOne({where: {
         id: id
       },include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        //{ model: Productos_pedidos,as:'Productos_' }
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
       })
         .then((data) => {
@@ -1176,6 +1226,7 @@ console.log(hoy)
           ////console.log(id_usuario);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
     });
@@ -1534,6 +1585,26 @@ console.log(hoy)
           });
       });
     },
+    CambiarEstadoPersonal(id,estado) {
+      return new Promise((resolve, reject) => {
+        Personal.update(
+          {
+            enabled:estado},{
+              where:
+              {
+                id: id
+              }
+            })
+          .then((data) => {
+            let data_set = JSON.stringify(data);
+            resolve(data_set);
+            //console.log(planes);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
     updPersonal(id_personal,firstName, lastName, direccion,cargo, salario, telefono,  sucursal, email, fecha_ingreso,vehiculo) {
       return new Promise((resolve, reject) => {
         Personal.update(
@@ -1554,6 +1625,20 @@ console.log(hoy)
    
     PersonalAll(){
       return new Promise((resolve, reject) => {
+        Personal.findAll({where: {enabled:1}})
+          .then((data) => {
+            let data_p = JSON.stringify(data);
+            //console.log(data)
+            resolve(data_p);
+            ////console.log(id_usuario);
+          })
+          .catch((err) => {
+            reject(err)
+          });
+      });
+    },
+    PersonalAllT(){
+      return new Promise((resolve, reject) => {
         Personal.findAll()
           .then((data) => {
             let data_p = JSON.stringify(data);
@@ -1568,7 +1653,7 @@ console.log(hoy)
     },
 PersonalAllS(id){
       return new Promise((resolve, reject) => {
-        Personal.findAll({where: {sucursaleId:id}})
+        Personal.findAll({where: {enabled:1,sucursaleId:id}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1602,7 +1687,7 @@ PersonalAllS(id){
     ChoferesAll(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer' }})
+          cargo: 'Chofer', enabled:1 }})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -1634,7 +1719,7 @@ PersonalAllS(id){
     ChoferesAllS(id){
       return new Promise((resolve, reject) => {
         Personal.findAll({where: {
-          cargo: 'Chofer', sucursaleId: id }})
+          cargo: 'Chofer', sucursaleId: id, enabled:1}})
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -2798,7 +2883,43 @@ findStatusCompartirAll(){
       reject(err)
     });
   });
-}
+},
+
+findhistorialObservacionesAll(clienteId){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.findAll({where: {clienteId: clienteId}, include:[{association: Historial_observaciones.Personal}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:tipo_origen,clienteId:clienteID,usuarioId:userId}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+SaveLogs(id_user,type,tfunction,description){
+  return new Promise((resolve, reject) => {
+    logsUse.create({id_user:id_user,type:type,tfunction:tfunction,description:description}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
 
 
 /**END OF EXPORT */};

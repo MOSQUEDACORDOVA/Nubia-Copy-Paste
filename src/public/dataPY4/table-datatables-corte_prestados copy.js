@@ -277,7 +277,7 @@ async function habilitar_dev(id) {
       Swal.fire('Listo')
       let fecha = moment(fecha_,'MM-DD-YYYY').format('YYYY-DD-MM')
       console.log(fecha)
-    let prestados = await fetch("/prestadospy4-2" )
+    let prestados = await fetch("/prestados/" + fecha)
       .then((response) => response.json())
       .then((data) => {        
         return data.prestamos_byday;
