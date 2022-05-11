@@ -709,6 +709,8 @@ $(document).ready(function () {
             $("#filtrosKids select.leccion")[0].options[i].disabled = false;
           }
           // * DETECTAR NIVEL
+          console.log($("#nivelActual").val())
+          console.log(nivel)
           nivel = parseInt($("#nivelActual").val())
           for (let index = 0; index < nivel; index++) {
             $("#filtrosKids select.nivel")[0].options[index].disabled = false;
