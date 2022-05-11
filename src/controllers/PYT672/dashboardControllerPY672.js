@@ -334,6 +334,8 @@ exports.grupos = (req, res) => {
     roleProf = true
   }
 
+  let nombre = res.locals.user.nombre
+
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
       dashboardPage: true,
@@ -341,6 +343,7 @@ exports.grupos = (req, res) => {
       py672: true,
       grupos: true,
       roleProf, roleAdmin,
+      nombre
     });
 }
 
@@ -1299,6 +1302,8 @@ exports.matriculas = async (req, res) => {
 
     let vendedores = await GetUsers();
 
+    let nombre = res.locals.user.nombre
+
     res.render("PYT-672/admin/matricula", {
       pageName: "Academia Americana - Matriculas",
       dashboardPage: true,
@@ -1311,6 +1316,7 @@ exports.matriculas = async (req, res) => {
       arr,
       response2,msg,gruposTodosStr,
       vendedores,
+      nombre
     });
 
   }).catch((err) => {
@@ -1380,6 +1386,7 @@ exports.control = (req, res) => {
         });
       });
     
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1388,6 +1395,7 @@ exports.control = (req, res) => {
       py672: true,
       asistencias: true,
       roleAdmin, roleProf,
+      nombre
     });
   }).catch((err) => {
     console.log(err)
@@ -1593,7 +1601,9 @@ exports.controlgrupo = (req, res) => {
         
         EstablecerNivel();  
         
-        // *-------------------------------- //
+        
+
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1601,6 +1611,7 @@ exports.controlgrupo = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      nombre,
       roleAdmin, roleProf,
       matri,
       grupoId,
@@ -1944,6 +1955,7 @@ exports.historial = (req, res) => {
       //console.log(gruposDist)
       //console.log("GRUPOS DISTINCTS")
       
+      let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
@@ -1951,6 +1963,7 @@ exports.historial = (req, res) => {
       dashboard: true,
       py672: true,
       historial: true,
+      nombre,
       roleAdmin, roleProf,
       arrString,
       stringGrupos,
@@ -2230,12 +2243,16 @@ console.log(matricula)
     console.log("TODOS LOS GRUPOS")
     let matricula_st = JSON.stringify(matricula)
     let gruposTodosStr = JSON.stringify(gruposTodos)
+
+    let nombre = res.locals.user.nombre
+
     res.render(proyecto+"/admin/caja", {
       pageName: "Academia Americana - Caja",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       caja: true,
+      nombre,
       alert,
       roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
@@ -2514,12 +2531,15 @@ exports.usuarios = (req, res) => {
     roleProf = true
   }
 
+  let nombre = res.locals.user.nombre
+
   res.render(proyecto+"/admin/usuarios", {
     pageName: "Academia Americana - Usuarios",
     dashboardPage: true,
     dashboard: true,
     py672:true,
     usuarios: true,
+    nombre,
     roleAdmin, roleProf,
   });
 };
