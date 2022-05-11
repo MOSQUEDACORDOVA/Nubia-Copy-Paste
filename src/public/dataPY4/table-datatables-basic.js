@@ -1088,15 +1088,15 @@ async function cargaPedidos() {
       }else{
         div= `<div class="col-12">
         <div class="mb-1 row align-items-center mx-0">
-          <div class="col-11 p-0">
-            <label class="form-label" for="exampleFormControlTextarea1">Observación sin pedido.- Fecha: ${moment(historial_observaciones[i].fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
+          <div class="col-12 col-sm-6 p-0">
+            <div class="d-flex align-items-center">
+              <label class="form-label w-75" for="exampleFormControlTextarea1">Observación sin pedido.- Fecha: ${moment(historial_observaciones[i].fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
+              <a href="javascript:;" class="dropdown-item" style="width: 60px" onclick=\'delete_observacion("${historial_observaciones[i].id}")\'>
+              ${feather.icons['delete'].toSvg()}
+              </a>
+            </div>
           </div>
           
-          <div class="col-1 p-0">
-            <a href="javascript:;" class="dropdown-item" onclick=\'delete_observacion("${historial_observaciones[i].id}")\'>
-            ${feather.icons['delete'].toSvg()}
-            </a>
-          </div>
           <div class="col-12 p-0">
             <textarea class="form-control" id="observacion${historial_observaciones[i].id}" rows="1" data-id="47" readonly>${observacion}</textarea>
           </div>
