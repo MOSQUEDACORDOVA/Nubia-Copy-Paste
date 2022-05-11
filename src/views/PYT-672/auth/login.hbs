@@ -5,17 +5,16 @@
       <a href="/py672/PYT-672" class="py-2 d-lg-none navbar-brand">
         <img class="img-fluid brand-logo m-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
       </a>
-      <div class="d-none d-lg-flex flex-column align-items-start px-5 pb-5 py-3 col-lg-8">
-        <a href="/py672/PYT-672" class="navbar-brand">
-            <img class="img-fluid brand-logo m-0" src="../../../app-assets/images/py672/logo.png" alt="Academia Americana" title="Academia Americana">
-        </a>
-        <img class="img-fluid auth-img mx-auto" src="../../../app-assets/images/pages/reset-password-v2.svg" alt="">
+      <div class="d-none d-lg-flex align-items-center col-lg-8">
+        
+        {{!--<img class="img-fluid auth-img mx-auto" src="../../../app-assets/images/pages/reset-password-v2.svg" alt="">--}}
+        <img class="img-fluid auth-img mx-auto mb-3" src="../../../app-assets/images/py672/logo-3.png">
       </div>
       <div class="d-flex align-items-center auth-bg bg-white px-2 p-lg-5 col-lg-4 py-3 auth-box">
         <div class="px-xl-2 mx-auto col-sm-8 col-md-6 col-lg-12">
           <h2 class="card-title font-weight-bold mb-1">Bienvenid@ a tu Academia Favorita!</h2>
-          <p class="card-text mb-2">Inicia sesión y comienza tu aventura. . .</p> 
-          <div role="alert" class="alert show alert-primary fade position-relative">
+          <p class="card-text mb-2">Inicia sesión y comienza tu gestión. . .</p> 
+          <div role="alert" class="alert show alert-primary fade position-relative d-none">
               <div class="alert-body font-small-2"><p><small class="mr-50 text-primary">
                   <span class="font-weight-bold">Admin:</span> admin@demo.com | pass: admin@demo.com</small></p><p><small class="mr-50 text-primary"><span class="font-weight-bold">Cliente:</span> client@demo.com | pass: client@demo.com</small></p>
               </div>
@@ -32,9 +31,9 @@
 
             <form class="auth-login-form mt-2" action="/login672" method="POST">
             {{#if messages}}
-                            {{#showAlerts messages}}
-                            {{/showAlerts}}
-                            {{/if}}
+                {{#showAlerts messages}}
+                {{/showAlerts}}
+            {{/if}}
                 <div class="none">
                     <input class="form-control" id="register-username" type="text" name="proyect" placeholder="johndoe" aria-describedby="register-username" value="PYT672" tabindex="1" hidden />
                 </div>

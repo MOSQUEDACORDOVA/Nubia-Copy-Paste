@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  let gruposTodos, usuarios, gruposDesde0, gruposIntensivo, gruposKids, gruposControl
+  let gruposTodos, usuarios, gruposDesde0, gruposIntensivo, gruposKids, gruposControl, asistenciasAll, notasAll, participacionAll, historialAll
 
   let matriculaGrupo = document.getElementById("matriculaGrupo").value;
   
@@ -24,9 +24,6 @@ $(document).ready(function () {
 
             return gruposTodos
         });
-        
-
-
 
     if (num === 1) {
         usuarios = await fetch('/obtenerusuariospy672')
@@ -61,695 +58,555 @@ $(document).ready(function () {
                   }
                 });
 
-            DetectarGrupo();
-
             return gruposControl
         });
+
+    } else if (num === 3) {
+      asistenciasAll = await fetch('/obtenerTodaMatriculaAusente')
+            .then(response => response.json())
+            .then(data => {
+                asistenciasAll = data.asistencia
+                console.log(asistenciasAll)
+                return asistenciasAll
+            });
+            
+    } else if (num === 4) {
+      notasAll = await fetch('/obtenerTodasNotas')
+            .then(response => response.json())
+            .then(data => {
+                notasAll = data.notas
+                console.log(notasAll)
+                return notasAll
+            });
+            
+    } else if (num === 5) {
+      participacionAll = await fetch('/obtenerTodasParticipacion')
+            .then(response => response.json())
+            .then(data => {
+              participacionAll = data.participacion
+                console.log(participacionAll)
+                return participacionAll
+            });
+            
+      DetectarGrupo();    
+
+    } else if (num === 6) {
+      historialAll = await fetch('/historialCompleto')
+            .then(response => response.json())
+            .then(data => {
+              historialAll = data.historial
+                console.log(historialAll)
+                return historialAll
+            });
+
+      
     }
   }
 
-  FetchData(1)
-  FetchData(2)
+  FetchData(1) // * USUARIOS
+  FetchData(2) // * GRUPOS CONTROL
+  FetchData(3) // * ASISTENCIAS
+  FetchData(4) // * NOTAS
+  FetchData(5) // * PARTICIPACION
+  //FetchData(6) // * HISTORIAL
 
   const EstablecerMatriculaPorLeccion = () => {
     let fragment = new DocumentFragment(),
     esContainer = document.getElementById("estudiantes");
     esContainer.innerHTML = "";
+    
+    let nivelSelec = null, lecc = null;
+
+    // * DETECTAR FILTRO DE GRUPOS
+    if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+      lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+      nivelSelec = $("#filtrosDesdeCero .select2.nivel").val()
+      $("#ausenteNumLeccion").val(parseInt($("#filtrosDesdeCero .select2.leccion").val()));
+      
+      $("#ausenteGrupoId").val(parseInt($("#filtrosDesdeCero .select2.grupo").val()));
+      
+    } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
+      lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
+      nivelSelec = $("#filtrosIntensivo .select2.nivel").val()
+      
+      $("#ausenteNumLeccion").val(parseInt($("#filtrosIntensivo .select2.leccion").val()));
+      
+      $("#ausenteGrupoId").val(parseInt($("#filtrosIntensivo .select2.grupo").val()));
+      
+    } else if($("#filtrosKids .select2.grupo").val() != "-") {
+      lecc = parseInt($("#filtrosKids .select2.leccion").val());
+      nivelSelec = $("#filtrosKids .select2.nivel").val()
+
+      $("#ausenteNumLeccion").val(parseInt($("#filtrosKids .select2.leccion").val()));
+
+      $("#ausenteGrupoId").val(parseInt($("#filtrosKids .select2.grupo").val()));
+
+    }
+    /*console.log(lecc)
+    console.log("LECCION")*/
 
     matriculaGrupo.forEach((matricula) => {
       let div = document.createElement("div");
       div.classList.add("col-12");
       div.classList.add("item");
-      let lecc = null, idAusentes = null;
-      let nivelSelec = "";
+      let idAusentes = null;
 
-      // * DETECTAR FILTRO DE GRUPOS
-      if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
-        lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-        nivelSelec = $("#filtrosDesdeCero .select2.nivel").val()
-        $("#ausenteNumLeccion").val(parseInt($("#filtrosDesdeCero .select2.leccion").val()));
-        
-        $("#ausenteGrupoId").val(parseInt($("#filtrosDesdeCero .select2.grupo").val()));
-        
-      } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
-        lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
-        nivelSelec = $("#filtrosIntensivo .select2.nivel").val()
-        
-        $("#ausenteNumLeccion").val(parseInt($("#filtrosIntensivo .select2.leccion").val()));
-        
-        $("#ausenteGrupoId").val(parseInt($("#filtrosIntensivo .select2.grupo").val()));
-        
-      } else if($("#filtrosKids .select2.grupo").val() != "-") {
-        lecc = parseInt($("#filtrosKids .select2.leccion").val());
-        nivelSelec = $("#filtrosKids .select2.nivel").val()
-
-        $("#ausenteNumLeccion").val(parseInt($("#filtrosKids .select2.leccion").val()));
-
-        $("#ausenteGrupoId").val(parseInt($("#filtrosKids .select2.grupo").val()));
-
-      }
-      //console.log(lecc)
-
-      $("#ausenteMatriculaId").val(matricula.id);
+      /*$("#ausenteMatriculaId").val(matricula.id);
       let form = new FormData(document.getElementById("procesarAusente"));
-      $("nivel").val(nivelSelec);
-      form.append("arr", $("#matriculaGrupo").val());
+      $("#nivel").val(parseInt(nivelSelec));
+      form.append("arr", $("#matriculaGrupo").val());*/
 
-      fetch("/obtenerMatriculaAusente", {
-        method: "POST",
-        body: form,
-      })
-        .then((response) => response.json())
-        .then(async (data) => {
+      //console.log(data);
+      //console.log("DATA AUSENTE");
 
-          //console.log(data);
-          //console.log("DATA AUSENTE");
+      /*let response = data.resp;
+      let response2 = data.matricula;
 
-          let response = data.resp;
-          let response2 = data.matricula;
-          let selectNivel;
+      console.log(response)
+      console.log(response2)
+      console.log("AUSENCIAS")
 
-          /*console.log(response)
-          console.log(response2)
-          console.log("AUSENCIAS")*/
+      if (response.length && response) {
+        idAusentes = response[0].matriculaId;
+      }
+      console.log(idAusentes);*/
 
-          if (response && response.length) {
-            idAusentes = response[0].matriculaId;
-          }
-          //console.log(idAusentes);
+      /*let result = matriculaGrupo.filter(item => item.id === idAusentes);
+      console.log(result)
+      console.log("USUARIO AUSENTE")*/
 
-          let result = matriculaGrupo.filter(item => item.id === idAusentes);
-          /*console.log(result)
-          console.log("USUARIO AUSENTE")*/
-          
-          let calif = "",
-            participacion = "",
-            notas = 0,
-            participacionPorcentaje = 0,
-            usuarioCongelado = "",
-            commentarioP = "",
-            GcommentProfForm="",
-            GcommentAdminForm="";
+      //console.log(asistenciasAll)
 
-          if (response2 && response2.length) {
-            response2.sort()
-            /*console.log(response2)*/
-            for (let i = 0; i < response2.length; i++) { 
-              if (matricula.id === response2[i].id) {
-                /*GcommentProfForm = 'hi'
-                GcommentAdminForm = 'hi'*/
-               GcommentProfForm = response2[i].commentProfForm;
-                GcommentAdminForm = response2[i].commentAdminForm;
-              }              
-            }
-            let nivelSeleccioando = $('#nivelActual').val()
+      let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
+      console.log(asist)
+      
+      let filterNotas = notasAll.filter(notas => notas.matriculaId === matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
+      console.log(filterNotas)
+      
+      let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId === matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
+      console.log(filterParticipacion)
+      
+      /*let filterHistorial = historialAll.filter(historial => historial.matriculaId === matricula.id && historial.nivel == nivelSelec && participacion.n_leccion == lecc)
+      console.log(filterHistorial)*/
 
-            if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
-        
-              selectNivel = $("#filtrosDesdeCero .select2.nivel").val()
-              
-            } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
-              
-              selectNivel = $("#filtrosIntensivo .select2.nivel").val()
-              
-            } else if($("#filtrosKids .select2.grupo").val() != "-") {
-              
-              selectNivel = $("#filtrosKids .select2.nivel").val()
-        
-            }
+      let calif = "",
+        participacion = "",
+        notas = filterNotas.length ? filterNotas[0].nota : 0,
+        participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
+        usuarioCongelado = "",
+        commentarioP = "",
+        GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
+        GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
+
+        console.log(notas)
+        console.log(participacionPorcentaje)
+        console.log(GcommentProfForm)
+        console.log(GcommentAdminForm)
+
+      /*if (response2 && response2.length) {
+        response2.sort()
+        console.log(response2)
+        for (let i = 0; i < response2.length; i++) { 
+          if (matricula.id === response2[i].id) {
             
-            /*console.log(GcommentProfForm)*/
-            let found;
-            found = response2.filter(item => item.id === matricula.id)
+            GcommentProfForm = response2[i].commentProfForm;
+            GcommentAdminForm = response2[i].commentAdminForm;
+          }              
+        }
+        let nivelSeleccioando = $('#nivelActual').val()
+        
+        console.log(GcommentProfForm)
+        let found;
+        found = response2.filter(item => item.id === matricula.id)
 
-            if (found) {
-              let num = found[0].notas;
-              notas = num;
-              /*console.log(response2);
-              console.log(notas);
-              console.log("NOTAS");*/
-            }
+        if (found && found.length) {
+          let num = found[0].notas;
+          notas = num;
+          console.log(response2);
+          console.log(notas);
+          console.log("NOTAS");
+        }
 
-            participacionPorcentaje = response2[0].participacion;
-            
-          }
+        participacionPorcentaje = response2[0].participacion;
+        
+      }*/
 
-          let readonlyUse = "readonly"
-          let disabledUse = "disabled"
-          let readonlyUse0 = `style="pointer-events: none;"`
-          
-          if (
-            lecc === 9 ||
-            lecc === 17 ||
-            lecc === 18 ||
-            lecc === 25 ||
-            lecc === 31 ||
-            lecc === 32
-          ) 
-          {
-            if (result.length) {
+      let readonlyUse = "readonly"
+      let disabledUse = "disabled"
+      let readonlyUse0 = `style="pointer-events: none;"`
+      
+      if (
+        lecc === 9 ||
+        lecc === 17 ||
+        lecc === 18 ||
+        lecc === 25 ||
+        lecc === 31 ||
+        lecc === 32
+      ) 
+      {
+        if (asist.length) {
 
-              /**OBTENER HISTORIAL DE CAJA */
-              let historial = await fetch("/historia-caja-academy/" + matricula.id )
-                .then((response) => response.json())
-                .then((data) => {
-                  /*console.log(data);*/
-                  return data.obtener_historia;
-                });
-              /*console.log(historial);*/
-              for (let i = 0; i < historial.length; i++) {
-                  let split_hist = historial[i]['concepto'].split(',')
-                if (split_hist.length > 1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
-                    readonlyUse =""
-                    readonlyUse0  = ""
-                    disabledUse = ""
+          // * OBTENER HISTORIAL DE CAJA 
+          /*let historial = fetch("/historia-caja-academy/" + matricula.id )
+            .then((response) => response.json())
+            .then((data) => {
+              return new Promise((resolve, reject) => {
+                for (let i = 0; i < data.length; i++) {
+                    let split_hist = data[i]['concepto'].split(',')
+                  if (split_hist.length > 1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
+                      readonlyUse =""
+                      readonlyUse0  = ""
+                      disabledUse = ""
+                  }
                 }
-              }
-              
-              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-
-              if (matricula.estadoId != 5) {
-                calif = `
-                      <div class="d-flex flex-column mb-1 me-1">
-                          <p class="text-success"><b>Calificación</b></p>
-                          <div class="d-flex align-items-center">
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-  
-                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
-  
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                          </div>
-                      </div>`;
-              } 
-
-              // * CONGELADO
-              /*if (matricula.estadoId === 5) {
-                calif = `
-                      <div class="d-flex flex-column mb-1 me-1">
-                          <p class="text-success"><b>Calificación</b></p>
-                          <div class="d-flex align-items-center">
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-  
-                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
-  
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse} disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                          </div>
-                      </div>`;
                 
-              } else {
-                calif = `
-                      <div class="d-flex flex-column mb-1 me-1">
-                          <p class="text-success"><b>Calificación</b></p>
+                resolve(data.obtener_historia);
+
+              });
+            });
+          console.log(historial);
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`*/
+
+          if (matricula.estadoId != 5) {
+            calif = `
+                  <div class="d-flex flex-column mb-1 me-1">
+                      <p class="text-success"><b>Calificación</b></p>
+                      <div class="d-flex align-items-center">
+                          <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                          <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
+
+                          <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                      </div>
+                  </div>`;
+          } 
+
+        } else {
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+        
+          if (matricula.estadoId != 5) {
+            calif = `
+                  <div class="d-flex flex-column mb-1 me-1">
+                      <p class="text-success"><b>Calificación</b></p>
+                      <div class="d-flex align-items-center">
+                          <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                          <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
+
+                          <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                      </div>
+                  </div>`;
+          } 
+        
+        }
+
+        if (lecc === 32) {
+          if (matricula.estadoId != 5) {
+            participacion = `
+                      <div class="d-flex flex-column me-1">
+                          <p class="text-success"><b>Participación</b></p>
                           <div class="d-flex align-items-center">
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-  
-                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
-  
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                              <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
                           </div>
-                      </div>`;
-              }*/
-            
-            } else {
-              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
-            
-              if (matricula.estadoId != 5) {
-                calif = `
-                      <div class="d-flex flex-column mb-1 me-1">
-                          <p class="text-success"><b>Calificación</b></p>
-                          <div class="d-flex align-items-center">
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-  
-                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
-  
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                          </div>
-                      </div>`;
-              } 
-
-            
-              // * CONGELADO
-              /*if (matricula.estadoId === 5) {
-                calif = `
-                <div class="d-flex flex-column mb-1 me-1">
-                    <p class="text-success"><b>Calificación</b></p>
-                    <div class="d-flex align-items-center">
-                        <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                        <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
-
-                        <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse} disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                    </div>
-                </div>`;
-              } else {
-                calif = `
-                      <div class="d-flex flex-column mb-1 me-1">
-                          <p class="text-success"><b>Calificación</b></p>
-                          <div class="d-flex align-items-center">
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-  
-                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
-  
-                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                          </div>
-                      </div>`;
-                
-              }*/
-              
-            }
-
-            if (lecc === 32) {
-              if (matricula.estadoId != 5) {
-                participacion = `
-                          <div class="d-flex flex-column me-1">
-                              <p class="text-success"><b>Participación</b></p>
-                              <div class="d-flex align-items-center">
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
-
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                              </div>
-                          </div>
-                          `;
-              }
-
-              // * CONGELADO
-              /*if (matricula.estadoId === 5) {
-                participacion = `
-                          <div class="d-flex flex-column me-1">
-                              <p class="text-success"><b>Participación</b></p>
-                              <div class="d-flex align-items-center">
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100" readonly>%</p>
-
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                              </div>
-                          </div>
-                          `;
-                
-              } else {
-                participacion = `
-                          <div class="d-flex flex-column me-1">
-                              <p class="text-success"><b>Participación</b></p>
-                              <div class="d-flex align-items-center">
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-
-                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
-
-                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
-                              </div>
-                          </div>
-                          `;
-              }*/
-
-            }
+                      </div>
+                      `;
           }
 
-          // * ASISTENCIAS
-          if (result.length && response[0].nivel == selectNivel) { // * SI ESTA AUSENTE
-            if (matricula.estadoId != 5) {
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-secondary" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-secondary">Ausente</span></h5>
-                                                  </div>
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
-                                              </div>
-                                          </div>
-  
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
-                                      </div>
-                                  </div>
-                                  <div class="col-2 col-xl-1 p-0">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
-                                        matricula.id
-                                      }">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class: "feather text-secondary check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class:
-                                              "feather text-success d-none uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
-            } 
-            // * CONGELADO
-            /*if (matricula.estadoId === 5) {
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-secondary" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-secondary">Ausente</span><span class="badge bg-dark">Congelado</span></h5>
-                                                  </div>
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
-                                              </div>
-                                          </div>
-  
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
-                                      </div>
-                                  </div>
-                                  <div class="col-2 col-xl-1 p-0 d-none">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" style="pointer-events: none;" data-id="${
-                                        matricula.id
-                                      }">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class: "feather text-secondary check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class:
-                                              "feather text-success d-none uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
-              
-            } else {
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-secondary" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-secondary">Ausente</span></h5>
-                                                  </div>
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
-                                              </div>
-                                          </div>
-  
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
-                                      </div>
-                                  </div>
-                                  <div class="col-2 col-xl-1 p-0">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
-                                        matricula.id
-                                      }">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class: "feather text-secondary check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class:
-                                              "feather text-success d-none uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
-                                  </div>
-                              </div>
-                          </div>
-                      `;
+          // * CONGELADO
+          /*if (matricula.estadoId === 5) {
+            participacion = `
+                      <div class="d-flex flex-column me-1">
+                          <p class="text-success"><b>Participación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
 
-            }*/
+                              <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100" readonly>%</p>
 
-          } else { // * SI ESTA PRESENTE
-            commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>
+                      `;
             
-            if (matricula.estadoId != 5) {
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-success" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-                                                  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                  </div>
-  
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
+          } else {
+            participacion = `
+                      <div class="d-flex flex-column me-1">
+                          <p class="text-success"><b>Participación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                              <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                              <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>
+                      `;
+          }*/
+
+        }
+      }
+
+      // * ASISTENCIAS
+      if (asist.length) { // * SI ESTA AUSENTE
+        if (matricula.estadoId != 5) {
+          div.innerHTML = `
+                  <label class="card-title estudiante" hidden>${
+                    matricula.nombre
+                  }</label>
+                      <div class="card card-statistics border-secondary" id="estudiante${
+                        matricula.id
+                      }">
+                          <div class="row m-0 p-0">
+                              <div class="col-10 col-xl-11">
+                                  <div class="row card-header p-1">
+                                      <div class="col-12">
+                                          <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+
+                                              <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                  <h1 class="me-1"><b>${
+                                                    matricula.nombre
+                                                  }</b></h1>
+                                                  <h5><span class="badge badge-light-secondary">Ausente</span></h5>
+                                              </div>
+                                              <div class="d-flex flex-row">
+                                                  ${calif}
+
+                                                  ${participacion}
                                               </div>
                                           </div>
-                                          
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
                                       </div>
+
+                                      <!--Area de comentarios-->
+                                      <div class="row">
+                                          <div class="col-6">
+                                              <div class="mb-1">
+                                                  <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                  ${commentarioP}
+                                              </div>
+                                          </div>
+                                     
+                                
+                                      </div>
+                                      
                                   </div>
-                                  <div class="col-2 col-xl-1 p-0">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
-                                        matricula.id
-                                      }">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class:
-                                              "feather text-secondary d-none check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class: "feather text-success uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
+                              </div>
+                              <div class="col-2 col-xl-1 p-0">
+                                  <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                    matricula.id
+                                  }">
+                                      ${feather.icons["user-check"].toSvg({
+                                        class: "feather text-secondary check",
+                                        style: "pointer-events: none;",
+                                      })}
+                                      ${feather.icons["user-minus"].toSvg({
+                                        class:
+                                          "feather text-success d-none uncheck",
+                                        style: "pointer-events: none;",
+                                      })}
                                   </div>
                               </div>
                           </div>
-                      `;
-            }
-            
-            // * CONGELADO
-            /*if (matricula.estadoId === 5) {
-              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" disabled>${GcommentProfForm}</textarea>`
+                      </div>
+                  `;
+        } 
+      
+      } else { // * SI ESTA PRESENTE
+        commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+        
+        if (matricula.estadoId != 5) {
+          div.innerHTML = `
+                  <label class="card-title estudiante" hidden>${
+                    matricula.nombre
+                  }</label>
+                      <div class="card card-statistics border-success" id="estudiante${
+                        matricula.id
+                      }">
+                          <div class="row m-0 p-0">
+                              <div class="col-10 col-xl-11">
+                                  <div class="row card-header p-1">
+                                      <div class="col-12">
+                                          <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                              
+                                              <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                  <h1 class="me-1"><b>${
+                                                    matricula.nombre
+                                                  }</b></h1>
+                                                  <h5><span class="badge badge-light-success">Presente</span></h5>
+                                              </div>
 
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-secondary" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-                                                  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-success">Presente</span><span class="badge bg-dark">Congelado</span></h5>
-                                                  </div>
-  
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
+                                              <div class="d-flex flex-row">
+                                                  ${calif}
+
+                                                  ${participacion}
                                               </div>
                                           </div>
-                                          
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
                                       </div>
+                                      
+                                      <!--Area de comentarios-->
+                                      <div class="row">
+                                          <div class="col-6">
+                                              <div class="mb-1">
+                                                  <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                  ${commentarioP}
+                                              </div>
+                                          </div>
+                                     
+                                
+                                      </div>
+                                      
                                   </div>
-                                  <div class="col-2 col-xl-1 p-0 d-none">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" style: "pointer-events: none;">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class:
-                                              "feather text-secondary d-none check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class: "feather text-success uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
+                              </div>
+                              <div class="col-2 col-xl-1 p-0">
+                                  <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                    matricula.id
+                                  }">
+                                      ${feather.icons["user-check"].toSvg({
+                                        class:
+                                          "feather text-secondary d-none check",
+                                        style: "pointer-events: none;",
+                                      })}
+                                      ${feather.icons["user-minus"].toSvg({
+                                        class: "feather text-success uncheck",
+                                        style: "pointer-events: none;",
+                                      })}
                                   </div>
                               </div>
                           </div>
-                      `;
+                      </div>
+                  `;
+        }
+        
+        // * CONGELADO
+        /*if (matricula.estadoId === 5) {
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" disabled>${GcommentProfForm}</textarea>`
 
-            } else {
-              div.innerHTML = `
-                      <label class="card-title estudiante" hidden>${
-                        matricula.nombre
-                      }</label>
-                          <div class="card card-statistics border-success" id="estudiante${
-                            matricula.id
-                          }">
-                              <div class="row m-0 p-0">
-                                  <div class="col-10 col-xl-11">
-                                      <div class="row card-header p-1">
-                                          <div class="col-12">
-                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
-                                                  
-                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
-                                                      <h1 class="me-1"><b>${
-                                                        matricula.nombre
-                                                      }</b></h1>
-                                                      <h5><span class="badge badge-light-success">Presente</span></h5>
-                                                  </div>
-  
-                                                  <div class="d-flex flex-row">
-                                                      ${calif}
-  
-                                                      ${participacion}
-                                                  </div>
+          div.innerHTML = `
+                  <label class="card-title estudiante" hidden>${
+                    matricula.nombre
+                  }</label>
+                      <div class="card card-statistics border-secondary" id="estudiante${
+                        matricula.id
+                      }">
+                          <div class="row m-0 p-0">
+                              <div class="col-10 col-xl-11">
+                                  <div class="row card-header p-1">
+                                      <div class="col-12">
+                                          <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                              
+                                              <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                  <h1 class="me-1"><b>${
+                                                    matricula.nombre
+                                                  }</b></h1>
+                                                  <h5><span class="badge badge-light-success">Presente</span><span class="badge bg-dark">Congelado</span></h5>
+                                              </div>
+
+                                              <div class="d-flex flex-row">
+                                                  ${calif}
+
+                                                  ${participacion}
                                               </div>
                                           </div>
-                                          
-                                          <!--Area de comentarios-->
-                                          <div class="row">
-                                              <div class="col-6">
-                                                  <div class="mb-1">
-                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-                                                      ${commentarioP}
-                                                  </div>
-                                              </div>
-                                         
-                                    
-                                          </div>
-                                          
                                       </div>
+                                      
+                                      <!--Area de comentarios-->
+                                      <div class="row">
+                                          <div class="col-6">
+                                              <div class="mb-1">
+                                                  <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                  ${commentarioP}
+                                              </div>
+                                          </div>
+                                     
+                                
+                                      </div>
+                                      
                                   </div>
-                                  <div class="col-2 col-xl-1 p-0">
-                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
-                                        matricula.id
-                                      }">
-                                          ${feather.icons["user-check"].toSvg({
-                                            class:
-                                              "feather text-secondary d-none check",
-                                            style: "pointer-events: none;",
-                                          })}
-                                          ${feather.icons["user-minus"].toSvg({
-                                            class: "feather text-success uncheck",
-                                            style: "pointer-events: none;",
-                                          })}
-                                      </div>
+                              </div>
+                              <div class="col-2 col-xl-1 p-0 d-none">
+                                  <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" style: "pointer-events: none;">
+                                      ${feather.icons["user-check"].toSvg({
+                                        class:
+                                          "feather text-secondary d-none check",
+                                        style: "pointer-events: none;",
+                                      })}
+                                      ${feather.icons["user-minus"].toSvg({
+                                        class: "feather text-success uncheck",
+                                        style: "pointer-events: none;",
+                                      })}
                                   </div>
                               </div>
                           </div>
-                      `;
+                      </div>
+                  `;
 
-            }*/
-          }
-        });
+        } else {
+          div.innerHTML = `
+                  <label class="card-title estudiante" hidden>${
+                    matricula.nombre
+                  }</label>
+                      <div class="card card-statistics border-success" id="estudiante${
+                        matricula.id
+                      }">
+                          <div class="row m-0 p-0">
+                              <div class="col-10 col-xl-11">
+                                  <div class="row card-header p-1">
+                                      <div class="col-12">
+                                          <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                              
+                                              <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                  <h1 class="me-1"><b>${
+                                                    matricula.nombre
+                                                  }</b></h1>
+                                                  <h5><span class="badge badge-light-success">Presente</span></h5>
+                                              </div>
 
+                                              <div class="d-flex flex-row">
+                                                  ${calif}
+
+                                                  ${participacion}
+                                              </div>
+                                          </div>
+                                      </div>
+                                      
+                                      <!--Area de comentarios-->
+                                      <div class="row">
+                                          <div class="col-6">
+                                              <div class="mb-1">
+                                                  <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                  ${commentarioP}
+                                              </div>
+                                          </div>
+                                     
+                                
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                              <div class="col-2 col-xl-1 p-0">
+                                  <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                    matricula.id
+                                  }">
+                                      ${feather.icons["user-check"].toSvg({
+                                        class:
+                                          "feather text-secondary d-none check",
+                                        style: "pointer-events: none;",
+                                      })}
+                                      ${feather.icons["user-minus"].toSvg({
+                                        class: "feather text-success uncheck",
+                                        style: "pointer-events: none;",
+                                      })}
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  `;
+
+        }*/
+      }
+      
       fragment.appendChild(div);
     });
 
@@ -981,6 +838,7 @@ $(document).ready(function () {
         .then((response) => {
           if (response.ok) {
             Toast("Nota");
+            FetchData(4) // * NOTAS
           } else {
             Toast("Error");
           }
@@ -1119,6 +977,7 @@ $(document).ready(function () {
           response.json();
           if (response.ok) {
             Toast("Participacion");
+            FetchData(5) // * PARTICIPACION
           } else {
             Toast("Error");
           }
@@ -1235,20 +1094,20 @@ $(document).ready(function () {
        guardaCommentProfs(target, valor,calificacion.value);
      }
      
-  }else  if (e.target.classList.contains("commentAdmin")) {
+  } else  if (e.target.classList.contains("commentAdmin")) {
     let target = e.target.getAttribute("data-id");
     let valor = e.target.value
     let calificacion = document.querySelector(
       `#estudiante${target} .calificacion`
     );
-   console.log(target)
-   console.log(valor)
-   clearTimeout(guardaCommentAdmin);
-   if (calificacion == null) {
-     guardaCommentAdmins(target, valor,'0');
-   }else{
-     guardaCommentAdmins(target, valor,calificacion.value);
-   }
+    console.log(target)
+    console.log(valor)
+    clearTimeout(guardaCommentAdmin);
+  if (calificacion == null) {
+    guardaCommentAdmins(target, valor,'0');
+  } else{
+    guardaCommentAdmins(target, valor,calificacion.value);
+  }
 }
   });
 
@@ -1298,8 +1157,8 @@ $(document).ready(function () {
     }
     $("#ausenteMatriculaId").val(id);
     console.log($('#filtrosDesdeCero .select2.nivel').val())
-        console.log($('#filtrosIntensivo .select2.nivel').val())
-        console.log($('#filtrosKids .select2.nivel').val())
+    console.log($('#filtrosIntensivo .select2.nivel').val())
+    console.log($('#filtrosKids .select2.nivel').val())
 
     let form = new FormData(document.getElementById("procesarAusente"));
 
@@ -1310,6 +1169,7 @@ $(document).ready(function () {
       .then((response) => {
         response.json();
         if (response.ok) {
+          FetchData(3) // * ASISTENCIA
           Toast("Asistencia");
         } else {
           Toast("Error");

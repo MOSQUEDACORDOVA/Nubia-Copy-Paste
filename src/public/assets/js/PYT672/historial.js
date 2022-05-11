@@ -337,6 +337,12 @@ function cargarTablaMatricula(editada) {
   
       let content = new DocumentFragment();
       console.log(my_object)
+      for (let index = 0; index < nivel; index++) {
+        $("#nivelHis")[0].options[index].disabled = false;
+      }
+      $('#nivelHis').val(nivel)
+      $('#nivelHis').trigger("change");
+
       for (let num = 1; num <= leccion; num++) {
         let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
         
@@ -344,11 +350,15 @@ function cargarTablaMatricula(editada) {
           my_object.notas.forEach(item => {
             //console.log(item);
             if (item && parseInt(item.n_leccion) === num) {
-              notaLeccion = item.nota
+              let result = item.notas.filter(nota => nota.nivel == nivel)
+              if (result.length) {
+                notaLeccion = item.nota
+                
+              }
             }
           });
-          /*console.log(notaLeccion);
-          console.log("NOTA LECCION");*/
+          console.log(notaLeccion);
+          console.log("NOTA LECCION");
           if (notaLeccion > 7) {
             color = 'badge-light-success'
           } else {
@@ -362,10 +372,12 @@ function cargarTablaMatricula(editada) {
         
         if(arrayLeccionesAusentes.length) {
   
-          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
+          console.log(result)
+          console.log("LECC AUSENTES")
           //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
   
-          if(result.length && parseInt(result[0].n_leccion) === num) {
+          if(result.length && parseInt(result[0].n_leccion)) {
             /*console.log(result)*/
             td += 
             `
@@ -550,6 +562,7 @@ function cargarTablaMatricula(editada) {
         row.innerHTML = td;
         content.appendChild(row);
       }
+
   $(`#nombre-historial`).text(my_object['nombre'])
   $(`#dni-historial`).text(my_object['nro_identificacion'])
   $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)

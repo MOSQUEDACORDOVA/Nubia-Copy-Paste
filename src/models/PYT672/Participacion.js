@@ -18,6 +18,10 @@ const Participacion = db672.define('participaciones', {
 		type: DataTypes.STRING(255),
 		allowNull: false,
 	},
+	nivel: {
+		type: DataTypes.STRING(255),
+		allowNull: false,
+	},
 });
 
 Participacion.Grupos = Participacion.belongsTo(Grupos);
