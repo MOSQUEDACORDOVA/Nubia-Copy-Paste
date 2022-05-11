@@ -1,4 +1,4 @@
-let historialTable = $('.historial'), gruposTodos, usuarios;
+let historialTable = $('.historial'), gruposTodos, usuarios, asistenciasAll, notasAll, participacionAll;
 
 async function FetchData (num) {
   gruposTodos = await fetch('/obtenerGruposAll')
@@ -29,9 +29,38 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
               usuarios = data.usuarios
-              cargarTablaMatricula();
+              
               return data.usuarios
           });
+  } else if (num === 3) {
+    asistenciasAll = await fetch('/obtenerTodaMatriculaAusente')
+          .then(response => response.json())
+          .then(data => {
+              asistenciasAll = data.asistencia
+              console.log(asistenciasAll)
+              return asistenciasAll
+          });
+          
+  } else if (num === 4) {
+    notasAll = await fetch('/obtenerTodasNotas')
+          .then(response => response.json())
+          .then(data => {
+              notasAll = data.notas
+              console.log(notasAll)
+              return notasAll
+          });
+          
+  } else if (num === 5) {
+    participacionAll = await fetch('/obtenerTodasParticipacion')
+          .then(response => response.json())
+          .then(data => {
+            participacionAll = data.participacion
+              console.log(participacionAll)
+              return participacionAll
+          });
+          
+    cargarTablaMatricula();  
+
   }
 }
 
@@ -567,7 +596,8 @@ function cargarTablaMatricula(editada) {
   $(`#dni-historial`).text(my_object['nro_identificacion'])
   $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
   $(`#email-historial`).text(my_object['email'])
-  $(`#grupo-historial`).text(my_object['grupo']['identificador'])
+  let filterGrupo = gruposTodos.filter(grupo => grupo.id == my_object['grupo']['id'])
+  $(`#grupo-historial`).text(filterGrupo.length ? filterGrupo[0].identificador : "Sin Grupo")
   $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
   
       $('#tablaHistorialDetalles').append(content);
@@ -595,4 +625,6 @@ function cargarTablaMatricula(editada) {
 }
 
 FetchData(1)
-
+FetchData(3) // * ASISTENCIAS
+FetchData(4) // * NOTAS
+FetchData(5) // * PARTICIPACION
