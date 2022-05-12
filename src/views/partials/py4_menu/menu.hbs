@@ -65,8 +65,8 @@ $('#bell_not').on('click', ()=>{
     $('#bell_not .badge').attr('style', 'display:none');
 })
 
-$('.referido-notif').mouseleave(function (e){
-    //$(this).remove();
+$('.referido-notif').click(function (e){
+    $(this).remove();
 })
     })
 
@@ -148,7 +148,7 @@ $('.referido-notif').mouseleave(function (e){
                       <small class="notification-text"> Ha generado el pedido:{{id}}
                       </small>
                     </div>
-                    <i class="feather mt-2" data-feather="x"></i>
+                   <a class="remove_not"><i class="feather mt-2 " data-feather="x" ></i></a> 
                   </div></a>
                       {{/each}}
 

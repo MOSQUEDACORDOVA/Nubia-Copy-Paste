@@ -150,33 +150,14 @@ exports.obtenerPedidos = async (req, res)=>{
   let id_sucursal = req.session.sucursal_select;
   
   //DATA-COMUNES
-  let ClientesDB = "",
-    PedidosDB = "",
-    ChoferesDB = "",
-    LastPedidosAll = "",
-    PrestadosGroupByCliente = "",
-    Carga_init = "",
-    Entregados_resumen = "",
-    Etiquetas = "";
+  let PedidosDB = "";
   switch (req.session.tipo) {
     case "Director":
-      ClientesDB = DataBase.ClientesAll;
       PedidosDB = DataBase.PedidosAll;
-      ChoferesDB = DataBase.ChoferesAll;
-      LastPedidosAll = DataBase.LastPedidosAll;
-      PrestadosGroupByCliente = DataBase.PrestadosGroupByCliente;
-      Carga_init = DataBase.Carga_initResumen;
-      Entregados_resumen = DataBase.entregados_resumen;
       break;
 
     default:
-      ClientesDB = DataBase.ClientesAllS;
       PedidosDB = DataBase.PedidosAllS;
-      ChoferesDB = DataBase.ChoferesAll;
-      LastPedidosAll = DataBase.LastPedidosAllS;
-      PrestadosGroupByCliente = DataBase.PrestadosGroupByClienteS;
-      Carga_init = DataBase.Carga_initSResumen;
-      Entregados_resumen = DataBase.entregados_resumen;
       break;
   }
   let hoy = moment();        
@@ -503,6 +484,7 @@ exports.sesionstart = (req, res) => {
       }
 
       req.session.sucursal_select = user.dataValues.sucursaleId;
+      console.log('Sucursal ID: ' + user.dataValues.sucursaleId)
       req.session.tipo = user.dataValues.tipo;
 
       return res.redirect("/homepy4");
@@ -522,6 +504,7 @@ exports.usuariosTable = (req, res) => {
     admin = true;
   }
   let id_sucursal = req.session.sucursal_select;
+  console.log('UserLog:' + id_sucursal)
   let ClientesDB = "",ClientesDB2 = "",
     PedidosDB = "",
     ChoferesDB = "";
@@ -573,7 +556,7 @@ exports.usuariosTable = (req, res) => {
                       DataBase.CodigosP()
                         .then(async (cp_) => {
                           let cp_arr = JSON.parse(cp_);
-                          let clientes_arr = JSON.parse(await ClientesDB());
+                          let clientes_arr = JSON.parse(await ClientesDB(id_sucursal));
                           res.render("PYT-4/usersTable", {
                             pageName: "Bwater",
                             dashboardPage: true,
@@ -598,26 +581,34 @@ exports.usuariosTable = (req, res) => {
                           });
                         })
                         .catch((err) => {
+                          console.log('600')
+                          console.log(err)
                                               let msg = "Error en sistema";
                           return res.redirect("/errorpy4/" + msg);
                         });
                     })
                     .catch((err) => {
+                      console.log('608')
+                      console.log(err)
                                       let msg = "Error en sistema";
                       return res.redirect("/errorpy4/" + msg);
                     });
                 })
                 .catch((err) => {
+                  console.log(err)
                               let msg = "Error en sistema";
                   return res.redirect("/errorpy4/" + msg);
                 });
             })
             .catch((err) => {
+
+              console.log(err)
                       let msg = "Error en sistema";
               return res.redirect("/errorpy4/" + msg);
             });
         })
         .catch((err) => {
+          console.log(err)
               let msg = "Error en sistema";
           return res.redirect("/errorpy4/" + msg);
         });
@@ -1300,31 +1291,28 @@ if (desc_referido > 0) {
       let description =`Registró el pedido ${pedidoGuardado['id']} al cliente ${id_cliente} en la zona ${sucursal}`;
       let Log = await DataBase.SaveLogs(id_user,'PedidosReg','regPedidoPy4',description);
       let id_sucursal = req.session.sucursal_select;
-      await PedidosDB(id_sucursal)
-        .then(async (pedidos_) => {
-          let pedidos_let = JSON.parse(pedidos_);
-          let reprogramado = "";
-          let p = [];
-          for (let i = 0; i < pedidos_let.length; i++) {
-            reprogramado = moment().isSameOrAfter(
-              moment(pedidos_let[i].fecha_pedido),
-              "day"
-            ); // true
+      // await PedidosDB(id_sucursal)
+      //   .then(async (pedidos_) => {
+      //     let pedidos_let = JSON.parse(pedidos_);
+      //     let reprogramado = "";
+      //     let p = [];
+      //     for (let i = 0; i < pedidos_let.length; i++) {
+      //       reprogramado = moment().isSameOrAfter(
+      //         moment(pedidos_let[i].fecha_pedido),
+      //         "day"
+      //       ); // true
             
-            if (reprogramado) {
-              p.push(pedidos_let[i]);
-            }
-          }
-          pedidos_let = p;
-          let msg = respuesta;
+      //       if (reprogramado) {
+      //         p.push(pedidos_let[i]);
+      //       }
+      //     }
+      //     pedidos_let = p;
+          
+      //   })
+        let msg = respuesta;
           let pedido = JSON.parse(await DataBase.PedidoById(pedidoGuardado['id']));
               console.log(pedido)
-          return res.send({ msg: msg, pedidos_let,pedido });
-        })
-        .catch((err) => {
-              let msg = "Error en sistema";
-          return res.redirect("/errorpy4/" + msg);
-        });
+          return res.send({ msg: msg, pedido });
     })
     .catch((err) => {
       let msg = "Error en sistema";
@@ -4183,91 +4171,63 @@ exports.notificaciones_table = (req, res) => {
                                   var duration = "";
                                   
                                   for (let i = 0; i < pedidos_letG.length; i++) {
-                                    if (pedidos_letG[i].status_pedido =="Entregado") {
-                                      
+                                    if (pedidos_letG[i].status_pedido == "Entregado") {
                                       if (pedidos_letG[i].total_garrafones_pedido <= 2) {
-                                        let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
-                                        );
+                                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');  
+                            if (!dia_pedido.isValid()) {
+                              dia_pedido = moment(pedidos_letG[i].fecha_pedido,'YYYY-MM-DD');
+                            }
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 10 && duration < 20) {
                                           notif1_2.push({
                                             id_pedido: pedidos_letG[i].id,
-                                            total_g:
-                                              pedidos_letG[i]
-                                                .total_garrafones_pedido,
-                                            id_cliente:
-                                              pedidos_letG[i].clienteId,
-                                            nombre_cliente:
-                                              pedidos_letG[i].cliente.firstName,
-                                            apellido_cliente:
-                                              pedidos_letG[i].cliente.lastName,
-                                            fecha_:
-                                              pedidos_letG[i].fecha_pedido,
+                                            total_g: pedidos_letG[i].total_garrafones_pedido,
+                                            id_cliente: pedidos_letG[i].clienteId,
+                                            nombre_cliente: pedidos_letG[i].cliente.firstName,
+                                            apellido_cliente: pedidos_letG[i].cliente.lastName,
+                                            fecha_: pedidos_letG[i].fecha_pedido,
                                             tiempo_desde: duration,
                                             asentamiento:
-                                              pedidos_letG[i].cliente.cp
-                                                .asentamiento,
+                                              pedidos_letG[i].cliente.cp.asentamiento,
                                           });
                                         }
                                       }
                                       if (
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido >= 3 &&
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido <= 5
+                                        pedidos_letG[i].total_garrafones_pedido >= 3 &&
+                                        pedidos_letG[i].total_garrafones_pedido <= 5
                                       ) {
-                                        
-                                        let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
-                                        );
-                                        duration = hoy.diff(dia_pedido, "d");
+                                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
+                                        duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 20 && duration < 30) {
                                           notif3_5.push({
                                             id_pedido: pedidos_letG[i].id,
-                                            total_g:
-                                              pedidos_letG[i]
-                                                .total_garrafones_pedido,
-                                            id_cliente:
-                                              pedidos_letG[i].clienteId,
-                                            nombre_cliente:
-                                              pedidos_letG[i].cliente.firstName,
-                                            apellido_cliente:
-                                              pedidos_letG[i].cliente.lastName,
-                                            fecha_:
-                                              pedidos_letG[i].fecha_pedido,
+                                            total_g: pedidos_letG[i].total_garrafones_pedido,
+                                            id_cliente: pedidos_letG[i].clienteId,
+                                            nombre_cliente: pedidos_letG[i].cliente.firstName,
+                                            apellido_cliente: pedidos_letG[i].cliente.lastName,
+                                            fecha_: pedidos_letG[i].fecha_pedido,
                                             tiempo_desde: duration,
                                             asentamiento:
-                                              pedidos_letG[i].cliente.cp
-                                                .asentamiento,
+                                              pedidos_letG[i].cliente.cp.asentamiento,
                                           });
                                         }
                                       }
                                       if (
-                                        pedidos_letG[i]
-                                          .total_garrafones_pedido >= 6 ) {
-                                        let dia_pedido = moment(
-                                          pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY'
-                                        );
+                                        pedidos_letG[i].total_garrafones_pedido >= 6 
+                                      ) {
+                                        let dia_pedido = moment(pedidos_letG[i].fecha_pedido, 'DD/MM/YYYY');
                                         duration = hoy.diff(dia_pedido, "days");
                                         if (duration >= 30) {
                                           notif6_12.push({
                                             id_pedido: pedidos_letG[i].id,
-                                            total_g:
-                                              pedidos_letG[i]
-                                                .total_garrafones_pedido,
-                                            id_cliente:
-                                              pedidos_letG[i].clienteId,
-                                            nombre_cliente:
-                                              pedidos_letG[i].cliente.firstName,
-                                            apellido_cliente:
-                                              pedidos_letG[i].cliente.lastName,
-                                            fecha_:
-                                              pedidos_letG[i].fecha_pedido,
+                                            total_g: pedidos_letG[i].total_garrafones_pedido,
+                                            id_cliente: pedidos_letG[i].clienteId,
+                                            nombre_cliente: pedidos_letG[i].cliente.firstName,
+                                            apellido_cliente: pedidos_letG[i].cliente.lastName,
+                                            fecha_: pedidos_letG[i].fecha_pedido,
                                             tiempo_desde: duration,
                                             asentamiento:
-                                              pedidos_letG[i].cliente.cp
-                                                .asentamiento,
+                                              pedidos_letG[i].cliente.cp.asentamiento,
                                           });
                                         }
                                       }
@@ -4676,6 +4636,16 @@ exports.saveHistorialObservaciones = async (req, res) => {
 let hystory = await DataBase.savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen);
 console.log(hystory)
 let description =`Guardó observación al cliente ${clienteID} desde tabla cliente`;
+      let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
+return res.send({hystory});
+}
+//*Delete observacion
+exports.delete_observacionpy4 = async (req, res) => {
+  const id = req.params.id;
+  let userId = res.locals.user.id;
+let hystory = await DataBase.deletehistorialObservacionesAll(id);
+console.log(hystory)
+let description =`Elimino observación ${id}`;
       let Log = await DataBase.SaveLogs(userId,'saveHistorialObservaciones','savehistorialObservacionesAll',description);
 return res.send({hystory});
 }

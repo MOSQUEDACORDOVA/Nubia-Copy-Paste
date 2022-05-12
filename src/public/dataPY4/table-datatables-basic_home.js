@@ -14,8 +14,13 @@ async function cargaPedidos() {
 
         return JSON.parse(data.array_pedido)
     });
-    await cargaTablas();
-    await cargaTableResumen();
+    zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+     cargaTablas();
+     cargaTableResumen();
 }
 //  ///Custom filtering function which will search data in column four between two values
 //  $.fn.dataTable.ext.search.push(
@@ -80,29 +85,34 @@ async function cargaPedidos() {
  // Advance filter function
  // We pass the column location, the start date, and the end date
  var filterByDate = function (column, startDate, endDate) {
-   // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
-     var rowDate = normalizeDate(aData[column]),
-       start = normalizeDate(startDate),
-       end = normalizeDate(endDate);
-       var  min2 = minDate2.val();
-       var max2 = maxDate2.val();
-       let f = aData[10] 
-       let fechaN = f.split('-')       
-       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
-       var date = new Date(date1);
-     // If our date from the row is between the start and end
-     if (
-      ( min2 === null && max2 === null ) ||
-      ( min2 === null && date <= max2 ) ||
-      ( min2 <= date   && max2 === null ) ||
-      ( min2 <= date   && date <= max2 ) 
-  ) {
-      return true;
-  }
-  return false;
-   });
+ console.log(column)
+
  };
+
+//  var filterByDate = function (column, startDate, endDate) {
+//   // Custom filter syntax requires pushing the new filter to the global filter array
+//   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
+//     var rowDate = normalizeDate(aData[column]),
+//       start = normalizeDate(startDate),
+//       end = normalizeDate(endDate);
+//       var  min2 = minDate2.val();
+//       var max2 = maxDate2.val();
+//       let f = aData[10] 
+//       let fechaN = f.split('-')       
+//       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
+//       var date = new Date(date1);
+//     // If our date from the row is between the start and end
+//     if (
+//      ( min2 === null && max2 === null ) ||
+//      ( min2 === null && date <= max2 ) ||
+//      ( min2 <= date   && max2 === null ) ||
+//      ( min2 <= date   && date <= max2 ) 
+//  ) {
+//      return true;
+//  }
+//  return false;
+//   });
+// };
  
  // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
  var normalizeDate = function (dateString) {
@@ -112,11 +122,7 @@ async function cargaPedidos() {
    return normalized;
  };
  async function cargaTablas(rechar) {
-zonas =await  fetch('/obtenerzonaspy4')
-.then(response => response.json())
-.then(data => {
-    return data.zonas
-});
+
 console.log(array_pedido);
   
   let codigosP = $('#array_cp').val()
@@ -168,11 +174,11 @@ $('#filterValue').val(this.value)
     dt_basic.search(this.value).draw();   
  });
 
-copyReady= await fetch("/shareStatusPY4/")
-  .then((response) => response.json())
-  .then((data) => {
-    return data.findStatusCompartir;
-  });
+ copyReady= await fetch("/shareStatusPY4/")
+   .then((response) => response.json())
+   .then((data) => {
+     return data.findStatusCompartir;
+   });
 
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
@@ -214,12 +220,12 @@ if (fecha_final == true) {
   modif = "d-none";
 }
 let styleCopy = "";
-for (let i = 0; i < copyReady.length; i++) {
-  if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
-    styleCopy = "style='background-color: #001871; color: white;'";
-  }
+ for (let i = 0; i < copyReady.length; i++) {
+   if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
+     styleCopy = "style='background-color: #001871; color: white;'";
+   }
   
-}
+ }
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
@@ -306,12 +312,11 @@ Observaciones:${full['observacion']}
         {
           // Label
           targets: 2,
-          render: function (data, type, full, meta) {
-            
+          render: function (data, type, full, meta) { 
+                   var zona_arr ;   
             for (let i = 0; i < zonas.length; i++) {
-              console.log(full['cliente']['sucursaleId'])
               if (zonas[i].id == full['cliente']['sucursaleId']) {
-                var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
               }                     
             }
             return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${full['cliente']['sucursaleId']}</span>`);
@@ -528,7 +533,8 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
 
     // Refilter the table
     $('#min1, #max1').on('change', function () {
-      filterByDate(10); // We call our filter function
+      console.log($(this).val())
+      filterByDate($(this).val()); // We call our filter function
       dt_basic.draw();
       });
   }
@@ -1041,13 +1047,7 @@ $('#resume-table').html(`<thead>
 <th>oculto choferes </th>  
 </tr>
 </thead>`);
-array_pedido = await fetch('/array_pedidoPy4')
-    .then(response => response.json())
-    .then(data => {
 
-        return JSON.parse(data.array_pedido)
-    });
- cargaTableResumen();
         Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
   $('#reg_pedido_modal1').trigger("reset");
@@ -1064,7 +1064,12 @@ array_pedido = await fetch('/array_pedidoPy4')
    if ($('#filterPosition').val() != "") {
     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
    }
-  
+   array_pedido = await fetch('/array_pedidoPy4')
+   .then(response => response.json())
+   .then(data => {
+       return JSON.parse(data.array_pedido)
+   });
+cargaTableResumen();
         } else {
           Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');

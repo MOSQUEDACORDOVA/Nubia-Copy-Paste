@@ -916,6 +916,47 @@ async function cargaPedidos() {
       }
     })
   }
+
+  function delete_observacion(id_) {
+    if ($('#otro_rol').length) {
+      console.log('no eres admin')
+      Swal.fire("Función valida solo para directores")
+      return
+    }
+    if (typeof id_ =="undefined") {
+      return console.log(id_)
+    }
+    var id = id_
+    Swal.fire({
+      title: 'Eliminar',
+      text: "Seguro desea eliminar la observación indicada",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      showLoaderOnConfirm: true,
+      preConfirm: (de) => {
+        return fetch(`/delete_observacionpy4/${id}`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(response.statusText)
+            }
+            return response.json()
+          }).then((data) => {
+            console.log(data);
+            $('#observacion'+id).remove();
+          })
+          .catch(error => {
+            Swal.showValidationMessage(
+              `Request failed: ${error}`              
+            )
+          })
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then((result) => {
+      if (result.isConfirmed) {   
+      }
+    })
+  }
   async function share_record(id_) {
     //dt_basic.row($(this).parents('tr')).remove().draw();
     var id_edit = id_
@@ -1079,14 +1120,14 @@ async function cargaPedidos() {
       let observacion =historial_observaciones[i].observacion;
       
       if (historial_observaciones[i].tipo_origen == "" || historial_observaciones[i].tipo_origen =="pedido") {
-        div= `<div class="col-12">
+        div= `<div class="col-12" id="observacion${historial_observaciones[i].id}">
         <div class="mb-1">
           <label class="form-label" for="exampleFormControlTextarea1">Observación al pedido:${historial_observaciones[i].pedidoId} (${historial_observaciones[i].personal.name} ${historial_observaciones[i].personal.lastName}) - ${moment(historial_observaciones[i].fecha, 'DD/MM/YYYY').format("DD/MM/YYYY")}</label>
-          <textarea class="form-control" id="observacion${historial_observaciones[i].id}" rows="1" data-id="47" readonly>${observacion}</textarea>
+          <textarea class="form-control"  rows="1" data-id="47" readonly>${observacion}</textarea>
         </div>
       </div>`;
       }else{
-        div= `<div class="col-12">
+        div= `<div class="col-12" id="observacion${historial_observaciones[i].id}">
         <div class="mb-1 row align-items-center mx-0">
           <div class="col-12 col-sm-6 p-0">
             <div class="d-flex align-items-center">
@@ -1098,7 +1139,7 @@ async function cargaPedidos() {
           </div>
           
           <div class="col-12 p-0">
-            <textarea class="form-control" id="observacion${historial_observaciones[i].id}" rows="1" data-id="47" readonly>${observacion}</textarea>
+            <textarea class="form-control"  rows="1" data-id="47" readonly>${observacion}</textarea>
           </div>
           
         </div>
