@@ -198,8 +198,8 @@ $(document).ready(function () {
 
     }
 
-    console.log(lecc)
-    console.log("LECCION")
+    /*console.log(lecc)
+    console.log("LECCION")*/
 
     matriculaGrupo.forEach((matricula) => {
       let div = document.createElement("div");
@@ -208,58 +208,25 @@ $(document).ready(function () {
       let idAusentes = null;
 
       let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
-      console.log(asist)
+      //console.log(asist)
       
       let filterNotas = notasAll.filter(notas => notas.matriculaId === matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
-      console.log(filterNotas)
+      //console.log(filterNotas)
       
       let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId === matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
-      console.log(filterParticipacion)
+      //console.log(filterParticipacion)
       
       /*let filterHistorial = historialAll.filter(historial => historial.matriculaId === matricula.id && historial.nivel == nivelSelec && participacion.n_leccion == lecc)
       console.log(filterHistorial)*/
 
       let calif = "",
-        participacion = "",
-        notas = filterNotas.length ? filterNotas[0].nota : 0,
-        participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
-        usuarioCongelado = "",
-        commentarioP = "",
-        GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
-        GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
-
-        /*console.log(notas)
-        console.log(participacionPorcentaje)
-        console.log(GcommentProfForm)
-        console.log(GcommentAdminForm)*/
-
-      /*if (response2 && response2.length) {
-        response2.sort()
-        console.log(response2)
-        for (let i = 0; i < response2.length; i++) { 
-          if (matricula.id === response2[i].id) {
-            
-            GcommentProfForm = response2[i].commentProfForm;
-            GcommentAdminForm = response2[i].commentAdminForm;
-          }              
-        }
-        let nivelSeleccioando = $('#nivelActual').val()
-        
-        console.log(GcommentProfForm)
-        let found;
-        found = response2.filter(item => item.id === matricula.id)
-
-        if (found && found.length) {
-          let num = found[0].notas;
-          notas = num;
-          console.log(response2);
-          console.log(notas);
-          console.log("NOTAS");
-        }
-
-        participacionPorcentaje = response2[0].participacion;
-        
-      }*/
+      participacion = "",
+      notas = filterNotas.length ? filterNotas[0].nota : 0,
+      participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
+      usuarioCongelado = "",
+      commentarioP = "",
+      GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
+      GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
 
       console.log(lecc)
 
@@ -401,6 +368,8 @@ $(document).ready(function () {
       // * ASISTENCIAS
       if (asist.length) { // * SI ESTA AUSENTE
         if (matricula.estadoId != 5) {
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" readonly disabled>${GcommentProfForm}</textarea>`
+
           div.innerHTML = `
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
