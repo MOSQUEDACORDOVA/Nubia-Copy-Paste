@@ -3295,7 +3295,7 @@ exports.registrarparticipacion = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response3) =>{
+        DataBase.RegistrarParticipacion(porcentaje, leccion, nivel, grupoId, matriculaId).then((response3) =>{
           let resp3 = JSON.parse(response3);
           return res.send({resp3});
 

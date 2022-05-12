@@ -154,30 +154,48 @@ $(document).ready(function () {
 
     if (nivelSelec != nivelActualMax) {
       if (desdeCero) {
-        console.log("desdecer")
         for (i = 0; i <= 16; i++) {
           $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
         }
-        $("#filtrosDesdeCero select.leccion").val(32);
-        $("#filtrosDesdeCero select.leccion").trigger("change");
   
       } else if (intensivo) {
-        console.log("intensive")
         for (i = 0; i <= 32; i++) {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
-        }
-        $("#filtrosIntensivo select.leccion").val(32);
-        $("#filtrosIntensivo select.leccion").trigger("change");
-        
+        }  
+
       } else if (kids) {
         for (i = 0; i <= 16; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = false;
-          $("#filtrosKids select.leccion").trigger("change");
         }
-        
-        $("#filtrosKids select.leccion").val(16);
-        $("#filtrosKids select.leccion").trigger("change");return
+
       }
+    } else {
+      if (desdeCero) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
+        }
+  
+      } else if (intensivo) {
+        for (i = 0; i <= 32; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = true;
+        }  
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
+        }
+
+      } else if (kids) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+        }
+
+      }
+
     }
 
     console.log(lecc)
@@ -360,6 +378,23 @@ $(document).ready(function () {
                       `;
           }*/
 
+        }
+      }
+
+      if (matricula.grupo.nombre === "Kids" && lecc === 16) {
+        if (matricula.estadoId != 5) {
+          participacion = `
+            <div class="d-flex flex-column me-1">
+                <p class="text-success"><b>Participación</b></p>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                    <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                </div>
+            </div>
+            `;
         }
       }
 
@@ -977,13 +1012,17 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarParticipacion"));
+      form.append('nivel', nivel)
 
       fetch("/registrarParticipacion", {
         method: "POST",
