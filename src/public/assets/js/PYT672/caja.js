@@ -931,8 +931,12 @@ TotalAPagar();
     if ($(`#select-reposicion`).val() =="Seleccione") {
       return;
     }
+     
       $("#form-reg-pago")
-        .append(`<div id="reposicion${leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
+        .append(`<div id="reposicion${leccion}">
+        <input type="text" name="id_alumno" value="${id_estudiante}">
+
+        <input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${leccion}" value="">-->
 <input type="text" name="monto[]" id="monto-form-reposicion${leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${leccion}" value="-">
@@ -1942,10 +1946,14 @@ async function verificareposicion(id_estudiante) {
           }
           $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
           $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+          <input type="text" name="id_alumno" value="${id_estudiante}">
           <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
 <input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="${notas[i].n_leccion}">`);
+
+console.log($('#form-reg-pago input[name=id_alumno]').val())
+console.log("HERE")
           $("#body-table-pago")
             .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>
@@ -1989,7 +1997,9 @@ async function verificareposicion(id_estudiante) {
                 $("#select-servicio").append(`<option value="Reposicion">Reposicion</option>`);
               }
               $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
+              $('#form-reg-pago input[name=id_alumno]').val()
               $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+              <input type="text" name="id_alumno" value="${id_estudiante}">
               <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
@@ -2031,7 +2041,9 @@ async function verificareposicion(id_estudiante) {
                 $("#select-servicio").append(`<option value="Reposicion">Reposicion</option>`);
               }
               $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
+              $('#form-reg-pago input[name=id_alumno]').val()
               $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+              <input type="text" name="id_alumno" value="${id_estudiante}">
               <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
