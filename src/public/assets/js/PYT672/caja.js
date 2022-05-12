@@ -72,6 +72,7 @@ $(function () {
     $("#telefonos-alumno").text(
       filter[0]["telefono1"] + " - " + filter[0]["telefono2"]
     );
+
     $("#fecha-pago-alumno").text(filter[0]["grupo"]["dia_pagos"]);
     let dias_pago = filter[0]["grupo"]["dia_pagos"].split(" ");
 
@@ -406,50 +407,55 @@ $(function () {
         return data.obtener_historia;
       });
 
-      let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
-      console.log(historial)
-      console.log(filter)
-      console.log("HISTORIAL")
-      if (filter.length && filter[0].estado === "Pendiente") {
-        $("#btn-activar-alumno").attr("disabled", true);
-        $("#btn-guardar-pago").attr("disabled", false);
-        /**FORM */
-        $("#form-reg-pago").append(`
-        <div id="reactivacion" class="reactivacion">
-        <input type="text" name="idCaja" id="concepto-form" value="${filter[0].id}">
-        <input type="text" name="concepto[]" id="concepto-form" value="Reactivacion">
-        <input type="text" name="monto[]" id="monto-form" value="5000">
-        <input type="text" name="mora[]" id="mora-form" value="-">
-        <input type="text" name="observacion[]" id="observacion-form" value="-">
-        </div>`);
-        /**FIN FORM */
-        
-        $("#pago-mensual-detail").text(5000);
-      /**LLENAR TABLA */
-        $("#body-table-pago").append(`<tr id="tr-reactivacion">
-        <td>
-        <span class="fw-bold">Reactivación</span>
-        </td>
-        <td class="monto">5000</td>
-        <td>
-        <a class="item borrar reactivacion" onclick="borrarFila('tr-reactivacion','total')">
-           <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-               stroke-linejoin="round" class="feather feather-trash me-50">
-               <polyline points="3 6 5 6 21 6"></polyline>
-               <path
-                   d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-               </path>
-           </svg>
-           <span>Eliminar</span>
-        </a>
-        </td>
-        </tr>`);
-        TotalAPagar();
-        return
-      }
+    let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
+    console.log(historial)
+    console.log(filter)
+    console.log("HISTORIAL")
+    if (filter.length && filter[0].estado === "Pendiente") {
+      $("#btn-activar-alumno").attr("disabled", true);
+      $("#btn-guardar-pago").attr("disabled", false);
+      /**FORM */
+      $("#form-reg-pago").append(`
+      <div id="reactivacion" class="reactivacion">
+      <input type="text" name="idCaja" id="concepto-form" value="${filter[0].id}">
+      <input type="text" name="concepto[]" id="concepto-form" value="Reactivacion">
+      <input type="text" name="monto[]" id="monto-form" value="5000">
+      <input type="text" name="mora[]" id="mora-form" value="-">
+      <input type="text" name="observacion[]" id="observacion-form" value="-">
+      </div>`);
+      /**FIN FORM */
+      
+      $("#pago-mensual-detail").text(5000);
+    /**LLENAR TABLA */
+      $("#body-table-pago").append(`<tr id="tr-reactivacion">
+      <td>
+      <span class="fw-bold">Reactivación</span>
+      </td>
+      <td class="monto">5000</td>
+      <td>
+      <a class="item borrar reactivacion" onclick="borrarFila('tr-reactivacion','total')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
+              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" class="feather feather-trash me-50">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path
+                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+              </path>
+          </svg>
+          <span>Eliminar</span>
+      </a>
+      </td>
+      </tr>`);
+      TotalAPagar();
+      return
+    }
+
+    let alumno = matricula.filter(item => item.id == id_alumno)
+    console.log(alumno)
+    if (alumno[0].estadoId === 5) {
       $("#btn-activar-alumno").attr("disabled", false);
       $("#btn-guardar-pago").attr("disabled", true);
+    }
   }; /**FIN REACTIVACION */
 
   /**INICIO HABILITAR MENSUALIDAD */
@@ -1701,9 +1707,9 @@ function TotalAPagar () {
 function deshabilitarFila(row, item) {
   let fila = $('#'+row)
   fila.addClass('disabled')
-  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="restaurarFila('${row} ','${row}')">
+  $('#'+row+' td').last().html(`<a class="item restaurar" onclick="restaurarFila('${row}','${row}')">
     ${feather.icons['refresh-cw'].toSvg()}
-  <span>Restaurar</span>
+    <span>Restaurar</span>
   </a>`)
   console.log(row)
   console.log(item)
@@ -1713,14 +1719,13 @@ function deshabilitarFila(row, item) {
 function restaurarFila(row, item) {
   let fila = $('#'+row)
   fila.removeClass('disabled')
+  console.log(row)
   
-  $('#'+row+' td').last().html(`<a class="item restaurar mensualidad-mayo-2022" data-observacion="mayo-2022" onclick="deshabilitarFila('${row} ','${row}')">
-  ${feather.icons['trash'].toSvg()}
-  <span>Eliminar</span>
+  $('#'+row+' td').last().html(`<a class="item restaurar" onclick="deshabilitarFila('${row}','${row}')">
+    ${feather.icons['trash'].toSvg()}
+    <span>Eliminar</span>
   </a>`)
   
-  console.log(row)
-  console.log(item)
   TotalAPagar()
 }
 
@@ -1946,9 +1951,9 @@ async function verificareposicion(id_estudiante) {
 <td>
 <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-<a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+<a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
       fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
       stroke-linejoin="round" class="feather feather-trash me-50">
@@ -1966,6 +1971,8 @@ async function verificareposicion(id_estudiante) {
 </li>`);
           $("#total-servicios").text("10000");
           
+          TotalAPagar();
+
         }
       }
         for (let j = 0; j < historial.length; j++) {      
@@ -1992,9 +1999,9 @@ async function verificareposicion(id_estudiante) {
 <td>
   <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -2012,7 +2019,9 @@ async function verificareposicion(id_estudiante) {
 </li>`);
               $("#total-servicios").text("10000");
             }
+            TotalAPagar()
             }
+            TotalAPagar()
             
           }else{
             if ($(`#reposicion${notas[i].n_leccion}`).length == 1) {
@@ -2032,9 +2041,9 @@ async function verificareposicion(id_estudiante) {
 <td>
   <span class="fw-bold">Reposición L${notas[i].n_leccion}</span>
 </td>
-<td>10000</td>
+<td class="monto">10000</td>
 <td>
-  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="borrarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
+  <a class="item borrar reposicion${notas[i].n_leccion}" onclick="deshabilitarFila('tr-reposicion${notas[i].n_leccion}','reposicion${notas[i].n_leccion}')">
       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24"
           fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round" class="feather feather-trash me-50">
@@ -2053,6 +2062,7 @@ async function verificareposicion(id_estudiante) {
               $("#total-servicios").text("10000");
               
             }
+            TotalAPagar()
 
             }
           
