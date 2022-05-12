@@ -720,6 +720,8 @@ module.exports = {
           let data_set = JSON.stringify(data);
           console.log('pedidos save')
           console.log(data.dataValues.id)
+          let fecha = moment(fecha_pedido,'YYYY-MM-DD').format('DD/MM/YYYY');
+          Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:'pedido',clienteId:id_cliente,usuarioId:id_usuario,personalId: id_chofer,pedidoId:data.dataValues.id})
           if (!Last) {
             console.log('pedidos cre')
             Last_p.create({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido, pedidoId:data.dataValues.id,
@@ -780,6 +782,13 @@ if (modifica_cliente_input == "SI") {
         .then((data) => {
           let data_set = JSON.stringify(data);
           let hoy =moment().format('YYYY-MM-DD')
+          let fecha = moment(fecha_pedido,'YYYY-MM-DD').format('DD/MM/YYYY');
+          if (observacion == "") {
+            Historial_observaciones.destroy({where:{pedidoId:id_pedido}})
+          }else{
+            Historial_observaciones.update({observacion:observacion,fecha:fecha,tipo_origen:'pedido',usuarioId:id_usuario}, {where:{pedidoId:id_pedido}})
+          }
+          
           Last_p.update({chofer: chofer,monto_total: total_total_inp,metodo_pago: metodo_pago,status_pago: status_pago,status_pedido: status_pedido,garrafones_prestamos: garrafones_prestamos,observacion: observacion,usuarioId: id_usuario,garrafon19L: garrafon19L_, botella1L: botella1L_,garrafon11L: garrafon11L_, botella5L: botella5L_, danados:danados, clienteId: id_cliente,personalId: id_chofer, sucursaleId: sucursal, deuda_anterior:deuda_anterior,total_garrafones_pedido:total_garrafones_pedido,total_refill_pedido:total_refill_cant_pedido,
             total_canje_pedido:total_canje_cant_pedido,
             total_nv_pedido:total_nuevo_cant_pedido,
@@ -1342,6 +1351,7 @@ console.log(hoy)
       Pedidos.findAll({where: {
         clienteId: id,
         status_pago:'Por verificar',
+        status_pedido:'Entregado',
         sucursaleId: id_sucursal
       },include:[
         {association:Pedidos.Clientes },
@@ -1364,6 +1374,7 @@ console.log(hoy)
       Pedidos.findAll({where: {
         clienteId: id,
         status_pago:'Por verificar',
+        status_pedido:'Entregado',
       },include:[
         {association:Pedidos.Clientes },
        // {association:Pedidos.Clientes },
@@ -1876,15 +1887,7 @@ PersonalAllS(id){
     //SUCURSALES
     Sucursales_ALl(){
       return new Promise((resolve, reject) => {
-        Sucursales.findAll(
-         /* {include:[
-          {model: Vehiculos , as:'Vehiculos'},
-           {model: Clientes , as:'Clientes'},
-            {model: GPrestados , as:'GPrestados'},
-           {model: Pedidos , as:'Pedidos'},
-           {model: Personal , as:'Personal'}
-        ]}*/
-        )
+        Sucursales.findAll()
           .then((data) => {
             let data_p = JSON.stringify(data);
             //console.log(data)
@@ -2899,6 +2902,18 @@ findhistorialObservacionesAll(clienteId){
 savehistorialObservacionesAll(clienteID,userId,observacion,fecha,tipo_origen){
   return new Promise((resolve, reject) => {
     Historial_observaciones.create({observacion:observacion,fecha:fecha,tipo_origen:tipo_origen,clienteId:clienteID,usuarioId:userId}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      reject(err)
+    });
+  });
+},
+
+deletehistorialObservacionesAll(id){
+  return new Promise((resolve, reject) => {
+    Historial_observaciones.destroy({where:{id:id}}).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);      
     })

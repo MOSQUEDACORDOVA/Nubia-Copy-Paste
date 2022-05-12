@@ -493,6 +493,9 @@
    //OTROS DESPUES DE LOS SELECT DE PRODUCTOS
  
    $('#id_cliente_reg_pedido').on('change', (e) => {
+    if (!$('#registro_pedido_modal').hasClass('show')) {
+      return
+    }
      $('#modifica_cliente_input').val('NO');
      var valor = $('#array').val()
      var array = JSON.parse(valor.replace(/&quot;/g, '"'))
