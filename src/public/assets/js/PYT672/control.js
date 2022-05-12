@@ -115,67 +115,79 @@ $(document).ready(function () {
     esContainer = document.getElementById("estudiantes");
     esContainer.innerHTML = "";
     
-    let nivelSelec = null, lecc = null;
+    let nivelSelec = null, lecc = null, nivelActualMax = parseInt($('#nivelActual').val()), leccActualMax = parseInt($('#numeroLeccion').val()),
+    desdeCero = false, intensivo = false, kids = false;
 
     // * DETECTAR FILTRO DE GRUPOS
     if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
       lecc = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-      nivelSelec = $("#filtrosDesdeCero .select2.nivel").val()
+      nivelSelec = parseInt($("#filtrosDesdeCero .select2.nivel").val())
       $("#ausenteNumLeccion").val(parseInt($("#filtrosDesdeCero .select2.leccion").val()));
       
       $("#ausenteGrupoId").val(parseInt($("#filtrosDesdeCero .select2.grupo").val()));
+      desdeCero = true
       
     } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
       lecc = parseInt($("#filtrosIntensivo .select2.leccion").val());
-      nivelSelec = $("#filtrosIntensivo .select2.nivel").val()
+      nivelSelec = parseInt($("#filtrosIntensivo .select2.nivel").val())
       
       $("#ausenteNumLeccion").val(parseInt($("#filtrosIntensivo .select2.leccion").val()));
       
       $("#ausenteGrupoId").val(parseInt($("#filtrosIntensivo .select2.grupo").val()));
+
+      intensivo = true
       
-    } else if($("#filtrosKids .select2.grupo").val() != "-") {
+    } else if ($("#filtrosKids .select2.grupo").val() != "-") {
       lecc = parseInt($("#filtrosKids .select2.leccion").val());
-      nivelSelec = $("#filtrosKids .select2.nivel").val()
+      nivelSelec = parseInt($("#filtrosKids .select2.nivel").val())
 
       $("#ausenteNumLeccion").val(parseInt($("#filtrosKids .select2.leccion").val()));
 
       $("#ausenteGrupoId").val(parseInt($("#filtrosKids .select2.grupo").val()));
 
+      kids = true
+
     }
-    /*console.log(lecc)
-    console.log("LECCION")*/
+
+    console.log(nivelSelec)
+    console.log(nivelActualMax)
+
+    if (nivelSelec != nivelActualMax) {
+      if (desdeCero) {
+        console.log("desdecer")
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
+        }
+        $("#filtrosDesdeCero select.leccion").val(32);
+        $("#filtrosDesdeCero select.leccion").trigger("change");
+  
+      } else if (intensivo) {
+        console.log("intensive")
+        for (i = 0; i <= 32; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
+        }
+        $("#filtrosIntensivo select.leccion").val(32);
+        $("#filtrosIntensivo select.leccion").trigger("change");
+        
+      } else if (kids) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+          $("#filtrosKids select.leccion").trigger("change");
+        }
+        
+        $("#filtrosKids select.leccion").val(16);
+        $("#filtrosKids select.leccion").trigger("change");return
+      }
+    }
+
+    console.log(lecc)
+    console.log("LECCION")
 
     matriculaGrupo.forEach((matricula) => {
       let div = document.createElement("div");
       div.classList.add("col-12");
       div.classList.add("item");
       let idAusentes = null;
-
-      /*$("#ausenteMatriculaId").val(matricula.id);
-      let form = new FormData(document.getElementById("procesarAusente"));
-      $("#nivel").val(parseInt(nivelSelec));
-      form.append("arr", $("#matriculaGrupo").val());*/
-
-      //console.log(data);
-      //console.log("DATA AUSENTE");
-
-      /*let response = data.resp;
-      let response2 = data.matricula;
-
-      console.log(response)
-      console.log(response2)
-      console.log("AUSENCIAS")
-
-      if (response.length && response) {
-        idAusentes = response[0].matriculaId;
-      }
-      console.log(idAusentes);*/
-
-      /*let result = matriculaGrupo.filter(item => item.id === idAusentes);
-      console.log(result)
-      console.log("USUARIO AUSENTE")*/
-
-      //console.log(asistenciasAll)
 
       let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
       console.log(asist)
@@ -198,10 +210,10 @@ $(document).ready(function () {
         GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
         GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
 
-        console.log(notas)
+        /*console.log(notas)
         console.log(participacionPorcentaje)
         console.log(GcommentProfForm)
-        console.log(GcommentAdminForm)
+        console.log(GcommentAdminForm)*/
 
       /*if (response2 && response2.length) {
         response2.sort()
@@ -230,6 +242,8 @@ $(document).ready(function () {
         participacionPorcentaje = response2[0].participacion;
         
       }*/
+
+      console.log(lecc)
 
       let readonlyUse = "readonly"
       let disabledUse = "disabled"
@@ -381,7 +395,7 @@ $(document).ready(function () {
 
                                       <!--Area de comentarios-->
                                       <div class="row">
-                                          <div class="col-6">
+                                          <div class="col-12 col-lg-6">
                                               <div class="mb-1">
                                                   <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
                                                   ${commentarioP}
@@ -447,7 +461,7 @@ $(document).ready(function () {
                                       
                                       <!--Area de comentarios-->
                                       <div class="row">
-                                          <div class="col-6">
+                                          <div class="col-12 col-lg-6">
                                               <div class="mb-1">
                                                   <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
                                                   ${commentarioP}

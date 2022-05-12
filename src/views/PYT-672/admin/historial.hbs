@@ -60,11 +60,12 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body pb-3 px-sm-3">
-                            <h1 class="text-center mb-3" id="createAppTitle">Detalles de Alumno</h1>
-                            {{!<p class="text-center mb-2">Provide application data with this form</p>}}
+                            <h2 class="fw-bolder mb-0 text-center">
+                                <span id="nombre-historial"></span>
+                            </h2>
 
-                            <div class="row mb-2 border-secondary rounded-1">
-                                <div class="col-12 col-lg-6 col-xl-3 pt-1">
+                            <div class="row align-items-center mb-2">
+                                <div class="col-12 col-lg-4 col-xl-3 pt-1 text-center text-lg-start">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" fill="#0833a2" class="bi bi-person-circle"
                                         viewBox="0 0 16 16">
                                         <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
@@ -74,14 +75,7 @@
                                     </svg>
                                 </div>
                                 
-                                <div class="col-12 col-lg-6 col-xl-5">
-                                    <!-- Nombre Estudiante-->
-                                    <div class="d-flex align-items-center my-1">
-                                        <h4 class="fw-bolder mb-0">
-                                            <span id="nombre-historial"> </span>
-                                        </h4>
-                                    </div>
-                                    <!--/ Nombre Estudiante-->
+                                <div class="col-12 col-lg-4 col-xl-5">
 
                                     <!-- DNI Estudiante-->
                                     <div class="d-flex align-items-center mt-1">
@@ -129,10 +123,28 @@
                                         </p>
                                     </div>
                                     <!--/ Email Estudiante-->
+                                    <!--Profesor del Estudiante-->
+                                    <div class="d-flex align-items-center my-1 mb-lg-0">
+                                        <span class="item-user me-75">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-user font-small-4">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="12" cy="7" r="4"></circle>
+                                            </svg>
+                                        </span>
+                                        <p class="mb-0">
+                                            <span class="fw-bolder">
+                                                Profesor:
+                                            </span>
+                                            <span id="profesorDetalles"></span>
+                                        </p>
+                                    </div>
                                 </div>
 
 
-                                <div class="col-12 col-lg-6 col-xl-4">
+                                <div class="col-12 col-lg-4 col-xl-4">
                                     <p class="fw-bolder mt-lg-1 mb-0">Nivel</p>
                                     <select name="" id="nivelHis" class="form-select select2">
                                         <option value="1">1</option>
