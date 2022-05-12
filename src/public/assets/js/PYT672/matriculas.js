@@ -259,6 +259,7 @@ $(function () {
       (element) => element.id == data
     );*/
     let filterStudiante = matriculasTodos.filter(element => element.id == data);
+    console.log(filterStudiante)
     $("#edit-title-modal").text("Editar Alumno");
     $("#formregalumno").removeAttr("action");
 
@@ -269,11 +270,6 @@ $(function () {
     );
 
     $("#name-for-edit").val(`${filterStudiante[0]["nombre"]}`);
-    if (filterStudiante[0]["tipoEstudianteId"] == 1) {
-      $("#inlineRadio1").prop("checked", true);
-    } else {
-      $("#inlineRadio2").prop("checked", true);
-    }
 
     $("#nacionalDni").val(`${filterStudiante[0]["nro_identificacion"]}`);
     $("#fecha-nacimiento-edit").val(
@@ -294,13 +290,11 @@ $(function () {
     $("#email-edit").val(`${filterStudiante[0]["email"]}`);
     let vendedor
       if (filterStudiante[0]["usuario"] != null) {
-        vendedor =filterStudiante[0]["usuario"]["id"]
+        vendedor = filterStudiante[0]["usuario"]["id"]
       }
     $(`#vendedor-edit option[value='${vendedor}']`).attr("selected", true);
     $("#vendedor-edit").val(`${vendedor}`).trigger("change");
-    $(
-      `#select-provincia option[value='${filterStudiante[0]["provincia"]}']`
-    ).attr("selected", true);
+    $(`#select-provincia option[value='${filterStudiante[0]["provincia"]}']`).attr("selected", true);
     $("#select-provincia")
       .val(`${filterStudiante[0]["provincia"]}`)
       .trigger("change");
