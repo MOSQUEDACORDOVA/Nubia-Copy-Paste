@@ -1885,3 +1885,640 @@ $(document).ready(function () {
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../../assets/js/PYT672/control.js"></script>
+
+
+// * --------- MATRICULA FOR EACH CONTROL ---------- * //
+
+
+matriculaGrupo.forEach((matricula) => {
+      let div = document.createElement("div");
+      div.classList.add("col-12");
+      div.classList.add("item");
+      let lecc = null, idAusentes = null;
+
+      $("#ausenteMatriculaId").val(matricula.id);
+      let form = new FormData(document.getElementById("procesarAusente"));
+      $("#nivel").val(parseInt(nivelSelec));
+      form.append("arr", $("#matriculaGrupo").val());
+
+      fetch("/obtenerMatriculaAusente", {
+        method: "POST",
+        body: form,
+      })
+        .then((response) => response.json())
+        .then(async (data) => {
+
+          //console.log(data);
+          //console.log("DATA AUSENTE");
+
+          let response = data.resp;
+          let response2 = data.matricula;
+
+          console.log(response)
+          console.log(response2)
+          console.log("AUSENCIAS")
+
+          if (response.length && response) {
+            idAusentes = response[0].matriculaId;
+          }
+          console.log(idAusentes);
+
+          let result = matriculaGrupo.filter(item => item.id === idAusentes);
+          console.log(result)
+          console.log("USUARIO AUSENTE")
+          
+          let calif = "",
+            participacion = "",
+            notas = 0,
+            participacionPorcentaje = 0,
+            usuarioCongelado = "",
+            commentarioP = "",
+            GcommentProfForm="",
+            GcommentAdminForm="";
+
+          if (response2 && response2.length) {
+            response2.sort()
+            console.log(response2)
+            for (let i = 0; i < response2.length; i++) { 
+              if (matricula.id === response2[i].id) {
+                /*GcommentProfForm = 'hi'
+                GcommentAdminForm = 'hi'*/
+                GcommentProfForm = response2[i].commentProfForm;
+                GcommentAdminForm = response2[i].commentAdminForm;
+              }              
+            }
+            let nivelSeleccioando = $('#nivelActual').val()
+            
+            /*console.log(GcommentProfForm)*/
+            let found;
+            found = response2.filter(item => item.id === matricula.id)
+
+            if (found && found.length) {
+              let num = found[0].notas;
+              notas = num;
+              console.log(response2);
+              console.log(notas);
+              console.log("NOTAS");
+            }
+
+            participacionPorcentaje = response2[0].participacion;
+            
+          }
+
+          let readonlyUse = "readonly"
+          let disabledUse = "disabled"
+          let readonlyUse0 = `style="pointer-events: none;"`
+          
+          if (
+            lecc === 9 ||
+            lecc === 17 ||
+            lecc === 18 ||
+            lecc === 25 ||
+            lecc === 31 ||
+            lecc === 32
+          ) 
+          {
+            if (result.length) {
+
+              /**OBTENER HISTORIAL DE CAJA */
+              let historial = await fetch("/historia-caja-academy/" + matricula.id )
+                .then((response) => response.json())
+                .then((data) => {
+                  /*console.log(data);*/
+                  return data.obtener_historia;
+                });
+              /*console.log(historial);*/
+              for (let i = 0; i < historial.length; i++) {
+                  let split_hist = historial[i]['concepto'].split(',')
+                if (split_hist.length > 1 && split_hist[0]=="Reposicion" && split_hist[1]==lecc) {
+                    readonlyUse =""
+                    readonlyUse0  = ""
+                    disabledUse = ""
+                }
+              }
+              
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+
+              if (matricula.estadoId != 5) {
+                calif = `
+                      <div class="d-flex flex-column mb-1 me-1">
+                          <p class="text-success"><b>Calificación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+  
+                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
+  
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>`;
+              } 
+
+              // * CONGELADO
+              /*if (matricula.estadoId === 5) {
+                calif = `
+                      <div class="d-flex flex-column mb-1 me-1">
+                          <p class="text-success"><b>Calificación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+  
+                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
+  
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse} disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>`;
+                
+              } else {
+                calif = `
+                      <div class="d-flex flex-column mb-1 me-1">
+                          <p class="text-success"><b>Calificación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+  
+                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
+  
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>`;
+              }*/
+            
+            } else {
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+            
+              if (matricula.estadoId != 5) {
+                calif = `
+                      <div class="d-flex flex-column mb-1 me-1">
+                          <p class="text-success"><b>Calificación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+  
+                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
+  
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>`;
+              } 
+            
+              // * CONGELADO
+              /*if (matricula.estadoId === 5) {
+                calif = `
+                <div class="d-flex flex-column mb-1 me-1">
+                    <p class="text-success"><b>Calificación</b></p>
+                    <div class="d-flex align-items-center">
+                        <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" ${readonlyUse0} data-id="${matricula.id}"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                        <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100" ${readonlyUse}>%</p>
+
+                        <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button" ${disabledUse} disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" ${readonlyUse0}><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                    </div>
+                </div>`;
+              } else {
+                calif = `
+                      <div class="d-flex flex-column mb-1 me-1">
+                          <p class="text-success"><b>Calificación</b></p>
+                          <div class="d-flex align-items-center">
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-down btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus btnCalificacionMenos caliMenos${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+  
+                              <p class="h3 mb-0 mx-1"><input type="number" class="calificacion calific${matricula.id}" value="${notas}" min="0" max="100">%</p>
+  
+                              <button class="btn btn-icon btn-sm btn-primary bootstrap-touchspin-up btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus btnCalificacionMas caliMas${matricula.id}" data-id="${matricula.id}" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                          </div>
+                      </div>`;
+                
+              }*/
+              
+            }
+
+            if (lecc === 32) {
+              if (matricula.estadoId != 5) {
+                participacion = `
+                          <div class="d-flex flex-column me-1">
+                              <p class="text-success"><b>Participación</b></p>
+                              <div class="d-flex align-items-center">
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                              </div>
+                          </div>
+                          `;
+              }
+
+              // * CONGELADO
+              /*if (matricula.estadoId === 5) {
+                participacion = `
+                          <div class="d-flex flex-column me-1">
+                              <p class="text-success"><b>Participación</b></p>
+                              <div class="d-flex align-items-center">
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100" readonly>%</p>
+
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button" disabled><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                              </div>
+                          </div>
+                          `;
+                
+              } else {
+                participacion = `
+                          <div class="d-flex flex-column me-1">
+                              <p class="text-success"><b>Participación</b></p>
+                              <div class="d-flex align-items-center">
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                                  <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                                  <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                              </div>
+                          </div>
+                          `;
+              }*/
+
+            }
+          }
+
+          // * ASISTENCIAS
+          if (result.length) { // * SI ESTA AUSENTE
+            if (matricula.estadoId != 5) {
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-secondary" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-secondary">Ausente</span></h5>
+                                                  </div>
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+  
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                        matricula.id
+                                      }">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class: "feather text-secondary check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class:
+                                              "feather text-success d-none uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+            } 
+            // * CONGELADO
+            /*if (matricula.estadoId === 5) {
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-secondary" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-secondary">Ausente</span><span class="badge bg-dark">Congelado</span></h5>
+                                                  </div>
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+  
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0 d-none">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" style="pointer-events: none;" data-id="${
+                                        matricula.id
+                                      }">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class: "feather text-secondary check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class:
+                                              "feather text-success d-none uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+              
+            } else {
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-secondary" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-secondary">Ausente</span></h5>
+                                                  </div>
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+  
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                        matricula.id
+                                      }">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class: "feather text-secondary check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class:
+                                              "feather text-success d-none uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+
+            }*/
+
+          } else { // * SI ESTA PRESENTE
+            commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}">${GcommentProfForm}</textarea>`
+            
+            if (matricula.estadoId != 5) {
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-success" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                                  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                  </div>
+  
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                        matricula.id
+                                      }">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class:
+                                              "feather text-secondary d-none check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class: "feather text-success uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+            }
+            
+            // * CONGELADO
+            /*if (matricula.estadoId === 5) {
+              commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" disabled>${GcommentProfForm}</textarea>`
+
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-secondary" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                                  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-success">Presente</span><span class="badge bg-dark">Congelado</span></h5>
+                                                  </div>
+  
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0 d-none">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" style: "pointer-events: none;">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class:
+                                              "feather text-secondary d-none check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class: "feather text-success uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+
+            } else {
+              div.innerHTML = `
+                      <label class="card-title estudiante" hidden>${
+                        matricula.nombre
+                      }</label>
+                          <div class="card card-statistics border-success" id="estudiante${
+                            matricula.id
+                          }">
+                              <div class="row m-0 p-0">
+                                  <div class="col-10 col-xl-11">
+                                      <div class="row card-header p-1">
+                                          <div class="col-12">
+                                              <div class="d-flex flex-column flex-md-row justify-content-sm-between">
+                                                  
+                                                  <div class="d-flex flex-row mb-1 mb-md-0 align-items-center">
+                                                      <h1 class="me-1"><b>${
+                                                        matricula.nombre
+                                                      }</b></h1>
+                                                      <h5><span class="badge badge-light-success">Presente</span></h5>
+                                                  </div>
+  
+                                                  <div class="d-flex flex-row">
+                                                      ${calif}
+  
+                                                      ${participacion}
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          
+                                          <!--Area de comentarios-->
+                                          <div class="row">
+                                              <div class="col-6">
+                                                  <div class="mb-1">
+                                                      <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+                                                      ${commentarioP}
+                                                  </div>
+                                              </div>
+                                         
+                                    
+                                          </div>
+                                          
+                                      </div>
+                                  </div>
+                                  <div class="col-2 col-xl-1 p-0">
+                                      <div class="box icon d-flex align-items-center justify-content-center h-100 btnAsistencia" role="button" data-id="${
+                                        matricula.id
+                                      }">
+                                          ${feather.icons["user-check"].toSvg({
+                                            class:
+                                              "feather text-secondary d-none check",
+                                            style: "pointer-events: none;",
+                                          })}
+                                          ${feather.icons["user-minus"].toSvg({
+                                            class: "feather text-success uncheck",
+                                            style: "pointer-events: none;",
+                                          })}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      `;
+
+            }*/
+          }
+        });
+
+      fragment.appendChild(div);
+    });

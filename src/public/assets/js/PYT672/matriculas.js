@@ -91,18 +91,12 @@ function cargarTablaMatricula(array) {
             if (full["grupo"] !== null) {
               if (full["estado"]["id"] === 1) {
                 congelado = `
-                  <a class="dropdown-item" href="#">
-                    <form action="/congelarestudiantepy672" method="POST">
-                        <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
-                        Congelar
-                    </form>
-                  </a>
                   <a class="dropdown-item eliminar-estudiante" href="#">
                     <form action="/borrarestudiantespy672" method="POST" id="form${full["id"]}">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
                         Eliminar Alumno
                     </form>
-                </a>
+                  </a>
                   <a class="dropdown-item eliminar-estudiante-grupo d-none" href="#">
                     <form action="/eliminarestudiantedegrupopy672" method="POST">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
@@ -111,12 +105,6 @@ function cargarTablaMatricula(array) {
                   </a>`;
               } else {
                 congelado = `
-                <a class="dropdown-item" href="#">
-                  <form action="/activarestudiantecongeladopy672" method="POST">
-                      <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>
-                      Activar
-                  </form>
-                </a>
                 <a class="dropdown-item eliminar-estudiante" href="#">
                     <form action="/borrarestudiantespy672" method="POST" id="form${full["id"]}">
                         <input type="text" name="id" class="new-todo-item-title form-control d-none" value="${full["id"]}" required>

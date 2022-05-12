@@ -1,4 +1,4 @@
-let historialTable = $('.historial'), gruposTodos, usuarios;
+let historialTable = $('.historial'), gruposTodos, usuarios, asistenciasAll, notasAll, participacionAll;
 
 async function FetchData (num) {
   gruposTodos = await fetch('/obtenerGruposAll')
@@ -29,9 +29,38 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
               usuarios = data.usuarios
-              cargarTablaMatricula();
+              
               return data.usuarios
           });
+  } else if (num === 3) {
+    asistenciasAll = await fetch('/obtenerTodaMatriculaAusente')
+          .then(response => response.json())
+          .then(data => {
+              asistenciasAll = data.asistencia
+              console.log(asistenciasAll)
+              return asistenciasAll
+          });
+          
+  } else if (num === 4) {
+    notasAll = await fetch('/obtenerTodasNotas')
+          .then(response => response.json())
+          .then(data => {
+              notasAll = data.notas
+              console.log(notasAll)
+              return notasAll
+          });
+          
+  } else if (num === 5) {
+    participacionAll = await fetch('/obtenerTodasParticipacion')
+          .then(response => response.json())
+          .then(data => {
+            participacionAll = data.participacion
+              console.log(participacionAll)
+              return participacionAll
+          });
+          
+    cargarTablaMatricula();  
+
   }
 }
 
@@ -337,6 +366,12 @@ function cargarTablaMatricula(editada) {
   
       let content = new DocumentFragment();
       console.log(my_object)
+      for (let index = 0; index < nivel; index++) {
+        $("#nivelHis")[0].options[index].disabled = false;
+      }
+      $('#nivelHis').val(nivel)
+      $('#nivelHis').trigger("change");
+
       for (let num = 1; num <= leccion; num++) {
         let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
         
@@ -344,11 +379,15 @@ function cargarTablaMatricula(editada) {
           my_object.notas.forEach(item => {
             //console.log(item);
             if (item && parseInt(item.n_leccion) === num) {
-              notaLeccion = item.nota
+              let result = item.notas.filter(nota => nota.nivel == nivel)
+              if (result.length) {
+                notaLeccion = item.nota
+                
+              }
             }
           });
-          /*console.log(notaLeccion);
-          console.log("NOTA LECCION");*/
+          console.log(notaLeccion);
+          console.log("NOTA LECCION");
           if (notaLeccion > 7) {
             color = 'badge-light-success'
           } else {
@@ -362,10 +401,12 @@ function cargarTablaMatricula(editada) {
         
         if(arrayLeccionesAusentes.length) {
   
-          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
+          console.log(result)
+          console.log("LECC AUSENTES")
           //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
   
-          if(result.length && parseInt(result[0].n_leccion) === num) {
+          if(result.length && parseInt(result[0].n_leccion)) {
             /*console.log(result)*/
             td += 
             `
@@ -550,11 +591,13 @@ function cargarTablaMatricula(editada) {
         row.innerHTML = td;
         content.appendChild(row);
       }
+
   $(`#nombre-historial`).text(my_object['nombre'])
   $(`#dni-historial`).text(my_object['nro_identificacion'])
   $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
   $(`#email-historial`).text(my_object['email'])
-  $(`#grupo-historial`).text(my_object['grupo']['identificador'])
+  let filterGrupo = gruposTodos.filter(grupo => grupo.id == my_object['grupo']['id'])
+  $(`#grupo-historial`).text(filterGrupo.length ? filterGrupo[0].identificador : "Sin Grupo")
   $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
   
       $('#tablaHistorialDetalles').append(content);
@@ -582,4 +625,6 @@ function cargarTablaMatricula(editada) {
 }
 
 FetchData(1)
-
+FetchData(3) // * ASISTENCIAS
+FetchData(4) // * NOTAS
+FetchData(5) // * PARTICIPACION

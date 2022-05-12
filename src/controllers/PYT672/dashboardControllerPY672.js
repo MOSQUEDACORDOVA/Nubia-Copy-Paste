@@ -334,6 +334,8 @@ exports.grupos = (req, res) => {
     roleProf = true
   }
 
+  let nombre = res.locals.user.nombre
+
     res.render(proyecto+"/admin/grupos", {
       pageName: "Academia Americana - Grupos",
       dashboardPage: true,
@@ -341,6 +343,7 @@ exports.grupos = (req, res) => {
       py672: true,
       grupos: true,
       roleProf, roleAdmin,
+      nombre
     });
 }
 
@@ -1299,6 +1302,8 @@ exports.matriculas = async (req, res) => {
 
     let vendedores = await GetUsers();
 
+    let nombre = res.locals.user.nombre
+
     res.render("PYT-672/admin/matricula", {
       pageName: "Academia Americana - Matriculas",
       dashboardPage: true,
@@ -1311,6 +1316,7 @@ exports.matriculas = async (req, res) => {
       arr,
       response2,msg,gruposTodosStr,
       vendedores,
+      nombre
     });
 
   }).catch((err) => {
@@ -1380,6 +1386,7 @@ exports.control = (req, res) => {
         });
       });
     
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1388,6 +1395,7 @@ exports.control = (req, res) => {
       py672: true,
       asistencias: true,
       roleAdmin, roleProf,
+      nombre
     });
   }).catch((err) => {
     console.log(err)
@@ -1467,7 +1475,6 @@ exports.controlgrupo = (req, res) => {
 
         let rest; 
 
-        // *-------------------------------//
         let inicioGrupo = grupo.fecha_inicio;
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
 
@@ -1475,9 +1482,16 @@ exports.controlgrupo = (req, res) => {
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = ""
+              }
       
               console.log("NIVELES")
               console.log(nivel2)
@@ -1507,22 +1521,40 @@ exports.controlgrupo = (req, res) => {
           };
           fechaNiveles = JSON.stringify(fechaNiveles)
                   
-          if (moment().isBefore(nivel2)) {
-            console.log("Estas en nivel 1")
-            nivelActual = 1
-            
-          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-            console.log("Estas en nivel 2")
-            nivelActual = 2
-            
-          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-            console.log("Estas en nivel 3")
-            nivelActual = 3
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } else {
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              
+            }
             
           } else {
-            console.log("Estas en nivel 4")
-            nivelActual = 4
-            
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } 
+
           }
 
           let numPositivo;
@@ -1593,7 +1625,9 @@ exports.controlgrupo = (req, res) => {
         
         EstablecerNivel();  
         
-        // *-------------------------------- //
+        
+
+    let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/control", {
       pageName: "Academia Americana - Control",
@@ -1601,6 +1635,7 @@ exports.controlgrupo = (req, res) => {
       dashboard: true,
       py672: true,
       asistencias: true,
+      nombre,
       roleAdmin, roleProf,
       matri,
       grupoId,
@@ -1692,9 +1727,16 @@ exports.historial = (req, res) => {
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+              if (grupo.nombre === "Desde cero") {
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                
+              } else {
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+                nivel4 = ""
+              }
       
               console.log("NIVELES")
               console.log(nivel2)
@@ -1724,22 +1766,40 @@ exports.historial = (req, res) => {
           };
           fechaNiveles = JSON.stringify(fechaNiveles)
                   
-          if (moment().isBefore(nivel2)) {
-            console.log("Estas en nivel 1")
-            nivelActual = 1
-            
-          } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-            console.log("Estas en nivel 2")
-            nivelActual = 2
-            
-          } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-            console.log("Estas en nivel 3")
-            nivelActual = 3
+          if (grupo.nombre != "Kids") {
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } else {
+              console.log("Estas en nivel 4")
+              nivelActual = 4
+              
+            }
             
           } else {
-            console.log("Estas en nivel 4")
-            nivelActual = 4
-            
+            if (moment().isBefore(nivel2)) {
+              console.log("Estas en nivel 1")
+              nivelActual = 1
+              
+            } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+              console.log("Estas en nivel 2")
+              nivelActual = 2
+              
+            } else if(moment().isSameOrAfter(nivel3)) {
+              console.log("Estas en nivel 3")
+              nivelActual = 3
+              
+            } 
+
           }
 
           userInfo.nivelActualGrupo = nivelActual
@@ -1944,6 +2004,7 @@ exports.historial = (req, res) => {
       //console.log(gruposDist)
       //console.log("GRUPOS DISTINCTS")
       
+      let nombre = res.locals.user.nombre
 
     res.render(proyecto+"/admin/historial", {
       pageName: "Academia Americana - Historial",
@@ -1951,6 +2012,7 @@ exports.historial = (req, res) => {
       dashboard: true,
       py672: true,
       historial: true,
+      nombre,
       roleAdmin, roleProf,
       arrString,
       stringGrupos,
@@ -2230,12 +2292,16 @@ console.log(matricula)
     console.log("TODOS LOS GRUPOS")
     let matricula_st = JSON.stringify(matricula)
     let gruposTodosStr = JSON.stringify(gruposTodos)
+
+    let nombre = res.locals.user.nombre
+
     res.render(proyecto+"/admin/caja", {
       pageName: "Academia Americana - Caja",
       dashboardPage: true,
       dashboard: true,
       py672:true,
       caja: true,
+      nombre,
       alert,
       roleAdmin, roleProf,
       gruposTodos,matricula,matricula_st,gruposTodosStr
@@ -2277,6 +2343,14 @@ exports.guardarPagoReactivar = async(req, res) => {
   const save_pago = await DataBase.guardarCajaPendiente(concepto, monto, mora, observacion,id_alumno)
     console.log(save_pago)
   return res.redirect('/caja/PYT-672')
+};
+
+// * OBTENER TODO HISTORIAL 
+exports.historialCompleto = async(req, res) => {
+  
+  const historial = JSON.parse(await DataBase.historialCompleto())
+  console.log(historial)
+  return res.send({historial})
 };
 
 exports.historial_caja = async(req, res) => {
@@ -2506,12 +2580,15 @@ exports.usuarios = (req, res) => {
     roleProf = true
   }
 
+  let nombre = res.locals.user.nombre
+
   res.render(proyecto+"/admin/usuarios", {
-    pageName: "Usuarios",
+    pageName: "Academia Americana - Usuarios",
     dashboardPage: true,
     dashboard: true,
     py672:true,
     usuarios: true,
+    nombre,
     roleAdmin, roleProf,
   });
 };
@@ -2537,7 +2614,7 @@ exports.managUsuarios = (req, res) => {
   console.log(res.locals.user)
     
   res.render(proyecto+"/admin/changeuser-password", {
-    pageName: "Perfil de Usuario",
+    pageName: "Academia Americana - Perfil de Usuario",
     dashboardPage: true,
     dashboard: true,
     py672:true,
@@ -3195,20 +3272,20 @@ exports.obtenermatriculagrupo = (req, res) => {
 
 // * REGISTRAR PARTICIPACION
 exports.registrarparticipacion = (req, res) => {
-  const { porcentaje, leccion, grupoId, matriculaId } = req.body;
+  const { porcentaje, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
   let msg = false;
 
-  if (porcentaje.trim() === "" || leccion.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
+  if (porcentaje.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos')
-    let err = { error: "complete todos los campos 2052" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
-    DataBase.BuscarParticipacionMatricula(leccion, grupoId, matriculaId).then((response) => {
+    DataBase.BuscarParticipacionMatricula(leccion, nivel, grupoId, matriculaId).then((response) => {
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarParticipacion(porcentaje, leccion, grupoId, matriculaId).then((response2) =>{
+        DataBase.ActualizarParticipacion(porcentaje, leccion, nivel, grupoId, matriculaId).then((response2) =>{
           let resp2 = JSON.parse(response2);
           return res.send({resp2});
 
@@ -3333,20 +3410,21 @@ exports.eliminarmatriculausente = (req, res) => {
 exports.obtenermatriculausente = (req, res) => {
   const { arr, leccion, nivel, grupoId, matriculaId } = req.body;
   console.log(req.body);
+  console.log("BODY");
   let msg = false;
 
   if (leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
     console.log('complete todos los campos');
-    let err = { error: "complete todos los campos 2182" };
+    let err = { error: "complete todos los campos" };
     res.send({err});
   } else {
     let matricula = JSON.parse(arr);
     matricula.forEach(item => {
       DataBase.ObtenerNotasMatricula(leccion, nivel, grupoId, item.id).then((response) => {
         let result = JSON.parse(response)[0];
-        /*console.log(result)*/
+        console.log(result)
         if (result) {
-          /*console.log("CONTIENE NOTAS")*/
+          console.log("CONTIENE NOTAS")
           let notas = {
             notas: parseInt(result.nota)
           }
@@ -3357,8 +3435,8 @@ exports.obtenermatriculausente = (req, res) => {
             commentAdminForm: result.commentAdminForm
           }
           let final = Object.assign(item, notas,commentProfForm, commentAdminForm)
-          /*console.log(notas)
-          console.log(final)*/
+          console.log(notas)
+          console.log(final)
         } else {
           let notas = {
             notas: 0
@@ -3413,6 +3491,54 @@ exports.obtenermatriculausente = (req, res) => {
     });
   }
 };
+
+// * OBTENER TODO MATRICULA AUSENTE 
+exports.obtenerTodaMatriculAusente = (req, res) => {
+
+  DataBase.ObtenerAsistenciasAll().then((response) =>{
+    let asistencia = JSON.parse(response);
+    console.log(asistencia)
+    return res.send({asistencia});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
+
+// * OBTENER TODO MATRICULA AUSENTE 
+exports.obtenerTodasNotas = (req, res) => {
+
+  DataBase.ObtenerTodasNotas().then((response) => {
+    let notas = JSON.parse(response);
+    console.log(notas)
+    return res.send({notas});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
+
+// * OBTENER TODAS PARTICIPACIONES
+exports.obtenerTodasParticipaciones = (req, res) => {
+
+  DataBase.ObtenerTodasParticipacion().then((response) => {
+    let participacion = JSON.parse(response);
+    console.log(participacion)
+    return res.send({participacion});
+
+  }).catch((err) => {
+    console.log(err)
+    let msg = "Error en sistema";
+    return res.redirect("/error672/PYT-672");
+  });
+
+}
 
 // * BORRAR GRUPOS ADMIN
 exports.borrargrupo = (req, res) => {
