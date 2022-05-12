@@ -931,8 +931,11 @@ TotalAPagar();
     if ($(`#select-reposicion`).val() =="Seleccione") {
       return;
     }
+     
       $("#form-reg-pago")
-        .append(`<div id="reposicion${leccion}"><input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
+        .append(`<div id="reposicion${leccion}">
+
+        <input type="text" name="concepto[]" id="concepto-form-reposicion${leccion}" value="Reposicion,L-${leccion}">
 <!--<input type="text" name="fecha_pago[]" id="fecha_pago-form-reposicion${leccion}" value="">-->
 <input type="text" name="monto[]" id="monto-form-reposicion${leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${leccion}" value="-">
@@ -1822,6 +1825,26 @@ async function updateHistorial(id_estudiante) {
     </div>
     </div>
     </li>`;
+    let listaReposicion = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Reposición</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
     let lista_mensualidad = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
@@ -1844,7 +1867,7 @@ async function updateHistorial(id_estudiante) {
     </li>`;
     let reposicionS = historial[i]["concepto"].split(",");
     if (reposicionS[0] == "Reposicion" && historial[i]["observacion"] != "-") {
-      $("#historial-list").append(lista_mensualidad);
+      $("#historial-list").append(listaReposicion);
       continue
     }
     if (reposicionS[0] == "Inscripción" && historial[i]["observacion"] == "-") {
@@ -1942,10 +1965,12 @@ async function verificareposicion(id_estudiante) {
           }
           $("#select-reposicion").append(`<option>${notas[i].n_leccion}</option>`);
           $("#form-reg-pago").append(`<div id="reposicion${notas[i].n_leccion}">
+          
           <input type="text" name="concepto[]" id="concepto-form-reposicion${notas[i].n_leccion}" value="Reposicion,${notas[i].n_leccion}">
 <input type="text" name="monto[]" id="monto-form-reposicion${notas[i].n_leccion}" value="10000">
 <input type="text" name="mora[]" id="mora-form-reposicion${notas[i].n_leccion}" value="-">
 <input type="text" name="observacion[]" id="observacion-form-reposicion${notas[i].n_leccion}" value="${notas[i].n_leccion}">`);
+
           $("#body-table-pago")
             .append(`<tr id="tr-reposicion${notas[i].n_leccion}">
 <td>

@@ -154,34 +154,52 @@ $(document).ready(function () {
 
     if (nivelSelec != nivelActualMax) {
       if (desdeCero) {
-        console.log("desdecer")
         for (i = 0; i <= 16; i++) {
           $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
         }
-        $("#filtrosDesdeCero select.leccion").val(32);
-        $("#filtrosDesdeCero select.leccion").trigger("change");
   
       } else if (intensivo) {
-        console.log("intensive")
         for (i = 0; i <= 32; i++) {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
-        }
-        $("#filtrosIntensivo select.leccion").val(32);
-        $("#filtrosIntensivo select.leccion").trigger("change");
-        
+        }  
+
       } else if (kids) {
         for (i = 0; i <= 16; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = false;
-          $("#filtrosKids select.leccion").trigger("change");
         }
-        
-        $("#filtrosKids select.leccion").val(16);
-        $("#filtrosKids select.leccion").trigger("change");return
+
       }
+    } else {
+      if (desdeCero) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
+        }
+  
+      } else if (intensivo) {
+        for (i = 0; i <= 32; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = true;
+        }  
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
+        }
+
+      } else if (kids) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+        }
+
+      }
+
     }
 
-    console.log(lecc)
-    console.log("LECCION")
+    /*console.log(lecc)
+    console.log("LECCION")*/
 
     matriculaGrupo.forEach((matricula) => {
       let div = document.createElement("div");
@@ -190,58 +208,25 @@ $(document).ready(function () {
       let idAusentes = null;
 
       let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
-      console.log(asist)
+      //console.log(asist)
       
       let filterNotas = notasAll.filter(notas => notas.matriculaId === matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
-      console.log(filterNotas)
+      //console.log(filterNotas)
       
       let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId === matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
-      console.log(filterParticipacion)
+      //console.log(filterParticipacion)
       
       /*let filterHistorial = historialAll.filter(historial => historial.matriculaId === matricula.id && historial.nivel == nivelSelec && participacion.n_leccion == lecc)
       console.log(filterHistorial)*/
 
       let calif = "",
-        participacion = "",
-        notas = filterNotas.length ? filterNotas[0].nota : 0,
-        participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
-        usuarioCongelado = "",
-        commentarioP = "",
-        GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
-        GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
-
-        /*console.log(notas)
-        console.log(participacionPorcentaje)
-        console.log(GcommentProfForm)
-        console.log(GcommentAdminForm)*/
-
-      /*if (response2 && response2.length) {
-        response2.sort()
-        console.log(response2)
-        for (let i = 0; i < response2.length; i++) { 
-          if (matricula.id === response2[i].id) {
-            
-            GcommentProfForm = response2[i].commentProfForm;
-            GcommentAdminForm = response2[i].commentAdminForm;
-          }              
-        }
-        let nivelSeleccioando = $('#nivelActual').val()
-        
-        console.log(GcommentProfForm)
-        let found;
-        found = response2.filter(item => item.id === matricula.id)
-
-        if (found && found.length) {
-          let num = found[0].notas;
-          notas = num;
-          console.log(response2);
-          console.log(notas);
-          console.log("NOTAS");
-        }
-
-        participacionPorcentaje = response2[0].participacion;
-        
-      }*/
+      participacion = "",
+      notas = filterNotas.length ? filterNotas[0].nota : 0,
+      participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
+      usuarioCongelado = "",
+      commentarioP = "",
+      GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
+      GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
 
       console.log(lecc)
 
@@ -363,9 +348,28 @@ $(document).ready(function () {
         }
       }
 
+      if (matricula.grupo.nombre === "Kids" && lecc === 16) {
+        if (matricula.estadoId != 5) {
+          participacion = `
+            <div class="d-flex flex-column me-1">
+                <p class="text-success"><b>Participación</b></p>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                    <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                </div>
+            </div>
+            `;
+        }
+      }
+
       // * ASISTENCIAS
       if (asist.length) { // * SI ESTA AUSENTE
         if (matricula.estadoId != 5) {
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" readonly disabled>${GcommentProfForm}</textarea>`
+
           div.innerHTML = `
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
@@ -977,13 +981,17 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarParticipacion"));
+      form.append('nivel', nivel)
 
       fetch("/registrarParticipacion", {
         method: "POST",
