@@ -596,6 +596,7 @@ function cargarTablaMatricula(editada) {
   $(`#dni-historial`).text(my_object['nro_identificacion'])
   $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
   $(`#email-historial`).text(my_object['email'])
+  $('#profesorDetalles').text(my_object.grupo ? my_object.grupo.usuario.nombre : "No Asignado")
   let filterGrupo = gruposTodos.filter(grupo => grupo.id == my_object['grupo']['id'])
   $(`#grupo-historial`).text(filterGrupo.length ? filterGrupo[0].identificador : "Sin Grupo")
   $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
