@@ -343,6 +343,9 @@ function cargarTablaMatricula(editada) {
   
       let content = new DocumentFragment();
       //console.log(my_object)
+      for (let index = 0; index < 3; index++) {
+        $("#nivelHis")[0].options[index].disabled = true;
+      }
       for (let index = 0; index < nivel; index++) {
         $("#nivelHis")[0].options[index].disabled = false;
       }
@@ -356,17 +359,17 @@ function cargarTablaMatricula(editada) {
       grupoSelect = grupoFind[0]
 
       if (grupoFind.length) {
-        if (grupoFind[0].nombre === "Desde cero") {
+        if (grupoSelect.nombre === "Desde cero") {
           if (nivelSelect != nivelMax) {
             num = 32
           }
 
-        } else if (grupoFind[0].nombre === "Intensivo") {
+        } else if (grupoSelect.nombre === "Intensivo") {
           if (nivelSelect != nivelMax) {
             num = 32
           }
           
-        } else if (grupoFind[0].nombre === "Kids") {
+        } else if (grupoSelect.nombre === "Kids") {
           if (nivelSelect != nivelMax) {
             num = 16
           }
@@ -375,7 +378,7 @@ function cargarTablaMatricula(editada) {
       }
 
       for (let num = 1; num <= leccion; num++) {
-        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
           let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === my_object.id)
@@ -393,7 +396,24 @@ function cargarTablaMatricula(editada) {
         } else {
           calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
         }
-        
+
+        if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+          let filterParticipacion = participacionAll.filter(item => item.matriculaId === my_object.id && item.nivel == nivel && item.n_leccion == num) 
+          let porcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0
+          if (porcentaje > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+          participacion += `
+          <div class="text-center">
+                      
+              <span class="emp_post fw-bolder">Participación</span><br>
+              <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+
+          </div>
+          ` 
+        } 
         if(asistenciasAll.length) {
   
           let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
@@ -433,6 +453,8 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
+
                 </div>
                 <hr class="mb-0">
               </div>
@@ -470,6 +492,7 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
                 </div>
                 <hr class="mb-0">
               </div>
@@ -509,6 +532,7 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
                 </div>
                 <hr class="mb-0">
               </div>
@@ -552,7 +576,7 @@ function cargarTablaMatricula(editada) {
       }
 
       for (let num = 1; num <= leccion; num++) {
-        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
           let result = notasAll.filter(nota => nota.nivel == nivelSelect && nota.n_leccion == num && nota.matriculaId === alumnoSelect.id)
@@ -571,14 +595,25 @@ function cargarTablaMatricula(editada) {
           calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
         }
         
-        if(num === 16 && grupoSelect.nombre === "Kids") {
-          if (notaLeccion > 7) {
+        if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+          let filterParticipacion = participacionAll.filter(item => item.matriculaId === alumnoSelect.id && item.nivel == nivelSelect && item.n_leccion == num) 
+          let porcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0
+
+          if (porcentaje > 7) {
             color = 'badge-light-success'
           } else {
             color = 'badge-light-danger'
           }
-          calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
-        }
+
+          participacion += `
+          <div class="text-center ms-1">
+                      
+              <span class="emp_post fw-bolder">Participación</span><br>
+              <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+
+          </div>
+          ` 
+        } 
         
         if(asistenciasAll.length) {
   
@@ -617,8 +652,9 @@ function cargarTablaMatricula(editada) {
                       
                       <span class="emp_post fw-bolder">Calificación</span><br>
                       ${calif}
-  
+                      
                   </div>
+                  ${participacion}
                 </div>
                 <hr class="mb-0">
               </div>
@@ -656,6 +692,8 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
+
                 </div>
                 <hr class="mb-0">
               </div>
@@ -695,6 +733,8 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
+
                 </div>
                 <hr class="mb-0">
               </div>
