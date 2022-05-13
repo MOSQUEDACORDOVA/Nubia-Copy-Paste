@@ -149,8 +149,8 @@ $(document).ready(function () {
 
     }
 
-    console.log(nivelSelec)
-    console.log(nivelActualMax)
+    //console.log(nivelSelec)
+    //console.log(nivelActualMax)
 
     if (nivelSelec != nivelActualMax) {
       if (desdeCero) {
@@ -177,7 +177,13 @@ $(document).ready(function () {
         for (i = 0; i <= leccActualMax; i++) {
           $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
         }
-  
+
+        if (lecc > leccActualMax && parseInt($('#filtroDesdeCero select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtroDesdeCero select.leccion').val(lecc)
+          return $('#filtroDesdeCero select.leccion').trigger("change")
+        }
+        
       } else if (intensivo) {
         for (i = 0; i <= 32; i++) {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = true;
@@ -186,12 +192,24 @@ $(document).ready(function () {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
         }
 
+        if (lecc > leccActualMax && parseInt($('#filtrosIntensivo select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtrosIntensivo select.leccion').val(lecc)
+          return $('#filtrosIntensivo select.leccion').trigger("change")
+        }
+        
       } else if (kids) {
         for (i = 0; i <= 16; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = true;
         }
         for (i = 0; i <= leccActualMax; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+        }
+        
+        if (lecc > leccActualMax && parseInt($('#filtrosKids select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtrosKids select.leccion').val(lecc)
+          return $('#filtrosKids select.leccion').trigger("change")
         }
 
       }
@@ -228,7 +246,7 @@ $(document).ready(function () {
       GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
       GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
 
-      console.log(lecc)
+      //console.log(lecc)
 
       let readonlyUse = "readonly"
       let disabledUse = "disabled"
@@ -727,8 +745,6 @@ $(document).ready(function () {
             $("#filtrosKids select.leccion")[0].options[i].disabled = false;
           }
           // * DETECTAR NIVEL
-          console.log($("#nivelActual").val())
-          console.log(nivel)
           nivel = parseInt($("#nivelActual").val())
           for (let index = 0; index < nivel; index++) {
             $("#filtrosKids select.nivel")[0].options[index].disabled = false;
@@ -857,8 +873,8 @@ $(document).ready(function () {
       })
         .then((response) => {
           if (response.ok) {
-            Toast("Nota");
             FetchData(4) // * NOTAS
+            Toast("Nota");
           } else {
             Toast("Error");
           }
@@ -904,6 +920,7 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
+            FetchData(4) // * NOTAS
             Toast("ComentarioProf");
           } else {
             Toast("Error");
@@ -951,11 +968,11 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
+            FetchData(4) // * NOTAS
             Toast("Nota");
           } else {
             Toast("Error");
           }
-          console.log(response)
         })
         .then((data) => console.log(data));
 
@@ -1000,8 +1017,8 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
-            Toast("Participacion");
             FetchData(5) // * PARTICIPACION
+            Toast("Participacion");
           } else {
             Toast("Error");
           }
@@ -1222,9 +1239,7 @@ $(document).ready(function () {
       $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
     }
     $("#ausenteMatriculaId").val(id);
-
-    /*console.log($('#filtrosDesdeCero .select2.grupo').val())
-        console.log($('#filtrosIntensivo .select2.grupo').val())*/
+    console.log(id)
 
     let form = new FormData(document.getElementById("procesarAusente"));
     //console.log(form)
@@ -1236,12 +1251,12 @@ $(document).ready(function () {
       .then((response) => {
         response.json();
         if (response.ok) {
+          FetchData(3)
           Toast("Asistencia");
         } else {
           Toast("Error");
         }
-      })
-      .then((data) => console.log(data));
+      });
   };
 
   //BUSCADOR
