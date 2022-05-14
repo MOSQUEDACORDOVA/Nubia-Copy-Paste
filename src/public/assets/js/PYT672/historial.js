@@ -162,11 +162,13 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 1, render: function (data, type, full) {
+            console.log(full)
             let valorAsistencia = 3.125
-            let leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2);
+            let filterAsistencias = asistenciasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let leccionesAusentes = filterAsistencias.length ? parseFloat(filterAsistencias.length * valorAsistencia).toFixed(2) : parseFloat(0 * valorAsistencia).toFixed(2);
             let total = parseFloat(100 - leccionesAusentes);
 
-            let notaTotal = `
+            let asisTotal = `
             <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chartPart${full['id']}"></div>
@@ -185,12 +187,22 @@ function cargarTablaMatricula(editada) {
               SetGrap(item, total, color);
             }
 
-            return notaTotal;
+            return asisTotal;
           }
         },
         {
           targets: 2, render: function (data, type, full) {
-            let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
+            let filterNotas = notasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let filterPart = participacionAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let total = 0;
+            if (filterNotas.length) {
+              filterNotas.forEach(nota => {
+                total += parseInt(nota.nota)
+              });
+            }
+            if (filterPart.length) {
+              total += parseInt(filterPart[0].porcentaje)
+            }
             //console.log(total)
             let notaTotal = `
             <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
@@ -405,8 +417,22 @@ function cargarTablaMatricula(editada) {
           } else {
             color = 'badge-light-danger'
           }
+
+          /*if (grupoSelect.nombre === "Kids") {
+            let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+            notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+          
+            if (notaLeccion > 7) {
+              color = 'badge-light-success'
+            } else {
+              color = 'badge-light-danger'
+            }
+  
+            calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+          }*/
+
           participacion += `
-          <div class="text-center">
+          <div class="text-center ms-1">
                       
               <span class="emp_post fw-bolder">Participación</span><br>
               <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
