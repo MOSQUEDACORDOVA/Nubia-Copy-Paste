@@ -2,10 +2,10 @@
 var historial;
 var grupos = JSON.parse($("#arrayGrupos").val());
 var matricula = JSON.parse($("#matricula_st").val());
-let idAlumno, idGrupo, gruposTodos;
+let idAlumno, idGrupo, gruposTodos, usuarios, asistenciasAll, notasAll, participacionAll;
 
 $(function () {
-  function FetchData (num) {
+  async function FetchData (num) {
     gruposTodos = fetch('/obtenerGruposAll')
         .then(response => response.json())
         .then(data => {
@@ -19,9 +19,50 @@ $(function () {
             $('#gruposMenu').trigger("change");
             return data
         });
+
+    if (num === 1) {
+      usuarios = await fetch('/obtenerusuariospy672')
+          .then(response => response.json())
+          .then(data => {
+              usuarios = data.usuarios
+              
+              return data.usuarios
+          });
+    } else if (num === 3) {
+      asistenciasAll = await fetch('/obtenerTodaMatriculaAusente')
+            .then(response => response.json())
+            .then(data => {
+                asistenciasAll = data.asistencia
+                console.log(asistenciasAll)
+                return asistenciasAll
+            });
+            
+    } else if (num === 4) {
+      notasAll = await fetch('/obtenerTodasNotas')
+            .then(response => response.json())
+            .then(data => {
+                notasAll = data.notas
+                console.log(notasAll)
+                return notasAll
+            });
+            
+    } else if (num === 5) {
+      participacionAll = await fetch('/obtenerTodasParticipacion')
+            .then(response => response.json())
+            .then(data => {
+              participacionAll = data.participacion
+                console.log(participacionAll)
+                return participacionAll
+            });
+            
+    }
   }
 
   FetchData()
+  FetchData(1)
+  FetchData(3) // * ASISTENCIAS
+  FetchData(4) // * NOTAS
+  FetchData(5) // * PARTICIPACION
 
   var today_day = moment().format("D"),
     hoy = moment();
@@ -2276,27 +2317,56 @@ function SetGrap (item, total, color) {
   }
 }
 
+let nivelSelect, nivelMax, leccMax, grupoSelect, alumnoSelect;
+
 async function ControlDetalles(id1, id2) {
   let url = `/controlMatricula/${id1}/${id2}`;
 
   let response = await fetch(url),
   status = await response.status,
   alumnoJson = await response.json();
+  idAlumno = parseInt($('.alumno-select').val())
 
+  let filterAlumno = matricula.filter(alumno => alumno.id === idAlumno), filterGrupo = filterAlumno.length ? gruposTodos.filter(grupo => grupo.id === filterAlumno[0].grupoId) : "";
+
+  grupoSelect = filterGrupo.length ? filterGrupo[0] : ""
+  console.log(filterAlumno)
+  console.log(alumnoJson)
+  console.log(grupoSelect)
+  console.log("HERE")
+
+  for (let index = 0; index <= 3; index++) {
+    $("#grupoNivel")[0].options[index].disabled = true;
+  }
+  
   $('#controlTitle').text($('#nombre-alumno').text());
+  
+  nivelMax = alumnoJson.nivelActualGrupo
+  
+  for (let index = 0; index < nivelMax; index++) {
+    $("#grupoNivel")[0].options[index].disabled = false;
+  }
   $('#grupoNivel').val(alumnoJson.nivelActualGrupo);
   $('#grupoNivel').trigger('change');
 
+  nivelSelect = parseInt($('#grupoNivel').val())
+
+  let filterAistencias = asistenciasAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect)
   let valorAsistencia = 3.125
-  let leccionesAusentes = parseFloat(alumnoJson.ausentes * valorAsistencia).toFixed(2);
+  let leccionesAusentes = parseFloat(filterAistencias.length * valorAsistencia).toFixed(2);
   let totalAsis = parseFloat(100 - leccionesAusentes);
-  alumnoJson.leccion9 = alumnoJson.notas.filter(item => item.n_leccion == 9 && item.nivel === alumnoJson.nivelActualGrupo)
-  alumnoJson.leccion17 = alumnoJson.notas.filter(item => item.n_leccion == 17 && item.nivel === alumnoJson.nivelActualGrupo)
-  alumnoJson.leccion18 = alumnoJson.notas.filter(item => item.n_leccion == 18 && item.nivel === alumnoJson.nivelActualGrupo)
-  alumnoJson.leccion25 = alumnoJson.notas.filter(item => item.n_leccion == 25 && item.nivel === alumnoJson.nivelActualGrupo)
-  alumnoJson.leccion31 = alumnoJson.notas.filter(item => item.n_leccion == 31 && item.nivel === alumnoJson.nivelActualGrupo)
-  alumnoJson.leccion32 = alumnoJson.notas.filter(item => item.n_leccion == 32 && item.nivel === alumnoJson.nivelActualGrupo)
-  let totalNotas = alumnoJson.leccion9 + alumnoJson.leccion17 + alumnoJson.leccion18 + alumnoJson.leccion25 + alumnoJson.leccion31+ alumnoJson.leccion32 + alumnoJson.participacion;
+  let filterNotas = notasAll.filter((nota => nota.nivel == nivelSelect && nota.matriculaId == idAlumno))
+  let filterParticipacion = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect)
+  let totalNotas = 0;
+
+  if (filterNotas.length) {
+    filterNotas.forEach(nota => {
+      totalNotas += parseInt(nota.nota);
+    });
+  }
+
+  totalNotas += filterParticipacion.length ? parseInt(filterParticipacion[0].porcentaje) : 0
+
   let color1, color2;
 
   if (totalAsis >= 80) {
@@ -2348,15 +2418,41 @@ async function ControlDetalles(id1, id2) {
     let content = new DocumentFragment();
 
     for (let num = 1; num <= leccion; num++) {
-      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="";
       
-      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-        alumnoJson.notas.forEach(item => {
-          //console.log(item);
-          if (item && parseInt(item.n_leccion) === num) {
-            notaLeccion = item.nota
+      if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+        let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num) 
+        let porcentaje = filterPart.length ? filterPart[0].porcentaje : 0
+        if (porcentaje > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+        
+        /*if (grupoSelect.nombre === "Kids") {
+          let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+          notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+        
+          if (notaLeccion > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
           }
-        });
+
+          calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+        }*/
+
+        participacion += `
+            <div class="mt-50"></div>
+            <span class="emp_post fw-bolder">Participación</span><br>
+            <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+        ` 
+      } 
+
+      if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+        let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+        notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+       
         /*console.log(notaLeccion);
         console.log("NOTA LECCION");*/
       
@@ -2367,16 +2463,15 @@ async function ControlDetalles(id1, id2) {
         }
 
         calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+
       } else {
         calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
       }
       
-      if(arrayLeccionesAusentes.length) {
+      if(asistenciasAll.length) {
+        let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
 
-        let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
-        //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
-
-        if(result.length && parseInt(result[0].n_leccion) === num) {
+        if(result.length && result[0].n_leccion == num) {
           /*console.log(result)*/
           td += 
           `
@@ -2385,13 +2480,13 @@ async function ControlDetalles(id1, id2) {
 
             <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center me-1 me-lg-2">
-                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
                 </div>
 
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
+                    <span class="emp_post text-nowrap">23-12-2022</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2408,7 +2503,7 @@ async function ControlDetalles(id1, id2) {
                     
                     <span class="emp_post fw-bolder">Calificación</span><br>
                     ${calif}
-
+                    ${participacion}
                 </div>
               </div>
               <hr class="mb-0">
@@ -2422,13 +2517,13 @@ async function ControlDetalles(id1, id2) {
             
             <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center me-1 me-lg-2">
-                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
                 </div>
 
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
+                    <span class="emp_post text-nowrap">23-12-2022</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2445,6 +2540,7 @@ async function ControlDetalles(id1, id2) {
                     
                     <span class="emp_post fw-bolder">Calificación</span><br>
                     ${calif}
+                    ${participacion}
 
                 </div>
               </div>
@@ -2461,13 +2557,13 @@ async function ControlDetalles(id1, id2) {
             
             <div class="d-flex align-items-center">
                 <div class="d-flex align-items-center me-1 me-lg-2">
-                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                  <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
                 </div>
 
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post">23-12-2022</span>
+                    <span class="emp_post text-nowrap">23-12-2022</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2484,6 +2580,7 @@ async function ControlDetalles(id1, id2) {
                     
                     <span class="emp_post fw-bolder">Calificación</span><br>
                     ${calif}
+                    ${participacion}
 
                 </div>
               </div>

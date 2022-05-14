@@ -1471,7 +1471,7 @@ exports.controlgrupo = (req, res) => {
 
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
 
-        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+        let diff = "";
 
         let rest; 
 
@@ -1525,18 +1525,22 @@ exports.controlgrupo = (req, res) => {
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
               nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
               
             } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
               console.log("Estas en nivel 2")
               nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
               
             } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
               console.log("Estas en nivel 3")
               nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
               
             } else {
               console.log("Estas en nivel 4")
               nivelActual = 4
+              diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
               
             }
             
@@ -1544,14 +1548,17 @@ exports.controlgrupo = (req, res) => {
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
               nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
               
             } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
               console.log("Estas en nivel 2")
               nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
               
             } else if(moment().isSameOrAfter(nivel3)) {
               console.log("Estas en nivel 3")
               nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
               
             } 
 
@@ -1559,7 +1566,7 @@ exports.controlgrupo = (req, res) => {
 
           let numPositivo;
           if(grupo.lecciones_semanales === '1') {
-
+            if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
                 console.log("positivo")
                 rest = (diff - 224) / 7; 
@@ -1585,11 +1592,40 @@ exports.controlgrupo = (req, res) => {
                   }
                   numPositivo = Math.floor(rest)
                   numLeccion = 32 - numPositivo
-
+    
                 }
               }
+              if (numLeccion > 32) {
+                numLeccion = 32
+              }
+              
+            } else {
+              if (diff > 112) {
+                rest = (diff - 112) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+    
+                }
+                
+              }
+              if (numLeccion > 16) {
+                numLeccion = 16
+              }
+  
+            }
 
-            
           } else {
               if (diff > 112) {
                 rest = (diff - 112) / 3.5; 
@@ -1610,6 +1646,9 @@ exports.controlgrupo = (req, res) => {
 
                 }
   
+              }
+              if (numLeccion > 32) {
+                numLeccion = 32
               }
           }
 
@@ -1719,7 +1758,7 @@ exports.historial = (req, res) => {
 
         let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
 
-        let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+        let diff = "";
 
         let rest; 
 
@@ -1770,18 +1809,22 @@ exports.historial = (req, res) => {
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
               nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
               
             } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
               console.log("Estas en nivel 2")
               nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
               
             } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
               console.log("Estas en nivel 3")
               nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
               
             } else {
               console.log("Estas en nivel 4")
               nivelActual = 4
+              diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
               
             }
             
@@ -1789,14 +1832,17 @@ exports.historial = (req, res) => {
             if (moment().isBefore(nivel2)) {
               console.log("Estas en nivel 1")
               nivelActual = 1
+              diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
               
             } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
               console.log("Estas en nivel 2")
               nivelActual = 2
+              diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
               
             } else if(moment().isSameOrAfter(nivel3)) {
               console.log("Estas en nivel 3")
               nivelActual = 3
+              diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
               
             } 
 
@@ -1806,7 +1852,7 @@ exports.historial = (req, res) => {
 
           let numPositivo;
           if(grupo.lecciones_semanales === '1') {
-
+            if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
                 console.log("positivo")
                 rest = (diff - 224) / 7; 
@@ -1832,9 +1878,39 @@ exports.historial = (req, res) => {
                   }
                   numPositivo = Math.floor(rest)
                   numLeccion = 32 - numPositivo
-
+    
                 }
               }
+              if (numLeccion > 32) {
+                numLeccion = 32
+              }
+              
+            } else {
+              if (diff > 112) {
+                rest = (diff - 112) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 1 + numPositivo
+                
+              } else {
+                if (diff < 0) {
+                  diff = diff * (-1)
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+                  
+                } else {
+                  rest = (112 - diff) / 7; 
+                  numPositivo = Math.floor(rest)
+                  numLeccion = 16 - numPositivo
+    
+                }
+                
+              }
+              if (numLeccion > 16) {
+                numLeccion = 16
+              }
+  
+            }
 
           } else {
               if (diff > 112) {
@@ -1856,6 +1932,9 @@ exports.historial = (req, res) => {
 
                 }
   
+              }
+              if (numLeccion > 32) {
+                numLeccion = 32
               }
           }
           userInfo.leccActual = numLeccion
@@ -2054,133 +2133,208 @@ exports.detallesControl = (req, res) => {
     let grupo = JSON.parse(respuesta)[0]
     /*console.log(grupo)
     console.log("** GRUPO //")*/
-    let inicioGrupo = grupo.fecha_inicio;
+    fechaNiveles = {
+      nivel1: '',
+      nivel2: '',
+      nivel3: '',
+      nivel4: '',
+    };
+    /*console.log(grupo)
+    console.log("GRUPO ENCONTRADO")*/
     let fechaActual = moment().format("DD-MM-YYYY");
+    
+    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
+    
+    let rest; 
+    
+    let inicioGrupo = grupo.fecha_inicio;
     let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
     let iniciar = moment(iniciado).diff(moment(), 'days');
 
-    /*console.log(iniciado)
-    console.log(iniciar)
-    console.log("INCIAR DIAS DIFERENCIA")
-    //console.log(grupo)
-    //console.log("GRUPO ENCONTRADO")*/
-    
-    let fechaInicio = moment(grupo.fecha_inicio, "DD-MM-YYYY").format("DD-MM-YYYY");
-    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-    let rest; 
-
     function EstablecerNivel () {  
-      let nivel1, nivel2, nivel3, nivel4;
+      let nivel2, nivel3, nivel4;
       switch (grupo.lecciones_semanales) {
         case '1':
-          nivel1 = moment(iniciado).add(224, 'd').format('YYYY-MM-DD')
-          nivel2 = moment(iniciado).add(448, 'd').format('YYYY-MM-DD')
-          nivel3 = moment(iniciado).add(672, 'd').format('YYYY-MM-DD')
-          nivel4 = moment(iniciado).add(896, 'd').format('YYYY-MM-DD')
+          if (grupo.nombre === "Desde cero") {
+            nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
+            nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+            
+          } else {
+            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+            nivel4 = ""
+          }
   
-          /*console.log("NIVELES")
-          console.log(nivel1)
+          console.log("NIVELES")
           console.log(nivel2)
           console.log(nivel3)
           console.log(nivel4)
-          console.log("DESDE CERO")*/
+          console.log("DESDE CERO")
           break;
-/*OJO*/
+
         case '2':
-          nivel1 = moment(iniciado).add(107, 'd').format('YYYY-MM-DD')
-          nivel2 = moment(iniciado).add(214, 'd').format('YYYY-MM-DD')
-          nivel3 = moment(iniciado).add(321, 'd').format('YYYY-MM-DD')
-          nivel4 = moment(iniciado).add(428, 'd').format('YYYY-MM-DD')
+          nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+          nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+          nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
   
-          /*console.log("NIVELES")
-          console.log(nivel1)
+          console.log("NIVELES")
           console.log(nivel2)
           console.log(nivel3)
           console.log(nivel4)
-          console.log("INTENSIVO")*/
+          console.log("INTENSIVO")
         break;
       }
-        
-      if (moment().isBefore(nivel2)) {
-        userInfo.nivelActualGrupo = 1
-        
-      } else if(moment().isAfter(nivel2) && moment().isBefore(nivel3)) {
-        userInfo.nivelActualGrupo = 2
-        
-      } else if(moment().isAfter(nivel3) && moment().isBefore(nivel4)) {
-        userInfo.nivelActualGrupo = 3
-        
-      } else if(moment().isAfter(nivel3)) {
-        userInfo.nivelActualGrupo = 4
 
-      }
+      fechaNiveles = {
+        nivel1: fechaInicio,
+        nivel2: nivel2,
+        nivel3: nivel3,
+        nivel4: nivel4,
+      };
+      fechaNiveles = JSON.stringify(fechaNiveles)
+              
+      let diff = "";
 
-      if(grupo.lecciones_semanales === '1') {
-        console.log("DESDE CERO")
-
-        if (userInfo.nivelActualGrupo === 1) {
-          if(diff < 0) {
-            rest = (224 - (-diff)) / 7; 
-          } else {
-            rest = (224 - (diff)) / 7; 
-          }
-        }
-
-        if (userInfo.nivelActualGrupo === 2) {
-          if(diff < 0) {
-            rest = (448 - (-diff)) / 14; 
-          } else {
-            rest = (448 - (diff)) / 14; 
-          }
-          console.log(diff)
-          console.log(rest)
-          console.log("NIVEL 2")
-          /*console.log(rest)
-          console.log(userInfo.nivelActualGrupo)
-          console.log("NIVEL 2")*/
-        } else if (userInfo.nivelActualGrupo === 3) {
+      if (grupo.nombre != "Kids") {
+        if (moment().isBefore(nivel2)) {
+          console.log("Estas en nivel 1")
+          nivelActual = 1
+          diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
           
-        } else if (userInfo.nivelActualGrupo === 4) {
+        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+          console.log("Estas en nivel 2")
+          nivelActual = 2
+          diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+          
+        } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
+          console.log("Estas en nivel 3")
+          nivelActual = 3
+          diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+          
+        } else {
+          console.log("Estas en nivel 4")
+          nivelActual = 4
+          diff = moment().diff(moment(nivel4, "DD-MM-YYYY"), 'days')
           
         }
-
+        
       } else {
-        if (userInfo.nivelActualGrupo === 1) {
-          if(diff < 0) {
-            rest = (112 - (-diff)) / 3.5; 
-          } else {
-            rest = (112 - (diff)) / 3.5; 
-          }
-        }
+        if (moment().isBefore(nivel2)) {
+          console.log("Estas en nivel 1")
+          nivelActual = 1
+          diff = moment().diff(moment(nivel1, "DD-MM-YYYY"), 'days')
+          
+        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
+          console.log("Estas en nivel 2")
+          nivelActual = 2
+          diff = moment().diff(moment(nivel2, "DD-MM-YYYY"), 'days')
+          
+        } else if(moment().isSameOrAfter(nivel3)) {
+          console.log("Estas en nivel 3")
+          nivelActual = 3
+          diff = moment().diff(moment(nivel3, "DD-MM-YYYY"), 'days')
+          
+        } 
         
-        if (userInfo.nivelActualGrupo === 2) {
-          if(diff < 0) {
-            rest = (224 - (-diff)) / 7; 
+      }
+
+      userInfo.nivelActualGrupo = nivelActual
+
+      let numPositivo;
+      if(grupo.lecciones_semanales === '1') {
+          if (grupo.nombre === "Desde cero") {
+            if (diff > 224) {
+              console.log("positivo")
+              rest = (diff - 224) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 1 + numPositivo
+            } 
+            else {
+              if (diff < 0) {
+                console.log("negativo") 
+                diff = diff * (-1)
+                rest = (224 - diff) / 7; 
+                if (rest < 0) {
+                  rest = rest * (-1) 
+                }
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
+                
+              } else {
+                console.log("else")
+                rest = (224 - diff) / 7; 
+                if (rest < 0) {
+                  rest = rest * (-1) 
+                }
+                numPositivo = Math.floor(rest)
+                numLeccion = 32 - numPositivo
+  
+              }
+            }
+            if (numLeccion > 32) {
+              numLeccion = 32
+            }
+            
           } else {
-            rest = (224 - (diff)) / 7; 
+            if (diff > 112) {
+              rest = (diff - 112) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 1 + numPositivo
+              
+            } else {
+              if (diff < 0) {
+                diff = diff * (-1)
+                rest = (112 - diff) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 16 - numPositivo
+                
+              } else {
+                rest = (112 - diff) / 7; 
+                numPositivo = Math.floor(rest)
+                numLeccion = 16 - numPositivo
+  
+              }
+              
+            }
+            if (numLeccion > 16) {
+              numLeccion = 16
+            }
+
           }
+        
+      } else {
+          if (diff > 112) {
+            rest = (diff - 112) / 3.5; 
+            numPositivo = Math.floor(rest)
+            numLeccion = 1 + numPositivo
+            
+          } else {
+            if (diff < 0) {
+              diff = diff * (-1)
+              rest = (112 - diff) / 7; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 32 - numPositivo
+              
+            } else {
+              rest = (112 - diff) / 3.5; 
+              numPositivo = Math.floor(rest)
+              numLeccion = 32 - numPositivo
 
-        } else if (userInfo.nivelActualGrupo === 3) {
-          
-        } else if (userInfo.nivelActualGrupo === 4) {
-          
-        }
-      }
-      if(rest < 0) {
-        rest = rest * (-1)
-      }
-      let numPositivo = Math.floor(rest);
-      console.log(grupo.identificador)
-      console.log(rest)
-      userInfo.leccActual = (32 - (numPositivo));
+            }
 
+          }
+          if (numLeccion > 32) {
+            numLeccion = 32
+          }
+      }
+
+      userInfo.leccActual = numLeccion
       
     }
 
-    if (iniciar >= 1 && grupo.estadosGrupoId === 2 || iniciar < 0 && grupo.estadosGrupoId === 2) {
-      EstablecerNivel();
-    } 
-
+    EstablecerNivel();
+    
     // final = Object.assign(element, userInfo);
 
     /*console.log(fechaActual)
