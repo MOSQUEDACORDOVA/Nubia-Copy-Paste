@@ -943,11 +943,12 @@ $(document).ready(function () {
   function guardaCommentAdmins(id, comentA, calif) {
     guardaCommentAdmin = setTimeout(() => {
       let nota = document.querySelector("#procesarNotas .nota"),
-        leccion = document.querySelector("#procesarNotas .leccion"),
-        grupo = document.querySelector("#procesarNotas .grupo"),
-        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
-        commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
-        matricula = document.querySelector("#procesarNotas .matricula");
+      leccion = document.querySelector("#procesarNotas .leccion"),
+      grupo = document.querySelector("#procesarNotas .grupo"),
+      nivel = document.querySelector("#procesarNotas .nivel"),
+      commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+      commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
+      matricula = document.querySelector("#procesarNotas .matricula");
 
       nota.value = calif;
       commentAdminForm.value = comentA;
@@ -958,10 +959,13 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
