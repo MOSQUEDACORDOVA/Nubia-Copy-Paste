@@ -228,23 +228,43 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 3, render: function (data, type, full) {
-            let valorAsistencia = 3.125, 
-            leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2),
-            totalAsistencias = parseFloat(100 - leccionesAusentes),
-            totalNotas = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'],
-            info;
+            let valorAsistencia = 3.125
+            let filterAsistencias = asistenciasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let leccionesAusentes = filterAsistencias.length ? parseFloat(filterAsistencias.length * valorAsistencia).toFixed(2) : parseFloat(0 * valorAsistencia).toFixed(2);
+            let totalAsistencias = parseFloat(100 - leccionesAusentes);
+            let filterNotas = notasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let filterPart = participacionAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let total = 0, info = "";
+            if (filterNotas.length) {
+              filterNotas.forEach(nota => {
+                total += parseInt(nota.nota)
+              });
+            }
+            if (filterPart.length) {
+              total += parseInt(filterPart[0].porcentaje)
+            }
 
-            if(full['leccActual'] != 32 && full['leccActual'] != 0) {
+            totalNotas = total
+
+            if(full['leccActual'] != 32 && full['leccActual'] != 0 && full['grupo']['nombre'] != "Kids") {
               info = `<span class="badge badge-light-primary">En Curso</span>`
             } else if (full['leccActual'] === 0) {
               info = `<span class="badge badge-light-info">Por Iniciar</span>`
             } else {
-              let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
-
-              if (totalAsistencias >= 80 && totalNotas >= 70) {
-                info = `<span class="badge badge-light-success">Aprobado</span>`
+              if (full['grupo']['nombre'] === "Kids" && full['leccActual'] === 16) {
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
+                
               } else {
-                info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
+
               }
             }
             return info;

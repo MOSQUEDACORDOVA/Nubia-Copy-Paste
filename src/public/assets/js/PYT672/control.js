@@ -888,13 +888,15 @@ $(document).ready(function () {
   let guardaCommentProf;
 
   function guardaCommentProfs(id, comentP, calif) {
+    console.log(id, comentP, calif)
     guardaCommentProf = setTimeout(() => {
       let nota = document.querySelector("#procesarNotas .nota"),
-        leccion = document.querySelector("#procesarNotas .leccion"),
-        grupo = document.querySelector("#procesarNotas .grupo"),
-        commentProfForm = document.querySelector("#procesarNotas .commentProfForm")
-        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
-        matricula = document.querySelector("#procesarNotas .matricula");
+      leccion = document.querySelector("#procesarNotas .leccion"),
+      grupo = document.querySelector("#procesarNotas .grupo"),
+      nivel = document.querySelector("#procesarNotas .nivel"),
+      commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
+      commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+      matricula = document.querySelector("#procesarNotas .matricula");
 
       nota.value = calif
       commentProfForm.value = comentP;
@@ -905,10 +907,13 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -1038,8 +1043,8 @@ $(document).ready(function () {
       let target = e.target.getAttribute("data-id");
       let est = document.getElementById(`estudiante${target}`);
       let checkBtn = document.querySelector(`#estudiante${target} .check`),
-        unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`),
-        badge = document.querySelector(`#estudiante${target} .badge`);
+      unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`),
+      badge = document.querySelector(`#estudiante${target} .badge`);
 
       est.classList.toggle("border-success");
       est.classList.toggle("border-secondary");
@@ -1052,6 +1057,8 @@ $(document).ready(function () {
         $(`.caliMenos${target}`).removeAttr("disabled");
         $(`.calific${target}`).removeAttr("readonly");
         $(`.caliMas${target}`).removeAttr("disabled");
+        $(`#comentP${target}`).removeAttr("readonly");
+        $(`#comentP${target}`).removeAttr("disabled");
         EliminarMatriculaAusente(target);
       } else {
         badge.innerText = "Ausente";
@@ -1063,6 +1070,8 @@ $(document).ready(function () {
         $(`.calific${target}`).val(0);
         $(`.calific${target}`).attr("readonly", true);
         $(`.caliMas${target}`).attr("disabled", true);
+        $(`#comentP${target}`).attr("readonly", true);
+        $(`#comentP${target}`).attr("disabled", true);
         clearTimeout(guardarNota);
         guardarNotas(target, $(`.calific${target}`).val());
         GuardarMatriculaAusente(target);
@@ -1130,9 +1139,9 @@ $(document).ready(function () {
      console.log(calificacion)
      clearTimeout(guardaCommentProf);
      if (calificacion == null) {
-       guardaCommentProfs(target, valor,'0');
+       guardaCommentProfs(target, valor, "0");
      }else{
-       guardaCommentProfs(target, valor,calificacion.value);
+       guardaCommentProfs(target, valor, calificacion.value);
      }
      
   } else  if (e.target.classList.contains("commentAdmin")) {

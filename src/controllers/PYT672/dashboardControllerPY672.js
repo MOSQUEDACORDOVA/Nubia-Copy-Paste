@@ -77,11 +77,11 @@ exports.reguser = (req, res) => {
     DataBase.RegUser(nombre, dni, email, pais, fechaN, fechaI, puesto, password, telefono).then((respuesta) => {
       console.log(respuesta)
 
-      return res.redirect('/loginpy672/PYT-672');
+      return res.send({success: true});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";
-      return res.redirect("/error672/PYT-672");
+      return res.send({err: true});
     });
 };
 
@@ -3469,8 +3469,9 @@ exports.registrarparticipacion = (req, res) => {
 
 // * REGISTRAR NOTAS
 exports.registrarnotas = (req, res) => {
-  const { nota, leccion, nivel, grupoId, matriculaId,commentProfForm,  commentAdminForm } = req.body;
+  const { nota, leccion, nivel, grupoId, matriculaId, commentProfForm, commentAdminForm } = req.body;
   console.log(req.body);
+  console.log("NOTAS");
   let msg = false;
 const userId = res.locals.user.id
   if (nota.trim() === "" || leccion.trim() === '' || nivel.trim() === '' || grupoId.trim() === '' || matriculaId.trim() === '') {
@@ -3482,10 +3483,11 @@ const userId = res.locals.user.id
       let resp = JSON.parse(response);
       
       if(resp.length) {
-        DataBase.ActualizarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response2) =>{
+        DataBase.ActualizarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm).then(async(response2) =>{
           let resp2 = JSON.parse(response2);
           if (commentProfForm != "") {
              const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+             console.log(comentario_save)
           }         
           return res.send(resp2);
 
@@ -3495,10 +3497,11 @@ const userId = res.locals.user.id
           return res.redirect("/error672/PYT-672");
         });
       } else {
-        DataBase.RegistrarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm ).then(async(response3) =>{
+        DataBase.RegistrarNotas(nota, leccion, nivel, grupoId, matriculaId, commentProfForm,  commentAdminForm).then(async(response3) =>{
           let resp3 = JSON.parse(response3);
           if (commentProfForm != "") {
             const comentario_save = await DataBase.Guarda_comentariosProf(commentProfForm,matriculaId,userId)
+            console.log(comentario_save)
          }   
           return res.send({resp3});
 
