@@ -627,7 +627,7 @@ function cargarTablaMatricula(editada) {
         let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-          let result = notasAll.filter(nota => nota.nivel == nivelSelect && nota.n_leccion == num && nota.matriculaId === alumnoSelect.id)
+          let result = notasAll.filter(nota => nota.nivel == nivelSelect && nota.n_leccion == num && nota.matriculaId == alumnoSelect.id)
           notaLeccion = result.length ? result[0].nota : 0
           if (notaLeccion > 7) {
             color = 'badge-light-success'
@@ -644,7 +644,7 @@ function cargarTablaMatricula(editada) {
         }
         
         if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
-          let filterParticipacion = participacionAll.filter(item => item.matriculaId === alumnoSelect.id && item.nivel == nivelSelect && item.n_leccion == num) 
+          let filterParticipacion = participacionAll.filter(item => item.matriculaId == alumnoSelect.id && item.nivel == nivelSelect && item.n_leccion == num) 
           let porcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0
 
           if (porcentaje > 7) {
@@ -665,7 +665,7 @@ function cargarTablaMatricula(editada) {
         
         if(asistenciasAll.length) {
   
-          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivelSelect));
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect));
           /*console.log(result)
           console.log("LECC AUSENTES")*/
   
