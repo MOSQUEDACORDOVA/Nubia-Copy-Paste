@@ -226,13 +226,13 @@ $(document).ready(function () {
       div.classList.add("item");
       let idAusentes = null;
 
-      let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
+      let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId == matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
       //console.log(asist)
       
-      let filterNotas = notasAll.filter(notas => notas.matriculaId === matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
+      let filterNotas = notasAll.filter(notas => notas.matriculaId == matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
       //console.log(filterNotas)
       
-      let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId === matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
+      let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId == matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
       //console.log(filterParticipacion)
       
       /*let filterHistorial = historialAll.filter(historial => historial.matriculaId === matricula.id && historial.nivel == nivelSelec && participacion.n_leccion == lecc)

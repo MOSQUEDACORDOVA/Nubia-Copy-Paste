@@ -2328,8 +2328,9 @@ async function ControlDetalles(id1, id2) {
   alumnoJson = await response.json();
   idAlumno = parseInt($('.alumno-select').val())
 
-  let filterAlumno = matricula.filter(alumno => alumno.id === idAlumno), filterGrupo = filterAlumno.length ? gruposTodos.filter(grupo => grupo.id === filterAlumno[0].grupoId) : "";
+  let filterAlumno = matricula.filter(alumno => alumno.id == idAlumno), filterGrupo = filterAlumno.length ? gruposTodos.filter(grupo => grupo.id == filterAlumno[0].grupoId) : "";
 
+  alumnoSelect = filterAlumno.length ? filterAlumno[0] : ""
   grupoSelect = filterGrupo.length ? filterGrupo[0] : ""
   console.log(filterAlumno)
   console.log(alumnoJson)
@@ -2599,6 +2600,202 @@ async function ControlDetalles(id1, id2) {
 
   }
 }
+
+$("#grupoNivel").on("select2:select", function (e) {
+  $('#tablaControl').html('');
+  let content = new DocumentFragment(), leccion = leccMax;
+
+  nivelSelect = parseInt($('#grupoNivel').val())
+  if (grupoSelect.nombre === "Desde cero" || grupoSelect.nombre === "Intensivo") {
+    if (nivelSelect != nivelMax) {
+      leccion = 32
+      
+    } 
+  } else {
+    if (nivelSelect != nivelMax) {
+      leccion = 16
+      
+    } 
+  }
+
+  for (let num = 1; num <= leccion; num++) {
+    let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="";
+    
+    if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+      let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num) 
+      let porcentaje = filterPart.length ? filterPart[0].porcentaje : 0
+      if (porcentaje > 7) {
+        color = 'badge-light-success'
+      } else {
+        color = 'badge-light-danger'
+      }
+      
+      /*if (grupoSelect.nombre === "Kids") {
+        let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+        notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+      
+        if (notaLeccion > 7) {
+          color = 'badge-light-success'
+        } else {
+          color = 'badge-light-danger'
+        }
+
+        calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+      }*/
+
+      participacion += `
+          <div class="mt-50"></div>
+          <span class="emp_post fw-bolder">Participación</span><br>
+          <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+      ` 
+    } 
+
+    if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+      let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+      notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+     
+      /*console.log(notaLeccion);
+      console.log("NOTA LECCION");*/
+    
+      if (notaLeccion > 7) {
+        color = 'badge-light-success'
+      } else {
+        color = 'badge-light-danger'
+      }
+
+      calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+
+    } else {
+      calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+    }
+    
+    if(asistenciasAll.length) {
+      let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
+
+      if(result.length && result[0].n_leccion == num) {
+        /*console.log(result)*/
+        td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">23-12-2022</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-danger">
+                    Ausente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+      } else {
+        td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+          
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">23-12-2022</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-success">
+                    Presente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+      }
+
+    } else {
+      td += 
+        `
+          <div class="d-flex flex-column pb-0">
+
+          
+          <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center me-1 me-lg-2">
+                <span class="me-1 fw-bolder text-nowrap">Lección ${num}</span>
+              </div>
+
+              <div class="me-1 me-lg-2">
+                
+                  <span class="emp_post fw-bolder">Fecha</span><br>
+                  <span class="emp_post text-nowrap">23-12-2022</span>
+
+              </div>
+              <div class="me-1 me-lg-2 text-center">
+              
+                  <span class="emp_post fw-bolder">Asistencia</span><br>
+
+                  <span class="badge rounded-pill badge-light-success">
+                    Presente
+                  </span>
+                  
+              </div>
+
+              <div class="text-center">
+                  
+                  <span class="emp_post fw-bolder">Calificación</span><br>
+                  ${calif}
+                  ${participacion}
+
+              </div>
+            </div>
+            <hr class="mb-0">
+          </div>
+        `;
+    }
+    row.innerHTML = td;
+    content.appendChild(row);
+  }
+
+  $('#tablaControl').append(content);
+});
+
 
 // * FUNCION CARGAR ARCHIVOS EXCEL
 let linkExcel = "", file;
