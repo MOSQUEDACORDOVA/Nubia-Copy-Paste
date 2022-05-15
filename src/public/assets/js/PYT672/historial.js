@@ -7,6 +7,7 @@ async function FetchData (num) {
           gruposTodos = data;
 
           moment.locale('es');
+          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>')
           gruposTodos.forEach(item => {
             let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
             $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -14,6 +15,7 @@ async function FetchData (num) {
           $('#gruposMenu').trigger("change");
             
           let gruposBuscador = JSON.parse($('#arrGrupos').val())
+          $('#buscadorGrupos').html('<option value="">Seleccione un grupo</option>')
           gruposBuscador.forEach(grupo => {
             let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
             $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
@@ -162,7 +164,7 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 1, render: function (data, type, full) {
-            console.log(full)
+            //console.log(full)
             let valorAsistencia = 3.125
             let filterAsistencias = asistenciasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
             let leccionesAusentes = filterAsistencias.length ? parseFloat(filterAsistencias.length * valorAsistencia).toFixed(2) : parseFloat(0 * valorAsistencia).toFixed(2);
@@ -480,7 +482,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -519,7 +521,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -559,7 +561,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -681,7 +683,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -719,7 +721,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -760,7 +762,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">

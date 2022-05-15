@@ -16,6 +16,7 @@ $(document).ready(function () {
             gruposTodos = data;
 
             moment.locale('es');
+            $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
             gruposTodos.forEach(item => {
                 let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
                 $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -320,7 +321,7 @@ $(document).ready(function () {
         if (lecc === 32) {
           if (matricula.estadoId != 5) {
             participacion = `
-                      <div class="d-flex flex-column me-1">
+                      <div class="d-flex flex-column me-1 mb-1">
                           <p class="text-success"><b>Participación</b></p>
                           <div class="d-flex align-items-center">
                               <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
@@ -369,7 +370,7 @@ $(document).ready(function () {
       if (matricula.grupo.nombre === "Kids" && lecc === 16) {
         if (matricula.estadoId != 5) {
           participacion = `
-            <div class="d-flex flex-column me-1">
+            <div class="d-flex flex-column me-1 mb-1">
                 <p class="text-success"><b>Participación</b></p>
                 <div class="d-flex align-items-center">
                     <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
@@ -846,7 +847,7 @@ $(document).ready(function () {
       matricula = document.querySelector("#procesarNotas .matricula"),
       nivel = document.querySelector('#procesarNotas .nivel');
 
-      nota.value = calif;
+      nota.value = calif ? calif : "0";
       leccion.value = $("#numeroLeccion").val();
       grupo.value = $("#grupoId").val();
       matricula.value = id;
