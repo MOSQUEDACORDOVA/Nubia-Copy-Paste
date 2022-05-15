@@ -6,6 +6,7 @@ function FetchData (num) {
           gruposTodos = data;
 
           moment.locale('es');
+          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
           gruposTodos.forEach(item => {
               let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
               $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
