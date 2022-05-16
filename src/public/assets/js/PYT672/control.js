@@ -16,6 +16,7 @@ $(document).ready(function () {
             gruposTodos = data;
 
             moment.locale('es');
+            $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
             gruposTodos.forEach(item => {
                 let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
                 $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -149,39 +150,75 @@ $(document).ready(function () {
 
     }
 
-    console.log(nivelSelec)
-    console.log(nivelActualMax)
+    //console.log(nivelSelec)
+    //console.log(nivelActualMax)
 
     if (nivelSelec != nivelActualMax) {
       if (desdeCero) {
-        console.log("desdecer")
         for (i = 0; i <= 16; i++) {
           $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
         }
-        $("#filtrosDesdeCero select.leccion").val(32);
-        $("#filtrosDesdeCero select.leccion").trigger("change");
   
       } else if (intensivo) {
-        console.log("intensive")
         for (i = 0; i <= 32; i++) {
           $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
-        }
-        $("#filtrosIntensivo select.leccion").val(32);
-        $("#filtrosIntensivo select.leccion").trigger("change");
-        
+        }  
+
       } else if (kids) {
         for (i = 0; i <= 16; i++) {
           $("#filtrosKids select.leccion")[0].options[i].disabled = false;
-          $("#filtrosKids select.leccion").trigger("change");
+        }
+
+      }
+    } else {
+      if (desdeCero) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosDesdeCero select.leccion")[0].options[i].disabled = false;
+        }
+
+        if (lecc > leccActualMax && parseInt($('#filtroDesdeCero select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtroDesdeCero select.leccion').val(lecc)
+          return $('#filtroDesdeCero select.leccion').trigger("change")
         }
         
-        $("#filtrosKids select.leccion").val(16);
-        $("#filtrosKids select.leccion").trigger("change");return
+      } else if (intensivo) {
+        for (i = 0; i <= 32; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = true;
+        }  
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosIntensivo select.leccion")[0].options[i].disabled = false;
+        }
+
+        if (lecc > leccActualMax && parseInt($('#filtrosIntensivo select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtrosIntensivo select.leccion').val(lecc)
+          return $('#filtrosIntensivo select.leccion').trigger("change")
+        }
+        
+      } else if (kids) {
+        for (i = 0; i <= 16; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = true;
+        }
+        for (i = 0; i <= leccActualMax; i++) {
+          $("#filtrosKids select.leccion")[0].options[i].disabled = false;
+        }
+        
+        if (lecc > leccActualMax && parseInt($('#filtrosKids select.leccion').val()) != leccActualMax) {
+          lecc = leccActualMax
+          $('#filtrosKids select.leccion').val(lecc)
+          return $('#filtrosKids select.leccion').trigger("change")
+        }
+
       }
+
     }
 
-    console.log(lecc)
-    console.log("LECCION")
+    /*console.log(lecc)
+    console.log("LECCION")*/
 
     matriculaGrupo.forEach((matricula) => {
       let div = document.createElement("div");
@@ -189,61 +226,28 @@ $(document).ready(function () {
       div.classList.add("item");
       let idAusentes = null;
 
-      let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId === matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
-      console.log(asist)
+      let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId == matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
+      //console.log(asist)
       
-      let filterNotas = notasAll.filter(notas => notas.matriculaId === matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
-      console.log(filterNotas)
+      let filterNotas = notasAll.filter(notas => notas.matriculaId == matricula.id && notas.nivel == nivelSelec && notas.n_leccion == lecc)
+      //console.log(filterNotas)
       
-      let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId === matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
-      console.log(filterParticipacion)
+      let filterParticipacion = participacionAll.filter(participacion => participacion.matriculaId == matricula.id && participacion.nivel == nivelSelec && participacion.n_leccion == lecc)
+      //console.log(filterParticipacion)
       
       /*let filterHistorial = historialAll.filter(historial => historial.matriculaId === matricula.id && historial.nivel == nivelSelec && participacion.n_leccion == lecc)
       console.log(filterHistorial)*/
 
       let calif = "",
-        participacion = "",
-        notas = filterNotas.length ? filterNotas[0].nota : 0,
-        participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
-        usuarioCongelado = "",
-        commentarioP = "",
-        GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
-        GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
+      participacion = "",
+      notas = filterNotas.length ? filterNotas[0].nota : 0,
+      participacionPorcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0,
+      usuarioCongelado = "",
+      commentarioP = "",
+      GcommentProfForm = filterNotas.length ? filterNotas[0].commentProfForm : "",
+      GcommentAdminForm = filterNotas.length ? filterNotas[0].commentAdminForm : "";
 
-        /*console.log(notas)
-        console.log(participacionPorcentaje)
-        console.log(GcommentProfForm)
-        console.log(GcommentAdminForm)*/
-
-      /*if (response2 && response2.length) {
-        response2.sort()
-        console.log(response2)
-        for (let i = 0; i < response2.length; i++) { 
-          if (matricula.id === response2[i].id) {
-            
-            GcommentProfForm = response2[i].commentProfForm;
-            GcommentAdminForm = response2[i].commentAdminForm;
-          }              
-        }
-        let nivelSeleccioando = $('#nivelActual').val()
-        
-        console.log(GcommentProfForm)
-        let found;
-        found = response2.filter(item => item.id === matricula.id)
-
-        if (found && found.length) {
-          let num = found[0].notas;
-          notas = num;
-          console.log(response2);
-          console.log(notas);
-          console.log("NOTAS");
-        }
-
-        participacionPorcentaje = response2[0].participacion;
-        
-      }*/
-
-      console.log(lecc)
+      //console.log(lecc)
 
       let readonlyUse = "readonly"
       let disabledUse = "disabled"
@@ -317,7 +321,7 @@ $(document).ready(function () {
         if (lecc === 32) {
           if (matricula.estadoId != 5) {
             participacion = `
-                      <div class="d-flex flex-column me-1">
+                      <div class="d-flex flex-column me-1 mb-1">
                           <p class="text-success"><b>Participación</b></p>
                           <div class="d-flex align-items-center">
                               <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
@@ -363,9 +367,28 @@ $(document).ready(function () {
         }
       }
 
+      if (matricula.grupo.nombre === "Kids" && lecc === 16) {
+        if (matricula.estadoId != 5) {
+          participacion = `
+            <div class="d-flex flex-column me-1 mb-1">
+                <p class="text-success"><b>Participación</b></p>
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-down btnParticipacionMenos" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus" style="pointer-events: none;"><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+
+                    <p class="h3 mb-0 mx-1"><input type="number" class="participacion" value="${participacionPorcentaje}" min="0" max="100">%</p>
+
+                    <button class="btn btn-sm btn-icon btn-primary bootstrap-touchspin-up btnParticipacionMas" data-id="${matricula.id}" type="button"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus" style="pointer-events: none;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg></button>
+                </div>
+            </div>
+            `;
+        }
+      }
+
       // * ASISTENCIAS
       if (asist.length) { // * SI ESTA AUSENTE
         if (matricula.estadoId != 5) {
+          commentarioP = `<textarea class="form-control commentProf" id="comentP${matricula.id}" rows="1" placeholder="" data-id="${matricula.id}" readonly disabled>${GcommentProfForm}</textarea>`
+
           div.innerHTML = `
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
@@ -723,8 +746,6 @@ $(document).ready(function () {
             $("#filtrosKids select.leccion")[0].options[i].disabled = false;
           }
           // * DETECTAR NIVEL
-          console.log($("#nivelActual").val())
-          console.log(nivel)
           nivel = parseInt($("#nivelActual").val())
           for (let index = 0; index < nivel; index++) {
             $("#filtrosKids select.nivel")[0].options[index].disabled = false;
@@ -826,7 +847,7 @@ $(document).ready(function () {
       matricula = document.querySelector("#procesarNotas .matricula"),
       nivel = document.querySelector('#procesarNotas .nivel');
 
-      nota.value = calif;
+      nota.value = calif ? calif : "0";
       leccion.value = $("#numeroLeccion").val();
       grupo.value = $("#grupoId").val();
       matricula.value = id;
@@ -853,8 +874,8 @@ $(document).ready(function () {
       })
         .then((response) => {
           if (response.ok) {
-            Toast("Nota");
             FetchData(4) // * NOTAS
+            Toast("Nota");
           } else {
             Toast("Error");
           }
@@ -868,13 +889,15 @@ $(document).ready(function () {
   let guardaCommentProf;
 
   function guardaCommentProfs(id, comentP, calif) {
+    console.log(id, comentP, calif)
     guardaCommentProf = setTimeout(() => {
       let nota = document.querySelector("#procesarNotas .nota"),
-        leccion = document.querySelector("#procesarNotas .leccion"),
-        grupo = document.querySelector("#procesarNotas .grupo"),
-        commentProfForm = document.querySelector("#procesarNotas .commentProfForm")
-        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
-        matricula = document.querySelector("#procesarNotas .matricula");
+      leccion = document.querySelector("#procesarNotas .leccion"),
+      grupo = document.querySelector("#procesarNotas .grupo"),
+      nivel = document.querySelector("#procesarNotas .nivel"),
+      commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
+      commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+      matricula = document.querySelector("#procesarNotas .matricula");
 
       nota.value = calif
       commentProfForm.value = comentP;
@@ -885,10 +908,13 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -900,6 +926,7 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
+            FetchData(4) // * NOTAS
             Toast("ComentarioProf");
           } else {
             Toast("Error");
@@ -917,11 +944,12 @@ $(document).ready(function () {
   function guardaCommentAdmins(id, comentA, calif) {
     guardaCommentAdmin = setTimeout(() => {
       let nota = document.querySelector("#procesarNotas .nota"),
-        leccion = document.querySelector("#procesarNotas .leccion"),
-        grupo = document.querySelector("#procesarNotas .grupo"),
-        commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
-        commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
-        matricula = document.querySelector("#procesarNotas .matricula");
+      leccion = document.querySelector("#procesarNotas .leccion"),
+      grupo = document.querySelector("#procesarNotas .grupo"),
+      nivel = document.querySelector("#procesarNotas .nivel"),
+      commentAdminForm = document.querySelector("#procesarNotas .commentAdminForm"),
+      commentProfForm = document.querySelector("#procesarNotas .commentProfForm"),
+      matricula = document.querySelector("#procesarNotas .matricula");
 
       nota.value = calif;
       commentAdminForm.value = comentA;
@@ -932,10 +960,13 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarNotas"));
@@ -947,11 +978,11 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
+            FetchData(4) // * NOTAS
             Toast("Nota");
           } else {
             Toast("Error");
           }
-          console.log(response)
         })
         .then((data) => console.log(data));
 
@@ -977,13 +1008,17 @@ $(document).ready(function () {
 
       if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+        nivel = parseInt($("#filtrosDesdeCero .select2.nivel").val());
       } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
         leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+        nivel = parseInt($("#filtrosIntensivo .select2.nivel").val());
       } else {
         leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+        nivel = parseInt($("#filtrosKids .select2.nivel").val());
       }
 
       let form = new FormData(document.getElementById("procesarParticipacion"));
+      form.append('nivel', nivel)
 
       fetch("/registrarParticipacion", {
         method: "POST",
@@ -992,8 +1027,8 @@ $(document).ready(function () {
         .then((response) => {
           response.json();
           if (response.ok) {
-            Toast("Participacion");
             FetchData(5) // * PARTICIPACION
+            Toast("Participacion");
           } else {
             Toast("Error");
           }
@@ -1013,8 +1048,8 @@ $(document).ready(function () {
       let target = e.target.getAttribute("data-id");
       let est = document.getElementById(`estudiante${target}`);
       let checkBtn = document.querySelector(`#estudiante${target} .check`),
-        unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`),
-        badge = document.querySelector(`#estudiante${target} .badge`);
+      unCheckBtn = document.querySelector(`#estudiante${target} .uncheck`),
+      badge = document.querySelector(`#estudiante${target} .badge`);
 
       est.classList.toggle("border-success");
       est.classList.toggle("border-secondary");
@@ -1027,6 +1062,8 @@ $(document).ready(function () {
         $(`.caliMenos${target}`).removeAttr("disabled");
         $(`.calific${target}`).removeAttr("readonly");
         $(`.caliMas${target}`).removeAttr("disabled");
+        $(`#comentP${target}`).removeAttr("readonly");
+        $(`#comentP${target}`).removeAttr("disabled");
         EliminarMatriculaAusente(target);
       } else {
         badge.innerText = "Ausente";
@@ -1038,6 +1075,8 @@ $(document).ready(function () {
         $(`.calific${target}`).val(0);
         $(`.calific${target}`).attr("readonly", true);
         $(`.caliMas${target}`).attr("disabled", true);
+        $(`#comentP${target}`).attr("readonly", true);
+        $(`#comentP${target}`).attr("disabled", true);
         clearTimeout(guardarNota);
         guardarNotas(target, $(`.calific${target}`).val());
         GuardarMatriculaAusente(target);
@@ -1105,9 +1144,9 @@ $(document).ready(function () {
      console.log(calificacion)
      clearTimeout(guardaCommentProf);
      if (calificacion == null) {
-       guardaCommentProfs(target, valor,'0');
+       guardaCommentProfs(target, valor, "0");
      }else{
-       guardaCommentProfs(target, valor,calificacion.value);
+       guardaCommentProfs(target, valor, calificacion.value);
      }
      
   } else  if (e.target.classList.contains("commentAdmin")) {
@@ -1214,9 +1253,7 @@ $(document).ready(function () {
       $("#ausenteGrupoId").val($("#filtrosKids .select2.grupo").val());
     }
     $("#ausenteMatriculaId").val(id);
-
-    /*console.log($('#filtrosDesdeCero .select2.grupo').val())
-        console.log($('#filtrosIntensivo .select2.grupo').val())*/
+    console.log(id)
 
     let form = new FormData(document.getElementById("procesarAusente"));
     //console.log(form)
@@ -1228,12 +1265,12 @@ $(document).ready(function () {
       .then((response) => {
         response.json();
         if (response.ok) {
+          FetchData(3)
           Toast("Asistencia");
         } else {
           Toast("Error");
         }
-      })
-      .then((data) => console.log(data));
+      });
   };
 
   //BUSCADOR

@@ -720,10 +720,10 @@ module.exports = {
         });
       });
     },
-    RegistrarParticipacion(porcentaje, lecc, grupoId, matriculaId) {
+    RegistrarParticipacion(porcentaje, lecc, nivel, grupoId, matriculaId) {
       return new Promise((resolve, reject) => {
         Participacion.create({
-          porcentaje: porcentaje, n_leccion: lecc, grupoId: grupoId, matriculaId: matriculaId
+          porcentaje: porcentaje, n_leccion: lecc, nivel: nivel, grupoId: grupoId, matriculaId: matriculaId
         })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -1100,9 +1100,9 @@ module.exports = {
 
 
 /** TODO CAJA */    
-guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion) {
+guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion, id) {
   return new Promise((resolve, reject) => {
-    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, estado: "Pagado"})
+    Caja.create({concepto: concepto,fecha_pago: fecha_pago,monto: monto,mora: mora,observacion: observacion,banco:banco, transaccion:transaccion, estado: "Pagado", matriculaId : id})
     .then((data) => {
       let data_p = JSON.stringify(data);
       resolve(data_p);
