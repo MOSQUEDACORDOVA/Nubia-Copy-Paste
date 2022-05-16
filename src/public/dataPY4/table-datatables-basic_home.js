@@ -376,13 +376,17 @@ Observaciones:${full['observacion']}
           // Label
           targets: 5,
           render: function (data, type, full, meta) {
-            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0;
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
             if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
               detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
             }
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             adeudo = full['deuda_anterior']
             desc = full['descuento']
             sindesc = data
@@ -711,9 +715,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           render: function (data, type, full, meta) {
             
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             desc = full['descuento']
             sindesc = data
             condesc =parseFloat(data)- parseFloat(desc) 

@@ -15,7 +15,7 @@ $('#registro_pedido_modal_referido').modal('show')
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_canje_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
 
-    let monto = parseInt(cant) * 35
+    let monto = parseInt(cant) * 38
 
     $('#refill_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
@@ -35,7 +35,7 @@ $('#registro_pedido_modal_referido').modal('show')
     let enNew_garrafon_mont = $('#count_enNew_garrafon').val()
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
-    let monto = parseInt(cant) * 55
+    let monto = parseInt(cant) * 65
 
     $('#canje_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
@@ -54,7 +54,7 @@ $('#registro_pedido_modal_referido').modal('show')
     let count_canje_garrafon = $('#count_canje_garrafon').val()
     let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
     let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(count_canje_garrafon) + parseInt(count_enobsequio_garrafon)
-    let monto = parseInt(cant) * 105
+    let monto = parseInt(cant) * 115
     $('#enNew_garrafon_mont').val(monto)
     $('#total_garrafon').val(suma)
     $('#cant_garrafon').text(suma)
