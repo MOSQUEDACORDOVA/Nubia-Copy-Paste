@@ -7,6 +7,7 @@ async function FetchData (num) {
           gruposTodos = data;
 
           moment.locale('es');
+          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>')
           gruposTodos.forEach(item => {
             let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
             $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -14,6 +15,7 @@ async function FetchData (num) {
           $('#gruposMenu').trigger("change");
             
           let gruposBuscador = JSON.parse($('#arrGrupos').val())
+          $('#buscadorGrupos').html('<option value="">Seleccione un grupo</option>')
           gruposBuscador.forEach(grupo => {
             let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
             $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
@@ -161,29 +163,14 @@ function cargarTablaMatricula(editada) {
           }
         },
         {
-          /*targets: 1, render: function (data, type, full) {
-            let grupo;
-            if(full.grupo) {
-                grupo = `
-                <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-primary">${full['grupo']['identificador']}</span>
-                </div>`;
-            } else {
-                grupo = `
-                <div class="badge-wrapper me-1">
-                    <span class="badge rounded-pill badge-light-secondary">No pertenece a un grupo</span>
-                </div>`
-            }
-            return grupo
-          }*/
-        },
-        {
           targets: 1, render: function (data, type, full) {
+            //console.log(full)
             let valorAsistencia = 3.125
-            let leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2);
+            let filterAsistencias = asistenciasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let leccionesAusentes = filterAsistencias.length ? parseFloat(filterAsistencias.length * valorAsistencia).toFixed(2) : parseFloat(0 * valorAsistencia).toFixed(2);
             let total = parseFloat(100 - leccionesAusentes);
 
-            let notaTotal = `
+            let asisTotal = `
             <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
               <h6 class="m-0">${total}%</h6>
               <div id="chartPart${full['id']}"></div>
@@ -202,12 +189,22 @@ function cargarTablaMatricula(editada) {
               SetGrap(item, total, color);
             }
 
-            return notaTotal;
+            return asisTotal;
           }
         },
         {
           targets: 2, render: function (data, type, full) {
-            let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
+            let filterNotas = notasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let filterPart = participacionAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let total = 0;
+            if (filterNotas.length) {
+              filterNotas.forEach(nota => {
+                total += parseInt(nota.nota)
+              });
+            }
+            if (filterPart.length) {
+              total += parseInt(filterPart[0].porcentaje)
+            }
             //console.log(total)
             let notaTotal = `
             <div class="d-flex align-items-center" data-lecciones-ausentes='${full.fechaLeccionesAusentes}' data-notas='${full.notas}' data-grupoid="${full['grupo']['id']}" data-presente="${full['asistencias']}" data-ausentes="${full['ausentes']}" data-nivel="${full['nivelActualGrupo']}" data-leccion="${full['leccActual']}">
@@ -233,23 +230,43 @@ function cargarTablaMatricula(editada) {
         },
         {
           targets: 3, render: function (data, type, full) {
-            let valorAsistencia = 3.125, 
-            leccionesAusentes = parseFloat(full['ausentes'] * valorAsistencia).toFixed(2),
-            totalAsistencias = parseFloat(100 - leccionesAusentes),
-            totalNotas = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'],
-            info;
+            let valorAsistencia = 3.125
+            let filterAsistencias = asistenciasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let leccionesAusentes = filterAsistencias.length ? parseFloat(filterAsistencias.length * valorAsistencia).toFixed(2) : parseFloat(0 * valorAsistencia).toFixed(2);
+            let totalAsistencias = parseFloat(100 - leccionesAusentes);
+            let filterNotas = notasAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let filterPart = participacionAll.filter(item => item.nivel == full.nivelActualGrupo && item.matriculaId == full.id)
+            let total = 0, info = "";
+            if (filterNotas.length) {
+              filterNotas.forEach(nota => {
+                total += parseInt(nota.nota)
+              });
+            }
+            if (filterPart.length) {
+              total += parseInt(filterPart[0].porcentaje)
+            }
 
-            if(full['leccActual'] != 32 && full['leccActual'] != 0) {
+            totalNotas = total
+
+            if(full['leccActual'] != 32 && full['leccActual'] != 0 && full['grupo']['nombre'] != "Kids") {
               info = `<span class="badge badge-light-primary">En Curso</span>`
             } else if (full['leccActual'] === 0) {
               info = `<span class="badge badge-light-info">Por Iniciar</span>`
             } else {
-              let total = full['leccion9'] + full['leccion17'] + full['leccion18'] + full['leccion25'] + full['leccion31'] + full['leccion32'] + full['participacion'];
-
-              if (totalAsistencias >= 80 && totalNotas >= 70) {
-                info = `<span class="badge badge-light-success">Aprobado</span>`
+              if (full['grupo']['nombre'] === "Kids" && full['leccActual'] === 16) {
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
+                
               } else {
-                info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
+
               }
             }
             return info;
@@ -347,47 +364,62 @@ function cargarTablaMatricula(editada) {
     $('.odd').addClass('selector');
     $('.even').addClass('selector'); 
     
+    let nivelSelect, nivelMax, leccMax, grupoSelect, alumnoSelect;
     $('.btnHistorialDetalles').on('click', function () {
   
       var Array = this.getAttribute('data-arrEstudiante');
       var my_object = JSON.parse(decodeURIComponent(Array));
+      alumnoSelect = my_object
   
       let idGrupo = parseInt(this.getAttribute('data-grupoid')), arrayLeccionesAusentes = this.getAttribute('data-lecciones-ausentes'), presentes = parseInt(this.getAttribute('data-presente')), ausentes = parseInt(this.getAttribute('data-ausentes')), nivel = parseInt(this.getAttribute('data-nivel')), leccion = parseInt(this.getAttribute('data-leccion')), notas = this.getAttribute('data-notas');
-      
-      if(arrayLeccionesAusentes.includes("[{")) {
-        arrayLeccionesAusentes = JSON.parse(arrayLeccionesAusentes);
-      }
-      /*console.log(notas)
-      if(notas.includes("[{")) {
-        notas = notas.split(';');
-      }
-      console.log(notas)*/
+
       $('#tablaHistorialDetalles').html('');
   
       let content = new DocumentFragment();
-      console.log(my_object)
+      //console.log(my_object)
+      for (let index = 0; index < 3; index++) {
+        $("#nivelHis")[0].options[index].disabled = true;
+      }
       for (let index = 0; index < nivel; index++) {
         $("#nivelHis")[0].options[index].disabled = false;
       }
       $('#nivelHis').val(nivel)
       $('#nivelHis').trigger("change");
+      leccMax = leccion
+
+      nivelMax = nivel, nivelSelect = parseInt($('#nivelHis').val());
+
+      let grupoFind = gruposTodos.filter(grupo => grupo.id === idGrupo)
+      grupoSelect = grupoFind[0]
+
+      if (grupoFind.length) {
+        if (grupoSelect.nombre === "Desde cero") {
+          if (nivelSelect != nivelMax) {
+            num = 32
+          }
+
+        } else if (grupoSelect.nombre === "Intensivo") {
+          if (nivelSelect != nivelMax) {
+            num = 32
+          }
+          
+        } else if (grupoSelect.nombre === "Kids") {
+          if (nivelSelect != nivelMax) {
+            num = 16
+          }
+          
+        }
+      }
 
       for (let num = 1; num <= leccion; num++) {
-        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '';
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-          my_object.notas.forEach(item => {
-            //console.log(item);
-            if (item && parseInt(item.n_leccion) === num) {
-              let result = item.notas.filter(nota => nota.nivel == nivel)
-              if (result.length) {
-                notaLeccion = item.nota
-                
-              }
-            }
-          });
-          console.log(notaLeccion);
-          console.log("NOTA LECCION");
+          let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === my_object.id)
+          notaLeccion = result.length ? result[0].nota : 0
+          
+          /*console.log(notaLeccion);
+          console.log("NOTA LECCION");*/
           if (notaLeccion > 7) {
             color = 'badge-light-success'
           } else {
@@ -398,13 +430,43 @@ function cargarTablaMatricula(editada) {
         } else {
           calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
         }
-        
-        if(arrayLeccionesAusentes.length) {
+
+        if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+          let filterParticipacion = participacionAll.filter(item => item.matriculaId === my_object.id && item.nivel == nivel && item.n_leccion == num) 
+          let porcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0
+          if (porcentaje > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+
+          /*if (grupoSelect.nombre === "Kids") {
+            let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
+            notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
+          
+            if (notaLeccion > 7) {
+              color = 'badge-light-success'
+            } else {
+              color = 'badge-light-danger'
+            }
   
-          let result = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
-          console.log(result)
-          console.log("LECC AUSENTES")
-          //let resultNotas = arrayLeccionesAusentes.filter((lecc => parseInt(lecc.n_leccion) === num));
+            calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+          }*/
+
+          participacion += `
+          <div class="text-center ms-1">
+                      
+              <span class="emp_post fw-bolder">Participación</span><br>
+              <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+
+          </div>
+          ` 
+        } 
+        if(asistenciasAll.length) {
+  
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
+          /*console.log(result)
+          console.log("LECC AUSENTES")*/
   
           if(result.length && parseInt(result[0].n_leccion)) {
             /*console.log(result)*/
@@ -420,7 +482,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -439,33 +501,13 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
+
                 </div>
                 <hr class="mb-0">
               </div>
             `;
-            /*td += `
-              <tr>
-                <td>${num}</td>
-                <td>-</td>
-                <td>
-                    <span class="badge rounded-pill badge-light-danger me-1">Ausente</span>
-                </td>
-                <td>
-                    ${calif}
-                </td>
-                <td>          
-                  <div class="btn-group">
-                    <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      ${feather.icons['folder'].toSvg()}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">C21105-1</a>
-                        <a class="dropdown-item" href="#">C21101-1</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            `;*/
+            
           } else {
             td += 
             `
@@ -479,7 +521,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -498,34 +540,12 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
                 </div>
                 <hr class="mb-0">
               </div>
             `;
   
-            /*td += `
-              <tr>
-                <td>${num}</td>
-                <td>-</td>
-                <td>
-                    <span class="badge rounded-pill badge-light-success me-1">Presente</span>
-                </td>
-                <td>
-                    ${calif}
-                </td>
-                <td>
-                  <div class="btn-group">
-                    <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      ${feather.icons['folder'].toSvg()}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">C21105-1</a>
-                        <a class="dropdown-item" href="#">C21101-1</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            `;*/
           }
   
         } else {
@@ -541,7 +561,7 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post">23-12-2022</span>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
   
                   </div>
                   <div class="mx-2 text-center">
@@ -560,53 +580,223 @@ function cargarTablaMatricula(editada) {
                       ${calif}
   
                   </div>
+                  ${participacion}
                 </div>
                 <hr class="mb-0">
               </div>
             `;
-          /*td += `
-            <tr>
-              <td>${num}</td>
-              <td>-</td>
-              <td>
-                  <span class="badge rounded-pill badge-light-success me-1">Presente</span>
-              </td>
-              <td>
-                ${calif}
-              </td>
-              <td>
-                <div class="btn-group">
-                  <a class="btn btn-sm text-primary" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    ${feather.icons['folder'].toSvg()}
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="#">C21105-1</a>
-                      <a class="dropdown-item" href="#">C21101-1</a>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          `;*/
+          
         }
         row.innerHTML = td;
         content.appendChild(row);
       }
 
-  $(`#nombre-historial`).text(my_object['nombre'])
-  $(`#dni-historial`).text(my_object['nro_identificacion'])
-  $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
-  $(`#email-historial`).text(my_object['email'])
-  $('#profesorDetalles').text(my_object.grupo ? my_object.grupo.usuario.nombre : "No Asignado")
-  let filterGrupo = gruposTodos.filter(grupo => grupo.id == my_object['grupo']['id'])
-  $(`#grupo-historial`).text(filterGrupo.length ? filterGrupo[0].identificador : "Sin Grupo")
-  $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
+      $(`#nombre-historial`).text(my_object['nombre'])
+      $(`#dni-historial`).text(my_object['nro_identificacion'])
+      $(`#tlfs-historial`).text(`${my_object['telefono1']}-${my_object['telefono2']}`)
+      $(`#email-historial`).text(my_object['email'])
+      $('#profesorDetalles').text(my_object.grupo.usuario ? my_object.grupo.usuario.nombre : "No Asignado")
+      let filterGrupo = gruposTodos.filter(grupo => grupo.id == my_object['grupo']['id'])
+      $(`#grupo-historial`).text(filterGrupo.length ? filterGrupo[0].identificador : "Sin Grupo")
+      $(`#horario-historial`).text(my_object['grupo']['dia_horario'])
   
       $('#tablaHistorialDetalles').append(content);
   
       $('#btnHistorialDetalles').click();
   
     });
+
+    $("#nivelHis").on("select2:select", function (e) {
+      $('#tablaHistorialDetalles').html('');
+      let content = new DocumentFragment(), leccion = leccMax;
+
+      nivelSelect = parseInt($('#nivelHis').val())
+      if (grupoSelect.nombre === "Desde cero" || grupoSelect.nombre === "Intensivo") {
+        if (nivelSelect != nivelMax) {
+          leccion = 32
+          
+        } 
+      } else {
+        if (nivelSelect != nivelMax) {
+          leccion = 16
+          
+        } 
+      }
+
+      for (let num = 1; num <= leccion; num++) {
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
+        
+        if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
+          let result = notasAll.filter(nota => nota.nivel == nivelSelect && nota.n_leccion == num && nota.matriculaId == alumnoSelect.id)
+          notaLeccion = result.length ? result[0].nota : 0
+          if (notaLeccion > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+          
+          /*console.log(notaLeccion);
+          console.log("NOTA LECCION");*/
   
+          calif = `<span class="badge rounded-pill ${color} me-1">${notaLeccion}</span>`;
+        } else {
+          calif = `<span class="badge rounded-pill badge-light-info me-1">No aplica</span>`;
+        }
+        
+        if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
+          let filterParticipacion = participacionAll.filter(item => item.matriculaId == alumnoSelect.id && item.nivel == nivelSelect && item.n_leccion == num) 
+          let porcentaje = filterParticipacion.length ? filterParticipacion[0].porcentaje : 0
+
+          if (porcentaje > 7) {
+            color = 'badge-light-success'
+          } else {
+            color = 'badge-light-danger'
+          }
+
+          participacion += `
+          <div class="text-center ms-1">
+                      
+              <span class="emp_post fw-bolder">Participación</span><br>
+              <span class="badge rounded-pill ${color} me-1">${porcentaje}</span>
+
+          </div>
+          ` 
+        } 
+        
+        if(asistenciasAll.length) {
+  
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect));
+          /*console.log(result)
+          console.log("LECC AUSENTES")*/
+  
+          if(result.length && parseInt(result[0].n_leccion)) {
+            /*console.log(result)*/
+            td += 
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
+                  
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-danger">
+                        Ausente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+                      
+                  </div>
+                  ${participacion}
+                </div>
+                <hr class="mb-0">
+              </div>
+            `;
+            
+          } else {
+            td += 
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
+                  
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-success">
+                        Presente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+  
+                  </div>
+                  ${participacion}
+
+                </div>
+                <hr class="mb-0">
+              </div>
+            `;
+  
+          }
+  
+        } else {
+          td += 
+            `
+              <div class="d-flex flex-column pb-0">
+  
+                <div class="d-flex align-items-center mb-1">
+                  <span class="me-1 fw-bolder">Lección ${num}</span>
+                </div>
+  
+                <div class="d-flex align-items-end">
+                  <div class="">
+                    
+                      <span class="emp_post fw-bolder">Fecha</span><br>
+                      <span class="emp_post text-nowrap">23-12-2022</span>
+  
+                  </div>
+                  <div class="mx-2 text-center">
+                  
+                      <span class="emp_post fw-bolder">Aistencia</span><br>
+  
+                      <span class="badge rounded-pill badge-light-success">
+                        Presente
+                      </span>
+                      
+                  </div>
+  
+                  <div class="text-center">
+                      
+                      <span class="emp_post fw-bolder">Calificación</span><br>
+                      ${calif}
+  
+                  </div>
+                  ${participacion}
+
+                </div>
+                <hr class="mb-0">
+              </div>
+            `;
+          
+        }
+        row.innerHTML = td;
+        content.appendChild(row);
+      }
+
+      $('#tablaHistorialDetalles').append(content);
+    });
+  
+
     /*$('.borrar-btn').on('click', (e)=>{ 
       let data = e.target.childNodes[1];
       data.submit()
