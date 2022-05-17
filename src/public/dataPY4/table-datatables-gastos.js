@@ -101,9 +101,9 @@ async function getGastos() {
             },
           },
           {
-            targets: 3,
+            targets: 3,className:'to_total2',
             render: function (data, type, full, meta) {
-              return '$'+data;
+              return `<span class="d-none cantidad">${data}</span>$${data}`
             },
           },
           {
@@ -113,7 +113,13 @@ async function getGastos() {
               return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY');
             },
           },
-          
+          {
+            targets: 5,
+            render: function (data, type, full, meta) {
+              let zona = full['sucursale']['nombre'];
+              return zona;
+            },
+          },
 
         ],
         order: [[4, 'desc']],
@@ -139,11 +145,22 @@ async function getGastos() {
             previous: '&nbsp;',
             next: '&nbsp;'
           }
-        }
+        },
+        drawCallback: function (settings) {
+          var api = this.api();
+          var rows = api.rows({ page: 'current' }).nodes();
+          var last = null;
+          let sumaT = 0;
+            api.column(3, { page: 'current' }).data().each(function(group, i){
+              sumaT +=parseInt(group)
+             
+          });
+          $('tfoot .to_total2').text('$'+sumaT)
+        },
       });
       $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
     }
-  
+
   }
   
    $(function () {

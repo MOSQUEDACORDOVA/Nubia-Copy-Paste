@@ -105,17 +105,20 @@ $(document).ready(function () {
                 <div class="row">
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Fecha desde</label>
-                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" readonly="readonly">
+                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" id="fDesde">
                   </div>
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Fecha hasta</label>
-                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" readonly="readonly">
+                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" id="dHasta">
                   </div>
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Zona</label>
                     <div class="position-relative" data-select2-id="45">
                       <select class="select2 form-select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                         <option value="">Seleccionar Zona</option>
+                         {{#each sucursales_let as |sucursal i |}}
+                            <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
                       </select>
                     </div>
                   </div>
@@ -147,11 +150,12 @@ $(document).ready(function () {
                         <label class="form-check-label mb-1" for="clientesNuevos">Clientes Nuevos</label>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3 d-none">
+                  <div class="col-6 col-md-3">
                     <div class="btn-group">
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#ventasGrap" id="btnVentasCol">Ventas</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
+                      <button  type="button" class="btn btn-primary" id="btngastosG" >Gastos</button>
+                      <button  type="button" class="btn btn-primary" id="btnVentasCol">Ventas</button>
+                      <button  type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
+                      <button  type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse" data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
                     </div>
                   </div>
 
@@ -160,7 +164,7 @@ $(document).ready(function () {
               </div>
               <div class="card-body">
                 <div class="row justify-content-center">
-                  <div class="col-12 col-lg-8" id="ventasGrap">
+                  <div class="col-12 col-lg-8 show" id="ventasGrap">
                     <div id="chart"></div>
                   </div>
                   <div class="col-12 my-3 collapse" id="transferenciasGrap">
@@ -168,6 +172,9 @@ $(document).ready(function () {
                   </div>
                   <div class="col-12 collapse" id="globalGrap">
                     <div id="chart3"></div>
+                  </div>
+                  <div class="col-12 col-lg-8 collapse" id="gastosGrap">
+                    <div id="chart4"></div>
                   </div>
                 </div>
               </div>
@@ -202,6 +209,16 @@ $(document).ready(function () {
                                                 <th></th>
                                             </tr>
                                         </thead>
+                                         <tfoot>
+    <tr>
+        <th colspan="2" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+    </tr>
+</tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -305,14 +322,43 @@ $(document).ready(function () {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 
-  let ventasChart;
+  let ventasChart, gastosChart;
   let optionsVentasChart, interval;
+  let optionsGastosChart;
 
+    $('#btnVentasCol').on('click', (e) => {
+            CollapseGraf(1)
+        });
+        $('#btngastosG').on('click', (e) => {
+            CollapseGraf(2);
+        });
+
+        function CollapseGraf(num) {
+            $('#ventasGrap').removeClass('show');
+            $('#ventasGrap').addClass('collapse');
+
+            $('#gastosGrap').removeClass('show');
+            $('#gastosGrap').addClass('collapse');
+
+            switch (num) {
+                case 1:
+                    $('#ventasGrap').removeClass('collapse');
+                    $('#ventasGrap').addClass('show');
+                    break;
+                case 2:
+                    $('#gastosGrap').removeClass('collapse');
+                    $('#gastosGrap').addClass('show');
+                    gastosChartSet()
+                    break;
+                
+            }
+        }
   function CheckClearLoad() {
     if(document.readyState === "complete") {
       fetch('/obetenerdatosgeneralesreportes')
         .then(response => response.json())
         .then(data => {
+          console.log(data)
           let pedidos = data.pedidos, transferencias = 0, deudores = 0, ventasG = data.ventasGlobal[0], clientes = data.clientes, clientesNuevos = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalGarraf = 0
           
           pedidos.forEach(pedido => {
@@ -397,6 +443,161 @@ $(document).ready(function () {
   //chart2.render();
   //chart3.render();
   //chart.updateSeries(appendData())
+async function gastosChartSet() {
+    let GastosList0 = await fetch('/getGastosLit')
+    .then(response => response.json())
+    .then(data => {
+        return data.listaGastos;
+    });
+          console.log(GastosList0)
+          let nomina=0, luz1=0, luz2=0, pipa=0,tapas=0, garrafones=0, sellosBwater=0, rentaCam1=0,rentaCam2=0,rentaCam3=0,matrizRenta=0,adamarRenta=0, gas1=0,gas2=0,gas3=0,gas4=0,gas5=0,gas6=0, bonos=0, prestamoBanco=0, prestamoYote=0, prestamo=0, administrativo=0,regaloEmpleados=0,racks=0,limpieza=0,hipoclorito=0,mecanico=0,mantenimiento=0, refacciones=0, otros=0;
+          
+          GastosList0.forEach(gasto => {
+              switch (gasto.tipo) {
+    case 'NOMINA':
+      nomina += parseInt(gasto.monto)
+      break;
+        case 'LUZ 1':
+      luz1 += parseInt(gasto.monto)
+      break;
+        case 'LUZ 2':
+      luz2 += parseInt(gasto.monto)
+      break;
+        case 'PIPA':
+      pipa += parseInt(gasto.monto)
+      break;
+        case 'TAPAS':
+      tapas += parseInt(gasto.monto)
+      break;
+        case 'GARRAFONES':
+      garrafones += parseInt(gasto.monto)
+      break;
+        case 'SELLOS BWATER':
+      sellosBwater += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 1':
+      rentaCam1 += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 2':
+      rentaCam2 += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 3':
+      rentaCam3 += parseInt(gasto.monto)
+      break;
+        case 'MATRIZ RENTA':
+      matrizRenta += parseInt(gasto.monto)
+      break;
+        case 'ADAMAR RENTA':
+      adamarRenta += parseInt(gasto.monto)
+      break;
+      case 'GAS 1':
+      gas1 += parseInt(gasto.monto)
+      break;
+case 'GAS 2':
+    gas2 += parseInt(gasto.monto)  
+      break;
+case 'GAS 3':
+    gas3 += parseInt(gasto.monto)  
+      break;
+case 'GAS 4':
+    gas4 += parseInt(gasto.monto)  
+      break;
+case 'GAS 5':
+    gas5 += parseInt(gasto.monto)  
+      break;
+case 'GAS 6':
+    gas6 += parseInt(gasto.monto)  
+      break;
+case 'BONOS':
+    bonos += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO BANCO':
+    prestamoBanco += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO YOTE':
+    prestamoYote += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO':
+    prestamo += parseInt(gasto.monto)  
+      break;
+      case 'ADMINISTRATIVO':
+      administrativo += parseInt(gasto.monto)
+      break;
+case 'REGALO EMPLEADOS':
+    regaloEmpleados += parseInt(gasto.monto)  
+      break;
+case 'RACKS':
+    racks += parseInt(gasto.monto)  
+      break;
+case 'LIMPIEZA':
+    limpieza += parseInt(gasto.monto)  
+      break;
+case 'HIPOCLORITO Y MAS':
+    hipoclorito += parseInt(gasto.monto)  
+      break;
+case 'MECANICO':
+    mecanico += parseInt(gasto.monto)  
+      break;
+case 'MANTENIMIENTO':
+    mantenimiento += parseInt(gasto.monto)  
+      break;
+case 'REFACCIONES':
+    refacciones += parseInt(gasto.monto)  
+      break;
+case 'OTROS':
+    otros += parseInt(gasto.monto)  
+      break;
+  }
+          });
+
+          optionsGastosChart = {
+            series: [nomina,luz1,luz2,pipa,tapas,garrafones,sellosBwater,rentaCam1,rentaCam2,rentaCam3,matrizRenta,adamarRenta,gas1,gas2,gas3,gas4,gas5,gas6,bonos,prestamoBanco,prestamoYote,prestamo,administrativo,regaloEmpleados,racks,limpieza,hipoclorito,mecanico,mantenimiento,refacciones,otros],
+            chart: {
+              width: '90%',
+              type: 'donut',
+            },
+            labels: ['NOMINA','LUZ 1','LUZ 2','PIPA','TAPAS','GARRAFONES','SELLOS BWATER','RENTA CAM 1','RENTA CAM 2','RENTA CAM 3','MATRIZ RENTA','ADAMAR RENTA','GAS 1','GAS 2','GAS 3','GAS 4','GAS 5','GAS 6','BONOS','PRESTAMO BANCO','PRESTAMO YOTE','PRESTAMO','ADMINISTRATIVO','REGALO EMPLEADOS','RACKS','LIMPIEZA','HIPOCLORITO Y MAS','MECANICO','MANTENIMIENTO','REFACCIONES','OTROS'],
+            dataLabels: {
+              enabled: false,
+              textAnchor: 'middle'
+            },
+            responsive: [{
+              breakpoint: 568,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                /*plotOptions: {
+                  pie: {
+                    donut: {
+                      labels: {
+                        show: false,
+                      }
+                    },
+                  }
+                }*/
+              },
+            }],
+            legend: {
+              position: 'top',
+              offsetY: 0,
+              height: 50,
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                  }
+                },
+              
+              }
+            }
+          };
+          
+          gastosChart = new ApexCharts(document.querySelector("#chart4"), optionsGastosChart);
+          gastosChart.render();
+  }
 
   function reset() {
     return optionsVentasChart.series
