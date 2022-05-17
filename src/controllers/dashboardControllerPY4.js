@@ -4418,7 +4418,7 @@ exports.reportes = (req, res) => {
                               let etiquetas_let = JSON.parse(etiquetas_);
                               
                               LastPedidosAll(id_sucursal)
-                                .then((pedidos_g) => {
+                                .then(async (pedidos_g) => {
                                   let pedidos_letG = JSON.parse(pedidos_g);
                                   let notif1_2 = [],
                                     notif3_5 = [],
@@ -4535,7 +4535,7 @@ exports.reportes = (req, res) => {
                                     notif3_5: notif3_5,
                                     notif6_12: notif6_12,
                                   });
-
+                                  let personalList = JSON.parse(await DataBase.PersonalAll());
                                   let count_clientes_cuponera = notifi_g.length;
                                   res.render("PYT-4/reportes", {
                                     pageName: "Bwater",
@@ -4562,6 +4562,7 @@ exports.reportes = (req, res) => {
                                     notificacion_g,
                                     count_clientes_cuponera,
                                     count_sin_pedido_nuevo,
+                                    personalList,
                                   });
                                 })
                                 .catch((err) => {
@@ -4604,7 +4605,48 @@ exports.reportes = (req, res) => {
       return res.redirect("/errorpy4/" + msg);
     });
 };
+exports.getGastosLit = async (req,res) => {
 
+  let listaGastos = JSON.parse(await DataBase.getGastosALL());
+  res.send({listaGastos});
+};
+exports.getGastobyId = async (req,res) => {
+  const {id} = req.body;
+  let listaGastos = JSON.parse(await DataBase.getGastobyId(id));
+  res.send({listaGastos});
+};
+exports.createGasto = async (req,res) => {
+  const { categoria, personal,  fecha,  monto_gastos,  observacion,zona } = req.body;
+  const userId = res.locals.user.id;
+  console.log(req.body)
+  let personalId = null;
+  if (personal!='') {
+    personalId = personal
+  }
+  const verificaGastoRepeat = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
+  console.log(verificaGastoRepeat)
+  if (verificaGastoRepeat) {
+    return res.send({verificaGastoRepeat});
+  }
+  let listaGastos = JSON.parse(await DataBase.createGasto(categoria, monto_gastos,fecha,observacion,userId,personalId,zona));
+  listaGastos = JSON.parse(await DataBase.verificaGasto(categoria, fecha,personalId,zona));
+  console.log(listaGastos)
+  res.send({listaGastos});
+};
+exports.deleteGasto = async (req,res) => {
+  const id = req.params.id;
+  const userId = res.locals.user.id;
+  
+  let gastoBorrado = JSON.parse(await DataBase.deleteGasto(id));
+  console.log(gastoBorrado)
+  let description =`Gasto ${id} eliminado`;
+      let Log = await DataBase.SaveLogs(userId,'deleteGasto','deleteGasto',description);
+  res.send({gastoBorrado});
+};
+
+
+
+/**------------ */
 exports.save_cliente_edit_cupon = (req, res) => {
   const { id, actual } = req.body;
   let msg = false;

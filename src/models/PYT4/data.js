@@ -22,6 +22,7 @@ var moment = require('moment-timezone');
 const CompartirS = require('../../models/PYT4/ShareStatus');
 const logsUse = require('../../models/PYT4/Logs');
 const Historial_observaciones = require('../../models/PYT4/Historial_observaciones');
+const Gastos = require('../../models/PYT4/Gastos');
 
 //**FOR MAQUILA */
 const Clientes_maquila = require("../../models/PYT4/Clientes_maquila");
@@ -2619,6 +2620,7 @@ clienteId:id_cliente
           resolve(data_p);
         })
         .catch((err) => {
+          console.log(err)
           reject(err)
         });
       });
@@ -2936,5 +2938,67 @@ SaveLogs(id_user,type,tfunction,description){
   });
 },
 
+/**GASTOS */
+
+getGastosALL(){
+  return new Promise((resolve, reject) => {
+    Gastos.findAll({include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+getGastobyId(id){
+  return new Promise((resolve, reject) => {
+    Gastos.findAll({include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+verificaGasto(categoria, fecha,personalId,zona){
+  return new Promise((resolve, reject) => {
+    Gastos.findOne({where:{tipo:categoria, fecha:fecha,personalId:personalId,sucursaleId: zona},include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+createGasto(tipo, monto,fecha,observacion,usuarioId,personalId,zona){
+  return new Promise((resolve, reject) => {
+    Gastos.create({tipo: tipo, monto: monto, fecha: fecha, observacion: observacion,usuarioId:usuarioId,personalId:personalId,sucursaleId: zona}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
+deleteGasto(id){
+  return new Promise((resolve, reject) => {
+    Gastos.destroy({where:{id:id}}).then((data)=>{
+      let data_set = JSON.stringify(data);
+      resolve(data_set);      
+    })
+    .catch((err) => {
+      console.log(err)
+      reject(err)
+    });
+  });
+},
 
 /**END OF EXPORT */};
