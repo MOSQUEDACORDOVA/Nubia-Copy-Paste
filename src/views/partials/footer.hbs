@@ -1,495 +1,501 @@
-   
-   
-   {{#if login}}{{else}}
-   <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
-            <!-- BEGIN: Footer-->    
-            <footer class="footer footer-static footer-light {{#if py672}}footerWidth{{/if}} {{#if py21}}py21{{/if}} {{#if py24}}py24{{/if}}">
-                <p class="clearfix mb-0">
-                    {{#if py4}}
-                    <span class="float-md-start d-block d-md-inline-block mt-25">BWATER &copy; 2021</span>
-                    {{else}}
-                    <span class="float-md-start d-block d-md-inline-block mt-25">MOSQUEDA CORDOVA &copy; 2021</span>
-                    {{/if}}
-                    
-                </p>
-            </footer>
-            <button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
-            <!-- END: Footer-->
-    {{/if}}
+{{#if login}}{{else}}
+<div class="sidenav-overlay"></div>
+<div class="drag-target"></div>
+<!-- BEGIN: Footer-->
+<footer
+    class="footer footer-static footer-light {{#if py672}}footerWidth{{/if}} {{#if py21}}py21{{/if}} {{#if py24}}py24{{/if}}">
+    <p class="clearfix mb-0">
+        {{#if py4}}
+        <span class="float-md-start d-block d-md-inline-block mt-25">BWATER &copy; 2021</span>
+        {{else}}
+        <span class="float-md-start d-block d-md-inline-block mt-25">MOSQUEDA CORDOVA &copy; 2021</span>
+        {{/if}}
+
+    </p>
+</footer>
+<button class="btn btn-primary btn-icon scroll-top" type="button"><i data-feather="arrow-up"></i></button>
+<!-- END: Footer-->
+{{/if}}
 
 
-    <!-- BEGIN: Vendor JS-->
-    <script src="../../../app-assets/vendors/js/vendors.min.js"></script>
-  
-    <script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
-    <script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
-    {{!-- <script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
-    <!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
+<!-- BEGIN: Vendor JS-->
+<script src="../../../app-assets/vendors/js/vendors.min.js"></script>
+
+<script src="../../../app-assets/vendors/js/extensions/sweetalert2.all.min.js"></script>
+<script src="../../../app-assets/js/scripts/extensions/ext-component-sweet-alerts.js"></script>
+{{!--
+<script src="../../../app-assets/js/scripts/pages/dashboard-ecommerce.js"></script> --}}
+<!-- END: DASHBOARD ECOMMERCE GRAPIHCS JS-->
 {{#if py4App}}
 
-    <!-- BEGIN Vendor JS-->
-     <script src="../../../app-assets/js/scripts/ui/ui-feather.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/js/scripts/forms/form-select2.min.js"></script>
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-    <!-- END: Page Vendor JS-->
-    
-    <!-- BEGIN: Theme JS-->
-    <script src="../../../app-assets/js/core/app-menu.min.js"></script>
-    <script src="../../../app-assets/js/core/app.min.js"></script>
-    <script src="../../../app-assets/js/scripts/customizer.min.js"></script>
-    <!-- END: Theme JS-->
+<!-- BEGIN Vendor JS-->
+<script src="../../../app-assets/js/scripts/ui/ui-feather.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-select2.min.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-  
+<!-- BEGIN: Theme JS-->
+<script src="../../../app-assets/js/core/app-menu.min.js"></script>
+<script src="../../../app-assets/js/core/app.min.js"></script>
+<script src="../../../app-assets/js/scripts/customizer.min.js"></script>
+<!-- END: Theme JS-->
+
+
 {{/if}}
 
 {{#if py4}}
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-    <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
-     <script src="../../../app-assets/vendors/js/extensions/jquery.contextMenu.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/jquery.ui.position.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
-    <script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>   
-   
-    <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
-      <script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
-    <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" ></script>
-    <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/polyfill.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/jquery.contextMenu.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/jquery.ui.position.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/spinner/jquery.bootstrap-touchspin.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-number-input.js"></script>
+
+<script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/datatables.checkboxes.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/buttons.html5.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/buttons.print.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.rowGroup.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
 {{#if reg_pedido}}
-        <script src="../../../dataPY4/registrar_pedido_modal.js"></script>
-    <script src="../../../dataPY4/editar_pedido.js"></script>
-    {{/if}}
-   {{#if maquila}}
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-   <script src="../../../assets/js/qrcode.js"></script>
-    <script src="../../../dataPY4/datatable-clientes_maquila.js"></script>
-    <script src="../../../dataPY4/datatable-pedidos_maquila.js"></script>
-    <script src="../../../dataPY4/dmodal-reg-pedido-maquila.js"></script>
-    {{/if}}
+<script src="../../../dataPY4/registrar_pedido_modal.js"></script>
+<script src="../../../dataPY4/editar_pedido.js"></script>
+{{/if}}
+{{#if maquila}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+<script src="../../../assets/js/qrcode.js"></script>
+<script src="../../../dataPY4/datatable-clientes_maquila.js"></script>
+<script src="../../../dataPY4/datatable-pedidos_maquila.js"></script>
+<script src="../../../dataPY4/dmodal-reg-pedido-maquila.js"></script>
+{{/if}}
 
-     {{#if disabled_chofer}}
-    {{else}}
-    {{#if dash}}
-    
-    
-    {{#if referidos}}
-    <script src="../../../dataPY4/registrar_pedido_referido.js"></script>
+{{#if disabled_chofer}}
+{{else}}
+{{#if dash}}
 
-    {{else}}
-    <script src="../../../dataPY4/table-datatables-basic_home.js"></script>
-    <script src="../../../dataPY4/table-datatables-resumen_home.js"></script>      
-    <script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
-    {{/if}}
-    {{/if}}
-    
-    {{/if}}
-    {{#if disabled_chofer}}
-    
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-    {{/if}}
-    {{#if cupones}}
-   
-    <script src="../../../assets/js/qrcode.js"></script>
-    <script src="../../../dataPY4/table-datatables-cupones.js"></script>
-   
-    {{/if}}
-      {{#if notificaciones}}   
-    <script src="../../../dataPY4/table-datatables-notificaciones.js"></script>  
-    <script src="../../../dataPY4/table-datatables-seguimiento.js"></script> 
-     <script src="../../../dataPY4/table-datatables-deudores.js"></script> 
-    {{/if}}
-     {{#if personal}}    
-     
-        <script src="../../../dataPY4/table-datatables-personal.js"></script>
-    {{/if}}
-    {{#if corte}}
-       <!-- BEGIN: Page JS-->
-       <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-    <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
-    <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
-     <!-- END: Page Vendor JS-->
-    <script src="../../../dataPY4/table-datatables-corte.js"></script>
-    <!-- END: Page JS-->
-    {{/if}}
-       {{#if carga_init}}
-       <!-- BEGIN: Page JS-->
-   
-     <!-- END: Page Vendor JS-->
-    <script src="../../../dataPY4/table-datatables-carga.js"></script>
-    <script src="../../../dataPY4/table-datatables-asignar_chofer.js"></script>
-    <!-- END: Page JS-->
-    {{/if}}
-           {{#if seguimiento}}
-       <!-- BEGIN: Page JS-->
-     <!-- END: Page Vendor JS-->
-    <script src="../../../dataPY4/table-datatables-seguimiento.js"></script>
-    <!-- END: Page JS-->
-    {{/if}}
-    {{#if users1}}
-    <!-- END: Page Vendor JS-->
-  
-    <script src="../../../dataPY4/table-datatables-basic.js"></script>  
-        <script src="../../../dataPY4/table-datatables-etiquetas.js"></script>
-        
-        {{!-- <script src="../../../app-assets/vendors/js/maps/leaflet.min.js"></script>
+
+{{#if referidos}}
+<script src="../../../dataPY4/registrar_pedido_referido.js"></script>
+
+{{else}}
+<script src="../../../dataPY4/table-datatables-basic_home.js"></script>
+<script src="../../../dataPY4/table-datatables-resumen_home.js"></script>
+<script src="../../../dataPY4/table-datatables-corte_prestados.js"></script>
+{{/if}}
+{{/if}}
+
+{{/if}}
+{{#if disabled_chofer}}
+
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+{{/if}}
+{{#if cupones}}
+
+<script src="../../../assets/js/qrcode.js"></script>
+<script src="../../../dataPY4/table-datatables-cupones.js"></script>
+
+{{/if}}
+{{#if notificaciones}}
+<script src="../../../dataPY4/table-datatables-notificaciones.js"></script>
+<script src="../../../dataPY4/table-datatables-seguimiento.js"></script>
+<script src="../../../dataPY4/table-datatables-deudores.js"></script>
+{{/if}}
+{{#if personal}}
+
+<script src="../../../dataPY4/table-datatables-personal.js"></script>
+{{/if}}
+{{#if corte}}
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+<script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+<script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+<!-- END: Page Vendor JS-->
+<script src="../../../dataPY4/table-datatables-corte.js"></script>
+<!-- END: Page JS-->
+{{/if}}
+{{#if carga_init}}
+<!-- BEGIN: Page JS-->
+
+<!-- END: Page Vendor JS-->
+<script src="../../../dataPY4/table-datatables-carga.js"></script>
+<script src="../../../dataPY4/table-datatables-asignar_chofer.js"></script>
+<!-- END: Page JS-->
+{{/if}}
+{{#if seguimiento}}
+<!-- BEGIN: Page JS-->
+<!-- END: Page Vendor JS-->
+<script src="../../../dataPY4/table-datatables-seguimiento.js"></script>
+<!-- END: Page JS-->
+{{/if}}
+{{#if users1}}
+<!-- END: Page Vendor JS-->
+
+<script src="../../../dataPY4/table-datatables-basic.js"></script>
+<script src="../../../dataPY4/table-datatables-etiquetas.js"></script>
+
+{{!--
+<script src="../../../app-assets/vendors/js/maps/leaflet.min.js"></script>
 <script src="../../../dataPY4/map-leaflet.js"></script> --}}
-    
-    <!-- END: Page JS-->
-        {{/if}}
-          {{#if vehiculos}}
-       <!-- BEGIN: Page JS-->
-       
-    <script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
-    <script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
-     <!-- END: Page Vendor JS-->
-    <script src="../../../dataPY4/table-datatables-vehiculos.js"></script>
-    <!-- END: Page JS-->
-    {{/if}}
-    {{#if dash}}
-    {{/if}}
-    {{#if sucursales}}
-        <script src="../../../dataPY4/table-datatables-sucursales.js"></script>
-    {{/if}}
-    {{!-- <script src="../../../assets/js/datarepit.js"></script> --}}
-    <!-- BEGIN: Page JS-->
-    {{!-- <script src="../../../app-assets/js/scripts/pages/app-invoice.js"></script> --}}
-    <!-- END: Page JS-->  
-    {{/if}}
 
-    {{#if py21}}
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
+<!-- END: Page JS-->
+{{/if}}
+{{#if vehiculos}}
+<!-- BEGIN: Page JS-->
 
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+<script src="../../../app-assets/js/scripts/pages/dashboard-analytics.js"></script>
+<script src="../../../app-assets/js/scripts/pages/app-invoice-list.js"></script>
+<!-- END: Page Vendor JS-->
+<script src="../../../dataPY4/table-datatables-vehiculos.js"></script>
+<!-- END: Page JS-->
+{{/if}}
+{{#if dash}}
+{{/if}}
+{{#if sucursales}}
+<script src="../../../dataPY4/table-datatables-sucursales.js"></script>
+{{/if}}
+{{#if reportes}}
 
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
+<script src="../../../dataPY4/table-datatables-gastos.js"></script>
+{{/if}}
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../assets/js/scripts.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-    {{/if}}
+{{/if}}
 
-    {{#if py24}}
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
+{{#if py21}}
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+<script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
 
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
+<!-- BEGIN: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+<!-- END: CHARTS Vendor JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../assets/js/scripts.js"></script>
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+{{/if}}
 
-        <script src="../../../app-assets/js/scripts/pages/page-pricing.js"></script>
-        <script src="../../../app-assets/js/scripts/cards/card-analytics.js"></script>
-        <script src="../../../app-assets/js/scripts/pages/modal-add-new-cc.js"></script>
-        
-      <script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
-        <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-    {{/if}}
-    {{#if py27}}
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
+{{#if py24}}
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+<script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
 
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
+<!-- BEGIN: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+<!-- END: CHARTS Vendor JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../assets/js/scripts.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-         <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
-        <!-- END: Page Vendor JS-->
-    {{/if}}
-    {{#if pasarela}}
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/validation/jquery.validate.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
 
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+<script src="../../../app-assets/js/scripts/pages/page-pricing.js"></script>
+<script src="../../../app-assets/js/scripts/cards/card-analytics.js"></script>
+<script src="../../../app-assets/js/scripts/pages/modal-add-new-cc.js"></script>
 
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/apexcharts.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/moment.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/datatables.buttons.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+{{/if}}
+{{#if py27}}
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../assets/js/scripts.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
-        <!-- BEGIN: Page Vendor JS-->
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
-        <!-- END: Page Vendor JS-->
-    {{/if}}
-    {{#if py672}}    <!-- BEGIN: Page Vendor JS-->
-    <script src="../../../app-assets/js/core/app-menu.js"></script>
-    <script src="../../../app-assets/js/core/app.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
-    <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-    <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-    <!-- END: Page Vendor JS-->
+<script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
 
-    <script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+<!-- BEGIN: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+<!-- END: CHARTS Vendor JS-->
 
-    <!-- BEGIN: CHARTS Vendor JS-->
-    <script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
-    <!-- END: CHARTS Vendor JS-->
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../assets/js/scripts.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+<!-- END: Page Vendor JS-->
+{{/if}}
+{{#if pasarela}}
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-    <!-- BEGIN: Page JS-->
-    <script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
-      <script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
-    <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
-        <script src="../../../app-assets/js/scripts/pages/auth-register.js"></script>
-        <script src="../../../app-assets/vendors/js/extensions/jquery.rateyo.min.js"></script>
-        <script src="../../../app-assets/js/scripts/extensions/ext-component-ratings.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
-        <script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
-        <script src="../../../app-assets/js/scripts/pages/app-todo.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
-        <script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js" ></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
-        <script src="../../../app-assets/js/scripts/components/components-bs-toast.js"></script>
-        <script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
-        <script src="../../../app-assets/js/scripts/forms/form-input-mask.js"></script>
-        {{!NOTIFICACION}}
-        <script src="../../assets/js/PYT672/notificacion.js"></script>
-        {{!DIRECCIONES REGISTRO MATRICULAS}}
-        <script src="../../assets/js/PYT672/menu-registro.js"></script>
-        {{!GRUPOS}}
-        {{#if grupos}}
-        <script src="../../assets/js/PYT672/grupos.js"></script>
-        {{/if}}
-        {{! MATRICULA}}
-        {{#if matric}}
-        <script src="../../assets/js/PYT672/matriculas.js"></script>
-        {{/if}}
-        {{! HISTORIAL}}
-        {{#if historial}}
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <script src="../../assets/js/PYT672/historial.js"></script>
-        {{/if}}
-        {{#if usuarios}}
-        <script src="../../assets/js/PYT672/usuarios.js"></script>
-        {{/if}}
-        {{#if managUsuarios}}
-        <script src="../../assets/js/PYT672/changeuser-password.js"></script>
-        {{/if}}
-        {{#if caja}}
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-        <script src="../../assets/js/PYT672/caja.js"></script>
-        {{/if}}
-    {{/if}}
+<script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
 
-    {{#if py4App}}
-    <script>
-         $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-            
-            $('#button_modal_init').click()
-        })
-    </script>
-    {{else}}
-    <script>
-         $(window).on('load', function() {
-            if (feather) {
-                feather.replace({
-                    width: 14,
-                    height: 14
-                });
-            }
-            
-            $('#button_modal_init').click()
-        })
+<!-- BEGIN: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+<!-- END: CHARTS Vendor JS-->
 
-		$(document).ready(function(){
-            let hoy = moment().format('YYYY-MM-DD')
-            $('#fecha_pedido').val(hoy)
-            {{#if py4}}
-                $('#fecha_pedido').change((e)=>{
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../assets/js/scripts.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-wizard.js"></script>
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+<!-- END: Page Vendor JS-->
+{{/if}}
+{{#if py672}}
+<!-- BEGIN: Page Vendor JS-->
+<script src="../../../app-assets/js/core/app-menu.js"></script>
+<script src="../../../app-assets/js/core/app.js"></script>
+<script src="../../../app-assets/vendors/js/forms/repeater/jquery.repeater.min.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<!-- END: Page Vendor JS-->
 
-                    if ($('#otro_rol').length) {
-     console.log(e.target.value)
-        fecha_anterior = moment(hoy).isAfter(moment(e.target.value, 'YYYY-MM-DD'),'d'); // true
-        if (fecha_anterior == true){
-					swal.fire('Debe seleccionar una fecha superior a la actual.')		
-								$('#fecha_pedido').val(hoy)
-					return
-				}
-  }
-       
+<script src="../../../app-assets/js/scripts/pages/modal-share-project.js"></script>
+
+<!-- BEGIN: CHARTS Vendor JS-->
+<script src="../../../app-assets/vendors/js/charts/chart.min.js"></script>
+<!-- END: CHARTS Vendor JS-->
+
+<!-- BEGIN: Page JS-->
+<script src="../../../app-assets/js/scripts/charts/chart-chartjs.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/wNumb.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/nouislider.min.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
+<script src="../../../app-assets/js/scripts/pages/auth-register.js"></script>
+<script src="../../../app-assets/vendors/js/extensions/jquery.rateyo.min.js"></script>
+<script src="../../../app-assets/js/scripts/extensions/ext-component-ratings.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.date.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/picker.time.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/pickadate/legacy.js"></script>
+<script src="../../../app-assets/vendors/js/pickers/flatpickr/flatpickr.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/pickers/form-pickers.js"></script>
+<script src="../../../app-assets/js/scripts/pages/app-todo.js"></script>
+<script src="../../../app-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-select2.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/jquery.dataTables.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.bootstrap5.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/dataTables.responsive.min.js"></script>
+<script src="../../../app-assets/vendors/js/tables/datatable/responsive.bootstrap5.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js"
+    integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.datatables.net/datetime/1.1.1/js/dataTables.dateTime.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone.min.js"></script>
+<script src="../../../app-assets/js/scripts/components/components-bs-toast.js"></script>
+<script src="../../../app-assets/vendors/js/forms/wizard/bs-stepper.min.js"></script>
+<script src="../../../app-assets/js/scripts/forms/form-input-mask.js"></script>
+{{!NOTIFICACION}}
+<script src="../../assets/js/PYT672/notificacion.js"></script>
+{{!DIRECCIONES REGISTRO MATRICULAS}}
+<script src="../../assets/js/PYT672/menu-registro.js"></script>
+{{!GRUPOS}}
+{{#if grupos}}
+<script src="../../assets/js/PYT672/grupos.js"></script>
+{{/if}}
+{{! MATRICULA}}
+{{#if matric}}
+<script src="../../assets/js/PYT672/matriculas.js"></script>
+{{/if}}
+{{! HISTORIAL}}
+{{#if historial}}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="../../assets/js/PYT672/historial.js"></script>
+{{/if}}
+{{#if usuarios}}
+<script src="../../assets/js/PYT672/usuarios.js"></script>
+{{/if}}
+{{#if managUsuarios}}
+<script src="../../assets/js/PYT672/changeuser-password.js"></script>
+{{/if}}
+{{#if caja}}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="../../assets/js/PYT672/caja.js"></script>
+{{/if}}
+{{/if}}
+
+{{#if py4App}}
+<script>
+    $(window).on('load', function () {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+
+        $('#button_modal_init').click()
     })
-        {{/if}}
-                
-            if ( $("#msgs").length ) {
-                let mensaje = $('#msgs').text();
-                Swal.fire({
-                    title: mensaje,
-                    icon: 'info',
-                })
+</script>
+{{else}}
+<script>
+    $(window).on('load', function () {
+        if (feather) {
+            feather.replace({
+                width: 14,
+                height: 14
+            });
+        }
+
+        $('#button_modal_init').click()
+    })
+
+    $(document).ready(function () {
+        let hoy = moment().format('YYYY-MM-DD')
+        $('#fecha_pedido').val(hoy)
+        {{#if py4 }}
+        $('#fecha_pedido').change((e) => {
+
+            if ($('#otro_rol').length) {
+                console.log(e.target.value)
+                fecha_anterior = moment(hoy).isAfter(moment(e.target.value, 'YYYY-MM-DD'), 'd'); // true
+                if (fecha_anterior == true) {
+                    swal.fire('Debe seleccionar una fecha superior a la actual.')
+                    $('#fecha_pedido').val(hoy)
+                    return
+                }
             }
-             if ( $("#msgsRef").length ) {
-                let mensaje = $('#msgsRef').text();
-            Swal.fire({
-  title: '<strong style="color: white">CLIENTE EXISTENTE</strong>',
-  icon: 'info',
-  html:`<span style="color: white">FAVOR DE CONTACTAR 
+
+        })
+        {{/if}}
+
+                if ($("#msgs").length) {
+                    let mensaje = $('#msgs').text();
+                    Swal.fire({
+                        title: mensaje,
+                        icon: 'info',
+                    })
+                }
+                if ($("#msgsRef").length) {
+                    let mensaje = $('#msgsRef').text();
+                    Swal.fire({
+                        title: '<strong style="color: white">CLIENTE EXISTENTE</strong>',
+                        icon: 'info',
+                        html: `<span style="color: white">FAVOR DE CONTACTAR 
 A B•WATER SERVICIO AL CLIENTE 
 <a href="https://wa.me/message/ZXC4B3BHH6ZCA1" target="_blank" style="-webkit-text-stroke: 1px greenyellow;">ESPERAMOS TU MENSAJE 😄</a></span> `,
-  showCancelButton: false,
-  focusConfirm: false,
-})
-            }
-            $('#basicSelect').on('change',(e)=>{
-                var value = $('#basicSelect').val()
-                console.log(value)
-
-                if(value == "default"){
-                    return
-                } else{
-                    console.log(value)
-                    window.location.href = value;
+                        showCancelButton: false,
+                        focusConfirm: false,
+                    })
                 }
-            })
-		
-        // Background-color setter for different options(desde cero, intensivo, kids) in selector
-        $('#grupoId-reg .select2').select2()
-  $('#grupoId-reg .select2').on('select2:select', function(e) {
-    var data = e.params.data;
-    console.log(data);
-    console.log(data.element.dataset.bsIden);
-     switch (data.element.dataset.bsIden) {
-        case 'Desde cero':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
-            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: blue !important');
-            break;
-        case 'Intensivo':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
-            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: red !important');
-            break;
-        case 'Kids':
-            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
-            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: green !important');
-            break;
-        default:
-            break;
-        }
-    
-   // CheckValues(data.element.value)
-    
-  });
- /* $('.select2').on('select2:open', function(e) {
-     console.log(e); 
-    var data = e.params.data;
-    console.log(data);});*/
-        })
+                $('#basicSelect').on('change', (e) => {
+                    var value = $('#basicSelect').val()
+                    console.log(value)
 
-    </script>
-    {{/if}}
+                    if (value == "default") {
+                        return
+                    } else {
+                        console.log(value)
+                        window.location.href = value;
+                    }
+                })
+
+                // Background-color setter for different options(desde cero, intensivo, kids) in selector
+                $('#grupoId-reg .select2').select2()
+                $('#grupoId-reg .select2').on('select2:select', function (e) {
+                    var data = e.params.data;
+                    console.log(data);
+                    console.log(data.element.dataset.bsIden);
+                    switch (data.element.dataset.bsIden) {
+                        case 'Desde cero':
+                            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+                            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: blue !important');
+                            break;
+                        case 'Intensivo':
+                            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+                            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: red !important');
+                            break;
+                        case 'Kids':
+                            $("#grupoId-reg .select2-selection").attr('style', 'background-color: white !important; ');
+                            $("#grupoId-reg .select2-container--default .select2-selection--single .select2-selection__rendered").attr('style', 'color: green !important');
+                            break;
+                        default:
+                            break;
+                    }
+
+                    // CheckValues(data.element.value)
+
+                });
+                /* $('.select2').on('select2:open', function(e) {
+                    console.log(e); 
+                   var data = e.params.data;
+                   console.log(data);});*/
+            })
+
+</script>
+{{/if}}
 </body>
 <!-- END: Body-->
 

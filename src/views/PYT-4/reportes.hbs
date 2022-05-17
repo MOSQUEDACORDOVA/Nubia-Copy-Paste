@@ -10,19 +10,95 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function () {
-   
-});
-</script>
 
-<input type="text" id="array_notif_" hidden value="{{notif_}}">
-<input type="text" id="notif1_2" hidden value="{{notif1_2}}">
-<input type="text" id="notif3_5" hidden value="{{notif3_5}}">
-<input type="text" id="notif6_12" hidden value="{{notif6_12}}">
+        $('.odd').addClass('dt-head-center');
+        $('.even').addClass('dt-head-center');
+        fecha_corte = new DateTime($('#fecha_corte'), {
+            format: 'DD/MM/YYYY'
+        });
+
+
+        $('#btnGraficos').on('click', (e) => {
+            Reset(1)
+        });
+        $('#btnGastos').on('click', (e) => {
+            Reset(2);
+        });
+
+        function Reset(num) {
+            $('#graficosReportes').removeClass('show');
+            $('#graficosReportes').addClass('collpase');
+
+            $('#gastos').removeClass('show');
+            $('#gastos').addClass('collpase');
+
+            switch (num) {
+                case 1:
+                    $('#graficosReportes').removeClass('collpase');
+                    $('#graficosReportes').addClass('show');
+                    break;
+                case 2:
+                    $('#gastos').removeClass('collpase');
+                    $('#gastos').addClass('show');
+                    break;
+                
+            }
+        }
+    });
+
+</script>
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
 <!-- BEGIN: Content-->
 <div class="app-content content ">
     <div class="content-wrapper">
       <div class="content-body">
-        <div class="row">
+        <div class="row" id="selectores">
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                            <div class="row">
+                                <span id="p1" class="d-none">ss</span>
+                                <div class="col-sm-12">
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnGraficos"
+                                    type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='clipboard'
+                                                    class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Graficos Reporte</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnGastos"
+                                    type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='info'
+                                                    class="feather feather-trending-up  avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Gastos</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="card collapse" id="graficosReportes">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
@@ -98,6 +174,130 @@ $(document).ready(function () {
             </div>
           </div>
         </div>
+        <div class="card collapse show" id="gastos">
+                <div class="card-body">
+                    <h4 class="card-title">Gastos</h4>
+                    <p class="card-text"> Ver gastos y agregos nuevos.</p>
+                </div>
+                <div class="scrolling-inside-modal">
+                <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2"
+                  data-bs-toggle="modal" data-bs-target="#addGasto_modal">
+                  Agregar
+                </button>
+              </div>
+                <section id="column-search-datatable">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic table dt-column-search table-responsive"  id="gastosTableDt">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tipo</th>
+                                                <th>Personal</th>
+                                                <th>Monto</th>
+                                                <th>Fecha</th>
+                                                <th>Sucursal</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="modal fade" id="addGasto_modal" tabindex="-1" aria-labelledby="addGasto_modalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGasto_modalTitle">Gastos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation was-validated" id="gastoForm">
+                    <input type="hidden" class="form-control" id="idGasto" name="idGasto" />
+                     <div class="form-group ">
+                        <label for="register-ciudad" class="form-label">Seleccione una zona</label>
+                        <select name="zona" placeholder="zona" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 zona_reg_modal_pedido" id='zona'>
+                            <option selected value="">Seleccione una zona</option>
+                            {{#each sucursales_let as |sucursal i |}}
+                            <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione una categoria</label>
+                        <select name="categoria" placeholder="categoria"  class="form-control mb-2" id='categoria'>
+                            <option default value="default">Seleccione una categoria</option>
+                            <option value="NOMINA">NOMINA</option>
+                            <option value="LUZ 1">LUZ 1</option>
+                            <option value="LUZ 2">LUZ 2</option>
+                            <option value="PIPA">PIPA</option>
+                            <option value="TAPAS">TAPAS</option>
+                            <option value="GARRAFONES">GARRAFONES</option>
+                            <option value="SELLOS BWATER">SELLOS BWATER</option>
+                            <option value="RENTA CAM 1">RENTA CAM 1</option>
+                            <option value="RENTA CAM 2">RENTA CAM 2</option>
+                            <option value="RENTA CAM 3">RENTA CAM 3</option>
+                            <option value="MATRIZ RENTA">MATRIZ RENTA</option>
+                            <option value="ADAMAR RENTA">ADAMAR RENTA</option>
+                            <option value="GAS 1">GAS 1</option>
+                            <option value="GAS 2">GAS 2</option>
+                            <option value="GAS 3">GAS 3</option>
+                            <option value="GAS 4">GAS 4</option>
+                            <option value="GAS 5">GAS 5</option>
+                            <option value="GAS 6">GAS 6</option>
+                            <option value="BONOS">BONOS</option>
+                            <option value="PRESTAMO BANCO">PRESTAMO BANCO</option>
+                            <option value="PRESTAMO YOTE">PRESTAMO YOTE</option>
+                            <option value="PRESTAMO">PRESTAMO</option>
+                            <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
+                            <option value="REGALO EMPLEADOS">REGALO EMPLEADOS</option>
+                            <option value="RACKS">RACKS</option>
+                            <option value="LIMPIEZA">LIMPIEZA</option>
+                            <option value="HIPOCLORITO Y MAS">HIPOCLORITO Y MAS</option>
+                            <option value="MECANICO">MECANICO</option>
+                            <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                            <option value="REFACCIONES">REFACCIONES</option>
+                            <option value="OTROS">OTROS</option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="personalList">
+                        <label for="register-ciudad" class="form-label">Seleccione un personal</label>
+                        <select name="personal" placeholder="personal" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 personal_reg_modal_pedido" id='personal'>
+                            <option selected value="">Seleccione un personal</option>
+                            {{#each personalList as |personal i |}}
+                            <option value="{{id}}">{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha" tabindex="1"
+                            class="form-control flatpickr-basic flatpickr-input mb-2" id="fecha">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Monto:</label>
+                        <input type="number" name="monto_gastos" class="form-control mb-2" id="monto_gastos">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="observacion" placeholder="Observación" class="form-control mb-2"
+                            id="observacion">
+                    </div>
+                  <div class="modal-footer">
+                <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light"
+                    type="button" id="saveGasto">Guardar</button>
+            </div>
+            </form>  
+            </div>
+            
+        </div>
+    </div>
+</div>
+            </div>
       </div>
   </div>
 </div>
@@ -114,8 +314,7 @@ $(document).ready(function () {
         .then(response => response.json())
         .then(data => {
           let pedidos = data.pedidos, transferencias = 0, deudores = 0, ventasG = data.ventasGlobal[0], clientes = data.clientes, clientesNuevos = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalGarraf = 0
-          console.log(data);
-
+          
           pedidos.forEach(pedido => {
             if(pedido.metodo_pago === "Deposito" || pedido.metodo_pago === "Transferencia") {
               transferencias++;
@@ -127,7 +326,7 @@ $(document).ready(function () {
 
           ventasG.forEach(venta => {
             totalVentas += parseInt(venta.monto_total);
-            console.log(parseInt(venta.monto_total));
+           ///console.log(parseInt(venta.monto_total));
             totalGarraf += parseInt(venta.total_garrafones_pedido);
             totalRefil += parseInt(venta.total_refill_pedido);
             totalCanje += parseInt(venta.total_canje_pedido);

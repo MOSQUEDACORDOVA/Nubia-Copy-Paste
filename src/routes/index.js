@@ -100,7 +100,8 @@ router.get('/prestadospy4-2', authControllerPY4.authenticatedUser, dashboardCont
 router.get('/loginpy4', dashboardControllerPY4.login);
 router.get('/registerpy4/:id', dashboardControllerPY4.register);
 router.post('/cambiar_sucursal', dashboardControllerPY4.change_sucursal);
-router.get('/reportes', dashboardControllerPY4.reportes);
+
+
 
 router.get('/historyobserpy4/:clienteId',authControllerPY4.authenticatedUser, dashboardControllerPY4.getHistorialObservaciones);
 router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, dashboardControllerPY4.saveHistorialObservaciones);
@@ -110,8 +111,15 @@ router.post('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardCo
 //PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
-// OBTENER VENTAS POR ZONAS
+//**REPORTES */
+router.get('/reportes', dashboardControllerPY4.reportes);
 router.get('/obetenerdatosgeneralesreportes', dashboardControllerPY4.gerenalReportes);
+router.get('/getGastosLit', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastosLit);
+router.post('/createGasto', authControllerPY4.authenticatedUser, dashboardControllerPY4.createGasto);
+router.get('/delete_gasto/:id', authControllerPY4.authenticatedUser, dashboardControllerPY4.deleteGasto);
+router.post('/getGastobyId', authControllerPY4.authenticatedUser, dashboardControllerPY4.getGastobyId);
+
+
 
 //personal
 router.get('/personal_py4', authControllerPY4.authenticatedUser, dashboardControllerPY4.personal_table);
