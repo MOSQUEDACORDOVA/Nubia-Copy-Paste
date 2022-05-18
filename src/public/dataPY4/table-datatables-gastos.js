@@ -40,6 +40,7 @@ async function pedidosbyDay(diaFin,diainicio) {
   $('#ingresosT').text('$'+TotalIngresos);
   $('#gastosT').text('$'+GastosbyDay);
   $('#gananciasT').text('$'+gananciasT);
+  gananciasChart(gananciasT, TotalIngresos, GastosbyDay);
 }
  function cargaTabla() {  
   
@@ -207,17 +208,6 @@ async function pedidosbyDay(diaFin,diainicio) {
 $('#saveGasto').click(()=>{
   gastosForm.submit();
 })
-
-    $("#ad_tag_cliente").on('show.bs.modal', function (e) {
-      var triggerLink = $(e.relatedTarget);
-      var id_cliente = triggerLink.data("id");
-      var title = triggerLink.data("title");
-      $("#modal_detail_garrafonesTitle").text(title); 
-    //  $("#home_modalBody").append(txt2);
-    $("#modal_detail_garrafonesBody").empty() 
-   $("#id_ad_tag_cliente").val(id_cliente);
-   console.log($("#id_ad_tag_cliente").val())
-  });
 
     /**FIN DOCUMENT READY */
   });
@@ -413,4 +403,61 @@ $('#saveGasto').click(()=>{
 
       }
     });
+  }
+  async function gananciasChart(gananciasT, TotalIngresos, GastosbyDay) {
+    let gananciasCharts
+    console.log(gananciasT)
+    console.log(TotalIngresos)
+    console.log(GastosbyDay)
+let optionsC
+optionsC = {
+            series: [gananciasT, TotalIngresos, GastosbyDay],
+            chart: {
+              width: '100%',
+              type: 'donut',
+            },
+            labels: ['Ganancias','Ingresos','Gastos'],
+            dataLabels: {
+              enabled: false,
+              textAnchor: 'middle'
+            },
+            responsive: [{
+              breakpoint: 568,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                /*plotOptions: {
+                  pie: {
+                    donut: {
+                      labels: {
+                        show: false,
+                      }
+                    },
+                  }
+                }*/
+              },
+            }],
+            legend: {
+              position: 'top',
+              offsetY: 0,
+              height: 50,
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                  }
+                },
+              
+              }
+            }
+          };
+          
+          gananciasCharts = new ApexCharts(document.querySelector("#chart5"), optionsC);
+          gananciasCharts.render();
+          gananciasCharts.updateOptions([{
+            series: [gananciasT, TotalIngresos, GastosbyDay]
+          }])
   }
