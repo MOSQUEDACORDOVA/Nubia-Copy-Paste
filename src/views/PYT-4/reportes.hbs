@@ -126,11 +126,11 @@ $(document).ready(function () {
                     </div>
                 </div>
             </div>
-            <div class="card collapse show" id="ingresos">
+            <div class="card card-body collapse show" id="ingresos">
                 <section id="column-search-datatable">
-                    <div class="row justify-content-center match-height py4">
+                    <div class="row match-height py4">
                         <div class="col-12">
-                                              <div class="card card-congratulation">
+                                              <div class="card card-congratulation m-0">
                         <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
                             <div class="avatar avatar-xl bg-light shadow">
                                 <div class="avatar-content">
@@ -244,23 +244,24 @@ $(document).ready(function () {
             </div>
           </div>
         </div>
+
         <div class="card collapse" id="gastos">
                 <div class="card-body">
                     <h4 class="card-title">Gastos</h4>
                     <p class="card-text"> Ver gastos y agregos nuevos.</p>
+                    <div class="scrolling-inside-modal">
+                    <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2"
+                      data-bs-toggle="modal" data-bs-target="#addGasto_modal">
+                      Agregar
+                    </button>
+                  </div>
                 </div>
-                <div class="scrolling-inside-modal">
-                <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2"
-                  data-bs-toggle="modal" data-bs-target="#addGasto_modal">
-                  Agregar
-                </button>
-              </div>
                 <section id="column-search-datatable">
                     <div class="row">
                         <div class="col-12">
-                            <div class="table-responsive">
-                                <div class="card">
-                                    <table class="datatables-basic table dt-column-search table-responsive"  id="gastosTableDt">
+                            <div class="card">
+                                <div class="table-responsive">
+                                    <table class="table"  id="gastosTableDt">
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
