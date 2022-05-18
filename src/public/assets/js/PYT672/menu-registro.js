@@ -29,37 +29,31 @@ $(function () {
             
         });
     $('#select-provincia').on('change', function () {
-        let title = $('#edit-title-modal').text()
-        if (title != "Editar Alumno") {
-            let current = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
-            $('#select-canton').html('<option value="">Seleccione un Canton</option>');
-            $.each(canton, function(key, value) {
-                if(value.provinciaId === current) {
-                    $('#select-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`);
-                }
-            });
-            $('#select-canton').val("");
-            $('#select-canton').trigger('change');
-            
-            cant.disabled = false;
-        }
+        let current = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
+        $('#select-canton').html('<option value="">Seleccione un Canton</option>');
+        $.each(canton, function(key, value) {
+            if(value.provinciaId === current) {
+                $('#select-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`);
+            }
+        });
+        $('#select-canton').val("");
+        $('#select-canton').trigger('change');
+        
+        cant.disabled = false;
     });
 
     $('#select-canton').on('change', function () {
-        let title = $('#edit-title-modal').text()
-        if (title != "Editar Alumno") {
-            let currentProv = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
-            let currentCant = parseInt(cant.options[cant.selectedIndex].getAttribute('data-id'));
-            $('#select-distrito').html('<option value="">Seleccione un Distrito</option>');
-            $.each(distritos, function(key, value) {
-                if(value.provinciaId === currentProv && value.cantonId === currentCant) {
-                    $('#select-distrito').append(`<option value="${value.nombre}">${value.nombre}</option>`);
-                }
-            });
-            $('#select-distrito').val("");
-            $('#select-distrito').trigger('change');
-    
-            dist.disabled = false;
-        }
+        let currentProv = parseInt(prov.options[prov.selectedIndex].getAttribute('data-id'));
+        let currentCant = parseInt(cant.options[cant.selectedIndex].getAttribute('data-id'));
+        $('#select-distrito').html('<option value="">Seleccione un Distrito</option>');
+        $.each(distritos, function(key, value) {
+            if(value.provinciaId === currentProv && value.cantonId === currentCant) {
+                $('#select-distrito').append(`<option value="${value.nombre}">${value.nombre}</option>`);
+            }
+        });
+        $('#select-distrito').val("");
+        $('#select-distrito').trigger('change');
+
+        dist.disabled = false;
     });
 });
