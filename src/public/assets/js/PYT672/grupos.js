@@ -57,10 +57,7 @@ function cargarTablaAperturas() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor = 'No asignado'
-                        if (full.usuarioId != null) {
-                            profesor = full.usuario.nombre
-                        }
+                        let profesor = full.usuario ? full.usuario.nombre : 'No asignado'
                         let identif;
                         if(full['identificador'].includes("C")) {
                             identif = `<b class="text-primary">${full.identificador}</b>`
@@ -236,10 +233,7 @@ function cargarTablaDesde0() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor = 'No asignado'
-                        if (full.usuarioId != null) {
-                            profesor = full.usuario.nombre
-                        }
+                        let profesor = full.usuario ? full.usuario.nombre : 'No asignado'
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>
@@ -410,10 +404,7 @@ function cargarTablaIntensivos() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor = 'No asignado'
-                        if (full.usuarioId != null) {
-                            profesor = full.usuario.nombre
-                        }
+                        let profesor = full.usuario ? full.usuario.nombre : 'No asignado'
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>
@@ -581,10 +572,7 @@ function cargarTablaKids() {
             columnDefs: [
                 {
                     targets: 0, render: function (data, type, full) {
-                        let profesor = 'No asignado'
-                        if (full.usuarioId != null) {
-                            profesor = full.usuario.nombre
-                        }
+                        let profesor = full.usuario ? full.usuario.nombre : 'No asignado'
                         let grupo = `
                         <div>
                             <p class="d-none">${full.nivel}</p>

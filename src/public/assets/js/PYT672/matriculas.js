@@ -338,6 +338,7 @@ $(function () {
     $("#guarda-grupoNew").addClass("d-none");
     var Array = e.relatedTarget["dataset"]["bsArrdata"];
     var my_object = JSON.parse(decodeURIComponent(Array));
+    console.log(my_object);
     console.log(my_object["grupo"]);
     $(`#nombreReagrupar`).text(`${my_object["nombre"]}`);
     $(`#tlfReagrupar`).text(
@@ -346,6 +347,20 @@ $(function () {
     /*let filter_group_alumnos = estudiantesParsed.filter(
       (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
     );*/
+
+    let id1 = my_object.id, id2 = my_object.grupoId
+
+    let url = `/controlMatricula/${id1}/${id2}`;
+
+    let resp = await fetch(url),
+    status = await resp.status,
+    alumnoJson = await resp.json();
+
+    /*console.log(resp)
+    console.log(status)*/
+    console.log(alumnoJson)
+    console.log("FETCH")
+
     let filter_group_alumnos = matriculasTodos.filter(
       (filter2) => filter2.grupo.id == my_object["grupoId"]
     );
@@ -353,80 +368,73 @@ $(function () {
     $("#id_estudiante").val(my_object["id"]);
     $("#nombre_reaginador").val(my_object["nombre"]);
     $("#grupoId_actual").val(my_object["grupo"]["id"]);
-      let find = gruposTodos.filter(item => my_object["grupoId"] == item.id)
+    let find = gruposTodos.filter(item => my_object["grupoId"] == item.id)
+    let prof = my_object["grupo"]["usuario"] ? my_object["grupo"]["usuario"]["nombre"] : "No Asignado"
     $(`#grupoReag`).text(`${find[0].identificador}`);
     $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
-    $(`#profesorreag`).text(`${my_object["grupo"]["usuario"]["nombre"]} `);
+    $(`#profesorreag`).text(prof);
     $(`#tipogrupoReag`).text(
       `${my_object["grupo"]["nombre"]}- ${my_object["grupo"]["identificador"]}`
     );
     $(`#fechaPagoReag`).text(`${my_object["grupo"]["dia_pagos"]}`);
     $(`#cantAlumnos`).text(`${filter_group_alumnos.length}`);
-//NOTAS Y PARTICIPACION
-var notas,nota_participacion,ausencias, comentarios;
-notas = await fetch("/notas-titulo-academy/" + my_object["id"])
-.then((response) => response.json())
-.then((data) => {
-  return data.obtener_notas;
-});
-nota_participacion= await fetch("/participacion-titulo-academy/" + my_object["id"])
-.then((response) => response.json())
-.then((data) => {
-return data.obtener_participacion;
-});
-ausencias = await fetch("/ausencias-titulo-academy/" + my_object["id"])
-.then((response) => response.json())
-.then((data) => {
-return data.obtener_ausencias;
-});
-let total_nota = 0
-for (let i = 0; i < notas.length; i++) {
-if (notas[i]['nota'] == 'undefined') {
-  total_nota += 0;
-}else{
-  total_nota += parseInt(notas[i]['nota']);
-}     
-}
-let asistencias = 32-parseInt(ausencias.length);
-let porcentaje_asist = (asistencias * 100)/32;
-$('#calificacionT').text(`${total_nota}%`)
-$('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
+
+    //NOTAS Y PARTICIPACION
+    var notas, nota_participacion, ausencias = await alumnoJson.ausentes, comentarios;
+    /*notas = await fetch("/notas-titulo-academy/" + my_object["id"])
+    .then((response) => response.json())
+    .then((data) => {
+      return data.obtener_notas;
+    });
+    nota_participacion= await fetch("/participacion-titulo-academy/" + my_object["id"])
+    .then((response) => response.json())
+    .then((data) => {
+    return data.obtener_participacion;
+    });
+    ausencias = await fetch("/ausencias-titulo-academy/" + my_object["id"])
+    .then((response) => response.json())
+    .then((data) => {
+    return data.obtener_ausencias;
+    });*/
+
+    let total_nota = 0
+    /*for (let i = 0; i < notas.length; i++) {
+      if (notas[i]['nota'] == 'undefined' || notas[i]['nota'] == "0") {
+        total_nota += 0;
+      }else{
+        total_nota += parseInt(notas[i]['nota']);
+      }     
+    }*/
+
+  let asistencias;
+  let porcentaje_asist;
+  
+  if (my_object['grupo']['nombre'] != "Kids") {
+    asistencias = 32 - parseInt(ausencias);
+    porcentaje_asist = (asistencias * 100) / 32;
+  } else {
+    asistencias = 16 - parseInt(ausencias);
+    porcentaje_asist = (asistencias * 100) / 16;
+  }
+
+  $('#calificacionT').text(`${total_nota}%`)
+  $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
 
     let inicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(my_object["grupo"]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
     let tipo = my_object["grupo"]["nombre"];    
-    let numLeccion;
+    let numLeccion = alumnoJson.leccActual ? alumnoJson.leccActual : 0;
     let fechaActual = moment().format("DD-MM-YYYY");
     let fechaInicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY").format("DD-MM-YYYY");
     let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
     let rest; 
-
-    if(my_object["grupo"]["lecciones_semanales"] === '1') {
-      if(diff < 0) {
-        rest = (224 - (-diff)) / 7; 
-      } else {
-        rest = (224 - (diff)) / 7; 
-      }
-    } else {
-      if(diff < 0) {
-        rest = (112 - (-diff)) / 3.5; 
-      } else {
-        rest = (112 - (diff)) / 3.5; 
-      }
-    }
-
-    numLeccion = (32 - Math.floor(rest))
-
-    if (numLeccion) {
-      $(`#leccionActual0`).text(numLeccion);
-    } else {
-      $(`#leccionActual0`).text(0);
-    }
+  
+    $(`#leccionActual`).text(numLeccion);
 
     $(`.bg-success`).removeClass("bg-success");
-    $(`#leccion${$("#leccionActual0").text()}`).addClass("bg-success");
-    $(`#leccion_actual_reasig`).val($("#leccionActual0").text());
+    $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
+    $(`#leccion_actual_reasig`).val($("#leccionActual").text());
     var historial = await fetch("/historia-caja-academy/" + my_object["id"])
       .then((response) => response.json())
       .then((data) => {
@@ -550,8 +558,8 @@ const leccionActualGrupos = async () => {
     let inicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY");
     let final = moment(grupos[i]["fecha_finalizacion"], "DD-MM-YYYY");
     let diferencia2 = final.diff(inicio, "w");
-    let dia = grupos[i]["dia_horario"].split(":");
-    dia = dia[0].toString();
+    let dia = grupos[i]["dia_horario"];
+    dia = dia[0] ? dia[0].toString() : "";
     dia = dia.split("y");
     let fechaInicio = moment(grupos[i]["fecha_inicio"], "DD-MM-YYYY").format("DD-MM-YYYY");
     let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');

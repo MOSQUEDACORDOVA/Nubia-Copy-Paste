@@ -355,7 +355,7 @@
                             <span class="fw-bolder">
                               Leccion Actual:
                             </span>
-                            <span id="leccionActual0">10</span>
+                            <span id="leccionActual">10</span>
                           </p>
                         </div>
                         <!--/ Leccion Actual-->
@@ -628,6 +628,176 @@
         </div>
       </div>
       <!--/ Modal Comentarios-->
+      
+      <!--/ Modal Comentarios-->
+
+      <div class="modal fade py672" id="editarAlumno" tabindex="-1" aria-modal="true" role="dialog">
+          <div class="modal-dialog modal-dialog-centered modal-xl">
+              <div class="modal-content">
+                  <div class="modal-header bg-transparent">
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body pb-5 px-sm-4 mx-50">
+                      <h1 class="address-title text-center mb-1" id="edit-title-modal">Registrar Alumno</h1>
+
+                      <form  class="form" action="/registrarestudiantepy672" method="POST" id="formregalumno">
+                          <div class="row">
+                                  <div class="d-none" id="id-alumno-edit">
+
+                              </div>
+                              <div class="col-12 col-xl-6 mb-1" id="grupos-edit">
+                                  <div class="list-item-body flex-grow-1">
+                                      <label class="form-label">Grupo</label>
+                                      <style>
+                                          .select2-container--default .select2-results__option--highlighted[data-select2-id="select2-grupoId-we-result-uwd9-98"] {
+                                              background-color: yellowgreen !important;
+                                              color: white;
+                                          }
+                                      </style>
+                                      <div class="position-relative" id="grupoId-reg">
+                                          <select class="select2 form-select" id="gruposMenu" tabindex="-1" name="grupoId" aria-hidden="true" required>
+                                              <option>Seleccione un grupo</option>
+                                          </select>
+                                      </div>
+                                      
+                                  </div>
+                              </div>
+                              
+                              <div class="col-12 col-xl-6 mb-1">
+                                  <div class="list-item-body flex-grow-1">
+                                      <label class="form-label">Apellidos y Nombres</label>
+                                      <input type="text" class="form-control" placeholder="Apellidos y Nombres" name="nombre" id="name-for-edit" required>
+                                  </div>
+                              </div>
+
+
+                              <div class="col-12">
+                                  <div class="flex-grow-1 d-lg-none">
+                                      <label class="form-label" for="">Documento de Identidad</label>
+                                      <div class="demo-inline-spacing d-none">
+                                          <div class="form-check form-check-inline mt-0">
+                                              <input class="form-check-input" type="radio" name="tipo" id="inlineRadio1" value="1" checked="">
+                                              <label class="form-check-label" for="inlineRadio1">Nacional</label>
+                                          </div>
+                                          <div class="form-check form-check-inline mt-0">
+                                              <input class="form-check-input" type="radio" id="inlineRadio2" name="tipo" value="2">
+                                              <label class="form-check-label" for="inlineRadio2">Extranjero</label>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                  <div class="row m-0 p-0">
+                                      <div id="nacionalCampos" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                          <div class="flex-grow-1 d-none">
+                                              <label class="form-label" for="fp-default">&nbsp</label>
+                                          </div>
+                                          <div class="flex-grow-1">
+                                              <label class="form-label d-none d-lg-block" for="">Documento de Identidad</label>
+
+                                              <input type="number" class="form-control" name="dni" id="nacionalDni" value="" placeholder="No. Identificación"/>
+                                          </div>
+                                      </div>
+
+                                      <div id="ExtranjeroCampo" class="col-12 col-xl-6 p-0 pe-xl-1 mb-1">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label" for="fp-default">&nbsp</label>
+                                              <input type="text" class="form-control" placeholder="No. Identificación" id="exDni" >
+                                          </div>
+                                      </div>
+
+                                      <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 ps-md-0 pe-md-1 ps-xl-1 pe-xl-0">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label" for="fp-default">Fecha de nacimiento</label>
+                                              <input type="text" id="fecha-nacimiento-edit" class="form-control flatpickr-basic" placeholder="DD-MM-YYYY" name="nacimiento" required>
+                                          </div>
+                                      </div>
+
+                                      <div class="col-12 col-md-6 col-xl-3 mb-1 p-0 pe-md-0 ps-md-1">
+                                          <div class="flex-grow-1">
+                                              <label class="form-label" for="fp-default">Sexo</label>
+                                              <select class="form-select select2" name="genero" id="genero-edit" required>
+                                                  <option value="">Seleccionar Género</option>
+                                                  <option value="Femenino">Femenino</option>
+                                                  <option value="Masculino">Masculino</option>
+                                              </select>                                    
+                                          </div>
+                                      </div>
+
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-md-6 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Teléfono 1</label>
+                                      <input type="text" class="form-control tlfNacional"  name="telefono1" id="inputTlf1" required>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-md-6 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Teléfono 2</label>
+                                      <input type="text" class="form-control tlfNacional"  name="telefono2" id="inputTlf2">
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-4 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Email</label>
+                                      <input type="text" class="form-control" name="email" id="email-edit" required>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="">Vendedor</label>
+                                      <select type="text" class="form-select select2" name="vendedor" id="vendedor-edit">
+                                          <option value="">Seleccione un Vendedor</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Provincia</label>
+                                      <div class="position-relative">
+                                          <select class="select2 form-select" tabindex="-1" name="provincia" aria-hidden="true" id="select-provincia" required>
+                                              <option value="">Seleccione una Provincia</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Cantón</label>
+                                      <div class="position-relative">
+                                          <select class="select2 form-select" id="select-canton" tabindex="-1" name="canton" aria-hidden="true" disabled required>
+                                              <option value="">Seleccione un Canton</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 col-lg-6 col-xl-3 mb-1">
+                                  <div class="flex-grow-1">
+                                      <label class="form-label" for="fp-default">Distrito</label>
+                                      <select class="select2 form-select" id="select-distrito" tabindex="-1" name="distrito" aria-hidden="true" disabled required>
+                                          <option value="">Seleccione un Distrito</option>
+                                      </select>
+                                  </div>
+                              </div>
+
+                              <div class="col-12">
+                                  <input type="submit" class="btn btn-primary" id="btn-editar-submit" value="Actualizar">
+                              </div>
+
+                          </div>
+
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
 
 
     </div>

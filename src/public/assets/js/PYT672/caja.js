@@ -1847,12 +1847,52 @@ async function updateHistorial(id_estudiante) {
     </div>
     </div>
     </li>`;
-    let lista_recargo = `<li class="timeline-item">
+    let lista_inscrip = `<li class="timeline-item">
     <span class="timeline-point timeline-point-indicator"></span>
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
       <div class="d-flex align-items-center mb-tl">
         <h6 class="fw-bold mb-0">Inscripción</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let lista_constancia = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Constancia</h6>
+      </div>
+
+      <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><strong> Grupo:</strong> <span>${grupoFind[0].identificador}</span></p>
+      <h6 class="more-info mb-0">₡ ${historial[i]["monto"]}</h6>
+    </div>
+    <div class="d-flex justify-content-between">
+      <p class="mb-tl"><span>${historial[i]["banco"]}-${historial[i]["transaccion"]}</span></p>
+      <h6 class="more-info mb-0">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY" )}</h6>
+    </div>
+    </div>
+    </li>`;
+    let lista_recargo = `<li class="timeline-item">
+    <span class="timeline-point timeline-point-indicator"></span>
+    <div class="timeline-event">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex align-items-center mb-tl">
+        <h6 class="fw-bold mb-0">Recargo</h6>
       </div>
 
       <p class="mb-tl">${moment(historial[i]["createdAt"]).format("DD-MM-YYYY")}</p>
@@ -1913,7 +1953,7 @@ async function updateHistorial(id_estudiante) {
       continue
     }
     if (reposicionS[0] == "Inscripción" && historial[i]["observacion"] == "-") {
-      $("#historial-list").append(lista_recargo);
+      $("#historial-list").append(lista_inscrip);
       continue
     }
     if (
@@ -1927,6 +1967,12 @@ async function updateHistorial(id_estudiante) {
       historial[i]["observacion"] == "-"
     ) {
       $("#historial-list").append(lista_recargo);
+    }
+    if (
+      historial[i]["concepto"] == "Constancia" &&
+      historial[i]["observacion"] == "-"
+    ) {
+      $("#historial-list").append(lista_constancia);
     }
 
     if (historial[i]["concepto"] == "Mensualidad") {
