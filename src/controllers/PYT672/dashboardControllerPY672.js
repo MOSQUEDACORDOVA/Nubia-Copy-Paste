@@ -3794,6 +3794,8 @@ exports.registrarmatricula = async(req, res) => {
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
   let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
+  console.log(req.body)
+  console.log("REQ BODY")
   let msg = false;
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
