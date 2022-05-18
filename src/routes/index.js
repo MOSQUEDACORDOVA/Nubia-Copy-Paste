@@ -108,6 +108,9 @@ router.post('/saveObservacionClientePy4',authControllerPY4.authenticatedUser, da
 router.get('/delete_observacionpy4/:id',authControllerPY4.authenticatedUser, dashboardControllerPY4.delete_observacionpy4);
 router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
 router.post('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
+router.get('/getPedidosbyDaypy4/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidospordia);
+router.get('/obtenerPedidosReprogramados/:dia', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReprogramados);
+
 //PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);

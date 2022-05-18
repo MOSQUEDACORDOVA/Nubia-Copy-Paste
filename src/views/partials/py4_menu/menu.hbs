@@ -72,6 +72,7 @@ $('.referido-notif').click(function (e){
 
 </script>
 {{#if admin}}{{else}}<span id="otro_rol" hidden>Admin</span>{{/if}}
+{{#if gerente}}<span id="gerente" hidden>gerente</span>{{/if}}
 <input type="text" id="array" hidden value="{{clientes_d}}">
 {{!-- <input type="text" id="array_pedido" hidden value="{{pedidos_}}"> --}}
 <input type="text" id="array_sucursales" hidden value="{{sucursales_}}">
@@ -369,24 +370,24 @@ padding-left: 0.7rem;
             </li>
            {{#if admin}} <li class="{{#if personal}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/personal_py4"><i data-feather='smile'></i><span class="menu-title text-truncate"
-                        data-i18n="Usuarios">Personal</span></a>{{/if}}
-            </li>
+                        data-i18n="Usuarios">Personal</span></a>
+            </li>{{/if}}
             <li class="{{#if corte}}active{{/if}} nav-item"><a class="d-flex align-items-center" href="/corte_py4"><i
                         data-feather='pie-chart'></i><span class="menu-title text-truncate"
                         data-i18n="Corte">Corte</span></a>
             </li>
            {{#if admin}} <li class="{{#if vehiculos}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/vehiculos_py4"><i data-feather='chrome'></i><span class="menu-title text-truncate"
-                        data-i18n="vehiculos">Vehiculos</span></a>{{/if}}
-            </li>
+                        data-i18n="vehiculos">Vehiculos</span></a>
+            </li>{{/if}}
             {{#if admin}}<li class="{{#if sucursales}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/sucursales_py4"><i data-feather='layers'></i><span class="menu-title text-truncate"
-                        data-i18n="Zonas">Zonas</span></a>{{/if}}
-            </li>
+                        data-i18n="Zonas">Zonas</span></a>
+            </li>{{/if}}
                   {{#if admin}}      <li class="{{#if carga_init}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/carga_inicial_py4"><i data-feather='package'></i><span class="menu-title text-truncate"
-                        data-i18n="Carga">Carga Inicial</span></a>{{/if}}
-            </li>
+                        data-i18n="Carga">Carga Inicial</span></a>
+            </li>{{/if}}
             
             <li class="{{#if promociones}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/promociones_bw"><i data-feather='star'></i><span class="menu-title text-truncate"
@@ -396,9 +397,9 @@ padding-left: 0.7rem;
                     href="/notificaciones_panel"><i data-feather='alert-circle'></i><span class="menu-title text-truncate"
                         data-i18n="Notificaciones ">Notificaciones</span></a>
             </li>
-             <li class="{{#if maquila}}active{{/if}} nav-item"><a class="d-flex align-items-center"
+           {{#if admin}} {{#if gerente}}{{else}} <li class="{{#if maquila}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/maquila"><i data-feather='truck'></i><span class="menu-title text-truncate">Maquila</span></a>
-            </li>
+            </li>{{/if}}{{/if}}
             <li class="{{#if reportes}}active{{/if}} nav-item"><a class="d-flex align-items-center"
                     href="/reportes"><i data-feather='clipboard'></i><span class="menu-title text-truncate">Reportes</span></a>
             </li>
