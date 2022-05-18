@@ -14,7 +14,7 @@
      let suma = parseInt(cant) + parseInt(count_canje_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
  
  
-     let monto = parseInt(cant) * 35
+     let monto = parseInt(cant) * 38
  
      if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
        monto = parseInt(cant) * 30
@@ -56,7 +56,7 @@
      let enNew_garrafon_mont = $('#count_enNew_garrafon').val()
      let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
      let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(enNew_garrafon_mont) + parseInt(count_enobsequio_garrafon)
-     let monto = parseInt(cant) * 55
+     let monto = parseInt(cant) * 65
  
      if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
        monto = parseInt(cant) * 30
@@ -92,7 +92,7 @@
      let count_canje_garrafon = $('#count_canje_garrafon').val()
      let count_enobsequio_garrafon = $('#count_enobsequio_garrafon').val()
      let suma = parseInt(cant) + parseInt(count_refill_garrafon) + parseInt(count_canje_garrafon) + parseInt(count_enobsequio_garrafon)
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      // if ($('#tipo_c_pedido').val() == "Punto de venta") {
      //   monto = parseInt(cant) * 30
      // }
@@ -142,7 +142,7 @@
      let enNew_botella_mont = $('#count_enNew_botella').val()
      let count_enobsequio_botella = $('#count_enobsequio_botella').val()
      let suma = parseInt(cant) + parseInt(count_canje_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
-     let monto = parseInt(cant) * 35
+     let monto = parseInt(cant) * 38
      if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
        monto = parseInt(cant) * 30
      }
@@ -179,7 +179,7 @@
      let enNew_botella_mont = $('#count_enNew_botella').val()
      let count_enobsequio_botella = $('#count_enobsequio_botella').val()
      let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(enNew_botella_mont) + parseInt(count_enobsequio_botella)
-     let monto = parseInt(cant) * 55
+     let monto = parseInt(cant) * 65
      
      $('#canje_botella_mont').val(monto)
      $('#total_botella').val(suma)
@@ -212,7 +212,7 @@
      let count_canje_botella = $('#count_canje_botella').val()
      let count_enobsequio_botella = $('#count_enobsequio_botella').val()
      let suma = parseInt(cant) + parseInt(count_refill_botella) + parseInt(count_canje_botella) + parseInt(count_enobsequio_botella)
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      
      $('#enNew_botella_mont').val(monto)
      $('#total_botella').val(suma)
@@ -259,7 +259,7 @@
      let enNew_garrafon11l_mont = $('#count_enNew_garrafon11l').val()
      let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
      let suma = parseInt(cant) + parseInt(count_canje_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
-     let monto = parseInt(cant) * 35
+     let monto = parseInt(cant) * 38
      if ($('#tipo_c_pedido').val() == "Punto de venta" || $('#tipo_c_pedido').val() == "Negocio") {
        monto = parseInt(cant) * 30
      }
@@ -298,7 +298,7 @@
      let enNew_garrafon11l_mont = $('#count_enNew_garrafon11l').val()
      let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
      let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(enNew_garrafon11l_mont) + parseInt(count_enobsequio_garrafon11l)
-     let monto = parseInt(cant) * 55
+     let monto = parseInt(cant) * 65
      
      $('#canje_garrafon11l_mont').val(monto)
      $('#total_garrafon11l').val(suma)
@@ -331,7 +331,7 @@
      let count_canje_garrafon11l = $('#count_canje_garrafon11l').val()
      let count_enobsequio_garrafon11l = $('#count_enobsequio_garrafon11l').val()
      let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(count_canje_garrafon11l) + parseInt(count_enobsequio_garrafon11l)
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      
      $('#enNew_garrafon11l_mont').val(monto)
      $('#total_garrafon11l').val(suma)
@@ -366,7 +366,7 @@
      let count_enNew_garrafon11l = $('#count_enNew_garrafon11l').val()
      let suma = parseInt(cant) + parseInt(count_refill_garrafon11l) + parseInt(count_canje_garrafon11l) + parseInt(count_enNew_garrafon11l)
  
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      
      
      $('#enNew_garrafon11l_mont').val(monto)
@@ -380,7 +380,7 @@
      let enNew_botella5l_mont = $('#count_enNew_botella5l').val()
      let count_enobsequio_botella5l = $('#count_enobsequio_botella5l').val()
      let suma = parseInt(cant) + parseInt(count_canje_botella5l) + parseInt(enNew_botella5l_mont) + parseInt(count_enobsequio_botella5l)
-     let monto = parseInt(cant) * 35
+     let monto = parseInt(cant) * 38
      $('#refill_botella5l_mont').val(monto)
      $('#total_botella5l').val(suma)
      $('#cant_botella5l').text(suma)
@@ -413,7 +413,7 @@
      let enNew_botella5l_mont = $('#count_enNew_botella5l').val()
      let count_enobsequio_botella5l = $('#count_enobsequio_botella5l').val()
      let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(enNew_botella5l_mont) + parseInt(count_enobsequio_botella5l)
-     let monto = parseInt(cant) * 55
+     let monto = parseInt(cant) * 65
      
      $('#canje_botella5l_mont').val(monto)
      $('#total_botella5l').val(suma)
@@ -447,7 +447,7 @@
      let count_enobsequio_botella5l = $('#count_enobsequio_botella5l').val()
  
      let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enobsequio_botella5l)
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      
      $('#enNew_botella5l_mont').val(monto)
      $('#total_botella5l').val(suma)
@@ -482,7 +482,7 @@
      let count_canje_botella5l = $('#count_canje_botella5l').val()
      let count_enNew_botella5l = $('#count_enNew_botella5l').val()
      let suma = parseInt(cant) + parseInt(count_refill_botella5l) + parseInt(count_canje_botella5l) + parseInt(count_enNew_botella5l)
-     let monto = parseInt(cant) * 105
+     let monto = parseInt(cant) * 115
      
      $('#enNew_botella5l_mont').val(monto)
      $('#total_botella5l').val(suma)
@@ -493,6 +493,9 @@
    //OTROS DESPUES DE LOS SELECT DE PRODUCTOS
  
    $('#id_cliente_reg_pedido').on('change', (e) => {
+    if (!$('#registro_pedido_modal').hasClass('show')) {
+      return
+    }
      $('#modifica_cliente_input').val('NO');
      var valor = $('#array').val()
      var array = JSON.parse(valor.replace(/&quot;/g, '"'))

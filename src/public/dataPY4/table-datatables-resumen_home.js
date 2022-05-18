@@ -220,22 +220,6 @@ $.contextMenu({
 })
 
 
-
-  // Responsive Table
-  // --------------------------------------------------------------------
-
-
-  // Filter form control to default size for all tables
-  $('.dataTables_filter .form-control').removeClass('form-control-sm');
-  $('.dataTables_length .form-select').removeClass('form-select-sm').removeClass('form-control-sm');
-  // Delete Record
-  
-  $('.odd').addClass('selector');
-  $('.even').addClass('selector'); 
-
- 
-
-
 });
 
 // Filter column wise function

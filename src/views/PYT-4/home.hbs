@@ -2,92 +2,99 @@
     .none {
         display: none;
     }
+
     .select2-container--default .select2-selection--single {
         border: 1px solid #001871 !important;
     }
+
     .select2-selection__rendered {
         color: #001871 !important;
         font-weight: 500;
     }
+
     #home_modal .modal-dialog .list-group-item {
         border: none;
         border-bottom: 1px solid rgba(34, 41, 47, 0.125);
     }
-    table.dataTable>thead>tr>th:not(.sorting_disabled), table.dataTable>thead>tr>td:not(.sorting_disabled) {
-    padding-right: 10px !important;
-    padding-left: 10px !important;
-}
-    
+
+    table.dataTable>thead>tr>th:not(.sorting_disabled),
+    table.dataTable>thead>tr>td:not(.sorting_disabled) {
+        padding-right: 10px !important;
+        padding-left: 10px !important;
+    }
+
     @media(min-width: 768px) {
         #home_modal .modal-dialog {
-           max-width: 600px; 
+            max-width: 600px;
         }
+
         table.dataTable.table-responsive:not(.datatables-ajax) {
-    display: table !important;
-}
+            display: table !important;
+        }
     }
 </style>
 <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/jquery.contextMenu.min.css">
-{{!-- <link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
+{{!--
+<link rel="stylesheet" type="text/css" href="../../../app-assets/vendors/css/extensions/toastr.min.css">
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-toastr.css"> --}}
 <link rel="stylesheet" type="text/css" href="../../../app-assets/css/plugins/extensions/ext-component-context-menu.css">
 <script>
 
-$(document).ready(function() {
+    $(document).ready(function () {
 
-    $('.odd').addClass('dt-head-center');
-     $('.even').addClass('dt-head-center'); 
-    fecha_corte = new DateTime($('#fecha_corte'), {
-        format: 'DD/MM/YYYY'
-    });
+        $('.odd').addClass('dt-head-center');
+        $('.even').addClass('dt-head-center');
+        fecha_corte = new DateTime($('#fecha_corte'), {
+            format: 'DD/MM/YYYY'
+        });
 
 
-    $('#btnpedidos').on('click', (e)=> {
-        Reset(1)
-    });
-    $('#btnprestados').on('click', (e)=> {
-        Reset(2);
-    });
-    $('#btnventas').on('click', (e)=> {
-        Reset(3);
-    });
-        $('#btnresumen').on('click', (e)=> {
-        Reset(4);
-    });
+        $('#btnpedidos').on('click', (e) => {
+            Reset(1)
+        });
+        $('#btnprestados').on('click', (e) => {
+            Reset(2);
+        });
+        $('#btnventas').on('click', (e) => {
+            Reset(3);
+        });
+        $('#btnresumen').on('click', (e) => {
+            Reset(4);
+        });
 
-    function Reset(num) {
-        $('#pedidostable').removeClass('show');
-        $('#pedidostable').addClass('collpase');
+        function Reset(num) {
+            $('#pedidostable').removeClass('show');
+            $('#pedidostable').addClass('collpase');
 
-        $('#prestadostable').removeClass('show');
-        $('#prestadostable').addClass('collpase');
+            $('#prestadostable').removeClass('show');
+            $('#prestadostable').addClass('collpase');
 
-        $('#ventastable').removeClass('show');
-        $('#ventastable').addClass('collpase');
+            $('#ventastable').removeClass('show');
+            $('#ventastable').addClass('collpase');
 
-         $('#resumenTable').removeClass('show');
-        $('#resumenTable').addClass('collpase');
-        
-        switch (num){
-            case 1:
-                $('#pedidostable').removeClass('collpase');
-                $('#pedidostable').addClass('show');
-            break;
-            case 2:
-                $('#prestadostable').removeClass('collpase');
-                $('#prestadostable').addClass('show');
-            break;
-            case 3:
-                $('#ventastable').addClass('show');
-                $('#ventastable').removeClass('collpase');
-            break;
-              case 4:
-                $('#resumenTable').addClass('show');
-                $('#resumenTable').removeClass('collpase');
-            break;
+            $('#resumenTable').removeClass('show');
+            $('#resumenTable').addClass('collpase');
+
+            switch (num) {
+                case 1:
+                    $('#pedidostable').removeClass('collpase');
+                    $('#pedidostable').addClass('show');
+                    break;
+                case 2:
+                    $('#prestadostable').removeClass('collpase');
+                    $('#prestadostable').addClass('show');
+                    break;
+                case 3:
+                    $('#ventastable').addClass('show');
+                    $('#ventastable').removeClass('collpase');
+                    break;
+                case 4:
+                    $('#resumenTable').addClass('show');
+                    $('#resumenTable').removeClass('collpase');
+                    break;
+            }
         }
-    }
-});
+    });
 
 </script>
 {{#if msg}}
@@ -106,15 +113,17 @@ $(document).ready(function() {
                     <div class="card card-statistics">
                         <div class="card-body statistics-body">
                             <div class="row">
-                        <span id="p1" class="d-none">ss</span>
-                        <div class="col-sm-12">
-                        </div>
-                        
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos" type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
+                                <span id="p1" class="d-none">ss</span>
+                                <div class="col-sm-12">
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnpedidos"
+                                    type="button" data-bs-toggle="collapse" href="#pedidostable" aria-expanded="false">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-primary me-2">
                                             <div class="avatar-content">
-                                                <i data-feather='clipboard' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                                <i data-feather='clipboard'
+                                                    class="feather feather-trending-up text-primary avatar-icon"></i>
                                             </div>
                                         </div>
                                         <div class="my-auto">
@@ -123,40 +132,54 @@ $(document).ready(function() {
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnprestados" type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnprestados"
+                                    type="button" data-bs-toggle="collapse" href="#prestadostable" aria-expanded="false"
+                                    aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-warning me-2">
                                             <div class="avatar-content">
-                                                <i data-feather='info' class="feather feather-trending-up  avatar-icon"></i>
+                                                <i data-feather='info'
+                                                    class="feather feather-trending-up  avatar-icon"></i>
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0" >Prestados</h4>
+                                            <h4 class="fw-bolder mb-0">Prestados</h4>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" id="btnventas" data-bs-toggle="collapse" href="#ventastable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" type="button" id="btnventas"
+                                    data-bs-toggle="collapse" href="#ventastable" aria-expanded="false"
+                                    aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
                                             <div class="avatar-content">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-dollar-sign avatar-icon"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                    class="feather feather-dollar-sign avatar-icon">
+                                                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                                                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                                                </svg>
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0" >Ventas</h4>
+                                            <h4 class="fw-bolder mb-0">Ventas</h4>
                                         </div>
                                     </div>
                                 </div>
-                                     <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnresumen" data-bs-toggle="collapse" href="#resumenTable" aria-expanded="false" aria-controls="collapseExample">
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12" type="button" id="btnresumen"
+                                    data-bs-toggle="collapse" href="#resumenTable" aria-expanded="false"
+                                    aria-controls="collapseExample">
                                     <div class="d-flex flex-row">
                                         <div class="avatar bg-light-success me-2">
-                                           <div class="avatar-content">
-                                                <i data-feather='loader' class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            <div class="avatar-content">
+                                                <i data-feather='loader'
+                                                    class="feather feather-trending-up text-primary avatar-icon"></i>
                                             </div>
                                         </div>
                                         <div class="my-auto">
-                                            <h4 class="fw-bolder mb-0" >Resumen</h4>
+                                            <h4 class="fw-bolder mb-0">Resumen</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +193,7 @@ $(document).ready(function() {
                 <div class="card-body">
                     <h4 class="card-title">Pedidos</h4>
                     <p class="card-text"> Todos los pedidos de la plataforma están acá, pronto podrás filtrarlos y
-                    modificarlos rápidamente.</p>
+                        modificarlos rápidamente.</p>
                 </div>
                 <section id="column-search-datatable">
                     <div class="card-body">
@@ -179,8 +202,12 @@ $(document).ready(function() {
                                 <div class="col-md-4">
                                     <label class="form-label">Fecha:</label>
                                     <div class="mb-0 d-flex">
-                                        <input type="text" class="form-control  start_date dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min1"/>
-                                        <input type="text" class="form-control  end_date dt-input" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max1"/>
+                                        <input type="text" class="form-control  start_date dt-input me-md-1"
+                                            data-column="5" data-column-index="4" name="value_from_start_date"
+                                            placeholder="Fecha desde" id="min1" onchange="cargaPedidosReprogramados(this.value)"/>
+                                        <input type="text" class="form-control d-none end_date dt-input"
+                                            name="value_from_end_date" data-column="5" data-column-index="4"
+                                            placeholder="Fecha hasta" id="max1" />
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +225,7 @@ $(document).ready(function() {
                                         <option value="">Filtrar choferes</option>
                                         <option value="">Ver Todo</option>
                                         {{#each choferes_ as |chofer i|}}
-                                        <option >{{name}}</option>
+                                        <option>{{name}}</option>
                                         {{/each}}
                                     </select>
                                 </div>
@@ -212,10 +239,14 @@ $(document).ready(function() {
                                     </select>
                                 </div>
                                 <div class="col-6 col-lg-3 mt-1 mt-lg-0">
-                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_change_chofer">Cambiar chofer</button>  
+                                    <button type="button"
+                                        class="btn btn-outline-primary btn-block w-100 text-primary waves-effect"
+                                        id="button_change_chofer">Cambiar chofer</button>
                                 </div>
                                 <div class="col-6 col-lg-3 mt-1 mt-lg-0">
-                                    <button type="button" class="btn btn-outline-primary btn-block w-100 text-primary waves-effect" id="button_copiar_varios">Copiar Varios</button>  
+                                    <button type="button"
+                                        class="btn btn-outline-primary btn-block w-100 text-primary waves-effect"
+                                        id="button_copiar_varios">Copiar Varios</button>
                                 </div>
                             </div>
                         </div>
@@ -225,9 +256,10 @@ $(document).ready(function() {
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic table dt-column-search table-responsive" id="example">
+                                    <table class="datatables-basic table dt-column-search table-responsive"
+                                        id="example">
                                         <thead>
-                                            <tr>                                                
+                                            <tr>
                                                 <th></th>
                                                 <th>#Pedido</th>
                                                 <th></th>
@@ -240,25 +272,25 @@ $(document).ready(function() {
                                                 <th>Forma de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                <th>oculto choferes </th> 
-                                                <th>oculto asentamiento </th> 
+                                                <th>oculto choferes </th>
+                                                <th>oculto asentamiento </th>
                                             </tr>
                                         </thead>
                                         <tfoot>
-    <tr>
-        <th colspan="4" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>
+                                            <tr>
+                                                <th colspan="4" style="text-align:right"> Total</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -272,23 +304,28 @@ $(document).ready(function() {
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Prestados</h4>
-                            <p class="card-text">Todos los prestamos de la plataforma están acá, pronto podrás filtrarlos y modificarlos rápidamente. </p>
+                            <p class="card-text">Todos los prestamos de la plataforma están acá, pronto podrás
+                                filtrarlos y modificarlos rápidamente. </p>
                             <input type="text" id="array_corte_prestados" hidden value="{{prestamos_byday}}">
                             <div class="col-md-6 col-lg-4">
                                 <p class="m-0">Cambiar fecha de corte (prestados):</p>
                                 <div class="my-1 d-flex">
-                                    <input type="text" class="form-control  start_date_ dt-input me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Cambiar fecha de corte" id="fecha_corte"/>
-                                    
+                                    <input type="text" class="form-control  start_date_ dt-input me-md-1"
+                                        data-column="5" data-column-index="4" name="value_from_start_date"
+                                        placeholder="Cambiar fecha de corte" id="fecha_corte" />
+
                                 </div>
                             </div>
                             <div class="col-md-6 col-lg-4">
                                 <p class="m-0">Total prestados (del día): <span id="prestamos_del_dia"></span></p><br>
-                                <p class="m-0">Total devueltos (del día): <span id="devueltos_del_dia"></span></p>     
+                                <p class="m-0">Total devueltos (del día): <span id="devueltos_del_dia"></span></p>
                             </div>
                         </div>
                         <div class="table-responsive">
                             <div class="card">
-                                <table class="datatables-basicPrestados table dt-column-searchPrestados table-responsive" id="Prestados">
+                                <table
+                                    class="datatables-basicPrestados table dt-column-searchPrestados table-responsive"
+                                    id="Prestados">
                                     <thead>
                                         <tr>
                                             <th>Cliente</th>
@@ -299,17 +336,17 @@ $(document).ready(function() {
                                         </tr>
                                     </thead>
                                     <tfoot>
-    <tr>
-        <th colspan="1" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>
+                                        <tr>
+                                            <th colspan="1" style="text-align:right"> Total</th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
-                        </div>        
+                        </div>
                     </div>
                 </div>
             </div>
@@ -318,7 +355,7 @@ $(document).ready(function() {
                 <div class="card-body">
                     <h4 class="card-title">Ventas</h4>
                     <p class="card-text">Todos las ventas de la plataforma están acá, pronto podrás filtrarlos y
-                    modificarlos rápidamente.</p>
+                        modificarlos rápidamente.</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mx-0 row">
                     <form class="dt_adv_search" method="POST">
@@ -326,8 +363,12 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
-                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min"/>
-                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max"/>
+                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1"
+                                        data-column="5" data-column-index="4" name="value_from_start_date"
+                                        placeholder="Fecha desde" id="min" />
+                                    <input type="text" class="form-control  end_date2 dt-input2"
+                                        name="value_from_end_date" data-column="5" data-column-index="4"
+                                        placeholder="Fecha hasta" id="max" />
                                 </div>
                             </div>
                         </div>
@@ -336,31 +377,32 @@ $(document).ready(function() {
 
                 <section id="column-search-datatable">
                     <div class="card-body">
-                            <div class="col-md-4">
-                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
-                                    <div class="mb-0 d-flex">
-                                         <select class="select2 form-select select_chofer_ventas">
-                                           <option value="">Filtrar choferes</option>
-                                           {{#each choferes_ as |chofer i|}}
-                                           <option >{{name}}</option>
-                                           {{/each}}
-                                       </select>
-                                       <span class="me-md-1"></span>
-                                       <select class="select2 form-select select_etiqueta_ventas">
-                                           <option value="">Filtrar etiquetas</option>
-                                           {{#each etiquetas_let as |etiqueta i|}}
-                                           <option style="background-color:{{color}};">{{etiquetas}}</option>
-                                           {{/each}}
-                                       </select>
-                                    </div>
-                                </div>    
+                        <div class="col-md-4">
+                            <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                            <div class="mb-0 d-flex">
+                                <select class="select2 form-select select_chofer_ventas">
+                                    <option value="">Filtrar choferes</option>
+                                    {{#each choferes_ as |chofer i|}}
+                                    <option>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="me-md-1"></span>
+                                <select class="select2 form-select select_etiqueta_ventas">
+                                    <option value="">Filtrar etiquetas</option>
+                                    {{#each etiquetas_let as |etiqueta i|}}
+                                    <option style="background-color:{{color}};">{{etiquetas}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-basic2 table dt-column-search2 table-responsive" id="ventas-table">
-                                          <thead>
+                                    <table class="datatables-basic2 table dt-column-search2 table-responsive"
+                                        id="ventas-table">
+                                        <thead>
                                             <tr>
                                                 <th>Nº Pedido</th>
                                                 <th></th>
@@ -372,23 +414,23 @@ $(document).ready(function() {
                                                 <th>Metodo de Pago</th>
                                                 <th>Fecha</th>
                                                 <th>Opciones</th>
-                                                <th>oculto choferes </th> 
-                                            <th>oculto asentamiento </th> 
+                                                <th>oculto choferes </th>
+                                                <th>oculto asentamiento </th>
                                             </tr>
                                         </thead>
                                         <tfoot>
-    <tr>
-        <th colspan="2" style="text-align:right"> Total</th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-    </tr>
-</tfoot>
+                                            <tr>
+                                                <th colspan="2" style="text-align:right"> Total</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
                                     </table>
                                 </div>
                             </div>
@@ -407,8 +449,12 @@ $(document).ready(function() {
                             <div class="col-md-4">
                                 <label class="form-label">Fecha:</label>
                                 <div class="mb-0 d-flex">
-                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1" data-column="5" data-column-index="4" name="value_from_start_date" placeholder="Fecha desde" id="min_resumen"/>
-                                    <input type="text" class="form-control  end_date2 dt-input2" name="value_from_end_date" data-column="5" data-column-index="4" placeholder="Fecha hasta" id="max_resumen"/>
+                                    <input type="text" class="form-control  start_date2 dt-input2 me-md-1"
+                                        data-column="5" data-column-index="4" name="value_from_start_date"
+                                        placeholder="Fecha desde" id="min_resumen" />
+                                    <input type="text" class="form-control  end_date2 dt-input2"
+                                        name="value_from_end_date" data-column="5" data-column-index="4"
+                                        placeholder="Fecha hasta" id="max_resumen" />
                                 </div>
                             </div>
                         </div>
@@ -417,32 +463,33 @@ $(document).ready(function() {
 
                 <section id="column-search-datatable">
                     <div class="card-body">
-                            <div class="col-md-4">
-                                    <label class="form-label">Filtrar chofer ó etiqueta:</label>
-                                    <div class="mb-0 d-flex">
-                                       <select class="select2 form-select select_chofer_pedidos">
-                                           <option value="">Filtrar choferes</option>
-                                           {{#each choferes_ as |chofer i|}}
-                                           <option >{{name}}</option>
-                                           {{/each}}
-                                       </select>
-                                       <span class="me-md-1"></span>
-                                    </div>
-                                </div>    
+                        <div class="col-md-4">
+                            <label class="form-label">Filtrar chofer ó etiqueta:</label>
+                            <div class="mb-0 d-flex">
+                                <select class="select2 form-select select_chofer_pedidos">
+                                    <option value="">Filtrar choferes</option>
+                                    {{#each choferes_ as |chofer i|}}
+                                    <option>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="me-md-1"></span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive">
                                 <div class="card">
-                                    <table class="datatables-resumen table dt-column-search_resumen table-responsive" id="resume-table">
-                                          <thead>
+                                    <table class="datatables-resumen table dt-column-search_resumen table-responsive"
+                                        id="resume-table">
+                                        <thead>
                                             <tr>
                                                 <th>Carga Inicial</th>
                                                 <th>Pedidos</th>
                                                 <th>Entregados</th>
-                                                <th>Pendientes</th>                                                
-                                            
-                                            <th>oculto choferes </th>  
+                                                <th>Pendientes</th>
+
+                                                <th>oculto choferes </th>
                                             </tr>
                                         </thead>
                                     </table>
@@ -456,407 +503,411 @@ $(document).ready(function() {
     </div>
 </div>
 <!-- modales-->
-<div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal"
-            style="display: none;" aria-hidden="corte_modal">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="corte_modalTitle"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='corte_modalBody'>
-                        
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
-                    </div>
-                </div>
+<div class="modal fade" id="corte_modal" tabindex="-1" aria-labelledby="corte_modal" style="display: none;"
+    aria-hidden="corte_modal">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="corte_modalTitle"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-              <div class="modal fade" id="edit_pedido" tabindex="-1" aria-labelledby="edit_pedido"
-            style="display: none;" aria-hidden="edit_pedido">
-                <div class="modal-dialog modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="edit_pedido_title"></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" id='edit_pedido_body'>
-                            <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido_save"
-                        method="post" id="form_edit_pedido">
-                        <input type="hidden" name="id_pedido" id="edit_pedido_id">
-                        <input type="hidden" name="id_cliente" id="edit_pedido_id_cliente">
-                        <input type="hidden" name="row" id="edit_pedido_row">
-                        <input type="hidden" name="table_edit_pedido" id="table_edit_pedido">
-                        <div class="form-group d-none">
-                  <input type="number" name="descuento_reg_cliente" class="form-control mb-2" id="descuento_upd_cliente2">
-                </div>
-                         <div class="form-group">
+            <div class="modal-body" id='corte_modalBody'>
+
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit_pedido" tabindex="-1" aria-labelledby="edit_pedido" style="display: none;"
+    aria-hidden="edit_pedido">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit_pedido_title"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id='edit_pedido_body'>
+                <form novalidate class="needs-validation invalid was-validated repeater" action="/editar_pedido_save"
+                    method="post" id="form_edit_pedido">
+                    <input type="hidden" name="id_pedido" id="edit_pedido_id">
+                    <input type="hidden" name="id_cliente" id="edit_pedido_id_cliente">
+                    <input type="hidden" name="row" id="edit_pedido_row">
+                    <input type="hidden" name="table_edit_pedido" id="table_edit_pedido">
+                    <div class="form-group d-none">
+                        <input type="number" name="descuento_reg_cliente" class="form-control mb-2"
+                            id="descuento_upd_cliente2">
+                    </div>
+                    <div class="form-group">
                         <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
-                        <select
-                            name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
+                        <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2 chofer">
                             {{#each choferes_ as |chofer2 j |}}
                             <option data-id="{{id}}" value="{{id}}">{{name}} {{lastName}}</option>
                             {{/each}}
                         </select>
-                        <input type="hidden" id="id_chofer_edit" name="id_chofer" class="id_chofer" >
+                        <input type="hidden" id="id_chofer_edit" name="id_chofer" class="id_chofer">
                     </div>
                     <div class="divider">
                         <div class="divider-text">Fecha Pedido</div>
                     </div>
                     <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
-                        <input type="date" name="fecha_pedido" tabindex="1" class="form-control flatpickr-basic flatpickr-input mb-2" 
-                            id="edit_fecha_pedido" {{#if admin}}{{else}}readonly{{/if}}>
+                        <input type="date" name="fecha_pedido" tabindex="1"
+                            class="form-control flatpickr-basic flatpickr-input mb-2" id="edit_fecha_pedido" {{#if
+                            admin}}{{else}}readonly{{/if}}>
                     </div>
-                        <div class="divider">
-                            <div class="divider-text">Productos</div>
-                        </div>
+                    <div class="divider">
+                        <div class="divider-text">Productos</div>
+                    </div>
 
-                        <div class="mb-1">
-                            <ul class="nav nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon2"
-                                        aria-expanded="true">Garrafon 19L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella2"
-                                        aria-expanded="false">Botella 1L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l2"
-                                        aria-expanded="false">Garrafon 11L</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l2"
-                                        aria-expanded="false">Botella 5L</a>
-                                </li>
-                            </ul>
+                    <div class="mb-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-bs-toggle="pill" href="#garrafon2"
+                                    aria-expanded="true">Garrafon 19L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella2"
+                                    aria-expanded="false">Botella 1L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="about-tab" data-bs-toggle="pill" href="#garrafon11l2"
+                                    aria-expanded="false">Garrafon 11L</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-bs-toggle="pill" href="#botella5l2"
+                                    aria-expanded="false">Botella 5L</a>
+                            </li>
+                        </ul>
 
-                            <div class="tab-content mt-2">
-                                <div role="tabpanel" class="tab-pane active" id="garrafon2"
-                                    aria-labelledby="garrafon-tab" aria-expanded="true">
+                        <div class="tab-content mt-2">
+                            <div role="tabpanel" class="tab-pane active" id="garrafon2" aria-labelledby="garrafon-tab"
+                                aria-expanded="true">
 
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_garrafon"
-                                                    id="count_refill_garrafon" name="refill_cant_garrafon"
-                                                    />
-                                            </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_refill_garrafon"
+                                                id="count_refill_garrafon" name="refill_cant_garrafon" />
                                         </div>
-                                        <input type="text" class="form-control mb-1 w-50 refill_garrafon_mont"
-                                            id="refill_garrafon_mont" readonly="readonly" name="refill_garrafon_mont"
-                                             hidden>
                                     </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_garrafon"
-                                                    id="count_canje_garrafon" name="canje_cant_garrafon"
-                                                    />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 canje_garrafon_mont"
-                                            id="canje_garrafon_mont" readonly="readonly" name="canje_garrafon_mont"
-                                             hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_garrafon"
-                                                     id="count_enNew_garrafon"
-                                                    name="enNew_cant_garrafon" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon_mont"
-                                            id="enNew_garrafon_mont" readonly="readonly"
-                                             name="nuevo_garrafon_mont" hidden>
-                                    </div>
-                                     <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                    <p class="m-0">Obsequio</p>
+                                    <input type="text" class="form-control mb-1 w-50 refill_garrafon_mont"
+                                        id="refill_garrafon_mont" readonly="readonly" name="refill_garrafon_mont"
+                                        hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_garrafon" value="0" id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
-                                                </div>
-                                    </div>
-                                </div>
-                                    <input type="number" class=" total_garrafon" 
-                                        id="total_garrafon" name="total_garrafon_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon"
-                                            class=" cant_garrafon"></span></p>
-                                    <input type="number" class="monto_garrafon_input"
-                                        id="monto_garrafon_input" name="total_garrafon" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon"
-                                            class=" monto_garrafon"></span></p>
-                                </div>
-
-
-
-                                <div class="tab-pane" id="botella2" role="tabpanel" aria-labelledby="botella-tab"
-                                    aria-expanded="false">
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_botella"
-                                                     id="count_refill_botella"
-                                                    name="refill_cant_botella" />
-                                            </div>
-
+                                            <input type="number" class="touchspin count_canje_garrafon"
+                                                id="count_canje_garrafon" name="canje_cant_garrafon" />
                                         </div>
-                                        <input type="text" class="form-control mb-1 w-50 refill_botella_mont"
-                                            id="refill_botella_mont" readonly="readonly"
-                                             name="refill_botella_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_botella"
-                                                    id="count_canje_botella"
-                                                    name="canje_cant_botella" />
-                                            </div>
-
-                                        </div> <input type="text" class="form-control mb-1 w-50 canje_botella_mont"
-                                            id="canje_botella_mont" readonly="readonly" 
-                                            name="canje_botella_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_botella"
-                                                    id="count_enNew_botella"
-                                                    name="enNew_cant_botella" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella_mont"
-                                            id="enNew_botella_mont" readonly="readonly" 
-                                            name="nuevo_botella_mont" hidden>
-                                    </div>
-                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    </div> <input type="text" class="form-control mb-1 w-50 canje_garrafon_mont"
+                                        id="canje_garrafon_mont" readonly="readonly" name="canje_garrafon_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_enNew_garrafon"
+                                                id="count_enNew_garrafon" name="enNew_cant_garrafon" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon_mont"
+                                        id="enNew_garrafon_mont" readonly="readonly" name="nuevo_garrafon_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_botella" value="0" id="count_enobsequio_botella" name="enobsequio_cant_botella" />
-                                                </div>
+                                            <input type="number" class="touchspin count_enobsequio_garrafon" value="0"
+                                                id="count_enobsequio_garrafon" name="enobsequio_cant_garrafon" />
+                                        </div>
                                     </div>
                                 </div>
-                                    <input type="number" class=" total_botella" 
-                                        id="total_botella" name="total_botella_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_botella"
-                                            class=" cant_botella"></span></p>
-                                    <input type="number" class=" monto_botella_input" 
-                                        id="monto_botella_input" name="total_botella" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella"
-                                            class=" monto_botella"></span></p>
-                                </div>
+                                <input type="number" class=" total_garrafon" id="total_garrafon"
+                                    name="total_garrafon_cant" hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon" class=" cant_garrafon"></span>
+                                </p>
+                                <input type="number" class="monto_garrafon_input" id="monto_garrafon_input"
+                                    name="total_garrafon" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon"
+                                        class=" monto_garrafon"></span></p>
+                            </div>
 
-                                <div class="tab-pane" id="garrafon11l2" role="tabpanel"
-                                    aria-labelledby="garrafon11l-tab" aria-expanded="false">
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_garrafon11l"
-                                                    id="count_refill_garrafon11l"
-                                                    name="refill_cant_garrafon11l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 refill_garrafon11l_mont"
-                                            id="refill_garrafon11l_mont" readonly="readonly"
-                                             name="refill_garrafon11l_mont" hidden>
+
+
+                            <div class="tab-pane" id="botella2" role="tabpanel" aria-labelledby="botella-tab"
+                                aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_refill_botella"
+                                                id="count_refill_botella" name="refill_cant_botella" />
+                                        </div>
+
                                     </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_garrafon11l"
-                                                     id="count_canje_garrafon11l"
-                                                    name="canje_cant_garrafon11l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 canje_garrafon11l_mont"
-                                            id="canje_garrafon11l_mont" readonly="readonly"
-                                             name="canje_garrafon11l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_garrafon11l"
-                                                     id="count_enNew_garrafon11l"
-                                                    name="enNew_cant_garrafon11l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon11l_mont"
-                                            id="enNew_garrafon11l_mont" readonly="readonly"
-                                             name="nuevo_garrafon11l_mont" hidden>
-                                    </div>
-                                       <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                    <input type="text" class="form-control mb-1 w-50 refill_botella_mont"
+                                        id="refill_botella_mont" readonly="readonly" name="refill_botella_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_canje_botella"
+                                                id="count_canje_botella" name="canje_cant_botella" />
+                                        </div>
+
+                                    </div> <input type="text" class="form-control mb-1 w-50 canje_botella_mont"
+                                        id="canje_botella_mont" readonly="readonly" name="canje_botella_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_enNew_botella"
+                                                id="count_enNew_botella" name="enNew_cant_botella" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_botella_mont"
+                                        id="enNew_botella_mont" readonly="readonly" name="nuevo_botella_mont" hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_garrafon11l" value="0" id="count_enobsequio_garrafon11l" name="enobsequio_cant_garrafon11l" />
-                                                </div>
+                                            <input type="number" class="touchspin count_enobsequio_botella" value="0"
+                                                id="count_enobsequio_botella" name="enobsequio_cant_botella" />
+                                        </div>
                                     </div>
                                 </div>
-                                    <input type="number" class=" total_garrafon11l" 
-                                        id="total_garrafon11l" name="total_garrafon11l_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l"
-                                            class=" cant_garrafon11l"></span></p>
-                                    <input type="number" class=" monto_garrafon11l_input"
-                                         id="monto_garrafon11l_input"
-                                        name="total_garrafon11l" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l"
-                                            class=" monto_garrafon11l"></span></p>
+                                <input type="number" class=" total_botella" id="total_botella" name="total_botella_cant"
+                                    hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella" class=" cant_botella"></span>
+                                </p>
+                                <input type="number" class=" monto_botella_input" id="monto_botella_input"
+                                    name="total_botella" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella"
+                                        class=" monto_botella"></span></p>
+                            </div>
+
+                            <div class="tab-pane" id="garrafon11l2" role="tabpanel" aria-labelledby="garrafon11l-tab"
+                                aria-expanded="false">
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_refill_garrafon11l"
+                                                id="count_refill_garrafon11l" name="refill_cant_garrafon11l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 refill_garrafon11l_mont"
+                                        id="refill_garrafon11l_mont" readonly="readonly" name="refill_garrafon11l_mont"
+                                        hidden>
                                 </div>
-
-                                <div class="tab-pane" id="botella5l2" role="tabpanel" aria-labelledby="botella5l-tab"
-                                    aria-expanded="false">
-
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Refil</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_refill_botella5l"
-                                                     id="count_refill_botella5l"
-                                                    name="refill_cant_botella5l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 refill_botella5l_mont"
-                                            id="refill_botella5l_mont" readonly="readonly"
-                                             name="refill_botella5l_mont" hidden>
-
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Canje</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_canje_botella5l"
-                                                     id="count_canje_botella5l"
-                                                    name="canje_cant_botella5l" />
-                                            </div>
-                                        </div><input type="text" class="form-control mb-1 w-50 canje_botella5l_mont"
-                                            id="canje_botella5l_mont" readonly="readonly"
-                                             name="canje_botella5l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
-                                        <p class="m-0">Envase Nuevo</p>
-                                        <div class="input-group bootstrap-touchspin">
-                                            <div class="input-group input-group-sm">
-                                                <input type="number" class="touchspin count_enNew_botella5l"
-                                                     id="count_enNew_botella5l"
-                                                    name="enNew_cant_botella5l" />
-                                            </div>
-                                        </div> <input type="text" class="form-control mb-1 w-50 enNew_botella5l_mont"
-                                            id="enNew_botella5l_mont" readonly="readonly"
-                                             name="nuevo_botella5l_mont" hidden>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between form-control mb-1" readonly>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_canje_garrafon11l"
+                                                id="count_canje_garrafon11l" name="canje_cant_garrafon11l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 canje_garrafon11l_mont"
+                                        id="canje_garrafon11l_mont" readonly="readonly" name="canje_garrafon11l_mont"
+                                        hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_enNew_garrafon11l"
+                                                id="count_enNew_garrafon11l" name="enNew_cant_garrafon11l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_garrafon11l_mont"
+                                        id="enNew_garrafon11l_mont" readonly="readonly" name="nuevo_garrafon11l_mont"
+                                        hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
                                     <p class="m-0">Obsequio</p>
                                     <div class="input-group bootstrap-touchspin">
                                         <div class="input-group input-group-sm">
-                                                    <input type="number" class="touchspin count_enobsequio_botella5l" value="0" id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" />
-                                                </div>
+                                            <input type="number" class="touchspin count_enobsequio_garrafon11l"
+                                                value="0" id="count_enobsequio_garrafon11l"
+                                                name="enobsequio_cant_garrafon11l" />
+                                        </div>
                                     </div>
                                 </div>
-                                    <input type="number" class=" total_botella5l" 
-                                        id="total_botella5l" name="total_botella5l_cant" hidden />
-                                    <p class="mb-0">Cantidad Total: <span id="cant_botella5l"
-                                            class=" cant_botella5l"></span></p>
-                                    <input type="number" class=" monto_botella5l_input" 
-                                        id="monto_botella5l_input" name="total_botella5l" hidden />
-                                    <p class="m-0">Costo Total del producto: $<span id="monto_botella5l"
-                                            class=" monto_botella5l"></span></p>
+                                <input type="number" class=" total_garrafon11l" id="total_garrafon11l"
+                                    name="total_garrafon11l_cant" hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_garrafon11l"
+                                        class=" cant_garrafon11l"></span></p>
+                                <input type="number" class=" monto_garrafon11l_input" id="monto_garrafon11l_input"
+                                    name="total_garrafon11l" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_garrafon11l"
+                                        class=" monto_garrafon11l"></span></p>
+                            </div>
+
+                            <div class="tab-pane" id="botella5l2" role="tabpanel" aria-labelledby="botella5l-tab"
+                                aria-expanded="false">
+
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Refil</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_refill_botella5l"
+                                                id="count_refill_botella5l" name="refill_cant_botella5l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 refill_botella5l_mont"
+                                        id="refill_botella5l_mont" readonly="readonly" name="refill_botella5l_mont"
+                                        hidden>
+
                                 </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Canje</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_canje_botella5l"
+                                                id="count_canje_botella5l" name="canje_cant_botella5l" />
+                                        </div>
+                                    </div><input type="text" class="form-control mb-1 w-50 canje_botella5l_mont"
+                                        id="canje_botella5l_mont" readonly="readonly" name="canje_botella5l_mont"
+                                        hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Envase Nuevo</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_enNew_botella5l"
+                                                id="count_enNew_botella5l" name="enNew_cant_botella5l" />
+                                        </div>
+                                    </div> <input type="text" class="form-control mb-1 w-50 enNew_botella5l_mont"
+                                        id="enNew_botella5l_mont" readonly="readonly" name="nuevo_botella5l_mont"
+                                        hidden>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between form-control mb-1"
+                                    readonly>
+                                    <p class="m-0">Obsequio</p>
+                                    <div class="input-group bootstrap-touchspin">
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="touchspin count_enobsequio_botella5l" value="0"
+                                                id="count_enobsequio_botella5l" name="enobsequio_cant_botella5l" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="number" class=" total_botella5l" id="total_botella5l"
+                                    name="total_botella5l_cant" hidden />
+                                <p class="mb-0">Cantidad Total: <span id="cant_botella5l"
+                                        class=" cant_botella5l"></span></p>
+                                <input type="number" class=" monto_botella5l_input" id="monto_botella5l_input"
+                                    name="total_botella5l" hidden />
+                                <p class="m-0">Costo Total del producto: $<span id="monto_botella5l"
+                                        class=" monto_botella5l"></span></p>
                             </div>
                         </div>
-        {{#if admin}}                <div class="d-flex">
-                            <label for="register-firstName" class="form-label">
-                                {{!-- <input type="checkbox" class="" id="descuento-check">--}} Descuento: $
-                               </label>
-                            <input type="number" name="descuento" placeholder="Descuento"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control" id="descuento_edit" style="height: 16px;width: 15%;margin-left: 5px;">
-                                
-                        </div>
-                        
-{{/if}}
-                        <div class="d-flex m-0">
-                            <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}"
-                                id="total_total_inp" name="total_total_inp" hidden />
-                            <b class="m-0">Monto Total: $<span id="total_total"
-                                    class="total_total">{{pedido_let.monto_total}}</span></b>
-                        </div>
-                        <div class="d-flex m-0 d-none" id="monto_descuento">
-                            <b class="m-0">Monto Total incl. desc.: $<span id="total_desc"
-                                    class="total_total"></span></b>
-                        </div>
-
-                        <div class="divider">
-                            <hr>
-                        </div>
-
-                        <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
-                            <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
-                                tabindex="3" class="form-control mb-2 metodo_pago" id="metodo_pago_edit">
-                                <option value="Efectivo">Efectivo</option>
-                                <option value="Tarjeta">Tarjeta</option>
-                                <option value="Transferencia">Transferencia</option>
-                            </select>
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
-                                Pago</label>
-                            <input type="text" name="status_pago" tabindex="1" class="form-control mb-2 status_pago"
-                                readonly id="status_pago" >
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Status del
-                                Pedido</label>
-                            <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
-                                value="Por entregar" id="status_pedido_edit">
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
-                                prestados(S/R)</label>
-                            <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="prestados_edit">
-                        </div>
-                        <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
-                               dañados</label>
-                            <input type="text" name="danados" placeholder="Garrafones Dañados"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="danados_edit">
-                        </div>
-
-
-                        <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
-                            <input type="text" name="observacion" placeholder="Observación"
-                                aria-describedby="register-firstName" tabindex="1" class="form-control mb-2" 
-                                id="observacion_edit">
-                        </div>
-                        <div class="modal-footer">
-                            <button tabindex="26" rippleeffect="" type="submit"
-                                class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
-                        </div>
-                        </form>
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
                     </div>
-                </div>
-            </div>
+                    {{#if admin}} <div class="d-flex">
+                        <label for="register-firstName" class="form-label">
+                            {{!-- <input type="checkbox" class="" id="descuento-check">--}} Descuento: $
+                        </label>
+                        <input type="number" name="descuento" placeholder="Descuento"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control" id="descuento_edit"
+                            style="height: 16px;width: 15%;margin-left: 5px;">
 
-                <div class="modal fade" id="change_chofer" tabindex="-1" aria-labelledby="change_choferTitle" style="display: none;"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable">
+                    </div>
+
+                    {{/if}}
+                    <div class="d-flex m-0">
+                        <input type="number" class="total_total_inp" value="{{pedido_let.monto_total}}"
+                            id="total_total_inp" name="total_total_inp" hidden />
+                        <b class="m-0">Monto Total: $<span id="total_total"
+                                class="total_total">{{pedido_let.monto_total}}</span></b>
+                    </div>
+                    <div class="d-flex m-0 d-none" id="monto_descuento">
+                        <b class="m-0">Monto Total incl. desc.: $<span id="total_desc" class="total_total"></span></b>
+                    </div>
+
+                    <div class="divider">
+                        <hr>
+                    </div>
+
+                    <div class="form-group"><label for="register-ciudad" class="form-label">Método de Pago</label>
+                        <select name="metodo_pago" placeholder="Metodo de pago" aria-describedby="metodo_pago"
+                            tabindex="3" class="form-control mb-2 metodo_pago" id="metodo_pago_edit">
+                            <option value="Efectivo">Efectivo</option>
+                            <option value="Tarjeta">Tarjeta</option>
+                            <option value="Transferencia">Transferencia</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del
+                            Pago</label>
+                        <input type="text" name="status_pago" tabindex="1" class="form-control mb-2 status_pago"
+                            readonly id="status_pago">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Status del
+                            Pedido</label>
+                        <input type="text" name="status_pedido" tabindex="1" class="form-control mb-2" readonly
+                            value="Por entregar" id="status_pedido_edit">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            prestados(S/R)</label>
+                        <input type="text" name="garrafones_prestamos" placeholder="Garrafones Prestados"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2"
+                            id="prestados_edit">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Garrafones
+                            dañados</label>
+                        <input type="text" name="danados" placeholder="Garrafones Dañados"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2"
+                            id="danados_edit">
+                    </div>
+
+
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="observacion" placeholder="Observación"
+                            aria-describedby="register-firstName" tabindex="1" class="form-control mb-2"
+                            id="observacion_edit">
+                    </div>
+                    <div class="modal-footer">
+                        <button tabindex="26" rippleeffect="" type="submit"
+                            class="btn btn-primary btn-block waves-effect waves-float waves-light">Guardar</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="change_chofer" tabindex="-1" aria-labelledby="change_choferTitle" style="display: none;"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="change_choferTitle">Cambiar chofer a pedido(s)</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form class="needs-validation was-validated" id="change_chofer_form">
-              <input type="hidden" class="form-control" id="ids_pedido" name="ids_pedido"/>
-              
-                     <div class="form-group">
+            <div class="modal-header">
+                <h5 class="modal-title" id="change_choferTitle">Cambiar chofer a pedido(s)</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation was-validated" id="change_chofer_form">
+                    <input type="hidden" class="form-control" id="ids_pedido" name="ids_pedido" />
+
+                    <div class="form-group">
                         <label for="register-ciudad" class="form-label">Seleccione un chofer</label>
                         <select name="chofer" placeholder="Chofer" aria-describedby="register-ciudad" tabindex="3"
                             class="form-control mb-2 chofer_reg_modal_pedido" id='chofer_cambia'>
@@ -866,12 +917,12 @@ $(document).ready(function() {
                             {{/each}}
                         </select>
                     </div>
-          </div>
-          <div class="modal-footer">
-            <button tabindex="26"
-              class="btn btn-primary btn-block waves-effect waves-float waves-light" type="button" id="change_chofer_btn">Cambiar</button>
-          </div>
-          </form>
+            </div>
+            <div class="modal-footer">
+                <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light"
+                    type="button" id="change_chofer_btn">Cambiar</button>
+            </div>
+            </form>
         </div>
-      </div>
     </div>
+</div>

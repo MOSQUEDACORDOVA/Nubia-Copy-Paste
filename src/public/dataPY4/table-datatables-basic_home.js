@@ -6,7 +6,9 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- var zonas, copyReady,array_pedido;
+ var zonas, copyReady,array_pedido, pedidosReprogramados;
+ var status_pedido;
+var status_pedido2 ;
 async function cargaPedidos() {
     array_pedido = await fetch('/array_pedidoPy4')
     .then(response => response.json())
@@ -14,8 +16,32 @@ async function cargaPedidos() {
 
         return JSON.parse(data.array_pedido)
     });
-    await cargaTablas();
-    await cargaTableResumen();
+    zonas =await  fetch('/obtenerzonaspy4')
+.then(response => response.json())
+.then(data => {
+    return data.zonas
+});
+     cargaTablas();
+     cargaTableResumen();
+}
+async function cargaPedidosReprogramados(dia) {
+console.log(dia)
+  pedidosReprogramados = await fetch('/obtenerPedidosReprogramados/'+moment(dia, 'DD/MM/YYYY').format('YYYY-MM-DD'))
+  .then(response => response.json())
+  .then(data => {
+      return data.reprogramados
+  });
+ console.log(pedidosReprogramados);
+ if (pedidosReprogramados.length == 0) {
+  console.log(status_pedido);
+  $(`.datatables-basic`).DataTable().clear();
+  $(`.datatables-basic`).DataTable().rows.add( status_pedido ).draw();
+  return
+ }
+ for (let i = 0; i < pedidosReprogramados.length; i++) {
+   $(`.datatables-basic`).DataTable().row.add(pedidosReprogramados[i]).draw();
+ }
+
 }
 //  ///Custom filtering function which will search data in column four between two values
 //  $.fn.dataTable.ext.search.push(
@@ -80,29 +106,34 @@ async function cargaPedidos() {
  // Advance filter function
  // We pass the column location, the start date, and the end date
  var filterByDate = function (column, startDate, endDate) {
-   // Custom filter syntax requires pushing the new filter to the global filter array
-   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
-     var rowDate = normalizeDate(aData[column]),
-       start = normalizeDate(startDate),
-       end = normalizeDate(endDate);
-       var  min2 = minDate2.val();
-       var max2 = maxDate2.val();
-       let f = aData[10] 
-       let fechaN = f.split('-')       
-       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
-       var date = new Date(date1);
-     // If our date from the row is between the start and end
-     if (
-      ( min2 === null && max2 === null ) ||
-      ( min2 === null && date <= max2 ) ||
-      ( min2 <= date   && max2 === null ) ||
-      ( min2 <= date   && date <= max2 ) 
-  ) {
-      return true;
-  }
-  return false;
-   });
+ console.log(column)
+
  };
+
+//  var filterByDate = function (column, startDate, endDate) {
+//   // Custom filter syntax requires pushing the new filter to the global filter array
+//   $.fn.dataTable.ext.search.push(function (oSettings, aData, iDataIndex) {
+//     var rowDate = normalizeDate(aData[column]),
+//       start = normalizeDate(startDate),
+//       end = normalizeDate(endDate);
+//       var  min2 = minDate2.val();
+//       var max2 = maxDate2.val();
+//       let f = aData[10] 
+//       let fechaN = f.split('-')       
+//       var date1 = moment(fechaN[1],'DD/MM/YYYY').format('MM/DD/YYYY')//new Date(fechaN[1]);
+//       var date = new Date(date1);
+//     // If our date from the row is between the start and end
+//     if (
+//      ( min2 === null && max2 === null ) ||
+//      ( min2 === null && date <= max2 ) ||
+//      ( min2 <= date   && max2 === null ) ||
+//      ( min2 <= date   && date <= max2 ) 
+//  ) {
+//      return true;
+//  }
+//  return false;
+//   });
+// };
  
  // converts date strings to a Date object, then normalized into a YYYYMMMDD format (ex: 20131220). Makes comparing dates easier. ex: 20131220 > 20121220
  var normalizeDate = function (dateString) {
@@ -111,19 +142,13 @@ async function cargaPedidos() {
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- async function cargaTablas(rechar) {
-zonas =await  fetch('/obtenerzonaspy4')
-.then(response => response.json())
-.then(data => {
-    return data.zonas
-});
-console.log(array_pedido);
-  
+ async function cargaTablas(rechar) {  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
-  let status_pedido2 = array_pedido.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
+  status_pedido2 = array_pedido.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  console.log(status_pedido)
   var dt_basic_table = $('.datatables-basic'),
     dt_basic_table2 = $('.datatables-basic2');
   minDate = new DateTime($('#min'), {
@@ -168,11 +193,11 @@ $('#filterValue').val(this.value)
     dt_basic.search(this.value).draw();   
  });
 
-copyReady= await fetch("/shareStatusPY4/")
-  .then((response) => response.json())
-  .then((data) => {
-    return data.findStatusCompartir;
-  });
+ copyReady= await fetch("/shareStatusPY4/")
+   .then((response) => response.json())
+   .then((data) => {
+     return data.findStatusCompartir;
+   });
 
     var dt_basic = dt_basic_table.DataTable({
       data: status_pedido,
@@ -214,12 +239,12 @@ if (fecha_final == true) {
   modif = "d-none";
 }
 let styleCopy = "";
-for (let i = 0; i < copyReady.length; i++) {
-  if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
-    styleCopy = "style='background-color: #001871; color: white;'";
-  }
+ for (let i = 0; i < copyReady.length; i++) {
+   if (full['id'] == copyReady[i]['idPedido'] && moment().isSame(moment(copyReady[i]['createdAt']),'d')) {
+     styleCopy = "style='background-color: #001871; color: white;'";
+   }
   
-}
+ }
             return (
               '<div class="d-inline-flex">' +
               '<a href="javascript:;" class="'+full['id']+' dropdown-item delete-record'+full['id']+'" onclick=\'delete_pedido("'+full['id']+'",".datatables-basic")\'>' +
@@ -291,7 +316,8 @@ Observaciones:${full['observacion']}
           targets: 1,
           render: function (data, type, full, meta) {
             var color_tag ="", color_text="", nombre;
-            if (full['cliente']['etiqueta'] ==null) {
+            console.log(full)
+            if (!full['cliente']['etiqueta']) {
               color_tag =0
               color_text="black"
               nombre=""
@@ -306,12 +332,11 @@ Observaciones:${full['observacion']}
         {
           // Label
           targets: 2,
-          render: function (data, type, full, meta) {
-            
+          render: function (data, type, full, meta) { 
+                   var zona_arr ;   
             for (let i = 0; i < zonas.length; i++) {
-              console.log(full['cliente']['sucursaleId'])
               if (zonas[i].id == full['cliente']['sucursaleId']) {
-                var zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
+                zona_arr = encodeURIComponent(JSON.stringify(zonas[i]));       
               }                     
             }
             return (`<span class="zona" style="cursor:pointer;" data-arrzona="${zona_arr}">${full['cliente']['sucursaleId']}</span>`);
@@ -371,13 +396,17 @@ Observaciones:${full['observacion']}
           // Label
           targets: 5,
           render: function (data, type, full, meta) {
-            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
+            let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0, adeudo=0;
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
             if (full['cliente']['tipo']=="Negocio" || full['cliente']['tipo'] =="Punto de venta") {
               detailRefill = parseFloat(full['total_refill_pedido'])*parseFloat(full['cliente']['monto_nuevo'])              
             }
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             adeudo = full['deuda_anterior']
             desc = full['descuento']
             sindesc = data
@@ -527,10 +556,11 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     
 
     // Refilter the table
-    $('#min1, #max1').on('change', function () {
-      filterByDate(10); // We call our filter function
-      dt_basic.draw();
-      });
+    // $('#min1, #max1').on('change', function () {
+    //   console.log($(this).val())
+    //   filterByDate($(this).val()); // We call our filter function
+    //   dt_basic.draw();
+    //   });
   }
   if (dt_basic_table2.length) {
   let groupColumn2 = 10
@@ -705,9 +735,13 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
           render: function (data, type, full, meta) {
             
             let detailRefill = 0, detailCanje = 0, detailNuevo=0,desc=0,sindesc, condesc=0
-            detailRefill = parseFloat(full['total_refill_pedido'])*35
-            detailCanje = parseFloat(full['total_canje_pedido'])*55
-            detailNuevo = parseFloat(full['total_nv_pedido'])*105
+            let montoRefill= 38, montoCanje= 65,monto_nuevo= 115;
+            if (moment(full['fecha_pedido'], 'YYYY-MM-DD').isSameOrBefore(moment('2022-05-15','YYYY-MM-DD'))) {
+              montoRefill= 35, montoCanje= 55,monto_nuevo= 105;
+            }
+            detailRefill = parseFloat(full['total_refill_pedido'])*montoRefill;
+            detailCanje = parseFloat(full['total_canje_pedido'])*montoCanje;
+            detailNuevo = parseFloat(full['total_nv_pedido'])*monto_nuevo;
             desc = full['descuento']
             sindesc = data
             condesc =parseFloat(data)- parseFloat(desc) 
@@ -1041,13 +1075,7 @@ $('#resume-table').html(`<thead>
 <th>oculto choferes </th>  
 </tr>
 </thead>`);
-array_pedido = await fetch('/array_pedidoPy4')
-    .then(response => response.json())
-    .then(data => {
 
-        return JSON.parse(data.array_pedido)
-    });
- cargaTableResumen();
         Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
   $('#reg_pedido_modal1').trigger("reset");
@@ -1064,7 +1092,12 @@ array_pedido = await fetch('/array_pedidoPy4')
    if ($('#filterPosition').val() != "") {
     $(`#${$('#filterPosition').val()}`).val($('#filterValue').val()).trigger('keyup');
    }
-  
+   array_pedido = await fetch('/array_pedidoPy4')
+   .then(response => response.json())
+   .then(data => {
+       return JSON.parse(data.array_pedido)
+   });
+cargaTableResumen();
         } else {
           Swal.fire('Se creó con éxito el pedido')
   $('.modal').modal('hide');
@@ -1230,6 +1263,11 @@ $.contextMenu({
  
 
   $('#form_edit_pedido').submit((e)=>{
+    if ($('#gerente').length) {
+      e.preventDefault();
+      Swal.fire('No esta autorizado para modificar pedidos');
+      return
+    }
       let rowNum = $('#edit_pedido_row').val();
       let table = $('#table_edit_pedido').val();
     e.preventDefault()

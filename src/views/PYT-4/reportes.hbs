@@ -10,36 +10,178 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
 $(document).ready(function () {
-   
-});
-</script>
 
-<input type="text" id="array_notif_" hidden value="{{notif_}}">
-<input type="text" id="notif1_2" hidden value="{{notif1_2}}">
-<input type="text" id="notif3_5" hidden value="{{notif3_5}}">
-<input type="text" id="notif6_12" hidden value="{{notif6_12}}">
+        $('.odd').addClass('dt-head-center');
+        $('.even').addClass('dt-head-center');
+
+        $('#fecha_inicio').flatpickr({
+            mode: 'single',
+            format: 'YYYY-MM-DD',
+            //defaultDate: "today",
+        });
+        $('#fecha_fin').flatpickr({
+            mode: 'single',
+            format: 'YYYY-MM-DD',
+            //defaultDate: "today",
+        });
+
+
+        $('#btnGraficos').on('click', (e) => {
+            Reset(1)
+        });
+        $('#btnGastos').on('click', (e) => {
+            Reset(2);
+        });
+         $('#btnIngresos').on('click', (e) => {
+            Reset(3);
+        });
+
+        function Reset(num) {
+            $('#graficosReportes').removeClass('show');
+            $('#graficosReportes').addClass('collpase');
+
+            $('#gastos').removeClass('show');
+            $('#gastos').addClass('collpase');
+ $('#ingresos').removeClass('show');
+            $('#ingresos').addClass('collpase');
+            switch (num) {
+                case 1:
+                    $('#graficosReportes').removeClass('collpase');
+                    $('#graficosReportes').addClass('show');
+                    break;
+                case 2:
+                    $('#gastos').removeClass('collpase');
+                    $('#gastos').addClass('show');
+                    break;
+                case 3:
+                    $('#ingresos').removeClass('collpase');
+                    $('#ingresos').addClass('show');
+                    break;
+            }
+        }
+    });
+
+</script>
+<input id="filterPosition" type="text" hidden>
+<input id="filterValue" type="text" hidden>
 <!-- BEGIN: Content-->
 <div class="app-content content ">
     <div class="content-wrapper">
       <div class="content-body">
-        <div class="row">
+        <div class="row" id="selectores">
+                <div class="col-12">
+                    <div class="card card-statistics">
+                        <div class="card-body statistics-body">
+                            <div class="row">
+                                <span id="p1" class="d-none">ss</span>
+                                <div class="col-sm-12">
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnIngresos"
+                                    type="button" data-bs-toggle="collapse" href="#" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='award'
+                                                    class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Ingresos</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnGraficos"
+                                    type="button" data-bs-toggle="collapse" href="#" aria-expanded="false">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-primary me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='clipboard'
+                                                    class="feather feather-trending-up text-primary avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Graficos Reporte</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-3 col-lg-4 col-sm-6 col-12 mb-2 mb-xl-0" id="btnGastos"
+                                    type="button" data-bs-toggle="collapse" href="#" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                    <div class="d-flex flex-row">
+                                        <div class="avatar bg-light-warning me-2">
+                                            <div class="avatar-content">
+                                                <i data-feather='info'
+                                                    class="feather feather-trending-up  avatar-icon"></i>
+                                            </div>
+                                        </div>
+                                        <div class="my-auto">
+                                            <h4 class="fw-bolder mb-0">Gastos</h4>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card collapse show" id="ingresos">
+                <section id="column-search-datatable">
+                    <div class="row justify-content-center match-height py4">
+                        <div class="col-12">
+                                              <div class="card card-congratulation">
+                        <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
+                            <div class="avatar avatar-xl bg-light shadow">
+                                <div class="avatar-content">
+                                    <i data-feather="award" class="font-large-1 text-primary"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h1 class="my-1 text-white text-center">Ganancias</h1>
+                                <p class="card-text mb-1">Ingresos: <strong id="ingresosT"></strong></p>
+                                    <p class="card-text mb-1">Gastos: <strong id="gastosT"></strong></p>
+                                <p class="card-text"> Ganancias: <strong id="gananciasT"></strong></p>
+                            </div>
+                            {{#if admin}}
+                            <div class="col">
+                                <label class="card-text mt-2 text-white w-100">Fecha: <strong id="fechaT"></strong></label>
+                                <div class="mb-0 d-flex">
+                                    <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="start_date" placeholder="Cambiar fecha" id="fecha_inicio"/>
+                                    <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="end_date" placeholder="Cambiar fecha" id="fecha_fin" onchange="pedidosbyDay(this.value,$('#fecha_inicio').val())"/>
+                                </div>
+                            </div>
+                            {{/if}}
+                        </div>
+                    </div>
+                </div>
+                        </div>
+                    </div>
+                </section>
+
+
+            </div>
+        <div class="card collapse" id="graficosReportes">
           <div class="col-12">
             <div class="card">
               <div class="card-header">
                 <div class="row">
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Fecha desde</label>
-                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" readonly="readonly">
+                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" id="fDesde">
                   </div>
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Fecha hasta</label>
-                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" readonly="readonly">
+                    <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD" id="dHasta">
                   </div>
                   <div class="col-6 col-md-3 mb-1">
                     <label class="form-label">Zona</label>
                     <div class="position-relative" data-select2-id="45">
                       <select class="select2 form-select select2-hidden-accessible" tabindex="-1" aria-hidden="true">
                         <option value="">Seleccionar Zona</option>
+                         {{#each sucursales_let as |sucursal i |}}
+                            <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
                       </select>
                     </div>
                   </div>
@@ -71,11 +213,12 @@ $(document).ready(function () {
                         <label class="form-check-label mb-1" for="clientesNuevos">Clientes Nuevos</label>
                     </div>
                   </div>
-                  <div class="col-6 col-md-3 d-none">
+                  <div class="col-6 col-md-3">
                     <div class="btn-group">
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#ventasGrap" id="btnVentasCol">Ventas</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
-                      <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
+                      <button  type="button" class="btn btn-primary" id="btngastosG" >Gastos</button>
+                      <button  type="button" class="btn btn-primary" id="btnVentasCol">Ventas</button>
+                      <button  type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse" data-bs-target="#transferenciasGrap" id="btnTransferenciasCol">Transferencias</button>
+                      <button  type="button" class="btn btn-primary  d-none" data-bs-toggle="collapse" data-bs-target="#globalGrap" id="btnGlobalCol">Global</button>
                     </div>
                   </div>
 
@@ -84,7 +227,7 @@ $(document).ready(function () {
               </div>
               <div class="card-body">
                 <div class="row justify-content-center">
-                  <div class="col-12 col-lg-8" id="ventasGrap">
+                  <div class="col-12 col-lg-8 show" id="ventasGrap">
                     <div id="chart"></div>
                   </div>
                   <div class="col-12 my-3 collapse" id="transferenciasGrap">
@@ -93,11 +236,148 @@ $(document).ready(function () {
                   <div class="col-12 collapse" id="globalGrap">
                     <div id="chart3"></div>
                   </div>
+                  <div class="col-12 col-lg-8 collapse" id="gastosGrap">
+                    <div id="chart4"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="card collapse" id="gastos">
+                <div class="card-body">
+                    <h4 class="card-title">Gastos</h4>
+                    <p class="card-text"> Ver gastos y agregos nuevos.</p>
+                </div>
+                <div class="scrolling-inside-modal">
+                <button type="button" class="btn btn-outline-primary text-primary waves-effect mb-2"
+                  data-bs-toggle="modal" data-bs-target="#addGasto_modal">
+                  Agregar
+                </button>
+              </div>
+                <section id="column-search-datatable">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <div class="card">
+                                    <table class="datatables-basic table dt-column-search table-responsive"  id="gastosTableDt">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Tipo</th>
+                                                <th>Personal</th>
+                                                <th>Monto</th>
+                                                <th>Fecha</th>
+                                                <th>Sucursal</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                         <tfoot>
+    <tr>
+        <th colspan="2" style="text-align:right"> Total</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+    </tr>
+</tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="modal fade" id="addGasto_modal" tabindex="-1" aria-labelledby="addGasto_modalTitle" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addGasto_modalTitle">Gastos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="needs-validation was-validated" id="gastoForm">
+                    <input type="hidden" class="form-control" id="idGasto" name="idGasto" />
+                     <div class="form-group ">
+                        <label for="register-ciudad" class="form-label">Seleccione una zona</label>
+                        <select name="zona" placeholder="zona" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 zona_reg_modal_pedido" id='zona'>
+                            <option selected value="">Seleccione una zona</option>
+                            {{#each sucursales_let as |sucursal i |}}
+                            <option value="{{id}}">{{nombre}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-ciudad" class="form-label">Seleccione una categoria</label>
+                        <select name="categoria" placeholder="categoria"  class="form-control mb-2" id='categoria'>
+                            <option default value="default">Seleccione una categoria</option>
+                            <option value="NOMINA">NOMINA</option>
+                            <option value="LUZ 1">LUZ 1</option>
+                            <option value="LUZ 2">LUZ 2</option>
+                            <option value="PIPA">PIPA</option>
+                            <option value="TAPAS">TAPAS</option>
+                            <option value="GARRAFONES">GARRAFONES</option>
+                            <option value="SELLOS BWATER">SELLOS BWATER</option>
+                            <option value="RENTA CAM 1">RENTA CAM 1</option>
+                            <option value="RENTA CAM 2">RENTA CAM 2</option>
+                            <option value="RENTA CAM 3">RENTA CAM 3</option>
+                            <option value="MATRIZ RENTA">MATRIZ RENTA</option>
+                            <option value="ADAMAR RENTA">ADAMAR RENTA</option>
+                            <option value="GAS 1">GAS 1</option>
+                            <option value="GAS 2">GAS 2</option>
+                            <option value="GAS 3">GAS 3</option>
+                            <option value="GAS 4">GAS 4</option>
+                            <option value="GAS 5">GAS 5</option>
+                            <option value="GAS 6">GAS 6</option>
+                            <option value="BONOS">BONOS</option>
+                            <option value="PRESTAMO BANCO">PRESTAMO BANCO</option>
+                            <option value="PRESTAMO YOTE">PRESTAMO YOTE</option>
+                            <option value="PRESTAMO">PRESTAMO</option>
+                            <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
+                            <option value="REGALO EMPLEADOS">REGALO EMPLEADOS</option>
+                            <option value="RACKS">RACKS</option>
+                            <option value="LIMPIEZA">LIMPIEZA</option>
+                            <option value="HIPOCLORITO Y MAS">HIPOCLORITO Y MAS</option>
+                            <option value="MECANICO">MECANICO</option>
+                            <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                            <option value="REFACCIONES">REFACCIONES</option>
+                            <option value="OTROS">OTROS</option>
+                        </select>
+                    </div>
+                    <div class="form-group d-none" id="personalList">
+                        <label for="register-ciudad" class="form-label">Seleccione un personal</label>
+                        <select name="personal" placeholder="personal" aria-describedby="register-ciudad" tabindex="3"
+                            class="form-control mb-2 personal_reg_modal_pedido" id='personal'>
+                            <option selected value="">Seleccione un personal</option>
+                            {{#each personalList as |personal i |}}
+                            <option value="{{id}}">{{name}} {{lastName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Fecha:</label>
+                        <input type="date" name="fecha" tabindex="1"
+                            class="form-control flatpickr-basic flatpickr-input mb-2" id="fecha">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Monto:</label>
+                        <input type="number" name="monto_gastos" class="form-control mb-2" id="monto_gastos">
+                    </div>
+                    <div class="form-group"><label for="register-firstName" class="form-label">Observación</label>
+                        <input type="text" name="observacion" placeholder="Observación" class="form-control mb-2"
+                            id="observacion">
+                    </div>
+                  <div class="modal-footer">
+                <button tabindex="26" class="btn btn-primary btn-block waves-effect waves-float waves-light"
+                    type="button" id="saveGasto">Guardar</button>
+            </div>
+            </form>  
+            </div>
+            
+        </div>
+    </div>
+</div>
+            </div>
       </div>
   </div>
 </div>
@@ -105,17 +385,45 @@ $(document).ready(function () {
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 
-  let ventasChart;
+  let ventasChart, gastosChart;
   let optionsVentasChart, interval;
+  let optionsGastosChart;
 
+    $('#btnVentasCol').on('click', (e) => {
+            CollapseGraf(1)
+        });
+        $('#btngastosG').on('click', (e) => {
+            CollapseGraf(2);
+        });
+
+        function CollapseGraf(num) {
+            $('#ventasGrap').removeClass('show');
+            $('#ventasGrap').addClass('collapse');
+
+            $('#gastosGrap').removeClass('show');
+            $('#gastosGrap').addClass('collapse');
+
+            switch (num) {
+                case 1:
+                    $('#ventasGrap').removeClass('collapse');
+                    $('#ventasGrap').addClass('show');
+                    break;
+                case 2:
+                    $('#gastosGrap').removeClass('collapse');
+                    $('#gastosGrap').addClass('show');
+                    gastosChartSet()
+                    break;
+                
+            }
+        }
   function CheckClearLoad() {
     if(document.readyState === "complete") {
       fetch('/obetenerdatosgeneralesreportes')
         .then(response => response.json())
         .then(data => {
+          console.log(data)
           let pedidos = data.pedidos, transferencias = 0, deudores = 0, ventasG = data.ventasGlobal[0], clientes = data.clientes, clientesNuevos = 0, totalVentas = 0, totalCanje = 0, totalRefil = 0, totalGarraf = 0
-          console.log(data);
-
+          
           pedidos.forEach(pedido => {
             if(pedido.metodo_pago === "Deposito" || pedido.metodo_pago === "Transferencia") {
               transferencias++;
@@ -127,7 +435,7 @@ $(document).ready(function () {
 
           ventasG.forEach(venta => {
             totalVentas += parseInt(venta.monto_total);
-            console.log(parseInt(venta.monto_total));
+           ///console.log(parseInt(venta.monto_total));
             totalGarraf += parseInt(venta.total_garrafones_pedido);
             totalRefil += parseInt(venta.total_refill_pedido);
             totalCanje += parseInt(venta.total_canje_pedido);
@@ -198,6 +506,161 @@ $(document).ready(function () {
   //chart2.render();
   //chart3.render();
   //chart.updateSeries(appendData())
+async function gastosChartSet() {
+    let GastosList0 = await fetch('/getGastosLit')
+    .then(response => response.json())
+    .then(data => {
+        return data.listaGastos;
+    });
+          console.log(GastosList0)
+          let nomina=0, luz1=0, luz2=0, pipa=0,tapas=0, garrafones=0, sellosBwater=0, rentaCam1=0,rentaCam2=0,rentaCam3=0,matrizRenta=0,adamarRenta=0, gas1=0,gas2=0,gas3=0,gas4=0,gas5=0,gas6=0, bonos=0, prestamoBanco=0, prestamoYote=0, prestamo=0, administrativo=0,regaloEmpleados=0,racks=0,limpieza=0,hipoclorito=0,mecanico=0,mantenimiento=0, refacciones=0, otros=0;
+          
+          GastosList0.forEach(gasto => {
+              switch (gasto.tipo) {
+    case 'NOMINA':
+      nomina += parseInt(gasto.monto)
+      break;
+        case 'LUZ 1':
+      luz1 += parseInt(gasto.monto)
+      break;
+        case 'LUZ 2':
+      luz2 += parseInt(gasto.monto)
+      break;
+        case 'PIPA':
+      pipa += parseInt(gasto.monto)
+      break;
+        case 'TAPAS':
+      tapas += parseInt(gasto.monto)
+      break;
+        case 'GARRAFONES':
+      garrafones += parseInt(gasto.monto)
+      break;
+        case 'SELLOS BWATER':
+      sellosBwater += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 1':
+      rentaCam1 += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 2':
+      rentaCam2 += parseInt(gasto.monto)
+      break;
+        case 'RENTA CAM 3':
+      rentaCam3 += parseInt(gasto.monto)
+      break;
+        case 'MATRIZ RENTA':
+      matrizRenta += parseInt(gasto.monto)
+      break;
+        case 'ADAMAR RENTA':
+      adamarRenta += parseInt(gasto.monto)
+      break;
+      case 'GAS 1':
+      gas1 += parseInt(gasto.monto)
+      break;
+case 'GAS 2':
+    gas2 += parseInt(gasto.monto)  
+      break;
+case 'GAS 3':
+    gas3 += parseInt(gasto.monto)  
+      break;
+case 'GAS 4':
+    gas4 += parseInt(gasto.monto)  
+      break;
+case 'GAS 5':
+    gas5 += parseInt(gasto.monto)  
+      break;
+case 'GAS 6':
+    gas6 += parseInt(gasto.monto)  
+      break;
+case 'BONOS':
+    bonos += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO BANCO':
+    prestamoBanco += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO YOTE':
+    prestamoYote += parseInt(gasto.monto)  
+      break;
+case 'PRESTAMO':
+    prestamo += parseInt(gasto.monto)  
+      break;
+      case 'ADMINISTRATIVO':
+      administrativo += parseInt(gasto.monto)
+      break;
+case 'REGALO EMPLEADOS':
+    regaloEmpleados += parseInt(gasto.monto)  
+      break;
+case 'RACKS':
+    racks += parseInt(gasto.monto)  
+      break;
+case 'LIMPIEZA':
+    limpieza += parseInt(gasto.monto)  
+      break;
+case 'HIPOCLORITO Y MAS':
+    hipoclorito += parseInt(gasto.monto)  
+      break;
+case 'MECANICO':
+    mecanico += parseInt(gasto.monto)  
+      break;
+case 'MANTENIMIENTO':
+    mantenimiento += parseInt(gasto.monto)  
+      break;
+case 'REFACCIONES':
+    refacciones += parseInt(gasto.monto)  
+      break;
+case 'OTROS':
+    otros += parseInt(gasto.monto)  
+      break;
+  }
+          });
+
+          optionsGastosChart = {
+            series: [nomina,luz1,luz2,pipa,tapas,garrafones,sellosBwater,rentaCam1,rentaCam2,rentaCam3,matrizRenta,adamarRenta,gas1,gas2,gas3,gas4,gas5,gas6,bonos,prestamoBanco,prestamoYote,prestamo,administrativo,regaloEmpleados,racks,limpieza,hipoclorito,mecanico,mantenimiento,refacciones,otros],
+            chart: {
+              width: '90%',
+              type: 'donut',
+            },
+            labels: ['NOMINA','LUZ 1','LUZ 2','PIPA','TAPAS','GARRAFONES','SELLOS BWATER','RENTA CAM 1','RENTA CAM 2','RENTA CAM 3','MATRIZ RENTA','ADAMAR RENTA','GAS 1','GAS 2','GAS 3','GAS 4','GAS 5','GAS 6','BONOS','PRESTAMO BANCO','PRESTAMO YOTE','PRESTAMO','ADMINISTRATIVO','REGALO EMPLEADOS','RACKS','LIMPIEZA','HIPOCLORITO Y MAS','MECANICO','MANTENIMIENTO','REFACCIONES','OTROS'],
+            dataLabels: {
+              enabled: false,
+              textAnchor: 'middle'
+            },
+            responsive: [{
+              breakpoint: 568,
+              options: {
+                chart: {
+                  width: '100%'
+                },
+                /*plotOptions: {
+                  pie: {
+                    donut: {
+                      labels: {
+                        show: false,
+                      }
+                    },
+                  }
+                }*/
+              },
+            }],
+            legend: {
+              position: 'top',
+              offsetY: 0,
+              height: 50,
+            },
+            plotOptions: {
+              pie: {
+                donut: {
+                  labels: {
+                    show: true,
+                  }
+                },
+              
+              }
+            }
+          };
+          
+          gastosChart = new ApexCharts(document.querySelector("#chart4"), optionsGastosChart);
+          gastosChart.render();
+  }
 
   function reset() {
     return optionsVentasChart.series
