@@ -6,6 +6,8 @@ let estudiantesParsed = "";
 
 let gruposTodos, usuarios, matriculasTodos;
 
+let provincias, canton, distritos;
+
 async function FetchData (num) {
   gruposTodos = await fetch('/obtenerGruposAll')
       .then(response => response.json())
@@ -30,12 +32,14 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
               usuarios = data.usuarios
-              for (let i = 0; i < usuarios.length; i++) {
-                  if (usuarios[i]['puesto']=="Profesor") {
-                      $('.profesor').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
-                      $('.profesor2').append(`<option value="${usuarios[i]['nombre']}">${usuarios[i]['nombre']}</option>`) 
-                  }                
+              let filterUsuarios = usuarios.filter(item => item.puesto === "Vendedor")
+              if (filterUsuarios.length) {
+                filterUsuarios.forEach(user => {
+                  $('#vendedor2-edit').append(`<option value="${user.id}">${user.nombre}</option>`)
+                });
+                $('#vendedor2-edit').trigger('change') 
               }
+              
               return usuarios
           });
 
@@ -50,12 +54,30 @@ async function FetchData (num) {
     }
     let array = await GetAlumnos()
     cargarTablaMatricula(array)
-      
-  }
+    
+  } else if (num === 3) {
+    let result = fetch('/obtenerdirecciones')
+    .then(response => response.json())
+    .then(data => {
+      provincias = data.provincias
+      canton = data.canton
+      distritos = data.distritos
 
+      $('#provinciasAll').val(JSON.stringify(provincias))
+      $('#cantonAll').val(JSON.stringify(canton))
+      $('#distritosAll').val(JSON.stringify(distritos))
+
+      $.each(provincias, function(key, value) {
+        $('#select2-provincia').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`);
+      });
+    });
+  }
+  
 }
 
+FetchData(1)
 FetchData(2)
+FetchData(3)
 
 function cargarTablaMatricula(array) {
   /*if (editada) {
@@ -250,270 +272,267 @@ function cargarTablaMatricula(array) {
   }
 
   
-$(function () {
+  $(function () {
+
+    $(".edit-btn-alumno").on("click", (e) => {
+      let data = e.target.getAttribute('data-id');
+      
+      let filterStudiante = matriculasTodos.filter(element => element.id == data);
+      console.log(filterStudiante)
+
+      let provincias = JSON.parse($('#provinciasAll').val()), canton = JSON.parse($('#cantonAll').val()), distritos = JSON.parse($('#distritosAll').val());
+      
+      let nombre = filterStudiante.length ? filterStudiante[0].nombre : "",
+      email = filterStudiante.length ? filterStudiante[0].email : "",
+      dni = filterStudiante.length ? filterStudiante[0].nro_identificacion : "",
+      genero = filterStudiante.length ? filterStudiante[0].genero : "",
+      fechaN = filterStudiante.length ? filterStudiante[0].fecha_nacimiento : "",
+      tlf1 = filterStudiante.length ? filterStudiante[0].telefono1 : "",
+      tlf2 = filterStudiante.length ? filterStudiante[0].telefono2 : "",
+      vendedor = filterStudiante.length && filterStudiante[0].usuario ? filterStudiante[0].usuario.id : "";
+      provinciaU = filterStudiante.length ? filterStudiante[0].provincia : "";
+      cantonU = filterStudiante.length ? filterStudiante[0].canton : "";
+      distritoU = filterStudiante.length ? filterStudiante[0].distrito : "";
+
+      $('#name-edit').val(nombre);
+      $('#dni-edit').val(dni);
+      $('#mail-edit').val(email);
+      $('#date-edit').val(fechaN);
+      $('#tlf1-edit').val(tlf1);
+      $('#tlf2-edit').val(tlf2);
+      $('#gen-edit').val(genero);
+      $('#gen-edit').trigger("change");
+      $('#vendedor2-edit').val(vendedor);
+      $('#vendedor2-edit').trigger("change");
+
+      $('#select2-provincia').val(provinciaU);
+      $('#select2-provincia').trigger("change");
+
+      let filterProvincia = provincias.filter(item => item.nombre == provinciaU)
+      // * CANTON ALL
+      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id)
+      // * CANTON SELECT
+      let filterCantonSelect = canton.filter(item => item.nombre == cantonU)
+      // * DISTRITOS ALL
+      let filterDistrito = distritos.filter(item => item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
+      // * DISTRITO SELECT
+      let filterDistritoSelect = distritos.filter(item => item.nombre == distritoU && item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
 
 
-  $(".edit-btn-alumno").on("click", (e) => {
-    let data = e.target.getAttribute('data-id');
-    
-    /*let filterStudiante = estudiantesParsed.filter(
-      (element) => element.id == data
-    );*/
-    let filterStudiante = matriculasTodos.filter(element => element.id == data);
-    console.log(filterStudiante)
-    $("#edit-title-modal").text("Editar Alumno");
-    $("#formregalumno").removeAttr("action");
+      $('#select2-canton').html('')
+      filterCanton.forEach(value => {
+        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.id}">${value.nombre}</option>`)
+      });
+      $('#select2-canton').val(filterCantonSelect[0].id)
+      $('#select2-canton').trigger('change')
+      
+      $('#select2-distrito').html('')
+      filterDistrito.forEach(value => {
+        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.id}">${value.nombre}</option>`)
+      });
+      $('#select2-distrito').val(filterDistritoSelect[0].id)
+      $('#select2-distrito').trigger('change')
 
-    $("#formregalumno").attr("action", "/edit-estudiantepy627");
-    $("#grupos-edit").addClass("d-none");
-    $("#id-alumno-edit").append(
-      `<input type="text" value="${filterStudiante[0]["id"]}" name="id_estudiante">`
-    );
+      
 
-    $("#name-for-edit").val(`${filterStudiante[0]["nombre"]}`);
+      $("#editarAlumno").modal("show");
+    });
 
-    $("#nacionalDni").val(`${filterStudiante[0]["nro_identificacion"]}`);
-    $("#fecha-nacimiento-edit").val(
-      `${filterStudiante[0]["fecha_nacimiento"]}`
-    );
-    $(`#genero-edit option[value='${filterStudiante[0]["genero"]}']`).attr(
-      "selected",
-      true
-    );
-    $("#genero-edit").val(`${filterStudiante[0]["genero"]}`).trigger("change");
-
-    //$('#tlf1Check').val()
-    $("#inputTlf1").val(`${filterStudiante[0]["telefono1"]}`);
-
-    //$('#tlf2Check').val()
-    $("#inputTlf2").val(`${filterStudiante[0]["telefono2"]}`);
-
-    $("#email-edit").val(`${filterStudiante[0]["email"]}`);
-    let vendedor
-      if (filterStudiante[0]["usuario"] != null) {
-        vendedor = filterStudiante[0]["usuario"]["id"]
+    $(".congelar-estudiante").on("click", (e) => {
+      if (!e.target.classList.contains('dropdown-item')) {
+        e.target.submit()
       }
-    $(`#vendedor-edit option[value='${vendedor}']`).attr("selected", true);
-    $("#vendedor-edit").val(`${vendedor}`).trigger("change");
-    $(`#select-provincia option[value='${filterStudiante[0]["provincia"]}']`).attr("selected", true);
-    $("#select-provincia")
-      .val(`${filterStudiante[0]["provincia"]}`)
-      .trigger("change");
-
-    $(`#select-canton option[value='${filterStudiante[0]["canton"]}']`).attr(
-      "selected",
-      true
-    );
-    $("#select-canton")
-      .val(`${filterStudiante[0]["canton"]}`)
-      .trigger("change");
-
-    $(
-      `#select-distrito option[value='${filterStudiante[0]["distrito"]}']`
-    ).attr("selected", true);
-    $("#select-distrito")
-      .val(`${filterStudiante[0]["distrito"]}`)
-      .trigger("change");
-
-    $("#btn-submit-form-estudiante").val("Guardar");
-
-    $("#registrarAlumno").modal("show");
-  });
-
-  $(".congelar-estudiante").on("click", (e) => {
-    if (!e.target.classList.contains('dropdown-item')) {
-      e.target.submit()
-    }
-  });
-
-  $(".eliminar-estudiante-grupo").on("click", (e) => {
-    let form = e.target;
-  });
-  $(".eliminar-estudiante").on("click", (e) => {
-    let form = e.target;
-    form.submit();
-  });
-
-  $("#createAppModal").on("show.bs.modal", async function (e) {
-    $("#guarda-grupoNew").addClass("d-none");
-    var Array = e.relatedTarget["dataset"]["bsArrdata"];
-    var my_object = JSON.parse(decodeURIComponent(Array));
-    console.log(my_object);
-    console.log(my_object["grupo"]);
-    $(`#nombreReagrupar`).text(`${my_object["nombre"]}`);
-    $(`#tlfReagrupar`).text(
-      `${my_object["telefono1"]} - ${my_object["telefono2"]}`
-    );
-    /*let filter_group_alumnos = estudiantesParsed.filter(
-      (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
-    );*/
-
-    let id1 = my_object.id, id2 = my_object.grupoId
-
-    let url = `/controlMatricula/${id1}/${id2}`;
-
-    let resp = await fetch(url),
-    status = await resp.status,
-    alumnoJson = await resp.json();
-
-    /*console.log(resp)
-    console.log(status)*/
-    console.log(alumnoJson)
-    console.log("FETCH")
-
-    let filter_group_alumnos = matriculasTodos.filter(
-      (filter2) => filter2.grupo.id == my_object["grupoId"]
-    );
-
-    $("#id_estudiante").val(my_object["id"]);
-    $("#nombre_reaginador").val(my_object["nombre"]);
-    $("#grupoId_actual").val(my_object["grupo"]["id"]);
-    let find = gruposTodos.filter(item => my_object["grupoId"] == item.id)
-    let prof = my_object["grupo"]["usuario"] ? my_object["grupo"]["usuario"]["nombre"] : "No Asignado"
-    $(`#grupoReag`).text(`${find[0].identificador}`);
-    $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
-    $(`#profesorreag`).text(prof);
-    $(`#tipogrupoReag`).text(
-      `${my_object["grupo"]["nombre"]}- ${my_object["grupo"]["identificador"]}`
-    );
-    $(`#fechaPagoReag`).text(`${my_object["grupo"]["dia_pagos"]}`);
-    $(`#cantAlumnos`).text(`${filter_group_alumnos.length}`);
-
-    //NOTAS Y PARTICIPACION
-    var notas, nota_participacion, ausencias = await alumnoJson.ausentes, comentarios;
-    /*notas = await fetch("/notas-titulo-academy/" + my_object["id"])
-    .then((response) => response.json())
-    .then((data) => {
-      return data.obtener_notas;
     });
-    nota_participacion= await fetch("/participacion-titulo-academy/" + my_object["id"])
-    .then((response) => response.json())
-    .then((data) => {
-    return data.obtener_participacion;
+
+    $(".eliminar-estudiante-grupo").on("click", (e) => {
+      let form = e.target;
     });
-    ausencias = await fetch("/ausencias-titulo-academy/" + my_object["id"])
-    .then((response) => response.json())
-    .then((data) => {
-    return data.obtener_ausencias;
-    });*/
 
-    let total_nota = 0
-    /*for (let i = 0; i < notas.length; i++) {
-      if (notas[i]['nota'] == 'undefined' || notas[i]['nota'] == "0") {
-        total_nota += 0;
-      }else{
-        total_nota += parseInt(notas[i]['nota']);
-      }     
-    }*/
+    $(".eliminar-estudiante").on("click", (e) => {
+      let form = e.target;
+      form.submit();
+    });
 
-  let asistencias;
-  let porcentaje_asist;
-  
-  if (my_object['grupo']['nombre'] != "Kids") {
-    asistencias = 32 - parseInt(ausencias);
-    porcentaje_asist = (asistencias * 100) / 32;
-  } else {
-    asistencias = 16 - parseInt(ausencias);
-    porcentaje_asist = (asistencias * 100) / 16;
-  }
+    $("#createAppModal").on("show.bs.modal", async function (e) {
+      $("#guarda-grupoNew").addClass("d-none");
+      var Array = e.relatedTarget["dataset"]["bsArrdata"];
+      var my_object = JSON.parse(decodeURIComponent(Array));
+      console.log(my_object);
+      console.log(my_object["grupo"]);
+      $(`#nombreReagrupar`).text(`${my_object["nombre"]}`);
+      $(`#tlfReagrupar`).text(
+        `${my_object["telefono1"]} - ${my_object["telefono2"]}`
+      );
+      /*let filter_group_alumnos = estudiantesParsed.filter(
+        (filter2) => filter2.grupo.id == my_object["grupo"]["id"]
+      );*/
 
-  $('#calificacionT').text(`${total_nota}%`)
-  $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
+      let id1 = my_object.id, id2 = my_object.grupoId
 
-    let inicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY");
-    let final = moment(my_object["grupo"]["fecha_finalizacion"], "DD-MM-YYYY");
-    let diferencia2 = final.diff(inicio, "w");
-    let tipo = my_object["grupo"]["nombre"];    
-    let numLeccion = alumnoJson.leccActual ? alumnoJson.leccActual : 0;
-    let fechaActual = moment().format("DD-MM-YYYY");
-    let fechaInicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY").format("DD-MM-YYYY");
-    let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
-    let rest; 
-  
-    $(`#leccionActual`).text(numLeccion);
+      let url = `/controlMatricula/${id1}/${id2}`;
 
-    $(`.bg-success`).removeClass("bg-success");
-    $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
-    $(`#leccion_actual_reasig`).val($("#leccionActual").text());
-    var historial = await fetch("/historia-caja-academy/" + my_object["id"])
+      let resp = await fetch(url),
+      status = await resp.status,
+      alumnoJson = await resp.json();
+
+      /*console.log(resp)
+      console.log(status)*/
+      console.log(alumnoJson)
+      console.log("FETCH")
+
+      let filter_group_alumnos = matriculasTodos.filter(
+        (filter2) => filter2.grupo.id == my_object["grupoId"]
+      );
+
+      $("#id_estudiante").val(my_object["id"]);
+      $("#nombre_reaginador").val(my_object["nombre"]);
+      $("#grupoId_actual").val(my_object["grupo"]["id"]);
+      let find = gruposTodos.filter(item => my_object["grupoId"] == item.id)
+      let prof = my_object["grupo"]["usuario"] ? my_object["grupo"]["usuario"]["nombre"] : "No Asignado"
+      $(`#grupoReag`).text(`${find[0].identificador}`);
+      $(`.horarioreag`).text(`${my_object["grupo"]["dia_horario"]} `);
+      $(`#profesorreag`).text(prof);
+      $(`#tipogrupoReag`).text(
+        `${my_object["grupo"]["nombre"]}- ${my_object["grupo"]["identificador"]}`
+      );
+      $(`#fechaPagoReag`).text(`${my_object["grupo"]["dia_pagos"]}`);
+      $(`#cantAlumnos`).text(`${filter_group_alumnos.length}`);
+
+      //NOTAS Y PARTICIPACION
+      var notas, nota_participacion, ausencias = await alumnoJson.ausentes, comentarios;
+      /*notas = await fetch("/notas-titulo-academy/" + my_object["id"])
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        return data.obtener_historia;
+        return data.obtener_notas;
       });
-      if (historial.length == 0) {
-        $('#countGrupos').text('0')
+      nota_participacion= await fetch("/participacion-titulo-academy/" + my_object["id"])
+      .then((response) => response.json())
+      .then((data) => {
+      return data.obtener_participacion;
+      });
+      ausencias = await fetch("/ausencias-titulo-academy/" + my_object["id"])
+      .then((response) => response.json())
+      .then((data) => {
+      return data.obtener_ausencias;
+      });*/
 
-        await leccionActualGrupos();
-      } else {
-            for (let i = 0; i < historial.length; i++) {
-      var hora_registro_pago = moment(historial[i]["createdAt"]);
-      console.log(moment().isAfter(hora_registro_pago, "d"))
-      if (
-        historial[i]["concepto"] == "Traslado" &&
-        moment().isAfter(hora_registro_pago, "d") == false        
-      ) {
-        $("#guarda-grupoNew").removeClass("d-none");
-       await leccionActualGrupos(); 
-      }else{
+      let total_nota = 0
+      /*for (let i = 0; i < notas.length; i++) {
+        if (notas[i]['nota'] == 'undefined' || notas[i]['nota'] == "0") {
+          total_nota += 0;
+        }else{
+          total_nota += parseInt(notas[i]['nota']);
+        }     
+      }*/
+
+    let asistencias;
+    let porcentaje_asist;
+    
+    if (my_object['grupo']['nombre'] != "Kids") {
+      asistencias = 32 - parseInt(ausencias);
+      porcentaje_asist = (asistencias * 100) / 32;
+    } else {
+      asistencias = 16 - parseInt(ausencias);
+      porcentaje_asist = (asistencias * 100) / 16;
+    }
+
+    $('#calificacionT').text(`${total_nota}%`)
+    $('#asistenciareag').text(`${porcentaje_asist.toFixed(2)}%`)
+
+      let inicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY");
+      let final = moment(my_object["grupo"]["fecha_finalizacion"], "DD-MM-YYYY");
+      let diferencia2 = final.diff(inicio, "w");
+      let tipo = my_object["grupo"]["nombre"];    
+      let numLeccion = alumnoJson.leccActual ? alumnoJson.leccActual : 0;
+      let fechaActual = moment().format("DD-MM-YYYY");
+      let fechaInicio = moment(my_object["grupo"]["fecha_inicio"], "DD-MM-YYYY").format("DD-MM-YYYY");
+      let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
+      let rest; 
+    
+      $(`#leccionActual`).text(numLeccion);
+
+      $(`.bg-success`).removeClass("bg-success");
+      $(`#leccion${$("#leccionActual").text()}`).addClass("bg-success");
+      $(`#leccion_actual_reasig`).val($("#leccionActual").text());
+      var historial = await fetch("/historia-caja-academy/" + my_object["id"])
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          return data.obtener_historia;
+        });
+        if (historial.length == 0) {
           $('#countGrupos').text('0')
 
-await leccionActualGrupos();
-      }
-    }
-      }
+          await leccionActualGrupos();
+        } else {
+              for (let i = 0; i < historial.length; i++) {
+        var hora_registro_pago = moment(historial[i]["createdAt"]);
+        console.log(moment().isAfter(hora_registro_pago, "d"))
+        if (
+          historial[i]["concepto"] == "Traslado" &&
+          moment().isAfter(hora_registro_pago, "d") == false        
+        ) {
+          $("#guarda-grupoNew").removeClass("d-none");
+        await leccionActualGrupos(); 
+        }else{
+            $('#countGrupos').text('0')
 
-    comentarios = await fetch("/comentarios-academy/" + my_object["id"])
-.then((response) => response.json())
-.then((data) => {
-  return data.obtener_comentarios;
-});
-console.log(comentarios)
-for (let i = 0; i < comentarios.length; i++) {
- $('#accordionMargin').append(`<div class="accordion-item">
- <h2 class="accordion-header" id="headingMargin${comentarios[i].n_leccion}">
-   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-     data-bs-target="#accordionMargin${comentarios[i].n_leccion}" aria-expanded="false" aria-controls="accordionMargin${comentarios[i].n_leccion}">
-     Comentarios Leccion ${comentarios[i].n_leccion}
-   </button>
- </h2>
- <div id="accordionMargin${comentarios[i].n_leccion}" class="accordion-collapse collapse" aria-labelledby="headingMargin${comentarios[i].n_leccion}"
-   data-bs-parent="#accordionMargin" style="">
-   <div class="accordion-body">
-     <div class="row">
-       <div class="col-6">
-         <div class="mb-1">
-           <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
-           <textarea class="form-control commentProf" id="comentP47" rows="1" placeholder="${comentarios[i].commentProfForm}" data-id="47" readonly></textarea>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
-</div>`)
-}
-  /** CARGAR COMENTARIOS DEL ADMINISTREADOR */
-    $('#commentAdmin').empty()
-    let id_alumno = $("#id-alumno-form").val();
-       let comentariosA = await fetch("/comentarios_admin_get-academy/" + my_object["id"])
-          .then((response) => response.json())
-          .then((data) => {
-            return data.obtener_comentarios;
-          });
-          console.log(comentariosA)
-          for (let i=0; i < comentariosA.length; i++){
-            $('#commentAdmin').append(`          
-            <div class="col-12">
-             <div class="mb-1">
-               <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${moment(comentariosA[i].createdAt).format('DD/MM/YYYY')}</label>
-               <textarea class="form-control" id="coment${comentariosA[i].id}" rows="1" data-id="47" readonly>${comentariosA[i].commentAdminForm}</textarea>
-             </div>
-           </div>`)                        
+  await leccionActualGrupos();
         }
-    /**fin carga modal alumno */
-  });
+      }
+        }
 
-});
+      comentarios = await fetch("/comentarios-academy/" + my_object["id"])
+  .then((response) => response.json())
+  .then((data) => {
+    return data.obtener_comentarios;
+  });
+  console.log(comentarios)
+  for (let i = 0; i < comentarios.length; i++) {
+  $('#accordionMargin').append(`<div class="accordion-item">
+  <h2 class="accordion-header" id="headingMargin${comentarios[i].n_leccion}">
+    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+      data-bs-target="#accordionMargin${comentarios[i].n_leccion}" aria-expanded="false" aria-controls="accordionMargin${comentarios[i].n_leccion}">
+      Comentarios Leccion ${comentarios[i].n_leccion}
+    </button>
+  </h2>
+  <div id="accordionMargin${comentarios[i].n_leccion}" class="accordion-collapse collapse" aria-labelledby="headingMargin${comentarios[i].n_leccion}"
+    data-bs-parent="#accordionMargin" style="">
+    <div class="accordion-body">
+      <div class="row">
+        <div class="col-6">
+          <div class="mb-1">
+            <label class="form-label" for="exampleFormControlTextarea1">Comentarios Profesor</label>
+            <textarea class="form-control commentProf" id="comentP47" rows="1" placeholder="${comentarios[i].commentProfForm}" data-id="47" readonly></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>`)
+  }
+    /** CARGAR COMENTARIOS DEL ADMINISTREADOR */
+      $('#commentAdmin').empty()
+      let id_alumno = $("#id-alumno-form").val();
+        let comentariosA = await fetch("/comentarios_admin_get-academy/" + my_object["id"])
+            .then((response) => response.json())
+            .then((data) => {
+              return data.obtener_comentarios;
+            });
+            console.log(comentariosA)
+            for (let i=0; i < comentariosA.length; i++){
+              $('#commentAdmin').append(`          
+              <div class="col-12">
+              <div class="mb-1">
+                <label class="form-label" for="exampleFormControlTextarea1">Comentario del ${moment(comentariosA[i].createdAt).format('DD/MM/YYYY')}</label>
+                <textarea class="form-control" id="coment${comentariosA[i].id}" rows="1" data-id="47" readonly>${comentariosA[i].commentAdminForm}</textarea>
+              </div>
+            </div>`)                        
+          }
+      /**fin carga modal alumno */
+    });
+
+  });
 }
 
 $("#guarda-grupoNew").click(() => {
