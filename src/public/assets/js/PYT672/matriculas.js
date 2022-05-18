@@ -294,6 +294,8 @@ function cargarTablaMatricula(array) {
       cantonU = filterStudiante.length ? filterStudiante[0].canton : "";
       distritoU = filterStudiante.length ? filterStudiante[0].distrito : "";
 
+      $('#edit-grupoId').val(filterStudiante[0].grupoId)
+      $('#edit-userId').val(filterStudiante[0].id)
       $('#name-edit').val(nombre);
       $('#dni-edit').val(dni);
       $('#mail-edit').val(email);
@@ -321,14 +323,14 @@ function cargarTablaMatricula(array) {
 
       $('#select2-canton').html('')
       filterCanton.forEach(value => {
-        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.id}">${value.nombre}</option>`)
+        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
       $('#select2-canton').val(filterCantonSelect[0].id)
       $('#select2-canton').trigger('change')
       
       $('#select2-distrito').html('')
       filterDistrito.forEach(value => {
-        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.id}">${value.nombre}</option>`)
+        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
       $('#select2-distrito').val(filterDistritoSelect[0].id)
       $('#select2-distrito').trigger('change')
