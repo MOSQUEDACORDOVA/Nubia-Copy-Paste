@@ -147,7 +147,7 @@ $(document).ready(function () {
                             <div class="col">
                                 <label class="card-text mt-2 text-white w-100">Fecha: <strong id="fechaT"></strong></label>
                                 <div class="mb-0 d-flex">
-                                    <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="start_date" placeholder="Cambiar fecha" id="fecha_inicio"/>
+                                    <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="start_date" placeholder="Cambiar fecha" id="fecha_inicio" onchange="pedidosbyDay($('#fecha_fin').val(), this.value)"/>
                                     <input type="text" class="form-control mx-auto flatpickr-range dt-input" name="end_date" placeholder="Cambiar fecha" id="fecha_fin" onchange="pedidosbyDay(this.value,$('#fecha_inicio').val())"/>
                                 </div>
                             </div>
