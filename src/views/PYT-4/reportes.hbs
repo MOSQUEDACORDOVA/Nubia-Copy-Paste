@@ -128,9 +128,9 @@ $(document).ready(function () {
             </div>
             <div class="card card-body collapse show" id="ingresos">
                 <section id="column-search-datatable">
-                    <div class="row match-height py4">
-                        <div class="col-12">
-                                              <div class="card card-congratulation m-0">
+                    <div class="row match-height py4 justify-content-lg-start justify-content-center">
+                        <div class="col-12 col-lg-4">
+                                              <div class="card card-congratulation mx-auto m-lg-0">
                         <div class="card-body text-center" id="btnGral" data-bs-toggle="collapse" href="#total" role="button" aria-expanded="false" aria-controls="total">
                             <div class="avatar avatar-xl bg-light shadow">
                                 <div class="avatar-content">
@@ -155,13 +155,17 @@ $(document).ready(function () {
                         </div>
                     </div>
                 </div>
-                        </div>
-                        <div class="col-12 col-lg-8" id="gananciasChart">
-                    <div id="chart5"></div>
-                  </div>
+
+                    <div class="col-12 col-lg-8" id="gananciasChart">
+                      <div class="d-block mx-auto w-100" style="max-width: 500px;">
+                        <div id="chart5"></div>
+
+                      </div>
                     </div>
-                    </div>
+                </div>
+
                 </section>
+            </div>
 
 
             </div>
@@ -465,11 +469,9 @@ $(document).ready(function () {
               textAnchor: 'middle'
             },
             responsive: [{
-              breakpoint: 568,
+              breakpoint: 992,
               options: {
-                chart: {
-                  width: '100%'
-                },
+                width: '100%'
                 /*plotOptions: {
                   pie: {
                     donut: {
