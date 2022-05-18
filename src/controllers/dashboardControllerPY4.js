@@ -180,14 +180,47 @@ exports.obtenerPedidos = async (req, res)=>{
               res.send({array_pedido:pedidos_})
             })
 }
+
+exports.obtenerPedidospordia = async (req, res)=>{
+let diaInicio=req.params.diainicio;
+let diaFin =req.params.diafin;    
+  console.log(diaInicio);
+   console.log(diaFin);
+         DataBase.PedidosbyDaybetween(diaInicio, diaFin)
+            .then((pedidos_) => {
+              let pedidos_let = JSON.parse(pedidos_);
+              res.send({pedidos_let})
+            })
+}
+exports.obtenerPedidosReprogramados = async (req, res)=>{
+  let dia=req.params.dia
+           DataBase.PedidosbyDay(dia)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+                let reprogramados = [];
+                pedidos_let.forEach(element => {
+                  if (element.status_pedido == 'Reprogramado') {
+                    reprogramados.push(element)
+                  }
+                });
+                res.send({reprogramados})
+              })
+  }
+
 exports.dashboard = (req, res) => {
   
   //Push.create('Hello World!')
   let msg = false;
   let admin = false;
-  if (req.session.tipo == "Director") {
+  
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
   }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
+  }
+
   if (req.params.msg) {
     msg = req.params.msg;
   }
@@ -369,7 +402,7 @@ exports.dashboard = (req, res) => {
                                         reg_pedido:true,
                                         py4: true,
                                         dash: true,
-                                        admin,
+                                        admin,gerente,
                                         clientes_d,
                                         clientes_arr,
                                         choferes_,
@@ -500,8 +533,12 @@ exports.usuariosTable = (req, res) => {
     msg = req.params.mensaje;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let id_sucursal = req.session.sucursal_select;
   console.log('UserLog:' + id_sucursal)
@@ -1817,8 +1854,12 @@ exports.personal_table = (req, res) => {
     msg = req.params.msg;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let id_sucursal = req.session.sucursal_select;
   
@@ -2223,8 +2264,12 @@ exports.corte_table = (req, res) => {
     msg = req.params.msg;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let dia = "";
 
@@ -2576,8 +2621,12 @@ exports.vehiculos_table = (req, res) => {
     msg = req.params.msg;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let ClientesDB = "",
     PedidosDB = "",
@@ -2790,8 +2839,12 @@ exports.sucursales = (req, res) => {
     msg = req.params.msg;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let id_sucursal = req.session.sucursal_select;
   let ClientesDB = "",
@@ -3364,8 +3417,12 @@ exports.getCupones = (req, res) => {
     msg = req.params.msg;
   }
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   let id_sucursal = req.session.sucursal_select;
   let ClientesDB = "",
@@ -4088,8 +4145,12 @@ exports.notificaciones_table = (req, res) => {
   //Push.create('Hello World!')
   let msg = false;
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   if (req.params.msg) {
     msg = req.params.msg;
@@ -4345,8 +4406,12 @@ exports.reportes = (req, res) => {
 
   let msg = false;
   let admin = false;
-  if (req.session.tipo == "Director") {
+    if (req.session.tipo == "Director" || req.session.tipo == "Gerente de Sucursal") {
     admin = true;
+  }
+  let gerente= false;
+  if (req.session.tipo == "Gerente de Sucursal") {
+    gerente = true;
   }
   if (req.params.msg) {
     msg = req.params.msg;
@@ -4537,6 +4602,7 @@ exports.reportes = (req, res) => {
                                   });
                                   let personalList = JSON.parse(await DataBase.PersonalAll());
                                   let count_clientes_cuponera = notifi_g.length;
+
                                   res.render("PYT-4/reportes", {
                                     pageName: "Bwater",
                                     dashboardPage: true,

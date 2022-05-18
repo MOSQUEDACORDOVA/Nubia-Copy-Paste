@@ -3,16 +3,44 @@
  */
  var GastosList;
  var gastosDT = $('#gastosTableDt'), assetPath = '../../dataPY4/', gastosForm = $('#gastoForm');
-async function getGastos() {
+async function getGastos(again) {
     GastosList = await fetch('/getGastosLit')
     .then(response => response.json())
     .then(data => {
         return data.listaGastos;
     });
     console.log(GastosList);
-    cargaTabla()
+    if (again) {
+      return
+    }
+    cargaTabla();
+    pedidosbyDay(moment().format('YYYY-MM-DD'),moment().format('YYYY-MM-DD'));
 }
-
+async function pedidosbyDay(diaFin,diainicio) {
+  let TotalIngresos=0, GastosbyDay=0, gananciasT=0;
+  pedidos = await fetch(`/getPedidosbyDaypy4/${moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD')}/${moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD')}`)
+  .then(response => response.json())
+  .then(data => {
+      return data.pedidos_let;
+  });
+  pedidos.forEach(element => {
+    if (element.status_pedido=="Entregado") {
+      TotalIngresos += parseFloat(element.monto_total);
+    }    
+  });
+  let inicio = moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD');
+  let fin = moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD');
+  GastosList.forEach(element => {
+    if (moment(element.fecha).isBetween(inicio,fin, undefined, '[]')) {
+      GastosbyDay += parseFloat(element.monto);
+    }    
+  });
+  gananciasT = TotalIngresos -GastosbyDay; 
+  $('#fechaT').text(diaFin + ' hasta '+ diainicio);
+  $('#ingresosT').text('$'+TotalIngresos);
+  $('#gastosT').text('$'+GastosbyDay);
+  $('#gananciasT').text('$'+gananciasT);
+}
  function cargaTabla() {  
   
     // DataTable with buttons
@@ -165,7 +193,8 @@ async function getGastos() {
   
    $(function () {
     'use strict';
-    getGastos()
+    getGastos();
+    
     // Add New record
     // ? Remove/Update this code as per your requirements ?
   $('#categoria').change(function () {
@@ -350,6 +379,7 @@ $('#saveGasto').click(()=>{
           console.log(data);
           if (data.listaGastos) {
             gastosDT.DataTable().row.add(data.listaGastos).draw();
+            getGastos('again');
             Swal.fire({
               icon: 'success',
               title: 'Gasto agregado con éxito',

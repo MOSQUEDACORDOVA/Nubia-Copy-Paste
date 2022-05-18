@@ -1412,12 +1412,30 @@ console.log(hoy)
   PedidosbyDay(dia){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
-        createdAt: dia
+        fecha_pedido: dia
       },include:[
         {association:Pedidos.Usuarios },
-        {association:Pedidos.Clientes },
-        //{ model: Productos_pedidos,as:'Productos_' }
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
     ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosbyDaybetween(diaini,diafin){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        fecha_pedido: {[Op.between] : [diaini , diafin ]}
+      }
       })
         .then((data) => {
           let data_p = JSON.stringify(data);

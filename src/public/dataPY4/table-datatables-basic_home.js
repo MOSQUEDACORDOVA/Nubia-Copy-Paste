@@ -6,7 +6,9 @@
  // Advanced Search Functions Starts
  // --------------------------------------------------------------------
  var minDate, maxDate,minDate2, maxDate2;
- var zonas, copyReady,array_pedido;
+ var zonas, copyReady,array_pedido, pedidosReprogramados;
+ var status_pedido;
+var status_pedido2 ;
 async function cargaPedidos() {
     array_pedido = await fetch('/array_pedidoPy4')
     .then(response => response.json())
@@ -21,6 +23,25 @@ async function cargaPedidos() {
 });
      cargaTablas();
      cargaTableResumen();
+}
+async function cargaPedidosReprogramados(dia) {
+console.log(dia)
+  pedidosReprogramados = await fetch('/obtenerPedidosReprogramados/'+moment(dia, 'DD/MM/YYYY').format('YYYY-MM-DD'))
+  .then(response => response.json())
+  .then(data => {
+      return data.reprogramados
+  });
+ console.log(pedidosReprogramados);
+ if (pedidosReprogramados.length == 0) {
+  console.log(status_pedido);
+  $(`.datatables-basic`).DataTable().clear();
+  $(`.datatables-basic`).DataTable().rows.add( status_pedido ).draw();
+  return
+ }
+ for (let i = 0; i < pedidosReprogramados.length; i++) {
+   $(`.datatables-basic`).DataTable().row.add(pedidosReprogramados[i]).draw();
+ }
+
 }
 //  ///Custom filtering function which will search data in column four between two values
 //  $.fn.dataTable.ext.search.push(
@@ -121,15 +142,13 @@ async function cargaPedidos() {
      date.getFullYear() + '' + ('0' + (date.getMonth() + 1)).slice(-2) + '' + ('0' + date.getDate()).slice(-2);
    return normalized;
  };
- async function cargaTablas(rechar) {
-
-console.log(array_pedido);
-  
+ async function cargaTablas(rechar) {  
   let codigosP = $('#array_cp').val()
   let codigosP_arr = JSON.parse(codigosP.replace(/&quot;/g,'"'))
   //let stproductos = JSON.parse(array.productos)
-  let status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
-  let status_pedido2 = array_pedido.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  status_pedido = array_pedido.filter(status => status.status_pedido == "En proceso" || status.status_pedido == "Reprogramado" || status.status_pedido == "Por entregar" || status.status_pedido == "Devuelto"); // return implicito
+  status_pedido2 = array_pedido.filter(status => status.status_pedido == "Entregado" || status.status_pedido == "Reasignado" || status.status_pedido == "Cancelado"); // return implicito
+  console.log(status_pedido)
   var dt_basic_table = $('.datatables-basic'),
     dt_basic_table2 = $('.datatables-basic2');
   minDate = new DateTime($('#min'), {
@@ -297,7 +316,8 @@ Observaciones:${full['observacion']}
           targets: 1,
           render: function (data, type, full, meta) {
             var color_tag ="", color_text="", nombre;
-            if (full['cliente']['etiqueta'] ==null) {
+            console.log(full)
+            if (!full['cliente']['etiqueta']) {
               color_tag =0
               color_text="black"
               nombre=""
@@ -536,11 +556,11 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     
 
     // Refilter the table
-    $('#min1, #max1').on('change', function () {
-      console.log($(this).val())
-      filterByDate($(this).val()); // We call our filter function
-      dt_basic.draw();
-      });
+    // $('#min1, #max1').on('change', function () {
+    //   console.log($(this).val())
+    //   filterByDate($(this).val()); // We call our filter function
+    //   dt_basic.draw();
+    //   });
   }
   if (dt_basic_table2.length) {
   let groupColumn2 = 10
@@ -1243,6 +1263,11 @@ $.contextMenu({
  
 
   $('#form_edit_pedido').submit((e)=>{
+    if ($('#gerente').length) {
+      e.preventDefault();
+      Swal.fire('No esta autorizado para modificar pedidos');
+      return
+    }
       let rowNum = $('#edit_pedido_row').val();
       let table = $('#table_edit_pedido').val();
     e.preventDefault()
