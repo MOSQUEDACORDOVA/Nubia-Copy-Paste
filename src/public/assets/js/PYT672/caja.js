@@ -1912,7 +1912,7 @@ async function updateHistorial(id_estudiante) {
     <div class="timeline-event">
     <div class="d-flex justify-content-between">
       <div class="d-flex align-items-center mb-tl">
-        <h6 class="fw-bold mb-0">Reposición</h6>
+        <h6 class="fw-bold mb-0">Reposición-L${historial[i].observacion}</h6>
       </div>
 
       <p class="mb-tl">${moment(historial[i]["fecha_pago"]).format("DD-MM-YYYY")}</p>
@@ -1956,21 +1956,23 @@ async function updateHistorial(id_estudiante) {
       $("#historial-list").append(lista_inscrip);
       continue
     }
-    if (
+    /*if (
       historial[i]["concepto"] != "Mensualidad" &&
       historial[i]["observacion"] != "-"
     ) {
       $("#historial-list").append(lista);
-    }
+    }*/
     if (
       historial[i]["concepto"] == "Recargo" &&
       historial[i]["observacion"] == "-"
     ) {
       $("#historial-list").append(lista_recargo);
     }
+
+    // * 
     if (
       historial[i]["concepto"] == "Constancia" &&
-      historial[i]["observacion"] == "-"
+      historial[i]["observacion"] != "-"
     ) {
       $("#historial-list").append(lista_constancia);
     }
