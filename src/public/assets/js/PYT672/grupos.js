@@ -6,6 +6,7 @@ function FetchData (num) {
         .then(response => response.json())
         .then(data => {
             gruposTodos = data;
+            console.log(gruposTodos)
             cargarTablaAperturas();
             cargarTablaDesde0();
             cargarTablaIntensivos();
