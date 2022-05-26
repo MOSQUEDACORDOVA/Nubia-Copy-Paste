@@ -892,14 +892,7 @@ exports.obtenerGruposAll = async (req, res) => {
             fechaLecciones.push(fechaleccion)
             addWeeksNum++;
           }
-          /*console.log(addWeeksNum)
-          console.log("SEMANAS A SUMAR ++")
-          console.log(fechaActualizada)
-          console.log("fechaActualizada")
-          console.log(userInfo.fechaLecciones)
-          console.log("LECCIONES ")*/
-          /*console.log(countLecc)
-          console.log("CONTADOR FINAL BUCLE")*/
+          
         }
 
         Object.assign(grupo, {fechaLecciones: fechaLecciones})
@@ -938,14 +931,7 @@ exports.obtenerGruposAll = async (req, res) => {
             fechaLecciones.push(fechaleccion)
             addWeeksNum++;
           }
-          /*console.log(addWeeksNum)
-          console.log("SEMANAS A SUMAR ++")
-          console.log(fechaActualizada)
-          console.log("fechaActualizada")
-          console.log(userInfo.fechaLecciones)
-          console.log("LECCIONES ")*/
-          /*console.log(countLecc)
-          console.log("CONTADOR FINAL BUCLE")*/
+          
         }
        
         Object.assign(grupo, {fechaLecciones: fechaLecciones})
@@ -2353,8 +2339,11 @@ exports.historial = (req, res) => {
         notas: [],
       };
 
+      let grupoAct = ''
+
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
+        grupoAct = grupo
         /*console.log(grupo)
         console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
@@ -2568,12 +2557,10 @@ exports.historial = (req, res) => {
           
         }
         
-        EstablecerNivel(); 
-
-        if (grupo.estadoId === 1) {
+        if (grupo.estadosGrupoId === 1) {
           userInfo = {
             leccActual: 0,
-            nivelActualGrupo: 1,
+            nivelActualGrupo: 0,
             leccion9: 0,
             leccion17: 0,
             leccion18: 0,
@@ -2586,15 +2573,18 @@ exports.historial = (req, res) => {
             fechaLeccionesAusentes: '',
             notas: [],
           };
-        }
-        
-        let final = Object.assign(element, userInfo);
+          let final = Object.assign(element, userInfo);
+          return
 
+        } else {
+          EstablecerNivel(); 
+          
+          let final = Object.assign(element, userInfo);
+        }
         /*console.log(fechaActual)
         console.log(fechaInicio)
         console.log(diff)
         console.log(rest)
-
         console.log(userInfo.leccActual)
         console.log(final)
         console.log("OBJETO FINAL")*/
