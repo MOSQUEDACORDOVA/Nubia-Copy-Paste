@@ -143,19 +143,19 @@ exports.cargarPagosExcel = (req, res) => {
         for (let index = 0; index < rows.length; index++) {
           const element = rows[index];
   
-          let concepto = element[0], 
+          let concepto = "", 
+          banco = element[0],
           fecha_pago = element[1],
-          monto = element[2],
-          observacion = element[3],
-          banco = element[4],
-          transaccion = element[5],
+          transaccion = element[2],
+          monto = element[3],
+          observacion = "-",
           //alumnoFind = alumnos.filter(alumno => alumno.nro_identificacion == element[6]),
           mora = "-";
           //id_alumno = alumnoFind[0].id
 
           /*console.log(alumnoFind)
-          console.log(id_alumno)*/
-          console.log("alumno encontrado")
+          console.log(id_alumno)
+          console.log("alumno encontrado")*/
   
           DataBase.guardar_caja(concepto,fecha_pago,monto,mora,observacion,banco, transaccion).then((respuesta) =>{
             console.log(respuesta)
@@ -636,7 +636,6 @@ exports.obtenerGruposAll = async (req, res) => {
   DataBase.ObtenerTodosGrupos().then(async (response) => {
     let gruposTodos = JSON.parse(response);
     let gruposGenerados = IdentificadorGrupos(gruposTodos)
-  
 
     function IdentificadorGrupos(arr) {
         let grupos = arr
@@ -651,11 +650,12 @@ exports.obtenerGruposAll = async (req, res) => {
           
           numGrupo += count;
           
-          nivelCode = NivelGrupos(elemento.nombre, elemento.fecha_inicio);
+          nivelCode = NivelGrupos(elemento.nombre, elemento.fecha_inicio, elemento);
           numId += numGrupo;
+
           identificador = `${elemento.identificador}${numId}-${nivelCode}`;
           let Obj = {
-            identificador: identificador
+            identificador: identificador,
           }
           Object.assign(elemento, Obj)
         }
@@ -664,11 +664,18 @@ exports.obtenerGruposAll = async (req, res) => {
         return grupos;
     }
 
-    function NivelGrupos(nombre, fecha) {
+    function NivelGrupos(nombre, fecha, grupo) {
         let inicioGrupo = fecha;
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
-
         let nivelActual, nivel2, nivel3, nivel4;
+
+        let fechasNiveles = {
+          nivel1: '',
+          nivel2: '',
+          nivel3: '',
+          nivel4: '',
+        }
+
         switch (nombre) {
           case 'Desde cero':
             nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
@@ -687,12 +694,54 @@ exports.obtenerGruposAll = async (req, res) => {
             } else {
                 nivelActual = 4
             }
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            }
+            CalcularFechasLecciones(grupo, fechasNiveles)
           break;
             
           case 'Intensivo':
-            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+
+            let diaActualInicioGrupo = moment(grupo.fecha_inicio, 'DD-MM-YYYY').isoWeekday()
+            
+            if (diaActualInicioGrupo === 3 || diaActualInicioGrupo === 4) {
+              nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
+              nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
+              nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+              
+              console.log(nivel2, nivel3, nivel4)
+              console.log("n iveles")
+            } else {
+              let addWeek = ''
+              let fechaFinal = ''
+              for (let i = 0; i < 16; i++) {
+                addWeek = moment(iniciado).add(1, 'w').format('YYYY-MM-DD')
+                fechaFinal = moment(addWeek).add(2, 'd').format('YYYY-MM-DD')
+              }
+              nivel2 = fechaFinal
+              
+              let addWeek2 = ''
+              for (let i = 0; i < 16; i++) {
+                addWeek2 = moment(nivel2).add(1, 'w').format('YYYY-MM-DD')
+                fechaFinal = moment(addWeek2).add(2, 'd').format('YYYY-MM-DD')
+              }
+              nivel3 = fechaFinal
+              
+              let addWeek3 = ''
+              for (let i = 0; i < 16; i++) {
+                addWeek3 = moment(nivel3).add(1, 'w').format('YYYY-MM-DD')
+                fechaFinal = moment(addWeek3).add(2, 'd').format('YYYY-MM-DD')
+              }
+              nivel4 = fechaFinal
+              
+              console.log(nivel2, nivel3, nivel4)
+              console.log("n iveles else")
+              
+            }
             
             if (moment().isBefore(nivel2)) {
                 nivelActual = 1
@@ -706,6 +755,16 @@ exports.obtenerGruposAll = async (req, res) => {
             } else {
                 nivelActual = 4
             }
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: nivel4,
+            }
+            console.log(fechasNiveles)
+            console.log("fechasNiveles")
+            CalcularFechasLecciones(grupo, fechasNiveles)
           break;
                 
           case 'Kids':
@@ -721,12 +780,554 @@ exports.obtenerGruposAll = async (req, res) => {
             } else if(moment().isSameOrAfter(nivel3)) {
                 nivelActual = 3
             } 
+
+            fechasNiveles = {
+              nivel1: iniciado,
+              nivel2: nivel2,
+              nivel3: nivel3,
+              nivel4: '',
+            }
+            CalcularFechasLecciones(grupo, fechasNiveles)
           break;
         }
         
         return nivelActual;
     }
 
+    // * REMOVER ACENTOS
+    function quitarAcentos(cadena){
+      const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+      return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+    }
+
+    function CalcularFechasLecciones(grupo, fechas) {
+      let countLecc = 0
+      let fechaActualizada = ''
+      let fechaActualizada2 = ''
+      let addWeeksNum = 0
+      let addDaysNum1 = 0
+      let addDaysNum2 = 0
+      let fechaLecciones = []
+      let fechaLeccionActual = ''
+      let fechaLeccionActual2 = ''
+      let day = grupo.dia_horario.includes("Lunes") ? 1 :
+      grupo.dia_horario.includes("Martes") ? 2 :
+      grupo.dia_horario.includes("Miercoles") ? 3 :
+      grupo.dia_horario.includes("Jueves") ? 4 : 6 
+
+      if (grupo.nombre === "Desde cero") {
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          /*console.log(addWeeksNum)
+          console.log("SEMANAS A SUMAR ++")
+          console.log(fechaActualizada)
+          console.log("fechaActualizada")
+          console.log(userInfo.fechaLecciones)
+          console.log("LECCIONES ")*/
+          /*console.log(countLecc)
+          console.log("CONTADOR FINAL BUCLE")*/
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel2, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel3, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+          
+        }
+       
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        day = 0
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+
+        for (i = 1; countLecc <= 32; i++) {
+          /*console.log(countLecc)
+          console.log("CONTADOR INICAL BUCLE")*/
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel4, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          /*console.log(fechaActualizada)
+          console.log("fechaActualizada")*/
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          /*console.log(day)
+          console.log("DIA HORARIO GRUPO")*/
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 4,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+
+        }
+
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+        
+      } else if (grupo.nombre === "Intensivo") {
+        
+        day = grupo.dia_horario.includes("Lunes") ? 1 :
+        grupo.dia_horario.includes("Martes") ? 2 : 0
+
+        day2 = quitarAcentos(grupo.dia_horario).includes("Miercoles") ? 3 :
+        grupo.dia_horario.includes("Jueves") ? 4 : 0
+
+        countLecc = 1
+
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          let diaActual = fechaActualizada.isoWeekday()
+
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual2
+            }
+          }
+          
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 1
+        fechaActualizada = ''
+        fechaActualizada2 = ''
+        addWeeksNum = 0
+        addDaysNum1 = 0
+        addDaysNum2 = 0
+
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel2, 'YYYY-MM-DD').add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          let diaActual = fechaActualizada.isoWeekday()
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(fechas.nivel2, 'YYYY-MM-DD').add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual2
+            }
+          }
+          
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 1
+        fechaActualizada = ''
+        fechaActualizada2 = ''
+        addWeeksNum = 0
+        addDaysNum1 = 0
+        addDaysNum2 = 0
+
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel3, 'YYYY-MM-DD').add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          let diaActual = fechaActualizada.isoWeekday()
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(fechas.nivel3, 'YYYY-MM-DD').add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual2
+            }
+          }
+         
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 1
+        fechaActualizada = ''
+        fechaActualizada2 = ''
+        addWeeksNum = 0
+        addDaysNum1 = 0
+        addDaysNum2 = 0
+
+        for (i = 1; countLecc <= 32; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel4, 'YYYY-MM-DD').add(addDaysNum1, 'd')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+          
+          console.log(fechaActualizada)
+          console.log("fechaActualizada")
+          let diaActual = fechaActualizada.isoWeekday()
+
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 4,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+          if (diaActual === 1 || diaActual === 2) {
+            addDaysNum1 += 2
+            addDaysNum2 += 2
+            
+          } else {
+            addDaysNum1 += 5
+            addDaysNum2 += 5
+            
+          }
+
+          if (i === 1) {
+            fechaLeccionActual2 = moment(fechaActualizada).format('DD-MM-YYYY')
+            
+          } else {
+            fechaLeccionActual2 = moment(fechaActualizada2).format('DD-MM-YYYY')
+            
+          }
+
+          fechaActualizada2 = moment(fechas.nivel4, 'YYYY-MM-DD').add(addDaysNum2, 'd')
+          
+          let diaActual2 = fechaActualizada2.isoWeekday()
+          if (day2 <= diaActual2 || diaActual2 <= day2) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 4,
+              fecha: fechaLeccionActual2
+            }
+          }
+       
+          if (addWeeksNum < 32) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+        
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+        
+      } else if (grupo.nombre === "Kids") {
+        day = 7
+
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(grupo.fecha_inicio, 'DD-MM-YYYY').add(addWeeksNum, 'w')
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 1,
+              fecha: fechaLeccionActual
+            }
+          }
+          
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+   
+        }
+
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel2, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 2,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+         
+        }
+        Object.assign(grupo, {fechaLecciones: fechaLecciones})
+        countLecc = 0
+        fechaActualizada = ''
+        addWeeksNum = 0
+        fechaLeccionActual = ''
+        
+        for (i = 1; countLecc <= 16; i++) {
+          let fechaleccion = {}
+          fechaActualizada = moment(fechas.nivel3, 'YYYY-MM-DD').add(addWeeksNum, 'w')
+          
+          fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
+
+          let diaActual = fechaActualizada.isoWeekday()
+          if (day <= diaActual || diaActual <= day) {
+            countLecc++;
+            fechaleccion = {
+              leccion: i,
+              nivel: 3,
+              fecha: fechaLeccionActual
+            }
+          } else {
+            console.log("entro al else", day, diaActual)
+            break
+          }
+
+          if (addWeeksNum < 16) {
+            fechaLecciones.push(fechaleccion)
+            addWeeksNum++;
+          }
+         
+        }
+
+        // * FECHA DE FINALIZACION - ULTIMA LECCION
+        let fechaF = fechaLecciones[fechaLecciones.length-1]
+        grupo.fecha_finalizacion = fechaF.fecha
+        Object.assign(grupo, {fechaLecciones: fechaLecciones}) 
+      }
+    }
+    
     for (let index = 0; index < gruposGenerados.length; index++) {
       let numActivos = 0, numIncorporados = 0, numInscritos = 0, numFusionados = 0, numCongelados = 0, numTotal = 0;
       
@@ -1735,11 +2336,14 @@ exports.historial = (req, res) => {
         asistencias: 0,
         ausentes: 0,
         fechaLeccionesAusentes: '',
-        notas: []
+        notas: [],
       };
+
+      let grupoAct = ''
 
       DataBase.BuscarGrupos(element.grupoId).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
+        grupoAct = grupo
         /*console.log(grupo)
         console.log("** GRUPO //")*/
         let inicioGrupo = grupo.fecha_inicio;
@@ -1753,6 +2357,8 @@ exports.historial = (req, res) => {
           nivel3: '',
           nivel4: '',
         };
+
+        let fechaLecciones = []
         
         let fechaActual = moment().format("DD-MM-YYYY");
 
@@ -1770,7 +2376,7 @@ exports.historial = (req, res) => {
                 nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
                 nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
                 nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-                
+
               } else {
                 nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
                 nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
@@ -1847,11 +2453,13 @@ exports.historial = (req, res) => {
             } 
 
           }
-
+          
           userInfo.nivelActualGrupo = nivelActual
 
           let numPositivo;
+
           if(grupo.lecciones_semanales === '1') {
+
             if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
                 console.log("positivo")
@@ -1939,25 +2547,44 @@ exports.historial = (req, res) => {
           }
           userInfo.leccActual = numLeccion
 
-          console.log(numLeccion)
+          /*console.log(numLeccion)
           console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
           
           console.log("REST",rest)
-          console.log("DIFF",diff)
+          console.log("DIFF",diff)*/
           
         }
         
-        EstablecerNivel(); 
-        
-        let final = Object.assign(element, userInfo);
+        if (grupo.estadosGrupoId === 1) {
+          userInfo = {
+            leccActual: 0,
+            nivelActualGrupo: 0,
+            leccion9: 0,
+            leccion17: 0,
+            leccion18: 0,
+            leccion25: 0,
+            leccion31: 0,
+            leccion32: 0,
+            participacion: 0,
+            asistencias: 0,
+            ausentes: 0,
+            fechaLeccionesAusentes: '',
+            notas: [],
+          };
+          let final = Object.assign(element, userInfo);
+          return
 
+        } else {
+          EstablecerNivel(); 
+          
+          let final = Object.assign(element, userInfo);
+        }
         /*console.log(fechaActual)
         console.log(fechaInicio)
         console.log(diff)
         console.log(rest)
-
         console.log(userInfo.leccActual)
         console.log(final)
         console.log("OBJETO FINAL")*/
@@ -2023,7 +2650,6 @@ exports.historial = (req, res) => {
           return res.redirect("/error672/PYT-672");
         });
       });
-      
 
       DataBase.BuscarParticipacionMatricula(32, element.grupoId, element.id).then((part) => {
         let participacion = JSON.parse(part)[0];

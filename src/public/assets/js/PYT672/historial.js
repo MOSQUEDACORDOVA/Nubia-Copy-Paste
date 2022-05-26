@@ -39,7 +39,7 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
               asistenciasAll = data.asistencia
-              console.log(asistenciasAll)
+              //console.log(asistenciasAll)
               return asistenciasAll
           });
           
@@ -48,7 +48,7 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
               notasAll = data.notas
-              console.log(notasAll)
+              //console.log(notasAll)
               return notasAll
           });
           
@@ -57,7 +57,7 @@ async function FetchData (num) {
           .then(response => response.json())
           .then(data => {
             participacionAll = data.participacion
-              console.log(participacionAll)
+              //console.log(participacionAll)
               return participacionAll
           });
           
@@ -411,8 +411,14 @@ function cargarTablaMatricula(editada) {
         }
       }
 
+      let filterFechasLecc = grupoSelect.fechaLecciones.filter(lecciones => lecciones.nivel === nivelSelect)
+
       for (let num = 1; num <= leccion; num++) {
-        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "", fechaLecc = "", setLeccion = "";
+
+        setLeccion = filterFechasLecc.filter(item => item.leccion == num)
+
+        fechaLecc = setLeccion[0].fecha
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
           let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === my_object.id)
@@ -482,12 +488,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-danger">
                         Ausente
@@ -521,12 +527,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-success">
                         Presente
@@ -561,12 +567,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-success">
                         Presente
@@ -623,8 +629,14 @@ function cargarTablaMatricula(editada) {
         } 
       }
 
+      let filterFechasLecc = grupoSelect.fechaLecciones.filter(lecciones => lecciones.nivel === nivelSelect)
+      
       for (let num = 1; num <= leccion; num++) {
-        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "";
+        let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion = "", fechaLecc = "", setLeccion = "";
+
+        setLeccion = filterFechasLecc.filter(item => item.leccion == num)
+
+        fechaLecc = setLeccion[0].fecha
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
           let result = notasAll.filter(nota => nota.nivel == nivelSelect && nota.n_leccion == num && nota.matriculaId == alumnoSelect.id)
@@ -683,12 +695,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-danger">
                         Ausente
@@ -721,12 +733,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-success">
                         Presente
@@ -762,12 +774,12 @@ function cargarTablaMatricula(editada) {
                   <div class="">
                     
                       <span class="emp_post fw-bolder">Fecha</span><br>
-                      <span class="emp_post text-nowrap">23-12-2022</span>
+                      <span class="emp_post text-nowrap">${fechaLecc}</span>
   
                   </div>
                   <div class="mx-2 text-center">
                   
-                      <span class="emp_post fw-bolder">Aistencia</span><br>
+                      <span class="emp_post fw-bolder">Asistencia</span><br>
   
                       <span class="badge rounded-pill badge-light-success">
                         Presente
