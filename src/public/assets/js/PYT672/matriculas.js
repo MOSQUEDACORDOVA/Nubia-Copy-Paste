@@ -318,21 +318,24 @@ function cargarTablaMatricula(array) {
       // * DISTRITOS ALL
       let filterDistrito = distritos.filter(item => item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
       // * DISTRITO SELECT
-      let filterDistritoSelect = distritos.filter(item => item.nombre == distritoU && item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
+      let filterDistritoSelect = filterDistrito.filter(item => item.nombre == distritoU)
 
+      console.log(filterDistrito)
+      console.log(filterDistritoSelect)
+      console.log("filterDistritoSelect")
 
       $('#select2-canton').html('')
       filterCanton.forEach(value => {
         $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
-      $('#select2-canton').val(filterCantonSelect[0].id)
+      $('#select2-canton').val(filterCantonSelect[0].nombre)
       $('#select2-canton').trigger('change')
       
       $('#select2-distrito').html('')
       filterDistrito.forEach(value => {
         $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
-      $('#select2-distrito').val(filterDistritoSelect[0].id)
+      $('#select2-distrito').val(filterDistritoSelect[0].nombre)
       $('#select2-distrito').trigger('change')
 
       
