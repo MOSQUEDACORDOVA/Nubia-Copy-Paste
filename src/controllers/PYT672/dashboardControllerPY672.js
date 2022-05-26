@@ -2569,6 +2569,24 @@ exports.historial = (req, res) => {
         }
         
         EstablecerNivel(); 
+
+        if (grupo.estadoId === 1) {
+          userInfo = {
+            leccActual: 0,
+            nivelActualGrupo: 1,
+            leccion9: 0,
+            leccion17: 0,
+            leccion18: 0,
+            leccion25: 0,
+            leccion31: 0,
+            leccion32: 0,
+            participacion: 0,
+            asistencias: 0,
+            ausentes: 0,
+            fechaLeccionesAusentes: '',
+            notas: [],
+          };
+        }
         
         let final = Object.assign(element, userInfo);
 
