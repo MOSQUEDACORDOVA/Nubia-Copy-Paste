@@ -176,12 +176,10 @@ maxDate2 = new DateTime($('#max1'), {
         let valor = this.value
 $('#filterPosition').val(this.id)
 $('#filterValue').val(this.value)
-        if (dt_basic.column(i).search() !== this.value) {
-
+        if (dt_basic.column(i).search() !== this.value) {          
           dt_basic.column(i).search(this.value).draw();
-        }else{
-          dt_basic.column(i).search(valor).draw();
-          
+        }else{          
+          dt_basic.column(i).search(valor).draw();          
         }
       });
     });
@@ -878,8 +876,26 @@ $('.datatables-basic').dataTable().$('.cantidad').each(function(){
     $('div.head-label').html('<h6 class="mb-0">DataTable with Buttons</h6>');
 
 
-  $('#min, #max').on('change', function () {
-    dt_basic2.draw();
+  $('#min, #max').on('change', async function () {
+    
+    if ($('#min').val() !=='' && $('#max').val() !=='') {
+      console.log($('#min').val());
+    console.log($('#max').val());
+    let inicio = moment($('#min').val(),'DD/MM/YYYY').format('YYYY-MM-DD');
+    let fin = moment($('#max').val(),'DD/MM/YYYY').format('YYYY-MM-DD')
+    await fetch(`/obtenerPedidosVentaRango/${inicio}/${fin}`).then((response) =>response.json())
+      .then((data)=>{
+        console.log(data.pedidos_let)
+        dt_basic2.clear();
+        for (let i = 0; i < data.pedidos_let.length; i++) {
+          dt_basic2.row.add(data.pedidos_let[i]);          
+        }
+        dt_basic2.draw()
+        console.log('pedidos_let')
+        $('#min').val('');
+        $('#max').val('');
+    })
+    }
     });
 
   }

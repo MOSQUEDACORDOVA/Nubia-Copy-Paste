@@ -110,7 +110,8 @@ router.get('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardCon
 router.post('/array_pedidoPy4', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidos);
 router.get('/getPedidosbyDaypy4/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidospordia);
 router.get('/obtenerPedidosReprogramados/:dia', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReprogramados);
-
+router.get('/obtenerPedidosVentaRango/:diainicio/:diafin', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosVentaRango);
+router.get('/obtenerPedidosReferidoEntregado/:id_', authControllerPY4.authenticatedUser, dashboardControllerPY4.obtenerPedidosReferidoEntregado);
 //PYT-4 
 //ZONAS
 router.get('/obtenerzonaspy4', dashboardControllerPY4.obtener_zonas);
