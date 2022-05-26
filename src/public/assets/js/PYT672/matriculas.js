@@ -341,23 +341,33 @@ function cargarTablaMatricula(array) {
       $("#editarAlumno").modal("show");
     });
 
-    /*$('#select2-canton').on('change', (event) => {
+    $('#select2-provincia').on('change', (event) => {
       let provSelect = $('#select2-provincia').val()
       let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+
       let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id)
-      console.log(provSelect)
-      console.log(filterProvincia)
-      console.log(filterCanton)
-      console.log("asf saf as select2")
+
       $('#select2-canton').html('')
       filterCanton.forEach(value => {
         $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
+      $('#select2-distrito').html('')
     });
 
-    $('#select2-distrito').on('change', (event) => {
-      
-    });*/
+    $('#select2-canton').on('change', (event) => {
+      let provSelect = $('#select2-provincia').val()
+      let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+
+      let cantonSelect = $('#select2-canton').val()
+      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id && item.nombre == cantonSelect)
+
+      let filterDistrito = distritos.filter(item => item.provinciaId == filterProvincia[0].id && item.cantonId == filterCanton[0].id)
+
+      $('#select2-distrito').html('')
+      filterDistrito.forEach(value => {
+        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+      });
+    });
 
     $(".congelar-estudiante").on("click", (e) => {
       if (!e.target.classList.contains('dropdown-item')) {
