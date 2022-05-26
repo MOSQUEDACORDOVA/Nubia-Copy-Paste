@@ -192,6 +192,25 @@ let diaFin =req.params.diafin;
               res.send({pedidos_let})
             })
 }
+exports.obtenerPedidosVentaRango = async (req, res)=>{
+  let diaInicio=req.params.diainicio;
+  let diaFin =req.params.diafin;    
+    console.log(diaInicio);
+     console.log(diaFin);
+           DataBase.PedidosbyDaybetweenVentas(diaInicio, diaFin)
+              .then((pedidos_) => {
+                let pedidos_let = JSON.parse(pedidos_);
+                res.send({pedidos_let})
+              })
+  }
+  exports.obtenerPedidosReferidoEntregado = async (req, res)=>{
+    let id_=req.params.id_;
+             DataBase.PedidosReferidoEntregado(id_)
+                .then((pedidos_) => {
+                  let pedidos_let = JSON.parse(pedidos_);
+                  res.send({pedidos_let})
+                })
+    }
 exports.obtenerPedidosReprogramados = async (req, res)=>{
   let dia=req.params.dia
            DataBase.PedidosbyDay(dia)

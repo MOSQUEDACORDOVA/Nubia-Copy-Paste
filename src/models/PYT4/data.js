@@ -1180,7 +1180,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ],order: [
+    ], limit: 1000 ,order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
@@ -1203,7 +1203,7 @@ console.log(hoy)
         {association:Pedidos.Clientes, include:[
           {association:Clientes.Etiquetas },] },
         {association:Pedidos.Personal },
-    ], order: [
+    ],limit: 1000 , order: [
       // Will escape title and validate DESC against a list of valid direction parameters
       ['fecha_pedido', 'DESC'],]
       },)
@@ -1218,6 +1218,7 @@ console.log(hoy)
         });
     });
   },
+
   PedidoById(id){
     return new Promise((resolve, reject) => {
       Pedidos.findOne({where: {
@@ -1435,7 +1436,12 @@ console.log(hoy)
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
         fecha_pedido: {[Op.between] : [diaini , diafin ]}
-      }
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
       })
         .then((data) => {
           let data_p = JSON.stringify(data);
@@ -1448,6 +1454,56 @@ console.log(hoy)
         });
     });
   },
+  PedidosbyDaybetweenVentas(diaini,diafin){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {
+        fecha_pedido: {[Op.between] : [diaini , diafin ]},[Op.and]: [
+          { status_pedido: {
+            [Op.or]: ['Entregado', 'Cancelado']
+          } },
+        ]
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosReferidoEntregado(id_){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {[Op.and]: [
+          { status_pedido:'Entregado'},
+        ]
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  
   PedidosAllGroupByChoferes(){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({include:[
