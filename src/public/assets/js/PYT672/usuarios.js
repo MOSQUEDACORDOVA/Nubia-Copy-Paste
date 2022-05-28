@@ -142,15 +142,28 @@ function cargarTablaUsuarios() {
 
 }
 
-let regUserForm = document.getElementById('regUsuarioForm')
+let regUserForm = document.getElementById('regUsuarioForm'),
+inPassw = document.getElementById('password'),
+inConfirmPassw = document.getElementById('confirm-password'),
+labelText = document.getElementById('text-passw');
 
 regUserForm.addEventListener('submit', e => {
   e.preventDefault();
   let data = new FormData(regUserForm);
   if ($('#user-id').length > 0) {    
-    EditarUsuario(data);
+    if (inPassw.value == inConfirmPassw.value) {
+      EditarUsuario(data);
+      
+    } else {
+      labelText.classList.remove('d-none')
+      let timeout = setTimeout(() => {
+        labelText.classList.add('d-none')
+        clearTimeout(timeout)
+      }, 5000);
+      //Toast('Password Diff')
+    }
   } else {
-  RegistrarUsuario(data);
+    RegistrarUsuario(data);
   }
   
 });
