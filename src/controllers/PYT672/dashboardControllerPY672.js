@@ -100,11 +100,12 @@ exports.deleteuser = (req, res) => {
 };
 exports.editUser = (req, res) => {
   console.log(req.body);
+  console.log("req.body");
   let { nombre, id_usuario, dni, email, pais, fechaN, fechaI, puesto, password, telefono } = req.body;
   let msg = false;
 
-    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono).then((respuesta) =>{
-      return res.send({success: 'Usuario actualizado'});
+    DataBase.EditUser(nombre, dni, email, pais, fechaN, fechaI, puesto, id_usuario, telefono, password).then((respuesta) =>{
+      return res.send({success: 'Usuario Actualizado'});
     }).catch((err) => {
       console.log(err)
       let msg = "Error en sistema";

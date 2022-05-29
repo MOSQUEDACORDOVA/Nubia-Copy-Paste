@@ -197,6 +197,7 @@ function EditarUsuario (data) {
       })
       .then(response => {
           console.log('Success:', response)
+          $("#id-user-edit").empty()
           $('#registrarUsuario .resetBtn').click();
           $('#registrarUsuario .btn-close').click();
           Toast("Usuario Actualizado");
