@@ -274,6 +274,8 @@ function cargarTablaMatricula(array) {
   
   $(function () {
 
+    let selectCantonGeneral = "", selectDistritoGeneral = "";
+
     $(".edit-btn-alumno").on("click", (e) => {
       let data = e.target.getAttribute('data-id');
       
@@ -318,26 +320,53 @@ function cargarTablaMatricula(array) {
       // * DISTRITOS ALL
       let filterDistrito = distritos.filter(item => item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
       // * DISTRITO SELECT
-      let filterDistritoSelect = distritos.filter(item => item.nombre == distritoU && item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
-
+      let filterDistritoSelect = filterDistrito.filter(item => item.nombre == distritoU)
 
       $('#select2-canton').html('')
       filterCanton.forEach(value => {
         $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
-      $('#select2-canton').val(filterCantonSelect[0].id)
+      $('#select2-canton').val(filterCantonSelect[0].nombre)
       $('#select2-canton').trigger('change')
+      selectCantonGeneral = filterCantonSelect[0].nombre
       
       $('#select2-distrito').html('')
       filterDistrito.forEach(value => {
         $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
       });
-      $('#select2-distrito').val(filterDistritoSelect[0].id)
+      $('#select2-distrito').val(filterDistritoSelect[0].nombre)
       $('#select2-distrito').trigger('change')
-
-      
+      selectDistritoGeneral = filterDistritoSelect[0].nombre
 
       $("#editarAlumno").modal("show");
+    });
+
+    $('#select2-provincia').on('change', (event) => {
+      let provSelect = $('#select2-provincia').val()
+      let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+
+      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id)
+
+      $('#select2-canton').html('')
+      filterCanton.forEach(value => {
+        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+      });
+      $('#select2-distrito').html('')
+    });
+
+    $('#select2-canton').on('change', (event) => {
+      let provSelect = $('#select2-provincia').val()
+      let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+
+      let cantonSelect = $('#select2-canton').val()
+      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id && item.nombre == cantonSelect)
+
+      let filterDistrito = distritos.filter(item => item.provinciaId == filterProvincia[0].id && item.cantonId == filterCanton[0].id)
+
+      $('#select2-distrito').html('')
+      filterDistrito.forEach(value => {
+        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+      });
     });
 
     $(".congelar-estudiante").on("click", (e) => {

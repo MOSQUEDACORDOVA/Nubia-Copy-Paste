@@ -2467,8 +2467,13 @@ async function ControlDetalles(id1, id2) {
   if(status === 200) {
     let content = new DocumentFragment();
 
+    let filterFechasLecc = grupoSelect.fechaLecciones.filter(leccion => leccion.nivel == nivelSelect)
+
     for (let num = 1; num <= leccion; num++) {
-      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="";
+      let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="", setLeccion = "", fechaLecc = "";
+
+      setLeccion = filterFechasLecc.filter(item => item.leccion == num) 
+      fechaLecc = setLeccion[0].fecha
       
       if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
         let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num) 
@@ -2536,7 +2541,7 @@ async function ControlDetalles(id1, id2) {
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post text-nowrap">23-12-2022</span>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2573,7 +2578,7 @@ async function ControlDetalles(id1, id2) {
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post text-nowrap">23-12-2022</span>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2613,7 +2618,7 @@ async function ControlDetalles(id1, id2) {
                 <div class="me-1 me-lg-2">
                   
                     <span class="emp_post fw-bolder">Fecha</span><br>
-                    <span class="emp_post text-nowrap">23-12-2022</span>
+                    <span class="emp_post text-nowrap">${fechaLecc}</span>
 
                 </div>
                 <div class="me-1 me-lg-2 text-center">
@@ -2666,11 +2671,18 @@ $("#grupoNivel").on("select2:select", function (e) {
     } 
   }
 
+  let filterFechasLecc = grupoSelect.fechaLecciones.filter(leccion => leccion.nivel == nivelSelect)
+
   for (let num = 1; num <= leccion; num++) {
-    let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="";
+    let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="", setLeccion = "", fechaLecc = "";
+
+    setLeccion = filterFechasLecc.filter(item => item.leccion == num) 
+    fechaLecc = setLeccion[0].fecha
     
     if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
-      let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num) 
+      let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num)
+
+
       let porcentaje = filterPart.length ? filterPart[0].porcentaje : 0
       if (porcentaje > 7) {
         color = 'badge-light-success'
@@ -2735,7 +2747,7 @@ $("#grupoNivel").on("select2:select", function (e) {
               <div class="me-1 me-lg-2">
                 
                   <span class="emp_post fw-bolder">Fecha</span><br>
-                  <span class="emp_post text-nowrap">23-12-2022</span>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
 
               </div>
               <div class="me-1 me-lg-2 text-center">
@@ -2772,7 +2784,7 @@ $("#grupoNivel").on("select2:select", function (e) {
               <div class="me-1 me-lg-2">
                 
                   <span class="emp_post fw-bolder">Fecha</span><br>
-                  <span class="emp_post text-nowrap">23-12-2022</span>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
 
               </div>
               <div class="me-1 me-lg-2 text-center">
@@ -2812,7 +2824,7 @@ $("#grupoNivel").on("select2:select", function (e) {
               <div class="me-1 me-lg-2">
                 
                   <span class="emp_post fw-bolder">Fecha</span><br>
-                  <span class="emp_post text-nowrap">23-12-2022</span>
+                  <span class="emp_post text-nowrap">${fechaLecc}</span>
 
               </div>
               <div class="me-1 me-lg-2 text-center">
