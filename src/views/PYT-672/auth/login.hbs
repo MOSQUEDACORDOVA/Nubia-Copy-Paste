@@ -1,4 +1,8 @@
-
+{{#if msgErr}}
+  <label id="msgs" hidden>
+    {{msgErr}}
+  </label>
+{{/if}}
 <div class="py672">
   <div class="auth-wrapper auth-v2">
     <div class="row auth-inner m-0">
@@ -27,7 +31,6 @@
                 </symbol>
               </svg>
             </span>
-
 
             <form class="auth-login-form mt-2" action="/login672" method="POST">
             {{#if messages}}

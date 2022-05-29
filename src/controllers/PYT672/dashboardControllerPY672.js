@@ -26,8 +26,8 @@ exports.sesionstart = (req, res) => {
       return next(err);
     }
     if (!user) {
-      console.log("no existe usuario")
-      return res.redirect("/loginpy672/PYT-672");
+      msg = "Datos incorrectos"
+      return res.redirect("/loginpy672/PYT-672/"+msg);
     }
     req.logIn(user, function (err) {
       if (err) {
@@ -38,7 +38,7 @@ exports.sesionstart = (req, res) => {
       console.log(user.dataValues.enabled);
       if (user.dataValues.enabled == 0) {
         console.log("usuario inactivo")
-      return res.redirect("/loginpy672E/PYT-672/msg");
+        return res.redirect("/loginpy672E/PYT-672/msg");
       } else {
         return res.redirect('/py672/PYT-672')
       }
@@ -266,11 +266,16 @@ exports.generarRegistroPDF = (req, res) => {
 // * VISTA LOGIN
 exports.login = (req, res) => {
   let msg = false;
+  
+  let msgErr = ''
   if (req.params.msg) {
     req.flash("error", 'Usuario desactivado por el administrador')
     msg = req.flash();
-
   }
+  if (req.params.err) {
+    msgErr = req.params.err
+  }
+
   let proyecto = req.params.id  
   console.log(msg)
     res.render(proyecto+"/auth/login", {
@@ -279,7 +284,8 @@ exports.login = (req, res) => {
       dashboard: true,
       py672:true,
       login: true,
-      messages: msg
+      messages: msg,
+      msgErr
     })
 };
 

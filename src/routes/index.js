@@ -597,7 +597,7 @@ router.get('/logout/PYT-27', userControllerPY27.closeSesion);
 
 /*------------ PYT-672-----------------*/
 // TODO: AUTH  
-router.get('/loginpy672/:id', dashboardControllerPY672.login);
+router.get('/loginpy672/:id/:err?', dashboardControllerPY672.login);
 router.get('/loginpy672E/:id/:msg', dashboardControllerPY672.login);
 router.get('/registerpy672/:id', dashboardControllerPY672.register);
 
