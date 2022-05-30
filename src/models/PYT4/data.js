@@ -1454,6 +1454,69 @@ console.log(hoy)
         });
     });
   },
+  PedidosbyDaybetweenZona(diaini,diafin, zona){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {[Op.and] :[{sucursaleId: zona},{fecha_pedido: {[Op.between] : [diaini , diafin ]}}]        
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosbyDaybetweenZonaChofer(diaini, diafin,zona, chofer){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {[Op.and] :[{sucursaleId: zona},{personalId: chofer},{fecha_pedido: {[Op.between] : [diaini , diafin ]}}]        
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
+  PedidosbyDaybetweenChofer(diaini, diafin,chofer){
+    return new Promise((resolve, reject) => {
+      Pedidos.findAll({where: {[Op.and] :[{personalId: chofer},{fecha_pedido: {[Op.between] : [diaini , diafin ]}}]        
+      },include:[
+        {association:Pedidos.Usuarios },
+        {association:Pedidos.Clientes, include:[
+          {association:Clientes.Etiquetas },] },
+        {association:Pedidos.Personal },
+    ]
+      })
+        .then((data) => {
+          let data_p = JSON.stringify(data);
+          //console.log(data)
+          resolve(data_p);
+          ////console.log(id_usuario);
+        })
+        .catch((err) => {
+          reject(err)
+        });
+    });
+  },
   PedidosbyDaybetweenVentas(diaini,diafin){
     return new Promise((resolve, reject) => {
       Pedidos.findAll({where: {
@@ -3028,7 +3091,7 @@ getGastosALL(){
 },
 getGastobyId(id){
   return new Promise((resolve, reject) => {
-    Gastos.findAll({include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
+    Gastos.findOne({where:{id:id},include:[{association: Gastos.Personal},{association: Gastos.Sucursales}]}).then((data)=>{
       let data_set = JSON.stringify(data);
       resolve(data_set);      
     })
