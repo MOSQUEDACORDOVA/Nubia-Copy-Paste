@@ -452,6 +452,10 @@
       ventasXfecha($('#fDesde').val(), $('#dHasta').val(), $('#selectZona').val(), $('#selectChofer').val(), $('#cantGarrafones').val());//garrafones+zona+chofer
       return
     }
+    if ($('#clientesNuevosChk').is(':checked')) {
+      clientesNuevos($('#fDesde').val(), $('#dHasta').val());//CLIENTES NUEVOS
+      return
+    }
   });
 
 
@@ -568,6 +572,105 @@
         type: 'donut',
       },
       labels: ['Total Pedidos', 'T. Ventas', 'T. Garrafones Vendidos', 'T. Refil Vendidos', 'T. Canje Vendidos', 'T. Nuevos', 'T. Obsequios'],
+      dataLabels: {
+        enabled: false,
+        textAnchor: 'start'
+      },
+      responsive: [{
+        breakpoint: 992,
+        options: {
+          width: '100%'
+          /*plotOptions: {
+            pie: {
+              donut: {
+                labels: {
+                  show: false,
+                }
+              },
+            }
+          }*/
+        },
+      }],
+      legend: {
+        position: 'left',
+        offsetY: 0,
+        height: 160,
+        formatter: function (seriesName, opts) {
+          let options0 = opts.w.globals.series[opts.seriesIndex]
+          if (seriesName == 'T. Ventas') {
+            options0 = opts.w.globals.series[opts.seriesIndex] + '$'
+          }
+          return [seriesName, " - ", options0]
+        }
+      },
+      plotOptions: {
+        pie: {
+          donut: {
+            labels: {
+              show: true,
+
+            }
+          },
+
+        }
+      }
+    };
+
+
+    newChart = new ApexCharts(document.querySelector("#chart"), optionsVentasChart0);
+    newChart.render();
+  }
+
+
+ async function clientesNuevos(diainicio, diaFin) {
+   let clientesData = JSON.parse($('#array').val())
+   console.log(clientesData);
+    ///console.log('diainicio:' + diainicio + ',diaFin:' + diaFin)
+    if (newChart) {
+      newChart.destroy()
+    }
+    let optionsVentasChart0;
+    let clientesDataTotalizado = [];
+    let totalClientes = 0, nuevos = 0;
+console.log('diainicio:' + diainicio + ',diaFin:' + diaFin);
+    switch (true) {
+      case diainicio == '' && diaFin == '': //TODAS LAS ZONAS Y CHOFERES
+      
+        clientesDataTotalizado.push(clientesData);
+        clientesData.forEach(element => {
+            clientesDataTotalizado.push(element)
+        });
+        break;
+      case diainicio !== null && diaFin !== null://POR FECHA
+      let fechaConsulta;
+      let fechaini= moment(diainicio,'DD-MM-YYYY').format('YYYY-MM-DD')
+      let fechaFin=moment(diaFin,'DD-MM-YYYY').format('YYYY-MM-DD')
+        clientesData.forEach(element => { 
+          fechaConsulta = moment(element.createdAt).format('YYYY-MM-DD')       
+          if (moment(fechaConsulta,'YYYY-MM-DD').isBetween(fechaini,fechaFin,'d', '[]')) {
+            clientesDataTotalizado.push(element)
+          }
+        });
+        break;     
+    }
+
+    console.log(clientesDataTotalizado)
+    totalClientes = clientesData.length;
+    clientesDataTotalizado.forEach(clientes => {
+      if(clientes.nuevo == 'SI'){
+          nuevos++;
+      }
+      
+    });
+    ///console.log(optionsVentasChart);
+
+    optionsVentasChart0 = {
+      series: [totalClientes, nuevos],
+      chart: {
+        width: '100%',
+        type: 'donut',
+      },
+      labels: ['Total Clientes', 'Nuevos'],
       dataLabels: {
         enabled: false,
         textAnchor: 'start'
