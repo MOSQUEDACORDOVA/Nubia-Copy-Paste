@@ -7,7 +7,7 @@ async function FetchData (num) {
           gruposTodos = data;
 
           moment.locale('es');
-          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>')
+          $('#gruposMenu').html('<option value="">Seleccione un Grupo</option>')
           gruposTodos.forEach(item => {
             let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
             $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -15,13 +15,12 @@ async function FetchData (num) {
           $('#gruposMenu').trigger("change");
             
           let gruposBuscador = JSON.parse($('#arrGrupos').val())
-          $('#buscadorGrupos').html('<option value="">Seleccione un grupo</option>')
+          $('#buscadorGrupos').html('<option value="">Seleccione un Grupo</option>')
           gruposBuscador.forEach(grupo => {
             let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
-            $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
-            
-            $('#buscadorGrupos').trigger("change");
+            $('#buscadorGrupos').append(`<option value="${filter[0].identificador}">${filter[0].identificador}</option>`);
           });
+          $('#buscadorGrupos').trigger("change");
 
           return data
       });
@@ -87,10 +86,13 @@ function cargarTablaMatricula(editada) {
   if (historialTable.length) {
     let tableMatr;
     $('.buscar-matricula').on('keyup change', function(){
+      $('#buscadorGrupos').val("");
+      $('#buscadorGrupos').trigger('change');
       tableMatr.search(this.value).draw();   
     });  
-
-    $('.buscar-grupos').on('change', function(){
+    
+    $('#buscadorGrupos').on('change', function(){
+      $('.buscar-matricula').val("");
       tableMatr.search(this.value).draw();   
     });  
 

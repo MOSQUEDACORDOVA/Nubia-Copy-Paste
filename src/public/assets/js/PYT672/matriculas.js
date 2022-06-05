@@ -16,6 +16,7 @@ async function FetchData (num) {
           
           moment.locale('es');
           $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
+          $('#grupoIdCargarArchivo').html('<option value="">Seleccione un Grupo</option>');
           gruposTodos.forEach(item => {
               let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
               $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -184,7 +185,7 @@ function cargarTablaMatricula(array) {
           targets: 2,
           render: function (data, type, full) {
             let grupo;
-            if (full["grupo"]) {
+            if (full.grupo) {
                 let find = gruposTodos.filter(item => item.id === full.grupo.id)
                 grupo = `
                 <div class="badge-wrapper me-1">
