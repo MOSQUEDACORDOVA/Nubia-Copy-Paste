@@ -85,14 +85,11 @@ function cargarTablaMatricula(editada) {
   //console.log(matriculaParsed)
   if (historialTable.length) {
     let tableMatr;
-    $('.buscar-matricula').on('keyup change', function(){
-      $('#buscadorGrupos').val("");
-      $('#buscadorGrupos').trigger('change');
+    $('.buscar-matricula').on('keyup', function(){
       tableMatr.search(this.value).draw();   
     });  
     
     $('#buscadorGrupos').on('change', function(){
-      $('.buscar-matricula').val("");
       tableMatr.search(this.value).draw();   
     });  
 
