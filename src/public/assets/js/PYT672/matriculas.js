@@ -9,22 +9,24 @@ let gruposTodos, usuarios, matriculasTodos;
 let provincias, canton, distritos;
 
 async function FetchData (num) {
-  gruposTodos = await fetch('/obtenerGruposAll')
-      .then(response => response.json())
-      .then(data => {
-          gruposTodos = data;
-          
-          moment.locale('es');
-          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
-          gruposTodos.forEach(item => {
-              let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
-              $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
-              $('#grupoIdCargarArchivo').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
-          });
-          $('#gruposMenu').trigger("change");
-          $('#grupoIdCargarArchivo').trigger("change");
-          return data
-      });
+  if (num === 0) {
+    gruposTodos = await fetch('/obtenerGruposAll')
+        .then(response => response.json())
+        .then(data => {
+            gruposTodos = data;
+
+            moment.locale('es');
+            $('#gruposMenu').html('<option value="">Seleccione un grupo</option>');
+            gruposTodos.forEach(item => {
+                let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
+                $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+                $('#grupoIdCargarArchivo').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
+            });
+            $('#gruposMenu').trigger("change");
+            $('#grupoIdCargarArchivo').trigger("change");
+            return data
+        });
+  }
 
   // * OBTENER USUARIOS VENDEDORES PROFESORES ALL
   if (num === 1) {
@@ -75,6 +77,7 @@ async function FetchData (num) {
   
 }
 
+FetchData(0)
 FetchData(1)
 FetchData(2)
 FetchData(3)
