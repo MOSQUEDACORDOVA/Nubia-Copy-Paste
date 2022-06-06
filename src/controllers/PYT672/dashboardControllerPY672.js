@@ -4394,7 +4394,7 @@ exports.registrarmatricula = async(req, res) => {
 // * EDITAR ESTUDIANTES ADMIN
 exports.editarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,id_estudiante,vendedor } = req.body;
+  let { grupoId, nombre, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, id_estudiante,vendedor } = req.body;
   console.log(req.body)
   console.log("REQ BODY")
   let msg = false;
@@ -4409,6 +4409,9 @@ exports.editarmatricula = async(req, res) => {
       telefono2 = '-'
     } 
     let tipo = 1
+    if (vendedor === "") {
+      vendedor = null
+    }
   
     DataBase.EditMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, tipo, id_estudiante, vendedor).then((resp) => {
     console.log(resp)
