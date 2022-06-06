@@ -201,7 +201,7 @@ exports.cargarExcel = (req, res) => {
           let nombre = element[0].toUpperCase(), 
           dni = element[1],
           genero = element[2],
-          nacimiento = moment(element[3]).format('DD/MM/YYYY'),
+          nacimiento = moment(element[3]).format('DD-MM-YYYY'),
           tlf1 = element[4],
           tlf2 = element[5] != "" ? element[5] : null,
           email = element[6],
