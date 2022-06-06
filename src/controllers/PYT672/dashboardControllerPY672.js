@@ -210,7 +210,7 @@ exports.cargarExcel = (req, res) => {
           distrito = element[9],
           grupo = grupoId;
           vendedor = usuarios.filter(vendedor => vendedor.dni == element[10]);
-          vendedorId = vendedor.length > 0 ? vendedor[0].id : ''
+          vendedorId = vendedor.length > 0 ? vendedor[0].id : null
 
           /*console.log(vendedorId)
           console.log("VENDEDOR")*/
