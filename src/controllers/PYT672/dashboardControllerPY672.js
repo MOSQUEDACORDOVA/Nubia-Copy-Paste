@@ -201,7 +201,7 @@ exports.cargarExcel = (req, res) => {
           let nombre = element[0].toUpperCase(), 
           dni = element[1],
           genero = element[2],
-          nacimiento = moment(element[3]).format('DD/MM/YYYY'),
+          nacimiento = moment(element[3]).format('DD-MM-YYYY'),
           tlf1 = element[4],
           tlf2 = element[5] != "" ? element[5] : null,
           email = element[6],
@@ -210,7 +210,7 @@ exports.cargarExcel = (req, res) => {
           distrito = element[9],
           grupo = grupoId;
           vendedor = usuarios.filter(vendedor => vendedor.dni == element[10]);
-          vendedorId = vendedor ? vendedor[0].id : ''
+          vendedorId = vendedor.length > 0 ? vendedor[0].id : null
 
           /*console.log(vendedorId)
           console.log("VENDEDOR")*/
@@ -4350,9 +4350,10 @@ exports.borrarestudiantes = (req, res) => {
 // * REGISTRAR ESTUDIANTES ADMIN
 exports.registrarmatricula = async(req, res) => {
   console.log(req.body);
-  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito,vendedor } = req.body;
+  let { grupoId, nombre, tipo, dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, vendedor } = req.body;
   let msg = false;
   let idEncargado = res.locals.user.id;
+  let usuarioId = vendedor ? vendedor : null
 
   if (grupoId.trim() === "" || nombre.trim() === "" || tipo.trim() === "" || genero.trim() === "" || nacimiento.trim() === "" || telefono1.trim() === "" || email.trim() === "" || provincia.trim() === "" || canton.trim() === "" || distrito.trim() === "") {
     console.log('complete todos los campos')
@@ -4370,7 +4371,7 @@ exports.registrarmatricula = async(req, res) => {
       msg = `El grupo seleccionado ya cuenta con ${countGroupAlumnos.length} registrados. Superó el limite de alumnos por grupo`
       return res.redirect('/matriculas/'+msg);
     }
-    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId,vendedor).then((resp) => {
+    DataBase.RegistrarMatricula(nombre.toUpperCase(), dni, genero, nacimiento, telefono1, telefono2, email, provincia, canton, distrito, idEncargado, tipo, grupoId, usuarioId).then((resp) => {
       //console.log(resp)
       let estudiante = JSON.parse(resp)
       let idEstudiante = estudiante.id
