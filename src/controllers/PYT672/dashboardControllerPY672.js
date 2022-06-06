@@ -228,7 +228,7 @@ exports.cargarExcel = (req, res) => {
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
-      return res.redirect("/matriculas/"+text);    
+      return res.redirect("/matriculas");    
     })
 
   } catch (error) {

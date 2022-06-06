@@ -277,7 +277,11 @@ function cargarTablaMatricula(array) {
 
     let selectCantonGeneral = "", selectDistritoGeneral = "";
 
+    const eliminarCaracteresEspeciales = (str) => {
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    } 
     $(".edit-btn-alumno").on("click", (e) => {
+
       let data = e.target.getAttribute('data-id');
       
       let filterStudiante = matriculasTodos.filter(element => element.id == data);
@@ -293,9 +297,12 @@ function cargarTablaMatricula(array) {
       tlf1 = filterStudiante.length ? filterStudiante[0].telefono1 : "",
       tlf2 = filterStudiante.length ? filterStudiante[0].telefono2 : "",
       vendedor = filterStudiante.length && filterStudiante[0].usuario ? filterStudiante[0].usuario.id : "";
-      provinciaU = filterStudiante.length ? filterStudiante[0].provincia : "";
-      cantonU = filterStudiante.length ? filterStudiante[0].canton : "";
-      distritoU = filterStudiante.length ? filterStudiante[0].distrito : "";
+      provinciaU = filterStudiante.length ? eliminarCaracteresEspeciales(filterStudiante[0].provincia) : "";
+      cantonU = filterStudiante.length ? eliminarCaracteresEspeciales(filterStudiante[0].canton) : "";
+      distritoU = filterStudiante.length ? eliminarCaracteresEspeciales(filterStudiante[0].distrito) : "";
+
+      console.log(provinciaU)
+      console.log(filterStudiante[0].provincia)
 
       $('#edit-grupoId').val(filterStudiante[0].grupoId)
       $('#edit-userId').val(filterStudiante[0].id)
@@ -305,69 +312,101 @@ function cargarTablaMatricula(array) {
       $('#date-edit').val(fechaN);
       $('#tlf1-edit').val(tlf1);
       $('#tlf2-edit').val(tlf2);
-      $('#gen-edit').val(genero);
+      let gen = "";
+      if (genero.toLowerCase() === "masculino") {
+        gen = "Masculino"
+      } 
+      if (genero.toLowerCase() === "femenino") {
+        gen = "Femenino"
+      }
+      $('#gen-edit').val(gen);
       $('#gen-edit').trigger("change");
       $('#vendedor2-edit').val(vendedor);
       $('#vendedor2-edit').trigger("change");
 
-      $('#select2-provincia').val(provinciaU);
-      $('#select2-provincia').trigger("change");
-
-      let filterProvincia = provincias.filter(item => item.nombre == provinciaU)
+      let filterProvincia = provincias.filter(item => eliminarCaracteresEspeciales(item.nombre) == provinciaU)
       // * CANTON ALL
-      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id)
+      let filterCanton = filterProvincia.length ? canton.filter(item => item.provinciaId == filterProvincia[0].id) : ""
       // * CANTON SELECT
-      let filterCantonSelect = canton.filter(item => item.nombre == cantonU)
+      let filterCantonSelect = canton.filter(item => eliminarCaracteresEspeciales(item.nombre) == cantonU)
       // * DISTRITOS ALL
-      let filterDistrito = distritos.filter(item => item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id)
+      let filterDistrito = filterProvincia.length && filterCanton.length ? distritos.filter(item => item.cantonId == filterCantonSelect[0].id && item.provinciaId == filterProvincia[0].id) : ""
       // * DISTRITO SELECT
-      let filterDistritoSelect = filterDistrito.filter(item => item.nombre == distritoU)
+      let filterDistritoSelect = filterDistrito.length ? filterDistrito.filter(item => eliminarCaracteresEspeciales(item.nombre) == distritoU) : ""
+
+      if (filterProvincia.length) {
+        $('#select2-provincia').val(provinciaU);
+        $('#select2-provincia').trigger("change");
+      } else {
+        $('#select2-provincia').val("");
+      $('#select2-provincia').trigger("change");
+      }
 
       $('#select2-canton').html('')
-      filterCanton.forEach(value => {
-        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
-      });
-      $('#select2-canton').val(filterCantonSelect[0].nombre)
-      $('#select2-canton').trigger('change')
-      selectCantonGeneral = filterCantonSelect[0].nombre
+      if (filterCanton.length) {
+        filterCanton.forEach(value => {
+          $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+        $('#select2-canton').val(filterCantonSelect[0].nombre)
+        $('#select2-canton').trigger('change')
+        selectCantonGeneral = filterCantonSelect[0].nombre
+      } else {
+        canton.forEach(value => {
+          $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+        $('#select2-canton').val("")
+        $('#select2-canton').trigger('change')
+      }
       
       $('#select2-distrito').html('')
-      filterDistrito.forEach(value => {
-        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
-      });
-      $('#select2-distrito').val(filterDistritoSelect[0].nombre)
-      $('#select2-distrito').trigger('change')
-      selectDistritoGeneral = filterDistritoSelect[0].nombre
+      if (filterDistrito.length) {
+        filterDistrito.forEach(value => {
+          $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+        $('#select2-distrito').val(filterDistritoSelect[0].nombre)
+        $('#select2-distrito').trigger('change')
+        selectDistritoGeneral = filterDistritoSelect[0].nombre
+      } else {
+        distritos.forEach(value => {
+          $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+        $('#select2-distrito').val("");
+        $('#select2-distrito').trigger('change');
+      }
 
       $("#editarAlumno").modal("show");
     });
 
     $('#select2-provincia').on('change', (event) => {
       let provSelect = $('#select2-provincia').val()
-      let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+      let filterProvincia = provincias.filter(item => eliminarCaracteresEspeciales(item.nombre) == provSelect)
 
-      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id)
+      let filterCanton = filterProvincia.length ? canton.filter(item => item.provinciaId == filterProvincia[0].id) : ""
 
       $('#select2-canton').html('')
-      filterCanton.forEach(value => {
-        $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
-      });
-      $('#select2-distrito').html('')
+      if (filterCanton.length) {
+        filterCanton.forEach(value => {
+          $('#select2-canton').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+        $('#select2-distrito').html('')
+      }
     });
 
     $('#select2-canton').on('change', (event) => {
       let provSelect = $('#select2-provincia').val()
-      let filterProvincia = provincias.filter(item => item.nombre == provSelect)
+      let filterProvincia = provincias.filter(item => eliminarCaracteresEspeciales(item.nombre) == provSelect)
 
       let cantonSelect = $('#select2-canton').val()
-      let filterCanton = canton.filter(item => item.provinciaId == filterProvincia[0].id && item.nombre == cantonSelect)
+      let filterCanton = filterProvincia.length ? canton.filter(item => item.provinciaId == filterProvincia[0].id && eliminarCaracteresEspeciales(item.nombre) == cantonSelect) : ""
 
-      let filterDistrito = distritos.filter(item => item.provinciaId == filterProvincia[0].id && item.cantonId == filterCanton[0].id)
+      let filterDistrito = filterProvincia.length && filterCanton.length ? distritos.filter(item => item.provinciaId == filterProvincia[0].id && item.cantonId == filterCanton[0].id) : ""
 
       $('#select2-distrito').html('')
-      filterDistrito.forEach(value => {
-        $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
-      });
+      if (filterDistrito.length) {
+        filterDistrito.forEach(value => {
+          $('#select2-distrito').append(`<option data-id="${value.id}" value="${value.nombre}">${value.nombre}</option>`)
+        });
+      }
     });
 
     $(".congelar-estudiante").on("click", (e) => {
@@ -746,7 +785,7 @@ let linkExcel = "", file;
           }, 1000)*/
         },
         error: function (jqXHR, textStatus) { 
-          EnviarDatos("Lo sentimos, algo ah ocurrido al realizar la acción")
+          EnviarDatos("Err")
           /*$("#progressBar1").text('100% - Error al cargar el archivo');
           $("#progressBar1").removeClass("progress-bar-success");
           $("#progressBar1").addClass("progress-bar-danger");*/
@@ -755,9 +794,26 @@ let linkExcel = "", file;
   };
 
   function EnviarDatos(text) {
-    if(text) {
-      linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+text
-      window.location.href = linkExcel
+    if(text === "Alumnos guardados") {
+      Swal.fire({
+        title: 'Alumnos guardados!',
+        icon: 'success',
+      }).then((result) => {
+        if (result.isConfirmed || result.isDismissed) {
+          linkExcel = "/cargarExcel/"+ $('#grupoIdCargarArchivo').val() +"/"+file+"/"+text
+          window.location.href = linkExcel
+        }
+      });
+    } else if (text === "Err") {
+      Swal.fire({
+        title: 'Estimado usuario!',
+        text: 'Ah ocurrido un problema al realizar la acción.',
+        icon: 'error',
+      }).then((result) => {
+        if (result.isConfirmed || result.isDismissed) {
+          window.location.reload()
+        }
+      });
     }
   }
 
