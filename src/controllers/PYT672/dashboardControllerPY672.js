@@ -3364,9 +3364,7 @@ exports.managUsuarios = async (req, res) => {
     roleProf = true
   }
 
-  let idUser = res.locals.user.id
-  const usuario = JSON.parse(await DataBase.ObtenerUsuario(idUser))[0];
-  console.log(usuario)
+  let usuario = res.locals.user, nombre = res.locals.user.nombre;
     
   res.render(proyecto+"/admin/changeuser-password", {
     pageName: "Academia Americana - Perfil de Usuario",
@@ -3375,7 +3373,8 @@ exports.managUsuarios = async (req, res) => {
     py672:true,
     managUsuarios: true,
     roleAdmin, roleProf,
-    usuario
+    usuario,
+    nombre
   });
 };
 
@@ -3430,7 +3429,7 @@ exports.changeInfoUser = (req, res) => {
   }).catch((err) => {
     console.log(err)
     let msg = "Error en sistema";
-    return res.send({error: 'Error al realizar la tarea'});
+    return res.redirect('error672/PYT-672');
   });
 };
 
