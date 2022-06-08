@@ -6,7 +6,7 @@ function FetchData (num) {
         .then(response => response.json())
         .then(data => {
             gruposTodos = data;
-            console.log(gruposTodos)
+            //console.log(gruposTodos)
             cargarTablaAperturas();
             cargarTablaDesde0();
             cargarTablaIntensivos();
@@ -218,7 +218,7 @@ function cargarTablaDesde0() {
             tableDesde0.search(this.value).draw();   
         });  
         $('#profesoresGrupo1').on('change', function(){
-            console.log(this.value)
+            //console.log(this.value)
             tableDesde0.search(this.value).draw();   
         });
 
@@ -746,14 +746,14 @@ desde0Form.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(desde0Form);
     if ($(`#desde0Form input[name="fechaInicio"]`).val() == "") {
-        console.log('hither')
+        //console.log('hither')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`#desde0Form input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#desde0Form input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#desde0Form input[name="montoMensual"]`).focus()
@@ -765,14 +765,14 @@ intensivoForm.addEventListener('submit', e => {
     e.preventDefault();
     let data = new FormData(intensivoForm);
     if ($(`#intensivoForm input[name="fechaInicio"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`#intensivoForm input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#intensivoForm input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#intensivoForm input[name="montoMensual"]`).focus()
@@ -785,14 +785,14 @@ kidsForm.addEventListener('submit', e => {
     
     let data = new FormData(kidsForm);
     if ($(`#kidsForm input[name="fechaInicio"]`).val() == "") {
-        console.log('hithere2')
+        //console.log('hithere2')
         Swal.fire('Debe seleccionar una fecha para poder continuar')
         
         return $(`input[name="fechaInicio"]`).focus()
     }
 
     if ($(`#kidsForm input[name="montoMensual"]`).val() == "") {
-        console.log('hi')
+        //console.log('hi')
         Swal.fire('Debe un monto mensual para poder continuar')
         
         return $(`#kidsForm input[name="montoMensual"]`).focus()
@@ -810,7 +810,7 @@ function CrearGruposFetch (data) {
             Toast("Error");
         })
         .then(response => {
-            console.log('Success:', response)
+            //console.log('Success:', response)
             Toast("Grupo Agregado");
            window.location.href ="/verificargrupos/PYT-672"
             //UpdateTables();
@@ -968,8 +968,8 @@ tablaGrupos.forEach(tabla => {
             }).then(res => res.json())
                 .catch(error => console.error('Error:', error))
                 .then(response => {
-                    data = response.find,
-                    console.log(data)
+                    data = response.find
+                    //console.log(data)
         
                     if(data.length >= 1) {
                         if (consulta === "todos") {
@@ -1111,28 +1111,28 @@ let hoy = moment()
     }
     if($('#customOptionsCheckableRadios2').is(':checked')){
        dia = ($('#horario-intensivo').val()).split(':')  
-       console.log(dia)
+       //console.log(dia)
        dia = dia[0].toString()
        dia = dia.split('y')  
-       console.log(dia) 
+       //console.log(dia) 
     }
     if($('#customOptionsCheckableRadios3').is(':checked')){
        dia = ($('#horario-kids').val()).split(':')  
-       console.log(dia)
+       //console.log(dia)
     }
 
     
     dia_fechaSelect = moment(e.target.value,'DD-MM-YYYY').locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].trim().toLowerCase())  
-    console.log('fecha_h')  
-    console.log(fecha_h)
+    //console.log(dia[0].trim().toLowerCase())  
+    //console.log('fecha_h')  
+    //console.log(fecha_h)
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
     if($('#customOptionsCheckableRadios2').is(':checked')){
         
         if (dia_fechaSelect == dia[0].trim().toLowerCase() || dia_fechaSelect == dia[1].trim().toLowerCase()) {
-            console.log(dia[1].trim().toLowerCase())
+            //console.log(dia[1].trim().toLowerCase())
             if (fecha_anterior == true){
                 swal.fire('Debe seleccionar una fecha superior a la actual.')		
                             $('#date').val('')
@@ -1165,9 +1165,9 @@ $('#date').on('change',(e)=>{
     
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
     fecha_h = e.target.value
-    console.log(dia[0].toLowerCase())
-    console.log(fecha_h)
-    console.log("fecha ")
+    //console.log(dia[0].toLowerCase())
+    //console.log(fecha_h)
+    //console.log("fecha ")
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
 			if (dia_fechaSelect != dia[0].toLowerCase()) {

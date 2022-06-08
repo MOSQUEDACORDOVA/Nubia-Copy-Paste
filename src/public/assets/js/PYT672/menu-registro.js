@@ -20,7 +20,7 @@ $(function () {
         .then(response => response.json())
         .then(data => {
             usuarios = data.usuarios
-            console.log(usuarios)
+            //console.log(usuarios)
             for (let i = 0; i < usuarios.length; i++) {
                 if (usuarios[i]['puesto']=="Vendedor") {
                 $('#vendedor-edit').append(`<option value="${usuarios[i]['id']}">${usuarios[i]['nombre']}</option>`) 
