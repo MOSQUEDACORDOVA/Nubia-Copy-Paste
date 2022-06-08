@@ -51,7 +51,7 @@ module.exports = {
       Usuarios.update({nombre: nombre, dni: dni, email: email, pais: pais, fecha_nacimiento: fechaN, fecha_inicio: fechaI, telefono:telefono },{where:{id:id_usuario}})
         .then((data) => {
             let data_set = JSON.stringify(data);
-            resolve('Usuario actualizado con éxito');
+            resolve(data);
         })
         .catch((err) => {
             reject(err)
