@@ -2823,7 +2823,7 @@ exports.detallesControl = (req, res) => {
         if (moment().isBefore(nivel2)) {
           console.log("Estas en nivel 1")
           nivelActual = 1
-          diff = moment().diff(moment(nivel1, "DD-MM-YYYY"), 'days')
+          diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days')
           
         } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
           console.log("Estas en nivel 2")
