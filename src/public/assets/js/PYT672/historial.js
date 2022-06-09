@@ -420,7 +420,7 @@ function cargarTablaMatricula(editada) {
         fechaLecc = setLeccion[0].fecha
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-          let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === my_object.id)
+          let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === alumnoSelect.id)
           notaLeccion = result.length ? result[0].nota : 0
           
           /*console.log(notaLeccion);
@@ -469,12 +469,11 @@ function cargarTablaMatricula(editada) {
         } 
         if(asistenciasAll.length) {
   
-          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
-          /*console.log(result)
-          console.log("LECC AUSENTES")*/
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivel && lecc.matriculaId == alumnoSelect.id));
+          console.log(result)
+          console.log("LECC AUSENTES")
   
           if(result.length && parseInt(result[0].n_leccion)) {
-            /*console.log(result)*/
             td += 
             `
               <div class="d-flex flex-column pb-0">
@@ -676,7 +675,7 @@ function cargarTablaMatricula(editada) {
         
         if(asistenciasAll.length) {
   
-          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect));
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect && lecc.matriculaId == alumnoSelect.id));
           /*console.log(result)
           console.log("LECC AUSENTES")*/
   
