@@ -2000,7 +2000,7 @@ exports.gruposControl = async (req, res) => {
   });
 };
 
-// * ASISTENCIAS DE GRUPO
+// * CONTROL DE GRUPO
 exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -2068,11 +2068,11 @@ exports.controlgrupo = (req, res) => {
                 nivel4 = ""
               }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("DESDE CERO")
+              console.log("DESDE CERO")*/
               break;
   
             case '2':
@@ -2080,11 +2080,11 @@ exports.controlgrupo = (req, res) => {
               nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
               nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("INTENSIVO")
+              console.log("INTENSIVO")*/
             break;
           }
 
@@ -2143,7 +2143,7 @@ exports.controlgrupo = (req, res) => {
           if(grupo.lecciones_semanales === '1') {
             if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
-                console.log("positivo")
+                //console.log("positivo")
                 rest = (diff - 224) / 7; 
                 numPositivo = Math.floor(rest)
                 numLeccion = 1 + numPositivo
@@ -2160,7 +2160,7 @@ exports.controlgrupo = (req, res) => {
                   numLeccion = 32 - numPositivo
                   
                 } else {
-                  console.log("else")
+                  //console.log("else")
                   rest = (224 - diff) / 7; 
                   if (rest < 0) {
                     rest = rest * (-1) 
@@ -2227,13 +2227,12 @@ exports.controlgrupo = (req, res) => {
               }
           }
 
-          console.log(numLeccion)
+          /*console.log(numLeccion)
           console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
-          
           console.log("REST",rest)
-          console.log("DIFF",diff)
+          console.log("DIFF",diff)*/
           
         }
         
