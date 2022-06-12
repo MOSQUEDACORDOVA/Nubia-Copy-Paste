@@ -2473,11 +2473,11 @@ exports.historial = (req, res) => {
                 nivel4 = ""
               }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("DESDE CERO")
+              console.log("DESDE CERO")*/
               break;
   
             case '2':
@@ -2485,11 +2485,11 @@ exports.historial = (req, res) => {
               nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
               nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("INTENSIVO")
+              console.log("INTENSIVO")*/
             break;
           }
 
