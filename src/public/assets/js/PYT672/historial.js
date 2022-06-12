@@ -273,28 +273,6 @@ function cargarTablaMatricula(editada) {
               info = `<span class="badge badge-light-info">Por Iniciar</span>`
             }
 
-            /*if(full['leccActual'] != 32 && full['leccActual'] != 0 && full['grupo']['nombre'] != "Kids") {
-              info = `<span class="badge badge-light-primary">En Curso</span>`
-            } else if (full['leccActual'] === 0) {
-              info = `<span class="badge badge-light-info">Por Iniciar</span>`
-            } else {
-              if (full['grupo']['nombre'] === "Kids" && full['leccActual'] === 16) {
-                if (totalAsistencias >= 80 && totalNotas >= 70) {
-                  info = `<span class="badge badge-light-success">Aprobado</span>`
-                } else {
-                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
-                }
-                
-              } else {
-                if (totalAsistencias >= 80 && totalNotas >= 70) {
-                  info = `<span class="badge badge-light-success">Aprobado</span>`
-                } else {
-                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
-                }
-
-              }
-            }*/
-
             return info;
           }
         },
