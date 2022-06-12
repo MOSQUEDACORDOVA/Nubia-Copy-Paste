@@ -2438,6 +2438,16 @@ table tr td {
     text-decoration-line: line-through !important;
 }
 
+.py672 .card.card-disabled {
+    opacity: 0.8;
+}
+.py672 .card.card-disabled textarea, .py672 .card.card-disabled input {
+    pointer-events: none !important;
+}
+.py672 .card.card-disabled .btnAsistencia, .py672 .card.card-disabled button {
+    pointer-events: none !important;
+}
+
 .tablaAlum {
     margin-left: 12px !important;
     padding-right: 22px !important;

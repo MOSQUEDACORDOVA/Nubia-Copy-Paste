@@ -667,7 +667,7 @@ exports.obtenerGruposAll = async (req, res) => {
           Object.assign(elemento, Obj)
         }
 
-        console.log(grupos)
+        //console.log(grupos)
         return grupos;
     }
 
@@ -862,7 +862,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -908,7 +908,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -947,7 +947,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -986,7 +986,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -1019,8 +1019,8 @@ exports.obtenerGruposAll = async (req, res) => {
           fechaActualizada2 = ''
 
           let fechaProcess = moment(fecha).isoWeekday()
-          console.log(fechaProcess)
-          console.log("fechaProcess")
+          /*console.log(fechaProcess)
+          console.log("fechaProcess")*/
           if (fechaProcess === 3 || fechaProcess === 4) {
             addDaysNum1 = 5
             addDaysNum2 = 5
@@ -1030,9 +1030,9 @@ exports.obtenerGruposAll = async (req, res) => {
             addDaysNum2 = 2
 
           }
-          console.log(addDaysNum1)
+          /*console.log(addDaysNum1)
           console.log(addDaysNum2)
-          console.log("contador dias")
+          console.log("contador dias")*/
           addWeeksNum = 0
         }
 
@@ -1064,12 +1064,12 @@ exports.obtenerGruposAll = async (req, res) => {
           }
           fechaLecciones.push(fechalec)
 
-          console.log(diaActual)
+          /*console.log(diaActual)
           console.log("diaActual")
           console.log(fechaActualizada)
           console.log("fechaActualizada")
           console.log(fechaFinal)
-          console.log("fechaFinal")
+          console.log("fechaFinal")*/
           Object.assign(grupo, {fechaLecciones: fechaLecciones})
         } 
         
@@ -1135,21 +1135,21 @@ exports.obtenerGruposAll = async (req, res) => {
         Reset(fechaFinal)
         
         // * NIVEL 2
-        console.log(fechaFinal)
-        console.log("fechaFinal")
+        /*console.log(fechaFinal)
+        console.log("fechaFinal")*/
         for (i = 1; countLecc <= 32; i++) {
           let fechaleccion = {}
-          console.log(addDaysNum1)
-          console.log("addDaysNum1")
+          /*console.log(addDaysNum1)
+          console.log("addDaysNum1")*/
           fechaActualizada = moment(fechaFinal).add(addDaysNum1, 'd')
           fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
           
-          console.log(fechaActualizada)
+          /*console.log(fechaActualizada)
           console.log("fechaActualizada")
-          console.log("nivel2")
+          console.log("nivel2")*/
           let diaActual = fechaActualizada.isoWeekday()
-          console.log(diaActual)
-          console.log("diaActual")
+          /*console.log(diaActual)
+          console.log("diaActual")*/
 
           if (day <= diaActual || diaActual <= day) {
             countLecc++;
@@ -1253,7 +1253,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -1284,7 +1284,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -2000,7 +2000,7 @@ exports.gruposControl = async (req, res) => {
   });
 };
 
-// * ASISTENCIAS DE GRUPO
+// * CONTROL DE GRUPO
 exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -2029,7 +2029,8 @@ exports.controlgrupo = (req, res) => {
         grupoIdentificador = "El grupo selecionado no poseé una matrícula";
       }
       console.log(grupoIdentificador)*/
-      
+      let editable = true;
+
       DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
         let numLeccion, nivelActual, 
@@ -2053,41 +2054,122 @@ exports.controlgrupo = (req, res) => {
         let inicioGrupo = grupo.fecha_inicio;
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
 
+        function quitarAcentos(cadena){
+          const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+          return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+        }
+
         function EstablecerNivel () {  
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
               if (grupo.nombre === "Desde cero") {
-                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD');
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD');
+                
+                if (grupo.dia_horario.includes('Lunes')) {
+                  if (moment().isoWeekday() === 1) {
+                    let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
+                    editable = resultado ? true : false;
+                  } else {
+                    editable = false;
+                  }
+
+                } else if (grupo.dia_horario.includes('Martes')) {
+                  if (moment().isoWeekday() === 2) {
+                    let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
+                    editable = resultado ? true : false;
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Miercoles')) {
+                  if (moment().isoWeekday() === 3) {
+                    let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
+                    editable = resultado ? true : false;
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Jueves')) {
+                  if (moment().isoWeekday() === 4) {
+                    let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
+                    editable = resultado ? true : false;
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else {
+                  if (moment().isoWeekday() === 6) {
+                    let resultado = moment().isBetween(moment('8:30am', 'h:mma'), moment('11:00am', 'h:mma'));
+                    editable = resultado ? true : false;
+                  } else {
+                    editable = false;
+                  }
+                  
+                }
                 
               } else {
-                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel4 = ""
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel4 = "";
+                if (moment().isoWeekday() === 6) {
+                  let resultado = moment().isBetween(moment('8:00pm', 'h:mma'), moment('8:50pm', 'h:mma'));
+                  editable = resultado ? true : false;
+                } else {
+                  editable = false;
+                }
               }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("DESDE CERO")
+              console.log("DESDE CERO")*/
               break;
   
             case '2':
               nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
               nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
               nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+
+              let horarioG = quitarAcentos(grupo.dia_horario)
+
+              if (horarioG.includes('Lunes y Miercoles')) {
+                if (moment().isoWeekday() === 1 || moment().isoWeekday() === 3) {
+                  let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('9:00pm', 'h:mma'));
+                  editable = resultado ? true : false;
+                } else {
+                  editable = false
+                }
+                
+              } else if (horarioG.includes('Martes y Jueves de 8')) {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let resultado = moment().isBetween(moment('8:30am', 'h:mma'), moment('11:00am', 'h:mma'));
+                  editable = resultado ? true : false;
+                } else {
+                  editable = false;
+                }
+                
+              } else {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('9:00pm', 'h:mma'));
+                  editable = resultado ? true : false;
+                } else {
+                  editable = false;
+                }
+
+              }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("INTENSIVO")
+              console.log("INTENSIVO")*/
             break;
           }
-
+          
           fechaNiveles = {
             nivel1: fechaInicio,
             nivel2: nivel2,
@@ -2143,7 +2225,7 @@ exports.controlgrupo = (req, res) => {
           if(grupo.lecciones_semanales === '1') {
             if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
-                console.log("positivo")
+                //console.log("positivo")
                 rest = (diff - 224) / 7; 
                 numPositivo = Math.floor(rest)
                 numLeccion = 1 + numPositivo
@@ -2160,7 +2242,7 @@ exports.controlgrupo = (req, res) => {
                   numLeccion = 32 - numPositivo
                   
                 } else {
-                  console.log("else")
+                  //console.log("else")
                   rest = (224 - diff) / 7; 
                   if (rest < 0) {
                     rest = rest * (-1) 
@@ -2227,13 +2309,12 @@ exports.controlgrupo = (req, res) => {
               }
           }
 
-          console.log(numLeccion)
+          /*console.log(numLeccion)
           console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
-          
           console.log("REST",rest)
-          console.log("DIFF",diff)
+          console.log("DIFF",diff)*/
           
         }
         
@@ -2259,7 +2340,8 @@ exports.controlgrupo = (req, res) => {
       diff,
       rest,
       nivelActual,
-      fechaNiveles
+      fechaNiveles,
+      editable
     });
   }).catch((err) => {
     console.log(err)
