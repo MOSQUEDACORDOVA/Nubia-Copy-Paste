@@ -2070,7 +2070,7 @@ exports.controlgrupo = (req, res) => {
                 
                 if (grupo.dia_horario.includes('Lunes')) {
                   if (moment().isoWeekday() === 1) {
-                    let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('10:00pm', 'LT'));
+                    let resultado = moment().isBetween(moment('6:30pm'), moment('10:00pm'));
                     if (resultado) {
                       editable = true;
                     } else {
@@ -2082,7 +2082,7 @@ exports.controlgrupo = (req, res) => {
 
                 } else if (grupo.dia_horario.includes('Martes')) {
                   if (moment().isoWeekday() === 2) {
-                    let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('10:00pm', 'LT'));
+                    let resultado = moment().isBetween(moment('6:30pm'), moment('10:00pm'));
                     if (resultado) {
                       editable = true;
                     } else {
@@ -2094,7 +2094,7 @@ exports.controlgrupo = (req, res) => {
                   
                 } else if (grupo.dia_horario.includes('Miercoles')) {
                   if (moment().isoWeekday() === 3) {
-                    let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('10:00pm', 'LT'));
+                    let resultado = moment().isBetween(moment('6:30pm'), moment('10:00pm'));
                     if (resultado) {
                       editable = true;
                     } else {
@@ -2106,7 +2106,7 @@ exports.controlgrupo = (req, res) => {
                   
                 } else if (grupo.dia_horario.includes('Jueves')) {
                   if (moment().isoWeekday() === 4) {
-                    let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('10:00pm', 'LT'));
+                    let resultado = moment().isBetween(moment('6:30pm'), moment('10:00pm'));
                     if (resultado) {
                       editable = true;
                     } else {
@@ -2118,7 +2118,7 @@ exports.controlgrupo = (req, res) => {
                   
                 } else {
                   if (moment().isoWeekday() === 6) {
-                    let resultado = moment().isBetween(moment('8:30am', 'LT'), moment('11:00am', 'LT'));
+                    let resultado = moment().isBetween(moment('8:30am'), moment('11:00am'));
                     if (resultado) {
                       editable = true;
                     } else {
@@ -2135,7 +2135,7 @@ exports.controlgrupo = (req, res) => {
                 nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
                 nivel4 = "";
                 if (moment().isoWeekday() === 6) {
-                  let resultado = moment().isBetween(moment('8:00pm', 'LT'), moment('9:00pm', 'LT'));
+                  let resultado = moment().isBetween(moment('8:00pm'), moment('9:00pm'));
                   if (resultado) {
                       editable = true;
                     } else {
@@ -2162,7 +2162,7 @@ exports.controlgrupo = (req, res) => {
 
               if (horarioG.includes('Lunes y Miercoles')) {
                 if (moment().isoWeekday() === 1 || moment().isoWeekday() === 3) {
-                  let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('9:00pm', 'LT'));
+                  let resultado = moment().isBetween(moment('6:30pm'), moment('9:00pm'));
                   if (resultado) {
                       editable = true;
                     } else {
@@ -2174,7 +2174,7 @@ exports.controlgrupo = (req, res) => {
                 
               } else if (horarioG.includes('Martes y Jueves de 8')) {
                 if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
-                  let resultado = moment().isBetween(moment('8:30am', 'LT'), moment('11:00am', 'LT'));
+                  let resultado = moment().isBetween(moment('8:30am'), moment('11:00am'));
                   if (resultado) {
                       editable = true;
                     } else {
@@ -2186,7 +2186,7 @@ exports.controlgrupo = (req, res) => {
                 
               } else {
                 if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
-                  let resultado = moment().isBetween(moment('6:30pm', 'LT'), moment('9:00pm', 'LT'));
+                  let resultado = moment().isBetween(moment('6:30pm'), moment('9:00pm'));
                   if (resultado) {
                       editable = true;
                     } else {
