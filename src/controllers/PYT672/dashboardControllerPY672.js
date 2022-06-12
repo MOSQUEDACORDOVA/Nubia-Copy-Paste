@@ -2071,7 +2071,11 @@ exports.controlgrupo = (req, res) => {
                 if (grupo.dia_horario.includes('Lunes')) {
                   if (moment().isoWeekday() === 1) {
                     let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
-                    editable = resultado ? true : false;
+                    if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                   } else {
                     editable = false;
                   }
@@ -2079,7 +2083,11 @@ exports.controlgrupo = (req, res) => {
                 } else if (grupo.dia_horario.includes('Martes')) {
                   if (moment().isoWeekday() === 2) {
                     let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
-                    editable = resultado ? true : false;
+                    if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                   } else {
                     editable = false;
                   }
@@ -2087,7 +2095,11 @@ exports.controlgrupo = (req, res) => {
                 } else if (grupo.dia_horario.includes('Miercoles')) {
                   if (moment().isoWeekday() === 3) {
                     let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
-                    editable = resultado ? true : false;
+                    if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                   } else {
                     editable = false;
                   }
@@ -2095,7 +2107,11 @@ exports.controlgrupo = (req, res) => {
                 } else if (grupo.dia_horario.includes('Jueves')) {
                   if (moment().isoWeekday() === 4) {
                     let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('10:00pm', 'h:mma'));
-                    editable = resultado ? true : false;
+                    if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                   } else {
                     editable = false;
                   }
@@ -2103,7 +2119,11 @@ exports.controlgrupo = (req, res) => {
                 } else {
                   if (moment().isoWeekday() === 6) {
                     let resultado = moment().isBetween(moment('8:30am', 'h:mma'), moment('11:00am', 'h:mma'));
-                    editable = resultado ? true : false;
+                    if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                   } else {
                     editable = false;
                   }
@@ -2115,8 +2135,12 @@ exports.controlgrupo = (req, res) => {
                 nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
                 nivel4 = "";
                 if (moment().isoWeekday() === 6) {
-                  let resultado = moment().isBetween(moment('8:00pm', 'h:mma'), moment('8:50pm', 'h:mma'));
-                  editable = resultado ? true : false;
+                  let resultado = moment().isBetween(moment('8:00pm', 'h:mma'), moment('9:00pm', 'h:mma'));
+                  if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                 } else {
                   editable = false;
                 }
@@ -2139,7 +2163,11 @@ exports.controlgrupo = (req, res) => {
               if (horarioG.includes('Lunes y Miercoles')) {
                 if (moment().isoWeekday() === 1 || moment().isoWeekday() === 3) {
                   let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('9:00pm', 'h:mma'));
-                  editable = resultado ? true : false;
+                  if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                 } else {
                   editable = false
                 }
@@ -2147,7 +2175,11 @@ exports.controlgrupo = (req, res) => {
               } else if (horarioG.includes('Martes y Jueves de 8')) {
                 if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
                   let resultado = moment().isBetween(moment('8:30am', 'h:mma'), moment('11:00am', 'h:mma'));
-                  editable = resultado ? true : false;
+                  if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                 } else {
                   editable = false;
                 }
@@ -2155,7 +2187,11 @@ exports.controlgrupo = (req, res) => {
               } else {
                 if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
                   let resultado = moment().isBetween(moment('6:30pm', 'h:mma'), moment('9:00pm', 'h:mma'));
-                  editable = resultado ? true : false;
+                  if (resultado) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
                 } else {
                   editable = false;
                 }
