@@ -1,0 +1,277 @@
+<div class="app-content content py672">
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      {{! NOTIFICACION }}
+      <div class="toast-container" id="toast">
+        <div
+          class="toast basic-toast position-fixed top-0 end-0 m-2 fade"
+          role="alert"
+        >
+          <div class="toast-header">
+            <strong class="me-auto"></strong>
+            <button
+              type="button"
+              class="ms-1 btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="toast-body"></div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn-outline-primary toast-basic-toggler mt-2 waves-effect d-none"
+        id="btnToast"
+      >
+        Toast
+      </button>
+      {{! NOTIFICACION END }}
+
+      <section>
+        <div class="row match-height flex-md-row-reverse">
+          <!-- Listado de grpos -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="card">
+          
+              <div class="card-content collapse show">
+                <div class="card-body">
+                  <div class="">
+                    <div class="row custom-options-checkable g-1 mb-1">
+
+                      <div class="col-12">
+                        <input
+                          class="custom-option-item-check"
+                          type="radio"
+                          name="tipo"
+                          id="radio1"
+                          checked
+                        />
+                        <label
+                          class="custom-option-item p-1"
+                          for="radio1"
+                          id=""
+                        >
+                          <span
+                            class="d-flex justify-content-between flex-wrap"
+                          >
+                            <span class="fw-bolder">
+                              Ingresos
+                            </span>
+                          </span>
+                          <small class="text">
+                            Consulta tus ganancias aqui.
+                          </small>
+                        </label>
+                      </div>
+
+                      <div class="col-12">
+                        <input
+                          class="custom-option-item-check"
+                          type="radio"
+                          name="tipo"
+                          id="radio2"
+                          
+                        />
+                        <label
+                          class="custom-option-item p-1"
+                          for="radio2"
+                          id=""
+                        >
+                          <span
+                            class="d-flex justify-content-between flex-wrap"
+                          >
+                            <span class="fw-bolder">
+                              Egresos
+                            </span>
+                          </span>
+                          <small class="text">
+                            Consulta tus perdidas aqui.
+                          </small>
+                        </label>
+                      </div>
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!--/ Fin Listado de grpos -->
+
+          <!-- Formulario de grpos -->
+          <div class="col-12 col-md-6 col-lg-8">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Servicios cobrados</h4>
+                <div class="dropdown chart-dropdown">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical font-medium-3 cursor-pointer" data-bs-toggle="dropdown" aria-expanded="false"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                  <div class="dropdown-menu dropdown-menu-end" id="filtroTiempo">
+                    <a class="dropdown-item" href="#">Diario</a>
+                    <a class="dropdown-item" href="#">Semanal</a>
+                    <a class="dropdown-item" href="#">Mensual</a>
+                    <a class="dropdown-item" href="#">Anual</a>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="generalChart" class="d-block w-100 h-100" style="max-height: 400px;"></canvas>
+                </div>
+
+                <div class="overflow-table">
+                  <div class="box mt-2" id="divDiario">
+                    <div class="d-inline-flex mb-2">
+                      <div class="box me-1">
+                        <label for="" class="form-label">Buscar</label>
+                        <input type="text" class="form-control">
+                      </div>
+
+                      <div class="box">
+                        <label for="" class="form-label">Fecha</label>
+                        <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD">
+                      </div>
+                    </div>
+
+                    <div class="table-responsive">
+                      <table class="table dataTable" id="">
+                          <thead>
+                              <tr role="row">
+                                  <th class="sorting">Nombre</th>
+                                  <th class="sorting">Grupo</th>
+                                  <th class="sorting">Servicios</th>
+                                  <th class="sorting">Datos de pago</th>
+                                  <th class="sorting">Total ₡</th>                                        
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td>Borys</td>
+                                <td>
+                                  <span class="badge badge-light-primary">I20101-1</span>
+                                </td>
+                                <td>Mensualidad</td>
+                                <td>dqw9f49</td>
+                                <td>17000</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="box d-none mt-2" id="divSemanalMensualAnual">
+                    <div class="row mx-0 mb-2">
+                      <div class="col-12 col-sm-6 col-lg-4 p-0 me-lg-1 mb-1 mb-lg-0">
+                        <label for="" class="form-label">Tipo Servicio</label>
+                        <select name="" id="" class="select2">
+                          <option value="">Todos</option>
+                          <option value="">Mensualidad</option>
+                          <option value="">Recargo</option>
+                          <option value="">Traslado</option>
+                          <option value="">Constancia</option>
+                          <option value="">Titulo</option>
+                        </select>
+
+                      </div>
+                      <div class="col-12 col-sm-6 col-lg-4 p-0">
+                        <label for="" class="form-label">Fecha</label>
+                        <input type="text" class="form-control flatpickr-basic flatpickr-input" placeholder="YYYY-MM-DD">
+                      </div>
+                    </div>
+                    
+
+                    <div class="table-responsive">
+                      <table class="table dataTable" id="">
+                          <thead>
+                              <tr role="row">
+                                  <th class="sorting">Servicios</th>
+                                  <th class="sorting">Datos de pago</th>
+                                  <th class="sorting">Total ₡</th>                                        
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td>Mensualidad</td>
+                                <td>dqw9f49</td>
+                                <td>17000</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <!-- Fin Formulario de grupos -->
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  $( document ).ready(function() {
+    $(document.body).tooltip({ selector: "[title]" });
+    
+    $('#filtroTiempo a').click(function (e) {
+      let text = e.target.innerText
+      if (text == "Diario") {
+        $('#divSemanalMensualAnual').addClass('d-none');
+        $('#divDiario').removeClass('d-none');
+      } else {
+        $('#divDiario').addClass('d-none');
+        $('#divSemanalMensualAnual').removeClass('d-none');
+      }
+    });
+  });
+
+  const labels = [
+    'Inscripción',
+    'Mensualidad',
+    'Recargo',
+    'Traslado',
+    'Constancia',
+    'Titulo',
+    'Reposición',
+  ];
+
+  const data = {
+  labels: labels,
+    datasets: [{
+      label: '',
+      data: [11, 16, 7, 3, 14],
+      backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(75, 192, 192)',
+        'rgb(255, 205, 86)',
+        'rgb(201, 203, 207)',
+        'rgb(54, 162, 235)'
+      ],
+      borderWidth: 0
+    }]
+  };
+
+  const config = {
+    type: 'polarArea',
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'right',
+        },
+      }
+    }
+  };
+
+  const myChart = new Chart(
+    document.getElementById('generalChart'),
+    config
+  );
+</script>

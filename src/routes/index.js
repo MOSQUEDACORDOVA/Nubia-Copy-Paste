@@ -622,6 +622,7 @@ router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardC
 router.get('/manag-user/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.managUsuarios);
 router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
+router.get('/estadisticas/:id', dashboardControllerPY672.estadisticas);
 
 // * GENERAR ID GRUPOS PRINCIPAL
 router.get('/obtenerGruposAll', dashboardControllerPY672.obtenerGruposAll);
