@@ -2134,8 +2134,8 @@ exports.controlgrupo = (req, res) => {
                 nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD');
                 nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
                 nivel4 = "";
-                if (moment().isoWeekday() === 6) {
-                  let fechaInit = moment('8:00pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                if (moment().isoWeekday() === 7) {
+                  let fechaInit = moment('10:40am', 'LT'), fechaFinc = moment('11:00am', 'LT');
                   if (moment().isBetween(fechaInit, fechaFinc)) {
                       editable = true;
                     } else {
@@ -2635,7 +2635,7 @@ exports.historial = (req, res) => {
                 numLeccion = 32
               }
           }
-          userInfo.leccActual = numLeccion
+          userInfo.leccActual = numLeccion ? numLeccion : 0
 
           /*console.log(numLeccion)
           console.log("LECCION")
@@ -3458,6 +3458,36 @@ exports.usuarios = (req, res) => {
     dashboard: true,
     py672:true,
     usuarios: true,
+    nombre,
+    roleAdmin, roleProf,
+  });
+};
+
+// * MODULO ESSTADISTICAS
+exports.estadisticas = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  let nombre = res.locals.user.nombre
+
+  res.render(proyecto+"/admin/estadisticas", {
+    pageName: "Academia Americana - Estadísticas",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    estadisticas: true,
     nombre,
     roleAdmin, roleProf,
   });
