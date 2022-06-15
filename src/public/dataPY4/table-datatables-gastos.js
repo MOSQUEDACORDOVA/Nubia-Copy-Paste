@@ -24,7 +24,7 @@ async function pedidosbyDay(diaFin,diainicio) {
       return data.pedidos_let;
   });
   pedidos.forEach(element => {
-    if (element.status_pedido=="Entregado") {
+    if (element.status_pedido=="Entregado" && element.status_pago == "Pagado") {
       TotalIngresos += parseFloat(element.monto_total);
     }    
   });
