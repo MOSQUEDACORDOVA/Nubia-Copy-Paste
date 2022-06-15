@@ -34,7 +34,7 @@ $(function () {
             .then(response => response.json())
             .then(data => {
                 asistenciasAll = data.asistencia
-                console.log(asistenciasAll)
+                //console.log(asistenciasAll)
                 return asistenciasAll
             });
             
@@ -43,7 +43,7 @@ $(function () {
             .then(response => response.json())
             .then(data => {
                 notasAll = data.notas
-                console.log(notasAll)
+                //console.log(notasAll)
                 return notasAll
             });
             
@@ -52,7 +52,7 @@ $(function () {
             .then(response => response.json())
             .then(data => {
               participacionAll = data.participacion
-                console.log(participacionAll)
+                //console.log(participacionAll)
                 return participacionAll
             });
             
@@ -87,7 +87,7 @@ $(function () {
     $("#historial-list").empty();
     $("#body-table-pago").empty();
     $("#form-reg-pago").empty();
-    //console.log(filter)
+    ////console.log(filter)
     let grupoIdentif = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
 
     $("#nombre-alumno").text(filter[0]["nombre"]);
@@ -124,7 +124,7 @@ $(function () {
       .then((data) => {
         return data.obtener_historia;
       });
-    console.log(filter[0])
+    //console.log(filter[0])
     if (filter[0]["estadoId"] === 5) {
       $("#form-reg-pago").append(
         `<input type="text" name="id_alumno" id="id-alumno-form" value="${filter[0]["id"]}">`
@@ -405,7 +405,7 @@ $(function () {
     let montos = document.querySelectorAll('#body-table-pago .monto')
 
     montos.forEach(monto => {
-      console.log(monto.parentElement)
+      //console.log(monto.parentElement)
       if (!monto.parentElement.classList.contains('disabled')) {
         total += parseInt(monto.innerText);
       }
@@ -450,9 +450,9 @@ $(function () {
       });
 
     let filter = historial.filter(item => item.concepto === "Reactivacion" && item.estado === "Pendiente")
-    console.log(historial)
-    console.log(filter)
-    console.log("HISTORIAL")
+    //console.log(historial)
+    //console.log(filter)
+    //console.log("HISTORIAL")
     if (filter.length && filter[0].estado === "Pendiente") {
       $("#btn-activar-alumno").attr("disabled", true);
       $("#btn-guardar-pago").attr("disabled", false);
@@ -493,7 +493,7 @@ $(function () {
     }
 
     let alumno = matricula.filter(item => item.id == id_alumno)
-    console.log(alumno)
+    //console.log(alumno)
     if (alumno[0].estadoId === 5) {
       $("#btn-activar-alumno").attr("disabled", false);
       $("#btn-guardar-pago").attr("disabled", true);
@@ -683,7 +683,7 @@ TotalAPagar();
       (element) =>
         element.concepto == "Inscripción"
     );
-    console.log(filter_inscripcion)
+    //console.log(filter_inscripcion)
     $("#select-servicio option[value='inscripcion']").remove();
     if (filter_inscripcion.length == 0) {
       
@@ -732,7 +732,7 @@ TotalAPagar();
       return;
     }
     var filter = historial.filter((element) => element.concepto == 'Traslado' && moment(element.createdAt).isSame(moment(),'d') );
-  console.log(filter)
+  //console.log(filter)
   if (filter.length > 0) {
     swal.fire("Actualmente tiene un traslado activo para su uso");
       return;
@@ -831,7 +831,7 @@ TotalAPagar();
   /**BTN HABILITAR TITULO */
   const titulo = async (a) => {
     let id_alumno = $("#id-alumno-form").val();
-    console.log('aqui')
+    //console.log('aqui')
     if (!id_alumno) {
       swal.fire("Debe seleccionar un alumno para habilitar esta opción");
       return;
@@ -867,7 +867,7 @@ TotalAPagar();
       });
     if (nota_participacion.length == 0) {
       if (a) {
-        console.log('aqui')
+        //console.log('aqui')
         return
       }
       swal.fire("El Alumno no ha aprobado el nivel del curso");
@@ -875,7 +875,7 @@ TotalAPagar();
     }
     if (notas.length < 6) {
       if (a) {
-        console.log('aqui2')
+        //console.log('aqui2')
         return
       }
       swal.fire("Le falta al menos 1 o mas notas para obtar al Titulo");
@@ -1518,7 +1518,7 @@ TotalAPagar();
           html: '<label for="input-comment" class="swal2-input-label mb-1">Comentario</label><input minlength="20" autocapitalize="off" autocorrect="off" class="form-control swal2-input m-0 d-block w-100" id="input-comment" placeholder="Ingresa un comentario" type="text">',
           preConfirm: () => {
             const input = document.querySelector('#input-comment').value
-            console.log(input)
+            //console.log(input)
             if (input.length < 20) {
               Swal.showValidationMessage(`Agregue mas descripción al comentario`)
             }
@@ -1530,7 +1530,7 @@ TotalAPagar();
             resolve(GuardarComment(id, comentario))
 
           }).then((response) => {
-            //console.log(response)
+            ////console.log(response)
             if(response === 200) {
               Swal.fire({
                 title: 'Verifique la solicitud',
@@ -1543,7 +1543,7 @@ TotalAPagar();
                   autocorrect: 'off'
                 },
               }).then((result3) => {
-                //console.log(result3.value)
+                ////console.log(result3.value)
                 if(result3.isConfirmed) {
                   let comprobarPassw = new Promise ((resolve, reject) => {
                     resolve(ValidatePassw(result3.value))
@@ -1561,7 +1561,7 @@ TotalAPagar();
                         contentType: false,
                         processData: false,
                         success: function (data, textStatus, jqXHR) {
-                          //console.log(data)
+                          ////console.log(data)
                           $("#createAppModal").modal("hide");
                           Swal.fire({
                             title: 'Alumno congelado!',
@@ -1654,11 +1654,11 @@ TotalAPagar();
             autocorrect: 'off'
           }
         }).then((result2) => {
-          console.log(result2)
+          //console.log(result2)
           let comprobarPassw = new Promise ((resolve, reject) => {
             resolve(ValidatePassw(result2.value))
           }).then((check) => {
-            console.log(check)
+            //console.log(check)
             
             if(check.validation) {
               let id_estudiante = $("#id-alumno-form").val();
@@ -1716,7 +1716,7 @@ function borrarFila(t, identificador) {
     let montos = document.querySelectorAll('#body-table-pago .monto')
 
     montos.forEach(monto => {
-      console.log(monto.innerText)
+      //console.log(monto.innerText)
       total += parseInt(monto.innerText);
     });
     $('#totalMonto').text(total)
@@ -1729,7 +1729,7 @@ function borrarFila(t, identificador) {
   let montos = document.querySelectorAll('#body-table-pago .monto')
 
   montos.forEach(monto => {
-    console.log(monto.innerText)
+    //console.log(monto.innerText)
     total += parseInt(monto.innerText);
   });
   $('#totalMonto').text(total)
@@ -1740,7 +1740,7 @@ function TotalAPagar () {
   let montos = document.querySelectorAll('#body-table-pago .monto')
 
   montos.forEach(monto => {
-    console.log(monto.parentElement)
+    //console.log(monto.parentElement)
     if (!monto.parentElement.classList.contains('disabled')) {
       total += parseInt(monto.innerText);
     }
@@ -1756,15 +1756,15 @@ function deshabilitarFila(row, item) {
     ${feather.icons['refresh-cw'].toSvg()}
     <span>Restaurar</span>
   </a>`)
-  console.log(row)
-  console.log(item)
+  //console.log(row)
+  //console.log(item)
   TotalAPagar()
 }
 
 function restaurarFila(row, item) {
   let fila = $('#'+row)
   fila.removeClass('disabled')
-  console.log(row)
+  //console.log(row)
   
   $('#'+row+' td').last().html(`<a class="item restaurar" onclick="deshabilitarFila('${row}','${row}')">
     ${feather.icons['trash'].toSvg()}
@@ -1778,8 +1778,8 @@ async function updateHistorial(id_estudiante) {
   $("#historial-list").empty();
   var matricula = JSON.parse($("#matricula_st").val());
   var filter = matricula.filter((element) => element.id == id_estudiante);
-  console.log(filter)
-  console.log("HISTORIAL LIST")
+  //console.log(filter)
+  //console.log("HISTORIAL LIST")
   /**OBTENER HISTORIAL DE CAJA */
   historial = await fetch("/historia-caja-academy/" + id_estudiante)
     .then((response) => response.json())
@@ -1798,12 +1798,12 @@ async function updateHistorial(id_estudiante) {
   $("#btn-descarga-titulo").removeClass("btn-primary");
   $("#btn-descarga-titulo").attr("disabled", true);
 
-  //console.log(gruposTodos)
+  ////console.log(gruposTodos)
   let grupoFind = gruposTodos.filter(grupo => grupo.id === filter[0].grupoId)
-  //console.log(grupoFind)
+  ////console.log(grupoFind)
 
   for (let i = 0; i < historial.length; i++) {
-    //console.log(historial)
+    ////console.log(historial)
     let mes = moment(historial[i].fecha_pago).locale("es").format("MMM")
     let text = mes.slice(0, -1) + "" +moment(historial[i].fecha_pago).locale("es").format("YYYY");
     fecha_pago_historial = moment(historial[i]["observacion"]).format("DD-MM-YYYY" );
@@ -2029,20 +2029,20 @@ async function verificareposicion(id_estudiante) {
     });
     
   var repos
-  console.log(historial)
-  console.log(notas)
+  //console.log(historial)
+  //console.log(notas)
   let observacion ="";
   let filter_historial;
   if (notas.length > 0) {    
     for (let i = 0; i < notas.length; i++) {
       
       if (notas[i].nota == 0) {            
-          console.log(historial) 
-           console.log(notas[i].n_leccion) 
+          //console.log(historial) 
+           //console.log(notas[i].n_leccion) 
        let nhistorial = historial.filter(function(reposs) {
           return reposs.observacion == notas[i].n_leccion; 
       });
-      console.log(nhistorial)
+      //console.log(nhistorial)
       if (nhistorial.length > 0) {        
         continue
       }
@@ -2319,7 +2319,7 @@ function grupoSelected(valor) {
 }
 
 function SetGrap (item, total, color) {
-  console.log(item, total, color) 
+  //console.log(item, total, color) 
   let options = {
     chart: {
       width: 100,
@@ -2380,10 +2380,10 @@ async function ControlDetalles(id1, id2) {
 
   alumnoSelect = filterAlumno.length ? filterAlumno[0] : ""
   grupoSelect = filterGrupo.length ? filterGrupo[0] : ""
-  console.log(filterAlumno)
-  console.log(alumnoJson)
-  console.log(grupoSelect)
-  console.log("HERE")
+  /*//console.log(filterAlumno)
+  //console.log(alumnoJson)
+  //console.log(grupoSelect)
+  //console.log("HERE")*/
 
   for (let index = 0; index <= 3; index++) {
     $("#grupoNivel")[0].options[index].disabled = true;
@@ -2391,6 +2391,7 @@ async function ControlDetalles(id1, id2) {
   
   $('#controlTitle').text($('#nombre-alumno').text());
   
+  leccMax = alumnoJson.leccActual
   nivelMax = alumnoJson.nivelActualGrupo
   
   for (let index = 0; index < nivelMax; index++) {
@@ -2508,8 +2509,8 @@ async function ControlDetalles(id1, id2) {
         let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
         notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
        
-        /*console.log(notaLeccion);
-        console.log("NOTA LECCION");*/
+        /*//console.log(notaLeccion);
+        //console.log("NOTA LECCION");*/
       
         if (notaLeccion > 7) {
           color = 'badge-light-success'
@@ -2527,7 +2528,7 @@ async function ControlDetalles(id1, id2) {
         let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
 
         if(result.length && result[0].n_leccion == num) {
-          /*console.log(result)*/
+          /*//console.log(result)*/
           td += 
           `
             <div class="d-flex flex-column pb-0">
@@ -2671,13 +2672,18 @@ $("#grupoNivel").on("select2:select", function (e) {
     } 
   }
 
+  //console.log(leccion)
+  //console.log("leccion")
+  //console.log(nivelSelect)
+  //console.log("nivelSelect")
+  
   let filterFechasLecc = grupoSelect.fechaLecciones.filter(leccion => leccion.nivel == nivelSelect)
-
+  
   for (let num = 1; num <= leccion; num++) {
     let row = document.createElement('tr'), td = '', notaLeccion = 0, calif = '', color = '', participacion ="", setLeccion = "", fechaLecc = "";
 
-    setLeccion = filterFechasLecc.filter(item => item.leccion == num) 
-    fechaLecc = setLeccion[0].fecha
+    setLeccion = filterFechasLecc.filter(item => item.leccion == num);
+    fechaLecc = setLeccion[0].fecha;
     
     if (num === 32 || num === 16 && grupoSelect.nombre === "Kids") {
       let filterPart = participacionAll.filter(item => item.matriculaId == idAlumno && item.nivel == nivelSelect && item.n_leccion == num)
@@ -2714,8 +2720,8 @@ $("#grupoNivel").on("select2:select", function (e) {
       let filterNotaLecc = notasAll.filter(item => item.n_leccion == num && item.nivel == nivelSelect && item.matriculaId == idAlumno)
       notaLeccion = filterNotaLecc.length ? parseInt(filterNotaLecc[0].nota) : 0
      
-      /*console.log(notaLeccion);
-      console.log("NOTA LECCION");*/
+      /*//console.log(notaLeccion);
+      //console.log("NOTA LECCION");*/
     
       if (notaLeccion > 7) {
         color = 'badge-light-success'
@@ -2733,7 +2739,7 @@ $("#grupoNivel").on("select2:select", function (e) {
       let result = asistenciasAll.filter(lecc => lecc.n_leccion == num && lecc.nivel == nivelSelect && lecc.matriculaId == idAlumno);
 
       if(result.length && result[0].n_leccion == num) {
-        /*console.log(result)*/
+        /*//console.log(result)*/
         td += 
         `
           <div class="d-flex flex-column pb-0">
@@ -2878,7 +2884,7 @@ let linkExcel = "", file;
         processData: false,
         success: function (data, textStatus, jqXHR)
         {       
-          //console.log(data)     
+          ////console.log(data)     
           file = data.fileName
           linkExcel = "/cargarExcelPagos/"+file
 

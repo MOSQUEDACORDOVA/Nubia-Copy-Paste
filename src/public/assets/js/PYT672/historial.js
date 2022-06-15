@@ -7,7 +7,7 @@ async function FetchData (num) {
           gruposTodos = data;
 
           moment.locale('es');
-          $('#gruposMenu').html('<option value="">Seleccione un grupo</option>')
+          $('#gruposMenu').html('<option value="">Seleccione un Grupo</option>')
           gruposTodos.forEach(item => {
             let format = moment(item.fecha_inicio, "DD-MM-YYYY").format("D MMM YYYY");
             $('#gruposMenu').append(`<option value="${item.id}">${item.identificador} - ${item.dia_horario} - ${format}</option>`);
@@ -15,13 +15,12 @@ async function FetchData (num) {
           $('#gruposMenu').trigger("change");
             
           let gruposBuscador = JSON.parse($('#arrGrupos').val())
-          $('#buscadorGrupos').html('<option value="">Seleccione un grupo</option>')
+          $('#buscadorGrupos').html('<option value="">Seleccione un Grupo</option>')
           gruposBuscador.forEach(grupo => {
             let filter = gruposTodos.filter(item => item.id === grupo.grupoId)
-            $('#buscadorGrupos').append(`<option value="${filter[0].id}">${filter[0].identificador}</option>`);
-            
-            $('#buscadorGrupos').trigger("change");
+            $('#buscadorGrupos').append(`<option value="${filter[0].identificador}">${filter[0].identificador}</option>`);
           });
+          $('#buscadorGrupos').trigger("change");
 
           return data
       });
@@ -86,11 +85,11 @@ function cargarTablaMatricula(editada) {
   //console.log(matriculaParsed)
   if (historialTable.length) {
     let tableMatr;
-    $('.buscar-matricula').on('keyup change', function(){
+    $('.buscar-matricula').on('keyup', function(){
       tableMatr.search(this.value).draw();   
     });  
-
-    $('.buscar-grupos').on('change', function(){
+    
+    $('#buscadorGrupos').on('change', function(){
       tableMatr.search(this.value).draw();   
     });  
 
@@ -114,9 +113,10 @@ function cargarTablaMatricula(editada) {
             }
             var arrData = encodeURIComponent(JSON.stringify(full));
             let prof = "No asignado"
-
-            if (full.usuario) {
-              prof = full.usuario.nombre
+            /*console.log(full)
+            console.log("full")*/
+            if (full.grupo.usuario) {
+              prof = full.grupo.usuario.nombre
             }
 
             let nombreEst = `
@@ -248,27 +248,31 @@ function cargarTablaMatricula(editada) {
 
             totalNotas = total
 
-            if(full['leccActual'] != 32 && full['leccActual'] != 0 && full['grupo']['nombre'] != "Kids") {
-              info = `<span class="badge badge-light-primary">En Curso</span>`
-            } else if (full['leccActual'] === 0) {
-              info = `<span class="badge badge-light-info">Por Iniciar</span>`
-            } else {
-              if (full['grupo']['nombre'] === "Kids" && full['leccActual'] === 16) {
-                if (totalAsistencias >= 80 && totalNotas >= 70) {
-                  info = `<span class="badge badge-light-success">Aprobado</span>`
-                } else {
-                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
-                }
-                
+            info = `<span class="badge badge-light-primary">En Curso</span>`
+            if (full.grupo.nombre != "Kids") {
+              if(full.leccActual != 32) {
               } else {
                 if (totalAsistencias >= 80 && totalNotas >= 70) {
                   info = `<span class="badge badge-light-success">Aprobado</span>`
                 } else {
                   info = `<span class="badge badge-light-secondary">Reprobado</span>`
                 }
+              }
 
+            } else {
+              if (full.leccActual === 16) {
+                if (totalAsistencias >= 80 && totalNotas >= 70) {
+                  info = `<span class="badge badge-light-success">Aprobado</span>`
+                } else {
+                  info = `<span class="badge badge-light-secondary">Reprobado</span>`
+                }
               }
             }
+
+            if (full.leccActual === 0) {
+              info = `<span class="badge badge-light-info">Por Iniciar</span>`
+            }
+
             return info;
           }
         },
@@ -421,7 +425,7 @@ function cargarTablaMatricula(editada) {
         fechaLecc = setLeccion[0].fecha
         
         if(num === 9 || num === 17 || num === 18 || num === 25 || num === 31 || num === 32) {
-          let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === my_object.id)
+          let result = notasAll.filter(nota => nota.nivel == nivel && nota.n_leccion == num && nota.matriculaId === alumnoSelect.id)
           notaLeccion = result.length ? result[0].nota : 0
           
           /*console.log(notaLeccion);
@@ -470,12 +474,11 @@ function cargarTablaMatricula(editada) {
         } 
         if(asistenciasAll.length) {
   
-          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) === num && parseInt(lecc.nivel) == nivel));
-          /*console.log(result)
-          console.log("LECC AUSENTES")*/
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivel && lecc.matriculaId == alumnoSelect.id));
+          console.log(result)
+          console.log("LECC AUSENTES")
   
           if(result.length && parseInt(result[0].n_leccion)) {
-            /*console.log(result)*/
             td += 
             `
               <div class="d-flex flex-column pb-0">
@@ -677,7 +680,7 @@ function cargarTablaMatricula(editada) {
         
         if(asistenciasAll.length) {
   
-          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect));
+          let result = asistenciasAll.filter((lecc => parseInt(lecc.n_leccion) == num && parseInt(lecc.nivel) == nivelSelect && lecc.matriculaId == alumnoSelect.id));
           /*console.log(result)
           console.log("LECC AUSENTES")*/
   

@@ -224,7 +224,7 @@ $(document).ready(function () {
       let div = document.createElement("div");
       div.classList.add("col-12");
       div.classList.add("item");
-      let idAusentes = null;
+      let idAusentes = null, isEditable = document.getElementById('editableVal').value;
 
       let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId == matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
       //console.log(asist)
@@ -253,14 +253,12 @@ $(document).ready(function () {
       let disabledUse = "disabled"
       let readonlyUse0 = `style="pointer-events: none;"`
       
-      if (
-        lecc === 9 ||
+      if (lecc === 9 ||
         lecc === 17 ||
         lecc === 18 ||
         lecc === 25 ||
         lecc === 31 ||
-        lecc === 32
-      ) 
+        lecc === 32) 
       {
         if (asist.length) {
 
@@ -384,6 +382,11 @@ $(document).ready(function () {
         }
       }
 
+      let disableCard = "";
+      if (isEditable == "false") {
+        disableCard = "card-disabled";
+      }
+
       // * ASISTENCIAS
       if (asist.length) { // * SI ESTA AUSENTE
         if (matricula.estadoId != 5) {
@@ -393,7 +396,7 @@ $(document).ready(function () {
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
                   }</label>
-                      <div class="card card-statistics border-secondary" id="estudiante${
+                      <div class="card card-statistics ${disableCard} border-secondary" id="estudiante${
                         matricula.id
                       }">
                           <div class="row m-0 p-0">
@@ -458,7 +461,7 @@ $(document).ready(function () {
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
                   }</label>
-                      <div class="card card-statistics border-success" id="estudiante${
+                      <div class="card card-statistics ${disableCard} border-success" id="estudiante${
                         matricula.id
                       }">
                           <div class="row m-0 p-0">
@@ -840,51 +843,117 @@ $(document).ready(function () {
   let guardarNota;
 
   function guardarNotas(id, calif) {
-    guardarNota = setTimeout(() => {
-      let nota = document.querySelector("#procesarNotas .nota"),
-      leccion = document.querySelector("#procesarNotas .leccion"),
-      grupo = document.querySelector("#procesarNotas .grupo"),
-      matricula = document.querySelector("#procesarNotas .matricula"),
-      nivel = document.querySelector('#procesarNotas .nivel');
+    let lecActual, kids = false;   
 
-      nota.value = calif ? calif : "0";
-      leccion.value = $("#numeroLeccion").val();
-      grupo.value = $("#grupoId").val();
-      matricula.value = id;
+    if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+      lecActual = $("#filtrosDesdeCero .select2.leccion").val();
 
-      if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
-        leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
-        nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
-        
-      } else if ($("#filtrosIntensivo .select2.leccion").val() != "-") {
-        leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
-        nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
-        
-      } else {
-        leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
-        nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
+    } else if ($("#filtrosIntensivo .select2.grupo").val() != "-") {
+      lecActual = $("#filtrosIntensivo .select2.leccion").val();
 
-      }
+    } else if($("#filtrosKids .select2.grupo").val() != "-") {
+      lecActual = $("#filtrosKids .select2.leccion").val();
+      kids = true;
 
-      let form = new FormData(document.getElementById("procesarNotas"));
+    }
 
-      fetch("/registrarNotas", {
-        method: "POST",
-        body: form,
-      })
-        .then((response) => {
-          if (response.ok) {
-            FetchData(4) // * NOTAS
-            Toast("Nota");
+    if (!kids) {
+      if (lecActual == 9 || lecActual == 17 || lecActual == 18 || lecActual == 25 || lecActual == 31 || lecActual == 32) {
+        guardarNota = setTimeout(() => {
+          let nota = document.querySelector("#procesarNotas .nota"),
+          leccion = document.querySelector("#procesarNotas .leccion"),
+          grupo = document.querySelector("#procesarNotas .grupo"),
+          matricula = document.querySelector("#procesarNotas .matricula"),
+          nivel = document.querySelector('#procesarNotas .nivel');
+    
+          nota.value = calif ? calif : "0";
+          leccion.value = $("#numeroLeccion").val();
+          grupo.value = $("#grupoId").val();
+          matricula.value = id;
+    
+          if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+            leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
+            
+          } else if ($("#filtrosIntensivo .select2.leccion").val() != "-") {
+            leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
+            
           } else {
-            Toast("Error");
+            leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
+    
           }
-          console.log(response)
-        })
-        .then((data) => console.log(data));
-
-      clearTimeout(guardarNota);
-    }, 2000);
+    
+          let form = new FormData(document.getElementById("procesarNotas"));
+    
+          fetch("/registrarNotas", {
+            method: "POST",
+            body: form,
+          })
+            .then((response) => {
+              if (response.ok) {
+                FetchData(4) // * NOTAS
+                Toast("Nota");
+              } else {
+                Toast("Error");
+              }
+              console.log(response)
+            })
+            .then((data) => console.log(data));
+    
+          clearTimeout(guardarNota);
+        }, 2000);
+      }
+    } else {
+      if (lecActual == 9) {
+        guardarNota = setTimeout(() => {
+          let nota = document.querySelector("#procesarNotas .nota"),
+          leccion = document.querySelector("#procesarNotas .leccion"),
+          grupo = document.querySelector("#procesarNotas .grupo"),
+          matricula = document.querySelector("#procesarNotas .matricula"),
+          nivel = document.querySelector('#procesarNotas .nivel');
+    
+          nota.value = calif ? calif : "0";
+          leccion.value = $("#numeroLeccion").val();
+          grupo.value = $("#grupoId").val();
+          matricula.value = id;
+    
+          if ($("#filtrosDesdeCero .select2.grupo").val() != "-") {
+            leccion.value = parseInt($("#filtrosDesdeCero .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosDesdeCero .select2.nivel").val());
+            
+          } else if ($("#filtrosIntensivo .select2.leccion").val() != "-") {
+            leccion.value = parseInt($("#filtrosIntensivo .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosIntensivo .select2.nivel").val());
+            
+          } else {
+            leccion.value = parseInt($("#filtrosKids .select2.leccion").val());
+            nivel.value = parseInt($("#filtrosKids .select2.nivel").val());
+    
+          }
+    
+          let form = new FormData(document.getElementById("procesarNotas"));
+    
+          fetch("/registrarNotas", {
+            method: "POST",
+            body: form,
+          })
+            .then((response) => {
+              if (response.ok) {
+                FetchData(4) // * NOTAS
+                Toast("Nota");
+              } else {
+                Toast("Error");
+              }
+              console.log(response)
+            })
+            .then((data) => console.log(data));
+    
+          clearTimeout(guardarNota);
+        }, 2000);
+      }
+    }
   }
   let guardaCommentProf;
 
@@ -1067,9 +1136,6 @@ $(document).ready(function () {
         EliminarMatriculaAusente(target);
       } else {
         badge.innerText = "Ausente";
-        //caliMenos
-        //calific
-        //caliMas
         console.log($(`.calific${target}`).val());
         $(`.caliMenos${target}`).attr("disabled", true);
         $(`.calific${target}`).val(0);

@@ -622,6 +622,7 @@ router.get('/usuarios672/:id', authControllerPY672.authenticatedUser, dashboardC
 router.get('/manag-user/:id', authControllerPY672.authenticatedUser, dashboardControllerPY672.managUsuarios);
 router.get('/obtenerusuariospy672', authControllerPY672.authenticatedUser, dashboardControllerPY672.obtenerusuarios);
 router.get('/restablecerpass672/:id', dashboardControllerPY672.restablecerpass);
+router.get('/estadisticas/:id', dashboardControllerPY672.estadisticas);
 
 // * GENERAR ID GRUPOS PRINCIPAL
 router.get('/obtenerGruposAll', dashboardControllerPY672.obtenerGruposAll);
@@ -730,6 +731,8 @@ router.get('/comprobante/:id', dashboardControllerPY672.generarRegistroPDF);
 //router.get('/getPasswordUser/:id', dashboardControllerPY672.getPasswordUser);
 // * CAMBIAR CONTRASEÑA DE USUARIO
 router.post('/changePasswordUser', dashboardControllerPY672.changePasswordUser);
+// * ACTUALIZAR INFORMACION DE USUARIO
+router.post('/changeInfoUser', dashboardControllerPY672.changeInfoUser);
 
 
 /*------------ PYT-672-----------------*/
