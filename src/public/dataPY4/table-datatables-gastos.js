@@ -70,7 +70,7 @@ async function pedidosbyDay(diaFin,diainicio) {
           { data: 'personalId' },//2
           { data: 'monto' },
           { data: 'fecha' },
-          { data: 'sucursaleId', visible:false },
+          { data: 'observacion' },
           {   // Actions
             targets: -1,
             title: '',
@@ -138,15 +138,8 @@ async function pedidosbyDay(diaFin,diainicio) {
           {
             targets: 4,
             render: function (data, type, full, meta) {
-             
-              return moment(data, 'YYYY-MM-DD').format('DD/MM/YYYY');
-            },
-          },
-          {
-            targets: 5,
-            render: function (data, type, full, meta) {
-              let zona = full['sucursale']['nombre'];
-              return zona;
+              let fecha = `<span class="d-none">${moment(data).format('YYYYMMDD')}-</span>${moment(data).format('DD/MM/YYYY')}`
+              return fecha;
             },
           },
 
