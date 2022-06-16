@@ -959,13 +959,13 @@
                       <option value="Martes: 6:30pm a 9pm">
                         Martes: 6:30pm a 9pm
                       </option>
-                      <option value="Miércoles: 6:30pm a 9pm">
+                      <option value="Miercoles: 6:30pm a 9pm">
                         Miércoles: 6:30pm a 9pm
                       </option>
                       <option value="Jueves: 6:30pm a 9pm">
                         Jueves: 6:30pm a 9pm
                       </option>
-                      <option value="Sábado: 8:30am a 11am">
+                      <option value="Sabado: 8:30am a 11am">
                         Sábado: 8:30am a 11am
                       </option>
                     </select>
@@ -975,7 +975,7 @@
                       id="horarioIntensivo"
                       class="form-select d-none"
                     >
-                      <option value="Lunes y Míercoles: 6:30pm a 9pm">
+                      <option value="Lunes y Miercoles: 6:30pm a 9pm">
                         Lunes y Míercoles: 6:30pm a 9pm
                       </option>
                       <option value="Martes y Jueves: 6:30pm a 9pm">
@@ -988,7 +988,7 @@
                       id="horarioKids"
                       class="form-select d-none"
                     >
-                      <option value="Sábados 11:30am a 1:30pm">
+                      <option value="Sabados 11:30am a 1:30pm">
                         Sábados 11:30am a 1:30pm
                       </option>
                     </select>
@@ -1000,7 +1000,7 @@
                     <input
                       type="date"
                       id="date"
-                      class="form-control task-due-date flatpickr-input"
+                      class="form-control flatpickr-basic flatpickr-input"
                       name="fechaInicio"
                       required
                     />
@@ -1008,14 +1008,12 @@
                 </div>
                 <div class="row">
                   <div class="col-12 mb-1">
-                    <label class="form-label" for="fp-default">
+                    <label class="form-label">
                       Profesor
                     </label>
                     <select
-                      class="select2 form-select profesor"
-                      tabindex="-1"
+                      class="select2 form-select profesor" id="profesorEdit"
                       name="profesor"
-                      aria-hidden="true"
                     >
                       <option value="" selected>
                         (opcional)
