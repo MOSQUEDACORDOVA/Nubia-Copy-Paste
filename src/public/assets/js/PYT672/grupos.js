@@ -72,7 +72,7 @@ function cargarTablaAperturas() {
                             <p class="d-none">${full.nombre}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-identificador="${full.identificador}" data-fecha="${full.fecha_inicio}">${identif}</a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-identificador="${full.identificador}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}">${identif}</a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -241,7 +241,7 @@ function cargarTablaDesde0() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-primary">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}"><b class="text-primary">${full.identificador}</b></a>
                                 </div>
                                 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -412,7 +412,7 @@ function cargarTablaIntensivos() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-danger">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-prof="${full.usuarioId}"><b class="text-danger">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -580,7 +580,7 @@ function cargarTablaKids() {
                             <p class="d-none">${full.dia_pagos}</p>
                             <div class="d-flex align-items-center mb-1">
                                 <div class="me-75">
-                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}"><b class="text-success">${full.identificador}</b></a>
+                                    <a href="#" class="text-primary editar-grupo" role="button" data-bs-toggle="modal" data-bs-target="#new-task-modal" data-id="${full.id}" data-horario="${full.dia_horario}" data-nombre="${full.nombre}" data-fecha="${full.fecha_inicio}" data-profesor="${full.usuarioId}"><b class="text-success">${full.identificador}</b></a>
                                 </div>
 
                                 <div class="d-flex align-items-center justify-content-between w-100">
@@ -904,6 +904,11 @@ horarioIntensivo = document.getElementById('horarioIntensivo'),
 horarioKids = document.getElementById('horarioKids'),
 fechaIn = document.getElementById('date');
 
+function quitarAcentos(cadena){
+    const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+    return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+}
+
 tituloIn.addEventListener('change', e => {
     horarioDesdeCero.classList.add('d-none')
     horarioIntensivo.classList.add('d-none')
@@ -929,9 +934,11 @@ tablaGrupos.forEach(tabla => {
         if(e.target.classList.contains('editar-grupo')) {
             tituloIn.value = e.target.getAttribute('data-nombre');
             fechaIn.value = e.target.getAttribute('data-fecha');
+            $('#profesorEdit').val(e.target.getAttribute('data-prof'));
+            $('#profesorEdit').trigger('change');
             // * ESTA PENDIENTE MOSTRAR FECHA DE INICIO DE GRUPO SELECCIONADO EN MODAL EDITAR
-            /*console.log(e.target.getAttribute('data-fecha'))
-            console.log(e.target)*/
+            console.log(e.target.getAttribute('data-fecha'))
+            console.log(e.target)
             
             idIn.forEach(inp => {
                 inp.value = e.target.getAttribute('data-id')
@@ -939,16 +946,17 @@ tablaGrupos.forEach(tabla => {
             
             horarioDesdeCero.classList.add('d-none')
             horarioIntensivo.classList.add('d-none')
+            horarioKids.classList.add('d-none')
             let horario = moment(e.target.getAttribute('data-horario'),'DD-MM-YYYY').format('YYYY-MM-DD')
-            if(e.target.getAttribute('data-nombre') === "Desde cero") {
+            if(e.target.getAttribute('data-nombre') == "Desde cero") {
                 horarioDesdeCero.classList.remove('d-none')
-                horarioDesdeCero.value = e.target.getAttribute('data-horario')
-            } else if (e.target.getAttribute('data-nombre') === "Intensivo") {
+                horarioDesdeCero.value = quitarAcentos(e.target.getAttribute('data-horario'))
+            } else if (e.target.getAttribute('data-nombre') == "Intensivo") {
                 horarioIntensivo.classList.remove('d-none')
-                horarioIntensivo.value = e.target.getAttribute('data-horario')
+                horarioIntensivo.value = quitarAcentos(e.target.getAttribute('data-horario'))
             } else {
                 horarioKids.classList.remove('d-none')
-                horarioKids.value = e.target.getAttribute('data-horario')
+                horarioKids.value = quitarAcentos(e.target.getAttribute('data-horario'))
             }
         }
     
@@ -1160,7 +1168,7 @@ $('.fecha-inicio').on('change',(e)=>{
 				}
 })
 
-$('#date').on('change',(e)=>{
+/*$('#date').on('change',(e)=>{
     let dia = ($('.horario').val()).split(':')
     
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
@@ -1180,4 +1188,4 @@ $('#date').on('change',(e)=>{
                             $('#date').val('')
                 return
             }
-})
+})*/
