@@ -297,7 +297,7 @@
                       <th>Personal</th>
                       <th>Monto</th>
                       <th>Fecha</th>
-                      <th>Sucursal</th>
+                      <th>Observaciones</th>
                       <th></th>
                     </tr>
                   </thead>
@@ -577,10 +577,10 @@
       dataLabels: {
         enabled: false,
         textAnchor: 'start',
-        colors: ['#0089FC', '#00FCA4', '#01C728','#BBC701','#C76701','#F92600','#FF0000','#FF0083','#F000FF','#8B00FF','#2A00FF']
+        colors: ['#0089FC', '#00FCA4', '#01C728','#01C728','#C76701','#F92600','#FF0000','#FF0083','#F000FF','#8B00FF','#2A00FF']
       },
       fill: {
-  colors: ['#0089FC', '#00FCA4', '#01C728','#BBC701','#C76701','#F92600','#FF0000','#FF0083','#F000FF','#8B00FF','#2A00FF']
+  colors: ['#0089FC', '#00FCA4', '#01C728','#01C728','#C76701','#F92600','#FF0000','#FF0083','#F000FF','#8B00FF','#2A00FF']
 },
       responsive: [{
         breakpoint: 992,
@@ -607,7 +607,11 @@
             options0 = '$'+opts.w.globals.series[opts.seriesIndex] 
           }
           return [seriesName, ": ", options0]
-        }
+        },
+         labels: {
+          colors: ['#0089FC', '#00FCA4', '#01C728','#01C728','#C76701','#F92600','#FF0000','#FF0083','#F000FF','#8B00FF','#2A00FF'],
+          useSeriesColors: false
+      },
       },
       plotOptions: {
         pie: {
