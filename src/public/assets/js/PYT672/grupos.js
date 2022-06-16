@@ -934,11 +934,13 @@ tablaGrupos.forEach(tabla => {
         if(e.target.classList.contains('editar-grupo')) {
             tituloIn.value = e.target.getAttribute('data-nombre');
             fechaIn.value = e.target.getAttribute('data-fecha');
-            $('#profesorEdit').val(e.target.getAttribute('data-prof'));
+            $('#profesorEdit').val(e.target.getAttribute('data-prof').length ? e.target.getAttribute('data-prof') : "");
             $('#profesorEdit').trigger('change');
-            // * ESTA PENDIENTE MOSTRAR FECHA DE INICIO DE GRUPO SELECCIONADO EN MODAL EDITAR
-            console.log(e.target.getAttribute('data-fecha'))
-            console.log(e.target)
+            /*console.log(e.target.getAttribute('data-fecha'))
+            console.log(e.target)*/
+            horarioDesdeCero.value = ""
+            horarioIntensivo.value = ""
+            horarioKids.value = ""
             
             idIn.forEach(inp => {
                 inp.value = e.target.getAttribute('data-id')
@@ -1168,24 +1170,40 @@ $('.fecha-inicio').on('change',(e)=>{
 				}
 })
 
-/*$('#date').on('change',(e)=>{
-    let dia = ($('.horario').val()).split(':')
+$('#date').on('change',(e)=>{
+    let dia = ""
+
+    if ($('#horarioDesdeCero').val() != "") {
+        dia = ($('#horarioDesdeCero').val()).split(':')
+
+    } else if ($('#horarioIntensivo').val() != "") {
+        //dia = ($('#horarioIntensivo').val()).split(':')
+        
+    } else {
+        //dia = ($('#horarioKids').val()).split(':')
+
+    }
+
+    console.log(dia)
     
     let dia_fechaSelect = moment(e.target.value).locale('es').format('dddd')
     fecha_h = e.target.value
+    console.log(dia_fechaSelect)
+    console.log(fecha_h)
+    console.log(dia[0])
     //console.log(dia[0].toLowerCase())
     //console.log(fecha_h)
     //console.log("fecha ")
 
 	fecha_anterior = moment(hoy).isAfter(moment(fecha_h, 'DD-MM-YYYY'),'d'); // true
-			if (dia_fechaSelect != dia[0].toLowerCase()) {
-                swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
-								$('#date').val('')
-					return
-            }
-            if (fecha_anterior == true){
-                swal.fire('Debe seleccionar una fecha superior a la actual.')		
+        if (dia_fechaSelect != dia[0].toLowerCase()) {
+            swal.fire('La fecha seleccionada no corresponde al dia indicado en el horario')		
                             $('#date').val('')
                 return
-            }
-})*/
+        }
+        if (fecha_anterior == true){
+            swal.fire('Debe seleccionar una fecha superior a la actual.')		
+                        $('#date').val('')
+            return
+        }
+})
