@@ -667,7 +667,7 @@ exports.obtenerGruposAll = async (req, res) => {
           Object.assign(elemento, Obj)
         }
 
-        console.log(grupos)
+        //console.log(grupos)
         return grupos;
     }
 
@@ -862,7 +862,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -908,7 +908,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -947,7 +947,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -986,7 +986,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -1019,8 +1019,8 @@ exports.obtenerGruposAll = async (req, res) => {
           fechaActualizada2 = ''
 
           let fechaProcess = moment(fecha).isoWeekday()
-          console.log(fechaProcess)
-          console.log("fechaProcess")
+          /*console.log(fechaProcess)
+          console.log("fechaProcess")*/
           if (fechaProcess === 3 || fechaProcess === 4) {
             addDaysNum1 = 5
             addDaysNum2 = 5
@@ -1030,9 +1030,9 @@ exports.obtenerGruposAll = async (req, res) => {
             addDaysNum2 = 2
 
           }
-          console.log(addDaysNum1)
+          /*console.log(addDaysNum1)
           console.log(addDaysNum2)
-          console.log("contador dias")
+          console.log("contador dias")*/
           addWeeksNum = 0
         }
 
@@ -1064,12 +1064,12 @@ exports.obtenerGruposAll = async (req, res) => {
           }
           fechaLecciones.push(fechalec)
 
-          console.log(diaActual)
+          /*console.log(diaActual)
           console.log("diaActual")
           console.log(fechaActualizada)
           console.log("fechaActualizada")
           console.log(fechaFinal)
-          console.log("fechaFinal")
+          console.log("fechaFinal")*/
           Object.assign(grupo, {fechaLecciones: fechaLecciones})
         } 
         
@@ -1135,21 +1135,21 @@ exports.obtenerGruposAll = async (req, res) => {
         Reset(fechaFinal)
         
         // * NIVEL 2
-        console.log(fechaFinal)
-        console.log("fechaFinal")
+        /*console.log(fechaFinal)
+        console.log("fechaFinal")*/
         for (i = 1; countLecc <= 32; i++) {
           let fechaleccion = {}
-          console.log(addDaysNum1)
-          console.log("addDaysNum1")
+          /*console.log(addDaysNum1)
+          console.log("addDaysNum1")*/
           fechaActualizada = moment(fechaFinal).add(addDaysNum1, 'd')
           fechaLeccionActual = moment(fechaActualizada).format('DD-MM-YYYY')
           
-          console.log(fechaActualizada)
+          /*console.log(fechaActualizada)
           console.log("fechaActualizada")
-          console.log("nivel2")
+          console.log("nivel2")*/
           let diaActual = fechaActualizada.isoWeekday()
-          console.log(diaActual)
-          console.log("diaActual")
+          /*console.log(diaActual)
+          console.log("diaActual")*/
 
           if (day <= diaActual || diaActual <= day) {
             countLecc++;
@@ -1253,7 +1253,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -1284,7 +1284,7 @@ exports.obtenerGruposAll = async (req, res) => {
               fecha: fechaLeccionActual
             }
           } else {
-            console.log("entro al else", day, diaActual)
+            //console.log("entro al else", day, diaActual)
             break
           }
 
@@ -1715,8 +1715,7 @@ exports.verificargrupos = (req, res) => {
       let inicioGrupo = row.fecha_inicio;
       let actual = moment();
       let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
-      console.log('LINEA VERIFICA FECHA INICIADO')
-      console.log(iniciado)
+
       let iniciar = moment(iniciado).diff(actual, 'days');
 
       let nivelCode, nivel;
@@ -1725,60 +1724,7 @@ exports.verificargrupos = (req, res) => {
       let diff = moment().diff(moment(fechaInicio, "DD-MM-YYYY"), 'days');
       let rest;
       
-      function EstablecerNivel () {  
-        let nivel2, nivel3, nivel4;
-        switch (row.lecciones_semanales) {
-          case '1':
-            if (row.nombre === "Desde cero") {
-              nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-              nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-              nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
-              
-            } else {
-
-            }
-            break;
-
-          case '2':
-            nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-            nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-            nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
-    
-          break;
-        }
-               
-        if (moment().isBefore(nivel2)) {
-          console.log("Estas en nivel 1")
-          nivelCode = '1';
-          nivel = 'Principiante';
-          
-        } else if (moment().isSameOrAfter(nivel2) && moment().isBefore(nivel3)) {
-          console.log("Estas en nivel 2")
-          nivelCode = '2';
-          nivel = 'Básico';
-          
-        } else if(moment().isSameOrAfter(nivel3) && moment().isBefore(nivel4)) {
-          console.log("Estas en nivel 3")
-          nivelCode = '3';
-          nivel = 'Intermedio';
-          
-        } else {
-          console.log("Estas en nivel 4")
-          nivelCode = '4';
-          nivel = 'Avanzado';
-          
-        }
-
-      }
-      //* --------
-
-      if (iniciar >= 1) {
-        EstablecerNivel();
-        console.log("NIVELLLL")
-      } else if (iniciar < 0) {
-        EstablecerNivel();
-        console.log("GRUPO INICIADO CON EXITO ACTUALIZANDO")
-
+      if (iniciar < 0) {
         if(row.estadosGrupoId === 1) {
           DataBase.IniciarGrupos(row.id).then((actualizado) => {
             console.log("GRUPO INICIADO")
@@ -1788,17 +1734,9 @@ exports.verificargrupos = (req, res) => {
             return res.redirect("/error672/PYT-672");
           });
         } 
-
-        DataBase.ActualizarNivelesGrupos(row.id, nivel, nivelCode).then((actualizado) => {
-          console.log(actualizado)
-          console.log("GRUPO ACTUALIZADO")
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
-      }
+      } 
     });
+
     return res.redirect("/grupos/PYT-672");
   }).catch((err) => {
     console.log(err)
@@ -2000,7 +1938,7 @@ exports.gruposControl = async (req, res) => {
   });
 };
 
-// * ASISTENCIAS DE GRUPO
+// * CONTROL DE GRUPO
 exports.controlgrupo = (req, res) => {
   let msg = false;
   if (req.query.msg) {
@@ -2029,7 +1967,8 @@ exports.controlgrupo = (req, res) => {
         grupoIdentificador = "El grupo selecionado no poseé una matrícula";
       }
       console.log(grupoIdentificador)*/
-      
+      let editable = true;
+
       DataBase.BuscarGrupos(idGrupo).then((respuesta) => {
         let grupo = JSON.parse(respuesta)[0]
         let numLeccion, nivelActual, 
@@ -2053,41 +1992,158 @@ exports.controlgrupo = (req, res) => {
         let inicioGrupo = grupo.fecha_inicio;
         let iniciado = moment(inicioGrupo, "DD-MM-YYYY").format('YYYY-MM-DD');
 
+        function quitarAcentos(cadena){
+          const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
+          return cadena.split('').map( letra => acentos[letra] || letra).join('').toString();	
+        }
+
         function EstablecerNivel () {  
           let nivel2, nivel3, nivel4;
           switch (grupo.lecciones_semanales) {
             case '1':
               if (grupo.nombre === "Desde cero") {
-                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD')
-                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD')
+                nivel2 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(64, 'w').format('YYYY-MM-DD');
+                nivel4 = moment(iniciado).add(96, 'w').format('YYYY-MM-DD');
+                
+                if (grupo.dia_horario.includes('Lunes')) {
+                  if (moment().isoWeekday() === 1) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+
+                } else if (grupo.dia_horario.includes('Martes')) {
+                  if (moment().isoWeekday() === 2) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Miercoles')) {
+                  if (moment().isoWeekday() === 3) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else if (grupo.dia_horario.includes('Jueves')) {
+                  if (moment().isoWeekday() === 4) {
+                    let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('10:00pm', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                } else {
+                  if (moment().isoWeekday() === 6) {
+                    let fechaInit = moment('8:30am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                    if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                  } else {
+                    editable = false;
+                  }
+                  
+                }
                 
               } else {
-                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
-                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
-                nivel4 = ""
+                nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD');
+                nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD');
+                nivel4 = "";
+                if (moment().isoWeekday() === 7) {
+                  let fechaInit = moment('10:40am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
               }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("DESDE CERO")
+              console.log("DESDE CERO")*/
               break;
   
             case '2':
               nivel2 = moment(iniciado).add(16, 'w').format('YYYY-MM-DD')
               nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
               nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
+
+              let horarioG = quitarAcentos(grupo.dia_horario)
+
+              if (horarioG.includes('Lunes y Miercoles')) {
+                if (moment().isoWeekday() === 1 || moment().isoWeekday() === 3) {
+                  let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('9:00pm', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false
+                }
+                
+              } else if (horarioG.includes('Martes y Jueves de 8')) {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let fechaInit = moment('8:30am', 'LT'), fechaFinc = moment('11:00am', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
+                
+              } else {
+                if (moment().isoWeekday() === 2 || moment().isoWeekday() === 4) {
+                  let fechaInit = moment('6:30pm', 'LT'), fechaFinc = moment('9:00pm', 'LT');
+                  if (moment().isBetween(fechaInit, fechaFinc)) {
+                      editable = true;
+                    } else {
+                      editable = false;
+                    }
+                } else {
+                  editable = false;
+                }
+
+              }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("INTENSIVO")
+              console.log("INTENSIVO")*/
             break;
           }
-
+          
           fechaNiveles = {
             nivel1: fechaInicio,
             nivel2: nivel2,
@@ -2143,7 +2199,7 @@ exports.controlgrupo = (req, res) => {
           if(grupo.lecciones_semanales === '1') {
             if (grupo.nombre === "Desde cero") {
               if (diff > 224) {
-                console.log("positivo")
+                //console.log("positivo")
                 rest = (diff - 224) / 7; 
                 numPositivo = Math.floor(rest)
                 numLeccion = 1 + numPositivo
@@ -2160,7 +2216,7 @@ exports.controlgrupo = (req, res) => {
                   numLeccion = 32 - numPositivo
                   
                 } else {
-                  console.log("else")
+                  //console.log("else")
                   rest = (224 - diff) / 7; 
                   if (rest < 0) {
                     rest = rest * (-1) 
@@ -2227,19 +2283,16 @@ exports.controlgrupo = (req, res) => {
               }
           }
 
-          console.log(numLeccion)
+          /*console.log(numLeccion)
           console.log("LECCION")
           console.log(numPositivo)
           console.log("POSITIVO")
-          
           console.log("REST",rest)
-          console.log("DIFF",diff)
+          console.log("DIFF",diff)*/
           
         }
         
-        EstablecerNivel();  
-        
-        
+        EstablecerNivel(); 
 
     let nombre = res.locals.user.nombre
 
@@ -2259,7 +2312,8 @@ exports.controlgrupo = (req, res) => {
       diff,
       rest,
       nivelActual,
-      fechaNiveles
+      fechaNiveles,
+      editable
     });
   }).catch((err) => {
     console.log(err)
@@ -2357,11 +2411,11 @@ exports.historial = (req, res) => {
                 nivel4 = ""
               }
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("DESDE CERO")
+              console.log("DESDE CERO")*/
               break;
   
             case '2':
@@ -2369,11 +2423,11 @@ exports.historial = (req, res) => {
               nivel3 = moment(iniciado).add(32, 'w').format('YYYY-MM-DD')
               nivel4 = moment(iniciado).add(48, 'w').format('YYYY-MM-DD')
       
-              console.log("NIVELES")
+              /*console.log("NIVELES")
               console.log(nivel2)
               console.log(nivel3)
               console.log(nivel4)
-              console.log("INTENSIVO")
+              console.log("INTENSIVO")*/
             break;
           }
 
@@ -2519,7 +2573,7 @@ exports.historial = (req, res) => {
                 numLeccion = 32
               }
           }
-          userInfo.leccActual = numLeccion
+          userInfo.leccActual = numLeccion ? numLeccion : 0
 
           /*console.log(numLeccion)
           console.log("LECCION")
@@ -3347,6 +3401,36 @@ exports.usuarios = (req, res) => {
   });
 };
 
+// * MODULO ESSTADISTICAS
+exports.estadisticas = (req, res) => {
+  let msg = false;
+  if (req.query.msg) {
+    msg = req.query.msg;
+  }
+  let proyecto = req.params.id  
+
+  let roleAdmin, roleProf
+  if(req.user.puesto === "Administrador") {
+    roleAdmin = true
+    roleProf = false
+  } else {
+    roleAdmin = false
+    roleProf = true
+  }
+
+  let nombre = res.locals.user.nombre
+
+  res.render(proyecto+"/admin/estadisticas", {
+    pageName: "Academia Americana - Estadísticas",
+    dashboardPage: true,
+    dashboard: true,
+    py672:true,
+    estadisticas: true,
+    nombre,
+    roleAdmin, roleProf,
+  });
+};
+
 // * GESTIONAR CONTRASEÑAS DE USUARIOS
 exports.managUsuarios = async (req, res) => {
   let msg = false;
@@ -3828,16 +3912,17 @@ exports.creargrupos = (req, res) => {
 // * ACTUALIZAR GRUPOS ADMIN
 exports.actualizargrupos = (req, res) => {
   console.log(req.body);
-  const { id, nombre, horario1, horario2, fechaInicio,profesor } = req.body;
+  const { id, nombre, horario1, horario2, horario3, fechaInicio, profesor } = req.body;
   let msg = false;
-  let diaActual = moment(fechaInicio,'DD-MM-YYY').format('DD');
+  let diaActual = moment(fechaInicio,'DD-MM-YYYY').format('DD');
   let identificador, lecciones, numGrupo = 1, numId = 100, numAño, inicio, fechaFin, fechaPagos, finNivel, nivelCode, nivel;
 
-  inicio = moment(fechaInicio,'DD-MM-YYY').format('DD-MM-YYYY');
+  inicio = moment(fechaInicio,'DD-MM-YYYY').format('DD-MM-YYYY');
   
-  numAño = moment(fechaInicio,'DD-MM-YYY').format('YY');
+  numAño = moment(fechaInicio,'DD-MM-YYYY').format('YY');
   console.log(numAño)
   console.log("AÑO DE IDENTIFICADOR")
+  console.log(req.body)
   if (parseInt(diaActual) <= 9 || parseInt(diaActual) >= 26) {
     fechaPagos = "01 de cada mes";
   } else {
@@ -3849,108 +3934,51 @@ exports.actualizargrupos = (req, res) => {
     return res.send({error: 'Lo sentimos algo ah ocurrido'});
   } else {
     if (nombre === 'Desde cero') {
-      DataBase.ObtenerTodosGruposDesdeCero().then((response) => {
-        let grupos = JSON.parse(response);
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 1;
+                                    // 224
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
+      finNivel = "32 Semanas";      
+      console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")
+      numId += numGrupo;
+      identificador = `C${numAño}`;
 
-        numGrupo += count;
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 1;
-                                      // 224
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(31, 'w').format('DD-MM-YYYY');
-        finNivel = "32 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `C${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario1, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO DESDE CERO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-       
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
+        return res.send({success: 'Grupo Actualizado'});
+     
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
         return res.redirect("/error672/PYT-672");
       });
+
     } else if (nombre === "Intensivo") {
-      DataBase.ObtenerTodosGruposIntensivo().then((response) => {
-        let grupos = JSON.parse(response);
-        console.log("INTENSIVOS")
-        // FILTRAR POR AÑO
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 2;
+                                      // 112
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
+      finNivel = "16 Semanas";      
+      /*console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")*/
+      numId += numGrupo;
+      identificador = `I${numAño}`;
+      /*console.log(identificador)
+      console.log("IDENTIFICADOR GENERADO")*/
+      
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
-        numGrupo += count;
+        return res.send({success: 'Grupo Actualizado'});
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 2;
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').add(2,'d').format('DD-MM-YYYY');
-        finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `I${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";
@@ -3958,55 +3986,26 @@ exports.actualizargrupos = (req, res) => {
       });
 
     } else {
-      DataBase.ObtenerTodosGruposKids().then((response) => {
-        let grupos = JSON.parse(response);
-        console.log("KIDS")
-        // FILTRAR POR AÑO
-        inicio = moment(fechaInicio,'DD-MM-YYY').format("DD-MM-YYYY")
-        count = 0;
-        // FILTRAR POR AÑO
-        console.log("VERIFICAR SI TIENEN EL MISMO AÑO")
-        
-        grupos.forEach(row => {
-          let añoGrupo = moment(row.fecha_inicio, "DD-MM-YYYY").format('YY');
-          console.log(numAño)
-          console.log(añoGrupo)
-          console.log("MOMENTO INICIO")
 
-          if (numAño === añoGrupo) {
-            count++;
-            console.log("CONTIENEN EL MISMO AÑO")
-            console.log(count)
-            console.log("NUMERO DE IDENTIFICADOR")
-          }
-        }); 
+      nivelCode = '1';
+      nivel = 'Principiante';
+      lecciones = 1;
+                                      // 112
+      fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
+      finNivel = "16 Semanas";      
+      /*console.log(fechaFin)
+      console.log("FECHAR FINALIZAR")*/
+      numId += numGrupo;
+      identificador = `N${numAño}`;
+      /*console.log(identificador)
+      console.log("IDENTIFICADOR GENERADO")*/
+      
+      DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario3, fechaPagos, finNivel, inicio, fechaFin, nivel, profesor ? parseInt(profesor) : null).then((respuesta) => {
+        console.log(respuesta)
+        console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
 
-        numGrupo += count;
+        return res.send({success: 'Grupo Actualizado'});
 
-        nivelCode = '-1';
-        nivel = 'Principiante';
-        lecciones = 1;
-                                        // 112
-        fechaFin = moment(fechaInicio,'DD-MM-YYY').add(15, 'w').format('DD-MM-YYYY');
-        finNivel = "16 Semanas";      
-        console.log(fechaFin)
-        console.log("FECHAR FINALIZAR")
-        numId += numGrupo;
-        identificador = `N${numAño}${numId}${nivelCode}`;
-        console.log(identificador)
-        console.log("IDENTIFICADOR GENERADO")
-        
-        DataBase.ActualizarGrupos(id, identificador, nombre, lecciones, horario2, fechaPagos, finNivel, inicio, fechaFin, nivel,profesor).then((respuesta) => {
-          console.log(respuesta)
-          console.log("GRUPO INTENSIVO ACTUALIZADO SATISFACTORIAMENTE")
-
-          return res.send({success: 'Grupo Actualizado'});
-
-        }).catch((err) => {
-          console.log(err)
-          let msg = "Error en sistema";
-          return res.redirect("/error672/PYT-672");
-        });
       }).catch((err) => {
         console.log(err)
         let msg = "Error en sistema";

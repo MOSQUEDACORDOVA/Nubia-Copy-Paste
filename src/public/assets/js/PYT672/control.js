@@ -224,7 +224,7 @@ $(document).ready(function () {
       let div = document.createElement("div");
       div.classList.add("col-12");
       div.classList.add("item");
-      let idAusentes = null;
+      let idAusentes = null, isEditable = document.getElementById('editableVal').value;
 
       let asist = asistenciasAll.filter(ausencia => ausencia.matriculaId == matricula.id && ausencia.nivel == nivelSelec && ausencia.n_leccion == lecc)
       //console.log(asist)
@@ -253,14 +253,12 @@ $(document).ready(function () {
       let disabledUse = "disabled"
       let readonlyUse0 = `style="pointer-events: none;"`
       
-      if (
-        lecc === 9 ||
+      if (lecc === 9 ||
         lecc === 17 ||
         lecc === 18 ||
         lecc === 25 ||
         lecc === 31 ||
-        lecc === 32
-      ) 
+        lecc === 32) 
       {
         if (asist.length) {
 
@@ -384,6 +382,11 @@ $(document).ready(function () {
         }
       }
 
+      let disableCard = "";
+      if (isEditable == "false") {
+        disableCard = "card-disabled";
+      }
+
       // * ASISTENCIAS
       if (asist.length) { // * SI ESTA AUSENTE
         if (matricula.estadoId != 5) {
@@ -393,7 +396,7 @@ $(document).ready(function () {
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
                   }</label>
-                      <div class="card card-statistics border-secondary" id="estudiante${
+                      <div class="card card-statistics ${disableCard} border-secondary" id="estudiante${
                         matricula.id
                       }">
                           <div class="row m-0 p-0">
@@ -458,7 +461,7 @@ $(document).ready(function () {
                   <label class="card-title estudiante" hidden>${
                     matricula.nombre
                   }</label>
-                      <div class="card card-statistics border-success" id="estudiante${
+                      <div class="card card-statistics ${disableCard} border-success" id="estudiante${
                         matricula.id
                       }">
                           <div class="row m-0 p-0">
